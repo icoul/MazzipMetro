@@ -46,30 +46,30 @@
 			<a href="<%=ctxName%>/memberRegister.do">회원가입</a>&nbsp;|&nbsp;
 		
 			<c:if test="${sessionScope.loginuser != null}">
-				<a href="<%=ctxName%>/memberList.do">회원목록1</a>&nbsp;|&nbsp;
+				<a href="<%=ctxName%>/memberList.do">파이널프로젝트</a>&nbsp;|&nbsp;
 			</c:if>
 			
-			<a href="javascript:goMemberList();">회원목록2</a>&nbsp;|&nbsp;
+			<a href="javascript:goMemberList();">맛집메트로!</a>&nbsp;|&nbsp;
 		
-			<a href="<%=ctxName%>/memberList.do">회원목록3</a>&nbsp;|&nbsp;
+			<a href="<%=ctxName%>/memberList.do">다들 파이팅 입니다!</a>&nbsp;|&nbsp;
 		
 			<c:if test="${sessionScope.loginuser != null}">
-				<a href="<%=ctxName%>/memo.do">한줄메모쓰기</a>&nbsp;|&nbsp;
-				<a href="<%=ctxName%>/memoList.do">한줄메모조회</a>&nbsp;|&nbsp;
+				<a href="<%=ctxName%>/memo.do"></a>&nbsp;|&nbsp;
+				<a href="<%=ctxName%>/memoList.do"></a>&nbsp;|&nbsp;
 			</c:if>
 				
-			<a href="<%=ctxName%>/mall.do">쇼핑몰</a>&nbsp;|&nbsp;
+			<a href="<%=ctxName%>/mall.do"></a>&nbsp;|&nbsp;
 			
 			<c:if test="${sessionScope.loginuser != null}">
-				<a href="<%=ctxName%>/cartList.do">장바구니</a>&nbsp;|&nbsp;
+				<a href="<%=ctxName%>/cartList.do"></a>&nbsp;|&nbsp;
 			</c:if>
 			
 			<c:if test="${sessionScope.loginuser != null}">
-				<a href="<%=ctxName%>/orderList.do">주문내역</a>&nbsp;|&nbsp;
+				<a href="<%=ctxName%>/orderList.do"></a>&nbsp;|&nbsp;
 			</c:if>
 			
 			<c:if test='${sessionScope.loginuser != null && (sessionScope.loginuser).userid eq "admin"}'>
-				<a href="<%=ctxName%>/admin/prodInput.do">상품등록[ADMIN]</a>&nbsp;|&nbsp;
+				<a href="<%=ctxName%>/admin/prodInput.do"></a>&nbsp;|&nbsp;
 			</c:if>	
 		</td>
 		</tr>
