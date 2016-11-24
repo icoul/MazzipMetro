@@ -9,5 +9,6 @@
 </head>
 <body>
 	<h1>Welcome to 맛집 메트로!!!</h1>
+	<p>다녀가요~~!!</p>
 </body>
 </html>
