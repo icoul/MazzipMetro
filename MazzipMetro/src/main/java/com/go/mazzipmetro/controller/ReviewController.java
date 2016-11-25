@@ -22,7 +22,7 @@ public class ReviewController {
 	@RequestMapping(value="add.eat", method={RequestMethod.GET} ) 
 	public String reviewAdd() {
 		
-		return "/review/reviewAdd";  
+		return "review/reviewAdd";  
 		// /DoubleFileAttachTest/src/main/webapp/WEB-INF/views/add.jsp 파일을 생성한다.
 	}
 }
