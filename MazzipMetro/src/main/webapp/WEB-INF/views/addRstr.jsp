@@ -163,7 +163,7 @@ function displayPlaces(places) {
 		//alert(i+' : '+places[i].title+', '+places[i].latitude+', '+places[i].longitude+', '+places[i].phone+', '+places[i].newAddress+', '+places[i].address);
         
 		$("#restaurantTitle").val(places[i].title);
-		$("#newAddr").val(places[i].newAddress);
+		$("#newAddr").val(places[i].newAddress);	
 		$("#addr").val(places[i].address);
 		$("#phone").val(places[i].phone);
 		$("#latitude").val(places[i].latitude);

@@ -45,7 +45,7 @@ public class MapController {
 	
 	@RequestMapping(value="/addRstr.eat",method={RequestMethod.GET}) 
 	public String addRstr(){
-		return "maps/addRstr";
+		return "addRstr";
 	}
 	
 	@RequestMapping(value="/addRstrEnd.eat",method={RequestMethod.POST}) 

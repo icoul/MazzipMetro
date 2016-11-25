@@ -10,7 +10,7 @@
 		<result column="guname" 	property="guName" 	javaType="String"/>
 	</resultMap>
 	<select id="dbTest" resultMap="dbTestResultMap">
-		select  * from mzmt_gu
+		select  * from tbl_gu
 	</select>
 	
 </mapper>
