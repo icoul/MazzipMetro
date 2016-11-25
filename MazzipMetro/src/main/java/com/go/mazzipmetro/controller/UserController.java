@@ -21,6 +21,6 @@ public class UserController {
 	
 	@RequestMapping(value="/userRegister.eat", method={RequestMethod.GET})
 	public String index(){
-		return "userRegister";
+		return "Register/userRegister";
 	}
 }

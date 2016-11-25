@@ -9,7 +9,16 @@
     <title>회원가입</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
-     <link href="http://www.cssscript.com/wp-includes/css/sticky.css" rel="stylesheet" type="text/css">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="<%= request.getContextPath() %>/resources/css/hb_registerRadio.css">
+    <link href="<%= request.getContextPath() %>/resources/css/segmented-controls.css">
+    
+    <link href="http://www.cssscript.com/wp-includes/css/sticky.css" rel="stylesheet" type="text/css">
+    
+    <script type="text/javascript"
+src="//pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+    
     <style type="text/css">
         .wizard {
     margin: 20px auto;
@@ -354,10 +363,20 @@ span.round-tab:hover {
 				                                </label>
 				                            </div>
 				                        </div> -->
-		                        <div class="segmented-control" style="width: 100%; color: #5FBAAC">
-				                        <label for="sc-1-1-1" data-value="Lorem Ipsum">Lorem Ipsum</label>
-                   						<label for="sc-1-1-2" data-value="Risus Purus">Risus Purus</label>
-	                            </div>
+		                        
+		                        
+									<div class="segmented-control" style="width: 100%; color: #5FBAAC">
+  <input type="radio" name="sc-1-1" id="sc-1-1-1">
+  <input type="radio" name="sc-1-1" id="sc-1-1-2">
+  <input type="radio" name="sc-1-1" id="sc-1-1-3" checked>
+  <input type="radio" name="sc-1-1" id="sc-1-1-4">
+  <label for="sc-1-1-1" data-value="Lorem Ipsum">A</label>
+  <label for="sc-1-1-2" data-value="Risus Purus">B</label>
+  <label for="sc-1-1-3" data-value="Pellentesque Porta">C</label>
+  <label for="sc-1-1-4" data-value="Fringilla">D</label>
+</div>
+		                        
+		                        
                             </div>
                             <div class="col-md-6">
                             <label for="exampleInputEmail1">휴대폰 번호</label>
@@ -392,7 +411,7 @@ span.round-tab:hover {
                             <li><button type="button" class="btn btn-primary next-step">Save and continue</button></li>
                         </ul>
                     </div>
-                    <div class="tab-pane" role="tabpanel" id="step3">
+<!--                     <div class="tab-pane" role="tabpanel" id="step3">
                         <div class="step33">
                         <h5><strong>Basic Details</strong></h5>
                         <hr>
@@ -699,7 +718,7 @@ $(document).ready(function()
 </SELECT>
 
 <SELECT name="FirstSelectMonth" onchange="ChangeOptionDays('FirstSelect')">
-<!------ 필요하면 아래 월 표시를 한글로 바꾸어 주세요 ------->
+---- 필요하면 아래 월 표시를 한글로 바꾸어 주세요 -----
         <OPTION>Jan
         <OPTION>Feb
         <OPTION>Mar
@@ -793,7 +812,7 @@ $(document).ready(function()
 -
 <input type="text">
 -
-<input type="text">
+<input type="text"> -->
 </form>
 
 </body>
