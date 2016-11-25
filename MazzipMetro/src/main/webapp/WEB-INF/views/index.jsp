@@ -5,8 +5,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>맛집 메트로</title>
+<jsp:include page="top.jsp"></jsp:include>
 </head>
 <body>
-	<h1>Welcome to 맛집 메트로!!!</h1>
+	<img src="<%= request.getContextPath() %>/resources/images/metro.jpg">
+	<!-- </div> -->
+	&nbsp;
+	<!-- <div style="height:800px; width:300px; background-color: green; float:left;">
+	맛집
+	</div> -->
+	
+	<jsp:include page="footer.jsp" />
+
 </body>
 </html>
