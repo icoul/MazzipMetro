@@ -9,4 +9,6 @@ public class ReviewDAO implements IDAO{
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
+	
+	
 }
