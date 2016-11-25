@@ -19,10 +19,11 @@ public class ReviewController {
 	@Autowired
 	private ThumbnailManager thumbnailManager;
 	
-	@RequestMapping(value="add.eat", method={RequestMethod.GET} ) 
+	/*@RequestMapping(value="/add.eat", method={RequestMethod.GET} ) 
 	public String reviewAdd() {
 		
+		System.out.println("ghghh");
 		return "reviewAdd";  
 		// /DoubleFileAttachTest/src/main/webapp/WEB-INF/views/add.jsp 파일을 생성한다.
-	}
+	}*/
 }
