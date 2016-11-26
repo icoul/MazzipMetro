@@ -54,7 +54,7 @@
         <div class="option">
             <div>
                 <form onsubmit="searchPlaces(); return false;">
-                    키워드 : <input type="text" value="서울대입구역 맛집" id="keyword" size="15"> 
+                    키워드 : <input type="text" value="역삼역 맛집" id="keyword" size="15"> 
                     <button type="submit">검색하기</button> 
                 </form>
             </div>
@@ -156,7 +156,7 @@ function displayPlaces(places) {
     // 지도에 표시되고 있는 마커를 제거합니다
     removeMarker();
     var metroId = getMetroId($("#keyword").val());
-    //alert(metroId);
+    alert(metroId);
     $("#metroId").val(metroId);
 	
     for ( var i=0; i<places.length; i++ ) {
@@ -170,9 +170,9 @@ function displayPlaces(places) {
 		$("#longitude").val(places[i].longitude);
 		
 		var dongId = getDongId(places[i].address);
-		//alert(dongId);
+		alert(dongId);
 		$("#dongId").val(dongId);
-		//mySubmit();
+		mySubmit();
  
 		// 마커를 생성하고 지도에 표시합니다
         var placePosition = new daum.maps.LatLng(places[i].latitude, places[i].longitude),

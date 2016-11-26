@@ -21,7 +21,7 @@ public class MapController {
 	//지하철역 위경도 가져오기
 	@RequestMapping(value="/addMetro.eat",method={RequestMethod.GET}) 
 	public String addMetro(){
-		return "addMetro";
+		return "/maps/addMetro";
 	}
 	
 	@RequestMapping(value="/addMetroEnd.eat",method={RequestMethod.POST}) 
@@ -96,7 +96,7 @@ public class MapController {
 		jObj.put("dongId", dongId);
 		
 		req.setAttribute("jObj", jObj);
-		return "maps/json/dongId";
+		return "/maps/json/dongId";
 	}
 	
 	//지하철역 Id 얻기
@@ -113,7 +113,7 @@ public class MapController {
 		jObj.put("metroId", metroId);
 		
 		req.setAttribute("jObj", jObj);
-		return "maps/json/metroId";
+		return "/maps/json/metroId";
 	}
 		
 
