@@ -2,6 +2,8 @@ package com.go.mazzipmetro.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.go.mazzipmetro.common.FileManager;
 import com.go.mazzipmetro.common.ThumbnailManager;
@@ -17,4 +19,9 @@ public class UserController {
 	@Autowired
 	private ThumbnailManager thumbnailManager;
 	
+	@RequestMapping(value = "/test.eat", method = { RequestMethod.GET })
+	public String insert(){
+		
+		return "example/ttest";
+	}
 }
