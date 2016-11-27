@@ -1,6 +1,7 @@
 package com.go.mazzipmetro.controller;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,6 +18,25 @@ public class MapController {
 	
 	@Autowired
 	MapService service;
+	
+	//클러스터러 (clickable) 테스트 : 음식점 목록 가져오기
+	@RequestMapping(value="/clusterer.eat",method={RequestMethod.GET}) 
+	public String clusterer(){
+		return "/maps/clusterer";
+	}
+	
+	//클러스터러 (clickable) 테스트 : 음식점 목록 가져오기
+	@RequestMapping(value="/getRestaurantList.eat",method={RequestMethod.GET}) 
+	public String getRestaurantList(HttpServletRequest req){
+		List<HashMap<String, Double>> list = service.getRestaurantList();
+		
+		JSONObject jObj = new JSONObject();
+		jObj.put("positions", list);
+		
+		req.setAttribute("jObj", jObj);
+		
+		return "/maps/json/getRestaurantList";
+	}
 	
 	//지하철역 위경도 가져오기
 	@RequestMapping(value="/addMetro.eat",method={RequestMethod.GET}) 

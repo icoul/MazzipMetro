@@ -1,6 +1,7 @@
 package com.go.mazzipmetro.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,9 @@ public class MapDAO  implements IDAO {
 
 	public String getMetroId(String metroName) {
 		return sqlSession.selectOne("map.metroId", metroName);
+	}
+
+	public List<HashMap<String, Double>> getRestaurantList() {
+		return sqlSession.selectList("map.getRestaurantList");
 	}
 }

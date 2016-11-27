@@ -1,6 +1,7 @@
 package com.go.mazzipmetro.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,10 @@ public class MapService  implements IService {
 
 		public String getMetroId(String metroName) {
 			return dao.getMetroId(metroName);
+		}
+
+		public List<HashMap<String, Double>> getRestaurantList() {
+			return dao.getRestaurantList();
 		}
 		
 	}
