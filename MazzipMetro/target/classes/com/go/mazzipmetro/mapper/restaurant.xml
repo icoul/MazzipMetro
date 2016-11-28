@@ -5,8 +5,10 @@
 <!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) --> 
 <mapper namespace="restaurant">
 	
-	<select id="restaurant.getRestName" parameterType="String" resultType="String">
-		select restName
+	<select id="restaurant.getRestName" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select restSeq,  userSeq,  gradeSeq,  restName,  restPhone,
+			   restImg,  restAddr,  restNewAddr,  restLatitude,  restLongitude,
+			   restZIndex,  dongId,  metroId,  restRegDate,  restVisitor, restStatus
 		from TBL_Restaurant
 		where restName like '%' || #{name} || '%'
 	</select>

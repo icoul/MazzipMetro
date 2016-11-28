@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.go.mazzipmetro.dao.RestaurantDAO;
-import com.go.mazzipmetro.dao.RestaurantVO;
+import com.go.mazzipmetro.vo.RestaurantVO;
 
 @Service
 public class RestaurantService implements IService{
