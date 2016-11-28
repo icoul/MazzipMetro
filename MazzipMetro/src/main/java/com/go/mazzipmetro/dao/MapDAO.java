@@ -29,7 +29,7 @@ public class MapDAO  implements IDAO {
 		return sqlSession.selectOne("map.metroId", metroName);
 	}
 
-	public List<HashMap<String, Double>> getRestaurantList() {
+	public List<HashMap<String, String>> getRestaurantList() {
 		return sqlSession.selectList("map.getRestaurantList");
 	}
 }

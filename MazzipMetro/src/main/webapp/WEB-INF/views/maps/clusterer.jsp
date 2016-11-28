@@ -47,7 +47,7 @@
 			var markers = $(data.positions).map(function(i, position) {
 	        	//alert(i+" : "+position.lat+" "+position.lng);
 	            return new daum.maps.Marker({
-	                position : new daum.maps.LatLng(position.lat, position.lng)
+	                position : new daum.maps.LatLng(Number(position.lat), Number(position.lng))
 	            });
 	        });
 

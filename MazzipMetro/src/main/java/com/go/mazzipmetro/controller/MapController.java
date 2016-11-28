@@ -19,6 +19,18 @@ public class MapController {
 	@Autowired
 	MapService service;
 	
+	//음식점 등록 장소 검색 1 : 주소 검색
+	@RequestMapping(value="/regRestaurant.eat",method={RequestMethod.GET}) 
+	public String regRestaurant(){
+		return "/maps/regRestaurant";
+	}
+	
+	//클러스터러 (clickable) & 커스텀 overlay 테스트
+	@RequestMapping(value="/clustererTest2.eat",method={RequestMethod.GET}) 
+	public String clustererTest2(){
+		return "/maps/clustererCustomOverlay";
+	}
+	
 	//클러스터러 (clickable) 마우스 이벤트 테스트
 	@RequestMapping(value="/clustererTest1.eat",method={RequestMethod.GET}) 
 	public String clustererTest1(){
@@ -34,7 +46,7 @@ public class MapController {
 	//클러스터러 (clickable) 테스트 : 음식점 목록 가져오기
 	@RequestMapping(value="/getRestaurantList.eat",method={RequestMethod.GET}) 
 	public String getRestaurantList(HttpServletRequest req){
-		List<HashMap<String, Double>> list = service.getRestaurantList();
+		List<HashMap<String, String>> list = service.getRestaurantList();
 		
 		JSONObject jObj = new JSONObject();
 		jObj.put("positions", list);

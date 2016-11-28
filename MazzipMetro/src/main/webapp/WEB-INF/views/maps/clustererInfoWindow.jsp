@@ -4,14 +4,14 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>마커 클러스터러랑 인포 윈도우 동시가능??</title>
+    <title>마커 클러스터러랑 인포 윈도우 동시가능?? 가능하다!!</title>
     
 </head>
 <body>
 <p style="margin-top:0px">
      사용한 데이터를 보시려면
     <em class="link">
-       <a href="/download/web/data/chicken.json" target="_blank">여기를 클릭하세요!</a>
+       <a href="<%=request.getContextPath()%>/getRestaurantList.eat" target="_blank">여기를 클릭하세요!</a>
     </em>
 </p>
 <div id="map" style="width:100%;height:350px;"></div>
@@ -43,12 +43,38 @@
 		async: false, 
 		dataType: "json",
 		success: function(data) {
-			//alert(data);
+			
 			var markers = $(data.positions).map(function(i, position) {
 	        	//alert(i+" : "+position.lat+" "+position.lng);
-	            return new daum.maps.Marker({
+	        	
+				// 마커를 생성합니다
+			    var marker = new daum.maps.Marker({
+			        position:  new daum.maps.LatLng(position.lat, position.lng)// 마커의 위치
+			    });
+
+			    // 마커에 표시할 인포윈도우를 생성합니다 
+			    var infowindow = new daum.maps.InfoWindow({
+			        content: position.restName // 인포윈도우에 표시할 내용
+			    });
+
+			    // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
+			    // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+			    (function(marker, infowindow) {
+			        // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
+			        daum.maps.event.addListener(marker, 'mouseover', function() {
+			            infowindow.open(map, marker);
+			        });
+
+			        // 마커에 mouseout 이벤트를 등록하고 마우스 아웃 시 인포윈도우를 닫습니다
+			        daum.maps.event.addListener(marker, 'mouseout', function() {
+			            infowindow.close();
+			        });
+			    })(marker, infowindow);
+	        	
+			    return marker;
+	            /* return new daum.maps.Marker({
 	                position : new daum.maps.LatLng(position.lat, position.lng)
-	            });
+	            }); */
 	        });
 
 	        // 클러스터러에 마커들을 추가합니다

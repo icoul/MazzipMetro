@@ -30,7 +30,7 @@ public class MapService  implements IService {
 			return dao.getMetroId(metroName);
 		}
 
-		public List<HashMap<String, Double>> getRestaurantList() {
+		public List<HashMap<String, String>> getRestaurantList() {
 			return dao.getRestaurantList();
 		}
 		
