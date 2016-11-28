@@ -1,5 +1,7 @@
 package com.go.mazzipmetro.service;
 
-public interface IService {
+import java.util.List;
 
+public interface IService {
+	
 }
