@@ -24,7 +24,17 @@ public class BossController {
 	@RequestMapping(value="/busiCoinResi.eat", method={RequestMethod.GET})
 	public String busiCoinResi() {
 		
-		return "busiCoinResi";
+		
+		return "msg";
 		
 	}
+	//코인충전 팝업창
+	@RequestMapping(value="/coinChar.eat", method={RequestMethod.GET})
+	public String coinChar() {
+		
+		return "coinChar";
+		
+	}
+	
+	
 }
