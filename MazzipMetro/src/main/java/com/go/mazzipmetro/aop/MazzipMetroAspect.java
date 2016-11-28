@@ -20,7 +20,7 @@ public class MazzipMetroAspect {
 		
 	}
 	
-	@Before("pc1()")
+	/*@Before("pc1()")
 	public void before(JoinPoint joinPoint) {
 		
 		System.out.println("before 보조업무 실행!");
@@ -64,6 +64,6 @@ public class MazzipMetroAspect {
 		System.out.println("afterRetruning 보조업무 실행!");
 		System.out.printf("joinPoint가 리턴한 데이터 : %s", data);
 		
-	}
+	}*/
 	
 }

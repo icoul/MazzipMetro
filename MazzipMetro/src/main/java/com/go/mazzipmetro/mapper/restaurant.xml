@@ -10,5 +10,4 @@
 		from TBL_Restaurant
 		where restName like '%' || #{name} || '%'
 	</select>
-	
 </mapper>

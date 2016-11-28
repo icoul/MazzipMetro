@@ -1,6 +1,5 @@
 package com.go.mazzipmetro.controller;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,3 +43,4 @@ public class RestaurantController {
 		return "restCheck";
 	}
 }
+
