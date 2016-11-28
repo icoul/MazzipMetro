@@ -19,7 +19,7 @@ public class MapController {
 	@Autowired
 	MapService service;
 	
-	//음식점 등록 장소 검색 1 : 주소 검색
+	//음식점 등록 장소 검색 : 주소 검색 / 클릭으로 주소 얻기
 	@RequestMapping(value="/regRestaurant.eat",method={RequestMethod.GET}) 
 	public String regRestaurant(){
 		return "/maps/regRestaurant";
@@ -83,7 +83,7 @@ public class MapController {
 	
 	@RequestMapping(value="/addRstr.eat",method={RequestMethod.GET}) 
 	public String addRstr(){
-		return "addRstr";
+		return "/maps/addRstr";
 	}
 	
 	@RequestMapping(value="/addRstrEnd.eat",method={RequestMethod.POST}) 
