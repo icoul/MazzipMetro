@@ -19,6 +19,12 @@ public class MapController {
 	@Autowired
 	MapService service;
 	
+	//클러스터러 (clickable) 마우스 이벤트 테스트
+	@RequestMapping(value="/clustererTest1.eat",method={RequestMethod.GET}) 
+	public String clustererTest1(){
+		return "/maps/clustererInfoWindow";
+	}
+	
 	//클러스터러 (clickable) 테스트 : 음식점 목록 가져오기
 	@RequestMapping(value="/clusterer.eat",method={RequestMethod.GET}) 
 	public String clusterer(){
