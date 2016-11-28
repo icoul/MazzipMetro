@@ -43,7 +43,7 @@ public class MazzipMetroController {
 	public String reviewAdd() {
 		
 		System.out.println("ghghh");
-		return "reviewAdd";  
+		return "addtest";  
 		// /DoubleFileAttachTest/src/main/webapp/WEB-INF/views/add.jsp 파일을 생성한다.
 	}
 }
