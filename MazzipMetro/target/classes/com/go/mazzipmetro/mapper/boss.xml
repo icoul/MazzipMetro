@@ -8,4 +8,5 @@
 		update tbl_User set userPoint = userPoint + #{userPoint}
 		where userstatus = 0 and userSort = 1 and userSeq = #{userSeq}
 	</update>
+
 </mapper>
