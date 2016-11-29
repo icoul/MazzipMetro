@@ -25,7 +25,7 @@
 	
 	<!-- ==== #9. 컨트롤러(*.java)가 위치하는 패키지명 지정하기 -->
 	<!-- com.spring.board 은 모든 컨트롤러(*.java)파일은 항상 com.spring.board 패키지 안에 있어야 한다. -->
-	<context:component-scan base-package="com.go.*" />
+	<context:component-scan base-package="com.go.mazzipmetro" />
 	      
 	<!-- ==== Component Scan 은 XML 파일에 일일이 빈등록을 하지 않고 각 빈 클래스에 @Component 를 써줌으로서 
 	      해당 클래스가 자동으로 빈등록이 이루어지도록 해주는 것이다. 
