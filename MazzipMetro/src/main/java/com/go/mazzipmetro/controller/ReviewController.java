@@ -19,7 +19,7 @@ public class ReviewController {
 	@Autowired
 	private ThumbnailManager thumbnailManager;
 	
-	//imgCrop test
+	// 동현 imgCrop test
 	@RequestMapping(value="/imgCrop.eat",method={RequestMethod.GET}) 
 	public String imgCrop(){
 		return "/img/imgCrop";

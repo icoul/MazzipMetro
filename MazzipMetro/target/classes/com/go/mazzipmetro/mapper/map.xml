@@ -38,4 +38,44 @@
 		from tbl_restaurant
 	</select>
 	
+	<!-- 지하철역별 등록된 음식점 보여주기 -->
+	<select id="searchByMetro" parameterType="java.util.HashMap" resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select V.*
+		from (
+		select row_number () over(order by restVisitor desc) AS rnum
+		     , A.*
+		from tbl_restaurant A 
+		where  A.restStatus = 0
+		<if test="keyword != null">
+		and metroId = (select metroId from tbl_metro where metroName like '%'||#{keyword}||'%')
+		</if>
+		) V
+		where rnum between #{start} and #{end}
+	</select>
+	
+	<!-- 지하철역별 등록된 음식점 보여주기(bgCat얻어오기) -->
+	<select id="getRestBgTag" parameterType="String" resultType="String">
+		select tagName
+		from tbl_restaurant_tag
+		where tagStatus = 0 and restSeq = #{restSeq} and tagSort='bgCat'
+	</select>
+	
+	<!-- 지하철역별 등록된 음식점 보여주기(mdCat얻어오기) -->
+	<select id="getRestMdTag" parameterType="String" resultType="String">
+		select tagName
+		from tbl_restaurant_tag
+		where tagStatus = 0 and restSeq = #{restSeq} and tagSort='mdCat'
+	</select>
+	
+	
+	<!-- 지하철역별 등록된 음식점 보여주기(총 음시점 수 구하기) -->
+	<select id="getTotalCount" parameterType="java.util.HashMap" resultType="int">
+		select count(*)
+		from tbl_restaurant
+		where restStatus = 0
+		<if test="keyword != null">
+			and metroId = (select metroId from tbl_metro where metroName like '%'||#{keyword}||'%')
+		</if>
+	</select>
+	
 </mapper>
