@@ -4,5 +4,116 @@
 
 <!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) --> 
 <mapper namespace="review">
+	<resultMap type="java.util.HashMap" id="dataresultmap1">
+		 <result column="restseq"	  	        property="restseq" 			    	javaType="String" />
+		 <result column="restname"	  	    	property="restname" 			    javaType="String" />
+		 <result column="userseq"	  	        property="userseq" 			    	javaType="String" />
+		 <result column="gradeseq"	  	    	property="gradeseq" 			    javaType="String" />
+		 <result column="restaddr"	  	        property="restaddr" 			    javaType="String" />
+		 <result column="restnewaddr"	  	    property="restnewaddr" 			    javaType="String" />
+		 <result column="restphone"	  	        property="restphone" 			    javaType="String" />
+		 <result column="restlatitude"	  	    property="restlatitude" 			javaType="String" />
+		 <result column="restlongitude"	  	    property="restlongitude" 			javaType="String" />
+		 <result column="restzindex"	  	    property="restzindex" 			    javaType="String" />
+		 <result column="metroid"	  	        property="metroid" 			    	javaType="String" />
+		 <result column="dongid"	  	    	property="dongid" 			    	javaType="String" />
+		 <result column="restregdate"	  	    property="restregdate" 			    javaType="String" />
+
+	</resultMap>
+
+	<select id="getRestaurant" parameterType="String" resultMap="dataresultmap1">
+		select restseq, restname, userseq, gradeseq, restaddr, restnewaddr, restphone, restlatitude, restlongitude, restzindex, metroid, dongid, to_char(restregdate, 'yyyy-mm-dd') as restregdate 
+		from TBL_RESTAURANT
+		where restseq = #{restseq} and reststatus = 0
+	</select>
 	
+	<resultMap type="java.util.HashMap" id="dataresultmap2">
+		 <result column="username"	  	        property="username" 			    javaType="String" />
+		 <result column="userprofile"	  	    property="userprofile" 			    javaType="String" />
+		 <result column="reviewseq"	  	   		property="reviewseq" 			    javaType="String" />
+		 <result column="reviewtitle"	  	    property="reviewtitle" 			    javaType="String" />
+		 <result column="reviewcontent"	  	    property="reviewcontent" 			javaType="String" />
+		 <result column="reviewavgscore"	  	property="reviewavgscore" 			javaType="String" />
+		 <result column="reviewregdate"	  	    property="reviewregdate" 			javaType="String" />
+	</resultMap>
+	
+	<select id="getReviewList" parameterType="String" resultMap="dataresultmap2">
+		select username, userprofile, reviewseq, reviewtitle, reviewcontent, reviewavgscore, reviewregdate
+		from tbl_user A join nos_review B
+		on A.userseq = B.userSeq
+		where restSeq = #{restseq} and reviewStatus = 0 and usersort = 1
+	</select>
+	
+	<resultMap type="java.util.HashMap" id="dataresultmap3">
+	 	 <result column="revimgseq"	  	        property="revimgseq" 			    javaType="String" />
+		 <result column="reviewseq"	  	        property="reviewseq" 			    javaType="String" />
+		 <result column="reviewimg"	  	    	property="reviewimg" 			    javaType="String" />
+		 <result column="reviewthumbimg"	  	    	property="reviewthumbimg" 			    javaType="String" />
+	</resultMap>
+	
+	<select id="getReviewImageList" resultMap="dataresultmap3">
+		select revimgseq, reviewseq, reviewimg, reviewthumbimg
+		from nos_reviewImage
+		where reviewImagestatus = 0
+	</select>
+	
+	<resultMap type="java.util.HashMap" id="dataresultmap4">
+		 <result column="revimgseq"	  	        property="revimgseq" 			    javaType="String" />
+		 <result column="reviewseq"	  	        property="reviewseq" 			    javaType="String" />
+		 <result column="reviewimg"	  	    	property="reviewimg" 			    javaType="String" />
+		  <result column="reviewthumbimg"	  	    	property="reviewthumbimg" 			    javaType="String" />
+	</resultMap>
+	
+	<select id="getReviewImageListByReviewSeq" parameterType="String" resultMap="dataresultmap4">
+		select revimgseq, reviewseq, reviewimg, reviewthumbimg
+		from nos_reviewImage
+		where reviewImagestatus = 0 and reviewseq = #{reviewseq}
+	</select>
+	
+
+	<select id="getLargeReviewImageName" parameterType="String" resultType="String">
+		select reviewimg
+		from nos_reviewImage
+		where reviewImagestatus = 0 and revimgseq = #{revimgseq}
+	</select>
+	
+	<resultMap type="java.util.HashMap" id="dataresultmap5">
+		 <result column="ageline"	  	        property="ageline" 			    javaType="String" />
+		 <result column="cnt"	  	            property="cnt" 			        javaType="String" />
+		 <result column="percent"	  	    	property="percent" 			    javaType="String" />
+	</resultMap>
+	
+	<select id="getAgeLineChartList" parameterType="String" resultMap="dataresultmap5">
+		select decode(grouping(ageline), 0, to_char(ageline), '전체') as ageline
+		  , count(ageline) as cnt
+		  , round(count(ageline) / (select count(*) from nos_reviewData) * 100) as percent
+		from
+		( 
+		select trunc(extract(year from sysdate) - (to_number(substr(B.birthday,1,2)) + case when substr(B.birthday,1,1) in('0','1','2') then 2000 else 1900 end ) + 1,-1) as ageline   
+		from nos_review A join nos_reviewData B
+		on A.reviewseq = B.reviewseq
+		where A.restseq = #{restseq}
+		)V
+		group by rollup(ageline)
+	</select>
+	
+	<resultMap type="java.util.HashMap" id="dataresultmap6">
+		 <result column="gender"	  	        property="gender" 			    javaType="String" />
+		 <result column="cnt"	  	            property="cnt" 			        javaType="String" />
+		 <result column="percent"	  	    	property="percent" 			    javaType="String" />
+	</resultMap>
+	
+	<select id="getGenderChartList" parameterType="String" resultMap="dataresultmap6">
+		select decode(grouping(gender), 0, to_char(gender), '전체') as gender
+		  , count(gender) as cnt
+		  , round(count(gender) / (select count(*) from nos_reviewData) * 100) as percent
+		from
+		( 
+		select B.gender   
+		from nos_review A join nos_reviewData B
+		on A.reviewseq = B.reviewseq
+		where A.restseq = #{restseq}
+		)V
+		group by rollup(gender)
+	</select>
 </mapper>

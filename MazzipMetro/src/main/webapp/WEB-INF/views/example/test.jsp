@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Hello JSP</title>
+<title>ttest입니다.</title>
 </head>
 <body>
-
+	ttest입니다.
 </body>
 </html>
