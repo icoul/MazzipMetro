@@ -25,7 +25,11 @@ public class MapController {
 	
 	//업장상세페이지에 쓰일 지도, 로드뷰 
 	@RequestMapping(value="/restaurantMapRoadView.eat",method={RequestMethod.GET}) 
-	public String restaurantMapRoadView(){
+	public String restaurantMapRoadView(HttpServletRequest req){
+		String restSeq = req.getParameter("restSeq");
+		RestaurantVO vo = service.selectOneRestaurant(restSeq);
+		
+		req.setAttribute("mapVO", vo);
 		return "/maps/restaurantMapRoadView";
 	}
 	

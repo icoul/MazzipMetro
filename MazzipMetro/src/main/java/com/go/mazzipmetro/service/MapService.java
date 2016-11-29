@@ -67,6 +67,11 @@ public class MapService  implements IService {
 			return dao.getTotalCount(map);
 		}
 
+		// 업장 상세페이지용 RestaurantVO 얻기 
+		public RestaurantVO selectOneRestaurant(String restSeq) {
+			return dao.selectOneRestaurant(restSeq);
+		}
+
 
 		
 		

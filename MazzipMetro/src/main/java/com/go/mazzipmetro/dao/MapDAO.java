@@ -55,5 +55,9 @@ public class MapDAO  implements IDAO {
 		return sqlSession.selectOne("map.getTotalCount", map);
 	}
 
+	public RestaurantVO selectOneRestaurant(String restSeq) {
+		return sqlSession.selectOne("restaurant.selectOneRestaurant", restSeq);
+	}
+
 
 }

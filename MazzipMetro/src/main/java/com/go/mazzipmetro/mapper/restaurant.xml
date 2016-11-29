@@ -12,4 +12,16 @@
 		from TBL_Restaurant
 		where restName like '%' || #{name} || '%'
 	</select>
+	
+	<select id="selectOneRestaurant" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select restSeq, userSeq, gradeSeq
+		     , restName, restPhone, restImg
+		     , restAddr, restNewAddr, restLatitude
+		     , restLongitude, restZIndex, dongId
+		     , metroId, restRegDate, restVisitor, restStatus 
+		from tbl_restaurant
+		where restStatus = 0
+		and restSeq = #{restSeq}
+	</select>
+	
 </mapper>
