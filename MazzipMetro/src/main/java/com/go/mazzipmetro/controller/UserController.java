@@ -19,9 +19,9 @@ public class UserController {
 	@Autowired
 	private ThumbnailManager thumbnailManager;
 	
-	@RequestMapping(value = "/test.eat", method = { RequestMethod.GET })
-	public String insert(){
-		
-		return "example/ttest";
+	@RequestMapping(value = "/test2.eat", method = { RequestMethod.GET })
+	public String insesrser(){
+		System.out.println("왜 테스트2로가냐?");
+		return "hello";
 	}
 }

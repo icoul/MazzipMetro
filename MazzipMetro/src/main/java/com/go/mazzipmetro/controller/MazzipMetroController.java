@@ -27,7 +27,7 @@ public class MazzipMetroController {
 	
 	@RequestMapping(value="/index.eat", method={RequestMethod.GET})
 	public String index(){
-		return "index";
+		return "index2";
 	}
 	
 	@RequestMapping(value="/dbTest.eat", method={RequestMethod.GET})
