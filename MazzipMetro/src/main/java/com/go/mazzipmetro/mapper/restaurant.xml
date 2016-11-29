@@ -5,6 +5,7 @@
 <!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) --> 
 <mapper namespace="restaurant">
 	
+	<!-- 업장이름 리스트 가져오기 -->
 	<select id="restaurant.getRestName" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
 		select restSeq,  userSeq,  gradeSeq,  restName,  restPhone,
 			   restImg,  restAddr,  restNewAddr,  restLatitude,  restLongitude,
@@ -13,6 +14,7 @@
 		where restName like '%' || #{name} || '%'
 	</select>
 	
+	<!-- restSeq로 하나의 RestaurantVO가져오기 -->
 	<select id="selectOneRestaurant" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
 		select restSeq, userSeq, gradeSeq
 		     , restName, restPhone, restImg
@@ -22,6 +24,41 @@
 		from tbl_restaurant
 		where restStatus = 0
 		and restSeq = #{restSeq}
+	</select>
+	
+	<!-- 새 업장 등록 -->
+	<insert id="restaurant.setRestRegister" parameterType="com.go.mazzipmetro.vo.RestaurantVO">
+		insert into TBL_Restaurant values(TBL_Restaurant_Seq.nextval, #{userSeq}, default, #{restName}
+										, #{restPhone}, 
+										<if test="restImg == null or restImg.equals('')">
+											default
+										</if>
+										<if test="restImg != null and !restImg.equals('')">
+											#{restImg}
+										</if>
+										, #{restAddr}, #{restNewAddr}
+										, #{restLatitude}, #{restLongitude}, TBL_Restaurant_Seq.nextval
+										, #{dongId}, #{metroId}, default, 0, default)
+	</insert>
+	
+	<!-- 기존 업장 업데이트 -->
+	<update id="restaurant.setRestUpdate" parameterType="com.go.mazzipmetro.vo.RestaurantVO">
+		update TBL_Restaurant set userSeq = #{userSeq}, restImg = 
+										<if test="restImg == null or restImg.equals('')">
+											default
+										</if>
+										<if test="restImg != null and !restImg.equals('')">
+											#{restImg}
+										</if>
+										, restPhone = #{restPhone}, restRegDate = sysdate
+		where restSeq = #{restSeq}
+	</update>
+	
+	<!-- 업장을 새로 등록했기 때문에 Seq번호를 새로 가져오기 위함. -->
+	<select id = "restaurant.getNewRestSeq" parameterType="String" resultType="String">
+		select max(restSeq)
+		from TBL_Restaurant
+		where userseq = #{userSeq}
 	</select>
 	
 </mapper>

@@ -1,0 +1,376 @@
+@import url(https://cdn.rawgit.com/openhiun/hangul/14c0f6faa2941116bb53001d6a7dcd5e82300c3f/nanumbarungothic.css); 
+
+* { outline: none !important; }
+
+body {
+	font-family: 'Nanum Barun Gothic', sans-serif !important;
+} 
+
+li {
+	list-style: none; 
+}
+
+.btns:hover {
+	opacity: 0.5;
+	transition-duration: 0.3s;
+}
+
+#SEOcontent {
+	min-width: 770px;
+	margin: 0 auto;
+	background-color: #eff1f4 !important;
+	padding-top: 130px;
+	padding-bottom: 50px; 
+}
+
+.panel {
+	margin-bottom: 0;
+	width: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	box-shadow: 0 2px 3px rgba(0, 0, 0, .1) !important;
+	z-index: 10;
+}
+
+.panel-default > .panel-heading {
+	border: 0;
+}
+
+.panel-body {
+	min-width: 1300px;
+}
+
+.nav-pills > li {
+	line-height: 28px;
+}
+
+#nosSearchFrm {
+	margin-bottom: 0;
+	padding-top: 16px;
+	width: 322px;
+	float: right;
+}
+
+#nosSearchType {
+	height: 26px;
+	width: 70px;
+	font-size: 9pt;
+	position: relative;
+	top: -1px;
+}
+
+#nosSearchString {
+	height: 26px;
+	width: 185px;
+}
+
+#nosSearchBtn {
+	height: 28px;
+	width: 60px;
+	position: relative;
+	top: -1px;
+	font-size: 9pt;
+	padding: 6px 10px;
+	z-index: 1;
+}
+
+#seoSearchBar {
+	float: right;
+	width: 350px;
+	height: 58px;
+}
+
+.nav-pills {
+	padding-top: 5px;
+	width: 600px;
+	display: inline-block;
+}
+
+.nav-pills a {
+	color: #333;
+}
+
+.nav-pills a:hover {
+	color: #e50020;
+}
+
+.nav>li>a:hover {
+	background-color: white !important;
+}
+
+#seoNavImg {
+	float: left;
+	margin-right: 15px;
+	height: 59px;
+}
+
+.navbar-nav > li > a:hover {
+	background: transparent !important;
+}
+
+#display {
+	width: 300px;
+	position: relative;
+	top: 5px;
+	left: 0;
+	display: block;
+}
+
+#displayList {
+	position: relative;
+	top: -7px;
+	left: 73px;
+	background: #fff;
+	padding: 5px 7px;
+	width: 185px;
+	border: solid 1px #d2d2d2;
+	border-top: hidden;
+	z-index: 0;
+}
+
+#seoSearchResult {
+	color: #aaaaaa;
+}
+
+#seoSearchResult:hover {
+	text-decoration: none;
+	color: #e50020;
+}
+
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+	width: 100%;
+	height: 400px; 
+	margin: 0 auto;
+}
+
+#seoRank-sub {
+	font-size: 14pt;
+	margin-top: 50px;
+	margin-bottom: 20px;
+	text-align: left;
+	border-bottom: solid 1px #bfbfbf;
+	height: 35px;
+}
+
+#seoComicRank_area {
+	width: 250px;
+	margin: 0 15px;
+	float: left;
+}
+
+#seoComicRank {
+	background: #fff;
+	width: 250px;
+	padding-left: 0;
+	border: solid 1px #e2e2e2;
+	display: inline-block;
+	float: left;
+}
+
+#seoComicRank li {
+	border-bottom: solid 1px #e2e2e2;
+	height: 80px;
+}
+
+#seoHorrorRank_area {
+	width: 250px;
+	margin: 0 15px;
+	float: left;
+}
+
+#seoHorrorRank {
+	background: #fff;
+	width: 250px;
+	padding-left: 0;
+	border: solid 1px #e2e2e2;
+	display: inline-block;
+	float: left;
+}
+
+#seoHorrorRank li {
+	border-bottom: solid 1px #e2e2e2;
+	height: 80px;
+}
+
+#seoFantagyRank_area {
+	width: 250px;
+	margin: 0 15px;
+	float: left;
+}
+
+#seoFantagyRank {
+	background: #fff;
+	width: 250px;
+	padding-left: 0;
+	border: solid 1px #e2e2e2;
+	display: inline-block;
+	float: left;
+}
+
+#seoFantagyRank li {
+	border-bottom: solid 1px #e2e2e2;
+	height: 80px;
+}
+
+#seoRomanceRank_area {
+	width: 250px;
+	margin: 0 15px;
+	float: left;
+}
+
+#seoRomanceRank {
+	background: #fff;
+	width: 250px;
+	padding-left: 0;
+	border: solid 1px #e2e2e2;
+	display: inline-block;
+	float: left;
+}
+
+#seoRomanceRank li {
+	border-bottom: solid 1px #e2e2e2;
+	height: 80px;
+}
+
+.seoRankTop div {
+	color: #fff;
+}
+
+.seoRankHead_area {
+	height: 50px !important;
+	line-height: 49px !important;
+	text-align: left !important;
+	padding-left: 20px !important;
+}
+
+.seoRankHead {
+	vertical-align: middle;
+	font-size: 12pt;
+}
+
+.seoRankTopImg {
+	width: 100%;
+	z-index: -1;
+}
+
+.seoRankTopImg a {
+	display: inline-block;
+	width: 250px;
+	height: 190px;
+}
+
+.seoRankTop {
+	height: 190px !important;
+	overflow: hidden;
+}
+
+.seoRankTop img {
+	width: 250px !important;
+	height: 250px !important;
+	vertical-align: middle;
+}
+
+.seoRankTopNum_area {
+	display: inline-block;
+	width: 60px;
+	height: 60px;
+	position: relative;
+	top: -70px;
+	float: left;
+	font-size: 26pt;
+	line-height: 65px;
+	border-right: solid 1px;
+	margin-left: 5px;
+}
+
+.seoRankTopNum {
+	vertical-align: middle;
+}
+
+.seoRankTopBookName {
+	width: 180px;
+	float: left;
+	position: relative;
+	top: -65px;
+	text-align: left;
+	padding-left: 13px;
+	font-weight: bold;
+	font-size: 13pt;
+}
+
+.seoRankTopWriter {
+	width: 180px;
+	float: left;
+	position: relative;
+	top: -56px;
+	text-align: left;
+	padding-left: 13px;
+	font-weight: bold;
+}
+
+.seoRankImg img {
+	float: right;
+	width: 80px;
+	height: 80px;
+}
+
+.seoRankNum_area {
+	width: 60px;
+	height: 60px;
+	line-height: 60px;
+	margin-top: 10px;
+	margin-left: 5px;
+	border-right: solid 1px;
+	font-size: 26pt;
+}
+
+.seoRankNum {
+	vertical-align: middle;
+}
+/* */
+.seoRankBookName {
+	width: 140px;
+	display: inline-block;
+	float: left;
+	text-align: left;
+	padding-left: 8px;
+	font-size: 11pt;
+}
+
+.seoRankWriter {
+	width: 140px;
+	display: inline-block;
+	float: left;
+	text-align: left;
+	padding-left: 8px;
+	font-size: 9pt;
+}
+/* */
+
+
+
+.RankInfo {
+	height: 79px;
+	float: left;
+}
+
+.RankBookInfo {
+	height: 50px;
+	width: 157px;
+	display: inline-block;
+	float: left;
+	position: relative;
+	top: -50px;
+	left: 70px;
+}
+
+.rankTopInfo {
+	background: rgba(0,0,0,0.5) !important;
+}
+
+#seoRank_area {
+	width: 1150px;
+	margin: 0 auto;
+}

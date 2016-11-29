@@ -25,18 +25,18 @@
 		
 		$("#searchWord").val("${name}");
 		
-		$(".restName").bind("click", function(){
-			
+		$(".restName").bind("click", function(){ // 업장명을 클릭하면 지도에서 보여주는 함수
 			var restName = $(this).val();
 			showAddr(restName);
 		});
 	});
 	
-	function goMove() {
+	function goMove() { // 업장을 선택했고 이제 데이터를 이전 페이지로 모두 넘겨주는 함수
 		var name = $("#name").val();
 		var addr = $("#addr").val();
 		var newAddr = $("#newAddr").val();
 		var phone = $("#phone").val();
+		var seq = $("#seq").val();
 		
 		var phoneSplit = phone.split('-');
 		
@@ -45,23 +45,25 @@
         frm.addr.value = addr;
         frm.newAddr.value = newAddr;
 		frm.phone.value = phone;
+		frm.seq.value = seq;
         
 		self.window.close(); // 팝업창 닫기 
 	}
 	
-	function goSearch(){
+	function goSearch(){ // 팝업창 상태에서 업장명을 검색하는 함수
 		var searchFrm = document.searchFrm;
 		searchFrm.submit();
 	}
 	
-	function goInput(name, addr, newAddr, phone){
+	function goInput(name, addr, newAddr, phone, seq){ // 선택한 업장의 정보를 input hidden에 담아주는 함수
 		$("#name").val(name);
 		$("#addr").val(addr);
 		$("#newAddr").val(newAddr);
 		$("#phone").val(phone);
+		$("#seq").val(seq);
 	}
 	
-	function goRegister(name){
+	function goRegister(name){ // 업장이 존재하지 않아서 직접 등록하겠다는 함수
 		location.href = "<%= request.getContextPath()%>/notRestRegi.eat?name=" + name;
 	}
 
@@ -106,61 +108,14 @@
 
 								// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
 								map.setCenter(coords);
+								
+								searchDetailAddrFromCoords(coords.latLng, function(){
+									alert(coords.latLng);
+									
+								});
 							}
 						});
 	}
-	
-	// 주소-좌표 변환 객체를 생성합니다
-	var geocoder = new daum.maps.services.Geocoder();
-
-	var marker = new daum.maps.Marker(), // 클릭한 위치를 표시할 마커입니다
-	infowindow = new daum.maps.InfoWindow({
-			zindex : 100
-	}); // 클릭한 위치에 대한 주소를 표시할 인포윈도우입니다
-/* 
-	// 지도를 클릭했을 때 클릭 위치 좌표에 대한 주소정보를 표시하도록 이벤트를 등록합니다
-	daum.maps.event.addListener(map, 'click', function(mouseEvent) {
-						searchDetailAddrFromCoords(mouseEvent.latLng, function(status, result) {
-									//alert(mouseEvent.latLng);
-									
-									// 클릭한 위도, 경도 정보를 가져옵니다 
-								    var latlng = mouseEvent.latLng;
-									
-									$("#latitude").val(latlng.getLat());
-									$("#longitude").val(latlng.getLng());
-									
-									if (status === daum.maps.services.Status.OK) {
-										var detailAddr = !!result[0].roadAddress.name ? '<div>도로명주소 : '
-												+ result[0].roadAddress.name
-												+ '</div>'
-												: '';
-										detailAddr += '<div>지번 주소 : '
-												+ result[0].jibunAddress.name
-												+ '</div>';
-
-										var content = '<div class="bAddr">'
-												+ '<span class="title">주소정보</span>'
-												+ detailAddr + '</div>';
-
-										// 마커를 클릭한 위치에 표시합니다 
-										marker.setPosition(mouseEvent.latLng);
-										marker.setMap(map);
-
-										// 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
-										infowindow.setContent(content);
-										infowindow.open(map, marker);
-										
-										//검색된 주소정보를  input태그에 입력하기.
-										$("#addr").val(result[0].jibunAddress.name);
-										$("#newAddr").val(result[0].roadAddress.name);
-									}
-								});
-					});
-
-	function searchDetailAddrFromCoords(coords, callback) {
-	    // 좌표로 법정동 상세 주소 정보를 요청합니다
-	    geocoder.coord2detailaddr(coords, callback);
-	} */
 </script>
 
 </head>
@@ -195,7 +150,7 @@
 	  <c:forEach var="list" items="${nameList}" varStatus="status">
 	  <c:if test = "${status.index < 10}">
 	    <tr>
-      	   <td onClick="goInput('${list.restName}', '${list.restAddr}', '${list.restNewAddr}', '${list.restPhone}');">
+      	   <td onClick="goInput('${list.restName}', '${list.restAddr}', '${list.restNewAddr}', '${list.restPhone}', '${list.restSeq}');">
 	      	 <input type = "radio" id = "restName${status.index}" name = "restName" class = "restName" value = "${list.restAddr}" />
 		       <label for = "restName${status.index}">
 		      	 <span style = "cursor: pointer;">${list.restName}</span>
@@ -204,13 +159,16 @@
         </tr>
        </c:if> 
 	  </c:forEach>
-	  <button type = "button" onClick="goMove();">확인</button>
+	  <tr>
+	  	  <td><button type = "button" onClick="goMove();">확인</button></td>
+	  </tr>
 	</c:if>
 </table>
 	<input type = "hidden" id = "name" value="" />
 	<input type = "hidden" id = "addr" value="" />
 	<input type = "hidden" id = "newAddr" value="" />
 	<input type = "hidden" id = "phone" value="" />
+	<input type = "hidden" id = "seq" value="" />
 </div>
 
 </body>

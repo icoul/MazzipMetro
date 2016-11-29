@@ -335,15 +335,14 @@ function mySubmit(title, latitude, longitude){
 		  , latitude : latitude
 		  , longitude : longitude
 	}
-	
-	$.ajax({
+	/* $.ajax({
 		url: "addMetroEnd.eat",  
 		method:"POST",  	
 		data: metroDataFrm,    
 		success: function() {
 			alert('insert successfully!')
 			}
-	});//end of $.ajax()
+	});//end of $.ajax() */
 }
 </script>
 </body>
