@@ -14,20 +14,20 @@
 	function goCharge(){
 		
 		var coinCharFrm = document.coinCharFrm;
-		searchFrm.coinCharFrm();
+		coinCharFrm.submit();
 	}	
 </script>
 </head>
 <body>
-	<form name="coinCharFrm" action="busiCoinResi.eat" method="get">
+	<form name="coinCharFrm" action="<%= request.getContextPath() %>/busiCoinResiEnd.eat" method="get">
 		<%-- 돈으로 구매시 Coin 10프로 충전시   --%>
 		코인충전액 : 
-		<select name="coinRange" id="coinRange"><%--name을 파라미터에 controller로 받으면 나옴 --%>
-			<option><fmt:formatNumber pattern="###,###" value="1000000" /></option>
-			<option><fmt:formatNumber pattern="###,###" value="5000000" /></option>
-			<option><fmt:formatNumber pattern="###,###" value="10000000" /></option>
+		<select name="userPoint" id="userPoint"><%--name을 파라미터에 controller로 받으면 나옴 --%>
+			<option value="100000"><fmt:formatNumber pattern="###,###" value="1000000" /></option>
+			<option value="500000"><fmt:formatNumber pattern="###,###" value="5000000" /></option>
+			<option value="1000000" ><fmt:formatNumber pattern="###,###" value="10000000" /></option>
 		</select>
-		
+		<input type="hidden" name="userSeq" <%-- value="${userSeq}" --%> value="7" /> 
 		<button type="button" onClick="goCharge();">충전하기</button>
 	</form>
 </body>

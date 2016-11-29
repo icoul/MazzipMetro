@@ -17,6 +17,7 @@
     color: #fff;
     cursor:pointer;
     }
+ .desc {margin-top:10px; font-size: 11px;}   
 </style>
 <script type="text/javascript">
 
@@ -29,15 +30,20 @@ function goCoinBuy(userSeq){
 
 
 </script>
-<div class="subleftCon">
-	<h2>사업자 코인 충전</h2>
-</div>
-<div class="subrightCon">
-	<div class="coinWrap">
-			코인구매하기 : <button class="btnCoin" type="button" onClick="goCoinBuy('${vo.userSeq}');">코인 구매</button>
-			<input type="text" name="userSeq" value="${vo.userSeq}" />	
+	<div class="subleftCon">
+		<h2>사업자 코인 충전</h2>
 	</div>
-</div>
+	<div class="subrightCon">
+		<div class="coinWrap">
+				코인구매하기 : <button class="btnCoin" type="button" onClick="goCoinBuy('${vo.userSeq}');">코인 구매</button>
+				<input type="hidden" name="userSeq" value="${vo.userSeq}" /> 
+				<p class="desc"><span style="font-size:12px;">※</span> 코인은 100만원 단위부터 충전 가능합니다.</p>	
+		</div>
+	</div>
 
+</div>
+	<%-- end of content --%>
+</div>
+<%-- end of container --%>
 
 <jsp:include page="footer.jsp" />
