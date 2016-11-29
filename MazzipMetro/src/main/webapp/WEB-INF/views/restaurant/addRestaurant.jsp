@@ -34,7 +34,7 @@
 <script src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>
 <script type = "text/javascript">
 	$(document).ready(function(){
-		
+
 		$("#restCheck").click(function(){
 			// 팝업창 띄우기
 			var name = $("#name").val();
@@ -44,8 +44,21 @@
 			window.open(url,"restCheck",
 	        "left=350px, top=100px, width=650px, height=500px, menubar=no, status=no, scrollbars=yes ");
 		});
-		
 	});
+	
+	function goRegister(){
+		var seq = $("#seq").val();
+		var latitude = $("#latitude").val();
+		
+		if (seq == -1 && latitude == -1) {
+			
+			alert("업장검색 후 다시 진행해주세요");
+			return;
+		}
+		
+		var registerFrm = document.registerFrm;
+		registerFrm.submit();
+	}
 	
 </script>
 
@@ -54,17 +67,24 @@
 </div>
 
 <div align="center">
-<form name="registerFrm" action="memberRegisterEnd.do" method="post">
+<form name="registerFrm" action="restRegister.eat" method="post">
+
+<input type = "hidden" name = "seq" id = "seq" value="-1" />
+
+<input type = "hidden" name = "latitude" id = "latitude" value="-1" />
+<input type = "hidden" name = "longitude" id = "longitude" value="-1" />
+<input type = "hidden" name = "metroId" id = "metroId" value="-1" />
+<input type = "hidden" name = "dongId" id = "dongId" value="-1" />
 
 <table class = "table" id="tblMemberRegister">
 	<tr>
-		<td width="20%" style = "font-size : 14pt;"><b>업장명 *</b></td>
+		<td width="20%" style = "font-size : 14pt;"><b>업장명</b></td>
 		<td width="80%" align="left"><input type="text" name="name" id="name" /> 
 			<span id="restCheck">업장검색</span>
 		</td>
 	</tr>
 	<tr>
-		<td width="20%" style = "font-size : 14pt;"><b>대표이미지 *</b></td>
+		<td width="20%" style = "font-size : 14pt;"><b>대표이미지</b></td>
 		<td width="80%" align="left">
 			<input type="file" name="image" id="image" size="7"/>
 		</td>
@@ -89,9 +109,11 @@
 	</tr>
 	<tr>
 		<td height = "40px" colspan="2" align="center" valign="middle">
-			<a id="btnRegister" onClick="goRegister();" href = "#" style = "width : 20%;"><span style = "color : black; font-weight : bold; font-size : 14pt;">가입신청</span></a>
+			<a id="btnRegister" onClick="goRegister();" href = "#" style = "width : 20%;"><span style = "color : black; font-weight : bold; font-size : 14pt;">등록신청</span></a>
 		</td>
 	</tr>
 </table>
 </form>
 </div>
+
+<jsp:include page="../footer.jsp" />
