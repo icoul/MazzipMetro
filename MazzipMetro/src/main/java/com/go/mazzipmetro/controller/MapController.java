@@ -16,6 +16,7 @@ import com.go.mazzipmetro.service.MapService;
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.TagVO;
 
+
 @Controller
 public class MapController {
 	
