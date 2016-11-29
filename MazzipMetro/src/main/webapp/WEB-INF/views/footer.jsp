@@ -9,7 +9,7 @@
 <body>
 <footer align="center">
 	<div class="comIntro">
-		<a href="">회사소개</a> <a href="">공지사항</a> <a href="">이용약관</a> <a href="">개인정보</a> <a href="">이용약관</a> <a href="">문의하기</a>
+		<a href="">회사소개</a> <a href="">공지사항</a> <a href="">이용약관</a> <a href="">개인정보</a>  <a href="">문의하기</a>
 	</div>
 	 <br/><br/>
 	<div class="copyRight">
