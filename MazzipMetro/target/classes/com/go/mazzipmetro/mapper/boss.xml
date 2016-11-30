@@ -8,5 +8,14 @@
 		update tbl_User set userPoint = userPoint + #{userPoint}
 		where userstatus = 0 and userSort = 1 and userSeq = #{userSeq}
 	</update>
-
+	
+	<update id="bannBuyUpdate" parameterType="java.util.HashMap">
+		update tbl_User set userPoint = userPoint - 1000000
+		where userstatus = 0 and userSort = 1 and userSeq = #{userSeq}
+	</update>
+	
+	<insert id="bannInsert" parameterType="java.util.HashMap">
+		insert into tbl_restaurant_content(restSeq, userSeq, contentSeq, contentBuyDate, contentLimit, contentStatus) 
+		values(restSeq = #{restSeq}, userSeq = #{userSeq},'1', default , sysdate+30, default)
+	</insert>
 </mapper>

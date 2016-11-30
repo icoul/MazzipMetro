@@ -14,5 +14,16 @@ public class BossService implements IService{
 		int result = dao.coinUpdate(map);
 		return result;
 	}
+	
+	public int bannBuyUpdate(HashMap<String, String> map) {
+		int result = dao.bannBuyUpdate(map);
+		return result;
+	}
+	
+	
+	public int bannInsert(HashMap<String, String> map) {
+		int result = dao.bannInsert(map);
+		return result;
+	}
 }
 
