@@ -32,21 +32,22 @@ public class ReviewController {
 		return "/img/imgCrop";
 	}
 
+	// restSeq로 하나의 업장을 가져오기
 	@RequestMapping(value = "/restaurantDetail.eat", method = RequestMethod.GET)
 	public String restaurantDetail(HttpServletRequest req) {
-		String restseq = req.getParameter("restseq");
+		String restSeq = req.getParameter("restSeq");
 		
-		if(restseq == null){
-			restseq = "220";
+		if(restSeq == null){
+			restSeq = "220";
 		}
-		HashMap<String,String> restvo = service.getRestaurant(restseq);
+		HashMap<String,String> restvo = service.getRestaurant(restSeq);
 			
 		List<HashMap<String,String>> reviewList = service.getReviewList(restvo.get("restseq"));
 		
 		List<HashMap<String,String>> reviewImageList = service.getReviewImageList();
 		
-		List<HashMap<String,String>> agelineChartList = service.getAgeLineChartList(restseq);
-		List<HashMap<String,String>> genderChartList = service.getGenderChartList(restseq);
+		List<HashMap<String,String>> agelineChartList = service.getAgeLineChartList(restSeq);
+		List<HashMap<String,String>> genderChartList = service.getGenderChartList(restSeq);
 		
 		req.setAttribute("restvo", restvo);
 		req.setAttribute("reviewList", reviewList);

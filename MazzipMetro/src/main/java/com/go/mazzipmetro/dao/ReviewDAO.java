@@ -14,7 +14,7 @@ public class ReviewDAO implements IDAO{
 	private SqlSessionTemplate sqlsession;
 	
 	public HashMap<String,String> getRestaurant(String restseq) {
-		HashMap<String,String> restvo = sqlsession.selectOne("review.getRestaurant", restseq);
+		HashMap<String,String> restvo = sqlsession.selectOne("restaurant.getRestaurant", restseq);
 		return restvo;
 	}
 

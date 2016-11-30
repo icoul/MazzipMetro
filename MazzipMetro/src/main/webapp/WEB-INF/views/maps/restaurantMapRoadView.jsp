@@ -32,16 +32,16 @@
     </script>
 </head>
 <body>
-<div id="map" style="width:100%;height:300px"></div> <!-- 지도를 표시할 div 입니다 -->
-<div id="roadview" style="width:100%;height:300px"></div> <!-- 로드뷰를 표시할 div 입니다 -->
-<br/> 
-<br/> 
 <div id="roadFinder">
 	<form action="" name="roadFinderFrm">
 		출발지를 입력하세요 : <input  type="text" name="startPoint" id="startPoint"/>
 		<button type="button" onclick="goNavigator();">Go!</button>
 	</form>
 </div>
+<br/> 
+<br/> 
+<div id="map" style="width:100%;height:300px"></div> <!-- 지도를 표시할 div 입니다 -->
+<div id="roadview" style="width:100%;height:300px"></div> <!-- 로드뷰를 표시할 div 입니다 -->
 
 
 

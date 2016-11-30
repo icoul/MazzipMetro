@@ -28,14 +28,14 @@
 	</select>
 	
 	<resultMap type="java.util.HashMap" id="restaurantList">
-		<result column="restName" 	property="restName" 	javaType="String"/><!-- vo의 멤버변수명이다. 여기는 xml -->
-		<result column="restSeq" 		property="restSeq" 		javaType="String"/> 
-		<result column="longitude" 		property="lng" 	javaType="String"/>
-		<result column="latitude" 		property="lat" 		javaType="String" />  
+		<result column="restName" 		property="restName" 		javaType="String"/><!-- vo의 멤버변수명이다. 여기는 xml -->
+		<result column="restSeq" 			property="restSeq" 			javaType="String"/> 	
+		<result column="restLatitude" 		property="lat" 					javaType="String" />  
+		<result column="restLongitude" 	property="lng" 					javaType="String"/>
 	</resultMap>
 	
 	<select id="getRestaurantList"  resultMap="restaurantList">
-		select restName, restSeq, latitude, longitude
+		select restName, restSeq, restLatitude, restLongitude
 		from tbl_restaurant
 	</select>
 	
