@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>고객 QnA</title>
+<title>고객 문의 내역</title>
 <style type="text/css">
 	.title-label{font-weight:400;font-size:24px;}
 	.navbar-barnd{vertical-align : middle;line-height:45px;}

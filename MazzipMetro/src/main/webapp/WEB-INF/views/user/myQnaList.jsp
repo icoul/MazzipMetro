@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>고객 QnA</title>
+<title>나의 문의내역</title>
 <style type="text/css">
 	.title-label{font-weight:400;font-size:24px;}
 	.navbar-barnd{vertical-align : middle;line-height:45px;}
@@ -21,7 +21,7 @@
 <body>
 <div class="container">
 	<div class="row">
-		<h2> <span class="title-label">고객 문의내역</span>  </h2>
+		<h2> <span class="title-label">나의 문의내역</span>  </h2>
 		<span>총 문의건 : 0건 | 접수완료 : 0건 | 답변완료 : 0건</span>
         <nav class="navbar navbar-default query" role="query">
             <div class="container-fluid">
