@@ -59,6 +59,7 @@ public class UserController {
 
 	}
 	
+	//nos
 	@RequestMapping(value = "/myQnA.eat", method = RequestMethod.GET)
 	public String qna(HttpServletRequest req) {
 		
