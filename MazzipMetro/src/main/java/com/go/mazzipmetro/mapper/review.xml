@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- #11. mapper 기본 설정 -->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
@@ -116,4 +117,9 @@
 		)V
 		group by rollup(gender)
 	</select>
+	
+	<insert id="add" parameterType="com.go.mazzipmetro.vo.ReviewVO">
+		insert into nos_review(reviewSeq, userSeq, restSeq, reviewTitle, reviewContent, reviewScore, reviewHit, reviewRegdate, reviewAvgscore, reviewStatus)
+		values(nos_reviewSeq.nextval, #{userSeq}, #{restSeq}, #{reviewTitle}, #{reviewContent}, 0, 0, sysdate, 0, 0);
+	</insert>
 </mapper>

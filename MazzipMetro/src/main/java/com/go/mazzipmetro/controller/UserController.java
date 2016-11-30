@@ -7,11 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.go.mazzipmetro.common.FileManager;
-import com.go.mazzipmetro.common.ThumbnailManager;
 import com.go.mazzipmetro.service.UserService;
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.UserVO;
+
 
 @Controller
 public class UserController {
@@ -19,6 +18,7 @@ public class UserController {
 	@Autowired
 	private UserService service;
 	
+
 	@RequestMapping(value="/test.eat", method={RequestMethod.GET})
 	public String test(){
 		return "test";

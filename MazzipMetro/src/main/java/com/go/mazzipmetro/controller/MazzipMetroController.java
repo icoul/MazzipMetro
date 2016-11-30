@@ -38,4 +38,5 @@ public class MazzipMetroController {
 		req.setAttribute("list", list);
 		return "dbTest";
 	}
+	
 }

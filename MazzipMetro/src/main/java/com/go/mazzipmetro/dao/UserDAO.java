@@ -18,9 +18,5 @@ public class UserDAO implements IDAO{
 		int n = sqlSession.insert("user.userRegister", vo);
 		return n;
 	}
-
-	public int restRegister(RestaurantVO vo) {
-		int n = sqlSession.insert("user.restRegister", vo);
-		return n;
-	}
 }
+
