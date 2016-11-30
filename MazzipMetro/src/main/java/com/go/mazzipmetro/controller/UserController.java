@@ -58,4 +58,11 @@ public class UserController {
 		return "restRegisterEnd";
 
 	}
+	
+	@RequestMapping(value = "/myQnA.eat", method = RequestMethod.GET)
+	public String qna(HttpServletRequest req) {
+		
+		
+		return "user/myQna";
+	}
 }
