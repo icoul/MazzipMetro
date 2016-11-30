@@ -28,7 +28,7 @@ public class BossController {
 	private ThumbnailManager thumbnailManager;
 	
 	
-	//사업주가 코인을 충전할시 or 광고 구매시 ajax로 인해  업로드
+	//사업주가 코인을 충전할시 or 광고 구매시
 	@RequestMapping(value="/bossCoinResi.eat", method={RequestMethod.GET})
 	public String busiCoinResi() {
 		
