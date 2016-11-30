@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>음식점 상세 페이지</title>
+<title>ㅋㅋㅋ음식점 상세 페이지</title>
   <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>  
   <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/BootStrapStudy/css/bootstrap.min.css">
   <script src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script>

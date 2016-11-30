@@ -1,5 +1,6 @@
 package com.go.mazzipmetro.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.go.mazzipmetro.common.FileManager;
 import com.go.mazzipmetro.common.ThumbnailManager;
 import com.go.mazzipmetro.service.RestaurantService;
+import com.go.mazzipmetro.service.ReviewService;
 import com.go.mazzipmetro.vo.RestaurantVO;
 
 @Controller
@@ -19,6 +21,8 @@ public class RestaurantController {
 
 	@Autowired
 	private RestaurantService service; 
+	@Autowired
+	private ReviewService reviewService; 
 	@Autowired
 	private FileManager fileManager;
 	@Autowired
@@ -114,5 +118,29 @@ public class RestaurantController {
 		return "restaurant/addRestaurantInfo";
 	}
 	
+	//음식점의 상세페이지 보여주기 no
+	@RequestMapping(value = "/restaurantDetail.eat", method = RequestMethod.GET)
+	public String restaurantDetail(HttpServletRequest req) {
+		String restseq = req.getParameter("restseq");
+		
+		if(restseq == null){
+			restseq = "220";
+		}
+		HashMap<String,String> restvo = reviewService.getRestaurant(restseq);
+			
+		List<HashMap<String,String>> reviewList = reviewService.getReviewList(restvo.get("restseq"));
+		
+		List<HashMap<String,String>> reviewImageList = reviewService.getReviewImageList();
+		
+		List<HashMap<String,String>> agelineChartList = reviewService.getAgeLineChartList(restseq);
+		List<HashMap<String,String>> genderChartList = reviewService.getGenderChartList(restseq);
+		
+		req.setAttribute("restvo", restvo);
+		req.setAttribute("reviewList", reviewList);
+		req.setAttribute("reviewImageList", reviewImageList);
+		req.setAttribute("agelineChartList", agelineChartList);
+		req.setAttribute("genderChartList", genderChartList);
+		return "restaurant/restaurantDetail";
+	}
 }
 
