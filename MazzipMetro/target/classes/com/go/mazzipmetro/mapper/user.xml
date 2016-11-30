@@ -10,7 +10,6 @@
     		insert into TBL_USER(userseq, username, userEmail, userpw, usergender, userbirthday,userphone, USERREGDATE, userprofile, userpoint,userstation, usersort, userstatus) 
 			values(tbl_user_seq.nextval, #{userName}, #{userEmail}, #{userPw}, #{userGender}, #{userBirthday}, #{userPhone}, default, #{userProfile}, default , #{userStation}, 0, default);
     		</if>
-    		!fk_seq.equals("")
     		<if test = 'userProfile.equals("") and !userStation.equals("")' >
     		insert into TBL_USER(userseq, username, userEmail, userpw, usergender, userbirthday,userphone, USERREGDATE, userpoint,userstation, usersort, userstatus) 
 			values(tbl_user_seq.nextval, #{userName}, #{userEmail}, #{userPw}, #{userGender}, #{userBirthday}, #{userPhone}, default, default , #{userStation}, 0, default);
