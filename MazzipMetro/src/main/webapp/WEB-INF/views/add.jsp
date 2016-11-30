@@ -41,23 +41,24 @@
 	function getTotalRating(){
 		
 		var total;
-		alert($(':radio[name=mood-rating]:checked').val());	
-		
-		alert($(':radio[name=taste-rating]:checked').val() + "dd");	
-		if($(':radio[name=taste-rating]:checked').val() == "undefined") {
-			alert("1");
-		}
-		var taste = parseInt($(':radio[name=taste-rating]:checked').val());
-		var mood = parseInt($(':radio[name=mood-rating]:checked').val());
-		var price = parseInt($(':radio[name=price-rating]:checked').val());
-		var service = parseInt($(':radio[name=service-rating]:checked').val());
+				
+		var taste = $(':radio[name=taste-rating]:checked').val()
+		var mood = $(':radio[name=mood-rating]:checked').val()
+		var price = $(':radio[name=price-rating]:checked').val()
+		var service = $(':radio[name=service-rating]:checked').val()
 		if (taste != null && mood != null && price != null && service != null) {
+			
+			 taste = parseInt($(':radio[name=taste-rating]:checked').val());
+			 mood = parseInt($(':radio[name=mood-rating]:checked').val());
+			 price = parseInt($(':radio[name=price-rating]:checked').val());
+			 service = parseInt($(':radio[name=service-rating]:checked').val());
+			
 			total = (taste + mood + price + service) / 4
 			total = total.toFixed(1);
 			
-			$("#total-result").show();
+			
 			$("#total-result").empty();
-			$("#total-result").append(total);
+			$("#total-result").append(total+"점");
 		}
 		else
 		{
@@ -86,7 +87,7 @@
 	
 	$(document).ready(function(){
 		
-		alert($(':radio[name=mood-rating]:checked').val());
+		
 		
 		$("[name=taste-rating]").click(function(){
 			var html = "";
@@ -95,7 +96,7 @@
 			var html= taste;
 						
 			$("#taste-result").empty();
-			$("#taste-result").append(html);
+			$("#taste-result").append(html+"점");
 			
 			getTotalRating();
 		});
@@ -110,7 +111,7 @@
 			var html= mood;
 						
 			$("#mood-result").empty();
-			$("#mood-result").append(html);
+			$("#mood-result").append(html+"점");
 			
 			getTotalRating();
 		});
@@ -124,7 +125,7 @@
 			var html= price;
 						
 			$("#price-result").empty();
-			$("#price-result").append(html);
+			$("#price-result").append(html+"점");
 			
 			getTotalRating();
 		});
@@ -137,7 +138,7 @@
 			var html= service;
 						
 			$("#service-result").empty();
-			$("#service-result").append(html);
+			$("#service-result").append(html+"점");
 			
 			getTotalRating();
 		});
@@ -271,8 +272,8 @@
 					</form>
 					<div id="service-result"> </div><br/><br/>
 					
-					<div>총 평점</div>
-					<div id="total-result"></div>
+					<div><span style="font-weight: bold; font-size: 16pt;">총 평점</span></div>
+					<div id="total-result" style="font-weight: bold; font-size: 16pt;"></div>
 				</td>
 			</tr>
 			<tr>
