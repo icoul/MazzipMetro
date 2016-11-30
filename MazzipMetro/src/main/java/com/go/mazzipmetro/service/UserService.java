@@ -1,5 +1,7 @@
 package com.go.mazzipmetro.service;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,11 @@ public class UserService implements IService {
 	public int restRegister(RestaurantVO vo) {
 		//int n = dao.restRegister(vo);
 		int n = 0;
+		return n;
+	}
+
+	public int qnaRegister(HashMap<String, String> hashMap) {
+		int n =  dao.qnaRegister(hashMap);
 		return n;
 	}
 }

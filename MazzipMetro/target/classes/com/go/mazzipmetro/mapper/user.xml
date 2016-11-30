@@ -22,4 +22,16 @@
 			values(tbl_user_seq.nextval, #{userName}, #{userEmail}, #{userPw}, #{userGender}, #{userBirthday}, #{userPhone}, default, #{userProfile}, default , 0, default);
     		</if>
     </insert>
+    
+    <!-- 사업자 회원가입 -->
+    <!-- <insert id="restRegister" parameterType="com.go.mazzipmetro.vo.RestaurantVO">
+    		insert into tblBoard(userSeq, userName, subject, content, pw, readCount, regDate, status, groupno, fk_seq, depthno, fileName, orgFilename, fileSize)
+        	values(boardSeq.nextval, #{name}, #{subject}, #{content}, #{pw}, default, default, default, #{groupno}, #{fk_seq}, #{depthno}+1, #{fileName, jdbcType=VARCHAR}, #{orgFilename}, #{fileSize})
+    </insert> -->
+    
+    <!-- 문의 등록하기 -->
+    <insert id="qnaRegister" parameterType="java.util.HashMap">
+    	insert into tbl_qna values(tbl_qnaSeq.nextval, #{userSeq}, #{qnaQuiry}, #{qnaSubject}, #{qnaComment}, default, default, default, default)
+    </insert>
+
 </mapper>
