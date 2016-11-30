@@ -31,8 +31,9 @@ public class MapDAO  implements IDAO {
 		return sqlSession.selectOne("map.metroId", metroName);
 	}
 
-	public List<HashMap<String, String>> getRestaurantList() {
-		return sqlSession.selectList("map.getRestaurantList");
+	public List<HashMap<String, String>> getRestaurantList(HashMap<String, String[]> map) {
+		System.out.println(map.get("userSeq")[0]); 
+		return sqlSession.selectList("map.getRestaurantList", map);
 	}
 
 	//지하철역별 등록된 음식점 보여주기

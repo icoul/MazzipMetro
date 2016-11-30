@@ -23,6 +23,48 @@ public class MapController {
 	@Autowired
 	MapService service;
 	
+	//클러스터러 (clickable) & 커스텀 overlay 테스트
+	@RequestMapping(value="/clustererTest2.eat",method={RequestMethod.GET}) 
+	public String clustererTest2(){
+		return "/maps/clustererCustomOverlay";
+	}
+	
+	//클러스터러 (clickable) 테스트 : 음식점 목록 가져오기
+		@RequestMapping(value="/getRestaurantList.eat",method={RequestMethod.GET}) 
+		public String getRestaurantList(HttpServletRequest req){
+			
+			String[] srchType = req.getParameterValues("srchType");
+			String[] keyword = req.getParameterValues("keyword");
+			String[] restTagArr = req.getParameterValues("restTag");
+			String[] userSeq = req.getParameterValues("restManager");
+			String[] restStatus = req.getParameterValues("restStatus");
+			
+			System.out.println("---------------------------------------"); 
+			System.out.println(srchType[0]);
+			System.out.println(keyword[0]);
+			if (restTagArr != null) {
+				System.out.println(restTagArr[0]);
+			}
+			System.out.println(userSeq[0]);
+			System.out.println(restStatus[0]);
+			System.out.println("---------------------------------------");
+			
+			HashMap<String, String[]> map = new HashMap<String, String[]>();
+			map.put("srchType", srchType);
+			map.put("keyword", keyword);
+			map.put("restTagArr", restTagArr);
+			map.put("userSeq", userSeq);
+			map.put("restStatus", restStatus);
+			
+			List<HashMap<String, String>> list = service.getRestaurantList(map);
+			
+			JSONObject jObj = new JSONObject();
+			jObj.put("positions", list);
+			
+			req.setAttribute("jObj", jObj);
+			
+			return "/maps/json/getRestaurantList";
+		}
 	
 	//업장상세페이지에 쓰일 지도, 로드뷰 
 	@RequestMapping(value="/restaurantMapRoadView.eat",method={RequestMethod.GET}) 
@@ -191,9 +233,6 @@ public class MapController {
 		pageBar += ""
 				+ "</ul>";
 		
-		
-		
-		
 		JSONObject jObj = new JSONObject();
 		jObj.put("places", list);
 		jObj.put("tagList", tagList);
@@ -205,18 +244,12 @@ public class MapController {
 	}
 	
 	
-	
 	//음식점 등록 장소 검색 : 주소 검색 / 클릭으로 주소 얻기
 	@RequestMapping(value="/regRestaurant.eat",method={RequestMethod.GET}) 
 	public String regRestaurant(){
 		return "/maps/regRestaurant";
 	}
 	
-	//클러스터러 (clickable) & 커스텀 overlay 테스트
-	@RequestMapping(value="/clustererTest2.eat",method={RequestMethod.GET}) 
-	public String clustererTest2(){
-		return "/maps/clustererCustomOverlay";
-	}
 	
 	//클러스터러 (clickable) 마우스 이벤트 테스트
 	@RequestMapping(value="/clustererTest1.eat",method={RequestMethod.GET}) 
@@ -229,19 +262,7 @@ public class MapController {
 	public String clusterer(){
 		return "/maps/clusterer";
 	}
-	
-	//클러스터러 (clickable) 테스트 : 음식점 목록 가져오기
-	@RequestMapping(value="/getRestaurantList.eat",method={RequestMethod.GET}) 
-	public String getRestaurantList(HttpServletRequest req){
-		List<HashMap<String, String>> list = service.getRestaurantList();
-		
-		JSONObject jObj = new JSONObject();
-		jObj.put("positions", list);
-		
-		req.setAttribute("jObj", jObj);
-		
-		return "/maps/json/getRestaurantList";
-	}
+
 	
 	//지하철역 위경도 가져오기
 	@RequestMapping(value="/addMetro.eat",method={RequestMethod.GET}) 

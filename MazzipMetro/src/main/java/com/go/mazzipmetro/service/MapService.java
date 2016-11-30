@@ -33,8 +33,8 @@ public class MapService  implements IService {
 			return dao.getMetroId(metroName);
 		}
 
-		public List<HashMap<String, String>> getRestaurantList() {
-			return dao.getRestaurantList();
+		public List<HashMap<String, String>> getRestaurantList(HashMap<String, String[]> map) {
+			return dao.getRestaurantList(map);
 		}
 
 		//지하철역별 등록된 음식점 보여주기
