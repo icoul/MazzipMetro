@@ -4,5 +4,35 @@
 
 <!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) --> 
 <mapper namespace="admin">
-	
+	<select id="list" resultType="com.go.mazzipmetro.vo.UserVO" parameterType="java.util.HashMap"  >
+    	select T.userseq, T.gradeseq, T.username, T.useremail, T.usergender, T.userbirthday, T.userphone, T.userregdate, T.userpoint
+		from 
+		(
+		select rownum as RNO
+		     , V.userSeq, V.gradeSeq, V.userName,  V.userEmail, V.userGender, V.userBirthday, V.userPhone, V.userRegdate, V.userPoint
+		from 
+		(
+		select userSeq, gradeSeq, userName, userEmail, userGender, userBirthday,userPhone,to_char(userRegdate, 'yyyy-mm-dd hh24:mi:ss') as userRegdate, userPoint,userExp,userStation 
+		     
+		from tbl_user
+		where userStatus = 0 and userSeq!=0  
+		<if test="colName != null and search != null">     
+		    and ${colName} like '%'|| #{search} ||'%'
+		</if>
+		order by userSeq desc
+		) V
+		) T
+		where T.RNO >= #{start} and T.RNO <![CDATA[<=]]> #{end}
+    </select> 
+    
+     <select id="getTotalCount" parameterType="java.util.HashMap" resultType="int">  
+    	select count(*)
+    	from tbl_user
+    	where userStatus = 0
+    	<if test="colName != null and search != null">
+    	and ${colName} like '%' || #{search} || '%'
+    	</if>
+    </select>
+    
+    
 </mapper>

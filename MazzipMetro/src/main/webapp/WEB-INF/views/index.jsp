@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>맛집 메트로</title>
 <jsp:include page="top.jsp" />
 		<div id="leftCon">
 			<div class="mainBann">
@@ -28,9 +33,6 @@
 			</div>
 		</div>
 		<%-- end of rightCon --%>	
-	</div>
-	<%-- end of content --%>
-</div>
-<%-- end of container --%>
 
 <jsp:include page="footer.jsp" />
+

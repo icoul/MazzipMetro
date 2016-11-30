@@ -49,6 +49,15 @@
 		where restStatus = 0
 		and restSeq = #{restSeq}
 	</select>
+
+	<!-- 사업주의  리스트 가져오기 -->
+	<select id="getRestrauntList" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select restSeq,  userSeq,  gradeSeq,  restName,  restPhone,
+			   restImg,  restAddr,  restNewAddr,  restLatitude,  restLongitude,
+			   restZIndex,  dongId,  metroId,  restRegDate,  restVisitor, restStatus
+		from TBL_Restaurant
+		where userseq = #{userseq} and restStatus = 0
+	</select>
 	
 	<!-- 새 업장 등록 -->
 	<insert id="restaurant.setRestRegister" parameterType="com.go.mazzipmetro.vo.RestaurantVO">

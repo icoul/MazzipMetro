@@ -35,12 +35,18 @@
 <script type = "text/javascript">
 	$(document).ready(function(){
 		
+		$("#popular0").change(function(){
+			alert("");
+			/* alert($(".menuEvent1").is(":checked"));
+			$(this).is(":checked") = true; */
+		});
+		
 		$("#fileNum").change(function(){
 			
 			$("#fileAttach").empty();
 			
 			var num = $(this).val();
-			var html= "<input type='file' name='image' size='7'/><br/><br/>"
+			var html= "<input type='file' name='attach' size='7'/><br/><br/>"
 			for (var i = 0; i < num; i++) {
 				$("#fileAttach").append(html);
 			}
@@ -51,55 +57,69 @@
 			$("#addMenu").empty();
 			
 			var num = $(this).val();
-			var html =  "<table class = 'table'>"
-				html += "<tr>"
-				html +=	"<td width='10%' style = 'font-size : 11pt;'><b>메뉴명</b></td>"
-				html +=	"<td width='25%' align='left'><input type='text' name='menuName' />" 
-				html +=	"</td>"
-				html +=	"<td width='10%' style = 'font-size : 11pt;'><b>한 줄 설명</b></td>"
-				html +=	"<td width='45%' align='left' colspan = '3'>"
-				html +=	"<input type='text' name='menuContent' style = 'width: 450px;' /> "
-				html +=	"</td>"
-				html +=	"</tr>"
-				html +=	"<tr>"
-				html +=	"<td width='10%' style = 'font-size : 11pt;'><b>메뉴이미지</b></td>"
-				html +=	"<td width='25%' align='left'><input type='file' name='menuImg'/> "
-				html +=	"</td>"
-				html +=	"<td width='10%' style = 'font-size : 11pt;'><b>메뉴가격</b></td>"
-				html +=	"<td width='15%' align='left'>"
-				html +=	"<input type='text' name='menuPrice' style = 'width: 100px;' />&nbsp;원"
-				html +=	"</td>"
-				html +=	"<td width='10%' style = 'font-size : 11pt;'><b>세일가격</b></td>"
-				html +=	"<td width='15%' align='left'>"
-				html +=	"<input type='text' name='menuSalePrice' style = 'width: 100px;' />&nbsp;원" 
-				html +=	"</td>"
-				html +=	"</tr>"
-				html +=	"<tr>"
-				html +=	"<td width='10%' style = 'font-size : 11pt;'><b>메뉴분류</b></td>"
-				html +=	"<td width='25%' align='left'>"
-				html +=	"<select name = 'menuSort' style = 'width: 100px; height: 25px; font-size: 12pt;'>"
-				html +=	"<option value='식사류'>식사류</option>"
-				html +=	"<option value='음료'>음료</option>"
-				html +=	"<option value='디저트'>디저트</option>"
-				html +=	"<option value='기타'>기타</option>"
-				html +=	"</select>"
-				html +=	"</td>"
-				html +=	"<td width='10%' style = 'font-size : 11pt;'><b>메뉴이벤트</b></td>"
-				html +=	"<td width='45%' align='left' colspan = '3' style = 'font-size : 11pt;'>"
-				html +=	"<input type = 'radio' name = 'new' /><label for='new'>신메뉴</label>&nbsp;"
-				html +=	"<input type = 'radio' name = 'popular' /><label for='popular'>간판메뉴</label>&nbsp;"
-				html +=	"<input type = 'radio' name = 'dayLimit' /><label for='dayLimit'>기간한정</label>&nbsp;"
-				html += "<input type = 'radio' name = 'weatherLimit' /><label for='weatherLimit'>계절한정</label>&nbsp;"
-				html += "<input type = 'radio' name = 'event' /><label for='event'>이벤트메뉴</label>"
-				html += "</td>"
-				html += "</tr>"
-				html += "</table>";
-					
+			var html = "";
+			
 			for (var i = 0; i < num; i++) {
+				
+					html +=  "<table class = 'table'>"
+					html += "<tr>"
+					html +=	"<td width='10%' style = 'font-size : 11pt;'><b>메뉴명</b></td>"
+					html +=	"<td width='25%' align='left'><input type='text' name='menuName' />" 
+					html +=	"</td>"
+					html +=	"<td width='10%' style = 'font-size : 11pt;'><b>한 줄 설명</b></td>"
+					html +=	"<td width='45%' align='left' colspan = '3'>"
+					html +=	"<input type='text' name='menuContent' style = 'width: 450px;' /> "
+					html +=	"</td>"
+					html +=	"</tr>"
+					html +=	"<tr>"
+					html +=	"<td width='10%' style = 'font-size : 11pt;'><b>메뉴이미지</b></td>"
+					html +=	"<td width='25%' align='left'><input type='file' name='menuImg'/> "
+					html +=	"</td>"
+					html +=	"<td width='10%' style = 'font-size : 11pt;'><b>메뉴가격</b></td>"
+					html +=	"<td width='15%' align='left'>"
+					html +=	"<input type='text' name='menuPrice' style = 'width: 100px;' />&nbsp;원"
+					html +=	"</td>"
+					html +=	"<td width='10%' style = 'font-size : 11pt;'><b>세일가격</b></td>"
+					html +=	"<td width='15%' align='left'>"
+					html +=	"<input type='text' name='menuSalePrice' style = 'width: 100px;' />&nbsp;원" 
+					html +=	"</td>"
+					html +=	"</tr>"
+					html +=	"<tr>"
+					html +=	"<td width='10%' style = 'font-size : 11pt;'><b>메뉴분류</b></td>"
+					html +=	"<td width='25%' align='left'>"
+					html +=	"<select name = 'menuSort' style = 'width: 100px; height: 25px; font-size: 12pt;'>"
+					html +=	"<option value='식사류'>식사류</option>"
+					html +=	"<option value='음료'>음료</option>"
+					html +=	"<option value='디저트'>디저트</option>"
+					html +=	"<option value='기타'>기타</option>"
+					html +=	"</select>"
+					html +=	"</td>"
+					html +=	"<td width='10%' style = 'font-size : 11pt;'><b>메뉴이벤트</b></td>"
+					html +=	"<td width='45%' align='left' colspan = '3' style = 'font-size : 11pt;'>"
+					html +=	"<select name = 'menuEvent' style = 'width: 100px; height: 25px; font-size: 12pt;'>"
+					html +=	"<option value='신메뉴'>신메뉴</option>"
+					html +=	"<option value='간판메뉴'>간판메뉴</option>"
+					html +=	"<option value='기간한정'>기간한정</option>"
+					html +=	"<option value='계절한정'>계절한정</option>"
+					html +=	"<option value='이벤트메뉴'>이벤트메뉴</option>"
+					html +=	"</select>"
+					html += "</td>"
+					html += "</tr>"
+					html += "</table>";
+					
 				$("#addMenu").append(html);
-			}
+				
+				html = "";
+			}//end of for
 		});
+		
 	});
+	
+	function goRegister(){
+
+		var registerFrm = document.registerFrm;
+		registerFrm.submit();
+	}
 	
 </script>
 
@@ -108,7 +128,7 @@
 </div>
 
 <div align="center">
-<form name="registerFrm" action="restRegister.eat" method="post">
+<form name="registerFrm" action="addRestaurantInfoEnd.eat" method="post" enctype="multipart/form-data">
 
 <table class = "table">
 	<tr>
@@ -150,11 +170,11 @@
 	</tr>
 	<tr>
 		<td width="80%" align="left">
-			<input type = "radio" name = "meet" id="meet"/><label for="meet">고기류</label>&nbsp;&nbsp;
-			<input type = "radio" name = "fish" id="fish"/><label for="fish">어폐류</label>&nbsp;&nbsp;
-			<input type = "radio" name = "vegetable" id="vegetable"/><label for="vegetable">채소류</label>&nbsp;&nbsp;
-			<input type = "radio" name = "rice" id="rice"/><label for="rice">밥류</label>&nbsp;&nbsp;
-			<input type = "radio" name = "noodle" id="noodle"/><label for="noodle">면류</label>
+			<input type = "checkbox" name = "mgCat" id="meet" value="meet" /><label for="meet">고기류</label>&nbsp;&nbsp;
+			<input type = "checkbox" name = "mgCat" id="fish" value="fish" /><label for="fish">어폐류</label>&nbsp;&nbsp;
+			<input type = "checkbox" name = "mgCat" id="vegetable" value="vegetable" /><label for="vegetable">채소류</label>&nbsp;&nbsp;
+			<input type = "checkbox" name = "mgCat" id="rice" value="rice" /><label for="rice">밥류</label>&nbsp;&nbsp;
+			<input type = "checkbox" name = "mgCat" id="noodle" value="noodle" /><label for="noodle">면류</label>
 		</td>
 	</tr>
 	<tr>

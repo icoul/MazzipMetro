@@ -22,6 +22,7 @@ public class ThumbnailManager {
 		
 		// 확장자(.png)								 // lastIndexOf 맨마지막에나오는 .
 		String fileExt = filename.substring(filename.lastIndexOf("."));
+		String notExtName = filename.substring(0, filename.lastIndexOf("."));
 		// 문자열.lastIndexOf("검색어", 검색을 시작할 위치 인덱스)
 		// 문자열.lastIndexOf("검색어", 0)
 		// 문자열.lastIndexOf("검색어") -- 검색을 시작할 위치 인덱스를 생략하면 기본적으로 0 이 된다.
@@ -35,9 +36,8 @@ public class ThumbnailManager {
 			return null;
 		
 		// 서버에 저장할 새로운 thumbnailFileName 파일명을 만든다.
-		thumbnailFileName = String.format("%1$tY%1$tm%1$td%1$tH%1$tM%1$tS", 
-				                          Calendar.getInstance());
-		thumbnailFileName += System.nanoTime();
+		thumbnailFileName = "thumb";
+		thumbnailFileName += notExtName;
 		thumbnailFileName += fileExt;//확장자 추가
 		
 		// 업로드할 경로가 존재하지 않는 경우 폴더를 생성 한다.
