@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- #11. mapper 기본 설정 -->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
@@ -117,22 +116,9 @@
 		)V
 		group by rollup(gender)
 	</select>
-=======
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- #11. mapper 기본 설정 -->
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
-
-<!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) --> 
-<mapper namespace="review">
-
-<insert id="add" parameterType="com.go.mazzipmetro.vo.ReviewVO">
-	insert into nos_review(reviewSeq, userSeq, restSeq, reviewTitle, reviewContent, reviewScore, reviewHit, reviewRegdate, reviewAvgscore, reviewStatus)
-	values(nos_reviewSeq.nextval, #{userSeq}, #{restSeq}, #{reviewTitle}, #{reviewContent}, 0, 0, sysdate, 0, 0);
-</insert>
-
-<insert>
 	
-</insert>
-
->>>>>>> c866be3402640d50fe4dc5d3445c043b32ab569c
+	<insert id="add" parameterType="com.go.mazzipmetro.vo.ReviewVO">
+		insert into nos_review(reviewSeq, userSeq, restSeq, reviewTitle, reviewContent, reviewScore, reviewHit, reviewRegdate, reviewAvgscore, reviewStatus)
+		values(nos_reviewSeq.nextval, #{userSeq}, #{restSeq}, #{reviewTitle}, #{reviewContent}, 0, 0, sysdate, 0, 0);
+	</insert>
 </mapper>

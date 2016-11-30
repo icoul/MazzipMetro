@@ -1,20 +1,24 @@
-<<<<<<< HEAD
 package com.go.mazzipmetro.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.go.mazzipmetro.common.FileManager;
 import com.go.mazzipmetro.common.ThumbnailManager;
 import com.go.mazzipmetro.service.ReviewService;
+import com.go.mazzipmetro.vo.AttachFileVO;
+import com.go.mazzipmetro.vo.ReviewVO;
 
 @Controller
 public class ReviewController {
@@ -81,37 +85,6 @@ public class ReviewController {
 		req.setAttribute("jsonObj", jsonObj);
 		return "largeReviewImgNameJSON";
 	}
-}
-=======
-package com.go.mazzipmetro.controller;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-
-import com.go.mazzipmetro.common.FileManager;
-import com.go.mazzipmetro.common.ThumbnailManager;
-import com.go.mazzipmetro.service.ReviewService;
-import com.go.mazzipmetro.vo.AttachFileVO;
-import com.go.mazzipmetro.vo.ReviewVO;
-
-
-@Controller
-public class ReviewController {
-	
-	@Autowired
-	private ReviewService service;
-	@Autowired
-	private FileManager fileManager;
-	@Autowired
-	private ThumbnailManager thumbnailManager;
 	
 	@RequestMapping(value="/add.eat", method={RequestMethod.GET} ) 
 	public String reviewAdd() {
@@ -121,7 +94,7 @@ public class ReviewController {
 		// /DoubleFileAttachTest/src/main/webapp/WEB-INF/views/add.jsp 파일을 생성한다.
 	}
 	
-	@RequestMapping(value="/addEnd.action", method={RequestMethod.POST} ) 
+	/*@RequestMapping(value="/addEnd.action", method={RequestMethod.POST} ) 
     public String addEnd(ReviewVO vo, MultipartHttpServletRequest req, HttpSession session) {
 	   
 	    List<AttachFileVO> attachFileVoList = new ArrayList<AttachFileVO>();
@@ -265,6 +238,6 @@ public class ReviewController {
 	   // /DoubleFileAttachTest/src/main/webapp/WEB-INF/views/addEnd.jsp 파일을 생성한다. 
 
     } // end of addEnd(BoardVO vo, MultipartHttpServletRequest req, HttpSession session)--------------
-
+*/
 }
->>>>>>> c866be3402640d50fe4dc5d3445c043b32ab569c
+

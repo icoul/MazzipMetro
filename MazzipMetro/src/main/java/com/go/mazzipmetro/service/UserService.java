@@ -19,7 +19,8 @@ public class UserService implements IService {
 	}
 	
 	public int restRegister(RestaurantVO vo) {
-		int n = dao.restRegister(vo);
+		//int n = dao.restRegister(vo);
+		int n = 0;
 		return n;
 	}
 }
