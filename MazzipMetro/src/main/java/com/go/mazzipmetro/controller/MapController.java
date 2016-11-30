@@ -23,6 +23,23 @@ public class MapController {
 	@Autowired
 	MapService service;
 	
+	// 자동글완성 
+	@RequestMapping(value="/autoComplete.eat", method={RequestMethod.GET})
+	public String autoComplete(HttpServletRequest req){
+		String srchType = req.getParameter("srchType");
+		String keyword = req.getParameter("keyword");
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("srchType", srchType);
+		map.put("keyword", keyword);
+		
+		List<String> list = service.autoComplete(map);
+		
+		req.setAttribute("list", list);
+		return "ajax/autoComplete";
+		// /Board/src/main/webapp/WEB-INF/views/ajax/autoComplete.jsp 생성
+		}
+	
 	//클러스터러 (clickable) & 커스텀 overlay 테스트
 	@RequestMapping(value="/clustererTest2.eat",method={RequestMethod.GET}) 
 	public String clustererTest2(){
@@ -30,41 +47,41 @@ public class MapController {
 	}
 	
 	//클러스터러 (clickable) 테스트 : 음식점 목록 가져오기
-		@RequestMapping(value="/getRestaurantList.eat",method={RequestMethod.GET}) 
-		public String getRestaurantList(HttpServletRequest req){
-			
-			String[] srchType = req.getParameterValues("srchType");
-			String[] keyword = req.getParameterValues("keyword");
-			String[] restTagArr = req.getParameterValues("restTag");
-			String[] userSeq = req.getParameterValues("restManager");
-			String[] restStatus = req.getParameterValues("restStatus");
-			
-			System.out.println("---------------------------------------"); 
-			System.out.println(srchType[0]);
-			System.out.println(keyword[0]);
-			if (restTagArr != null) {
-				System.out.println(restTagArr[0]);
-			}
-			System.out.println(userSeq[0]);
-			System.out.println(restStatus[0]);
-			System.out.println("---------------------------------------");
-			
-			HashMap<String, String[]> map = new HashMap<String, String[]>();
-			map.put("srchType", srchType);
-			map.put("keyword", keyword);
-			map.put("restTagArr", restTagArr);
-			map.put("userSeq", userSeq);
-			map.put("restStatus", restStatus);
-			
-			List<HashMap<String, String>> list = service.getRestaurantList(map);
-			
-			JSONObject jObj = new JSONObject();
-			jObj.put("positions", list);
-			
-			req.setAttribute("jObj", jObj);
-			
-			return "/maps/json/getRestaurantList";
+	@RequestMapping(value="/getRestaurantList.eat",method={RequestMethod.GET}) 
+	public String getRestaurantList(HttpServletRequest req){
+		
+		String[] srchType = req.getParameterValues("srchType");
+		String[] keyword = req.getParameterValues("keyword");
+		String[] restTagArr = req.getParameterValues("restTag");
+		String[] userSeq = req.getParameterValues("restManager");
+		String[] restStatus = req.getParameterValues("restStatus");
+		
+		System.out.println("---------------------------------------"); 
+		System.out.println(srchType[0]);
+		System.out.println(keyword[0]);
+		if (restTagArr != null) {
+			System.out.println(restTagArr[0]);
 		}
+		System.out.println(userSeq[0]);
+		System.out.println(restStatus[0]);
+		System.out.println("---------------------------------------");
+		
+		HashMap<String, String[]> map = new HashMap<String, String[]>();
+		map.put("srchType", srchType);
+		map.put("keyword", keyword);
+		map.put("restTagArr", restTagArr);
+		map.put("userSeq", userSeq);
+		map.put("restStatus", restStatus);
+		
+		List<HashMap<String, String>> list = service.getRestaurantList(map);
+		
+		JSONObject jObj = new JSONObject();
+		jObj.put("positions", list);
+		
+		req.setAttribute("jObj", jObj);
+		
+		return "/maps/json/getRestaurantList";
+	}
 	
 	//업장상세페이지에 쓰일 지도, 로드뷰 
 	@RequestMapping(value="/restaurantMapRoadView.eat",method={RequestMethod.GET}) 

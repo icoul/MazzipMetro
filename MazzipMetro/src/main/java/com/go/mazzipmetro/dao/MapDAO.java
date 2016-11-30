@@ -36,28 +36,33 @@ public class MapDAO  implements IDAO {
 		return sqlSession.selectList("map.getRestaurantList", map);
 	}
 
-	//지하철역별 등록된 음식점 보여주기
+	// 지하철역별 등록된 음식점 보여주기
 	public List<RestaurantVO> searchByMetro(HashMap<String, String> map) {
 		return sqlSession.selectList("map.searchByMetro", map);
 	}
 	
-	//지하철역별 등록된 음식점 보여주기(대분류 태그 얻어오기)
+	// 지하철역별 등록된 음식점 보여주기(대분류 태그 얻어오기)
 	public String getRestBgTag(String restSeq) {
 		return sqlSession.selectOne("map.getRestBgTag", restSeq);
 	}
 	
-	//지하철역별 등록된 음식점 보여주기(분류 태그 얻어오기)
+	// 지하철역별 등록된 음식점 보여주기(분류 태그 얻어오기)
 	public List<String> getRestMdTag(String restSeq) {
 		return sqlSession.selectList("map.getRestMdTag", restSeq);
 	}
 	
-	//지하철역별 등록된 음식점 보여주기
+	// 지하철역별 등록된 음식점 보여주기
 	public int getTotalCount(HashMap<String, String> map) {
 		return sqlSession.selectOne("map.getTotalCount", map);
 	}
 
 	public RestaurantVO selectOneRestaurant(String restSeq) {
 		return sqlSession.selectOne("restaurant.selectOneRestaurant", restSeq);
+	}
+
+	// 자동 글완성
+	public List<String> autoComplete(HashMap<String, String> map) {
+		return sqlSession.selectList("restaurant.autoComplete", map);
 	}
 
 

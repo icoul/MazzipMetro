@@ -37,13 +37,13 @@ public class MapService  implements IService {
 			return dao.getRestaurantList(map);
 		}
 
-		//지하철역별 등록된 음식점 보여주기
+		// 지하철역별 등록된 음식점 보여주기
 		public List<RestaurantVO> searchByMetro(HashMap<String, String> map) {
 			List<RestaurantVO> list = dao.searchByMetro(map);
 			return list;
 		}
 		
-		//지하철역별 등록된 음식점 보여주기(음식점 태그 가져오기)
+		// 지하철역별 등록된 음식점 보여주기(음식점 태그 가져오기)
 		public List<TagVO> getRestTag(List<String> restSeqList) {
 			List<TagVO>  list = new ArrayList<TagVO>();
 			int i = 0;
@@ -62,7 +62,7 @@ public class MapService  implements IService {
 		}
 		
 
-		//지하철역별 등록된 음식점 보여주기(해당역 총 음식점 개수)
+		// 지하철역별 등록된 음식점 보여주기(해당역 총 음식점 개수)
 		public int getTotalCount(HashMap<String, String> map) {
 			return dao.getTotalCount(map);
 		}
@@ -70,6 +70,11 @@ public class MapService  implements IService {
 		// 업장 상세페이지용 RestaurantVO 얻기 
 		public RestaurantVO selectOneRestaurant(String restSeq) {
 			return dao.selectOneRestaurant(restSeq);
+		}
+
+		// 자동글완성
+		public List<String> autoComplete(HashMap<String, String> map) {
+			return dao.autoComplete(map);
 		}
 
 

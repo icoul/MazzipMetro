@@ -27,7 +27,7 @@
 	    .info .link {color: #5085BB;}
 	 </style>
 </head>
-<body style="margin: auto; width: 90%;">
+<body style="margin: auto; width: 95%;">
 <h1>마커 클러스터러랑 커스텀오버레이 동시 구현하기</h1>
 <h2>관리자용 등록된 음식점 현황 보이기</h2>
 
@@ -70,13 +70,65 @@
 		<label class="radio-inline"><input type="radio" name="restStatus" value="1">삭제된 음식점</label>
 	</form>
 </div>
+
+<!-- 자동검색어완성 div -->
+<div id="autoCompleteContainer" style="position: absolute; z-index:1; left: 0px; top: 180px;">
+		<div id="autoCompleteList" style="min-width: 150px; min-height : 30px;  margin-left: 154px; border-top: 0px; border: solid 1px gray; background-color: white;">
+			sdjfsjdfklsajdfklasjdl <br/> 
+			asjdkfklasjfdslajdflsa <br/> 
+			akdsfjlskajfldkjlfj <br/> 
+			dfsalkjkl
+		</div>
+	</div>
 <br/> 
 <div id="map" style="width:100%;height:500px;"></div>
 
 
 <script>
 	$(document).ready(function(){
-		getRestaurant();
+		//getRestaurant();
+		
+		$("#autoCompleteList").hide();
+		
+		$("#keyword").keyup(function(){
+			var srchType = $("[name=srchType]").val();
+			alert(srchType);
+			
+			if('srchType' == $("[name=srchType]").val()){
+				return;
+			}
+		
+			$.ajax({
+				url:"<%=request.getContextPath()%>/autoComplete.eat",
+				type :"GET",
+				data: "srchType="+srchType+"&keyword="+$("#keyword").val(),
+				dataType:"json",
+				success: function(data){
+					
+					var Arr = data.split(',');
+					var resultHtml = ""; 
+					
+					for (var i = 0; i < Arr.length; i++) {
+						var word = Arr[i].trim();
+						var index = word.indexOf($("#keyword").val());
+						resultHtml += "<a href='javascript:pickOne(\""+word+"\")'>";
+						resultHtml += word.substr(0,index);
+						resultHtml += "<span style='color:red; font-weight:bold;'>"+$("#keyword").val()+"</span>"+word.substr(index+$("#keyword").val().length);
+						resultHtml += "</a><br/>";
+					}
+					
+					$("#autoCompleteList").show();
+					$("#autoCompleteList").html(resultHtml);
+							
+				}, //end of success: function(data)
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				} // end of error: function(request,status,error)
+			}); //end of $.ajax()
+			
+			
+		});
+			
 	});
 	
 	var map = new daum.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
