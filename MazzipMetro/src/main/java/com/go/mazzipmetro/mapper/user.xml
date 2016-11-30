@@ -6,18 +6,27 @@
 <mapper namespace="user">
 	<!-- 사용자 회원가입 -->
 	<insert id="userRegister" parameterType="com.spring.board.model.UserVO">
+			<!-- 프로필사진과 선호지역을 모두 선택하여 값을 넣어준 경우 -->
     		<if test = '!userProfile.equals("") and  !userStation.equals("")' >
-    		insert into TBL_USER(userseq, username, userEmail, userpw, usergender, userbirthday,userphone, USERREGDATE, userprofile, userpoint,userstation, usersort, userstatus) 
+    		insert into TBL_USER(userSeq, userName, userEmail, userPw, userGender, userBirthday, userPhone, userRegDate, userProfile, userPoint, userStation, userSort, userStatus) 
 			values(tbl_user_seq.nextval, #{userName}, #{userEmail}, #{userPw}, #{userGender}, #{userBirthday}, #{userPhone}, default, #{userProfile}, default , #{userStation}, 0, default);
     		</if>
-    		!fk_seq.equals("")
+   			
+   			<!-- 프로필사진은 선택하지 않고 선호지역을 선택하여 값을 넣어준 경우 -->
     		<if test = 'userProfile.equals("") and !userStation.equals("")' >
-    		insert into TBL_USER(userseq, username, userEmail, userpw, usergender, userbirthday,userphone, USERREGDATE, userpoint,userstation, usersort, userstatus) 
+    		insert into TBL_USER(userSeq, userName, userEmail, userPw, userGender, userBirthday, userPhone, userRegDate, userPoint, userStation, userSort, userStatus) 
 			values(tbl_user_seq.nextval, #{userName}, #{userEmail}, #{userPw}, #{userGender}, #{userBirthday}, #{userPhone}, default, default , #{userStation}, 0, default);
     		</if>
     		
+    		<!-- 프로필사진은 선택하고 선호지역을 선택하지 않은 경우 -->
     		<if test = "userProfile != null and userStation == null" >
-    		insert into TBL_USER(userseq, username, userEmail, userpw, usergender, userbirthday,userphone, USERREGDATE, userprofile, userpoint, usersort, userstatus) 
+    		insert into TBL_USER(userSeq, userName, userEmail, userPw, userGender, userBirthday, userPhone, userRegDate, userProfile, userPoint, userSort, userStatus) 
+			values(tbl_user_seq.nextval, #{userName}, #{userEmail}, #{userPw}, #{userGender}, #{userBirthday}, #{userPhone}, default, #{userProfile}, default , 0, default);
+    		</if>
+    		
+    		<!-- 프로필사진과 선호지역을 모두 선택하지 않은 경우 -->
+    		<if test = "userProfile == null and userStation == null" >
+    		insert into TBL_USER(userSeq, userName, userEmail, userPw, userGender, userBirthday, userPhone, userRegDate, userProfile, userPoint, userSort, userStatus) 
 			values(tbl_user_seq.nextval, #{userName}, #{userEmail}, #{userPw}, #{userGender}, #{userBirthday}, #{userPhone}, default, #{userProfile}, default , 0, default);
     		</if>
     		

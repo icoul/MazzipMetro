@@ -18,13 +18,6 @@ public class UserController {
 	@Autowired
 	private UserService service;
 	
-
-	@RequestMapping(value="/test.eat", method={RequestMethod.GET})
-	public String test(){
-		return "test";
-	}
-	
-	
 	@RequestMapping(value="/accountSelect.eat", method={RequestMethod.GET})
 	public String accountSelect(){
 		return "accountSelect";
@@ -32,7 +25,7 @@ public class UserController {
 	
 	@RequestMapping(value="/userRegister.eat", method={RequestMethod.GET})
 	public String userRegister(){
-		return "userRegister";
+		return "user/userRegister";
 	}
 	
 	@RequestMapping(value="/userRegisterEnd.eat", method={RequestMethod.POST})
@@ -41,12 +34,12 @@ public class UserController {
 		int n = service.userRegister(vo);
 		
 		req.setAttribute("n", n);
-		return "userRegisterEnd";
+		return "user/userRegisterEnd";
 	}
 	
 	@RequestMapping(value="/restRegister.eat", method={RequestMethod.GET})
 	public String restRegister(){
-		return "userRegister";
+		return "user/restRegister";
 	}
 	
 	@RequestMapping(value="/restRegisterEnd.eat", method={RequestMethod.GET})
@@ -55,7 +48,7 @@ public class UserController {
 		int n = service.restRegister(vo);
 		
 		req.setAttribute("n", n);
-		return "restRegisterEnd";
+		return "user/restRegisterEnd";
 
 	}
 }
