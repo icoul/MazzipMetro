@@ -20,8 +20,7 @@ public class AdminController {
 	@Autowired
 	private AdminService service;
 
-	//nos
-	@RequestMapping(value = "/QnA.eat", method = RequestMethod.GET)
+	@RequestMapping(value = "/qna.eat", method = RequestMethod.GET)
 	public String qna(HttpServletRequest req) {
 		
 		

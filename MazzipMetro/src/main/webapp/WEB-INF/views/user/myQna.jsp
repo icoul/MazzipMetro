@@ -35,78 +35,52 @@
 		
 	});
 	
+	function goRegister(){
+		var qnaRegisterFrm = document.qnaRegisterFrm;
+		qnaRegisterFrm.submit();
+	}
+	
 </script>
 </head>
 <body>
 <div class="container">
 	<div class="row">
 		<h2> <span class="title-label">MazzipMetro에 문의하기</span>  </h2>
-		<table class="table table-border">
-			<tr>
-				<th>문의종류</th>
-				<td>
-					 <select id="qnaQuiry">
-						<option value="0">문의종류</option>
-						<option value="회원">회원관련문의</option>
-						<option value="사업주">사업주관련문의</option>
-						<option value="음식점">음식점문의</option>
-						<option value="기타">기타문의</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<th>문의제목</th>
-				<td>
-					<input type="text"/>
-				</td>
-			</tr>
-			<tr>
-				<th>문의내용<br>(10자입력가능)</th>
-				<td>
-					<textarea class="form-control" rows="5" id="qnaComment"></textarea>
-					<div id="qnaCommentLength"></div>
-				</td>
-			</tr>
-		</table>
-		
+		<form name="qnaRegisterFrm" action="<%=request.getContextPath() %>/myQnaRegister.eat" method="post">
+			<table class="table table-border">
+				<tr>
+					<th>문의종류</th>
+					<td>
+						 <select name="qnaQuiry" id="qnaQuiry">
+							<option value="0">문의종류</option>
+							<option value="회원">회원관련문의</option>
+							<option value="사업주">사업주관련문의</option>
+							<option value="음식점">음식점문의</option>
+							<option value="기타">기타문의</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>문의제목</th>
+					<td>
+						<input name="qnaSubject" type="text"/> <input type="hidden" name="userSeq" value="${userSeq}"/>
+					</td>
+				</tr>
+				<tr> 
+					<th>문의내용<br>(10자입력가능)</th>
+					<td>
+						<textarea class="form-control" rows="5" name="qnaComment" id="qnaComment"></textarea>
+						<div id="qnaCommentLength"></div>
+					</td>
+				</tr>
+			</table>
+		</form>
 		<div align="center">
-			<button class="btn btn-primary" type="button">문의하기 등록</button>
+			<button class="btn btn-primary" type="button" onClick="javascript:goRegister();">문의하기 등록</button>
 			<button class="btn btn-danger" type="button">입력취소</button>
 		</div>
 	</div>
 	
-	<br/><br/>
-	
-	<div class="row">
-		<h2> <span class="title-label">나의 문의내역</span>  </h2>
-		<div class="table-responsive col-md-12">
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>NO</th>
-                        <th>글쓴이</th>
-                        <th>문의종류</th>
-                        <th>문의제목</th>
-                        <th>문의일</th>
-                        <th>답변일</th>
-                        <th>처리상태</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>ㄷ</td>
-                        <td>ㄷ</td>
-                        <td>ㄷ</td>
-                        <td>ㄷ</td>
-                        <td>ㄷ</td>
-                        <td>ㄷ</td>
-   						<td> <a class="btn btn-link" href="#">답변완료</a></td>
-                    </tr>
-                    
-                </tbody>
-            </table>
-        </div>
-	</div>
 </div>
 </body>
 </html>
