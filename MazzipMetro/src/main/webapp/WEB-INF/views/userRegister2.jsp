@@ -34,7 +34,7 @@
 		} 
 	}); */
 	
-	function goSubmit(){
+	/* function goSubmit(){
 		
 		var registerFrm = document.registerFrm;
 		
@@ -56,11 +56,11 @@
 			registerFrm.submit();
 		}
 		
-	}
+	} */
 	
 	
 	 $(function() {
-         $("#imgInp").on('change', function(){
+         $("#userUpload").on('change', function(){
              readURL(this);
          });
      });
@@ -70,7 +70,7 @@
          var reader = new FileReader();
 
          reader.onload = function (e) {
-                 $('#blah').attr('src', e.target.result);
+                 $('#userProfile').attr('src', e.target.result);
              }
 
            reader.readAsDataURL(input.files[0]);
@@ -78,19 +78,7 @@
      }
 	
 	  $(document).ready(function() {
-		  /* $("#submit").click(function(){
-			 var chkboxArr = document.getElementsByName("userStation").checked;
-			 var cnt = 0;
-			 
-			 for(var i = 0; i < chkboxArr.length; i++) {
-			 	alert(chkboxArr[i]);
-			 	if(chkboxArr[i].checked == true) {
-					cnt++;
-				} else{ 
-					chkboxArr[i].disabled = true; 
-				}// end of if~else-----------------
-			 }
-			  */
+		
 		  
 		    $('#contact_form').bootstrapValidator({
 		        // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
@@ -118,6 +106,14 @@
 		                    },
 		                    emailAddress: {
 		                        message: '이메일형식에 맞지 않습니다.'
+		                    }
+		                }
+		            },
+		            userStation: {
+		                validators: {
+		                    choice: {
+		                        max: 3,
+		                        message: 'Please choose 2 - 4 programming languages you are good at'
 		                    }
 		                }
 		            },
@@ -160,6 +156,7 @@
 		                    }
 		                }
 		            },
+		            
 		            userGender: {
 		                validators: {
 		                    notEmpty: {
@@ -433,6 +430,18 @@
 		    </div>
 		  </div>
 		</div>
+		
+		<div class="form-group">
+		  <label class="col-md-3 control-label">프로필사진</label>
+		  <div class="col-md-5 inputGroupContainer">
+		    <div class="input-group">
+		    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>  
+			<input type='file' id="userUpload" name="attach" />
+	        <img id="userProfile" name="userProfile" src="<%= request.getContextPath() %>/resources/images/userNoImg.png" alt="your image" width="150px;" height="150px;"/>
+			</div>
+		  </div>
+		</div>
+		
 		
 		<!-- radio checks -->
 		 <div class="form-group">
@@ -1211,8 +1220,6 @@
 		  </div> 
 		</div> 
 		
-		<input type='file' id="imgInp" />
-        <img id="blah" src="#" alt="your image" width="100px;" height="100px;"/>
 		
 		
 		<!-- Success message -->
@@ -1222,7 +1229,7 @@
 		<div class="form-group">
 		  <label class="col-md-4 control-label"></label>
 		  <div class="col-md-4">
-		    <button type="button" id="sender" class="btn btn-warning" onClick="goSubmit();">Send <span class="glyphicon glyphicon-send"></span></button>
+		    <button type="submit" class="btn btn-warning">Send <span class="glyphicon glyphicon-send"></span></button>
 		  </div>
 		</div>
 		

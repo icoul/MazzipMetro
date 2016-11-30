@@ -18,4 +18,11 @@ public class MazzipMetroService implements IService {
 	public List<HashMap<String, String>> dbTest() {
 		return dao.dbTest();
 	}
+	
+	public List<String> alignTest() {
+		
+		List<String> list = dao.alignTest();
+		
+		return list;
+	}
 }

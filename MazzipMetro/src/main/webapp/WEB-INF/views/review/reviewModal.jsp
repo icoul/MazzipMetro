@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>멀티 파일올리기 및 썸네일 파일 생성하기</title>
+<title>ㅋㅋㅋ멀티 파일올리기 및 썸네일 파일 생성하기</title>
 <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/BootStrapStudy/css/bootstrap.css">

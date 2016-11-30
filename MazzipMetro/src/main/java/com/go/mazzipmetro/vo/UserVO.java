@@ -20,8 +20,8 @@ public class UserVO {
 	private String userPoint;		// 유저포인트	
 	private String userRandomBox;	// 유저랜덤박스갯수
 	private String userStation;		// 선호지역
-	private String userStatus;		// 유저구분	
-	private String status;			// 유저상태
+	private String userSort;		// 유저구분	
+	private String userstatus;			// 유저상태
 	private String userProfile;		// 유저사진(이미지)
 	
 	private MultipartFile attach; 	// 진짜 파일 ==> WAS(톰캣) 디스크에 저장됨.
@@ -30,7 +30,7 @@ public class UserVO {
 
 	public UserVO(String userSeq, String gradeSeq, String userName, String userEmail, String userPw, String userGender,
 			String userBirthDay, String userYear, String userMonth, String userDate, String userPhone, String userRegDate, String userPoint, String userRandomBox,
-			String userStatus, String status, String userProfile, MultipartFile attach, String userStation) {
+			String userSort, String userstatus, String userProfile, MultipartFile attach, String userStation) {
 		super();
 		this.userSeq = userSeq;
 		this.gradeSeq = gradeSeq;
@@ -46,8 +46,8 @@ public class UserVO {
 		this.userRegDate = userRegDate;
 		this.userPoint = userPoint;
 		this.userRandomBox = userRandomBox;
-		this.userStatus = userStatus;
-		this.status = status;
+		this.userSort = userSort;
+		this.userstatus = userstatus;
 		this.userProfile = userProfile;
 		this.attach = attach;
 		this.userStation = userStation;
@@ -166,20 +166,20 @@ public class UserVO {
 		this.userRandomBox = userRandomBox;
 	}
 
-	public String getUserStatus() {
-		return userStatus;
+	public String getUserSort() {
+		return userSort;
 	}
 
-	public void setUserStatus(String userStatus) {
-		this.userStatus = userStatus;
+	public void setUserSort(String userSort) {
+		this.userSort = userSort;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getUserstatus() {
+		return userstatus;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setUserstatus(String userstatus) {
+		this.userstatus = userstatus;
 	}
 
 	public String getUserProfile() {

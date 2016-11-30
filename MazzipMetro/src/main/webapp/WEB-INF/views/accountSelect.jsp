@@ -29,12 +29,12 @@
 	<span style="font-size: 5em; color:blue;">개인</span>
 	</div>
 </a> --%>
-<a href="<%= request.getContextPath()%>/userRegister.eat?type=0" class="btn btn-sq-lg btn-info">
+<a href="<%= request.getContextPath()%>/userRegister1.eat?type=0" class="btn btn-sq-lg btn-info">
               <i style="font-size: 10em;" class="fa fa-user"></i><br><br>
               	<span style="font-size:2em;">개인</span>
             </a>
             
-<a href="<%= request.getContextPath()%>/userRegister.eat?type=1" class="btn btn-sq-lg btn-success">
+<a href="<%= request.getContextPath()%>/userRegister1.eat?type=1" class="btn btn-sq-lg btn-success">
               <i style="font-size: 10em;" class="fa fa-user"></i><br><br>
               	<span style="font-size:2em;">사업자</span>
             </a>

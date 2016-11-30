@@ -1,8 +1,13 @@
 package com.go.mazzipmetro.controller;
 
+
+import java.util.ArrayList;
+
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,13 +17,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.go.mazzipmetro.common.FileManager;
 import com.go.mazzipmetro.common.ThumbnailManager;
 import com.go.mazzipmetro.service.RestaurantService;
+
+import com.go.mazzipmetro.service.ReviewService;
+
+import com.go.mazzipmetro.vo.MenuVO;
+
 import com.go.mazzipmetro.vo.RestaurantVO;
+import com.go.mazzipmetro.vo.FileVO;
 
 @Controller
 public class RestaurantController {
 
 	@Autowired
 	private RestaurantService service; 
+	@Autowired
+	private ReviewService reviewService; 
 	@Autowired
 	private FileManager fileManager;
 	@Autowired
@@ -114,5 +127,83 @@ public class RestaurantController {
 		return "restaurant/addRestaurantInfo";
 	}
 	
+
+	//음식점의 상세페이지 보여주기 no
+	@RequestMapping(value = "/restaurantDetail.eat", method = RequestMethod.GET)
+	public String restaurantDetail(HttpServletRequest req) {
+		String restseq = req.getParameter("restseq");
+		
+		if(restseq == null){
+			restseq = "220";
+		}
+		HashMap<String,String> restvo = reviewService.getRestaurant(restseq);
+			
+		List<HashMap<String,String>> reviewList = reviewService.getReviewList(restvo.get("restseq"));
+		
+		List<HashMap<String,String>> reviewImageList = reviewService.getReviewImageList();
+		
+		List<HashMap<String,String>> agelineChartList = reviewService.getAgeLineChartList(restseq);
+		List<HashMap<String,String>> genderChartList = reviewService.getGenderChartList(restseq);
+		
+		req.setAttribute("restvo", restvo);
+		req.setAttribute("reviewList", reviewList);
+		req.setAttribute("reviewImageList", reviewImageList);
+		req.setAttribute("agelineChartList", agelineChartList);
+		req.setAttribute("genderChartList", genderChartList);
+		return "restaurant/restaurantDetail";
+	}
+	
+	@RequestMapping(value="/addRestaurantInfoEnd.eat", method={RequestMethod.POST})
+	public String addRestaurantInfoEnd(MenuVO mvo, FileVO fvo, HttpServletRequest req, HttpSession session){
+		
+		String content = req.getParameter("content");
+		String bgCat = req.getParameter("bgCat");
+		String[] mgCat = req.getParameterValues("mgCat");
+		
+		// 이미지 파일 업로드 및 파일명 배열에 저장하기
+		ArrayList<String> imageList = new ArrayList<String>();	
+		
+		String root = session.getServletContext().getRealPath("/");
+		String path = root + "files";
+		
+		String newFileName = "";
+		byte[] bytes = null;
+		System.out.println(content);
+		System.out.println(bgCat);
+		
+		for (int i = 0; i < mgCat.length; i++) {
+			System.out.println(mgCat[i]);
+		}
+		
+		try{
+			for (int i = 0; i < fvo.getAttach().length; i++) {
+				
+				bytes = fvo.getAttach()[i].getBytes();
+				newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[i].getOriginalFilename(), path);
+				thumbnailManager.doCreateThumbnail(newFileName, path);
+				
+				imageList.add(newFileName);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		} // 완료
+		
+		for (int i = 0; i < imageList.size(); i++) {
+			System.out.println(imageList.get(i));
+		}
+		
+		for (int i = 0; i < mvo.getMenuName().length; i++) {
+			System.out.println(mvo.getMenuName()[i]);
+			System.out.println(mvo.getMenuImg()[i]);
+			System.out.println(mvo.getMenuContent()[i]);
+			System.out.println(mvo.getMenuPrice()[i]);
+			System.out.println(mvo.getMenuSalePrice()[i]);
+			System.out.println(mvo.getMenuSort()[i]);
+			System.out.println(mvo.getMenuEvent()[i]);
+		}
+		
+		return "restaurant/addRestaurantInfoEnd";
+
+	}
 }
 
