@@ -18,18 +18,21 @@ public class UserVO {
 	private String userPhone;		// 유저핸드폰	
 	private String userRegDate;		// 유저가입일	
 	private String userPoint;		// 유저포인트	
-	private String userRandomBox;	// 유저랜덤박스갯수	
-	private String userStatus;		// 유저구분	
-	private String status;			// 유저상태
+	private String userSort;		// 유저구분	
+	private String userStatus;			// 유저상태
 	private String userProfile;		// 유저사진(이미지)
 	
 	private MultipartFile attach; 	// 진짜 파일 ==> WAS(톰캣) 디스크에 저장됨.
 
-	public UserVO(){}
+	
+	public UserVO() {
+		super();
+	}
+	
 
 	public UserVO(String userSeq, String gradeSeq, String userName, String userEmail, String userPw, String userGender,
-			String userBirthDay, String userPhone, String userRegDate, String userPoint, String userRandomBox,
-			String userStatus, String status, String userProfile, MultipartFile attach) {
+			String userBirthDay, String userPhone, String userRegDate, String userPoint, String userSort,
+			String userStatus, String userProfile, MultipartFile attach) {
 		super();
 		this.userSeq = userSeq;
 		this.gradeSeq = gradeSeq;
@@ -41,12 +44,13 @@ public class UserVO {
 		this.userPhone = userPhone;
 		this.userRegDate = userRegDate;
 		this.userPoint = userPoint;
-		this.userRandomBox = userRandomBox;
+		this.userSort = userSort;
 		this.userStatus = userStatus;
-		this.status = status;
 		this.userProfile = userProfile;
 		this.attach = attach;
 	}
+
+
 
 	public String getUserSeq() {
 		return userSeq;
@@ -128,12 +132,12 @@ public class UserVO {
 		this.userPoint = userPoint;
 	}
 
-	public String getUserRandomBox() {
-		return userRandomBox;
+	public String getUserSort() {
+		return userSort;
 	}
 
-	public void setUserRandomBox(String userRandomBox) {
-		this.userRandomBox = userRandomBox;
+	public void setUserSort(String userSort) {
+		this.userSort = userSort;
 	}
 
 	public String getUserStatus() {
@@ -142,14 +146,6 @@ public class UserVO {
 
 	public void setUserStatus(String userStatus) {
 		this.userStatus = userStatus;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
 	}
 
 	public String getUserProfile() {
@@ -167,7 +163,8 @@ public class UserVO {
 	public void setAttach(MultipartFile attach) {
 		this.attach = attach;
 	}
-	
+
+		
 }
 
 

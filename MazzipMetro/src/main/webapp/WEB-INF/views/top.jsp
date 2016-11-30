@@ -52,9 +52,17 @@
 				<li><a href="#">맛집랭킹</a></li>
 				<li><a href="#">리뷰</a></li>
 				<li><a href="#">마이페이지</a></li>
-				<li><a href="#">문의하기</a></li>
+				<li><a href="#">문의하기</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				
 			</ul>
+			<c:if test="${sessionScope.loginUser.userSeq == null && empty sessionScope.loginUser.userSeq}"> 
 			<button type="button" class="btnLogin" onClick="goLogin();">로그인</button>
+			</c:if>
+			<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
+			${sessionScope.loginUser.userName} 님 환영합니다. &nbsp;&nbsp;
+			${sessionScope.loginUser.userPoint }
+			<button type="button" class="btnLogin" onClick="goLogOut();">로그아웃</button>
+			</c:if>
 		</div>
 	</div>
 	

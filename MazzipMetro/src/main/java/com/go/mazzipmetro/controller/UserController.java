@@ -1,6 +1,7 @@
 package com.go.mazzipmetro.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -68,14 +69,23 @@ public class UserController {
 	@RequestMapping(value="/login.eat", method={RequestMethod.POST})
 	public String UserLogin(UserVO vo, HttpServletRequest req, HttpServletResponse res){
 		
-		String userId = req.getParameter("dx_userId");
-		String password = req.getParameter("dx_password");
+		String userEmail = req.getParameter("dx_userId");
+		String userPw = req.getParameter("dx_password");
 		String rememberId = req.getParameter("dx_rememberId");
 		String rememberPwd = req.getParameter("dx_rememberPwd");
 		
 		HttpSession ses = req.getSession();
-		UserVO loginUser = (UserVO)ses.getAttribute("loginUser");
-		int result = service.UserLogin(vo);
+		
+		
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+	    map.put("userEmail", userEmail);
+	    map.put("userPw", userPw);
+	    
+		int result = service.UserLogin(map);
+		
+		/*System.out.println("확인용 loginusercheck");*/
+		
 		String msg = "";
 		String loc = "";
 		
@@ -86,7 +96,10 @@ public class UserController {
 			req.setAttribute("msg", msg);
 			req.setAttribute("loc", loc);
 			
+			/*System.out.println("확인용 loginusercheck");*/
+			
 			return"msg";
+			
 		} else if (result == 0) {//비밀번호가 틀린 경우
 			msg = "비밀번호가 틀렸습니다.";
 			loc = "javascript:history.back();";
@@ -95,15 +108,22 @@ public class UserController {
 			req.setAttribute("loc", loc);
 			
 			return"msg";
+			
 		} else if (result == 1){// 아이디와 비번이 모두 맞은 경우
+			
+			UserVO loginUser = service.getLoginUser(userEmail);
+						
+			System.out.println("확인용 loginusercheck");
+			
 			msg = loginUser.getUserName() + "님, 환영합니다.";
 			loc = "index.eat";			
 			req.setAttribute("msg", msg);
 			req.setAttribute("loc", loc);
 			
-			return "msg";
+			
 			
 			//로그인할 사용자의 정보를 세션에 저장하도록 한다.
+			
 			ses.setAttribute("loginUser", loginUser);
 			//로그인한 시간을 세션에 저장하도록 한다.
 			Date now = new Date();
@@ -114,10 +134,12 @@ public class UserController {
 			// * checked : 쿠키 저장
 			// * unchecked : 쿠키 삭제
 			
-			Cookie cookieId = new Cookie("rememberId", loginUser.getUserId());
-			Cookie cookiePwd = new Cookie("rememberPwd", loginUser.getPassword());//비보안
+			Cookie cookieId = new Cookie("rememberId", loginUser.getUserName());
+			Cookie cookiePwd = new Cookie("rememberPwd", loginUser.getUserPw());//비보안
 			//로그인 하는 사용자의 아이디값을 "rememberId" 문자열을 키값으로 하는 쿠키객체를 생성한다. 
 			//파라미터 타입은 Cookie(String name, String value)이다.
+			
+			System.out.println("확인용 cooooooooooooooooooookie" + cookieId + cookiePwd);
 			
 			if (rememberId != null) {//아이디저장 체크박스에 체크한 경우. 즉, "on"이다.
 				cookieId.setMaxAge(7*24*60*60);
@@ -139,16 +161,17 @@ public class UserController {
 			// cookie.setPath("디렉토리");
 			// "/" : 해당 도메인의 모든 페이지에서 사용가능하다.
 			
-			res.addCookie(cookieId);
-			res.addCookie(cookiePwd);
+			/*res.addCookie(cookieId);
+			res.addCookie(cookiePwd);*/
 			//사용자의 웹브라우져로 쿠키를 전송시킨다.(response 객체에 담는다.)
 			//이로서, 우리는 7일간 사용가능한 쿠키를 전송할 수도 있고,
 			//0초짜리 쿠키(쿠키삭제)를 사용자 웹브라우져로 전송한다.
 			//이 후의 일은 모두 웹브라우져가 알아서 해준다.
 			
 			msg = loginUser.getUserName() + "님, 환영합니다.";
-			loc = "index.do";
-			String viewPage = "/WEB-INF/views/msg/msg.jsp";
+			loc = "index.eat";
+
+			
 			
 			/*
 			 	로그인 하지 않은 상태에서 장바구니 담기를 하면, 로그인메세지를 출력한다.
@@ -158,16 +181,21 @@ public class UserController {
 			 */
 			//session에 저장된 returnPage가 있다면, 그곳으로 이동한다.
 			if(ses.getAttribute("returnPage") != null){
-				viewPage = (String)ses.getAttribute("returnPage"); 
+				String viewPage = (String)ses.getAttribute("returnPage"); 
+				
+				req.setAttribute("msg", msg);
+				req.setAttribute("loc", viewPage);
+				
+				return "msg";
 			}
 			
 			req.setAttribute("msg", msg);
 			req.setAttribute("loc", loc);//loc를 req에 담았지만, msg.jsp로 가지 않으면 휘발된다.
 			
-			this.setRedirect(false);
-			this.setViewPage(viewPage);
+			
 			
 		}// end of if~else
+		return "msg";
 		
 		
 		

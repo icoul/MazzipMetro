@@ -1,5 +1,7 @@
 package com.go.mazzipmetro.service;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,9 +26,14 @@ public class UserService implements IService {
 		return n;
 	}
 
-	public int UserLogin(UserVO vo) {
-		int n = dao.UserLogin(vo);
+	public int UserLogin(HashMap<String, String> map) {
+		int n = dao.UserLogin(map);
 		return n;
+	}
+
+	public UserVO getLoginUser(String userEmail) {
+		UserVO loginuser = dao.getLoginUser(userEmail);
+		return loginuser;
 	}
 }
 

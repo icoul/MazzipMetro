@@ -1,6 +1,8 @@
 
 package com.go.mazzipmetro.dao;
 
+import java.util.HashMap;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,9 +23,15 @@ public class UserDAO implements IDAO{
 	}
 
 
-	public int UserLogin(UserVO vo) {
-		int n = sqlSession.selectOne("user.logincheck", vo);
+	public int UserLogin(HashMap<String, String> map) {
+		int n = sqlSession.selectOne("user.logincheck", map);
 		return n;
+	}
+
+
+	public UserVO getLoginUser(String userEmail) {
+		UserVO loginUser = sqlSession.selectOne("user.getLoginUser", userEmail);
+		return loginUser;
 	}
 }
 
