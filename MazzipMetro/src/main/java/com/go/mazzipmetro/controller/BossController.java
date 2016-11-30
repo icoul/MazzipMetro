@@ -160,7 +160,7 @@ public class BossController {
 		String loc ="javascript:history.back();";
 		
 		//임의의 포인트 넣어줬음
-		int userPoint = 600000;
+		int userPoint = 500000;
 				
 		//포인트잔액이 부족했을시
 		if (userPoint < 500000) {
@@ -192,7 +192,7 @@ public class BossController {
 	}
 	
 	
-	//파워링크 결제
+	//추천광고 결제
 	@RequestMapping(value="/bossRcomBuy.eat", method={RequestMethod.POST})
 	public String bossRcomBuy(HttpServletRequest req) throws Throwable{
 		
