@@ -16,6 +16,13 @@ public class MazzipMetroDAO implements IDAO{
 	public List<HashMap<String, String>> dbTest() {
 		return sqlSession.selectList("mazzipMetro.dbTest");
 	}
+
+	public List<String> alignTest() {
+
+		List<String> list = sqlSession.selectList("mazzipMetro.alignTest");
+		
+		return list;
+	}
 	
 	
 }

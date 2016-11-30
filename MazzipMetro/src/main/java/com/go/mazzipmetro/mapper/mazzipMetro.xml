@@ -13,4 +13,10 @@
 		select  * from tbl_gu
 	</select>
 	
+	
+	<select id = "mazzipMetro.alignTest" resultType="String">
+		select metroname
+		from tbl_metro
+	</select>
+	
 </mapper>
