@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<jsp:include page="top.jsp" />
+<jsp:include page="../top.jsp" />
 <style type="text/css">
 * { padding:0; margin:0;}
 .subleftCon {float:left; width:200px; height:500px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;}
@@ -33,25 +33,52 @@
 
 function goCoinBuy(userSeq){
 	//코인 결제하기 팝업창 띄우기
-	var url = "coinChar.eat?userSeq="+userSeq;
-	window.open(url, "coinChar", "left=350px, top=100px, width=350px, height=300px, status=no, scrollbars=yes");		
+	var url = "bossCoinChar.eat?userSeq="+userSeq;
+	window.open(url, "bossCoinChar", "left=350px, top=100px, width=350px, height=300px, status=no, scrollbars=yes");		
 }
 
 function goBannBuy(userSeq){
 	
 	var bannFrm = document.bannFrm;
 	
-	bannFrm.action="bannBuy.eat";
+	bannFrm.action="bossBannBuy.eat";
 	bannFrm.method="POST";
 	
 	
-	var bool = confirm("결제하시겠습니까 ?");
+	var bool = confirm("파워배너 결제하시겠습니까 ?");
 	if(bool) {
 		bannFrm.submit();
 	}
 }
 
+function goLinkBuy(userSeq) {
+var linkFrm = document.linkFrm;
+	
+	linkFrm.action="bossLinknBuy.eat";
+	linkFrm.method="POST";
+	
+	
+	var bool = confirm("파워링크 결제하시겠습니까 ?");
+	if(bool) {
+		linkFrm.submit();
+	}
+	
+}
 
+
+function goRecomBuy(userSeq) {
+	var rcomFrm = document.linkFrm;
+		
+		rcomFrm.action="bossRcomBuy.eat";
+		rcomFrm.method="POST";
+		
+		
+		var bool = confirm("추천광고 결제하시겠습니까 ?");
+		if(bool) {
+			rcomFrm.submit();
+		}
+		
+	}
 
 </script>
 	<div class="subleftCon">
@@ -67,23 +94,21 @@ function goBannBuy(userSeq){
 				<form name="bannFrm" id="bannFrm" method="post">
 					<b>파워배너</b>  : <button class="btnPoint" type="button" name="bannCoin" onClick="goBannBuy('${userSeq}');">포인트 결제</button>
 					<p class="desc"><span style="font-size:12px;">※</span> 메인페이지에 광고 입니다. (100만 포인트)</p>
-					<input type="hidden" name="userSeq" <%-- value="${vo.userSeq}" --%>  value="13" /> 
 					<input type="hidden" name="restSeq" <%-- value="${vo.restSeq}" --%>  value="727" /> 
-					<input type="hidden" name="contentSeq" <%-- value="${vo.restSeq}" --%>  value="727" /> 
+					<input type="hidden" name="userSeq" <%-- value="${vo.userSeq}" --%>  value="13" /> 
 				</form>
-			
-					<b>파워링크</b>  : <button class="btnPoint" type="button" name="linkCoin"  onClick="goBannBuy('${userSeq}');">포인트 결제</button>
+				<form name="linkFrm" id="linkFrm" method="post">
+					<b>파워링크</b>  : <button class="btnPoint" type="button" name="linkCoin"  onClick="goLinkBuy('${userSeq}');">포인트 결제</button>
 					<p class="desc"><span style="font-size:12px;">※</span> 검색시 최상위에 따로 보여주는 컨텐츠 입니다.(50만 포인트)</p>
-			
-					<b>추천광고</b> : <button class="btnPoint" type="button" name="rcomCoin" onClick="goBannBuy('${userSeq}');">포인트 결제</button>
+					<input type="hidden" name="restSeq" <%-- value="${vo.restSeq}" --%>  value="727" /> 
+					<input type="hidden" name="userSeq" <%-- value="${vo.userSeq}" --%>  value="13" /> 
+				</form name="rcomFrm" id="rcomFrm" method="post">
+				<form>
+					<b>추천광고</b> : <button class="btnPoint" type="button" name="recomCoin" onClick="goRecomBuy('${userSeq}');">포인트 결제</button>
 					<p class="desc"><span style="font-size:12px;">※</span> 추천메뉴로 보여주는 컨텐츠입니다. (30만 포인트)</p>
+				</form>
 			</li>
 		</ul>
 	</div>
 
-</div>
-	<%-- end of content --%>
-</div>
-<%-- end of container --%>
-
-<jsp:include page="footer.jsp" />
+<jsp:include page="../footer.jsp" />

@@ -5,12 +5,11 @@
 <!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) --> 
 <mapper namespace="user">
 	<!-- 사용자 회원가입 -->
-	<insert id="userRegister" parameterType="com.spring.board.model.UserVO">
+	<insert id="userRegister" parameterType="com.go.mazzipmetro.vo.UserVO">
     		<if test = '!userProfile.equals("") and  !userStation.equals("")' >
     		insert into TBL_USER(userseq, username, userEmail, userpw, usergender, userbirthday,userphone, USERREGDATE, userprofile, userpoint,userstation, usersort, userstatus) 
 			values(tbl_user_seq.nextval, #{userName}, #{userEmail}, #{userPw}, #{userGender}, #{userBirthday}, #{userPhone}, default, #{userProfile}, default , #{userStation}, 0, default);
     		</if>
-    		!fk_seq.equals("")
     		<if test = 'userProfile.equals("") and !userStation.equals("")' >
     		insert into TBL_USER(userseq, username, userEmail, userpw, usergender, userbirthday,userphone, USERREGDATE, userpoint,userstation, usersort, userstatus) 
 			values(tbl_user_seq.nextval, #{userName}, #{userEmail}, #{userPw}, #{userGender}, #{userBirthday}, #{userPhone}, default, default , #{userStation}, 0, default);
