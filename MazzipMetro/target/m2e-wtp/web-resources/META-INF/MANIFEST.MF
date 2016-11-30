@@ -1,5 +1,9 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Built-By: eodyd
+=======
+Built-By: hamtal
+>>>>>>> c866be3402640d50fe4dc5d3445c043b32ab569c
 Build-Jdk: 1.8.0_111
 Created-By: Maven Integration for Eclipse
 
