@@ -33,10 +33,6 @@
 			</div>
 		</div>
 		<%-- end of rightCon --%>	
-	</div>
-	<%-- end of content --%>
-</div>
-<%-- end of container --%>
 
 <jsp:include page="footer.jsp" />
 

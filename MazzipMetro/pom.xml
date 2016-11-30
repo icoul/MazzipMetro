@@ -5,7 +5,7 @@
 	<groupId>com.go</groupId>
 	<artifactId>mazzipmetro</artifactId>
 	<name>MazzipMetro</name>
-	<packaging>war</packaging>
+	<packaging>pom</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
 		<java-version>1.6</java-version>
