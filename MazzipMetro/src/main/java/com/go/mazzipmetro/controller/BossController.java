@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -26,24 +29,25 @@ public class BossController {
 	
 	
 	//사업주가 코인을 충전할시 or 광고 구매시 ajax로 인해  업로드
-	@RequestMapping(value="/busiCoinResi.eat", method={RequestMethod.GET})
+	@RequestMapping(value="/bossCoinResi.eat", method={RequestMethod.GET})
 	public String busiCoinResi() {
 		
-		return "busiCoinResi";
+		return "/boss/bossCoinResi";
 		
 	}
 	
 	
 	//코인충전 팝업창
-	@RequestMapping(value="/coinChar.eat", method={RequestMethod.GET})
+	@RequestMapping(value="/bossCoinChar.eat", method={RequestMethod.GET})
 	public String coinChar() {
 		
-		return "coinChar";
+		return "/boss/bossCoinChar";
 		
 	}
 	
-	@RequestMapping(value="/busiCoinResiEnd.eat", method={RequestMethod.POST})
-	public String busiCoinResiEnd(HttpServletRequest req){
+	//코인충전 완료시
+	@RequestMapping(value="/bossCoinResiEnd.eat", method={RequestMethod.POST})
+	public String bossCoinResiEnd(HttpServletRequest req){
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
@@ -75,35 +79,33 @@ public class BossController {
 		req.setAttribute("msg", msg);
 		req.setAttribute("loc", loc);
 		
-		return "busiCoinResiEnd";
+		return "/boss/bossCoinResiEnd";
 	}
 	
 	//파워배너 결제 
-	@RequestMapping(value="/bannBuy.eat", method={RequestMethod.POST})
-	public String bannBuy(HttpServletRequest req) {
-		
-		
+	@RequestMapping(value="/bossBannBuy.eat", method={RequestMethod.POST})
+	public String bossBannBuy(HttpServletRequest req) throws Throwable{
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		
 		
 		String userSeq = req.getParameter("userSeq");
 		String restSeq = req.getParameter("restSeq");
-		String contentSeq = req.getParameter("contentSeq");
+		//** 나중에 session 에서 vo를 가져와서 get(userPoint)해서 가져와야함.
 		
 		
 		map.put("userSeq", userSeq);
 		map.put("restSeq", restSeq);
-		map.put("contentSeq", contentSeq);
 	
 		int result=0;
+		//int userPoint = Integer.parseInt(str_userPoint); 
 		
 		String msg = "없음";
 		String loc ="javascript:history.back();";
 		
 		//임의의 포인트 넣어줬음
-		int userPoint =1000000;
-		
+		int userPoint = 0;
+				
 		//포인트잔액이 부족했을시
 		if (userPoint < 1000000) {
 			msg ="포인트 잔액이 부족합니다. 코인을 충전하세요.";
@@ -129,8 +131,121 @@ public class BossController {
 		req.setAttribute("msg", msg);
 		req.setAttribute("loc", loc);
 		
-		return "bannBuy";
+		return "/boss/bossContentBuy";
+		
+	}//end of bossBannBuy(HttpServletRequest req) throws Throwable-------------------
+	
+	
+	
+	//파워링크 결제
+	@RequestMapping(value="/bossLinknBuy.eat", method={RequestMethod.POST})
+	public String bossLinknBuy(HttpServletRequest req) throws Throwable{
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		
+		
+		String userSeq = req.getParameter("userSeq");
+		String restSeq = req.getParameter("restSeq");
+		//String str_userPoint = req.getParameter("userPoint");
+		//** 나중에 session 에서 vo를 가져와서 get(userPoint)해서 가져와야함.
+		
+		
+		map.put("userSeq", userSeq);
+		map.put("restSeq", restSeq);
+	
+		int result=0;
+		//int userPoint = Integer.parseInt(str_userPoint); 
+		
+		String msg = "없음";
+		String loc ="javascript:history.back();";
+		
+		//임의의 포인트 넣어줬음
+		int userPoint = 500000;
+				
+		//포인트잔액이 부족했을시
+		if (userPoint < 500000) {
+			msg ="포인트 잔액이 부족합니다. 코인을 충전하세요.";
+			loc ="javascript:history.back();";
+		}
+		
+		else if (userPoint >= 500000) {
+			result = service.linkBuyUpdate(map); 
+			result = service.linkInsert(map);
+		}
+		
+		
+		if (result < 0) {
+			msg ="결제되지 않았습니다.";
+			loc ="javascript:history.back();";
+		}
+		
+		else if (result > 0) {
+			msg ="결제 되셨습니다.";
+			loc ="javascript:history.back();";
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
+		
+		return "/boss/bossContentBuy";
 		
 	}
+	
+	
+	//추천광고 결제
+	@RequestMapping(value="/bossRcomBuy.eat", method={RequestMethod.POST})
+	public String bossRcomBuy(HttpServletRequest req) throws Throwable{
+		
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		
+		
+		String userSeq = req.getParameter("userSeq");
+		String restSeq = req.getParameter("restSeq");
+		//String str_userPoint = req.getParameter("userPoint");
+		//** 나중에 session 에서 vo를 가져와서 get(userPoint)해서 가져와야함.
+		
+		
+		map.put("userSeq", userSeq);
+		map.put("restSeq", restSeq);
+	
+		int result=0;
+		//int userPoint = Integer.parseInt(str_userPoint); 
+		
+		String msg = "없음";
+		String loc ="javascript:history.back();";
+		
+		//임의의 포인트 넣어줬음
+		int userPoint = 600000;
+				
+		//포인트잔액이 부족했을시
+		if (userPoint < 300000) {
+			msg ="포인트 잔액이 부족합니다. 코인을 충전하세요.";
+			loc ="javascript:history.back();";
+		}
+		
+		else if (userPoint >= 300000) {
+			result = service.recomBuyUpdate(map); 
+			result = service.recomInsert(map);
+		}
+		
+		
+		if (result < 0) {
+			msg ="결제되지 않았습니다.";
+			loc ="javascript:history.back();";
+		}
+		
+		else if (result > 0) {
+			msg ="결제 되셨습니다.";
+			loc ="javascript:history.back();";
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
+		
+		return "/boss/bossContentBuy";
+		
+	}
+	
 	
 }
