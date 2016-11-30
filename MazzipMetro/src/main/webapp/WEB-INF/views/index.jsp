@@ -8,13 +8,7 @@
 <jsp:include page="top.jsp"></jsp:include>
 </head>
 <body>
-	<img src="<%= request.getContextPath() %>/resources/images/metro.jpg">
-	<!-- </div> -->
-	&nbsp;
-	<!-- <div style="height:800px; width:300px; background-color: green; float:left;">
-	맛집
-	</div> -->
-	
+	<a href="<%= request.getContextPath()%>/accountSelect.eat">회원가입</a>
 	<jsp:include page="footer.jsp" />
 
 </body>

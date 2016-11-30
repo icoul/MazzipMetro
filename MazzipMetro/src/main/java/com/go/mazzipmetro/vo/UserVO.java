@@ -21,7 +21,7 @@ public class UserVO {
 	private String userRandomBox;	// 유저랜덤박스갯수	
 	private String userStatus;		// 유저구분	
 	private String status;			// 유저상태
-	
+	private String userProfile;		// 유저사진(이미지)
 	
 	private String fileName;		// WAS(톰캣)에 저장될 파일명
 	private String orgFilename;		// 진짜 파일명 (사용자가 파일을 업로드 하거나 파일을 다운로드 할 때 사용되어지는 파일명)

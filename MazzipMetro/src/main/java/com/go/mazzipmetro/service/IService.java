@@ -1,5 +1,6 @@
 package com.go.mazzipmetro.service;
 
-public interface IService {
+import com.go.mazzipmetro.vo.UserVO;
 
+public interface IService {
 }
