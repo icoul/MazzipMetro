@@ -23,6 +23,41 @@
 	
 	<script type="text/javascript" >
 	
+	/* $("#submit").click(function(){
+		alert("하하");
+		var chkboxArr = document.getElementsByName("userStation");
+		
+		alert(chkboxArr.length);
+		
+		 for(var i=0; i<chkboxpnumArr.length; i++) {
+			chkboxpnumArr[i].checked = bool;
+		} 
+	}); */
+	
+	function goSubmit(){
+		
+		var registerFrm = document.registerFrm;
+		
+		var chkboxArr = document.getElementsByName("userStation");
+		
+		var bool = false;
+		var count = 0;
+		for(var i=0; i<chkboxArr.length; i++) {
+			bool = chkboxArr[i].checked;
+			if(bool == true) {
+				count++;
+			}
+		}
+		
+		if (count > 3) {
+			alert("최대3개만 선택가능합니다.");
+		}
+		else {
+			registerFrm.submit();
+		}
+		
+	}
+	
 	
 	 $(function() {
          $("#imgInp").on('change', function(){
@@ -43,7 +78,7 @@
      }
 	
 	  $(document).ready(function() {
-		  $("#submit").click(function(){
+		  /* $("#submit").click(function(){
 			 var chkboxArr = document.getElementsByName("userStation").checked;
 			 var cnt = 0;
 			 
@@ -55,19 +90,7 @@
 					chkboxArr[i].disabled = true; 
 				}// end of if~else-----------------
 			 }
-			 
-			 if(cnt == 0) { // 모두 체크가 안된 경우
-					alert("주문하실 제품을 하나 이상 선택하세요!!");
-				
-					for(var i=0; i<chkboxpnumArr.length; i++) {
-						chkboxpnumArr[i].disabled = false; 
-					    document.getElementById("oqty"+i).disabled = false;
-					    document.getElementById("cartno"+i).disabled = false;
-					}
-				
-					return;
-				}
-		  });
+			  */
 		  
 		    $('#contact_form').bootstrapValidator({
 		        // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
@@ -275,7 +298,7 @@
 </div>
     
 <div class="container">
-    <form class="well form-horizontal" action="<%= request.getContextPath() %>/userRegisterEnd.eat" method="post"  id="contact_form" enctype="multipart/form-data">
+    <form name="registerFrm" class="well form-horizontal" action="<%= request.getContextPath() %>/userRegisterEnd.eat" method="post"  id="contact_form" enctype="multipart/form-data">
 		<fieldset>
 		<!-- Form Name -->
 		<legend>맛집메트로계정 정보입력</legend>
@@ -373,7 +396,7 @@
 							  var myDate = new Date();
 							  var year = myDate.getFullYear();
 							  for(var i = year; i > 1900; i--){
-								  document.write('<option value="'+i+'">'+i+'년</option>');
+								  document.write('<option value="'+i+'">'+i+'</option>');
 							  }
 						  </script>
 					</select>
@@ -381,7 +404,7 @@
 			  			<option value="">월</option>
 			  			<script type="text/javascript">
 			  				for (var j=1; j<=12; j++) {
-								document.write('<option value="'+j+'">'+j+'월 </option>');
+								document.write('<option value="'+j+'">'+j+'</option>');
 						  	}
 						</script>
 			  		</select>
@@ -389,7 +412,7 @@
 			  			<option value="">일</option>
 			  			<script type="text/javascript">
 			  				for (k=1; k<=31; k++) {
-			  					document.write("<option>"+k+'일 </option>'); 
+			  					document.write("<option>"+k+'</option>'); 
 			  				}
 			  			</script>
 			  		</select> 
@@ -397,6 +420,7 @@
 		    </div>
 		  </div>
 		</div>
+		<input type="hidden" name="userSort" value="${userSort}" />
 		
 		<!-- Text input-->
 		       
@@ -434,7 +458,7 @@
 		
 		<!-- Tab panes -->
 		
-		<div class="form-group">
+		<!-- <div class="form-group">
 			<label class="col-md-3 control-label">선호역(지역)<br>
 		  											최대 3개까지 선택가능합니다
 		  	</label>
@@ -459,7 +483,7 @@
                                         	<div class="col-sm-4"> <label for = "kangnam">강남역</label> </div>  
                                          		<div class=" col-sm-3 btn-group" data-toggle="buttons">
                                           		<label class="btn btn-default btn-sm">
-                                            	<input type="checkbox" id="kangnam" value="kangnam" name="userStation"> 선택
+                                            	<input type="checkbox" id="kangnam" value="강남" name="userStation"> 선택
                                           		</label>
                                          		</div>
                                          </div>
@@ -468,7 +492,7 @@
                                         	<div class="col-sm-4"><label for = "gangbyeon">강변역</label></div>  
                                          		<div class=" col-sm-3 btn-group" data-toggle="buttons">
                                           		<label class="btn btn-default btn-sm">
-                                            	<input type="checkbox" id="gangbyeon" value="gangbyeon" name="userStation"> 선택
+                                            	<input type="checkbox" id="gangbyeon" value="강변" name="userStation"> 선택
                                           		</label>
                                          		</div>
                                          </div>
@@ -478,7 +502,7 @@
                                         	<div class="col-sm-4"><label for = "geondaeibgu">건대입구역</label></div>  
                                          		<div class=" col-sm-3 btn-group" data-toggle="buttons">
                                           		<label class="btn btn-default btn-sm">
-                                            	<input type="checkbox" id="geondaeibgu" value="geondaeibgu" name="userStation"> 선택
+                                            	<input type="checkbox" id="geondaeibgu" value="건대입구" name="userStation"> 선택
                                           		</label>
                                          		</div>
                                          </div>
@@ -488,7 +512,7 @@
                                         	<div class="col-sm-4"> <label for = "gyodae">교대역 </label> </div>  
                                          		<div class=" col-sm-3 btn-group" data-toggle="buttons">
                                           		<label class="btn btn-default btn-sm">
-                                            	<input type="checkbox" id="gyodae"  value="gyodae" name="userStation"> 선택
+                                            	<input type="checkbox" id="gyodae"  value="교대" name="userStation"> 선택
                                           		</label>
                                          		</div>
                                          </div>
@@ -497,7 +521,7 @@
                                         	<div class="col-sm-4"> <label for = "gulodijiteoldanji"> 구로디지털단지역 </label></div>  
                                          		<div class=" col-sm-3 btn-group" data-toggle="buttons">
                                           		<label class="btn btn-default btn-sm">
-                                            	<input type="checkbox" id="gulodijiteoldanji" value="gulodijiteoldanji" name="userStation"> 선택
+                                            	<input type="checkbox" id="gulodijiteoldanji" value="구로디지털단지" name="userStation"> 선택
                                           		</label>
                                          		</div>
                                          </div>
@@ -506,7 +530,7 @@
                                         	<div class="col-sm-4"> <label for = "guui">구의역</label> </div>  
                                          		<div class=" col-sm-3 btn-group" data-toggle="buttons">
                                           		<label class="btn btn-default btn-sm">
-                                            	<input type="checkbox" id="guui" value="guui" name="userStation"> 선택
+                                            	<input type="checkbox" id="guui" value="구의" name="userStation"> 선택
                                           		</label>
                                          		</div>
                                          </div>
@@ -1096,7 +1120,7 @@
                                  </div>
                                 </div>
                             </div>
-                        </div>        
+                        </div>         -->
 		
 		
 		
@@ -1105,7 +1129,7 @@
 		
 		
 		  
-		<!-- <div class="form-group">
+		<div class="form-group">
 		  <label class="col-md-3 control-label">선호역(지역)<br>
 		  최대 3개까지 선택가능합니다
 		  </label>
@@ -1182,7 +1206,7 @@
 					
 					
 					
-				-->			        	
+					        	
 		  </div> 
 		  </div> 
 		</div> 
@@ -1198,7 +1222,7 @@
 		<div class="form-group">
 		  <label class="col-md-4 control-label"></label>
 		  <div class="col-md-4">
-		    <button type="submit" id="submit" class="btn btn-warning" >Send <span class="glyphicon glyphicon-send"></span></button>
+		    <button type="button" id="sender" class="btn btn-warning" onClick="goSubmit();">Send <span class="glyphicon glyphicon-send"></span></button>
 		  </div>
 		</div>
 		

@@ -24,16 +24,34 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/userRegister.eat", method={RequestMethod.GET})
-	public String userRegister(){
-		return "user/userRegister";
+	public String userRegister(HttpServletRequest req){
+		String userSort =  req.getParameter("type");
+		req.setAttribute("userSort", userSort);
+		return "userRegister";
 	}
 	
 	@RequestMapping(value="/userRegisterEnd.eat", method={RequestMethod.POST})
 	public String userRegisterEnd(UserVO vo, HttpServletRequest req){
 		
+		System.out.println("====== 확인용 =======");
+		System.out.println("이름 : " + vo.getUserName());
+		System.out.println("이름 : " + vo.getUserEmail());
+		System.out.println("이름 : " + vo.getUserPw());
+		System.out.println("이름 : " + vo.getUserPhone());
+		System.out.println("이름 : " + vo.getUserDate());
+		System.out.println("이름 : " + vo.getUserName());
+		System.out.println("성별 : " + vo.getUserGender()); 
+		
+		vo.setUserBirthDay(vo.getUserYear(), vo.getUserMonth(), vo.getUserDate());
+		
+		System.out.println(vo.getUserBirthDay());
+		
 		int n = service.userRegister(vo);
 		
-		req.setAttribute("n", n);
+		System.out.println("====== 확인용 =======");
+		System.out.println("n : " + n);
+		
+		//req.setAttribute("n", n);
 		return "user/userRegisterEnd";
 	}
 	

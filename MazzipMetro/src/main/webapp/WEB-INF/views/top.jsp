@@ -8,9 +8,9 @@
 <meta charset="UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/BootStrapStudy/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/BootStrapStudy/css/bootstrap.css">
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>
-<script type="text/javascript" src="<%= request.getContextPath() %>/BootStrapStudy/js/bootstrap.js"></script>
+<script type="text/javascript" src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script>
 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/main.css" />
 <title>:::Mazzip Metro:::</title>
@@ -28,7 +28,8 @@
 				<li><a href="#">마이페이지</a></li>
 				<li><a href="#">문의하기</a></li>
 			</ul>
-			<button type="button" class="btnLogin">로그인</button>
+			<button type="button" class="btnLogin">회원가입</button> 
+			<button type="button" class="btnLogin" style="margin-left: 10px;">로그인</button>
 		</div>
 	</div>
 	

@@ -9,16 +9,17 @@ public class UserVO {
 	private String userEmail;		// 유저이메일
 	private String userPw;			// 유저비밀번호
 	private String userGender;		// 유저성별	
-/*	
+
     private String userYear;		// 유저생일
 	private String userMonth;		// 유저생일
 	private String userDate;		// 유저생일
-*/	
+	
 	private String userBirthDay;	// 유저생일
 	private String userPhone;		// 유저핸드폰	
 	private String userRegDate;		// 유저가입일	
 	private String userPoint;		// 유저포인트	
-	private String userRandomBox;	// 유저랜덤박스갯수	
+	private String userRandomBox;	// 유저랜덤박스갯수
+	private String userStation;		// 선호지역
 	private String userStatus;		// 유저구분	
 	private String status;			// 유저상태
 	private String userProfile;		// 유저사진(이미지)
@@ -28,8 +29,8 @@ public class UserVO {
 	public UserVO(){}
 
 	public UserVO(String userSeq, String gradeSeq, String userName, String userEmail, String userPw, String userGender,
-			String userBirthDay, String userPhone, String userRegDate, String userPoint, String userRandomBox,
-			String userStatus, String status, String userProfile, MultipartFile attach) {
+			String userBirthDay, String userYear, String userMonth, String userDate, String userPhone, String userRegDate, String userPoint, String userRandomBox,
+			String userStatus, String status, String userProfile, MultipartFile attach, String userStation) {
 		super();
 		this.userSeq = userSeq;
 		this.gradeSeq = gradeSeq;
@@ -38,6 +39,9 @@ public class UserVO {
 		this.userPw = userPw;
 		this.userGender = userGender;
 		this.userBirthDay = userBirthDay;
+		this.userYear = userYear;
+		this.userMonth = userMonth;
+		this.userDate = userDate;
 		this.userPhone = userPhone;
 		this.userRegDate = userRegDate;
 		this.userPoint = userPoint;
@@ -46,6 +50,7 @@ public class UserVO {
 		this.status = status;
 		this.userProfile = userProfile;
 		this.attach = attach;
+		this.userStation = userStation;
 	}
 
 	public String getUserSeq() {
@@ -100,12 +105,37 @@ public class UserVO {
 		return userBirthDay;
 	}
 
-	public void setUserBirthDay(String userBirthDay) {
-		this.userBirthDay = userBirthDay;
+	public void setUserBirthDay(String userYear, String userMonth, String userDate) {
+		this.userBirthDay = userYear + userMonth + userDate;
 	}
+	
 
 	public String getUserPhone() {
 		return userPhone;
+	}
+
+	public String getUserYear() {
+		return userYear;
+	}
+
+	public void setUserYear(String userYear) {
+		this.userYear = userYear;
+	}
+
+	public String getUserMonth() {
+		return userMonth;
+	}
+
+	public void setUserMonth(String userMonth) {
+		this.userMonth = userMonth;
+	}
+
+	public String getUserDate() {
+		return userDate;
+	}
+
+	public void setUserDate(String userDate) {
+		this.userDate = userDate;
 	}
 
 	public void setUserPhone(String userPhone) {
@@ -167,6 +197,15 @@ public class UserVO {
 	public void setAttach(MultipartFile attach) {
 		this.attach = attach;
 	}
+
+	public String getUserStation() {
+		return userStation;
+	}
+
+	public void setUserStation(String userStation) {
+		this.userStation = userStation;
+	}
+	
 	
 }
 
