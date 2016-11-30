@@ -1,36 +1,40 @@
 package com.go.mazzipmetro.vo;
 
 public class RestaurantVO {
-
-	private String restSeq;		// (PK)	업장번호(PK)	NUMBER	NOT NULL
-	private String userSeq;		// (FK)	유저번호(FK)	NUMBER	NOT NULL
-	private String gradeSeq;	// (FK)	업장등급(FK)	NUMBER	NOT NULL
-	private String restName;	// 업장이름	VARCHAR2(30)	NOT NULL
-	private String restPhone;	// 업장전화번호	VARCHAR2(12)	NOT NULL
-	private String restImg;		// 업장대표이미지	VARCHAR2(100)	NULL
-	private String restOldAddr;	// 업장지번주소	VARCHAR2(200)	NOT NULL
-	private String restNewAddr;	// 업장도로명주소	VARCHAR2(200)	NULL
-	private String restZIndex;	// 업장Z인덱스	VARCHAR2(30)	NOT NULL
-	private String dongId;		// (FK) 업장동(FK)	VARCHAR2(10)	NOT NULL
-	private String metroId;		// (FK)	업장소속지하철(FK)	VARCHAR2(10)	NOT NULL
-	private String restRegDate;	// 업장등록일자	DATE	NOT NULL
-	private String restVisitor;	// 업장방문수	NUMBER	NULL
-	private String restStatus;	// 업장상태	NUMBER	NOT NULL
 	
-	public RestaurantVO(){}
+	private String restSeq; /* 업장번호 */
+	private String userSeq; /* 유저번호 */
+	private String gradeSeq; /* 업장등급 */
+	private String restName; /* 업장이름 */
+	private String restPhone; /* 업장전화번호 */
+	private String restImg; /* 업장대표이미지 */
+	private String restAddr; /* 업장지번주소 */
+	private String restNewAddr; /* 업장도로명주소 */
+	private String restLatitude; /* 업장 위도 */
+	private String restLongitude; /* 업장 경도 */
+	private String restZIndex; /* 업장Z인덱스 */
+	private String dongId; /* 업장동 */
+	private String metroId; /* 업장소속지하철 */
+	private String restRegDate; /* 업장등록일자 */
+	private String restVisitor; /* 업장방문수 */
+	private String restStatus; /* 업장상태 */
+	
+	public RestaurantVO(){} 
 	
 	public RestaurantVO(String restSeq, String userSeq, String gradeSeq, String restName, String restPhone,
-			String restImg, String restOldAddr, String restNewAddr, String restZIndex, String dongId, String metroId,
-			String restRegDate, String restVisitor, String restStatus) {
-		super();
+			String restImg, String restAddr, String restNewAddr, String restLatitude, String restLongitude,
+			String restZIndex, String dongId, String metroId, String restRegDate, String restVisitor,
+			String restStatus) {
 		this.restSeq = restSeq;
 		this.userSeq = userSeq;
 		this.gradeSeq = gradeSeq;
 		this.restName = restName;
 		this.restPhone = restPhone;
 		this.restImg = restImg;
-		this.restOldAddr = restOldAddr;
+		this.restAddr = restAddr;
 		this.restNewAddr = restNewAddr;
+		this.restLatitude = restLatitude;
+		this.restLongitude = restLongitude;
 		this.restZIndex = restZIndex;
 		this.dongId = dongId;
 		this.metroId = metroId;
@@ -87,12 +91,12 @@ public class RestaurantVO {
 		this.restImg = restImg;
 	}
 
-	public String getRestOldAddr() {
-		return restOldAddr;
+	public String getRestAddr() {
+		return restAddr;
 	}
 
-	public void setRestOldAddr(String restOldAddr) {
-		this.restOldAddr = restOldAddr;
+	public void setRestAddr(String restAddr) {
+		this.restAddr = restAddr;
 	}
 
 	public String getRestNewAddr() {
@@ -101,6 +105,22 @@ public class RestaurantVO {
 
 	public void setRestNewAddr(String restNewAddr) {
 		this.restNewAddr = restNewAddr;
+	}
+
+	public String getRestLatitude() {
+		return restLatitude;
+	}
+
+	public void setRestLatitude(String restLatitude) {
+		this.restLatitude = restLatitude;
+	}
+
+	public String getRestLongitude() {
+		return restLongitude;
+	}
+
+	public void setRestLongitude(String restLongitude) {
+		this.restLongitude = restLongitude;
 	}
 
 	public String getRestZIndex() {
@@ -150,6 +170,4 @@ public class RestaurantVO {
 	public void setRestStatus(String restStatus) {
 		this.restStatus = restStatus;
 	}
-	
-	
 }

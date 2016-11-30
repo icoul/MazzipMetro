@@ -12,8 +12,5 @@ public class AdminController {
 
 	@Autowired
 	private AdminService service;
-	@Autowired
-	private FileManager fileManager;
-	@Autowired
-	private ThumbnailManager thumbnailManager;
+
 }

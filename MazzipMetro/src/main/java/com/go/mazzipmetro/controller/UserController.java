@@ -18,10 +18,6 @@ public class UserController {
 
 	@Autowired
 	private UserService service;
-	@Autowired
-	private FileManager fileManager;
-	@Autowired
-	private ThumbnailManager thumbnailManager;
 	
 	@RequestMapping(value="/test.eat", method={RequestMethod.GET})
 	public String test(){
@@ -60,5 +56,6 @@ public class UserController {
 		
 		req.setAttribute("n", n);
 		return "restRegisterEnd";
+
 	}
 }

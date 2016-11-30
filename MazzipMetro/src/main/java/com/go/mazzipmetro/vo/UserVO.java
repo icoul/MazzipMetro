@@ -23,16 +23,13 @@ public class UserVO {
 	private String status;			// 유저상태
 	private String userProfile;		// 유저사진(이미지)
 	
-	private String fileName;		// WAS(톰캣)에 저장될 파일명
-	private String orgFilename;		// 진짜 파일명 (사용자가 파일을 업로드 하거나 파일을 다운로드 할 때 사용되어지는 파일명)
-	private String fileSize; 		// 파일크기
-	
 	private MultipartFile attach; 	// 진짜 파일 ==> WAS(톰캣) 디스크에 저장됨.
 
 	public UserVO(){}
+
 	public UserVO(String userSeq, String gradeSeq, String userName, String userEmail, String userPw, String userGender,
-			/*String userYear, String userMonth, String userDate,*/ String userBirtyDay, String userPhone, String userRegDate, String userPoint, String userRandomBox,
-			String userStatus, String status, String fileName, String orgFilename, String fileSize) {
+			String userBirthDay, String userPhone, String userRegDate, String userPoint, String userRandomBox,
+			String userStatus, String status, String userProfile, MultipartFile attach) {
 		super();
 		this.userSeq = userSeq;
 		this.gradeSeq = gradeSeq;
@@ -40,19 +37,15 @@ public class UserVO {
 		this.userEmail = userEmail;
 		this.userPw = userPw;
 		this.userGender = userGender;
-		/*this.userYear = userYear;
-		this.userMonth = userMonth;
-		this.userDate = userDate;*/
-		this.userBirthDay = userBirtyDay;
+		this.userBirthDay = userBirthDay;
 		this.userPhone = userPhone;
 		this.userRegDate = userRegDate;
 		this.userPoint = userPoint;
 		this.userRandomBox = userRandomBox;
 		this.userStatus = userStatus;
 		this.status = status;
-		this.fileName = fileName;
-		this.orgFilename = orgFilename;
-		this.fileSize = fileSize;
+		this.userProfile = userProfile;
+		this.attach = attach;
 	}
 
 	public String getUserSeq() {
@@ -102,38 +95,15 @@ public class UserVO {
 	public void setUserGender(String userGender) {
 		this.userGender = userGender;
 	}
-	
-	/*
-	public String getAllBirthday() {
-		return userYear + userMonth + userDate;
-	} 
 
-	public String getUserYear() {
-		return userYear;
-	}
-	public void setUserYear(String userYear) {
-		this.userYear = userYear;
-	}
-	public String getUserMonth() {
-		return userMonth;
-	}
-	public void setUserMonth(String userMonth) {
-		this.userMonth = userMonth;
-	}
-	public String getUserDate() {
-		return userDate;
-	}
-	public void setUserDate(String userDate) {
-		this.userDate = userDate;
-	}*/
-	
-	
 	public String getUserBirthDay() {
 		return userBirthDay;
 	}
+
 	public void setUserBirthDay(String userBirthDay) {
 		this.userBirthDay = userBirthDay;
 	}
+
 	public String getUserPhone() {
 		return userPhone;
 	}
@@ -182,28 +152,12 @@ public class UserVO {
 		this.status = status;
 	}
 
-	public String getFileName() {
-		return fileName;
+	public String getUserProfile() {
+		return userProfile;
 	}
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-
-	public String getOrgFilename() {
-		return orgFilename;
-	}
-
-	public void setOrgFilename(String orgFilename) {
-		this.orgFilename = orgFilename;
-	}
-
-	public String getFileSize() {
-		return fileSize;
-	}
-
-	public void setFileSize(String fileSize) {
-		this.fileSize = fileSize;
+	public void setUserProfile(String userProfile) {
+		this.userProfile = userProfile;
 	}
 
 	public MultipartFile getAttach() {
@@ -214,6 +168,6 @@ public class UserVO {
 		this.attach = attach;
 	}
 	
-	
-	
 }
+
+
