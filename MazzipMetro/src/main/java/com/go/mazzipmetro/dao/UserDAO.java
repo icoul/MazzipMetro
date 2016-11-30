@@ -13,9 +13,16 @@ public class UserDAO implements IDAO{
 
 	@Autowired
 	private SqlSessionTemplate sqlSession;
+	
 
 	public int userRegister(UserVO vo) {
 		int n = sqlSession.insert("user.userRegister", vo);
+		return n;
+	}
+
+
+	public int UserLogin(UserVO vo) {
+		int n = sqlSession.selectOne("user.logincheck", vo);
 		return n;
 	}
 }

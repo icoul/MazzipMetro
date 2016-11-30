@@ -5,7 +5,7 @@
 <!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) --> 
 <mapper namespace="user">
 	<!-- 사용자 회원가입 -->
-	<insert id="userRegister" parameterType="com.spring.board.model.UserVO">
+	<insert id="userRegister" parameterType="com.go.mazzipmetro.vo.UserVO">
     		<if test = '!userProfile.equals("") and  !userStation.equals("")' >
     		insert into TBL_USER(userseq, username, userEmail, userpw, usergender, userbirthday,userphone, USERREGDATE, userprofile, userpoint,userstation, usersort, userstatus) 
 			values(tbl_user_seq.nextval, #{userName}, #{userEmail}, #{userPw}, #{userGender}, #{userBirthday}, #{userPhone}, default, #{userProfile}, default , #{userStation}, 0, default);
@@ -28,4 +28,16 @@
     		insert into tblBoard(userSeq, userName, subject, content, pw, readCount, regDate, status, groupno, fk_seq, depthno, fileName, orgFilename, fileSize)
         	values(boardSeq.nextval, #{name}, #{subject}, #{content}, #{pw}, default, default, default, #{groupno}, #{fk_seq}, #{depthno}+1, #{fileName, jdbcType=VARCHAR}, #{orgFilename}, #{fileSize})
     </insert> -->
+    
+    <select id="logincheck" resultType="com.go.mazzipmetro.vo.UserVO">
+    	SELECT CASE (SELECT COUNT(*) 
+    	 FROM tbl_User
+    	  WHERE userStatus = 0 AND userEmail = ? AND userPw = ?)
+    	  WHEN 1 THEN 1
+    	  ELSE(CASE(SELECT COUNT(*) FROM tbl_user WHERE userStatus = 0 and userEmail = ?)
+    	  WHEN 1 THEN 0 
+    	  ELSE -1 END)  
+		 END AS loginCheck 
+		 FROM dual
+    </select>
 </mapper>

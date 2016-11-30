@@ -23,5 +23,10 @@ public class UserService implements IService {
 		int n = 0;
 		return n;
 	}
+
+	public int UserLogin(UserVO vo) {
+		int n = dao.UserLogin(vo);
+		return n;
+	}
 }
 
