@@ -33,6 +33,7 @@
 		<result column="longitude" 		property="lng" 	javaType="String"/>
 		<result column="latitude" 		property="lat" 		javaType="String" />  
 	</resultMap>
+	
 	<select id="getRestaurantList"  resultMap="restaurantList">
 		select restName, restSeq, latitude, longitude
 		from tbl_restaurant
