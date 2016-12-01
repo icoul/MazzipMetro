@@ -94,7 +94,7 @@ public class UserController {
 			req.setAttribute("loc", "javascript:history.back();");
 		}else if(n==1){
 			req.setAttribute("msg", "문의등록이 성공하였습니다.");
-			req.setAttribute("loc", "myQnaList.eat");
+			req.setAttribute("loc", "myQnaList.eat?userSeq=" + userSeq);
 		}
 		
 		return "user/msg";
