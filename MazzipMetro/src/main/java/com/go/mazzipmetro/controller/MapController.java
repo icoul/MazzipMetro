@@ -35,8 +35,11 @@ public class MapController {
 		
 		List<String> list = service.autoComplete(map);
 		
-		req.setAttribute("list", list);
-		return "ajax/autoComplete";
+		JSONObject jObj = new JSONObject();
+		jObj.put("autoComSource", list);
+		
+		req.setAttribute("jObj", jObj);
+		return "/maps/json/autoComplete";
 		// /Board/src/main/webapp/WEB-INF/views/ajax/autoComplete.jsp 생성
 		}
 	

@@ -39,19 +39,25 @@
 			
 		<if test='srchType.equals("metroName")'>
 			select distinct(metroName)
-			from tbl_restaurant
+			from tbl_restaurant A left join tbl_metro B
+			on A.metroId = B.metroId
 			where metroName like '%'||#{keyword}||'%'
 		</if>
 			
 		<if test='srchType.equals("dongName")'>
 			select distinct(dongName)
-			from tbl_restaurant
+			from tbl_restaurant A left join tbl_dong B
+			on A.dongId = B.dongId
 			where dongName like '%'||#{keyword}||'%'
 		</if>
 		
 		<if test='srchType.equals("guName")'>
 			select distinct(guName)
-			from tbl_restaurant
+			from(
+			select A.guId
+			from tbl_restaurant A left join tbl_dong B
+			on A.dongId = B.dongId) A left join tbl_gu B
+			on A.guId = B.guId
 			where guName like '%'||#{keyword}||'%'
 		</if>
 	</select>

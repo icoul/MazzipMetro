@@ -9,6 +9,8 @@
 	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery-2.0.0.js"></script>
 	<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/css/bootstrap/bootstrap.css">
 	<script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/bootstrap.js"></script>
+	<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/jquery-ui-1.12.1/jquery-ui.css">
+  	<script src="href=<%= request.getContextPath() %>/resources/jquery-ui-1.12.1/jquery-ui.js"></script>
  
 	 <style type="text/css">
 	    .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
@@ -71,15 +73,6 @@
 	</form>
 </div>
 
-<!-- 자동검색어완성 div -->
-<div id="autoCompleteContainer" style="position: absolute; z-index:1; left: 0px; top: 180px;">
-		<div id="autoCompleteList" style="min-width: 150px; min-height : 30px;  margin-left: 154px; border-top: 0px; border: solid 1px gray; background-color: white;">
-			sdjfsjdfklsajdfklasjdl <br/> 
-			asjdkfklasjfdslajdflsa <br/> 
-			akdsfjlskajfldkjlfj <br/> 
-			dfsalkjkl
-		</div>
-	</div>
 <br/> 
 <div id="map" style="width:100%;height:500px;"></div>
 
@@ -88,8 +81,6 @@
 	$(document).ready(function(){
 		//페이지 최초로딩시 등록된 음식점 모두 띄우기
 		getRestaurant();
-		
-		$("#autoCompleteList").hide();
 		
 		$("#keyword").keyup(function(){
 			var srchType = $("[name=srchType]").val();
@@ -103,10 +94,14 @@
 				url:"<%=request.getContextPath()%>/autoComplete.eat",
 				type :"GET",
 				data: "srchType="+srchType+"&keyword="+$("#keyword").val(),
-				dataType:"html",
+				dataType:"json",
 				success: function(data){
-					//alert(data)
-					var Arr = data.split(',');
+					
+					$("#keyword").autocomplete({
+						source : data.autoComSource
+					})
+					
+					/* var Arr = data.split(',');
 					var resultHtml = ""; 
 					
 					for (var i = 0; i < Arr.length; i++) {
@@ -119,7 +114,7 @@
 					}
 					
 					$("#autoCompleteList").show();
-					$("#autoCompleteList").html(resultHtml);
+					$("#autoCompleteList").html(resultHtml); */
 							
 				}, //end of success: function(data)
 				error: function(request, status, error){
