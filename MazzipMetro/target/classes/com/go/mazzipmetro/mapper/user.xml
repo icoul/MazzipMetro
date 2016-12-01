@@ -1,49 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- #11. mapper 기본 설정 -->
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) --> 
+<!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) -->
 <mapper namespace="user">
+
 	<!-- 사용자 회원가입 -->
 	<insert id="userRegister" parameterType="com.go.mazzipmetro.vo.UserVO">
-    		<if test = '!userProfile.equals("") and  !userStation.equals("")' >
-    		insert into TBL_USER(userSeq, userName, userEmail, userPw, userGender, userBirthday,userPhone, USERREGDATE, userProfile, userPoint,userStation, userSort, userStatus) 
-			values(tbl_user_seq.nextval, #{userName}, #{userEmail}, #{userPw}, #{userGender}, #{userBirthday}, #{userPhone}, default, #{userProfile}, default , #{userStation}, 0, default);
-    		</if>
-    		<if test = 'userProfile.equals("") and !userStation.equals("")' >
-    		insert into TBL_USER(userSeq, userName, userEmail, userPw, userGender, userBirthday,userPhone, USERREGDATE, userPoint,userStation, userSort, userStatus) 
-			values(tbl_user_seq.nextval, #{userName}, #{userEmail}, #{userPw}, #{userGender}, #{userBirthday}, #{userPhone}, default, default , #{userStation}, 0, default);
-    		</if>
-    		
-    		<if test = "userProfile != null and userStation == null" >
-    		insert into TBL_USER(userSeq, userName, userEmail, userPw, userGender, userBirthday,userPhone, USERREGDATE, userProfile, userPoint, userSort, userStatus) 
-			values(tbl_user_seq.nextval, #{userName}, #{userEmail}, #{userPw}, #{userGender}, #{userBirthday}, #{userPhone}, default, #{userProfile}, default , 0, default);
-    		</if>
-    		
-    </insert>
-    
-    <!-- 사업자 회원가입 -->
-    <!-- <insert id="restRegister" parameterType="com.go.mazzipmetro.vo.RestaurantVO">
-    		insert into tblBoard(userSeq, userName, subject, content, pw, readCount, regDate, status, groupno, fk_seq, depthno, fileName, orgFilename, fileSize)
-        	values(boardSeq.nextval, #{name}, #{subject}, #{content}, #{pw}, default, default, default, #{groupno}, #{fk_seq}, #{depthno}+1, #{fileName, jdbcType=VARCHAR}, #{orgFilename}, #{fileSize})
-    </insert> -->
-    <!-- 로그인 체크 1:정상 로그인, 0:아이디 없음, -1: 계정자체가 없음 -->
-    <select id="logincheck" resultType="int" parameterType="java.util.HashMap">
-    	SELECT CASE (SELECT COUNT(*) 
-    	 FROM tbl_User
-    	  WHERE userStatus = 0 AND userEmail = #{userEmail} AND userPw = #{userPw})
-    	  WHEN 1 THEN 1
-    	  ELSE(CASE(SELECT COUNT(*) FROM tbl_User WHERE userStatus = 0 and userEmail = #{userEmail})
-    	  WHEN 1 THEN 0 
-    	  ELSE -1 END)  
-		 END AS loginCheck 
-		 FROM dual
-    </select>
-    
-    <select id="getLoginUser" resultType="com.go.mazzipmetro.vo.UserVO">
-    	select userSeq, gradeSeq, userName, userEmail, userPw, userGender, userBirthday, userPhone, userRegDate
-    		  ,userProfile, userPoint, userExp, userStation, userSort, userStatus
-    	from tbl_User
-    	where userEmail = #{userEmail} 
-    </select>
+		<!-- 프로필사진과 선호지역을 모두 선택하여 값을 넣어준 경우 -->
+		<if test="userProfile != null and  userStation != null">
+			insert into TBL_USER(userSeq, userName, userEmail, userPw, userGender,
+			userBirthDay, userPhone, userRegDate, userProfile, userPoint,
+			userStation, userSort, userStatus)
+			values(tbl_user_seq.nextval, #{userName}, #{userEmail}, #{userPw}, #{userGender},
+			#{userBirthDay}, #{userPhone}, default, #{userProfile}, default ,
+			#{userStation}, #{userSort}, default)
+		</if>
+
+		<!-- 프로필사진은 선택하지 않고 선호지역을 선택하여 값을 넣어준 경우 -->
+
+		<if test="userProfile == null and userStation != null">
+			insert into TBL_USER(userSeq, userName, userEmail, userPw, userGender,
+			userBirthday, userPhone, userRegDate, userPoint, userStation,
+			userSort, userStatus)
+			values(tbl_user_seq.nextval, #{userName}, #{userEmail}, #{userPw}, #{userGender},
+			#{userBirthDay}, #{userPhone}, default, default , #{userStation},
+			#{userSort}, default)
+		</if>
+
+		<!-- 프로필사진은 선택하고 선호지역을 선택하지 않은 경우 -->
+		<if test="userProfile != null and userStation == null">
+			insert into TBL_USER(userSeq, userName, userEmail, userPw, userGender,
+			userBirthDay, userPhone, userRegDate, userProfile, userPoint,
+			userSort, userStatus)
+			values(tbl_user_seq.nextval, #{userName}, #{userEmail}, #{userPw}, #{userGender},
+			#{userBirthDay}, #{userPhone}, default, #{userProfile}, default ,
+			#{userSort}, default)
+		</if>
+
+		<!-- 프로필사진과 선호지역을 모두 선택하지 않은 경우 -->
+		<if test="userProfile == null and userStation == null">
+			insert into TBL_USER(userSeq, gradeSeq, userName, userEmail, userPw,
+			userGender, userBirthDay, userPhone, userRegDate, userPoint,
+			userSort, userStatus)
+			values(tbl_user_seq.nextval, default, #{userName}, #{userEmail}, #{userPw}, #{userGender},
+			#{userBirthDay}, #{userPhone}, default, default , #{userSort},
+			default)
+		</if>
+	</insert>
+
+	<!-- 로그인 체크 1:정상 로그인, 0:아이디 없음, -1: 계정자체가 없음 -->
+	<select id="logincheck" resultType="int" parameterType="java.util.HashMap">
+		SELECT CASE (SELECT COUNT(*)
+		FROM tbl_User
+		WHERE userStatus = 0 AND userEmail = #{userEmail} AND userPw = #{userPw})
+		WHEN 1 THEN 1
+		ELSE(CASE(SELECT COUNT(*) FROM tbl_User WHERE userStatus = 0 and userEmail =
+		#{userEmail})
+		WHEN 1 THEN 0
+		ELSE -1 END)
+		END AS loginCheck
+		FROM dual
+	</select>
+
+	<select id="getLoginUser" resultType="com.go.mazzipmetro.vo.UserVO">
+		select userSeq, gradeSeq, userName, userEmail, userPw, userGender,
+		userBirthday, userPhone, userRegDate
+		,userProfile, userPoint, userExp, userStation, userSort, userStatus
+		from tbl_User
+		where userEmail = #{userEmail}
+	</select>
 </mapper>

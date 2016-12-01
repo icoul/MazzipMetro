@@ -22,6 +22,7 @@ public class UserDAO implements IDAO{
 		return n;
 	}
 
+<<<<<<< HEAD
 
 	public int UserLogin(HashMap<String, String> map) {
 		int n = sqlSession.selectOne("user.logincheck", map);
@@ -33,5 +34,11 @@ public class UserDAO implements IDAO{
 		UserVO loginUser = sqlSession.selectOne("user.getLoginUser", userEmail);
 		return loginUser;
 	}
+=======
+	public int qnaRegister(HashMap<String, String> hashMap) {
+		int n = sqlSession.insert("qnaRegister", hashMap);
+		return n;
+	}
+>>>>>>> fb1d1a611ae5a127c83bdd847537b54583d08897
 }
 

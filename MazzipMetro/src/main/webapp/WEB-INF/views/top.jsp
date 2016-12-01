@@ -55,6 +55,7 @@
 				<li><a href="#">문의하기</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				
 			</ul>
+
 			<c:if test="${sessionScope.loginUser.userSeq == null && empty sessionScope.loginUser.userSeq}"> 
 			<button type="button" class="btnLogin" onClick="goLogin();">로그인</button>
 			</c:if>
@@ -63,6 +64,8 @@
 			${sessionScope.loginUser.userPoint }
 			<button type="button" class="btnLogin" onClick="goLogOut();">로그아웃</button>
 			</c:if>
+
+			<button type="button" class="btnLogin">회원가입</button> 
 		</div>
 	</div>
 	
