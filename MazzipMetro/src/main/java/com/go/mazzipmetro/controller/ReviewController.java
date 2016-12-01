@@ -28,8 +28,6 @@ public class ReviewController {
 	@Autowired
 	private ReviewService service;
 	@Autowired
-	private ReviewService reviewService; 
-	@Autowired
 	private FileManager fileManager;
 	@Autowired
 	private ThumbnailManager thumbnailManager;

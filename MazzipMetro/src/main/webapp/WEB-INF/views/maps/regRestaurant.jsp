@@ -38,7 +38,7 @@
 		</form>
 	</div>
 
-	<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=07a6ce4a014b94664ec5968dee2fb0d2&libraries=services"></script>
+	<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=bf7db50bdf035e740bf5fd98b5509627&libraries=services"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery-2.0.0.js"></script>
 	<script type="text/javascript">
 	
@@ -55,7 +55,7 @@
 		// input 태그 엔터키 refresh 방지
 		function goButton() {
 			 if (event.keyCode == 13) {
-				 
+				 goFrm();
 			  	return false;
 			 }
 			 return true;
@@ -146,7 +146,7 @@
 								    , addr =  result[0].jibunAddress.name
 								    , newAddr = result[0].roadAddress.name;
 								
-								$("#addr").val(keyword);
+								$("#addr").val(addr);
 								$("#newAddr").val(newAddr);
 								$("#latitude").val(lat);
 								$("#longitude").val(lng);
