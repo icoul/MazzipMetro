@@ -28,7 +28,7 @@
      <select id="getTotalCount" parameterType="java.util.HashMap" resultType="int">  
     	select count(*)
     	from tbl_user
-    	where userStatus = 0
+    	where userStatus = 0 and userSeq!=0
     	<if test="colName != null and search != null">
     	and ${colName} like '%' || #{search} || '%'
     	</if>
