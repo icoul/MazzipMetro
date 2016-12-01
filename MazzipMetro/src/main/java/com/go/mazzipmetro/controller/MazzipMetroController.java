@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.go.mazzipmetro.common.FileManager;
 import com.go.mazzipmetro.common.ThumbnailManager;
 import com.go.mazzipmetro.service.MazzipMetroService;
+import com.go.mazzipmetro.vo.QnaVO;
 
 @Controller
 public class MazzipMetroController {
@@ -142,4 +143,214 @@ public class MazzipMetroController {
 		return "alignTest";
 	}
 	
+	
+	//nos
+		@RequestMapping(value = "/myQna.eat", method = RequestMethod.GET)
+		public String myQnA(HttpServletRequest req) {
+			String userSeq = req.getParameter("userSeq");
+			
+			if(userSeq == null){
+				userSeq = "1";
+			}
+			
+			req.setAttribute("userSeq", userSeq);
+			return "QnA/myQna";
+		}
+		
+		@RequestMapping(value = "/myQnaRegister.eat", method = RequestMethod.POST)
+		public String myQnaRegister(HttpServletRequest req) {
+			String userSeq = req.getParameter("userSeq");
+			String qnaQuiry = req.getParameter("qnaQuiry");
+			String qnaSubject = req.getParameter("qnaSubject");
+			String qnaComment = req.getParameter("qnaComment");
+			   
+			HashMap<String,String> hashMap = new HashMap<String,String>();
+			hashMap.put("userSeq", userSeq);
+			hashMap.put("qnaQuiry", qnaQuiry);
+			hashMap.put("qnaSubject", qnaSubject);
+			hashMap.put("qnaComment", qnaComment);
+			
+			int n =  service.qnaRegister(hashMap);
+			
+			if(n == 0){
+				req.setAttribute("msg", "문의등록이 실패하였습니다.");
+				req.setAttribute("loc", "javascript:history.back();");
+			}else if(n==1){
+				req.setAttribute("msg", "문의등록이 성공하였습니다.");
+				req.setAttribute("loc", "myQnaList.eat?userSeq=" + userSeq);
+			}
+			
+			return "user/msg";
+		}
+		
+		@RequestMapping(value = "/myQnaList.eat", method = RequestMethod.GET)
+		public String myQnAList(HttpServletRequest req) {
+			String userSeq = req.getParameter("userSeq");
+			
+			/*
+			 * 페이징 처리하기 글목록 보기 페이지 요청은 URL형태의 페이징 처리를 띄는 것으로 만들어 주어야 한다. 즉, 예를 들면
+			 * 3페이지의 내용을 보고자 한다라면 /board/list.action?pageNo=3 같이한다.
+			 */
+			String pageNo = req.getParameter("pageNo");
+			int totalCount = 0; // 총게시물 건수
+			int sizePerPage = 5; // 한 페이지당 게시물 수
+			int currentShowPageNo = 1; // 현재 보여주는 페이지 번호로서, 초기치로는 1페이지로 설정한다.
+
+			int totalPage = 0; // 총 페이지수 (웹브라우저상에 보여줄 총 페이지 갯수)
+
+			int start = 0; // 시작 행 번호
+			int end = 0; // 끝 행 번호
+			int startPageNo = 0; // 페이지바에서 시작될 페이지 번호
+			/*
+			 * 페이지바란 이전5페이지 [1][2][3][4][5] 다음5페이지 이전5페이지 [6][7][8][9][10] 다음5페이지
+			 * 와같이 페이지바라고 부른다. statrtPageNo는 1또는 6이 된다.
+			 */
+			int loop = 0; // statrtPageNo이 값이 증가할때마다 1씩 증가하는 용도
+			int blockSize = 5; // 페이지바에 보여줄 페이지 갯수
+
+			if (pageNo == null) {
+				currentShowPageNo = 1;// 즉, 초기화면은 /board/list.action?pageNo=1
+			} else {
+				currentShowPageNo = Integer.parseInt(pageNo); // GET방식으로 파라미터
+																// pageNo에 넘어온 값을 현재
+																// 보여주고자 하는 페이지로 한다.
+			}
+
+			// 가져올 게시글의 범위를 구한다.(공식)
+			/*
+			 * currentShowPageNo start end 1page 1 5 2page 6 10 3page 11 15 4page 16
+			 * 20 5page 21 25 6page 26 30 7page 31 35
+			 */
+			start = ((currentShowPageNo - 1) * sizePerPage) + 1;
+			end = start + sizePerPage - 1;
+
+			/*
+			 * #.글조회수(readCount) 증가(DML문 update)는 반드시 해당 글제목을 클릭했을 경우에만 증가되고 웹브라우저에서
+			 * 새로고침(F5)을 했을 경우에는 증가가 안되도록 하겠다. 이것을 하기위해서 우리는 session을 사용하여 처리한다.
+			 */
+
+			/*
+			 * session에 readCountCheck라는 키값으로 저장된 밸류값은 no이다. session에
+			 * readCountCheck라는 키값에 해당하는 밸류값이 "no"라고 얻으려면 반드시 웹브라우저 주소창에
+			 * /list.action이라고 입력해야만 얻어올수 있다.
+			 */
+
+			// 검색어가 포함되어 이것을 주석처리
+			/* List<BoardVO> list = service.list(); */
+
+			String qnaColName = req.getParameter("qnaColName");
+			String qnaSearch = req.getParameter("qnaSearch");
+
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("qnaColName", qnaColName);
+			map.put("qnaSearch", qnaSearch);
+
+			// 페이징처리를 위해 start end를 map에 추가하여 파라미터로 넘겨서 select되도록 한다.
+			map.put("start", String.valueOf(start));
+			map.put("end", String.valueOf(end));
+
+			List<QnaVO> myQnaList = service.myQnaList(map);
+
+			// 페이징 작업의 계속(페이지바에 나타낼 총 페이지 갯수 구하기)
+			/*
+			 * 검색조건이 없을때의 총페이지 수와 검색조건이 있을때의 총페이지수를 구해야 한다. 검색조건이 없을때의 총페이지수 -->
+			 * colname과 search값이 null인경우 검색조건이 있을때의 총페이지수 --> colname과 search값이
+			 * null이 아닌 경우
+			 */
+
+			// 총 게시물건수를 구한다.
+			totalCount = service.getTotalQnaCount(map);
+			/* System.out.println("게시물 총갯수 : " + totalCount); */
+			totalPage = (int) Math.ceil((double) totalCount / sizePerPage);
+
+			// 이제부터 페이지바 작업을 한다.
+			String pagebar = "";
+			pagebar += "<ul>";
+
+			/*
+			 * 우리는 위에서 blocksize를 5로 설정했으므로 이전5페이지 [1][2][3][4][5] 다음5페이지 로 나와야 한다.
+			 * 페이지 번호는 1씩 증가하므로 페이지번호를 증가시켜주는 반복변수가 필요하다. 위에서 선언한 loop를 사용한다. 이때
+			 * loop는 blocksize의 크기보다 크면 안된다.
+			 */
+			loop = 1;
+			/*************************
+			 * 페이지바의 시작 페이지 번호(startPageNo)값 만들기
+			 **************************/
+			startPageNo = ((currentShowPageNo - 1) / blockSize) * blockSize + 1;
+			/*
+			 * 현재 우리는 blockSize를 위에서 5로 설정했다. 만약에 조회하고자 하는 currentShowPageNo가
+			 * 3페이지이라면((3 - 1)/5) * 5 + 1 ==>1 만약에 조회하고자 하는 currentShowPageNo가
+			 * 7페이지이라면((7 - 1)/5) * 5 + 1 ==>6
+			 */
+
+			// ***** 이전 5페이지 만들기 *****
+
+			if (startPageNo == 1) {// 첫 페이지바인 경우
+				pagebar += String.format("&nbsp;[이전%d페이지]&nbsp;", blockSize);
+			} else {// 첫 페이지바가 아닌경우
+				if (qnaColName == null || qnaSearch == null) {// 검색어가 없는경우
+					pagebar += String.format("&nbsp;<a href='%s/list.action?pageNo=%d'>[이전%d페이지]</a>&nbsp;",
+							req.getContextPath(), startPageNo - 1, blockSize);
+				} else {// 검색어가 있는 경우
+					pagebar += String.format(
+							"&nbsp;<a href='%s/list.action?pageNo=%d&colname=%s&search=%s'>[이전%d페이지]</a>&nbsp;",
+							req.getContextPath(), startPageNo - 1, qnaColName, qnaSearch, blockSize);
+				}
+			}
+
+			while (!(loop > blockSize || startPageNo > totalPage)) {
+
+				if (startPageNo == currentShowPageNo) {
+					pagebar += String.format(
+							"&nbsp;<span style='color:red; font-weight:bold; text-decoration:underline; '> %d </span>&nbsp;",
+							startPageNo);
+				} else {
+					if (qnaColName == null || qnaSearch == null) {// 검색어가 없는경우
+						pagebar += String.format("&nbsp;<a href='%s/list.action?pageNo=%d'>%d</a>&nbsp;",
+								req.getContextPath(), startPageNo, startPageNo);
+					} else {// 검색어가 있는 경우
+						pagebar += String.format(
+								"&nbsp;<a href='%s/list.action?pageNo=%d&colname=%s&search=%s'>%d</a>&nbsp;",
+								req.getContextPath(), startPageNo, qnaColName, qnaSearch, startPageNo);
+					}
+
+				}
+
+				loop++;
+				startPageNo++;
+			} // end of while
+
+			// ***** 다음 5페이지 만들기 *****
+
+			if (startPageNo > totalPage) {// 마지막 페이지바인 경우
+				pagebar += String.format("&nbsp;[다음%d페이지]&nbsp;", blockSize);
+			} else {// 마지막 페이지바가 아닌경우
+				if (qnaColName == null || qnaSearch == null) {// 검색어가 없는경우
+					pagebar += String.format("&nbsp;<a href='%s/list.action?pageNo=%d'>[다음%d페이지]</a>&nbsp;",
+							req.getContextPath(), startPageNo, blockSize);
+				} else {// 검색어가 있는 경우
+					pagebar += String.format(
+							"&nbsp;<a href='%s/list.action?pageNo=%d&colname=%s&search=%s'>[다음%d페이지]</a>&nbsp;",
+							req.getContextPath(), startPageNo, qnaColName, qnaSearch, blockSize);
+				}
+			}
+
+			pagebar += "</ul>";
+
+			req.setAttribute("list", list);
+
+			req.setAttribute("qnaColName", qnaColName);
+			req.setAttribute("qnaSearch", qnaSearch);
+			req.setAttribute("pagebar", pagebar);
+			
+			
+			return "QnA/myQnaList";
+		}
+		
+		@RequestMapping(value = "/adminQna.eat", method = RequestMethod.GET)
+		public String qna(HttpServletRequest req) {
+			
+			
+			return "QnA/adminQna";
+		}
 }

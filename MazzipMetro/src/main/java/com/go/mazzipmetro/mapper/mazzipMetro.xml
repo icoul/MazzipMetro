@@ -19,4 +19,8 @@
 		from tbl_metro
 	</select>
 	
+	  <!-- 문의 등록하기 -->
+    <insert id="qnaRegister" parameterType="java.util.HashMap">
+    	insert into tbl_qna values(tbl_qnaSeq.nextval, #{userSeq}, #{qnaQuiry}, #{qnaSubject}, #{qnaComment}, default, default, default, default)
+    </insert>
 </mapper>

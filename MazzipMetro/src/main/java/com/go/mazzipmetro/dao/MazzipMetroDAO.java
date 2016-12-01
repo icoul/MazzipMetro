@@ -7,6 +7,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.go.mazzipmetro.vo.QnaVO;
+
 @Repository
 public class MazzipMetroDAO implements IDAO{
 
@@ -24,5 +26,13 @@ public class MazzipMetroDAO implements IDAO{
 		return list;
 	}
 	
-	
+	public int qnaRegister(HashMap<String, String> hashMap) {
+		int n = sqlSession.insert("qnaRegister", hashMap);
+		return n;
+	}
+
+	public List<QnaVO> myQnaList(HashMap<String, String> map) {
+		List<QnaVO> myQnaList =  sqlSession.selectList("myQnaList", map);
+		return myQnaList;
+	}
 }

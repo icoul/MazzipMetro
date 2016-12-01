@@ -21,9 +21,6 @@ public class UserDAO implements IDAO{
 		return n;
 	}
 
-	public int qnaRegister(HashMap<String, String> hashMap) {
-		int n = sqlSession.insert("qnaRegister", hashMap);
-		return n;
-	}
+	
 }
 

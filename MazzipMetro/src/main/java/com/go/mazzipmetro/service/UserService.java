@@ -26,9 +26,6 @@ public class UserService implements IService {
 		return n;
 	}
 
-	public int qnaRegister(HashMap<String, String> hashMap) {
-		int n =  dao.qnaRegister(hashMap);
-		return n;
-	}
+	
 }
 

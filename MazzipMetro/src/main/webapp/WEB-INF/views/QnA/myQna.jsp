@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>문의하기</title>
+<title>QnA/문의하기</title>
 <style type="text/css">
 	.title-label{font-weight:400;font-size:24px;}
 	.navbar-barnd{vertical-align : middle;line-height:45px;}

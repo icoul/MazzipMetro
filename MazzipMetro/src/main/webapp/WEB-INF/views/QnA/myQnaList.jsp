@@ -25,11 +25,12 @@
 		<span>총 문의건 : 0건 | 접수완료 : 0건 | 답변완료 : 0건</span>
         <nav class="navbar navbar-default query" role="query">
             <div class="container-fluid">
+            <form name="qnaSearchFrm" style="display:inline;" action="<%=request.getContextPath()%>/myQnaList.action" method="get">
                 <table class="table table-bordered">
 				      <tr>
 				        <th>문의접수일</th>
 				        <td colspan="3">
-							<select id="qnaRegYearStart">
+							<select name="qnaRegYearStart">
 							
 								 <c:set var="year" value="2015" />
 						        <c:forEach begin="1" end="85" >
@@ -39,7 +40,7 @@
 						    </select>
 						    년
 						    
-						    <select id="qnaRegMonthStart">
+						    <select name="qnaRegMonthStart">
 							
 								 <c:set var="month" value="0" />
 						        <c:forEach begin="1" end="12" >
@@ -49,7 +50,7 @@
 						    </select>
 						    월
 						    
-						    <select id="qnaRegDayStart">
+						    <select name="qnaRegDayStart">
 							
 								 <c:set var="day" value="0" />
 						        <c:forEach begin="1" end="31" >
@@ -59,7 +60,7 @@
 						    </select>
 						    일 ~ 
 						    
-						    <select id="qnaRegYearEnd">
+						    <select name="qnaRegYearEnd">
 							
 								 <c:set var="year" value="2015" />
 						        <c:forEach begin="1" end="85" >
@@ -69,7 +70,7 @@
 						    </select>
 						    년
 						    
-						    <select id="qnaRegMonthEnd">
+						    <select name="qnaRegMonthEnd">
 							
 								 <c:set var="month" value="0" />
 						        <c:forEach begin="1" end="12" >
@@ -79,7 +80,7 @@
 						    </select>
 						    월
 						    
-						    <select id="qnaRegDayEnd">
+						    <select name="qnaRegDayEnd">
 							
 								 <c:set var="day" value="0" />
 						        <c:forEach begin="1" end="31" >
@@ -94,22 +95,31 @@
 				      <tr>
 				        <th>문의 유형</th>
 				        <td>
-				         <select id="qnaQuiry">
+				         <select name="qnaQuiry">
 							<option value="0">문의종류</option>
-							<option value="회원">회원관련문의</option>
-							<option value="사업주">사업주관련문의</option>
-							<option value="음식점">음식점문의</option>
-							<option value="기타">기타문의</option>
+							<option value="member">회원관련문의</option>
+							<option value="boss">사업주관련문의</option>
+							<option value="restaurant">음식점문의</option>
+							<option value="etc">기타문의</option>
 						  </select>
 						</td>
 				        
 						<th>문의 상세검색</th>
-						<td><input type="text"/> &nbsp; <button type="button">조회</button></td>
+						<td> 
+						<select name="qnaColName">
+							<option value="0">검색</option>
+							<option value="name">이름</option>
+							<option value="subject">제목</option>
+							<option value="content">내용</option>
+						 </select> 
+						  <input name="qnaSearch" type="text"/> &nbsp; <button type="button">조회</button>
+						  </td>
 				      </tr>
 				  </table>
-                
+                </form>
             </div>
         </nav>
+        
         <div class="table-responsive col-md-12">
             <table class="table table-striped table-hover">
                 <thead>
