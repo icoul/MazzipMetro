@@ -182,8 +182,19 @@
 	 <%-- >>>> 파일첨부하기
 	 	  enctype="multipart/form-data" 을 해주어야만 파일첨부가 된다. --%>
 	
-	<form name="writeFrm" action="<%= request.getContextPath() %>/addEnd.action" method="post" enctype="multipart/form-data" >
+	<form name="writeFrm" action="<%= request.getContextPath() %>/reviewAddEnd.eat" method="post" enctype="multipart/form-data" >
 		<table id="table" class="table table-bordered" style="width: 60%; margin-top: 50px; border: gray 1px solid">
+			<tr>
+				<th>제목</th>
+			</tr>
+			<tr>
+				<td align="center">
+					<input type="text" name="reviewTitle" />
+				</td>
+				<td align="right">
+					<input type="text" name="reviewHit" value="3"/>
+				</td>
+			</tr>			
 			<tr>
 				<th>평점</th>
 			</tr>
@@ -273,14 +284,14 @@
 					<div id="service-result"> </div><br/><br/>
 					
 					<div><span style="font-weight: bold; font-size: 16pt;">총 평점</span></div>
-					<div id="total-result" style="font-weight: bold; font-size: 16pt;"></div>
+					<div id="total-result" name="reviewScore" style="font-weight: bold; font-size: 16pt;"></div>
 				</td>
 			</tr>
 			<tr>
 				<th>리뷰 작성</th>
 			</tr>
 			<tr>
-            	<td><textarea name="content" class="form-control mylong" rows="5" placeholder="리뷰 내용"></textarea></td>
+            	<td><textarea name="reviewContent" class="form-control mylong" rows="5" placeholder="리뷰 내용"></textarea></td>
          	</tr>
          	
          	<%-- 파일첨부 타입 추가하기  --%>
@@ -308,7 +319,29 @@
          		<td><input id="spinner" name="value"></td>
          	</tr> 
          	--%>
+         	
+         	<tr>
+         		<th>가격별 테마</th>
+         	</tr>
+         	<tr align="center">	
+         		<td>
+         		<input type="checkbox" value="single" />혼밥&nbsp;&nbsp;
+         		<input type="checkbox" value="family" />가족&nbsp;&nbsp;
+         		<input type="checkbox" value="cost" />가성비&nbsp;&nbsp;
+         		<input type="checkbox" value="luxury" />고급스러움<br/>
+         		<input type="checkbox" value="drink" />술 안주&nbsp;&nbsp;
+         		<input type="checkbox" value="night" />야식&nbsp;&nbsp;
+         		<input type="checkbox" value="feel" />분위기 좋음&nbsp;&nbsp;
+         		<input type="checkbox" value="party" />회식&nbsp;
+         		</td>
+         	
+         	
+         	</tr>
+         	
 		</table>
+		
+		<input type="text" name ="userSeq" value="${sessionScope.loginUser.userSeq}" />
+		<input type="text" name ="restSeq" value="1845" />
 		<br/>
 		
 		<button type="button" class="btn btn-primary" style="margin-right: 10px;" onClick="goWrite();">쓰기</button>

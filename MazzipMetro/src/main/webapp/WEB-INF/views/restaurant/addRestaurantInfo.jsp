@@ -35,18 +35,12 @@
 <script type = "text/javascript">
 	$(document).ready(function(){
 		
-		$("#popular0").change(function(){
-			alert("");
-			/* alert($(".menuEvent1").is(":checked"));
-			$(this).is(":checked") = true; */
-		});
-		
 		$("#fileNum").change(function(){
 			
 			$("#fileAttach").empty();
 			
 			var num = $(this).val();
-			var html= "<input type='file' name='attach' size='7'/><br/><br/>"
+			var html= "<input type='file' name='attach' size='7'/><br/>"
 			for (var i = 0; i < num; i++) {
 				$("#fileAttach").append(html);
 			}
@@ -60,28 +54,29 @@
 			var html = "";
 			
 			for (var i = 0; i < num; i++) {
-				
+					html += "<input type = 'hidden' name = 'restSeq' value = \"${restSeq}\" />"
+					html += "<div>"
 					html +=  "<table class = 'table'>"
 					html += "<tr>"
 					html +=	"<td width='10%' style = 'font-size : 11pt;'><b>메뉴명</b></td>"
-					html +=	"<td width='25%' align='left'><input type='text' name='menuName' />" 
+					html +=	"<td width='25%' align='left'><input type='text' class=\"menuName\" name=\"menuName\" id=\"menuName"+i+"\" />" 
 					html +=	"</td>"
 					html +=	"<td width='10%' style = 'font-size : 11pt;'><b>한 줄 설명</b></td>"
 					html +=	"<td width='45%' align='left' colspan = '3'>"
-					html +=	"<input type='text' name='menuContent' style = 'width: 450px;' /> "
+					html +=	"<input type='text' class=\"menuContent\"  name=\"menuContent\" id=\"menuContent"+i+"\" style = 'width: 450px;' /> "
 					html +=	"</td>"
 					html +=	"</tr>"
 					html +=	"<tr>"
 					html +=	"<td width='10%' style = 'font-size : 11pt;'><b>메뉴이미지</b></td>"
-					html +=	"<td width='25%' align='left'><input type='file' name='menuImg'/> "
+					html +=	"<td width='25%' align='left'><input type='file' name='menuImgFile'/> "
 					html +=	"</td>"
 					html +=	"<td width='10%' style = 'font-size : 11pt;'><b>메뉴가격</b></td>"
 					html +=	"<td width='15%' align='left'>"
-					html +=	"<input type='text' name='menuPrice' style = 'width: 100px;' />&nbsp;원"
+					html +=	"<input type='text' class=\"menuPrice\"  name=\"menuPrice\" id=\"menuPrice"+i+"\" style = 'width: 100px;' />&nbsp;원"
 					html +=	"</td>"
 					html +=	"<td width='10%' style = 'font-size : 11pt;'><b>세일가격</b></td>"
 					html +=	"<td width='15%' align='left'>"
-					html +=	"<input type='text' name='menuSalePrice' style = 'width: 100px;' />&nbsp;원" 
+					html +=	"<input type='text' name='menuSalePrice' style = 'width: 100px;' value = '0' />&nbsp;원" 
 					html +=	"</td>"
 					html +=	"</tr>"
 					html +=	"<tr>"
@@ -96,16 +91,15 @@
 					html +=	"</td>"
 					html +=	"<td width='10%' style = 'font-size : 11pt;'><b>메뉴이벤트</b></td>"
 					html +=	"<td width='45%' align='left' colspan = '3' style = 'font-size : 11pt;'>"
-					html +=	"<select name = 'menuEvent' style = 'width: 100px; height: 25px; font-size: 12pt;'>"
-					html +=	"<option value='신메뉴'>신메뉴</option>"
-					html +=	"<option value='간판메뉴'>간판메뉴</option>"
-					html +=	"<option value='기간한정'>기간한정</option>"
-					html +=	"<option value='계절한정'>계절한정</option>"
-					html +=	"<option value='이벤트메뉴'>이벤트메뉴</option>"
-					html +=	"</select>"
+					html +=	"<input type = 'checkbox' name = \"menuEvent"+i+"\" id='new"+i+"' value = '신메뉴' onClick=\"oneCheckbox(this, 'menuEvent"+i+"');\" /><label for='new"+i+"'>신메뉴</label>&nbsp;"
+					html +=	"<input type = 'checkbox' name = \"menuEvent"+i+"\" id='popular"+i+"' value = '간판메뉴' onClick=\"oneCheckbox(this, 'menuEvent"+i+"');\" /><label for='popular"+i+"'>간판메뉴</label>&nbsp;"
+					html +=	"<input type = 'checkbox' name = \"menuEvent"+i+"\" id='dayLimit"+i+"' value = '기간한정' onClick=\"oneCheckbox(this, 'menuEvent"+i+"');\" /><label for='dayLimit"+i+"'>기간한정</label>&nbsp;"
+					html += "<input type = 'checkbox' name = \"menuEvent"+i+"\" id='weatherLimit"+i+"' value = '계절한정' onClick=\"oneCheckbox(this, 'menuEvent"+i+"');\" /><label for='weatherLimit"+i+"'>계절한정</label>&nbsp;"
+					html += "<input type = 'checkbox' name = \"menuEvent"+i+"\" id='event"+i+"' value = '이벤트메뉴' onClick=\"oneCheckbox(this, 'menuEvent"+i+"');\" /><label for='event"+i+"'>이벤트메뉴</label>"
 					html += "</td>"
 					html += "</tr>"
-					html += "</table>";
+					html += "</table>"
+					html += "</div>";
 					
 				$("#addMenu").append(html);
 				
@@ -115,8 +109,54 @@
 		
 	});
 	
-	function goRegister(){
+	function oneCheckbox(ckbox, name){
 
+		var ckboxName = name
+		var ckboxArr = document.getElementsByName(ckboxName);
+			
+		for (var i = 0; i < ckboxArr.length; i++) {
+			
+			if (ckboxArr[i] != ckbox) {
+				ckboxArr[i].checked = false;
+			}
+		}
+	} 
+	
+	function goRegister(){
+		
+		var content = $(".content").val();
+		var mdCat = $(".mdCat:checked").length;
+		var menuNum = $("#menuNum").val();
+		var menuName = $(".menuName").val();
+		var menuContent = $(".menuContent").val();
+		var menuPrice = $(".menuPrice").val();
+		
+		if (content == "") {
+			alert("소개글을 작성해주세요");
+			return;
+		}
+		
+		if (mdCat < 1) {
+			alert("태그는 최소 1개 이상 선택해주세요");
+			alert(mdCat);
+			return;
+		}
+		
+		if (menuName == "") {
+			alert("메뉴명을 작성해주세요");
+			return;
+		}
+		
+		if (menuContent == "") {
+			alert("메뉴설명을 작성해주세요");
+			return;
+		}
+		
+		if (menuPrice == "") {
+			alert("메뉴가격을 작성해주세요");
+			return;
+		}
+			
 		var registerFrm = document.registerFrm;
 		registerFrm.submit();
 	}
@@ -128,13 +168,13 @@
 </div>
 
 <div align="center">
-<form name="registerFrm" action="addRestaurantInfoEnd.eat" method="post" enctype="multipart/form-data">
+<form name="registerFrm" action="addRestaurantInfoEnd.eat?restSeq=${restSeq}" method="post" enctype="multipart/form-data">
 
 <table class = "table">
 	<tr>
 		<td width="20%" style = "font-size : 14pt; vertical-align: middle;"><b>소개글</b></td>
 		<td width="80%" align="left">
-			<textarea name="content" id="content" style = "width : 97%; height: 200px;"></textarea>
+			<textarea class = "content" name="content" id="content" style = "width : 97%; height: 200px;"></textarea>
 		</td>
 	</tr>
 	<tr>
@@ -170,18 +210,19 @@
 	</tr>
 	<tr>
 		<td width="80%" align="left">
-			<input type = "checkbox" name = "mgCat" id="meet" value="meet" /><label for="meet">고기류</label>&nbsp;&nbsp;
-			<input type = "checkbox" name = "mgCat" id="fish" value="fish" /><label for="fish">어폐류</label>&nbsp;&nbsp;
-			<input type = "checkbox" name = "mgCat" id="vegetable" value="vegetable" /><label for="vegetable">채소류</label>&nbsp;&nbsp;
-			<input type = "checkbox" name = "mgCat" id="rice" value="rice" /><label for="rice">밥류</label>&nbsp;&nbsp;
-			<input type = "checkbox" name = "mgCat" id="noodle" value="noodle" /><label for="noodle">면류</label>
+			<input type = "checkbox" class = "mdCat" name = "mdCat" id="meet" value="고기류" /><label for="meet">고기류</label>&nbsp;&nbsp;
+			<input type = "checkbox" class = "mdCat" name = "mdCat" id="fish" value="어폐류" /><label for="fish">어폐류</label>&nbsp;&nbsp;
+			<input type = "checkbox" class = "mdCat" name = "mdCat" id="vegetable" value="채소류" /><label for="vegetable">채소류</label>&nbsp;&nbsp;
+			<input type = "checkbox" class = "mdCat" name = "mdCat" id="rice" value="밥류" /><label for="rice">밥류</label>&nbsp;&nbsp;
+			<input type = "checkbox" class = "mdCat" name = "mdCat" id="noodle" value="면류" /><label for="noodle">면류</label>
 		</td>
 	</tr>
-	<tr>
+	<!-- <tr>
 		<td width="20%" style = "font-size : 14pt; vertical-align: middle;"><b>테마</b></td>
 		<td width="80%" align="left">
+			추후 사용할지도 모릅니다 이거
 		</td>
-	</tr>
+	</tr> -->
 </table>
 
 <div style ="margin-top : 20px; background-color : #0E6DAC; border-radius: 6px;" align ="left">
@@ -189,7 +230,7 @@
 </div>
 <br/>
 <span style = "padding-left : 20px; font-size : 15pt; color : black;" >추가할 메뉴의 갯수를 입력해주세요</span>
-<select id="menuNum" style = "padding-left : 35px; width: 100px; height: 25px; font-size: 12pt;">
+<select name = "menuNum" id="menuNum" style = "padding-left : 35px; width: 100px; height: 25px; font-size: 12pt;">
 	<option value="0">0</option>
 	<option value="1">1</option>
 	<option value="2">2</option>

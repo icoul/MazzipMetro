@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-페이지
+${result}개를 등록하였습니다<br/>
+${msg}
 </body>
 </html>
