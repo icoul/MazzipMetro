@@ -87,12 +87,6 @@ public class MapService  implements IService {
 			
 			List<HashMap<String, String>> catList = new ArrayList<HashMap<String,String>>();
 			
-			for (String restName : restList) {
-				HashMap<String, String> elemMap = new HashMap<String, String>();
-				elemMap.put("label", restName);
-				elemMap.put("category", "음식점이름");
-				catList.add(elemMap);
-			}
 			
 			for (String metroName : metroList) {
 				HashMap<String, String> elemMap = new HashMap<String, String>();
@@ -115,6 +109,12 @@ public class MapService  implements IService {
 				catList.add(elemMap);
 			}
 			
+			for (String restName : restList) {
+				HashMap<String, String> elemMap = new HashMap<String, String>();
+				elemMap.put("label", restName);
+				elemMap.put("category", "음식점이름");
+				catList.add(elemMap);
+			}
 			return catList;
 		}
 

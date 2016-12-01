@@ -22,6 +22,7 @@ public class MapController {
 	
 	@Autowired
 	MapService service;
+	
 	//이미지맵 테스트
 	@RequestMapping(value="/imgMapTest.eat",method={RequestMethod.GET}) 
 	public String imgMapTest(){
@@ -89,12 +90,12 @@ public class MapController {
 		map.put("restStatus", restStatus);
 		
 		List<HashMap<String, String>> list = service.getRestaurantList(map);
+		//System.out.println(list); 
 		
 		JSONObject jObj = new JSONObject();
 		jObj.put("positions", list);
 		
 		req.setAttribute("jObj", jObj);
-		
 		return "/maps/json/getRestaurantList";
 	}
 	

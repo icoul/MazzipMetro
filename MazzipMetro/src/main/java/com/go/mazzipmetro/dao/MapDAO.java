@@ -32,8 +32,8 @@ public class MapDAO  implements IDAO {
 	}
 
 	public List<HashMap<String, String>> getRestaurantList(HashMap<String, String[]> map) {
-		System.out.println(map.get("userSeq")[0]); 
-		System.out.println(map.get("keyword")[0] == null); //false
+		//System.out.println(map.get("userSeq")[0]); 
+		//System.out.println(map.get("keyword")[0] == null); //false
 		return sqlSession.selectList("map.getRestaurantList", map);
 	}
 

@@ -36,7 +36,11 @@
 	
 	<!-- 관리자용 음식점 검색 -->
 	<select id="getRestaurantList" parameterType="java.util.HashMap" resultMap="restaurantList">
-		select A.*, B.guName
+		select A.restName
+				, A.restSeq
+				, A.restLongitude
+				, A.restLatitude
+				, B.guName
 		from (
 			select A.*, B.dongName, B.guId
 			from (
