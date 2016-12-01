@@ -56,9 +56,10 @@
 			total = (taste + mood + price + service) / 4
 			total = total.toFixed(1);
 			
+			var reviewScore = "<input type='hidden' name='reviewScore' value='"+total+"'/>";
 			
 			$("#total-result").empty();
-			$("#total-result").append(total+"점");
+			$("#total-result").append(total+"점"+reviewScore);
 		}
 		else
 		{
@@ -313,13 +314,7 @@
          		<div id="result"></div>
          		</td>
          	</tr>
-         	<%-- 
-         	<tr>
-         		<th><label for="spinner">Select a value:</label></th>
-         		<td><input id="spinner" name="value"></td>
-         	</tr> 
-         	--%>
-         	
+         	         	
          	<tr>
          		<th>가격별 테마</th>
          	</tr>

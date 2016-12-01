@@ -81,7 +81,7 @@ public class ReviewController {
 	@RequestMapping(value="/reviewAddEnd.eat", method={RequestMethod.POST})
 	public String addRestaurantInfoEnd(ReviewVO rvo, FileVO fvo, HttpServletRequest req, HttpSession session){
 		
-		
+		System.out.println(">>> score @ reviewController : "+rvo.getReviewScore());
 		// 이미지 파일 업로드 및 파일명 배열에 저장하기
 		ArrayList<String> imageList = new ArrayList<String>();	
 		

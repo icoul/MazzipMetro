@@ -13,14 +13,14 @@
 		<c:if test="${result == 1}">
 			alert("글쓰기 성공!!");
 			window.opener.location.reload();
-			window.close();
+			self.window.close();
 			// 글목록을 보여주는 페이지로 이동
 		</c:if>
 		
 		<c:if test="${result != 1}">
 			alert("글쓰기 실패!!");
 			window.opener.location.reload();
-			window.close();  
+			self.window.close();  
 			// 글목록을 보여주는 페이지로 이동
 		</c:if>
 	</script>

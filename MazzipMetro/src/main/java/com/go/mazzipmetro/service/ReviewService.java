@@ -76,7 +76,8 @@ public class ReviewService implements IService{
 				
 				for(int i =0; i<imageList.size(); i++)
 				{
-					map.put("ReviewImg", imageList.get(i));
+					System.out.println(imageList.get(i));
+					map.put("reviewImg", imageList.get(i));
 					
 					result = dao.addReviewImg(map); 
 				}
