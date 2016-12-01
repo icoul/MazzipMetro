@@ -86,14 +86,14 @@
 
 <script>
 	$(document).ready(function(){
-		goMap();
-		//getRestaurant();
+		//페이지 최초로딩시 등록된 음식점 모두 띄우기
+		getRestaurant();
 		
 		$("#autoCompleteList").hide();
 		
 		$("#keyword").keyup(function(){
 			var srchType = $("[name=srchType]").val();
-			alert(srchType);
+			//alert(srchType);
 			
 			if('srchType' == $("[name=srchType]").val()){
 				return;
@@ -103,9 +103,9 @@
 				url:"<%=request.getContextPath()%>/autoComplete.eat",
 				type :"GET",
 				data: "srchType="+srchType+"&keyword="+$("#keyword").val(),
-				dataType:"json",
+				dataType:"html",
 				success: function(data){
-					
+					//alert(data)
 					var Arr = data.split(',');
 					var resultHtml = ""; 
 					
