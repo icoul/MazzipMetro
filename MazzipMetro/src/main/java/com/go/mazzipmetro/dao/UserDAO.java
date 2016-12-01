@@ -2,6 +2,7 @@
 package com.go.mazzipmetro.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,22 @@ public class UserDAO implements IDAO{
 		UserVO loginUser = sqlSession.selectOne("user.getLoginUser", userEmail);
 		return loginUser;
 	}
+	
+	public List<String> alignTest() {
+		List<String> list = sqlSession.selectList("mazzipMetro.alignTest");
+		return list;
+	}
 
 
+<<<<<<< HEAD
 
+
+=======
+	public int userEdit(UserVO vo) {
+		int n = sqlSession.update("user.userEdit", vo);
+		return n;
+	}
+>>>>>>> 4919319799783b0a06acc329c4758a479f377165
 
 }
 

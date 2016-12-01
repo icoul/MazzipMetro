@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,22 +19,11 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/1.0/zxcvbn-async.min.js"></script>
 	 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 	 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>
-	
+	<jsp:include page="top.jsp" />
 	
 	<script type="text/javascript" >
 	
-	/* $("#submit").click(function(){
-		alert("하하");
-		var chkboxArr = document.getElementsByName("userStation");
-		
-		alert(chkboxArr.length);
-		
-		 for(var i=0; i<chkboxpnumArr.length; i++) {
-			chkboxpnumArr[i].checked = bool;
-		} 
-	}); */
-	
-	/* function goSubmit(){
+	 function goSubmit(){
 		
 		var registerFrm = document.registerFrm;
 		
@@ -56,7 +45,7 @@
 			registerFrm.submit();
 		}
 		
-	} */
+	} 
 	
 	
 	 $(function() {
@@ -171,16 +160,9 @@
 		            $('#success_message').slideDown({ opacity: "show" }, "slow") // Do something ...
 		                $('#contact_form').data('bootstrapValidator').resetForm();
 
-		            // Prevent form submission
 		            e.preventDefault();
-
-		            // Get the form instance
 		            var $form = $(e.target);
-
-		            // Get the BootstrapValidator instance
 		            var bv = $form.data('bootstrapValidator');
-
-		            // Use Ajax to submit form data
 		            $.post($form.attr('action'), $form.serialize(), function(result) {
 		                console.log(result);
 		            }, 'json');
@@ -285,26 +267,29 @@
 	</script>
 </head>
 <body>
-<div>
+<div class="subleftCon" style="height:1450px;">
+	<h2>맛집메트로계정 정보입력</h2>
+</div>
+<%-- subleftCon --%>
+<div class="subrightCon" style="height:auto;">
 	<div align="center" style="height: 100px; width:604px; margin:0 auto; padding-top:20px;" >
 		<div align="center" style="padding: 1em; float:left; border: 2px solid; border-top-left-radius: 1em; border-bottom-left-radius: 1em; height: 50px; width:150px; border-right:none;"><span class="glyphicon glyphicon-pencil"></span>약관동의</div>
 		<div align="center" style="padding: 1em; float:left; border: 2px solid; background-color:blue;  height: 50px; width: 150px;"><span class="glyphicon glyphicon-pencil"></span>정보입력</div>
 		<div align="center" style="padding: 1em; float:left; border: 2px solid; height: 50px; width: 150px; border-left:none;"><span class="glyphicon glyphicon-sort"></span>가입인증</div>
 		<div align="center" style="padding: 1em; float:left; border: 2px solid; border-top-right-radius: 1em; border-bottom-right-radius: 1em; height: 50px; width: 150px; border-left:none;"><span class="glyphicon glyphicon-home"></span>가입완료</div>
 	</div>
-</div>
     
 <div class="container">
-    <form name="registerFrm" class="well form-horizontal" action="<%= request.getContextPath() %>/userRegisterEnd.eat" method="post"  id="contact_form" enctype="multipart/form-data">
+    <form name="registerFrm" class="well form-horizontal" action="<%= request.getContextPath() %>/userRegisterEnd.eat" method="post"  id="contact_form" enctype="multipart/form-data" style="width:700px; background:none;">
 		<fieldset>
 		<!-- Form Name -->
-		<legend>맛집메트로계정 정보입력</legend>
+		<legend>필수입력사항</legend>
 		
 		<!-- Text input-->
 		
 		<div class="form-group">
-		  <label class="col-md-3 control-label" >이름</label> 
-		    <div class="col-md-6 inputGroupContainer">
+		  <label class="col-md-4 control-label" >이름</label> 
+		    <div class="col-md-7 inputGroupContainer">
 		    <div class="input-group">
 		  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
 		  <input  name="userName" placeholder="사용자이름" class="form-control"  type="text">
@@ -315,8 +300,8 @@
 		<!-- Text input-->
 		
 		<div class="form-group">
-		  <label class="col-md-3 control-label">맛집메트로계정(이메일)</label>  
-		  <div class="col-md-6 inputGroupContainer">
+		  <label class="col-md-4 control-label">맛집메트로계정(이메일)</label>  
+		  <div class="col-md-7 inputGroupContainer">
 		  <div class="input-group">
 		  <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
 		  <input name="userEmail" placeholder="사용자 이메일" class="form-control"  type="text">
@@ -326,22 +311,9 @@
 		
 		<!-- Text input-->
 		
-		<!-- <div class="form-group">
-            <label class="col-md-3 control-label">비밀번호입력</label>
-            <div class="col-md-5 inputGroupContainer">  
-            <div class="input-group">
-            	<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-            	<input type="password" class="form-control" id="userPw" placeholder="비밀번호">
-            </div>
-            <div class="password-background"></div>
-            <a class="show-password" href="">비밀번호 보기</a>
-            <span class="strength"></span>
-          </div>
-		</div> -->
-		
 		<div class="form-group">
-		<label class="col-md-3 control-label">비밀번호입력</label>
-		<div class="col-md-6 inputGroupContainer">
+		<label class="col-md-4 control-label">비밀번호입력</label>
+		<div class="col-md-7 inputGroupContainer">
 		<div class="input-group">
 		<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
 		<input type="password" class="form-control" name="userPw" id="userPw" placeholder="비밀번호 입력" autocomplete="off">
@@ -349,11 +321,11 @@
 		<a class="show-password" href="">비밀번호 보기</a>
 		<span class="strength"></span>
 		<div class="row">
-		<div class="col-sm-5">
+		<div class="col-sm-7">
 		<span id="8char" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> 8글자 이상 입력<br>
 		<span id="ucase" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> 한글자 이상 대문자 입력
 		</div>
-		<div class="col-sm-5">
+		<div class="col-sm-7">
 		<span id="lcase" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> 한글자 이상 소문자 입력<br>
 		<span id="num" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> 한글자 이상 숫자 입력 <br>
 		
@@ -366,8 +338,8 @@
 		<!-- Text input-->
 		
 		<div class="form-group">
-		  <label class="col-md-3 control-label">비밀번호확인</label>  
-		    <div class="col-md-6 inputGroupContainer">
+		  <label class="col-md-4 control-label">비밀번호확인</label>  
+		    <div class="col-md-7 inputGroupContainer">
 		    <div class="input-group">
 		        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
 		        <input type="password" class="form-control" name="password2" id="password2" placeholder="Repeat Password" autocomplete="off">
@@ -381,8 +353,8 @@
 		<!-- Text input-->
 		       
 		<div class="form-group" style="overflow:hidden;">
-		  <label class="col-md-3 control-label" style="float:left">생년월일</label>  
-		    <div class="col-md-6 inputGroupContainer" style=" float:left;">
+		  <label class="col-md-4 control-label" style="float:left">생년월일</label>  
+		    <div class="col-md-7 inputGroupContainer" style=" float:left;">
 		    <div class="input-group" style="width:100%;">
 		   		 
 		        <span class="input-group-addon" ><i class="glyphicon glyphicon-birthday-cake"></i></span>
@@ -422,8 +394,8 @@
 		<!-- Text input-->
 		       
 		<div class="form-group">
-		  <label class="col-md-3 control-label">휴대폰번호</label>  
-		    <div class="col-md-5 inputGroupContainer">
+		  <label class="col-md-4 control-label">휴대폰번호</label>  
+		    <div class="col-md-7 inputGroupContainer">
 		    <div class="input-group">
 		        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
 		  <input name="userPhone" placeholder="-없이 입력바랍니다" class="form-control" type="text">
@@ -432,8 +404,8 @@
 		</div>
 		
 		<div class="form-group">
-		  <label class="col-md-3 control-label">프로필사진</label>
-		  <div class="col-md-5 inputGroupContainer">
+		  <label class="col-md-4 control-label">프로필사진</label>
+		  <div class="col-md-7 inputGroupContainer">
 		    <div class="input-group">
 		    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>  
 			<input type='file' id="userUpload" name="attach" />
@@ -1145,81 +1117,81 @@
 		    <div class="col-md-6 inputGroupContainer">
 		    <div class="input-group">
 		        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-		        	가 <br>
 		        	<p>
-		        	<input type="checkbox" id="kangnam" value="kangnam" name="userStation"> <label for = "kangnam">강남역</label> 
-					<input type="checkbox" id="gangbyeon" value="gangbyeon" name="userStation"> <label for = "gangbyeon">강변역</label>
-					<input type="checkbox" id="geondaeibgu" value="geondaeibgu" name="userStation"> <label for = "geondaeibgu">건대입구역</label> <br>
-					<input type="checkbox" id="gyodae"  value="gyodae" name="userStation"> <label for = "gyodae">교대역 </label> 
-					<input type="checkbox" id="gulodijiteoldanji" value="gulodijiteoldanji" name="userStation"> <label for = "gulodijiteoldanji"> 구로디지털단지역 </label>
-					<input type="checkbox" id="guui" value="guui" name="userStation"> <label for = "guui">구의역</label> <br>
-					</p>
-					
+		        	가 <br>
+		        	<c:forEach var="list" items="${gaList}">
+						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+					</c:forEach>
+		   			</p>
+		   			
+		   			<p>
 					나 <br>
-					<input type="checkbox" id="nagseongdae" value="guui" name="userStation"> <label for = "nagseongdae"> 낙성대역</label> <p>
+					<c:forEach var="list" items="${naList}">
+						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+					</c:forEach>
+					</p>
 					
 					<p>
 					다 <br>
-					<input type="checkbox" id="dangsan" value="dangsan" name="userStation"> <label for = "dangsan"> 당산역 </label> 
-					<input type="checkbox" id="daelim" value="daelim" name="userStation"> <label for = "daelim"> 대림역 </label> 
-					<input type="checkbox" id="dongdaemunpark" value="dongdaemunpark" name="userStation"> <label for = "dongdaemunpark">동대문역사문화공원역 </label>
-					<input type="checkbox" id="ttugseom" value="ttugseom" name="userStation"> <label for = "ttugseom">뚝섬역 </label> 
+					<c:forEach var="list" items="${daList}">
+						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+					</c:forEach>
 					</p>
-						
+					
+					<p>
 					마 <br>
-					<input type="checkbox" id="munlae" value="munlae" name="userStation"> <label for = "munlae">문래역 </label> <p>
-					 
-					바 <br>   
-					<p>    	
-		        	<input type="checkbox" id="bangbae" value="bangbae" name="userStation"> <label for = "bangbae">방배역</label>
-					<input type="checkbox" id="bongcheon" value="bongcheon" name="userStation"> <label for = "bongcheon">봉천역 </label>
+					<c:forEach var="list" items="${maList}">
+						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+					</c:forEach>
 					</p>
 					
+					<p>
+					바 <br>   
+					<c:forEach var="list" items="${baList}">
+						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+					</c:forEach>
+					</p>
+					
+					<p>
 					사 <br>		        	
-					<input type="checkbox" id="samseong" value="samseong" name="userStation"> <label for = "samseong">삼성역 </label>
-					<input type="checkbox" id="sangwangsibli" value="sangwangsibli" name="userStation"> <label for = "sangwangsibli">상왕십리역 </label>
-					<input type="checkbox" id="seouldaeibgu" value="seouldaeibgu" name="userStation"> <label for = "seouldaeibgu">서울대입구역 </label> <br>
-					<input type="checkbox" id="seocho" value="seocho" name="userStation"> <label for = "seocho">서초역 </label>
-					<input type="checkbox" id="seonleung" value="seonleung" name="userStation"> <label for = "seonleung">선릉역 </label>
-					<input type="checkbox" id="seongsu" value="seongsu" name="userStation"> <label for = "seongsu">성수역 </label> <br>
-					<input type="checkbox" id="sicheong" value="sicheong" name="userStation"> <label for = "sicheong">시청역 </label>
-					<input type="checkbox" id="sindang" value="sindang" name="userStation"> <label for = "sindang">신당역 </label>
-					<input type="checkbox" id="sindaebang" value="sindaebang" name="userStation"> <label for = "sindaebang">신대방역 </label> <br>
-					<input type="checkbox" id="sindolim" value="sindolim" name="userStation"> <label for = "sindolim">신도림역 </label>
-					<input type="checkbox" id="sinlim" value="sinlim" name="userStation"> <label for = "sinlim">신림역 </label>
-					<input type="checkbox" id="sincheon" value="sincheon" name="userStation"> <label for = "sincheon">신천역 </label>
-					<input type="checkbox" id="sinchon" value="sinchon" name="userStation"> <label for = "sinchon">신촌역 </label><p>
+					<c:forEach var="list" items="${saList}">
+						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+					</c:forEach>
+					</p>
 					
+					<p>
 					아 <br>		        	
-					<input type="checkbox" id="ahyeon" value="ahyeon" name="userStation">	<label for = "ahyeon">아현역 </label>
-					<input type="checkbox" id="yeogsam" value="yeogsam" name="userStation"> <label for = "yeogsam">역삼역 </label>
-					<input type="checkbox" id="yeongdeungpoffice" value="yeongdeungpoffice" name="userStation"> <label for = "yeongdeungpoffice">영등포구청역 </label> <br>
-					<input type="checkbox" id="wangsibli" value="wangsibli" name="userStation"> <label for = "wangsibli">왕십리역 </label>
-					<input type="checkbox" id="euljilo3ga" value="euljilo3ga" name="userStation"> <label for = "euljilo3ga">을지로3가역 </label>
-					<input type="checkbox" id="euljilo4ga" value="euljilo4ga" name="userStation"> <label for = "euljilo4ga">을지로4가역 </label> <br>
-					<input type="checkbox" id="euljiloibgu" value="euljiloibgu" name="userStation"> <label for = "euljiloibgu">을지로입구역 </label>
-					<input type="checkbox" id="ewhauniv"value="ewhauniv" name="userStation"> <label for = "ewhauniv">이대역 </label> <p>
+					<c:forEach var="list" items="${aaList}">
+						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+					</c:forEach>
+					</p>
 					
+					<p>
 					자 <br>
-					<input type="checkbox" id="jamsil" value="jamsil"name="userStation"> <label for = "jamsil">잠실역 </label>
-					<input type="checkbox" id="jamsilnalu" value="jamsilnalu"name="userStation"> <label for = "jamsilnalu">잠실나루역 </label>
-					<input type="checkbox" id="jonghabsports"value="jonghabsports" name="userStation"> <label for = "jonghabsports">종합운동장역 </label><p>
+					<c:forEach var="list" items="${jaList}">
+						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+					</c:forEach>
+					</p>
 					
+					<p>
 					차 <br>
-					<input type="checkbox" id="chungjeonglo" value="chungjeonglo"name="userStation"> <label for = "chungjeonglo">충정로역 </label><p>
+					<c:forEach var="list" items="${chaList}">
+						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+					</c:forEach>
 					
+					
+					<p>
 					하 <br>
-					<input type="checkbox" id="hanyanguniv" value="hanyanguniv"name="userStation"> <label for = "hanyanguniv">한양대역 </label>
-					<input type="checkbox" id="habjeong"value="habjeong" name="userStation"> <label for = "habjeong">합정역 </label>
-					<input type="checkbox" id="hongikuniv" value="hongikuniv"name="userStation"> <label for = "hongikuniv">홍대입구역 </label>
-					
+					<c:forEach var="list" items="${haList}">
+						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+					</c:forEach>
+					</p>
 					
 					
 					        	
 		  </div> 
 		  </div> 
 		</div> 
-		
 		
 		
 		<!-- Success message -->
@@ -1229,7 +1201,7 @@
 		<div class="form-group">
 		  <label class="col-md-4 control-label"></label>
 		  <div class="col-md-4">
-		    <button type="submit" class="btn btn-warning">Send <span class="glyphicon glyphicon-send"></span></button>
+		    <button type="button" class="btn btn-warning" onClick="goSubmit();">Send<span class="glyphicon glyphicon-send"></span></button>
 		  </div>
 		</div>
 		
@@ -1237,6 +1209,7 @@
 		</form>
 		</div>
 		    </div><!-- /.container -->
-    
+</div>
+<%--subrightCon --%>
 </body>
 </html>

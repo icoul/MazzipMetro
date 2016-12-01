@@ -1,11 +1,17 @@
 package com.go.mazzipmetro.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.go.mazzipmetro.dao.RestaurantDAO;
+import com.go.mazzipmetro.vo.MenuVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
 
 @Service
@@ -44,4 +50,13 @@ public class RestaurantService implements IService{
 		
 		return newSeq;
 	}// end of getNewRestSeq(RestaurantVO vo)
+	
+	// 업장 세부정보 등록(소개글, 이미지, 태그)
+	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
+	public int setRestaurantInfo(HashMap<String, String> map, ArrayList<String> imageList, String[] mdCat, MenuVO mvo, int menuNum) {
+		
+		int result = dao.setRestaurantInfo(map, imageList, mdCat, mvo, menuNum);
+		
+		return result;
+	}// end of setRestaurantInfo(HashMap<String, Object> map) 
 }
