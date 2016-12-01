@@ -12,7 +12,14 @@
 			insert into TBL_USER(userSeq, gradeSeq, userName, userEmail, userPw, userGender,
 			userBirthDay, userPhone, userRegDate, userProfile, userPoint,
 			userStation, userSort, userStatus)
-			values(tbl_user_seq.nextval, default, #{userName}, #{userEmail}, #{userPw}, #{userGender},
+			values(tbl_user_seq.nextval,
+			<if test = "userSort == 0">
+			 default,
+			</if>
+			<if test = "userSort == 1">
+			 null,
+			</if>
+			#{userName}, #{userEmail}, #{userPw}, #{userGender},
 			#{userBirthDay}, #{userPhone}, default, #{userProfile}, default ,
 			#{userStation}, #{userSort}, default)
 		</if>
@@ -23,7 +30,14 @@
 			insert into TBL_USER(userSeq, gradeSeq, userName, userEmail, userPw, userGender,
 			userBirthday, userPhone, userRegDate, userPoint, userStation,
 			userSort, userStatus)
-			values(tbl_user_seq.nextval, default, #{userName}, #{userEmail}, #{userPw}, #{userGender},
+			values(tbl_user_seq.nextval,
+			<if test = "userSort == 0">
+			 default,
+			</if>
+			<if test = "userSort == 1">
+			null,
+			</if>
+			 #{userName}, #{userEmail}, #{userPw}, #{userGender},
 			#{userBirthDay}, #{userPhone}, default, default , #{userStation},
 			#{userSort}, default)
 		</if>
@@ -34,13 +48,13 @@
 			userBirthDay, userPhone, userRegDate, userProfile, userPoint,
 			userSort, userStatus)
 			values(tbl_user_seq.nextval,
-			<if test = "userSort == 0"> 
-			 default, 
-			 </if>
-			 <if test = "userSort == 1"> 
-			 null, 
-			 </if>
-			 #{userName}, #{userEmail}, #{userPw}, #{userGender},
+			<if test = "userSort == 0">
+			 default,
+			</if>
+			<if test = "userSort == 1">
+			null,
+			</if>
+			#{userName}, #{userEmail}, #{userPw}, #{userGender},
 			#{userBirthDay}, #{userPhone}, default, #{userProfile}, default ,
 			#{userSort}, default)
 			
@@ -52,7 +66,14 @@
 			insert into TBL_USER(userSeq, gradeSeq, userName, userEmail, userPw,
 			userGender, userBirthDay, userPhone, userRegDate, userPoint,
 			userSort, userStatus)
-			values(tbl_user_seq.nextval, default, #{userName}, #{userEmail}, #{userPw}, #{userGender},
+			values(tbl_user_seq.nextval,
+			<if test = "userSort == 0">
+			 default,
+			</if>
+			<if test = "userSort == 1">
+			 null,
+			</if>
+			#{userName}, #{userEmail}, #{userPw}, #{userGender},
 			#{userBirthDay}, #{userPhone}, default, default , #{userSort},
 			default)
 		</if>
@@ -79,4 +100,10 @@
 		from tbl_User
 		where userEmail = #{userEmail}
 	</select>
+	
+	<update id="userEdit" parameterType="com.go.mazzipmetro.vo.UserVO">
+		update tbl_User 
+		set userName = #{userName}, userPw = #{userPw}, userPhone = #{userPhone}, userProfile = #{userProfile}, userStation = #{userStation}
+		where userStatus = 0 and userSort = #{userSort} and userEmail = #{userEmail}
+	</update>
 </mapper>

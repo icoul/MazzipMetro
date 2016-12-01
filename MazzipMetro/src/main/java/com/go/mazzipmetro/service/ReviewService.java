@@ -1,5 +1,6 @@
 package com.go.mazzipmetro.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -52,13 +53,6 @@ public class ReviewService implements IService{
 		return genderChartList;
 	}
 	
-	public int add(ReviewVO vo) {
-		
-		int result = dao.add(vo);
-		
-		return 0;
-	}
-	
 	public int add_file(AttachFileVO avo) {
 		
 		
@@ -66,4 +60,36 @@ public class ReviewService implements IService{
 		int result = 0;
 		return result;
 	}
+
+	public int addReview(ReviewVO rvo, ArrayList<String> imageList) {
+		
+		HashMap<String, String> map = new HashMap<String, String>(); 
+		
+		int result = dao.addReview(rvo);
+		if(result == 1)
+		{
+			String Seq = dao.getReviewSeq(rvo);
+			
+			if(Seq != null)
+			{
+				map.put("Seq", Seq);
+				
+				for(int i =0; i<imageList.size(); i++)
+				{
+					System.out.println(imageList.get(i));
+					map.put("reviewImg", imageList.get(i));
+					
+					result = dao.addReviewImg(map); 
+				}
+			}
+			else
+			{
+				System.out.println("Seq를 받아오지 못했습니다.");
+			}
+			
+		}
+		
+		return result;
+	}// end of addReview
+
 }
