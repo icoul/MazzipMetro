@@ -1,9 +1,13 @@
 package com.go.mazzipmetro.controller;
 
+import java.util.Enumeration;
 import java.util.HashMap;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.go.mazzipmetro.common.FileManager;
 import com.go.mazzipmetro.common.ThumbnailManager;
 import com.go.mazzipmetro.service.BossService;
+import com.go.mazzipmetro.vo.UserVO;
 
 @Controller
 public class BossController {
@@ -30,9 +35,14 @@ public class BossController {
 	
 	//사업주가 코인을 충전할시 or 광고 구매시
 	@RequestMapping(value="/bossCoinResi.eat", method={RequestMethod.GET})
-	public String busiCoinResi() {
+	public String busiCoinResi(HttpServletRequest req) {
+		HttpSession ses = req.getSession();
+		UserVO loginUser = (UserVO)ses.getAttribute("loginUser");
+		String restSeq = service.getRestSeq(loginUser.getUserSeq());
+		req.setAttribute("restSeq", restSeq);
 		
-		return "/boss/bossCoinResi";
+		System.out.println(">>>>>>>>>>>>>"+loginUser.getUserPoint());
+		return "boss/bossCoinResi";
 		
 	}
 	
@@ -41,7 +51,7 @@ public class BossController {
 	@RequestMapping(value="/bossCoinChar.eat", method={RequestMethod.GET})
 	public String coinChar() {
 		
-		return "/boss/bossCoinChar";
+		return "boss/bossCoinChar";
 		
 	}
 	
@@ -91,20 +101,24 @@ public class BossController {
 		
 		String userSeq = req.getParameter("userSeq");
 		String restSeq = req.getParameter("restSeq");
+		String str_userPoint = req.getParameter("userPoint");
 		//** 나중에 session 에서 vo를 가져와서 get(userPoint)해서 가져와야함.
 		
 		
 		map.put("userSeq", userSeq);
 		map.put("restSeq", restSeq);
+		map.put("userPoint", str_userPoint);
 	
+		
+		
 		int result=0;
-		//int userPoint = Integer.parseInt(str_userPoint); 
+		int userPoint = Integer.parseInt(str_userPoint); 
 		
 		String msg = "없음";
 		String loc ="javascript:history.back();";
 		
 		//임의의 포인트 넣어줬음
-		int userPoint = 0;
+		 userPoint = 0;
 				
 		//포인트잔액이 부족했을시
 		if (userPoint < 1000000) {
@@ -130,8 +144,10 @@ public class BossController {
 		
 		req.setAttribute("msg", msg);
 		req.setAttribute("loc", loc);
+		req.setAttribute("restSeq", restSeq);
 		
-		return "/boss/bossContentBuy";
+		
+		return "boss/bossContentBuy";
 		
 	}//end of bossBannBuy(HttpServletRequest req) throws Throwable-------------------
 	
@@ -187,7 +203,7 @@ public class BossController {
 		req.setAttribute("msg", msg);
 		req.setAttribute("loc", loc);
 		
-		return "/boss/bossContentBuy";
+		return "boss/bossContentBuy";
 		
 	}
 	
@@ -243,7 +259,7 @@ public class BossController {
 		req.setAttribute("msg", msg);
 		req.setAttribute("loc", loc);
 		
-		return "/boss/bossContentBuy";
+		return "boss/bossContentBuy";
 		
 	}
 	
