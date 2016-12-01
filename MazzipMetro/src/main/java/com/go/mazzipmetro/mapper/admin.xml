@@ -12,7 +12,7 @@
 		     , V.userSeq, V.gradeSeq, V.userName,  V.userEmail, V.userGender, V.userBirthday, V.userPhone, V.userRegdate, V.userPoint
 		from 
 		(
-		select userSeq, gradeSeq, userName, userEmail, userGender, userBirthday,userPhone,to_char(userRegdate, 'yyyy-mm-dd hh24:mi:ss') as userRegdate, userPoint,userExp,userStation 
+		select userSeq, gradeSeq, userName, userEmail, userGender, userBirthday,userPhone,to_char(userRegdate, 'yyyy-mm-dd') as userRegdate, userPoint,userExp,userStation 
 		     
 		from tbl_user
 		where userStatus = 0 and userSeq!=0  

@@ -61,7 +61,7 @@ public class AdminController {
 		
 		session.setAttribute("readCountCheck", "no");
 		
-		String colName = req.getParameter("colname");
+		String colName = req.getParameter("colName");
 	    String search = req.getParameter("search");
 	    
 	    HashMap<String, String> map = new HashMap<String, String>();
