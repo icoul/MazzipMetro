@@ -24,6 +24,14 @@
 		<c:if test="${not empty qnaInquiry}">
 		$("#qnaInquiry").val("${qnaInquiry}");
 		</c:if>
+		
+		$("#qnaRegYearStart").val("${qnaRegYearStart}");
+		$("#qnaRegMonthStart").val("${qnaRegMonthStart}");
+		$("#qnaRegDayStart").val("${qnaRegDayStart}");
+		
+		$("#qnaRegYearEnd").val("${qnaRegYearEnd}");
+		$("#qnaRegMonthEnd").val("${qnaRegMonthEnd}");
+		$("#qnaRegDayEnd").val("${qnaRegDayEnd}");
 	});
 
 
@@ -46,68 +54,35 @@
 				      <tr>
 				        <th>문의접수일</th>
 				        <td colspan="3">
-							<select name="qnaRegYearStart">
-								<c:forEach var="year" items="${yearList}">
-									<option value="${year}">${year}</option>
-								</c:forEach>
-							
-								<%--  <c:set var="year" value="2015" />
-						        <c:forEach begin="1" end="85" >
-						        	 	<c:set var="year" value="${year+1}" />
-						        	<option value="${year}">${year}</option>
-						        </c:forEach> --%>
+							<select name="qnaRegYearStart" id="qnaRegYearStart">
+								${strRegDateYearSelect }
 						    </select>
 						    년
 						    
-						    <select name="qnaRegMonthStart">
-						    	${stringMonthSelect}
-						    
-								<%--  <c:set var="month" value="0" />
-						        <c:forEach begin="1" end="12" >
-						        	 	<c:set var="month" value="${month+1}" />
-									<option value="${month}">${month}</option>
-						        </c:forEach> --%>
+						    <select name="qnaRegMonthStart" id="qnaRegMonthStart">
+						    	${strRegDateMonthSelect}
 						    </select>
 						    월
 						    
-						    <select name="qnaRegDayStart">
-							
-								<%--  <c:set var="day" value="0" />
-						        <c:forEach begin="1" end="31" >
-						        	 	<c:set var="day" value="${day+1}" />
-						        	<option value="${day}">${day}</option>
-						        </c:forEach> --%>
+						    <select name="qnaRegDayStart" id="qnaRegDayStart">
+							${strRegDateDaySelect }
 						    </select>
 						    일 ~ 
 						    
-						    <select name="qnaRegYearEnd">
-							
-								<%--  <c:set var="year" value="2015" />
-						        <c:forEach begin="1" end="85" >
-						        	 	<c:set var="year" value="${year+1}" />
-						        	<option value="${year}">${year}</option>
-						        </c:forEach> --%>
+						    <select name="qnaRegYearEnd" id="qnaRegYearEnd">
+								${strRegDateYearSelect }
 						    </select>
 						    년
 						    
-						    <select name="qnaRegMonthEnd">
-							
-								<%--  <c:set var="month" value="0" />
-						        <c:forEach begin="1" end="12" >
-						        	 	<c:set var="month" value="${month+1}" />
-						        	<option value="${month}">${month}</option>
-						        </c:forEach> --%>
+						    <select name="qnaRegMonthEnd" id="qnaRegMonthEnd">
+							${strRegDateMonthSelect}
 						    </select>
 						    월
 						    
-						    <select name="qnaRegDayEnd">
-							
-							<%-- 	 <c:set var="day" value="0" />
-						        <c:forEach begin="1" end="31" >
-						        	 	<c:set var="day" value="${day+1}" />
-						        	<option value="${day}">${day}</option>
-						        </c:forEach> --%>
+						    <select name="qnaRegDayEnd" id="qnaRegDayEnd">
+							${strRegDateDaySelect }
 						    </select>
+						    일
 						</td>
 				        
 				      </tr>

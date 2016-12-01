@@ -163,6 +163,7 @@ public class MazzipMetroController {
 			String qnaQuiry = req.getParameter("qnaQuiry");
 			String qnaSubject = req.getParameter("qnaSubject");
 			String qnaComment = req.getParameter("qnaComment");
+			
 			   
 			HashMap<String,String> hashMap = new HashMap<String,String>();
 			hashMap.put("userSeq", userSeq);
@@ -245,11 +246,83 @@ public class MazzipMetroController {
 			String qnaSearch = req.getParameter("qnaSearch");
 			String qnaInquiry = req.getParameter("qnaInquiry");
 			
+			//검색기간 셀렉트
+			String qnaRegYearStart = req.getParameter("qnaRegYearStart");
+			String qnaRegMonthStart = req.getParameter("qnaRegMonthStart");
+			String qnaRegDayStart = req.getParameter("qnaRegDayStart");
+			
+			String qnaRegYearEnd= req.getParameter("qnaRegYearEnd");
+			String qnaRegMonthEnd= req.getParameter("qnaRegMonthEnd");
+			String qnaRegDayEnd = req.getParameter("qnaRegDayEnd");
+			
+			//myQnaList.jsp에 날짜 년월일 오늘 날짜로 설정하기위한 코드
+			HashMap<String,String> hashMap3 = new HashMap<String,String>();
+			hashMap3.put("str", "year");
+			
+			HashMap<String,String> hashMap4 = new HashMap<String,String>();
+			hashMap4.put("str", "month");
+			
+			HashMap<String,String> hashMap5 = new HashMap<String,String>();
+			hashMap5.put("str", "day");
+			
+			String todayYear = String.valueOf(service.getToday(hashMap3));
+			String todayMonth = String.valueOf(service.getToday(hashMap4));
+			String todayDay = String.valueOf(service.getToday(hashMap5));
+
+			if(qnaRegYearStart == null && qnaRegMonthStart == null && qnaRegDayStart == null
+				&& qnaRegYearEnd == null && qnaRegMonthEnd == null && qnaRegDayEnd == null	){
+				qnaRegYearStart = todayYear;
+				 qnaRegMonthStart = todayMonth;
+				 
+				 qnaRegYearEnd = todayYear;
+				 qnaRegMonthEnd = todayMonth;
+				
+				 if(Integer.parseInt(todayDay) < 10){
+					 qnaRegDayStart = "0" + todayDay;
+					 qnaRegDayEnd = "0" + todayDay;
+				 }else{
+					 qnaRegDayStart = todayDay; 
+					 qnaRegDayEnd = todayDay;
+				 }
+			}
+			 
+				
+			  String strRegDateYearSelect = "";
+			  String strRegDateMonthSelect = "";
+			  String strRegDateDaySelect = "";
+			  
+		     for(int i = 2016; i <= 2026; ++i){
+		    	 String year = String.valueOf(i);
+		    	 strRegDateYearSelect += "<option value='"+year+"'>"+year+"</option>";
+		     }
+		     
+
+		     for(int i = 1; i <= 12; ++i){
+		    	 String month = String.valueOf(i); 
+		    	 strRegDateMonthSelect += "<option value='"+month+"'>"+month+"</option>";
+		     }
+		     
+		     for(int i = 1; i <= 31; ++i){
+	    		 String day = String.valueOf(i);
+	    		 if(i <= 9 ){
+	    			 strRegDateDaySelect += "<option value='0"+day+"'>"+day+"</option>";
+	    		 }else{
+	    			 strRegDateDaySelect += "<option value='"+day+"'>"+day+"</option>";
+	    		 }
+	    		
+		     }
+			
+			
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("qnaColName", qnaColName);
 			map.put("qnaSearch", qnaSearch);
 			map.put("qnaInquiry", qnaInquiry);
 			map.put("userSeq", userSeq);
+			
+			//날짜를 정해서 검색하기 위해 
+			map.put("searchStartDay", qnaRegYearStart+"-"+qnaRegMonthStart+"-"+qnaRegDayStart);
+			map.put("searchEndDay", qnaRegYearEnd+"-"+qnaRegMonthEnd+"-"+qnaRegDayEnd);
+
 			
 			// 페이징처리를 위해 start end를 map에 추가하여 파라미터로 넘겨서 select되도록 한다.
 			map.put("start", String.valueOf(start));
@@ -348,48 +421,28 @@ public class MazzipMetroController {
 			HashMap<String,String> hashMap = new HashMap<String,String>();
 			hashMap.put("userSeq", userSeq);
 			hashMap.put("qnaProgress", "접수완료");
+			hashMap.put("qnaColName", qnaColName);
+			hashMap.put("qnaSearch", qnaSearch);
+			hashMap.put("qnaInquiry", qnaInquiry);
+			hashMap.put("userSeq", userSeq);
+			
+			//날짜를 정해서 검색하기 위해 
+			hashMap.put("searchStartDay", qnaRegYearStart+"-"+qnaRegMonthStart+"-"+qnaRegDayStart);
+			hashMap.put("searchEndDay", qnaRegYearEnd+"-"+qnaRegMonthEnd+"-"+qnaRegDayEnd);
+			
 			int registerQnaCount = service.getMyQnaProgressCount(hashMap);
 			
 			HashMap<String,String> hashMap2 = new HashMap<String,String>();
 			hashMap2.put("userSeq", userSeq);
 			hashMap2.put("qnaProgress", "답변완료");
+			hashMap2.put("qnaColName", qnaColName);
+			hashMap2.put("qnaSearch", qnaSearch);
+			hashMap2.put("qnaInquiry", qnaInquiry);
+			hashMap2.put("userSeq", userSeq);
+			hashMap2.put("searchStartDay", qnaRegYearStart+"-"+qnaRegMonthStart+"-"+qnaRegDayStart);
+			hashMap2.put("searchEndDay", qnaRegYearEnd+"-"+qnaRegMonthEnd+"-"+qnaRegDayEnd);
+			
 			int answerQnaCount = service.getMyQnaProgressCount(hashMap2);
-			
-			//myQnaList.jsp에 날짜 년월일 오늘 날짜로 설정하기위한 코드
-			HashMap<String,String> hashMap3 = new HashMap<String,String>();
-			hashMap3.put("str", "month");
-			
-			String todayMonth = String.valueOf(service.getToday(hashMap3));
-			
-		        
-		     List<String> yearList = new ArrayList<String>();
-		     
-		     for(int i = 0; i < 10; ++i){
-		    	 String year = String.valueOf(2015 + i + 1);
-		    	 yearList.add(year);
-		     }
-		     
-		     
-		     String stringMonthSelect = "";
-		     
-		     for(int i = 1; i <= 12; ++i){
-		    	 String month = String.valueOf(i);
-		    	 
-		    	 if(todayMonth.equals(month)){
-		    		 stringMonthSelect += 		"<option value='"+month+"' selected='selected'>"+month+"</option>";
-		    	 }else{
-		    		 stringMonthSelect += 		"<option value='"+month+"'>"+month+"</option>";
-		    	 } 
-		     }
-		     
-
-		     List<String> dayList = new ArrayList<String>();
-		     
-		     for(int i = 1; i <= 31; ++i){
-	    		 String day = String.valueOf(i);
-	    		 dayList.add(day);
-		     }
-			
 			
 			req.setAttribute("myQnaList", myQnaList);
 			req.setAttribute("totalCount", totalCount);
@@ -402,8 +455,17 @@ public class MazzipMetroController {
 			req.setAttribute("registerQnaCount", registerQnaCount);	
 			req.setAttribute("answerQnaCount", answerQnaCount);	
 			
-			req.setAttribute("stringMonthSelect", stringMonthSelect);
-
+			req.setAttribute("qnaRegYearStart", qnaRegYearStart);
+			req.setAttribute("qnaRegMonthStart", qnaRegMonthStart);
+			req.setAttribute("qnaRegDayStart", qnaRegDayStart);
+			req.setAttribute("qnaRegYearEnd", qnaRegYearEnd);
+			req.setAttribute("qnaRegMonthEnd", qnaRegMonthEnd);
+			req.setAttribute("qnaRegDayEnd", qnaRegDayEnd);
+			
+			req.setAttribute("strRegDateYearSelect", strRegDateYearSelect);
+			req.setAttribute("strRegDateMonthSelect", strRegDateMonthSelect);
+			req.setAttribute("strRegDateDaySelect", strRegDateDaySelect);
+			
 
 			
 			return "QnA/myQnaList";

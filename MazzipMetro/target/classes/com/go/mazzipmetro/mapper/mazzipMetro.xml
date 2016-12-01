@@ -41,25 +41,32 @@
 	</resultMap>
     
     <select id="myQnaList" parameterType="java.util.HashMap" resultMap="myQnaListResultMap">
-    	select V.rno, V.userName, V.qnaSeq, V.userSeq, V.qnaInquiry, V.qnaSubject
+		 select T.rno, T.userName, T.qnaSeq, T.userSeq, T.qnaInquiry, T.qnaSubject
+		 ,T.qnaContent, T.qnaRegDate, T.qnaProgress, T.fk_seq, T.qnaStatus, T.userStatus
+		from
+		(
+		select rownum as rno, V.userName, V.qnaSeq, V.userSeq, V.qnaInquiry, V.qnaSubject
 		, V.qnaContent, V.qnaRegDate, V.qnaProgress, V.fk_seq, V.qnaStatus, V.userStatus
 		from
 		(
-		select rownum as rno, b.userName, a.qnaSeq, b.userSeq, a.qnaInquiry, a.qnaSubject
+		select b.userName, a.qnaSeq, b.userSeq, a.qnaInquiry, a.qnaSubject
 		, a.qnaContent, a.qnaRegDate, a.qnaProgress, a.fk_seq, a.qnaStatus, b.userStatus
 		from tbl_qna a join tbl_user b
 		on a.userSeq = b.userSeq
-		)V
-		where userStatus = 0 and userSeq = #{userSeq}
+		where b.userStatus = 0 and a.userSeq = #{userSeq} and 
+		to_char(a.qnaRegDate,'YYYY-MM-DD hh24:mi:ss') 
+		between to_char(to_date(#{searchStartDay} || '00:00:00', 'YYYY-MM-DD hh24:mi:ss'),'YYYY-MM-DD hh24:mi:ss') 
+		and to_char(to_date(#{searchEndDay} || '23:59:59', 'YYYY-MM-DD hh24:mi:ss'),'YYYY-MM-DD hh24:mi:ss')
 		<if test="qnaSearch != null">
 		 and ${qnaColName} like '%' || #{qnaSearch} || '%'
 		</if>
-
 		<if test="qnaInquiry != null and !qnaInquiry.equals('전체')">
 			and qnaInquiry like '%' || #{qnaInquiry} || '%'
 		</if>
-
-		 and #{start} <![CDATA[<=]]> rno and rno <![CDATA[<=]]> #{end}
+		order by a.qnaRegDate asc
+		)V
+		)T
+		where #{start} <![CDATA[<=]]> rno and rno <![CDATA[<=]]> #{end}
     </select>
     
     
@@ -68,8 +75,16 @@
 		from tbl_qna a join tbl_user b
 		on a.userSeq = b.userSeq
 		where b.userSeq = #{userSeq} and b.userStatus = 0
+		and to_char(qnaRegDate,'YYYY-MM-DD hh24:mi:ss')
+		between to_char(to_date(#{searchStartDay} || '00:00:00', 'YYYY-MM-DD
+		hh24:mi:ss'),'YYYY-MM-DD hh24:mi:ss')
+		and to_char(to_date(#{searchEndDay} || '23:59:59', 'YYYY-MM-DD
+		hh24:mi:ss'),'YYYY-MM-DD hh24:mi:ss')
 		<if test="qnaSearch != null">
 		and ${qnaColName} like '%' || #{qnaSearch} || '%'
+		</if>
+		<if test="qnaInquiry != null and !qnaInquiry.equals('전체')">
+			and qnaInquiry like '%' || #{qnaInquiry} || '%'
 		</if>
     </select>
  
@@ -78,6 +93,17 @@
 		from tbl_qna a join tbl_user b
 		on a.userSeq = b.userSeq
 		where b.userSeq = #{userSeq} and b.userStatus = 0 and a.qnaProgress = #{qnaProgress}
+		and to_char(qnaRegDate,'YYYY-MM-DD hh24:mi:ss')
+		between to_char(to_date(#{searchStartDay} || '00:00:00', 'YYYY-MM-DD
+		hh24:mi:ss'),'YYYY-MM-DD hh24:mi:ss')
+		and to_char(to_date(#{searchEndDay} || '23:59:59', 'YYYY-MM-DD
+		hh24:mi:ss'),'YYYY-MM-DD hh24:mi:ss')
+		<if test="qnaSearch != null">
+		and ${qnaColName} like '%' || #{qnaSearch} || '%'
+		</if>
+		<if test="qnaInquiry != null and !qnaInquiry.equals('전체')">
+			and qnaInquiry like '%' || #{qnaInquiry} || '%'
+		</if>
     </select>
     
     <select id="getToday" resultType="int" parameterType="java.util.HashMap">
