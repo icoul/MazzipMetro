@@ -1,8 +1,11 @@
 package com.go.mazzipmetro.controller;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -52,24 +55,123 @@ public class UserController {
 	@RequestMapping(value="/userRegister2.eat", method={RequestMethod.POST})
 	public String userRegister2(HttpServletRequest req){
 		String userSort =  req.getParameter("userSort");
+		
+		List<String> list = service.alignTest();
+		String[] array = list.toArray(new String[list.size()]);
+		
+		List<String> gaList = new ArrayList<String>();
+		List<String> naList = new ArrayList<String>();
+		List<String> daList = new ArrayList<String>();
+		List<String> raList = new ArrayList<String>();
+		List<String> maList = new ArrayList<String>();
+		List<String> baList = new ArrayList<String>();
+		List<String> saList = new ArrayList<String>();
+		List<String> aaList = new ArrayList<String>();
+		List<String> jaList = new ArrayList<String>();
+		List<String> chaList = new ArrayList<String>();
+		List<String> kaList = new ArrayList<String>();
+		List<String> taList = new ArrayList<String>();
+		List<String> paList = new ArrayList<String>();
+		List<String> haList = new ArrayList<String>();
+		
+		Arrays.sort(array, String.CASE_INSENSITIVE_ORDER);
+		
+		for (int i = 0; i < array.length; i++) {
+			int metroInt = (int)array[i].charAt(0);
+			
+			if (metroInt < 45208) {
+				gaList.add(array[i]);
+			}
+			
+			if (45208 < metroInt && metroInt < 45796) {
+				naList.add(array[i]);
+			}
+			
+			if (45796 <= metroInt && metroInt < 46972) {
+				daList.add(array[i]);
+			}
+			
+			if (46972 <= metroInt && metroInt < 47560) {
+				raList.add(array[i]);
+			}
+			
+			if (47560 <= metroInt && metroInt < 48148) {
+				maList.add(array[i]);
+			}
+			
+			if (48148 <= metroInt && metroInt < 49324) {
+				baList.add(array[i]);
+			}
+			
+			if (49324 <= metroInt && metroInt < 50500) {
+				saList.add(array[i]);
+			}
+			
+			if (50500 <= metroInt && metroInt < 51088) {
+				aaList.add(array[i]);
+			}
+			
+			if (51088 <= metroInt && metroInt < 52264) {
+				jaList.add(array[i]);
+			}
+			
+			if (52264 <= metroInt && metroInt < 52852) {
+				chaList.add(array[i]);
+			}
+			
+			if (52852 <= metroInt && metroInt < 53440) {
+				kaList.add(array[i]);
+			}
+			
+			if (53440 <= metroInt && metroInt < 54028) {
+				taList.add(array[i]);
+			}
+			
+			if (54028 <= metroInt && metroInt < 54616) {
+				paList.add(array[i]);
+			}
+			
+			if (54616 <= metroInt) {
+				haList.add(array[i]);
+			}
+		}
+		
+		req.setAttribute("gaList", gaList);
+		req.setAttribute("naList", naList);
+		req.setAttribute("daList", daList);
+		req.setAttribute("raList", raList);
+		req.setAttribute("maList", maList);
+		req.setAttribute("baList", baList);
+		req.setAttribute("saList", saList);
+		req.setAttribute("aaList", aaList);
+		req.setAttribute("jaList", jaList);
+		req.setAttribute("chaList", chaList);
+		req.setAttribute("kaList", kaList);
+		req.setAttribute("taList", taList);
+		req.setAttribute("paList", paList);
+		req.setAttribute("haList", haList);
+		
 		req.setAttribute("userSort", userSort);
+		
 		return "userRegister2";
 	}
 	
 	@RequestMapping(value="/userRegisterEnd.eat", method={RequestMethod.POST})
 	public String userRegisterEnd(UserVO vo, MultipartHttpServletRequest req, HttpSession session){
 		
+		//System.out.println(">>>>>>> 확인용 <<<<<<<");
+		//System.out.println("vo.getUserName() ==> " + vo.getUserName());
 		
 		if(!vo.getAttach().isEmpty()) {
 			String root = session.getServletContext().getRealPath("/");
 			String path = root + "resources"+ File.separator +"files";
 			
-			String newFileName = "";
+			
 			byte[] bytes = null;
 			
 			try {
 				bytes = vo.getAttach().getBytes();
-				newFileName =  fileManager.doFileUpload(bytes, vo.getAttach().getOriginalFilename(), path);
+				String newFileName =  fileManager.doFileUpload(bytes, vo.getAttach().getOriginalFilename(), path);
 				vo.setUserProfile(vo.getAttach().getOriginalFilename());
 		} catch (Exception e) {
 			
@@ -78,9 +180,9 @@ public class UserController {
 	}
 
 		String userGender = "";
-		if(vo.getUserGender().equals("F")) {
+		if("F".equals(vo.getUserGender())) {
 			userGender = "여";
-		} else if (vo.getUserGender().equals("M")) {
+		} else if ("M".equals(vo.getUserGender())) {
 			userGender = "남";
 		}
 	
@@ -106,7 +208,7 @@ public class UserController {
 		
 		//req.setAttribute("n", n);
 		return "userRegisterEnd";
-	}
+	} // end : userRegisterEnd 회원가입처리
 	
 	//nos
 	@RequestMapping(value = "/myQna.eat", method = RequestMethod.GET)
@@ -119,32 +221,6 @@ public class UserController {
 		
 		req.setAttribute("userSeq", userSeq);
 		return "user/myQna";
-	}
-	
-	@RequestMapping(value = "/myQnaRegister.eat", method = RequestMethod.POST)
-	public String myQnaRegister(HttpServletRequest req) {
-		String userSeq = req.getParameter("userSeq");
-		String qnaQuiry = req.getParameter("qnaQuiry");
-		String qnaSubject = req.getParameter("qnaSubject");
-		String qnaComment = req.getParameter("qnaComment");
-		   
-		HashMap<String,String> hashMap = new HashMap<String,String>();
-		hashMap.put("userSeq", userSeq);
-		hashMap.put("qnaQuiry", qnaQuiry);
-		hashMap.put("qnaSubject", qnaSubject);
-		hashMap.put("qnaComment", qnaComment);
-		
-		int n =  service.qnaRegister(hashMap);
-		
-		if(n == 0){
-			req.setAttribute("msg", "문의등록이 실패하였습니다.");
-			req.setAttribute("loc", "javascript:history.back();");
-		}else if(n==1){
-			req.setAttribute("msg", "문의등록이 성공하였습니다.");
-			req.setAttribute("loc", "myQnaList.eat");
-		}
-		
-		return "user/msg";
 	}
 	
 	@RequestMapping(value = "/myQnaList.eat", method = RequestMethod.GET)

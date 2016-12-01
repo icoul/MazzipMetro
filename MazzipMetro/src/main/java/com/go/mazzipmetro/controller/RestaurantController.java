@@ -37,6 +37,7 @@ public class RestaurantController {
 	@Autowired
 	private ThumbnailManager thumbnailManager;
 	
+	
 	// 업장을 등록하는 메서드
 	@RequestMapping(value="/addRestaurant.eat", method={RequestMethod.GET})
 	public String addRestaurant(){
