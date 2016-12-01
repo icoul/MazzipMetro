@@ -58,6 +58,8 @@
 			#{userName}, #{userEmail}, #{userPw}, #{userGender},
 			#{userBirthDay}, #{userPhone}, default, #{userProfile}, default ,
 			#{userSort}, default)
+			
+			
 		</if>
 
 		<!-- 프로필사진과 선호지역을 모두 선택하지 않은 경우 -->

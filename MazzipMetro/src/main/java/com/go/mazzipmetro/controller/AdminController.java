@@ -61,7 +61,7 @@ public class AdminController {
 		
 		session.setAttribute("readCountCheck", "no");
 		
-		String colName = req.getParameter("colname");
+		String colName = req.getParameter("colName");
 	    String search = req.getParameter("search");
 	    
 	    HashMap<String, String> map = new HashMap<String, String>();
@@ -88,6 +88,26 @@ public class AdminController {
 	    // **** !!! 페이지바의 시작 페이지 번호(startPageNo)값 만들기 -- 공식임!!!!
 	    startPageNo = ( (currentShowPageNo - 1)/blocksize)*blocksize + 1; 
 	    
+	 // **** 이전5페이지 만들기 ****
+	    if(startPageNo == 1) {
+	    	// 첫 페이지바에 도달한 경우
+	    	pagebar += String.format("&nbsp;[이전%d페이지]", blocksize);  
+	    }
+	    else {
+	    	// 첫 페이지바가 아닌 두번째 이상 페이지바에 온 경우 
+	    	
+	    	if(colName == null || search == null) {
+				// 검색어가 없는 경우
+				pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminUserList.eat?pageNo=%d'>[이전%d페이지]</a>&nbsp;", startPageNo-1, blocksize); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 블럭크기의값 이다.	
+			}
+			else {
+				// 검색어가 있는 경우
+				pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminUserList.eat?pageNo=%d&colname=%s&search=%s'>[이전%d페이지]</a>&nbsp;", startPageNo-1, colName, search, blocksize); // 검색어 있는 경우
+			}
+	    }
+	    
+	    
+	    // *** 이전5페이지 와 다음5페이지 사이에 들어가는 것을 만드는 것 
 	    while( !(loop > blocksize || 
 	    		 startPageNo > totalPage) ) {
 	    	
@@ -95,12 +115,41 @@ public class AdminController {
 	    		pagebar += String.format("&nbsp;<span style='color:red; font-weight:bold; text-decoration:underline;'>%d</span>&nbsp;", startPageNo);
 	    	}
 	    	else{
-	    		pagebar += String.format("&nbsp;<a href=''>%d</a>&nbsp;", startPageNo);
+	    		if(colName == null || search == null) {
+	    			// 검색어가 없는 경우
+	    			pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminUserList.eat?pageNo=%d'>%d</a>&nbsp;", startPageNo, startPageNo); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 페이지바에 나타낼 startPageNo값 이다.	
+	    		}
+	    		else {
+	    			// 검색어가 있는 경우
+	    			pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminUserList.eat?pageNo=%d&colName=%s&search=%s'>%d</a>&nbsp;", startPageNo, colName, search, startPageNo); // 검색어 있는 경우
+	    		}
+	    		  
 	    	}
 	    	
 	    	loop++;
 	    	startPageNo++;
+	    	
+	    }// end of while------------------
+	    
+	    
+	    // **** 다음5페이지 만들기 ****
+	    if(startPageNo > totalPage) {
+	    	// 마지막 페이지바에 도달한 경우
+	    	pagebar += String.format("&nbsp;[다음%d페이지]", blocksize); 
 	    }
+	    else {
+	    	// 마지막 페이지바가 아닌 경우 
+	    	
+	    	if(colName == null || search == null) {
+				// 검색어가 없는 경우
+				pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminUserList.eat?pageNo=%d'>[다음%d페이지]</a>&nbsp;", startPageNo, blocksize); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 블럭크기의값 이다.	
+			}
+			else {
+				// 검색어가 있는 경우
+				pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminUserList.eat?pageNo=%d&colName=%s&search=%s'>[다음%d페이지]</a>&nbsp;", startPageNo, colName, search, blocksize); // 검색어 있는 경우
+			}
+	    }
+	    
 	    
 	    
 	    pagebar += "</ul>";
@@ -117,5 +166,37 @@ public class AdminController {
 		
 	}
 
+	//회원삭제
+	@RequestMapping(value = "/adminUserDel.eat", method = RequestMethod.POST)
+	public String userDel(HttpServletRequest req) {
+		String userSeq = req.getParameter("userSeq");
+		
+		HttpSession ses = req.getSession();
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("userSeq", userSeq);
+		
+		int result = service.userDel(map);
+		
+		String msg="";
+		String loc ="javascript:history.back();";
+		
+		if (result > 0) {
+			msg ="회원이 삭제되었습니다.";
+			loc ="javascript:history.back();";
+		}
+		
+		else {
+			msg ="회원이 삭제되지 않았습니다.";
+			loc ="javascript:history.back();";
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
+		
+		return "admin/adminUserDel";
+	}
 	
+	
+
 }

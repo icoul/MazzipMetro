@@ -50,7 +50,7 @@ img {border:0; padding:0; margin:0; vertical-align:top;}
 
 
 #headWrap {border-bottom:1px solid #dbdbdb;}
-.header {overflow:hidden; width:1000px; margin:0 auto;  height:50px; padding:20px 0 0;}
+.header {overflow:hidden; width:1000px; margin:0 auto;  height:70px; padding:20px 0 0;}
 .header  h1 {float:left; padding:0 20px 0 0; margin:0; font-size:23px; font-weight:bold;} 
 .header .menu {overflow:hidden; float:left; padding:4px 0 0 0; margin:0; }
 .header .menu li {float:left; list-style:none; padding:0 10px;}

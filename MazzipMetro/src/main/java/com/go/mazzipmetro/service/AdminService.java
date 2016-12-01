@@ -25,7 +25,13 @@ public class AdminService implements IService {
 	public int getTotalCount(HashMap<String, String> map) {
 		int count = dao.getTotalCount(map);
 		return count;
-	}
+	}//end of int getTotalCount(HashMap<String, String> map)----------------
+	
+	//회원삭제
+	public int userDel(HashMap<String, String> map) {
+		int n = dao.userDel(map);
+		return n;
+	}//end of int userDel(HashMap<String, String> map)-----------------------
 
 	
 }

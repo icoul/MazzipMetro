@@ -57,5 +57,10 @@ public class BossService implements IService{
 		int result = dao.recomInsert(map);
 		return result;
 	}
+
+	public String getRestSeq(String userSeq) {
+		String restSeq = dao.getRestSeq(userSeq);
+		return restSeq;
+	}
 }
 
