@@ -343,13 +343,68 @@ public class MazzipMetroController {
 
 			pageBar += "</ul>";
 
-			req.setAttribute("myQnaList", myQnaList);
+			
+			//myQnaList.jsp에 상단에 나의 문의내역중 접수/답변완료 갯수 알려주는 코드
+			HashMap<String,String> hashMap = new HashMap<String,String>();
+			hashMap.put("userSeq", userSeq);
+			hashMap.put("qnaProgress", "접수완료");
+			int registerQnaCount = service.getMyQnaProgressCount(hashMap);
+			
+			HashMap<String,String> hashMap2 = new HashMap<String,String>();
+			hashMap2.put("userSeq", userSeq);
+			hashMap2.put("qnaProgress", "답변완료");
+			int answerQnaCount = service.getMyQnaProgressCount(hashMap2);
+			
+			//myQnaList.jsp에 날짜 년월일 오늘 날짜로 설정하기위한 코드
+			HashMap<String,String> hashMap3 = new HashMap<String,String>();
+			hashMap3.put("str", "month");
+			
+			String todayMonth = String.valueOf(service.getToday(hashMap3));
+			
+		        
+		     List<String> yearList = new ArrayList<String>();
+		     
+		     for(int i = 0; i < 10; ++i){
+		    	 String year = String.valueOf(2015 + i + 1);
+		    	 yearList.add(year);
+		     }
+		     
+		     
+		     String stringMonthSelect = "";
+		     
+		     for(int i = 1; i <= 12; ++i){
+		    	 String month = String.valueOf(i);
+		    	 
+		    	 if(todayMonth.equals(month)){
+		    		 stringMonthSelect += 		"<option value='"+month+"' selected='selected'>"+month+"</option>";
+		    	 }else{
+		    		 stringMonthSelect += 		"<option value='"+month+"'>"+month+"</option>";
+		    	 } 
+		     }
+		     
 
+		     List<String> dayList = new ArrayList<String>();
+		     
+		     for(int i = 1; i <= 31; ++i){
+	    		 String day = String.valueOf(i);
+	    		 dayList.add(day);
+		     }
+			
+			
+			req.setAttribute("myQnaList", myQnaList);
+			req.setAttribute("totalCount", totalCount);
+			
 			req.setAttribute("qnaColName", qnaColName);
 			req.setAttribute("qnaSearch", qnaSearch);
 			req.setAttribute("qnaInquiry", qnaInquiry);
 			req.setAttribute("pageBar", pageBar);
 			
+			req.setAttribute("registerQnaCount", registerQnaCount);	
+			req.setAttribute("answerQnaCount", answerQnaCount);	
+			
+			req.setAttribute("stringMonthSelect", stringMonthSelect);
+
+
 			
 			return "QnA/myQnaList";
 		}

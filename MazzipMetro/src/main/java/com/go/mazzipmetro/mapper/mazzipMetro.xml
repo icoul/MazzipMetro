@@ -62,6 +62,7 @@
 		 and #{start} <![CDATA[<=]]> rno and rno <![CDATA[<=]]> #{end}
     </select>
     
+    
     <select id="getTotalMyQnaCount" parameterType="java.util.HashMap" resultType="int">
     	select count(*)
 		from tbl_qna a join tbl_user b
@@ -71,4 +72,29 @@
 		and ${qnaColName} like '%' || #{qnaSearch} || '%'
 		</if>
     </select>
+ 
+    <select id="getMyQnaProgressCount" parameterType="java.util.HashMap" resultType="int">
+    	select count(*)
+		from tbl_qna a join tbl_user b
+		on a.userSeq = b.userSeq
+		where b.userSeq = #{userSeq} and b.userStatus = 0 and a.qnaProgress = #{qnaProgress}
+    </select>
+    
+    <select id="getToday" resultType="int" parameterType="java.util.HashMap">
+    	<if test="str.equals('year')">
+    		select to_number(to_char(sysdate, 'yyyy')) as year 
+    		from dual
+    	</if>
+    	
+    	<if test="str.equals('month')">
+    		select to_number(to_char(sysdate, 'mm')) as month
+    		from dual
+    	</if>
+    	
+    	<if test="str.equals('day')">
+    		select to_number(to_char(sysdate, 'dd')) as day
+    		from dual
+    	</if>
+    </select>
+    
 </mapper>

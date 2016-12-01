@@ -38,7 +38,7 @@
 <div class="container">
 	<div class="row">
 		<h2> <span class="title-label">나의 문의내역</span>  </h2>
-		<span>총 문의건 : 0건 | 접수완료 : 0건 | 답변완료 : 0건</span>
+		<span>총 문의건 : ${totalCount}건 | 접수완료 : ${registerQnaCount}건 | 답변완료 : ${answerQnaCount}건</span>
         <nav class="navbar navbar-default query" role="query">
             <div class="container-fluid">
           	 <form name="qnaSearchFrm" style="display:inline;" action="<%=request.getContextPath()%>/myQnaList.eat" method="get">
@@ -47,62 +47,66 @@
 				        <th>문의접수일</th>
 				        <td colspan="3">
 							<select name="qnaRegYearStart">
+								<c:forEach var="year" items="${yearList}">
+									<option value="${year}">${year}</option>
+								</c:forEach>
 							
-								 <c:set var="year" value="2015" />
+								<%--  <c:set var="year" value="2015" />
 						        <c:forEach begin="1" end="85" >
 						        	 	<c:set var="year" value="${year+1}" />
 						        	<option value="${year}">${year}</option>
-						        </c:forEach>
+						        </c:forEach> --%>
 						    </select>
 						    년
 						    
 						    <select name="qnaRegMonthStart">
-							
-								 <c:set var="month" value="0" />
+						    	${stringMonthSelect}
+						    
+								<%--  <c:set var="month" value="0" />
 						        <c:forEach begin="1" end="12" >
 						        	 	<c:set var="month" value="${month+1}" />
-						        	<option value="${month}">${month}</option>
-						        </c:forEach>
+									<option value="${month}">${month}</option>
+						        </c:forEach> --%>
 						    </select>
 						    월
 						    
 						    <select name="qnaRegDayStart">
 							
-								 <c:set var="day" value="0" />
+								<%--  <c:set var="day" value="0" />
 						        <c:forEach begin="1" end="31" >
 						        	 	<c:set var="day" value="${day+1}" />
 						        	<option value="${day}">${day}</option>
-						        </c:forEach>
+						        </c:forEach> --%>
 						    </select>
 						    일 ~ 
 						    
 						    <select name="qnaRegYearEnd">
 							
-								 <c:set var="year" value="2015" />
+								<%--  <c:set var="year" value="2015" />
 						        <c:forEach begin="1" end="85" >
 						        	 	<c:set var="year" value="${year+1}" />
 						        	<option value="${year}">${year}</option>
-						        </c:forEach>
+						        </c:forEach> --%>
 						    </select>
 						    년
 						    
 						    <select name="qnaRegMonthEnd">
 							
-								 <c:set var="month" value="0" />
+								<%--  <c:set var="month" value="0" />
 						        <c:forEach begin="1" end="12" >
 						        	 	<c:set var="month" value="${month+1}" />
 						        	<option value="${month}">${month}</option>
-						        </c:forEach>
+						        </c:forEach> --%>
 						    </select>
 						    월
 						    
 						    <select name="qnaRegDayEnd">
 							
-								 <c:set var="day" value="0" />
+							<%-- 	 <c:set var="day" value="0" />
 						        <c:forEach begin="1" end="31" >
 						        	 	<c:set var="day" value="${day+1}" />
 						        	<option value="${day}">${day}</option>
-						        </c:forEach>
+						        </c:forEach> --%>
 						    </select>
 						</td>
 				        

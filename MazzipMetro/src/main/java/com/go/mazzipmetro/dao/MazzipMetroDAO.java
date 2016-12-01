@@ -40,4 +40,14 @@ public class MazzipMetroDAO implements IDAO{
 		int myQnaTotalCount = sqlSession.selectOne("getTotalMyQnaCount",map);
 		return myQnaTotalCount;
 	}
+
+	public int getMyQnaProgressCount(HashMap<String, String> hashMap) {
+		int myQnaCount = sqlSession.selectOne("getMyQnaProgressCount", hashMap);
+		return myQnaCount;
+	}
+
+	public int getToday(HashMap<String,String> hashMap) {
+		int today = sqlSession.selectOne("getToday", hashMap);
+		return today;
+	}
 }

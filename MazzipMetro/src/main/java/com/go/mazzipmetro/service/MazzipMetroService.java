@@ -41,4 +41,14 @@ public class MazzipMetroService implements IService {
 		int myQnaTotalCount = dao.getTotalMyQnaCount(map);
 		return myQnaTotalCount;
 	}
+
+	public int getMyQnaProgressCount(HashMap<String, String> hashMap) {
+		int myQnaCount = dao.getMyQnaProgressCount(hashMap);
+		return myQnaCount;
+	}
+
+	public int getToday(HashMap<String,String> hashMap) {
+		int today = dao.getToday(hashMap);
+		return today;
+	}
 }
