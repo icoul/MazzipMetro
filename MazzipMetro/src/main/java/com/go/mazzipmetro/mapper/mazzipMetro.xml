@@ -21,6 +21,54 @@
 	
 	  <!-- 문의 등록하기 -->
     <insert id="qnaRegister" parameterType="java.util.HashMap">
-    	insert into tbl_qna values(tbl_qnaSeq.nextval, #{userSeq}, #{qnaQuiry}, #{qnaSubject}, #{qnaComment}, default, default, default, default)
+    	insert into tbl_qna values(tbl_qnaSeq.nextval, #{userSeq}, #{qnaQuiry}, #{qnaSubject}, #{qnaComment}, default, null, default, default, default)
     </insert>
+    
+    
+   <resultMap type="java.util.HashMap" id="myQnaListResultMap">
+   		<result column="rno"	  	    property="rno" 			    javaType="String" />
+		 <result column="userName"	  	    property="userName" 			    javaType="String" />
+		 <result column="qnaSeq"	  	        property="qnaSeq" 			    	javaType="String" />
+		 <result column="userSeq"	  	    	property="userSeq" 			    	javaType="String" />
+		 <result column="qnaInquiry"	  	    property="qnaInquiry" 			    javaType="String" />
+		 <result column="qnaSubject"	  	    property="qnaSubject" 			    javaType="String" />
+		 <result column="qnaContent"	  	    property="qnaContent" 			    javaType="String" />
+		 <result column="qnaRegDate"	  	    property="qnaRegDate" 				javaType="String" />
+		 <result column="qnaProgress"	  	    property="qnaProgress" 				javaType="String" />
+		 <result column="fk_seq"	  	    	property="fk_seq" 			    	javaType="String" />
+		 <result column="qnaStatus"	  	    property="qnaStatus" 			    javaType="String" />
+		 <result column="userStatus"	  	    property="userStatus" 			    javaType="String" />
+	</resultMap>
+    
+    <select id="myQnaList" parameterType="java.util.HashMap" resultMap="myQnaListResultMap">
+    	select V.rno, V.userName, V.qnaSeq, V.userSeq, V.qnaInquiry, V.qnaSubject
+		, V.qnaContent, V.qnaRegDate, V.qnaProgress, V.fk_seq, V.qnaStatus, V.userStatus
+		from
+		(
+		select rownum as rno, b.userName, a.qnaSeq, b.userSeq, a.qnaInquiry, a.qnaSubject
+		, a.qnaContent, a.qnaRegDate, a.qnaProgress, a.fk_seq, a.qnaStatus, b.userStatus
+		from tbl_qna a join tbl_user b
+		on a.userSeq = b.userSeq
+		)V
+		where userStatus = 0 and userSeq = #{userSeq}
+		<if test="qnaSearch != null">
+		 and ${qnaColName} like '%' || #{qnaSearch} || '%'
+		</if>
+
+		<if test="qnaInquiry != null and !qnaInquiry.equals('전체')">
+			and qnaInquiry like '%' || #{qnaInquiry} || '%'
+		</if>
+
+		 and #{start} <![CDATA[<=]]> rno and rno <![CDATA[<=]]> #{end}
+    </select>
+    
+    <select id="getTotalMyQnaCount" parameterType="java.util.HashMap" resultType="int">
+    	select count(*)
+		from tbl_qna a join tbl_user b
+		on a.userSeq = b.userSeq
+		where b.userSeq = #{userSeq} and b.userStatus = 0
+		<if test="qnaSearch != null">
+		and ${qnaColName} like '%' || #{qnaSearch} || '%'
+		</if>
+    </select>
 </mapper>

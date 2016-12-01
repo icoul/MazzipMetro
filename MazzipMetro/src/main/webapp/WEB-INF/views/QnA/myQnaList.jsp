@@ -15,7 +15,23 @@
   <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/BootStrapStudy/css/bootstrap.min.css">
   <script src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script>
 <script type="text/javascript">
+	$(document).ready(function(){
+		<c:if test="${not empty qnaSearch}">
+			$("#qnaColName").val("${qnaColName}");
+			$("#qnaSearch").val("${qnaSearch}");
+		</c:if>		
+		
+		<c:if test="${not empty qnaInquiry}">
+		$("#qnaInquiry").val("${qnaInquiry}");
+		</c:if>
+	});
 
+
+
+	function goSearchFrm(){
+		var qnaSearchFrm = document.qnaSearchFrm;
+		qnaSearchFrm.submit();
+	}
 </script>
 </head>
 <body>
@@ -25,7 +41,7 @@
 		<span>총 문의건 : 0건 | 접수완료 : 0건 | 답변완료 : 0건</span>
         <nav class="navbar navbar-default query" role="query">
             <div class="container-fluid">
-            <form name="qnaSearchFrm" style="display:inline;" action="<%=request.getContextPath()%>/myQnaList.action" method="get">
+          	 <form name="qnaSearchFrm" style="display:inline;" action="<%=request.getContextPath()%>/myQnaList.eat" method="get">
                 <table class="table table-bordered">
 				      <tr>
 				        <th>문의접수일</th>
@@ -93,28 +109,29 @@
 				      </tr>
 				 
 				      <tr>
+				      	 
 				        <th>문의 유형</th>
 				        <td>
-				         <select name="qnaQuiry">
-							<option value="0">문의종류</option>
-							<option value="member">회원관련문의</option>
-							<option value="boss">사업주관련문의</option>
-							<option value="restaurant">음식점문의</option>
-							<option value="etc">기타문의</option>
+				         <select name="qnaInquiry" id="qnaInquiry">
+				         	<option value="전체">문의유형</option>
+							<option value="회원">회원관련문의</option>
+							<option value="사업주">사업주관련문의</option>
+							<option value="음식점">음식점문의</option>
+							<option value="기타">기타문의</option>
 						  </select>
 						</td>
 				        
 						<th>문의 상세검색</th>
 						<td> 
-						<select name="qnaColName">
-							<option value="0">검색</option>
-							<option value="name">이름</option>
-							<option value="subject">제목</option>
-							<option value="content">내용</option>
+						<select name="qnaColName" id="qnaColName">
+							<option value="userName">이름</option>
+							<option value="qnaSubject">제목</option>
 						 </select> 
-						  <input name="qnaSearch" type="text"/> &nbsp; <button type="button">조회</button>
+						  <input name="qnaSearch" id="qnaSearch" type="text"/> &nbsp; <button type="button" onClick="javascript:goSearchFrm();">조회</button>
 						  </td>
+						  
 				      </tr>
+				   
 				  </table>
                 </form>
             </div>
@@ -134,27 +151,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>ㄷ</td>
-                        <td>ㄷ</td>
-                        <td>ㄷ</td>
-                        <td>ㄷ</td>
-                        <td>ㄷ</td>
-                        <td>ㄷ</td>
-   						<td> <a class="btn btn-link" href="#">답변완료</a></td>
-                    </tr>
+                    <c:if test="${not empty myQnaList }">
+                    	<c:forEach var="map" items="${myQnaList}" varStatus="status">
+	                    	<tr>
+		                        <td>${map.rno }</td>
+		                        <td>${map.userName }</td>
+		                        <td>${map.qnaInquiry } 문의</td>
+		                        <td>${map.qnaSubject }</td>
+		                        <td>${map.qnaRegDate }</td>
+		                        <td>${map.qnaAnswerDate }</td>
+		   						<td><a class="btn btn-link" href="#">${map.qnaProgress }</a></td>
+		                    </tr>
+                    	</c:forEach>
+                    </c:if>
                     
                 </tbody>
             </table>
         </div>
+        
         <div >
-            <ul class="pagination">
-                <li><a href="#">«</a></li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">»</a></li>
-            </ul>
+            ${pageBar}
         </div>
 	</div>
 </div>

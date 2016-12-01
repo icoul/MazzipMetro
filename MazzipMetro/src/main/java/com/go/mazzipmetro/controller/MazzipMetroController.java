@@ -180,13 +180,16 @@ public class MazzipMetroController {
 				req.setAttribute("loc", "myQnaList.eat?userSeq=" + userSeq);
 			}
 			
-			return "user/msg";
+			return "QnA/msg";
 		}
 		
 		@RequestMapping(value = "/myQnaList.eat", method = RequestMethod.GET)
 		public String myQnAList(HttpServletRequest req) {
 			String userSeq = req.getParameter("userSeq");
 			
+			if(userSeq == null){
+				userSeq = "1";
+			}
 			/*
 			 * 페이징 처리하기 글목록 보기 페이지 요청은 URL형태의 페이징 처리를 띄는 것으로 만들어 주어야 한다. 즉, 예를 들면
 			 * 3페이지의 내용을 보고자 한다라면 /board/list.action?pageNo=3 같이한다.
@@ -240,16 +243,19 @@ public class MazzipMetroController {
 
 			String qnaColName = req.getParameter("qnaColName");
 			String qnaSearch = req.getParameter("qnaSearch");
-
+			String qnaInquiry = req.getParameter("qnaInquiry");
+			
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("qnaColName", qnaColName);
 			map.put("qnaSearch", qnaSearch);
-
+			map.put("qnaInquiry", qnaInquiry);
+			map.put("userSeq", userSeq);
+			
 			// 페이징처리를 위해 start end를 map에 추가하여 파라미터로 넘겨서 select되도록 한다.
 			map.put("start", String.valueOf(start));
 			map.put("end", String.valueOf(end));
 
-			List<QnaVO> myQnaList = service.myQnaList(map);
+			List<HashMap<String,String>> myQnaList = service.myQnaList(map);
 
 			// 페이징 작업의 계속(페이지바에 나타낼 총 페이지 갯수 구하기)
 			/*
@@ -259,13 +265,13 @@ public class MazzipMetroController {
 			 */
 
 			// 총 게시물건수를 구한다.
-			totalCount = service.getTotalQnaCount(map);
+			totalCount = service.getTotalMyQnaCount(map);
 			/* System.out.println("게시물 총갯수 : " + totalCount); */
 			totalPage = (int) Math.ceil((double) totalCount / sizePerPage);
 
 			// 이제부터 페이지바 작업을 한다.
-			String pagebar = "";
-			pagebar += "<ul>";
+			String pageBar = "";
+			pageBar += "<ul class='pagination'>";
 
 			/*
 			 * 우리는 위에서 blocksize를 5로 설정했으므로 이전5페이지 [1][2][3][4][5] 다음5페이지 로 나와야 한다.
@@ -284,34 +290,34 @@ public class MazzipMetroController {
 			 */
 
 			// ***** 이전 5페이지 만들기 *****
-
+		
 			if (startPageNo == 1) {// 첫 페이지바인 경우
-				pagebar += String.format("&nbsp;[이전%d페이지]&nbsp;", blockSize);
+				pageBar += String.format("<li><a>[이전%d페이지]</a></li>", blockSize);
 			} else {// 첫 페이지바가 아닌경우
-				if (qnaColName == null || qnaSearch == null) {// 검색어가 없는경우
-					pagebar += String.format("&nbsp;<a href='%s/list.action?pageNo=%d'>[이전%d페이지]</a>&nbsp;",
-							req.getContextPath(), startPageNo - 1, blockSize);
+				if (qnaSearch == null) {// 검색어가 없는경우
+					pageBar += String.format("<li><a href='%s/myQnaList.eat?pageNo=%d&userSeq=%s'>[이전%d페이지]</a></li>",
+							req.getContextPath(), startPageNo - 1, userSeq, blockSize);
 				} else {// 검색어가 있는 경우
-					pagebar += String.format(
-							"&nbsp;<a href='%s/list.action?pageNo=%d&colname=%s&search=%s'>[이전%d페이지]</a>&nbsp;",
-							req.getContextPath(), startPageNo - 1, qnaColName, qnaSearch, blockSize);
+					pageBar += String.format(
+							"<li><a href='%s/myQnaList.eat?pageNo=%d&userSeq=%s&qnaColName=%s&qnaSearch=%s'>[이전%d페이지]</a></li>",
+							req.getContextPath(), startPageNo - 1, userSeq, qnaColName, qnaSearch, blockSize);
 				}
 			}
 
 			while (!(loop > blockSize || startPageNo > totalPage)) {
 
 				if (startPageNo == currentShowPageNo) {
-					pagebar += String.format(
-							"&nbsp;<span style='color:red; font-weight:bold; text-decoration:underline; '> %d </span>&nbsp;",
+					pageBar += String.format(
+							"<li><span style='color:red; font-weight:bold; text-decoration:underline; '> %d </span></li>",
 							startPageNo);
 				} else {
-					if (qnaColName == null || qnaSearch == null) {// 검색어가 없는경우
-						pagebar += String.format("&nbsp;<a href='%s/list.action?pageNo=%d'>%d</a>&nbsp;",
-								req.getContextPath(), startPageNo, startPageNo);
+					if (qnaSearch == null) {// 검색어가 없는경우
+						pageBar += String.format("<li><a href='%s/myQnaList.eat?pageNo=%d&userSeq=%s'>%d</a></li>",
+								req.getContextPath(), startPageNo, userSeq, startPageNo);
 					} else {// 검색어가 있는 경우
-						pagebar += String.format(
-								"&nbsp;<a href='%s/list.action?pageNo=%d&colname=%s&search=%s'>%d</a>&nbsp;",
-								req.getContextPath(), startPageNo, qnaColName, qnaSearch, startPageNo);
+						pageBar += String.format(
+								"<li><a href='%s/myQnaList.eat?pageNo=%d&userSeq=%s&qnaColName=%s&qnaSearch=%s'>%d</a></li>",
+								req.getContextPath(), startPageNo,userSeq, qnaColName, qnaSearch, startPageNo);
 					}
 
 				}
@@ -323,25 +329,26 @@ public class MazzipMetroController {
 			// ***** 다음 5페이지 만들기 *****
 
 			if (startPageNo > totalPage) {// 마지막 페이지바인 경우
-				pagebar += String.format("&nbsp;[다음%d페이지]&nbsp;", blockSize);
+				pageBar += String.format("<li><a>[다음%d페이지]</a></li>", blockSize);
 			} else {// 마지막 페이지바가 아닌경우
-				if (qnaColName == null || qnaSearch == null) {// 검색어가 없는경우
-					pagebar += String.format("&nbsp;<a href='%s/list.action?pageNo=%d'>[다음%d페이지]</a>&nbsp;",
+				if (qnaSearch == null) {// 검색어가 없는경우
+					pageBar += String.format("<li><a href='%s/myQnaList.eat?pageNo=%d'>[다음%d페이지]</a></li>",
 							req.getContextPath(), startPageNo, blockSize);
 				} else {// 검색어가 있는 경우
-					pagebar += String.format(
-							"&nbsp;<a href='%s/list.action?pageNo=%d&colname=%s&search=%s'>[다음%d페이지]</a>&nbsp;",
+					pageBar += String.format(
+							"<li><a href='%s/myQnaList.eat?pageNo=%d&qnaColName=%s&qnaSearch=%s'>[다음%d페이지]</a></li>",
 							req.getContextPath(), startPageNo, qnaColName, qnaSearch, blockSize);
 				}
 			}
 
-			pagebar += "</ul>";
+			pageBar += "</ul>";
 
-			req.setAttribute("list", list);
+			req.setAttribute("myQnaList", myQnaList);
 
 			req.setAttribute("qnaColName", qnaColName);
 			req.setAttribute("qnaSearch", qnaSearch);
-			req.setAttribute("pagebar", pagebar);
+			req.setAttribute("qnaInquiry", qnaInquiry);
+			req.setAttribute("pageBar", pageBar);
 			
 			
 			return "QnA/myQnaList";
