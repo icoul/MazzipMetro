@@ -228,34 +228,7 @@ public class UserController {
 		
 		
 	}
-	
-<<<<<<< HEAD
 
-
-=======
-	
-	
-	//nos
-	@RequestMapping(value = "/myQna.eat", method = RequestMethod.GET)
-	public String myQnA(HttpServletRequest req) {
-		String userSeq = req.getParameter("userSeq");
-		
-		if(userSeq == null){
-			userSeq = "1";
-		}
-		
-		req.setAttribute("userSeq", userSeq);
-		return "user/myQna";
-	}
-	
-	@RequestMapping(value = "/myQnaList.eat", method = RequestMethod.GET)
-	public String myQnAList(HttpServletRequest req) {
-		
-		
-		return "user/myQnaList";
-	}
->>>>>>> 4919319799783b0a06acc329c4758a479f377165
-	
 	// 로그인 처리
 	@RequestMapping(value="/login.eat", method={RequestMethod.POST})
 	public String UserLogin(UserVO vo, HttpServletRequest req, HttpServletResponse res){

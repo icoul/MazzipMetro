@@ -41,15 +41,11 @@ public class UserDAO implements IDAO{
 	}
 
 
-<<<<<<< HEAD
-
-
-=======
 	public int userEdit(UserVO vo) {
 		int n = sqlSession.update("user.userEdit", vo);
 		return n;
 	}
->>>>>>> 4919319799783b0a06acc329c4758a479f377165
+
 
 }
 
