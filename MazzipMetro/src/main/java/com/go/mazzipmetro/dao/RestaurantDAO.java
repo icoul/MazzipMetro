@@ -1,11 +1,14 @@
 package com.go.mazzipmetro.dao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.go.mazzipmetro.vo.MenuVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
 
 @Repository
@@ -44,4 +47,47 @@ public class RestaurantDAO implements IDAO{
 		
 		return newSeq;
 	}// end of getNewRestSeq(RestaurantVO vo)
+
+	// 업장 세부정보 등록(소개글, 이미지, 태그)
+	public int setRestaurantInfo(HashMap<String, String> map, ArrayList<String> imageList, String[] mdCat, MenuVO mvo, int menuNum) {
+		
+		int result = 0;
+		
+		//업장 소개글 추가
+		result += sqlSession.update("restaurant.setRestContent", map);
+		
+		//업장 소개이미지 추가
+		for (int i = 0; i < imageList.size(); i++) {
+			map.put("AdImg", imageList.get(i));
+			result += sqlSession.insert("restaurant.setRestImg", map);
+		}
+		
+		//업장 태그추가
+		result += sqlSession.insert("restaurant.setRestBgTag", map);
+		
+		for (int i = 0; i < mdCat.length; i++) {
+			map.put("mdCat", mdCat[i]);
+			result += sqlSession.insert("restaurant.setRestMdTag", map);
+		}
+		
+		//메뉴 추가
+		for (int i = 0; i < menuNum; i++) {
+			map.put("restSeq", mvo.getRestSeq()[i]);
+			map.put("menuName", mvo.getMenuName()[i]);
+			map.put("menuContent", mvo.getMenuContent()[i]);
+			map.put("menuImg", mvo.getMenuImg()[i]);
+			map.put("menuPrice", mvo.getMenuPrice()[i]);
+			
+			if ("0".equals(mvo.getMenuSalePrice()[i])) {
+				mvo.getMenuSalePrice()[i] = mvo.getMenuPrice()[i];
+			}
+			map.put("menuSalePrice", mvo.getMenuSalePrice()[i]);
+			map.put("menuSort", mvo.getMenuSort()[i]);
+			map.put("menuEvent", mvo.getMenuEvent()[i]);
+
+			result += sqlSession.insert("restaurant.setMenu", map);
+		}
+		
+		return result;
+	}// end of setRestaurantInfo(HashMap<String, Object> map) 
 }
