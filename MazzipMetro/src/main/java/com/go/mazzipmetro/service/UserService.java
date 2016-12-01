@@ -19,13 +19,16 @@ public class UserService implements IService {
 		int n = dao.userRegister(vo);
 		return n;
 	}
-	
-	public int restRegister(RestaurantVO vo) {
-		//int n = dao.restRegister(vo);
-		int n = 0;
+
+	public int UserLogin(HashMap<String, String> map) {
+		int n = dao.UserLogin(map);
 		return n;
 	}
 
-	
+	public UserVO getLoginUser(String userEmail) {
+		UserVO loginuser = dao.getLoginUser(userEmail);
+		return loginuser;
+	}
+
 }
 
