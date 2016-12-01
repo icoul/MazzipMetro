@@ -45,7 +45,7 @@
 		success: function(data) {
 			
 			var markers = $(data.positions).map(function(i, position) {
-	        	//alert(i+" : "+position.lat+" "+position.lng);
+	        	alert(i+" : "+position.lat+" "+position.lng);
 	        	
 				// 마커를 생성합니다
 			    var marker = new daum.maps.Marker({

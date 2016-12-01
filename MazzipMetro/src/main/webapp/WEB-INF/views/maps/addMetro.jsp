@@ -80,8 +80,7 @@
 </div>
 
 
-<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=
-07a6ce4a014b94664ec5968dee2fb0d2&libraries=services"></script>
+<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=0d211626a8ca667e54b95403a7ae692f&libraries=services"></script>
 <script>
 // 마커를 담을 배열입니다
 var markers = [];

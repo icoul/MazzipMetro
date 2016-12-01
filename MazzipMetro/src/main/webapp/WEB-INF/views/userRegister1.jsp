@@ -45,7 +45,7 @@
     
 <div class="container">
 
-    <form class="well form-horizontal" action="<%= request.getContextPath() %>/userRegister2.eat" method="post"  id="contact_form" onsubmit="return checkForm(this);">
+    <form enctype="multipart/form-data" class="well form-horizontal" action="<%= request.getContextPath() %>/userRegister2.eat" method="post"  id="contact_form" onsubmit="return checkForm(this);">
 		<legend>회원약관</legend>
 		
 		<iframe src="<%= request.getContextPath() %>/resources/htmlfile/agree.html" width="100%" height="300px" class="box" ></iframe>
