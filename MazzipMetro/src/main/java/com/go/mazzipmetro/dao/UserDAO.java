@@ -2,6 +2,7 @@
 package com.go.mazzipmetro.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +33,10 @@ public class UserDAO implements IDAO{
 		UserVO loginUser = sqlSession.selectOne("user.getLoginUser", userEmail);
 		return loginUser;
 	}
-
-	public int qnaRegister(HashMap<String, String> hashMap) {
-		int n = sqlSession.insert("qnaRegister", hashMap);
-		return n;
+	
+	public List<String> alignTest() {
+		List<String> list = sqlSession.selectList("mazzipMetro.alignTest");
+		return list;
 	}
 
 }

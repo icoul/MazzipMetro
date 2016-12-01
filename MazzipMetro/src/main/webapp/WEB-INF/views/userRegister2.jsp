@@ -34,7 +34,7 @@
 		} 
 	}); */
 	
-	/* function goSubmit(){
+	 function goSubmit(){
 		
 		var registerFrm = document.registerFrm;
 		
@@ -56,7 +56,7 @@
 			registerFrm.submit();
 		}
 		
-	} */
+	} 
 	
 	
 	 $(function() {
@@ -1229,7 +1229,7 @@
 		<div class="form-group">
 		  <label class="col-md-4 control-label"></label>
 		  <div class="col-md-4">
-		    <button type="submit" class="btn btn-warning">Send <span class="glyphicon glyphicon-send"></span></button>
+		    <button type="button" class="btn btn-warning" onClick="goSubmit();">Send<span class="glyphicon glyphicon-send"></span></button>
 		  </div>
 		</div>
 		

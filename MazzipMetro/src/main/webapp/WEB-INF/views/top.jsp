@@ -38,6 +38,10 @@
 		$("#loginModal").modal();	
 	}
 	
+	function goRegister() {
+		
+	}
+	
 	
 </script>
 
@@ -57,7 +61,7 @@
 			</ul>
 
 			<c:if test="${sessionScope.loginUser.userSeq == null && empty sessionScope.loginUser.userSeq}"> 
-			<button type="button" class="btnLogin" onClick="goLogin();">로그인</button>
+			<button type="button" class="btnLogin" onClick="goLogin();" style="margin-left:10px;">로그인</button>
 			</c:if>
 			<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
 			${sessionScope.loginUser.userName} 님 환영합니다. &nbsp;&nbsp;
@@ -65,7 +69,7 @@
 			<button type="button" class="btnLogin" onClick="goLogOut();">로그아웃</button>
 			</c:if>
 
-			<button type="button" class="btnLogin">회원가입</button> 
+			<button type="button" class="btnLogin" onClick="">회원가입</button> 
 		</div>
 	</div>
 	
