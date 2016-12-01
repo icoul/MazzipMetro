@@ -86,6 +86,7 @@
 
 <script>
 	$(document).ready(function(){
+		goMap();
 		//getRestaurant();
 		
 		$("#autoCompleteList").hide();
@@ -131,12 +132,8 @@
 			
 	});
 	
-	var map = new daum.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
-        center : new daum.maps.LatLng(37.515812, 126.982340), // 지도의 중심좌표 
-        level : 8// 지도의 확대 레벨 
-    });
-	
 	function getRestaurant(){
+	
 		//alert($("[name=restTag]:checked").length);
 		
 		var restTagArr = [];     // 배열 초기화
@@ -155,6 +152,10 @@
 		  , restStatus : $("[name=restStatus]:checked").val()
 		}
 		
+		var map = new daum.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
+	        center : new daum.maps.LatLng(37.515812, 126.982340), // 지도의 중심좌표 
+	        level : 8// 지도의 확대 레벨 
+	    });
 		
 	    
 	    // 마커 클러스터러를 생성합니다 
