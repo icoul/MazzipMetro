@@ -50,10 +50,21 @@ public class ReviewDAO implements IDAO{
 		List<HashMap<String,String>> genderChartList = sqlSession.selectList("review.getGenderChartList", restseq);
 		return genderChartList;
 	}
-	
-	public int add(ReviewVO vo) {
+
+	public int addReview(ReviewVO rvo) {
 		
-		int result = sqlSession.insert("review.add", vo); // 아이디 add , 파라미터값 vo
+		int result = sqlSession.insert("review.reviewAdd", rvo);
+		return result;
+	}
+
+	public String getReviewSeq(ReviewVO rvo) {
+		
+		String Seq = sqlSession.selectOne("review.getReviewSeq", rvo);
+		return Seq;
+	}
+
+	public int addReviewImg(HashMap<String, String> map) {
+		int result = sqlSession.insert("review.addReviewImg",map);
 		return result;
 	}
 }
