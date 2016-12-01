@@ -3,6 +3,7 @@ package com.go.mazzipmetro.vo;
 import org.springframework.web.multipart.MultipartFile;
 
 public class UserVO {
+
    private String userSeq;       // 유저번호(PK)
    private String gradeSeq;       // 유저등급(FK)
    private String userName;       // 유저이름
@@ -195,7 +196,6 @@ public class UserVO {
    public void setUserStation(String userStation) {
       this.userStation = userStation;
    }
-   
-   
+
 }
 
