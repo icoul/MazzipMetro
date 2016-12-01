@@ -210,6 +210,25 @@ public class UserController {
 		return "userRegisterEnd";
 	} // end : userRegisterEnd 회원가입처리
 	
+	@RequestMapping(value="/userEdit.eat", method=RequestMethod.GET)
+	public String userEdit(UserVO vo) {
+		return "user/userEdit";
+	}
+	
+	@RequestMapping(value="/userEditEnd.eat", method=RequestMethod.POST)
+	public String userEditEnd(UserVO vo, HttpServletRequest req) {
+		
+		int n = service.userEdit(vo);
+		
+		req.setAttribute("n", n);
+		
+		return "user/userEditEnd";
+		
+		
+	}
+	
+	
+	
 	//nos
 	@RequestMapping(value = "/myQna.eat", method = RequestMethod.GET)
 	public String myQnA(HttpServletRequest req) {

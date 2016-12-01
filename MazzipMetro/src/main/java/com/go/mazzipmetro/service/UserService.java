@@ -36,5 +36,10 @@ public class UserService implements IService {
 		return loginuser;
 	}
 
+	public int userEdit(UserVO vo) {
+		int n = dao.userEdit(vo);
+		return n;
+	}
+
 }
 

@@ -56,7 +56,7 @@
 				<li><a href="#">맛집랭킹</a></li>
 				<li><a href="#">리뷰</a></li>
 				<li><a href="#">마이페이지</a></li>
-				<li><a href="#">문의하기</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<li><a href="#">문의하기</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
 				
 			</ul>
 
@@ -65,8 +65,8 @@
 			<button type="button" class="btnLogin">회원가입</button>
 			</c:if>
 			<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
-			${sessionScope.loginUser.userName} 님 환영합니다. &nbsp;&nbsp;
-			${sessionScope.loginUser.userPoint }
+			${sessionScope.loginUser.userName} 님 환영합니다. 
+			현재 마일리지: <span style="color:gold">${sessionScope.loginUser.userPoint }</span>
 			<button type="button" class="btnLogin" onClick="goLogOut();">로그아웃</button>
 			</c:if>
 

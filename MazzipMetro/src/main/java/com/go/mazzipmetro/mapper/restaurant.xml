@@ -132,4 +132,45 @@
 		where userseq = #{userSeq}
 	</select>
 	
+	<!-- 업장 소개글 추가 -->
+	<update id="restaurant.setRestContent" parameterType="java.util.HashMap">
+		update TBL_Restaurant set restContent = #{restContent}
+		where restSeq = #{restSeq}
+	</update>
+	
+	<!-- 업장 이미지 추가 -->
+	<insert id="restaurant.setRestImg" parameterType="java.util.HashMap">
+		insert into TBL_Restaurant_Ad(restSeq, AdImg) values(#{restSeq}, #{AdImg})
+	</insert>
+	
+	<!-- 업장 대태그 추가 -->
+	<insert id="restaurant.setRestBgTag" parameterType="java.util.HashMap">
+		insert into TBL_Restaurant_Tag(restSeq, tagSort, tagName, tagStatus) values(#{restSeq}, 'bgCat', #{bgCat}, default)
+	</insert>
+	
+	<!-- 업장 중태그 추가 -->
+	<insert id="restaurant.setRestMdTag" parameterType="java.util.HashMap">
+		insert into TBL_Restaurant_Tag(restSeq, tagSort, tagName, tagStatus) values(#{restSeq}, 'mdCat', #{mdCat}, default)
+	</insert>
+	
+	<!-- 메뉴 추가 -->
+	<insert id="restaurant.setMenu" parameterType="java.util.HashMap">
+		insert into TBL_Restaurant_Menu(restSeq, menuName, menuContent, menuImg, menuPrice, menuSalePrice, menuSort, menuEvent, menuStatus) 
+		values(#{restSeq}, '${menuName}', #{menuContent}, 
+			<if test="menuImg == null or menuImg.equals('')">
+				default
+			</if>
+			<if test="menuImg != null and !menuImg.equals('')">
+				#{menuImg}
+			</if>
+		, #{menuPrice}, #{menuSalePrice}, #{menuSort}, 
+			<if test="menuEvent == null or menuEvent.equals('')">
+				default
+			</if>
+			<if test="menuEvent != null and !menuEvent.equals('')">
+				#{menuEvent}
+			</if>
+		, default)
+	</insert>
+	
 </mapper>

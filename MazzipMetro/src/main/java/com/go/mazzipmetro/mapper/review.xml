@@ -95,9 +95,20 @@
 		)V
 		group by rollup(gender)
 	</select>
-	
-	<insert id="add" parameterType="com.go.mazzipmetro.vo.ReviewVO">
+	<!-- 리뷰 넣기 -->
+	<insert id="reviewAdd" parameterType="com.go.mazzipmetro.vo.ReviewVO">
 		insert into nos_review(reviewSeq, userSeq, restSeq, reviewTitle, reviewContent, reviewScore, reviewHit, reviewRegdate, reviewAvgscore, reviewStatus)
-		values(nos_reviewSeq.nextval, #{userSeq}, #{restSeq}, #{reviewTitle}, #{reviewContent}, 0, 0, sysdate, 0, 0);
+		values(nos_reviewSeq.nextval, #{userSeq}, #{restSeq}, #{reviewTitle}, #{reviewContent}, #{reviewScore}, #{reviewHit}, default, 0, 0)
+	</insert>
+	
+	<select id="getReviewSeq" parameterType="com.go.mazzipmetro.vo.ReviewVO" resultType="String">
+		select max(reviewSeq)
+		from nos_review
+		where userSeq = #{userSeq}
+		and restSeq = #{restSeq}
+	</select>
+	
+	<insert id="addReviewImg" parameterType="java.util.HashMap">
+		insert into review_Image values(#{Seq}, #{reviewImg}, default)
 	</insert>
 </mapper>

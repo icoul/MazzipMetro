@@ -14,8 +14,7 @@ public class ReviewVO {
    private String reviewAvgScore; 
    private String reviewStatus;
    
-   private MultipartFile[] attach;
-   
+      
    public ReviewVO(){}
    public ReviewVO(String reviewSeq, String userSeq, String restSeq, String reviewTitle, String reviewContent,
          String reviewScore, String reviewHit, String reviewRegDate, String reviewAvgScore, String reviewStatus) {
@@ -91,11 +90,4 @@ public class ReviewVO {
       this.reviewStatus = reviewStatus;
    }
 
-	public MultipartFile[] getAttach() {
-		return attach;
-	}
-
-	public void setAttach(MultipartFile[] attach) {
-		this.attach = attach;
-	}
 }
