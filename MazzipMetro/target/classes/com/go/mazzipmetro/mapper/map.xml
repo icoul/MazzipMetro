@@ -49,10 +49,19 @@
 		on A.guId = B.guId
 		where 1 = 1
 		
-		<!-- 키워드로 검색하는 경우 (1.음식점이름 2. 해당지하철 3. 해당 동) -->
-		<if test="!srchType[0].equals('srchType') and keyword[0] != null">
+		<!-- 키워드로 통합 검색하는 경우 -->
+		<if test="srchType[0].equals('all') and keyword[0] != '' ">
+			and ( restName like '%'||#{keyword[0]}||'%' 
+				or metroName like '%'||#{keyword[0]}||'%'
+				or dongName like '%'||#{keyword[0]}||'%'
+				or guName like '%'||#{keyword[0]}||'%' )
+		</if>
+		<!-- 키워드로 검색하는 경우 (1.음식점이름 2. 해당지하철 3. 해당 동 4. 해당 ) -->
+		<if test="!srchType[0].equals('all') and keyword[0] != null">
 			and ${srchType[0]} like '%'||#{keyword[0]}||'%'
 		</if>
+		
+		
 		<!-- 		태그명(대분류,중분류)검 -->
 		<if test="restTagArr != null">
 			and A.restSeq in (select distinct(restSeq)
@@ -117,6 +126,13 @@
 		<if test="keyword != null">
 			and metroId = (select metroId from tbl_metro where metroName like '%'||#{keyword}||'%')
 		</if>
+	</select>
+	
+	<!-- 지하철 역이름 얻기 (지도페이지로 넘길 때 사용함) -->
+	<select id="getMetroName" parameterType="String" resultType="String">
+		select metroName
+		from tbl_metro
+		where metroId = #{metroId}
 	</select>
 	
 </mapper>

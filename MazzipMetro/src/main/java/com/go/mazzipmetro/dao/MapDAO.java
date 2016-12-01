@@ -33,6 +33,7 @@ public class MapDAO  implements IDAO {
 
 	public List<HashMap<String, String>> getRestaurantList(HashMap<String, String[]> map) {
 		System.out.println(map.get("userSeq")[0]); 
+		System.out.println(map.get("keyword")[0] == null); //false
 		return sqlSession.selectList("map.getRestaurantList", map);
 	}
 
@@ -64,6 +65,34 @@ public class MapDAO  implements IDAO {
 	public List<String> autoComplete(HashMap<String, String> map) {
 		return sqlSession.selectList("restaurant.autoComplete", map);
 	}
+
+	// 자동글완성(카테고리) : restName
+	public List<String> r_catAutoComplete(String keyword) {
+		return sqlSession.selectList("restaurant.r_catAutoComplete", keyword);
+	}
+
+	// 자동글완성(카테고리) : metroName
+	public List<String> m_catAutoComplete(String keyword) {
+		return sqlSession.selectList("restaurant.m_catAutoComplete", keyword);
+	}
+
+	// 자동글완성(카테고리) : dongName
+	public List<String> d_catAutoComplete(String keyword) {
+		return sqlSession.selectList("restaurant.d_catAutoComplete", keyword);
+	}
+
+	// 자동글완성(카테고리) : guName
+	public List<String> g_catAutoComplete(String keyword) {
+		return sqlSession.selectList("restaurant.g_catAutoComplete", keyword);
+	}
+	
+	// 지하철 역이름 얻기 (지도페이지로 넘길 때 사용함)
+	public String getMetroName(String metroId) {
+		return sqlSession.selectOne("map.getMetroName", metroId);
+	}
+
+	
+	
 
 
 }

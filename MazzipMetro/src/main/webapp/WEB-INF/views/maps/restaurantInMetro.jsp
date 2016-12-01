@@ -54,7 +54,7 @@
         <div class="option">
             <div>
             	<form action="searchByMetro.eat" name="searchByMetroFrm" id="searchByMetroFrm">
-                    키워드 : <input type="text" value="역삼역" id="keyword" size="15"> 
+                    키워드 : <input type="text" value="${metroName}" id="keyword" size="15"> 
                     <button type="button" onclick="searchByMetro();">검색하기</button> 
                 </form>
                 <!-- <form onsubmit="searchPlaces(); return false;">

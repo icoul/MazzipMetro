@@ -9,8 +9,8 @@
 	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery-2.0.0.js"></script>
 	<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/css/bootstrap/bootstrap.css">
 	<script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/bootstrap.js"></script>
-	<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/jquery-ui-1.12.1/jquery-ui.css">
-  	<script src="href=<%= request.getContextPath() %>/resources/jquery-ui-1.12.1/jquery-ui.js"></script>
+	<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/jquery-ui/jquery-ui.css">
+  	<script src="<%= request.getContextPath() %>/resources/jquery-ui/jquery-ui.js"></script>
  
 	 <style type="text/css">
 	    .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
@@ -28,6 +28,29 @@
 	    .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('http://i1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
 	    .info .link {color: #5085BB;}
 	 </style>
+	 
+	 <!-- 카테고리화된 검색어 자동완성 css -->
+	 <style>
+	  .ui-autocomplete-category {
+	    font-weight: bold;
+	    padding: .2em .4em;
+	    margin: .8em 0 .2em;
+	    line-height: 1.5;
+	  }
+	  
+	  .ui-autocomplete {
+	    max-height: 200px;
+	    overflow-y: auto;
+	    /* prevent horizontal scrollbar */
+	    overflow-x: hidden;
+	  }
+	  /* IE 6 doesn't support max-height
+	   * we use height instead, but this forces the menu to always be this tall
+	   */
+	  html .ui-autocomplete {
+	    height: 200px;
+	  }
+	  </style>
 </head>
 <body style="margin: auto; width: 95%;">
 <h1>마커 클러스터러랑 커스텀오버레이 동시 구현하기</h1>
@@ -40,15 +63,15 @@
     </em>
 </p>
 <div id="searchFrmContainer">
-	<form id="searchFrm">
+	<form id="searchFrm" onsubmit="return false;">
 		<select name="srchType" id="srchType">
-			<option value="srchType">검색조건</option>
+			<option value="all">통합검색</option>
 			<option value="restName">음식점명 검색</option>
 			<option value="metroName">지하철역사 검색</option>
 			<option value="dongName">동 검색</option>
 			<option value="guName">구 검색</option>
 		</select>
-		<input type="text" name="keyword" id="keyword">
+		<input type="text" name="keyword" id="keyword" onkeydown="goButton();">
 		<button type="button" onclick="getRestaurant();">검색</button> 
 		<br/> 
 		<label class="checkbox-inline"><input type="checkbox" name="restTag" value="한식">한식</label>
@@ -86,9 +109,9 @@
 			var srchType = $("[name=srchType]").val();
 			//alert(srchType);
 			
-			if('srchType' == $("[name=srchType]").val()){
+			/* if('srchType' == $("[name=srchType]").val()){
 				return;
-			}
+			} */
 		
 			$.ajax({
 				url:"<%=request.getContextPath()%>/autoComplete.eat",
@@ -96,26 +119,45 @@
 				data: "srchType="+srchType+"&keyword="+$("#keyword").val(),
 				dataType:"json",
 				success: function(data){
+					//alert(data.autoComSource);
 					
-					$("#keyword").autocomplete({
-						source : data.autoComSource
-					})
-					
-					/* var Arr = data.split(',');
-					var resultHtml = ""; 
-					
-					for (var i = 0; i < Arr.length; i++) {
-						var word = Arr[i].trim();
-						var index = word.indexOf($("#keyword").val());
-						resultHtml += "<a href='javascript:pickOne(\""+word+"\")'>";
-						resultHtml += word.substr(0,index);
-						resultHtml += "<span style='color:red; font-weight:bold;'>"+$("#keyword").val()+"</span>"+word.substr(index+$("#keyword").val().length);
-						resultHtml += "</a><br/>";
+					// 카테고리 auto-complete 인경우
+					if(data.autoComSource == null){
+						//alert(1);
+						$.widget( "custom.catcomplete", $.ui.autocomplete, {
+						      _create: function() {
+						        this._super();
+						        this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
+						      },
+						      _renderMenu: function( ul, items ) {
+						        var that = this,
+						          currentCategory = "";
+						        $.each( items, function( index, item ) {
+						          var li;
+						          if ( item.category != currentCategory ) {
+						            ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+						            currentCategory = item.category;
+						          }
+						          li = that._renderItemData( ul, item );
+						          if ( item.category ) {
+						            li.attr( "aria-label", item.category + " : " + item.label );
+						          }
+						        });
+						      }
+						    });
+						
+						$("#keyword").catcomplete({
+							delay : 0,
+							source : data.cat_autoComSource
+						})						
+					} else {// 일반 auto-complete인 경우
+						//alert(2);
+						$("#keyword").autocomplete({
+							source : data.autoComSource
+						})	
 					}
 					
-					$("#autoCompleteList").show();
-					$("#autoCompleteList").html(resultHtml); */
-							
+					
 				}, //end of success: function(data)
 				error: function(request, status, error){
 					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -126,6 +168,15 @@
 		});
 			
 	});
+	
+	// input 태그 엔터키 refresh 방지
+	function goButton() {
+		 if (event.keyCode == 13) {
+		 	getRestaurant();
+		  	return false;
+		 }
+		 return true;
+	}
 	
 	function getRestaurant(){
 	

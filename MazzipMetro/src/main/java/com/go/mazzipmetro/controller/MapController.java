@@ -22,6 +22,12 @@ public class MapController {
 	
 	@Autowired
 	MapService service;
+	//이미지맵 테스트
+	@RequestMapping(value="/imgMapTest.eat",method={RequestMethod.GET}) 
+	public String imgMapTest(){
+		
+		return "/maps/imgMapTest";
+	}
 	
 	// 자동글완성 
 	@RequestMapping(value="/autoComplete.eat", method={RequestMethod.GET})
@@ -33,14 +39,20 @@ public class MapController {
 		map.put("srchType", srchType);
 		map.put("keyword", keyword);
 		
-		List<String> list = service.autoComplete(map);
-		
 		JSONObject jObj = new JSONObject();
-		jObj.put("autoComSource", list);
+
+		//일반 autoComplete
+		if (!"all".equals(srchType)) {			
+			List<String> list = service.autoComplete(map);
+			jObj.put("autoComSource", list);
+		} else {			
+			List<HashMap<String, String>> catList = service.catAutoComplete(keyword);
+			jObj.put("cat_autoComSource", catList);
+		}
 		
 		req.setAttribute("jObj", jObj);
 		return "/maps/json/autoComplete";
-		// /Board/src/main/webapp/WEB-INF/views/ajax/autoComplete.jsp 생성
+		
 		}
 	
 	//클러스터러 (clickable) & 커스텀 overlay 테스트
@@ -98,7 +110,11 @@ public class MapController {
 	
 	//지하철역별 등록된 음식점 보여주기
 	@RequestMapping(value="/restaurantInMetro.eat",method={RequestMethod.GET}) 
-	public String restaurantInMetro(){
+	public String restaurantInMetro(HttpServletRequest req){
+		String metroId = req.getParameter("metroId");
+		String metroName = service.getMetroName(metroId);
+		
+		req.setAttribute("metroName", metroName);
 		return "/maps/restaurantInMetro";
 	}
 	
