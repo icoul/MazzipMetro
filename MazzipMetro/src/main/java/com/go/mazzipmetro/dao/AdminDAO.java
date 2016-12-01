@@ -26,6 +26,11 @@ public class AdminDAO implements IDAO{
 		return count;
 	}// end of getTotalCount(HashMap<String, String> map)-------------
 
+	public int userDel(HashMap<String, String> map) {
+		int n = sqlSession.update("admin.userDel", map);
+		return n;
+	}
+
 	
 	
 }

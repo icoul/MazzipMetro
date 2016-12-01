@@ -34,5 +34,10 @@
     	</if>
     </select>
     
+    <update id="userDel" parameterType="java.util.HashMap">
+    	update tbl_user set userStatus = 1
+		where userSeq = #{userSeq}
+    </update>
+    
     
 </mapper>
