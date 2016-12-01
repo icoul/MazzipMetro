@@ -13,15 +13,14 @@ public class UserVO {
     private String userYear;		// 유저생일
 	private String userMonth;		// 유저생일
 	private String userDate;		// 유저생일
-	
 	private String userBirthDay;	// 유저생일
+	
 	private String userPhone;		// 유저핸드폰	
 	private String userRegDate;		// 유저가입일	
 	private String userPoint;		// 유저포인트	
-	private String userRandomBox;	// 유저랜덤박스갯수
 	private String userStation;		// 선호지역
 	private String userSort;		// 유저구분	
-	private String userstatus;			// 유저상태
+	private String userStatus;			// 유저상태
 	private String userProfile;		// 유저사진(이미지)
 	
 	private MultipartFile attach; 	// 진짜 파일 ==> WAS(톰캣) 디스크에 저장됨.
@@ -29,8 +28,8 @@ public class UserVO {
 	public UserVO(){}
 
 	public UserVO(String userSeq, String gradeSeq, String userName, String userEmail, String userPw, String userGender,
-			String userBirthDay, String userYear, String userMonth, String userDate, String userPhone, String userRegDate, String userPoint, String userRandomBox,
-			String userSort, String userstatus, String userProfile, MultipartFile attach, String userStation) {
+			String userBirthDay, String userYear, String userMonth, String userDate, String userPhone, String userRegDate, String userPoint,
+			String userSort, String userStatus, String userProfile, MultipartFile attach, String userStation) {
 		super();
 		this.userSeq = userSeq;
 		this.gradeSeq = gradeSeq;
@@ -45,9 +44,8 @@ public class UserVO {
 		this.userPhone = userPhone;
 		this.userRegDate = userRegDate;
 		this.userPoint = userPoint;
-		this.userRandomBox = userRandomBox;
 		this.userSort = userSort;
-		this.userstatus = userstatus;
+		this.userStatus = userStatus;
 		this.userProfile = userProfile;
 		this.attach = attach;
 		this.userStation = userStation;
@@ -158,14 +156,6 @@ public class UserVO {
 		this.userPoint = userPoint;
 	}
 
-	public String getUserRandomBox() {
-		return userRandomBox;
-	}
-
-	public void setUserRandomBox(String userRandomBox) {
-		this.userRandomBox = userRandomBox;
-	}
-
 	public String getUserSort() {
 		return userSort;
 	}
@@ -175,11 +165,11 @@ public class UserVO {
 	}
 
 	public String getUserstatus() {
-		return userstatus;
+		return userStatus;
 	}
 
-	public void setUserstatus(String userstatus) {
-		this.userstatus = userstatus;
+	public void setUserStatus(String userStatus) {
+		this.userStatus = userStatus;
 	}
 
 	public String getUserProfile() {

@@ -20,12 +20,6 @@ public class UserService implements IService {
 		return n;
 	}
 	
-	public int restRegister(RestaurantVO vo) {
-		//int n = dao.restRegister(vo);
-		int n = 0;
-		return n;
-	}
-
 	public int qnaRegister(HashMap<String, String> hashMap) {
 		int n =  dao.qnaRegister(hashMap);
 		return n;

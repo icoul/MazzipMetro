@@ -1,5 +1,13 @@
 package com.go.mazzipmetro.controller;
 
+
+import java.util.Date;
+import java.util.HashMap;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import java.io.File;
 import java.util.HashMap;
 
@@ -11,6 +19,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+
+import org.json.JSONObject;
 
 import com.go.mazzipmetro.common.FileManager;
 import com.go.mazzipmetro.service.UserService;
@@ -96,7 +107,7 @@ public class UserController {
 		
 		//req.setAttribute("n", n);
 		return "userRegisterEnd";
-	}
+	} // end : userRegisterEnd 회원가입처리
 	
 	//nos
 	@RequestMapping(value = "/myQna.eat", method = RequestMethod.GET)

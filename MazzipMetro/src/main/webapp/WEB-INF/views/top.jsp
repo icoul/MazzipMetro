@@ -29,7 +29,6 @@
 				<li><a href="#">문의하기</a></li>
 			</ul>
 			<button type="button" class="btnLogin">회원가입</button> 
-			<button type="button" class="btnLogin" style="margin-left: 10px;">로그인</button>
 		</div>
 	</div>
 	
