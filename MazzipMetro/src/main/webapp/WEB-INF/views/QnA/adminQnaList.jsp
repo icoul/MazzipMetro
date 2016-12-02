@@ -34,9 +34,24 @@
 		$("#qnaRegDayEnd").val("${qnaRegDayEnd}");
 		
 		$("#qnaProgress").val("${qnaProgress}");
+		
+		
 	});
 
 
+	function allCheckBox(){
+		var allCheckBox = document.getElementById("allCheckBox");
+		var qnaSeqCheckBoxArr = document.getElementsByName("qnaSeqCheckBox");
+		
+			for(var i = 0; i < qnaSeqCheckBoxArr.length; ++i){
+				if(allCheckBox.checked){
+					qnaSeqCheckBoxArr[i].checked = true;
+				}else{
+					qnaSeqCheckBoxArr[i].checked = false;
+				}
+			}
+	}
+	
 
 	function goSearchFrm(){
 		var qnaSearchFrm = document.qnaSearchFrm;
@@ -46,6 +61,10 @@
 	function openWin(src){
 		window.open(src,"팝업창이름(의미없음)", "width=" + 650 + ", height=" + 550 + ", left=100px, top=100px, menubar=no, status=no, scrollbars=no");
 		
+	}
+	
+	function qnaDelete(){
+		alert("zzz");
 	}
 </script>
 </head>
@@ -60,7 +79,7 @@
                 <table class="table table-bordered">
 				      <tr>
 				        <th>문의접수일</th>
-				        <td colspan="3">
+				        <td colspan="5">
 							<select name="qnaRegYearStart" id="qnaRegYearStart">
 								${strRegDateYearSelect }
 						    </select>
@@ -99,7 +118,7 @@
 				        <th>문의 유형</th>
 				        <td>
 				         <select name="qnaInquiry" id="qnaInquiry">
-				         	<option value="전체">문의유형</option>
+				         	<option value="전체">전체</option>
 							<option value="회원">회원관련문의</option>
 							<option value="사업주">사업주관련문의</option>
 							<option value="음식점">음식점문의</option>
@@ -114,9 +133,12 @@
 							<option value="qnaSubject">제목</option>
 						 </select> 
 						  <input name="qnaSearch" id="qnaSearch" type="text"/> &nbsp; <button type="button" onClick="javascript:goSearchFrm();">조회</button>
-						    &nbsp;&nbsp;
+						  </td>
+						  
+						  <th>처리상태</th>
+						  <td>
 						  <select name="qnaProgress" id="qnaProgress">
-				         	<option value="전체">처리상태</option>
+				         	<option value="전체">전체</option>
 							<option value="접수완료">접수완료</option>
 							<option value="답변완료">답변완료</option>
 						  </select>
@@ -132,7 +154,11 @@
         <div class="table-responsive col-md-12">
             <table class="table table-striped table-hover">
                 <thead>
+	                <tr>
+	                	<th colspan="8">선택한 Q&A를 <button class="btn" onClick="javascript:qnaDelete();">삭제</button></th>
+	                </tr>
                     <tr>
+                    	<th><input type="checkbox" name="allCheckBox" id="allCheckBox" onClick="javascript:allCheckBox();"/></th>
                         <th>NO</th>
                         <th>글쓴이</th>
                         <th>문의종류</th>
@@ -146,6 +172,7 @@
                     <c:if test="${not empty adminQnaList }">
                     	<c:forEach var="map" items="${adminQnaList}" varStatus="status">
 		                    	<tr>
+		                    		<td><input type="checkbox" name="qnaSeqCheckBox" id="qnaSeqCheckBox${status.count}" value="${map.qnaSeq}" /></td>
 			                        <td>${map.rno }</td>
 			                        <td>${map.userName }</td>
 			                        <td>${map.qnaInquiry } 문의</td>                                                                                                        
@@ -156,8 +183,14 @@
 			                        <td>${map.qnaRegDate }</td>
 			                        <td>${map.qnaAnswerDate }</td>
 			   						<td>
-			   						<a class="btn btn-link" href="#" onClick="openWin('<%=request.getContextPath() %>/adminSeeAdminAnswer.eat?qnaSeq=${map.qnaSeq}' );">${map.qnaProgress }</a>
+			   						<c:if test="${map.qnaProgress eq '답변완료'}">
+			   							<a class="btn btn-link" href="#" onClick="openWin('<%=request.getContextPath() %>/adminSeeAdminAnswer.eat?qnaSeq=${map.qnaSeq}' );">${map.qnaProgress }</a>
+			   						</c:if>
+			   						<c:if test="${map.qnaProgress eq '접수완료' }">
+			   						  <a class="btn btn-link" href="#">${map.qnaProgress }</a>
+			   						</c:if>
 			   						</td>
+			   						
 			                    </tr>
                     	</c:forEach>
                     </c:if>
@@ -166,9 +199,7 @@
             </table>
         </div>
         
-        <div >
-            ${pageBar}
-        </div>
+        <div>${pageBar}</div>
 	</div>
 </div>
 </body>

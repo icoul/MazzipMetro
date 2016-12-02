@@ -144,12 +144,12 @@ public class MazzipMetroController {
 	}
 	
 	
-	//nos
+		//문의하기페이지로 이동하는 컨트롤러
 		@RequestMapping(value = "/myQna.eat", method = {RequestMethod.GET})
 		public String myQnA(HttpServletRequest req) {
 			String userSeq = req.getParameter("userSeq");
 			
-			if(userSeq == null){
+			if(userSeq == null){ 
 				userSeq = "1";
 			}
 			
@@ -157,6 +157,7 @@ public class MazzipMetroController {
 			return "QnA/myQna";
 		}
 		
+		//QnA/myQna.jsp페이지에서 등록하기를 누르면 등록해주는 컨트롤러
 		@RequestMapping(value = "/myQnaRegister.eat", method = {RequestMethod.POST})
 		public String myQnaRegister(HttpServletRequest req) {
 			String userSeq = req.getParameter("userSeq");
@@ -184,6 +185,7 @@ public class MazzipMetroController {
 			return "QnA/msg";
 		}
 		
+		//유저 한사람이 문의한 내역을 보여주는 컨트롤러 
 		@RequestMapping(value = "/myQnaList.eat", method = {RequestMethod.GET})
 		public String myQnAList(HttpServletRequest req) {
 			String userSeq = req.getParameter("userSeq");
@@ -242,23 +244,23 @@ public class MazzipMetroController {
 			// 검색어가 포함되어 이것을 주석처리
 			/* List<BoardVO> list = service.list(); */
 
-			String qnaColName = req.getParameter("qnaColName");
-			String qnaSearch = req.getParameter("qnaSearch");
-			String qnaInquiry = req.getParameter("qnaInquiry");
-			String qnaProgress = req.getParameter("qnaProgress");
+			String qnaColName = req.getParameter("qnaColName"); //검색하고자하는 컬럼명 이름, 제목
+			String qnaSearch = req.getParameter("qnaSearch");   //검색어
+			String qnaInquiry = req.getParameter("qnaInquiry"); //문의 유형 - 회원, 음식점, 사업주, 기타
+			String qnaProgress = req.getParameter("qnaProgress"); //처리과정 접수완료, 답변완료
 			
 			if(qnaProgress == null){
 				qnaProgress = "전체";
 			}
 			
 			//검색기간 셀렉트
-			String qnaRegYearStart = req.getParameter("qnaRegYearStart");
-			String qnaRegMonthStart = req.getParameter("qnaRegMonthStart");
-			String qnaRegDayStart = req.getParameter("qnaRegDayStart");
+			String qnaRegYearStart = req.getParameter("qnaRegYearStart");    //검색하고자 하는 기간의 시작 년
+			String qnaRegMonthStart = req.getParameter("qnaRegMonthStart");  //검색하고자 하는 기간의 시작 월
+			String qnaRegDayStart = req.getParameter("qnaRegDayStart");      //검색하고자 하는 기간의 시작 일
 			
-			String qnaRegYearEnd= req.getParameter("qnaRegYearEnd");
-			String qnaRegMonthEnd= req.getParameter("qnaRegMonthEnd");
-			String qnaRegDayEnd = req.getParameter("qnaRegDayEnd");
+			String qnaRegYearEnd= req.getParameter("qnaRegYearEnd");   //검색하고자 하는 기간의 끝 년
+			String qnaRegMonthEnd= req.getParameter("qnaRegMonthEnd"); //검색하고자 하는 기간의 끝 월
+			String qnaRegDayEnd = req.getParameter("qnaRegDayEnd");    //검색하고자 하는 기간의 끝 일
 			
 			
 			//myQnaList.jsp에 날짜 년월일 오늘 날짜로 설정하기위한 코드
@@ -275,6 +277,7 @@ public class MazzipMetroController {
 			String todayMonth = String.valueOf(service.getToday(hashMap4));
 			String todayDay = String.valueOf(service.getToday(hashMap5));
 
+			//myQnaList를 처음 실행했을떄 검색기간의 기본값을 설정하기위한 코드
 			if(qnaRegYearStart == null && qnaRegMonthStart == null && qnaRegDayStart == null
 				&& qnaRegYearEnd == null && qnaRegMonthEnd == null && qnaRegDayEnd == null	){
 				qnaRegYearStart = todayYear;
@@ -293,6 +296,7 @@ public class MazzipMetroController {
 			}
 			 
 				
+			//검색기간 select의 option을 문자열로 보내준다.
 			  String strRegDateYearSelect = "";
 			  String strRegDateMonthSelect = "";
 			  String strRegDateDaySelect = "";
@@ -440,12 +444,14 @@ public class MazzipMetroController {
 			
 			hashMap.put("userType", "회원");
 			
+			
 			if(qnaProgress.equals("전체")){
 				hashMap.put("qnaProgress", "접수완료");
 			}else if(qnaProgress.equals("접수완료")){
 				hashMap.put("qnaProgress", qnaProgress);
 			}
 
+			//만약 검색시 처리과정을 답변완료로 하면 접수완료의 수는 0이 되어야하므로 삼항연산자를 이용 
 			int registerQnaCount = (qnaProgress.equals("답변완료")) ? 0 :service.getQnaProgressCount(hashMap);
 			
 			HashMap<String,String> hashMap2 = new HashMap<String,String>();
@@ -535,19 +541,7 @@ public class MazzipMetroController {
 			start = ((currentShowPageNo - 1) * sizePerPage) + 1;
 			end = start + sizePerPage - 1;
 
-			/*
-			 * #.글조회수(readCount) 증가(DML문 update)는 반드시 해당 글제목을 클릭했을 경우에만 증가되고 웹브라우저에서
-			 * 새로고침(F5)을 했을 경우에는 증가가 안되도록 하겠다. 이것을 하기위해서 우리는 session을 사용하여 처리한다.
-			 */
 
-			/*
-			 * session에 readCountCheck라는 키값으로 저장된 밸류값은 no이다. session에
-			 * readCountCheck라는 키값에 해당하는 밸류값이 "no"라고 얻으려면 반드시 웹브라우저 주소창에
-			 * /list.action이라고 입력해야만 얻어올수 있다.
-			 */
-
-			// 검색어가 포함되어 이것을 주석처리
-			/* List<BoardVO> list = service.list(); */
 
 			String qnaColName = req.getParameter("qnaColName");
 			String qnaSearch = req.getParameter("qnaSearch");
@@ -792,7 +786,7 @@ public class MazzipMetroController {
 		}
 		
 		
-		
+		//관리자가 adminQnaList에서 문의제목을 클릭하면 회원의 질문사항을 보여주는 컨트롤러
 		@RequestMapping(value = "/adminSeeUserQuestion.eat", method = {RequestMethod.GET})
 		public String adminSeeUserQuestion(HttpServletRequest req) {
 			String qnaSeq = req.getParameter("qnaSeq");
@@ -814,6 +808,7 @@ public class MazzipMetroController {
 			return "QnA/adminSeeUserQuestion";
 		}
 		
+		//관리자가 adminQnaList에서 답변완료를 클릭하면 관리자의 답변을 보여주는 컨트롤러
 		@RequestMapping(value = "/adminSeeAdminAnswer.eat", method = {RequestMethod.GET})
 		public String adminSeeAdminAnswer(HttpServletRequest req) {
 			String qnaSeq = req.getParameter("qnaSeq");
@@ -824,6 +819,7 @@ public class MazzipMetroController {
 			return "QnA/adminSeeAdminAnswer";
 		}
 		
+		//관리자가 회원의 답변을 등록하는 컨트롤러
 		@RequestMapping(value = "/adminAnswerRegister.eat", method = {RequestMethod.POST})
 		public String adminAnswerRegister(HttpServletRequest req) {
 			String qnaSeq = req.getParameter("qnaSeq");
@@ -850,7 +846,7 @@ public class MazzipMetroController {
 		}
 		
 		
-		
+		//myQnaList에서 답변완료를 클릭하면 사용자가 관리자의 답변을 보는 컨트롤러
 		@RequestMapping(value = "/userSeeAdminAnswer.eat", method = {RequestMethod.GET})
 		public String userSeeAdminAnswer(HttpServletRequest req) {
 			String qnaSeq = req.getParameter("qnaSeq");
@@ -860,6 +856,7 @@ public class MazzipMetroController {
 			return "QnA/userSeeAdminAnswer";
 		}
 		
+		//myQnaList에서 제목을 클릭하면 사용자의 질문을 보는 컨트롤러
 		@RequestMapping(value = "/userSeeUserQuestion.eat", method = {RequestMethod.GET})
 		public String userSeeUserQuestion(HttpServletRequest req) {
 			String qnaSeq = req.getParameter("qnaSeq");

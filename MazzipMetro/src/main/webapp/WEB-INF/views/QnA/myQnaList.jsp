@@ -60,7 +60,7 @@
                 <table class="table table-bordered">
 				      <tr>
 				        <th>문의접수일</th>
-				        <td colspan="3">
+				        <td colspan="5">
 							<select name="qnaRegYearStart" id="qnaRegYearStart">
 								${strRegDateYearSelect }
 						    </select>
@@ -99,7 +99,7 @@
 				        <th>문의 유형</th>
 				        <td>
 				         <select name="qnaInquiry" id="qnaInquiry">
-				         	<option value="전체">문의유형</option>
+				         	<option value="전체">전체</option>
 							<option value="회원">회원관련문의</option>
 							<option value="사업주">사업주관련문의</option>
 							<option value="음식점">음식점문의</option>
@@ -107,16 +107,19 @@
 						  </select>
 						</td>
 				        
-						<th>문의 상세검색</th>
+					<th>문의 상세검색</th>
 						<td> 
 						<select name="qnaColName" id="qnaColName">
 							<option value="userName">이름</option>
 							<option value="qnaSubject">제목</option>
 						 </select> 
 						  <input name="qnaSearch" id="qnaSearch" type="text"/> &nbsp; <button type="button" onClick="javascript:goSearchFrm();">조회</button>
-						  &nbsp;&nbsp;
+						  </td>
+						  
+						  <th>처리상태</th>
+						  <td>
 						  <select name="qnaProgress" id="qnaProgress">
-				         	<option value="전체">처리상태</option>
+				         	<option value="전체">전체</option>
 							<option value="접수완료">접수완료</option>
 							<option value="답변완료">답변완료</option>
 						  </select>
@@ -158,7 +161,7 @@
 		   						</c:if>
 		   						
 		   						<c:if test="${map.qnaProgress eq '접수완료' }">
-		   						  ${map.qnaProgress }
+		   						  <a class="btn btn-link" href="#">${map.qnaProgress }</a>
 		   						</c:if>
 		   						</td>
 		                    </tr>
@@ -169,9 +172,7 @@
             </table>
         </div>
         
-        <div >
-            ${pageBar}
-        </div>
+        <div>${pageBar}</div>
 	</div>
 </div>
 </body>
