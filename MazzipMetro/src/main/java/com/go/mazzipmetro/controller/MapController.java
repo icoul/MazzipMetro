@@ -30,6 +30,21 @@ public class MapController {
 		return "/maps/imgMapTest";
 	}
 	
+	//지하철 역명 가져오기(업장 직접 등록시 사용)
+	@RequestMapping(value="/getMetroNameList.eat",method={RequestMethod.POST}) 
+	public String getMetroNameList(HttpServletRequest req){
+		String metroNum = req.getParameter("metroNum");
+		List<String> metroNameList = service.getMetroNameList(metroNum);
+		
+		JSONObject jObj = new JSONObject();
+		jObj.put("metroNameList", metroNameList);
+		
+		req.setAttribute("jObj", jObj);
+		
+		return "/maps/json/metroName";
+	}
+	
+	
 	// 자동글완성 
 	@RequestMapping(value="/autoComplete.eat", method={RequestMethod.GET})
 	public String autoComplete(HttpServletRequest req){

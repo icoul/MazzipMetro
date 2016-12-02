@@ -109,7 +109,7 @@
 										</if>
 										, #{restAddr}, #{restNewAddr}
 										, #{restLatitude}, #{restLongitude}, TBL_Restaurant_Seq.nextval
-										, #{dongId}, #{metroId}, default, 0, default)
+										, #{dongId}, #{metroId}, default, 0, default, null)
 	</insert>
 	
 	<!-- 기존 업장 업데이트 -->

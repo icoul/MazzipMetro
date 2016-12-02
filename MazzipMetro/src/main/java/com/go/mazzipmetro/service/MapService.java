@@ -123,6 +123,11 @@ public class MapService  implements IService {
 			return dao.getMetroName(metroId);
 		}
 
+		//지하철 역명 가져오기(업장 직접 등록시 사용)
+		public List<String> getMetroNameList(String metroNum) {
+			return dao.getMetroNameList(metroNum);
+		}
+
 
 		
 		

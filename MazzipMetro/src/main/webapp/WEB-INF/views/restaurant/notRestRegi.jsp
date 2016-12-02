@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>주소로 장소 표시하기</title>
+<title>:: 업장 등록 페이지입니다 ::</title>
 <style type="text/css">
     .map_wrap {position:relative;width:100%;height:350px;}
     .title {font-weight:bold;display:block;}
@@ -14,23 +14,23 @@
 </style>
 </head>
 <body>
-	<p style="margin-top: -12px">
-		<em class="link"> <a href="javascript:void(0);"
-			onclick="window.open('http://fiy.daum.net/fiy/map/CsGeneral.daum', '_blank', 'width=981, height=650')">
-				혹시 주소 결과가 잘못 나오는 경우에는 여기에 제보해주세요. </a>
+	<p style="margin-top: 10px">
+		<em style="color: orange; font-size: 13px;"> 지도를 직접 클릭하셔서 입력하실 수 있습니다.
 		</em>
-	</p>
+	</p> 
 	<div id="map" style="width: 100%; height: 350px;"></div>
 	<br/> 
 	<div>
-		주소 검색 : <input type="text" id="searchAddr" name="searchAddr" placeholder="왜 엔터입력시 새로고침 되는가"/>
+		주소 검색 : <input type="text" id="searchAddr" name="searchAddr" placeholder="주소를 입력해주세요." onkeydown="goButton();"/>
+		&nbsp;<button type="button" onclick="goFrm();">입력</button>
 		<br/> 
+		<hr/> 
 		<br/> 
 		지번주소  : <input type="text" id="addr" name="addr"  size="50"/> <br/> <br/> 
 		도로명주소  : <input type="text" id="newAddr" name="newAddr" size="50" /><br/> <br/> 
 		위도  : <input type="text" id="latitude" name="latitude" size="50" /><br/> <br/> 
 		경도  : <input type="text" id="longitude" name="longitude" size="50" /><br/> <br/>
-		지하철역  : <select id="metroName" >
+		인근 지하철역  : <select id="metroName" >
 					<option>상계역</option>
 					<option>잠실역</option>
 					<option>잠실나루역</option>
@@ -86,9 +86,7 @@
 					<option>신천역</option>
 				 </select> 
 		
-		<button type= "button" id = "button1" onClick = "goRegister();">버튼</button>
-		<input type = "text" id = "coords" />
-		<input type = "text" id = "latlng" />
+		<button type= "button" id = "button1" onClick = "goRegister();">등록</button>
 	</div>
 
 	<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=0d211626a8ca667e54b95403a7ae692f&libraries=services"></script>
@@ -96,6 +94,9 @@
 	<script type="text/javascript">
 	
 		$(document).ready(function(){
+			$("#searchAddr").focus();
+			
+			getMetroName();
 			$("#searchAddr").keyup(function(){
 				
 				showAddr($(this).val());	
@@ -103,6 +104,15 @@
 			});
 		
 		});//end of $(document).ready()
+		
+		// input 태그 엔터키 refresh 방지 및 form 주소 입력!
+		function goButton() {
+			 if (event.keyCode == 13) {
+				 goFrm();
+			  	return false;
+			 }
+			 return true;
+		}
 		
 		function goRegister(){
 			var metroName = $("#metroName").val();
@@ -136,6 +146,30 @@
 				
 				self.window.close(); // 팝업창 닫기
 			}
+		}
+		//지하철역 명 가져오기
+		function getMetroName () {
+			//지하철 호선을 입력하면 해당 역이름 리스트를 가져온다.
+			var metroNum = 2;
+			
+			$.ajax({
+				url: "getMetroNameList.eat",  
+				method:"POST",  	
+				async: false,
+				data: "metroNum="+metroNum, 
+				dataType: "json",
+				success: function(data) {
+					//alert(data.metroId);
+					metroNameList =  data.metroNameList;
+					var metroNameOptionHtml = '';
+					
+					for (var i = 0; i < metroNameList.length; i++) {
+						metroNameOptionHtml += "<option>"+metroNameList[i]+"</option>";
+					}
+					
+					$("#metroName").html(metroNameOptionHtml);
+					}
+			});//end of $.ajax()
 		}
 		
 		//지하철역id얻어오기
@@ -187,8 +221,35 @@
 		}
 	
 	</script>
+	
 	<!-- 주소입력으로 장소 검색 -->
 	<script>
+	
+		var marker, infowindow, coords;
+		
+		function goFrm(){
+			searchDetailAddrFromCoords(coords, function(status, result){
+				//alert(coords);
+				//alert(result[0].roadAddress.name);
+				
+				if (status === daum.maps.services.Status.OK) {
+					
+					//위,경도값 가져오기
+					var lat = coords.getLat()
+					    , lng = coords.getLng()
+					    , addr =  result[0].jibunAddress.name
+					    , newAddr = result[0].roadAddress.name;
+					
+					$("#addr").val(addr);
+					$("#newAddr").val(newAddr);
+					$("#latitude").val(lat);
+					$("#longitude").val(lng);
+				
+				}  
+				    
+			});// end of searchDetailAddrFromCoords()
+		}
+		
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		mapOption = {
 			center : new daum.maps.LatLng(37.518517, 126.984507), // 지도의 중심좌표 : 서빙고 골프연습장
@@ -206,18 +267,63 @@
 			// 주소로 좌표를 검색합니다
 			geocoder.addr2coord(keyword, function(status, result) {
 	
-								// 정상적으로 검색이 완료됐으면 
-								if (status === daum.maps.services.Status.OK) {
-	
-									var coords = new daum.maps.LatLng(
-											result.addr[0].lat, result.addr[0].lng);
-	
-									// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-									map.setCenter(coords);
-									
-									$("#coords").val(coords);
-								}
+				// 정상적으로 검색이 완료됐으면 
+				if (status === daum.maps.services.Status.OK) {
+
+					marker.setMap(null);
+					infowindow.close();
+					
+					coords = new daum.maps.LatLng(
+							result.addr[0].lat, result.addr[0].lng);
+
+					// 결과값으로 받은 위치를 마커로 표시합니다
+					marker = new daum.maps.Marker({
+						map : map,
+						position : coords
+					});
+
+					// 인포윈도우로 장소에 대한 설명을 표시합니다
+					infowindow = new daum.maps.InfoWindow(
+							{
+								content : '<div style="width:150px;text-align:center;padding:6px 0;">'+keyword+'</div>'
 							});
+					infowindow.open(map, marker);
+
+					// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+					map.setCenter(coords);
+					
+					// 클릭 이벤트 추가 
+					daum.maps.event.addListener(marker, 'click', function() {
+						searchDetailAddrFromCoords(coords, function(status, result){
+							//alert(coords);
+							//alert(result[0].roadAddress.name);
+							
+							if (status === daum.maps.services.Status.OK) {
+								
+								//위,경도값 가져오기
+								var lat = coords.getLat()
+								    , lng = coords.getLng()
+								    , addr =  result[0].jibunAddress.name
+								    , newAddr = result[0].roadAddress.name;
+								
+								$("#addr").val(addr);
+								$("#newAddr").val(newAddr);
+								$("#latitude").val(lat);
+								$("#longitude").val(lng);
+							
+							}  
+							    
+						});// end of searchDetailAddrFromCoords()
+						
+						/* $("#addr").val(keyword);
+						$("#newAddr").val('도로명 주소는 우째 구하냐..');
+						$("#latitude").val(result.addr[0].lat);
+						$("#longitude").val(result.addr[0].lng); */
+		            });
+					
+				}// end of if (status === daum.maps.services.Status.OK)
+					
+			});
 		}
 		
 		// 주소-좌표 변환 객체를 생성합니다
@@ -227,47 +333,49 @@
 		infowindow = new daum.maps.InfoWindow({
 				zindex : 100
 		}); // 클릭한 위치에 대한 주소를 표시할 인포윈도우입니다
-		
+
 		// 지도를 클릭했을 때 클릭 위치 좌표에 대한 주소정보를 표시하도록 이벤트를 등록합니다
 		daum.maps.event.addListener(map, 'click', function(mouseEvent) {
-							searchDetailAddrFromCoords(mouseEvent.latLng, function(status, result) {
-										//alert(mouseEvent.latLng);
-										
-										// 클릭한 위도, 경도 정보를 가져옵니다 
-									    var latlng = mouseEvent.latLng;
-										
-										$("#latitude").val(latlng.getLat());
-										$("#longitude").val(latlng.getLng());
-										
-										if (status === daum.maps.services.Status.OK) {
-											var detailAddr = !!result[0].roadAddress.name ? '<div>도로명주소 : '
-													+ result[0].roadAddress.name
-													+ '</div>'
-													: '';
-											detailAddr += '<div>지번 주소 : '
-													+ result[0].jibunAddress.name
-													+ '</div>';
+			searchDetailAddrFromCoords(mouseEvent.latLng, function(status, result) {
+						//alert(mouseEvent.latLng);
+						
+						//alert(result[0].roadAddress);
+						// 클릭한 위도, 경도 정보를 가져옵니다 
+					    var latlng = mouseEvent.latLng;
+						
+						$("#latitude").val(latlng.getLat());
+						$("#longitude").val(latlng.getLng());
+						
+						if (status === daum.maps.services.Status.OK) {
+							var detailAddr = !!result[0].roadAddress.name ? '<div>도로명주소 : '
+									+ result[0].roadAddress.name
+									+ '</div>'
+									: '';
+							detailAddr += '<div>지번 주소 : '
+									+ result[0].jibunAddress.name
+									+ '</div>';
 
-											var content = '<div class="bAddr">'
-													+ '<span class="title">주소정보</span>'
-													+ detailAddr + '</div>';
+							var content = '<div class="bAddr">'
+									+ '<span class="title">주소정보</span>'
+									+ detailAddr + '</div>';
 
-											// 마커를 클릭한 위치에 표시합니다 
-											marker.setPosition(mouseEvent.latLng);
-											marker.setMap(map);
+							// 마커를 클릭한 위치에 표시합니다 
+							marker.setPosition(mouseEvent.latLng);
+							marker.setMap(map);
 
-											// 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
-											infowindow.setContent(content);
-											infowindow.open(map, marker);
-											
-											//검색된 주소정보를  input태그에 입력하기.
-											$("#addr").val(result[0].jibunAddress.name);
-											$("#newAddr").val(result[0].roadAddress.name);
-										}
-									});
-						});
+							// 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
+							infowindow.setContent(content);
+							infowindow.open(map, marker);
+							
+							//검색된 주소정보를  input태그에 입력하기.
+							$("#addr").val(result[0].jibunAddress.name);
+							$("#newAddr").val(result[0].roadAddress.name);
+						}
+					});
+		});
 
 		function searchDetailAddrFromCoords(coords, callback) {
+			//alert('1');
 		    // 좌표로 법정동 상세 주소 정보를 요청합니다
 		    geocoder.coord2detailaddr(coords, callback);
 		}

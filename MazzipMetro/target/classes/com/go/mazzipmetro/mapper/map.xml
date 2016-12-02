@@ -27,6 +27,22 @@
 		where metroName = #{metroName}
 	</select>
 	
+	<!-- 지하철 역명 가져오기(업장 직접 등록시 사용) -->
+	<select id="getMetroNameList"  parameterType="String" resultType="String" >
+		with t as (
+		  select 'ㄱ' as metroname from dual union all
+		  select 'ㄴ' from dual union all
+		  select 'ㄷ' from dual union all
+		  select 'A' from dual union all
+		  select 'B' from dual
+		)  
+		select metroname
+		from tbl_metro
+		where metronum= #{metroNum}
+		order by convert(metroname, 'ISO2022-KR')
+	</select>
+	
+	
 	<resultMap type="java.util.HashMap" id="restaurantList">
 		<result column="restName" 		property="restName" 		javaType="String"/><!-- vo의 멤버변수명이다. 여기는 xml -->
 		<result column="restSeq" 			property="restSeq" 			javaType="String"/> 	
