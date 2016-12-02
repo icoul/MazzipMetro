@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>나의 문의내역</title>
+<title>고객 문의내역</title>
 <style type="text/css">
 	.title-label{font-weight:400;font-size:24px;}
 	.navbar-barnd{vertical-align : middle;line-height:45px;}
@@ -47,11 +47,11 @@
 <body>
 <div class="container">
 	<div class="row">
-		<h2> <span class="title-label">나의 문의내역</span>  </h2>
+		<h2> <span class="title-label">고객 문의내역</span>  </h2>
 		<span>총 문의건 : ${totalCount}건 | 접수완료 : ${registerQnaCount}건 | 답변완료 : ${answerQnaCount}건</span>
         <nav class="navbar navbar-default query" role="query">
             <div class="container-fluid">
-          	 <form name="qnaSearchFrm" style="display:inline;" action="<%=request.getContextPath()%>/myQnaList.eat" method="get">
+          	 <form name="qnaSearchFrm" style="display:inline;" action="<%=request.getContextPath()%>/adminQnaList.eat" method="get">
                 <table class="table table-bordered">
 				      <tr>
 				        <th>문의접수일</th>
@@ -86,7 +86,7 @@
 						    </select>
 						    일
 						</td>
-
+				        
 				      </tr>
 				 
 				      <tr>
@@ -109,7 +109,7 @@
 							<option value="qnaSubject">제목</option>
 						 </select> 
 						  <input name="qnaSearch" id="qnaSearch" type="text"/> &nbsp; <button type="button" onClick="javascript:goSearchFrm();">조회</button>
-						  &nbsp;&nbsp;
+						    &nbsp;&nbsp;
 						  <select name="qnaProgress" id="qnaProgress">
 				         	<option value="전체">처리상태</option>
 							<option value="접수완료">접수완료</option>
@@ -138,8 +138,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <c:if test="${not empty myQnaList }">
-                    	<c:forEach var="map" items="${myQnaList}" varStatus="status">
+                    <c:if test="${not empty adminQnaList }">
+                    	<c:forEach var="map" items="${adminQnaList}" varStatus="status">
 	                    	<tr>
 		                        <td>${map.rno }</td>
 		                        <td>${map.userName }</td>

@@ -32,19 +32,19 @@ public class MazzipMetroService implements IService {
 		return n;
 	}
 
-	public List<HashMap<String,String>> myQnaList(HashMap<String, String> map) {
-		List<HashMap<String,String>> myQnaList =  dao.myQnaList(map);
-		return myQnaList;
+	public List<HashMap<String,String>> qnaList(HashMap<String, String> map) {
+		List<HashMap<String,String>> qnaList =  dao.qnaList(map);
+		return qnaList;
 	}
 
-	public int getTotalMyQnaCount(HashMap<String, String> map) {
-		int myQnaTotalCount = dao.getTotalMyQnaCount(map);
-		return myQnaTotalCount;
+	public int getTotalQnaCount(HashMap<String, String> map) {
+		int qnaTotalCount = dao.getTotalQnaCount(map);
+		return qnaTotalCount;
 	}
 
-	public int getMyQnaProgressCount(HashMap<String, String> hashMap) {
-		int myQnaCount = dao.getMyQnaProgressCount(hashMap);
-		return myQnaCount;
+	public int getQnaProgressCount(HashMap<String, String> hashMap) {
+		int qnaCount = dao.getQnaProgressCount(hashMap);
+		return qnaCount;
 	}
 
 	public int getToday(HashMap<String,String> hashMap) {
