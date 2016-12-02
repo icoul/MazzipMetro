@@ -7,13 +7,14 @@
 #colName {height:23px; font-size:13px;}
 .subleftCon {float:left; width:200px; height:500px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;}
 .subleftCon h2 {width:187px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right;}
-.subrightCon {float:left; width:797px; height:auto; border-right:1px solid #dbdbdb; padding-bottom:40px;}
-.subrightCon .searchWrap {padding-top:10px; text-align:center;}
+.subrightCon {float:left; width:1200px; text-align:center; height:auto; border-right:1px solid #dbdbdb; padding-bottom:40px;}
+.subrightCon .searchWrap {padding:10px 0 20px 0; }
 
-.tblUserList {margin:30px 0 0 50px; border-collapse: collapse; width:700px;}
+.tblUserList {border-collapse: collapse; width:800px;}
 .tblUserList th {height:50px; padding-top:16px; border-top:1px solid #00bad2; border-bottom:1px solid #c2c2c2; background-color:#fafafa; color:#444; text-align:center; font-size:13px; font-weight:normal;}
 .tblUserList td {height:10px; padding-top:16px; border-bottom:1px solid #e0e0e0; font-size:12px; text-align:center;}
 .btnGray {width:63px; height:23px; border:1px solid #6c6c6c; background-color:#777; color:#fff; margin-top: 20px; margin-bottom: 10px; font-size:10px; }
+ .txtC {margin:0 auto; width:800px;}
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -70,18 +71,19 @@ function goUserDel(userSeq){
 			<button class="btnGray" type="button" onClick="goSearch();">검색</button>
 		</form>
 		</div>
-		<table class="tblUserList">
-		<tr>
-			<th style="width: 70px;" >번호</th>
-			<th style="width: 80px;" >성명</th>
-			<th style="width: 70px;" >등급번호</th>
-			<th style="width: 70px;" >이메일</th>
-			<th style="width: 70px;" >전화번호</th>
-			<th style="width: 70px;" >가입일자</th>
-			<th style="width: 70px;" >포인트</th>
-			<th style="width: 70px;" >삭제</th>
-		</tr>
-		
+		<div class="txtC">
+			<table class="tblUserList">
+			<tr>
+				<th style="width: 70px;" >번호</th>
+				<th style="width: 80px;" >성명</th>
+				<th style="width: 70px;" >등급번호</th>
+				<th style="width: 70px;" >이메일</th>
+				<th style="width: 70px;" >전화번호</th>
+				<th style="width: 70px;" >가입일자</th>
+				<th style="width: 70px;" >포인트</th>
+				<th style="width: 70px;" >삭제</th>
+			</tr>
+		</div>
 		<c:forEach var="vo" items="${list}" varStatus="status"> 
 			<tr>
 				<td>${vo.userSeq}</td>

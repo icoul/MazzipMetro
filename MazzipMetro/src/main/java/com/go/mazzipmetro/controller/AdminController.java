@@ -197,10 +197,4 @@ public class AdminController {
 		return "admin/adminUserDel";
 	}
 	
-	@RequestMapping(value = "/adminQna.eat", method = RequestMethod.GET)
-	public String qna(HttpServletRequest req) {
-		
-		
-		return "admin/adminQna";
-	}
 }

@@ -6,7 +6,7 @@
 * { padding:0; margin:0;}
 .subleftCon {float:left; width:200px; height:500px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;}
 .subleftCon h2 {width:187px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right;}
-.subrightCon {float:left; width:797px; border-right:1px solid #dbdbdb; height:auto;}
+.subrightCon {float:left; width:1200px; border-right:1px solid #dbdbdb; height:500px;}
 
 .coinWrap {padding:30px 0 0 20px; font-size:13px;}
 .coinWrap  li.first {width:600px; border-bottom: 1px solid #dbdbdb; margin-bottom:30px; }
