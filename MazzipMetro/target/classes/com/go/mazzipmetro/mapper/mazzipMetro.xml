@@ -34,6 +34,7 @@
 		 <result column="qnaSubject"	  	    property="qnaSubject" 			    javaType="String" />
 		 <result column="qnaContent"	  	    property="qnaContent" 			    javaType="String" />
 		 <result column="qnaRegDate"	  	    property="qnaRegDate" 				javaType="String" />
+		 <result column="qnaAnswerDate"	  	    property="qnaAnswerDate" 				javaType="String" />
 		 <result column="qnaProgress"	  	    property="qnaProgress" 				javaType="String" />
 		 <result column="fk_seq"	  	    	property="fk_seq" 			    	javaType="String" />
 		 <result column="qnaStatus"	  	    property="qnaStatus" 			    javaType="String" />
@@ -42,20 +43,23 @@
     
     <select id="qnaList" parameterType="java.util.HashMap" resultMap="qnaListResultMap">
 		 select T.rno, T.userName, T.qnaSeq, T.userSeq, T.qnaInquiry, T.qnaSubject
-		 ,T.qnaContent, T.qnaRegDate, T.qnaProgress, T.fk_seq, T.qnaStatus, T.userStatus
+		 ,T.qnaContent, T.qnaRegDate,T.qnaAnswerDate, T.qnaProgress, T.fk_seq, T.qnaStatus, T.userStatus
 		from
 		(
 		select rownum as rno, V.userName, V.qnaSeq, V.userSeq, V.qnaInquiry, V.qnaSubject
-		, V.qnaContent, V.qnaRegDate, V.qnaProgress, V.fk_seq, V.qnaStatus, V.userStatus
+		, V.qnaContent, V.qnaRegDate,V.qnaAnswerDate, V.qnaProgress, V.fk_seq, V.qnaStatus, V.userStatus
 		from
 		(
 		select b.userName, a.qnaSeq, b.userSeq, a.qnaInquiry, a.qnaSubject
-		, a.qnaContent, a.qnaRegDate, a.qnaProgress, a.fk_seq, a.qnaStatus, b.userStatus
+		, a.qnaContent, a.qnaRegDate,a.qnaAnswerDate, a.qnaProgress, a.fk_seq, a.qnaStatus, b.userStatus
 		from tbl_qna a join tbl_user b
 		on a.userSeq = b.userSeq
 		where a.qnaStatus = 0 and  b.userStatus = 0 
 		<if test="userType.equals('회원')">
 		and a.userSeq = #{userSeq} 
+		</if>
+		<if test="userType.equals('관리자')">
+		and a.userSeq != 0 
 		</if>
 		and to_char(a.qnaRegDate,'YYYY-MM-DD hh24:mi:ss') 
 		between to_char(to_date(#{searchStartDay} || '00:00:00', 'YYYY-MM-DD hh24:mi:ss'),'YYYY-MM-DD hh24:mi:ss') 
@@ -84,6 +88,9 @@
 		<if test="userType.equals('회원')">
 		and a.userSeq = #{userSeq} 
 		</if>
+		<if test="userType.equals('관리자')">
+		and a.userSeq != 0 
+		</if>
 		and to_char(qnaRegDate,'YYYY-MM-DD hh24:mi:ss')
 		between to_char(to_date(#{searchStartDay} || '00:00:00', 'YYYY-MM-DD
 		hh24:mi:ss'),'YYYY-MM-DD hh24:mi:ss')
@@ -109,6 +116,9 @@
 		
 		<if test="userType.equals('회원')">
 		and a.userSeq = #{userSeq} 
+		</if>
+		<if test="userType.equals('관리자')">
+		and a.userSeq != 0 
 		</if>
 		and to_char(qnaRegDate,'YYYY-MM-DD hh24:mi:ss')
 		between to_char(to_date(#{searchStartDay} || '00:00:00', 'YYYY-MM-DD
@@ -140,4 +150,48 @@
     	</if>
     </select>
     
+    <insert id="adminAnswerRegister" parameterType="java.util.HashMap">
+    	insert into tbl_qna values(tbl_qnaSeq.nextval, 0, '답변', #{qnaSubject}, #{qnaComment}, default, null, '답변완료', #{qnaSeq}, default)
+    </insert>
+    
+    <select id="getAnswerDate" resultType="String" parameterType="java.util.HashMap">
+    	select qnaRegDate
+    	from tbl_qna
+    	where fk_seq = #{qnaSeq}
+    </select>
+    
+    <update id="updateUserQna" parameterType="java.util.HashMap">
+    	update tbl_qna set qnaAnswerDate = to_date(#{answerDate}, 'YYYY-MM-DD hh24:mi:ss') , qnaProgress = '답변완료'
+    	where qnaSeq = #{qnaSeq}
+    </update>
+    
+    
+     <resultMap type="java.util.HashMap" id="getAdminAnswerMap">
+		 <result column="qnaInquiry"	  	    property="qnaInquiry" 			    javaType="String" />
+		 <result column="qnaSubject"	  	    property="qnaSubject" 			    javaType="String" />
+		 <result column="qnaContent"	  	    property="qnaContent" 			    javaType="String" />
+		 <result column="qnaRegDate"	  	    property="qnaRegDate" 				javaType="String" />
+		 <result column="qnaProgress"	  	    property="qnaProgress" 				javaType="String" />
+	</resultMap>
+    
+    <select id="getAdminAnswer" parameterType="String" resultMap="getAdminAnswerMap">
+    	select qnaInquiry, qnaSubject, qnaContent, qnaRegDate, qnaProgress
+		from tbl_qna
+		where fk_seq = #{qnaSeq} and qnaStatus = 0
+    </select>
+    
+    
+     <resultMap type="java.util.HashMap" id="getUserQuestionMap">
+		 <result column="qnaInquiry"	  	    property="qnaInquiry" 			    javaType="String" />
+		 <result column="qnaSubject"	  	    property="qnaSubject" 			    javaType="String" />
+		 <result column="qnaContent"	  	    property="qnaContent" 			    javaType="String" />
+		 <result column="qnaRegDate"	  	    property="qnaRegDate" 				javaType="String" />
+		 <result column="qnaProgress"	  	    property="qnaProgress" 				javaType="String" />
+	</resultMap>
+	  
+     <select id="getUserQuestion" parameterType="String" resultMap="getUserQuestionMap">
+    	select qnaInquiry, qnaSubject, qnaContent, qnaRegDate, qnaProgress
+		from tbl_qna
+		where qnaSeq = #{qnaSeq} and qnaStatus = 0
+    </select>
 </mapper>

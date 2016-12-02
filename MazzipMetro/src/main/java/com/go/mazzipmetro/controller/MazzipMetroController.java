@@ -145,7 +145,7 @@ public class MazzipMetroController {
 	
 	
 	//nos
-		@RequestMapping(value = "/myQna.eat", method = RequestMethod.GET)
+		@RequestMapping(value = "/myQna.eat", method = {RequestMethod.GET})
 		public String myQnA(HttpServletRequest req) {
 			String userSeq = req.getParameter("userSeq");
 			
@@ -157,7 +157,7 @@ public class MazzipMetroController {
 			return "QnA/myQna";
 		}
 		
-		@RequestMapping(value = "/myQnaRegister.eat", method = RequestMethod.POST)
+		@RequestMapping(value = "/myQnaRegister.eat", method = {RequestMethod.POST})
 		public String myQnaRegister(HttpServletRequest req) {
 			String userSeq = req.getParameter("userSeq");
 			String qnaQuiry = req.getParameter("qnaQuiry");
@@ -184,7 +184,7 @@ public class MazzipMetroController {
 			return "QnA/msg";
 		}
 		
-		@RequestMapping(value = "/myQnaList.eat", method = RequestMethod.GET)
+		@RequestMapping(value = "/myQnaList.eat", method = {RequestMethod.GET})
 		public String myQnAList(HttpServletRequest req) {
 			String userSeq = req.getParameter("userSeq");
 			
@@ -494,7 +494,7 @@ public class MazzipMetroController {
 			return "QnA/myQnaList";
 		}
 		
-		@RequestMapping(value = "/adminQnaList.eat", method = RequestMethod.GET)
+		@RequestMapping(value = "/adminQnaList.eat", method = {RequestMethod.GET})
 		public String adminQnaList(HttpServletRequest req) {
 			
 
@@ -790,4 +790,84 @@ public class MazzipMetroController {
 			
 			return "QnA/adminQnaList";
 		}
+		
+		
+		
+		@RequestMapping(value = "/adminSeeUserQuestion.eat", method = {RequestMethod.GET})
+		public String adminSeeUserQuestion(HttpServletRequest req) {
+			String qnaSeq = req.getParameter("qnaSeq");
+			String userName = req.getParameter("userName");   
+			String qnaInquiry = req.getParameter("qnaInquiry");  
+			String qnaSubject = req.getParameter("qnaSubject");  
+			String qnaRegDate = req.getParameter("qnaRegDate");  
+			String qnaContent = req.getParameter("qnaContent");  
+			String qnaProgress = req.getParameter("qnaProgress"); 
+			
+			req.setAttribute("userName", userName);
+			req.setAttribute("qnaInquiry", qnaInquiry);
+			req.setAttribute("qnaSubject", qnaSubject);
+			req.setAttribute("qnaRegDate", qnaRegDate);
+			req.setAttribute("qnaContent", qnaContent);
+			req.setAttribute("qnaProgress", qnaProgress);
+			req.setAttribute("qnaSeq", qnaSeq);
+			
+			return "QnA/adminSeeUserQuestion";
+		}
+		
+		@RequestMapping(value = "/adminSeeAdminAnswer.eat", method = {RequestMethod.GET})
+		public String adminSeeAdminAnswer(HttpServletRequest req) {
+			String qnaSeq = req.getParameter("qnaSeq");
+	
+			HashMap<String, String> andminAnswer = service.getAdminAnswer(qnaSeq);
+			req.setAttribute("andminAnswer", andminAnswer);
+			
+			return "QnA/adminSeeAdminAnswer";
+		}
+		
+		@RequestMapping(value = "/adminAnswerRegister.eat", method = {RequestMethod.POST})
+		public String adminAnswerRegister(HttpServletRequest req) {
+			String qnaSeq = req.getParameter("qnaSeq");
+			String qnaSubject = req.getParameter("qnaSubject");   
+			String qnaContent = req.getParameter("qnaComment");  
+			
+			HashMap<String,String> hashMap = new HashMap<String,String>();
+			hashMap.put("qnaSubject", qnaSubject);
+			hashMap.put("qnaComment", qnaContent);
+			hashMap.put("qnaSeq", qnaSeq);
+			
+			int result = service.adminAnswerRegister(hashMap);
+
+			
+			if(result < 2){
+				req.setAttribute("msg", "답변등록이 실패하였습니다.");
+				req.setAttribute("loc", "javascript:history.back();");
+			}else if(result == 2){
+				req.setAttribute("msg", "답변등록이 성공하였습니다.");
+				req.setAttribute("loc", "adminQnaList.eat");
+			}
+		
+			return "QnA/msg";
+		}
+		
+		
+		
+		@RequestMapping(value = "/userSeeAdminAnswer.eat", method = {RequestMethod.GET})
+		public String userSeeAdminAnswer(HttpServletRequest req) {
+			String qnaSeq = req.getParameter("qnaSeq");
+		
+			HashMap<String, String> andminAnswer = service.getAdminAnswer(qnaSeq);
+			req.setAttribute("andminAnswer", andminAnswer);
+			return "QnA/userSeeAdminAnswer";
+		}
+		
+		@RequestMapping(value = "/userSeeUserQuestion.eat", method = {RequestMethod.GET})
+		public String userSeeUserQuestion(HttpServletRequest req) {
+			String qnaSeq = req.getParameter("qnaSeq");
+		
+			HashMap<String, String> userQuestion = service.getUserQuestion(qnaSeq);
+			req.setAttribute("userQuestion", userQuestion);
+			return "QnA/userSeeUserQuestion";
+		}
+		
+		
 }

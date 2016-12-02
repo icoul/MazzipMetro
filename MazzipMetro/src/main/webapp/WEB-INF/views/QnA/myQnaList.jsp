@@ -42,6 +42,11 @@
 		var qnaSearchFrm = document.qnaSearchFrm;
 		qnaSearchFrm.submit();
 	}
+	
+	function openWin(src){
+		window.open(src,"팝업창이름(의미없음)", "width=" + 650 + ", height=" + 550 + ", left=100px, top=100px, menubar=no, status=no, scrollbars=no");
+		
+	}
 </script>
 </head>
 <body>
@@ -144,10 +149,18 @@
 		                        <td>${map.rno }</td>
 		                        <td>${map.userName }</td>
 		                        <td>${map.qnaInquiry } 문의</td>
-		                        <td>${map.qnaSubject }</td>
+		                        <td><a class="btn btn-link" href="#" onClick="openWin('<%=request.getContextPath() %>/userSeeUserQuestion.eat?qnaSeq=${map.qnaSeq}' );">${map.qnaSubject }</a></td>
 		                        <td>${map.qnaRegDate }</td>
 		                        <td>${map.qnaAnswerDate }</td>
-		   						<td><a class="btn btn-link" href="#">${map.qnaProgress }</a></td>
+		   						<td>
+		   						 <c:if test="${map.qnaProgress eq '답변완료'}">
+		   						 <a class="btn btn-link" href="#" onClick="openWin('<%=request.getContextPath() %>/userSeeAdminAnswer.eat?qnaSeq=${map.qnaSeq}' );">${map.qnaProgress }</a>
+		   						</c:if>
+		   						
+		   						<c:if test="${map.qnaProgress eq '접수완료' }">
+		   						  ${map.qnaProgress }
+		   						</c:if>
+		   						</td>
 		                    </tr>
                     	</c:forEach>
                     </c:if>

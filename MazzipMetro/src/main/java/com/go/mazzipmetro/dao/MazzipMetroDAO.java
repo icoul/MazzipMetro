@@ -50,4 +50,29 @@ public class MazzipMetroDAO implements IDAO{
 		int today = sqlSession.selectOne("getToday", hashMap);
 		return today;
 	}
+
+	public int adminAnswerRegister(HashMap<String,String> hashMap) {
+		int result = sqlSession.insert("adminAnswerRegister", hashMap);
+		return result;
+	}
+
+	public String getAnswerDate(HashMap<String, String> hashMap) {
+		String answerDate = sqlSession.selectOne("getAnswerDate",hashMap);
+		return answerDate;
+	}
+
+	public int updateUserQna(HashMap<String, String> hashMap) {
+		int result = sqlSession.update("updateUserQna",hashMap);
+		return result;
+	}
+
+	public HashMap<String, String> getAdminAnswer(String qnaSeq) {
+		 HashMap<String, String> andminAnswer = sqlSession.selectOne("getAdminAnswer", qnaSeq);
+		return andminAnswer;
+	}
+
+	public HashMap<String, String> getUserQuestion(String qnaSeq) {
+		HashMap<String, String> userQuestion = sqlSession.selectOne("getUserQuestion", qnaSeq);
+		return userQuestion;
+	}
 }

@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.go.mazzipmetro.dao.MazzipMetroDAO;
 import com.go.mazzipmetro.vo.QnaVO;
@@ -51,4 +54,28 @@ public class MazzipMetroService implements IService {
 		int today = dao.getToday(hashMap);
 		return today;
 	}
+
+	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
+	public int adminAnswerRegister(HashMap<String,String> hashMap) {
+		int n = dao.adminAnswerRegister(hashMap);
+		
+		String answerDate = dao.getAnswerDate(hashMap);
+		hashMap.put("answerDate", answerDate);
+		
+		int m = dao.updateUserQna(hashMap);
+
+		return (n+m);
+	}
+
+	public HashMap<String, String> getAdminAnswer(String qnaSeq) {
+		HashMap<String, String> andminAnswer = dao.getAdminAnswer(qnaSeq);
+		return andminAnswer;
+	}
+
+	public HashMap<String, String> getUserQuestion(String qnaSeq) {
+		HashMap<String, String> userQuestion = dao.getUserQuestion(qnaSeq);
+		return userQuestion;
+	}
+
+
 }
