@@ -60,11 +60,11 @@ function goUserDel(userSeq){
 	<%-- subleftCon --%>
 	<div class="subrightCon">
 		<div class="searchWrap">
-		<form name="searchFrm" action="<%= request.getContextPath() %>/adminCon.eat" method="get"> 
+		<form name="searchFrm" action="<%= request.getContextPath() %>/adminUserList.eat" method="get"> 
 			<select name="colName" id="colName">
-				<option value="userPhone">전화번호</option>
-				<option value="userAddr">주소</option>
-				<option value="userName">상호명</option>
+				<option value="userPhone">휴대폰</option>
+				<option value="userEmail">이메일</option>
+				<option value="userName">이름</option>
 			</select>
 			<input type="text" name="search" id="search" size="40px;" style="vertical-align:-2px;" />
 			<button class="btnGray" type="button" onClick="goSearch();">검색</button>
@@ -74,30 +74,20 @@ function goUserDel(userSeq){
 			<table class="tblUserList">
 			<tr>
 				<th style="width: 70px;" >번호</th>
-				<th style="width: 80px;" >성명</th>
-				<th style="width: 70px;" >등급번호</th>
-				<th style="width: 70px;" >이메일</th>
+				<th style="width: 80px;" >등급</th>
+				<th style="width: 70px;" >상호명</th>
 				<th style="width: 70px;" >전화번호</th>
-				<th style="width: 70px;" >가입일자</th>
-				<th style="width: 70px;" >포인트</th>
-				<th style="width: 70px;" >삭제</th>
+				<th style="width: 70px;" >주소</th>
+				<th style="width: 70px;" >컨텐츠사용기한</th>
 			</tr>
 		</div>
 		<c:forEach var="vo" items="${list}" varStatus="status"> 
 			<tr>
-				<td>${vo.userSeq}</td>
-				<td>${vo.userName}</td>
+				<td>${vo.restSeq}</td>
 				<td>${vo.gradeSeq}</td>
-				<td>${vo.userEmail}</td>
-				<td>${vo.userPhone}</td>
-				<td>${vo.userRegDate}</td>
-				<td>${vo.userPoint}</td>
-				<td>
-					<form name="userDelFrm"  action="<%= request.getContextPath() %>/adminUserDel.eat" method="post">
-						<button class="btnGray" onClick="goUserDel" style="margin-top:0; width:40px;">삭제</button>
-						<input type="hidden" name="userSeq" value="${vo.userSeq}" />
-					</form>		
-				</td>
+				<td>${vo.restName}</td>
+				<td>${vo.restPhone}</td>
+				<td>${vo.contentLimit}</td>
 			</tr>
 		</c:forEach>
 	</table>

@@ -50,7 +50,7 @@ img {border:0; padding:0; margin:0; vertical-align:top;}
 
 
 #headWrap {border-bottom:1px solid #dbdbdb;}
-.header {overflow:hidden; width:1000px; margin:0 auto;  height:70px; padding:20px 0 0;}
+.header {overflow:hidden; width:1400px; margin:0 auto;  height:70px; padding:20px 0 0;}
 .header  h1 {float:left; padding:0 20px 0 0; margin:0; font-size:23px; font-weight:bold;} 
 .header .menu {overflow:hidden; float:left; padding:4px 0 0 0; margin:0; }
 .header .menu li {float:left; list-style:none; padding:0 10px;}
@@ -58,11 +58,11 @@ img {border:0; padding:0; margin:0; vertical-align:top;}
 .header .btnLogin {float:right; width:58px; height:25px; background:#fff; font-size:10px; border:1px solid #000; border-radius:2px; color:#000; cursor:pointer;}
 
 
-#content {width:1000px; overflow:hidden; margin:0 auto;}
-#leftCon {float:left; width:731px;}
+#content {width:1400px; overflow:hidden; margin:0 auto;}
+#leftCon {float:left; width:730px;}
 #leftCon .reconCon  {margin-top:30px;}
 #leftCon .reconCon h2 {padding:10px 0; font-size:12px; color:#222;}
-#rightCon {float:left; width:269px;}
+#rightCon {float:left; width:270px;}
 
 
 footer {height:170px; background-color: #eff3f2; padding-top:30px; clear: both; font-size:12px;}

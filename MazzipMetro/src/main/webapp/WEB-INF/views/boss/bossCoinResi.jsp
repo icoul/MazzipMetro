@@ -6,7 +6,7 @@
 * { padding:0; margin:0;}
 .subleftCon {float:left; width:200px; height:500px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;}
 .subleftCon h2 {width:187px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right;}
-.subrightCon {float:left; width:797px; border-right:1px solid #dbdbdb; height:auto;}
+.subrightCon {float:left; width:1200px; border-right:1px solid #dbdbdb; height:500px;}
 
 .coinWrap {padding:30px 0 0 20px; font-size:13px;}
 .coinWrap  li.first {width:600px; border-bottom: 1px solid #dbdbdb; margin-bottom:30px; }
@@ -50,7 +50,7 @@ function goBannBuy(userSeq){
 	
 	var bool = confirm("파워배너 결제하시겠습니까 ?");
 	if(bool) {
-		alert("${sessionScope.loginUser.userPoint}");
+		//alert("${sessionScope.loginUser.userPoint}");
 		bannFrm.submit();
 	}
 }
@@ -73,7 +73,7 @@ var linkFrm = document.linkFrm;
 function goRecomBuy(userSeq) {
 	var rcomFrm = document.linkFrm;
 		
-		rcomFrm.action="bossRcomBuy.eat";
+		rcomFrm.action="bossRecomBuy.eat";
 		rcomFrm.method="POST";
 		
 		
@@ -106,18 +106,22 @@ function goRecomBuy(userSeq) {
 					<b>파워배너</b>  : <button class="btnPoint" type="button" name="bannCoin" onClick="goBannBuy('${userSeq}');">포인트 결제</button>
 					<p class="desc"><span style="font-size:12px;">※</span> 메인페이지에 광고 입니다. (100만 포인트)</p>
 					<input type="hidden" name="restSeq" value="${restSeq}" /> 
-					<input type="hidden" name="userSeq" <%-- value="${vo.userSeq}" --%>  value="${sessionScope.loginUser.userSeq}" /> 
-					<input type="hidden" name="userPoint" <%-- value="${vo.userSeq}" --%>  value="${sessionScope.loginUser.userPoint}" /> 
+					<input type="hidden" name="userSeq"  value="${sessionScope.loginUser.userSeq}" /> 
+					<input type="hidden" name="userPoint" value="${sessionScope.loginUser.userPoint}" /> 
 				</form>
 				<form name="linkFrm" id="linkFrm" method="post">
 					<b>파워링크</b>  : <button class="btnPoint" type="button" name="linkCoin"  onClick="goLinkBuy('${userSeq}');">포인트 결제</button>
 					<p class="desc"><span style="font-size:12px;">※</span> 검색시 최상위에 따로 보여주는 컨텐츠 입니다.(50만 포인트)</p>
-					<input type="hidden" name="restSeq" <%-- value="${vo.restSeq}" --%>  value="727" /> 
-					<input type="hidden" name="userSeq" <%-- value="${vo.userSeq}" --%>  value="13" /> 
-				</form name="rcomFrm" id="rcomFrm" method="post">
-				<form>
+					<input type="hidden" name="restSeq" value="${restSeq}" /> 
+					<input type="hidden" name="userSeq"  value="${sessionScope.loginUser.userSeq}" /> 
+					<input type="hidden" name="userPoint" value="${sessionScope.loginUser.userPoint}" /> 
+				</form>
+				<form name="rcomFrm" id="rcomFrm" method="post">
 					<b>추천광고</b> : <button class="btnPoint" type="button" name="recomCoin" onClick="goRecomBuy('${userSeq}');">포인트 결제</button>
 					<p class="desc"><span style="font-size:12px;">※</span> 추천메뉴로 보여주는 컨텐츠입니다. (30만 포인트)</p>
+					<input type="hidden" name="restSeq" value="${restSeq}" /> 
+					<input type="hidden" name="userSeq"  value="${sessionScope.loginUser.userSeq}" /> 
+					<input type="hidden" name="userPoint" value="${sessionScope.loginUser.userPoint}" /> 
 				</form>
 			</li>
 		</ul>

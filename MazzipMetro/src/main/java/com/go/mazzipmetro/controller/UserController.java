@@ -363,4 +363,20 @@ public class UserController {
 
 	}// end of logIn
 	
+	
+	// 로그인 처리
+	@RequestMapping(value="/logOut.eat", method={RequestMethod.GET})
+	public String UserLogOut(HttpServletRequest req, HttpServletResponse res){
+		
+		HttpSession session = req.getSession();
+		session.invalidate();
+		
+		String msg = "로그아웃되었습니다";
+		String loc = "index.eat";
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
+		
+		return "msg";
+	}
 }
