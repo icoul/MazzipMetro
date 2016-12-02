@@ -168,7 +168,7 @@
 </div>
 
 <div align="center">
-<form name="registerFrm" action="addRestaurantInfoEnd.eat?restSeq=${restSeq}" method="post" enctype="multipart/form-data">
+<form name="registerFrm" action="restAddInfoEnd.eat?restSeq=${restSeq}" method="post" enctype="multipart/form-data">
 
 <table class = "table">
 	<tr>

@@ -42,6 +42,10 @@
 		
 	}
 	
+	function goLogOut(){
+		location.href = "logOut.eat";
+	}
+	
 	
 </script>
 

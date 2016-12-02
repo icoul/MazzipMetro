@@ -92,7 +92,7 @@
 	<select id="getRestrauntList" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
 		select restSeq,  userSeq,  gradeSeq,  restName,  restPhone,
 			   restImg,  restAddr,  restNewAddr,  restLatitude,  restLongitude,
-			   restZIndex,  dongId,  metroId,  restRegDate,  restVisitor, restStatus
+			   restZIndex,  dongId,  metroId,  restRegDate,  restVisitor, restStatus, restContent
 		from TBL_Restaurant
 		where userseq = #{userseq} and restStatus = 0
 	</select>
@@ -109,7 +109,7 @@
 										</if>
 										, #{restAddr}, #{restNewAddr}
 										, #{restLatitude}, #{restLongitude}, TBL_Restaurant_Seq.nextval
-										, #{dongId}, #{metroId}, default, 0, default)
+										, #{dongId}, #{metroId}, default, 0, default, null)
 	</insert>
 	
 	<!-- 기존 업장 업데이트 -->
@@ -172,5 +172,24 @@
 			</if>
 		, default)
 	</insert>
+	
+	<!-- 해당 회원이 가진 업장번호를 모두 가져오는 SQL -->
+	<!--
+	<select id = "restaurant.getRestSeq" parameterType="String" resultType="java.util.ArrayList">
+		select restSeq
+		from TBL_Restaurant
+		where userSeq = #{userSeq}
+	</select> -->
+	
+	<!-- 업장 리스트를 위한 정보 가져오기 -->
+	<select id="restaurant.getRestrauntEditList" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select R.restSeq,  R.userSeq, G.gradeName as gradeSeq,  R.restName,  R.restPhone,
+			   R.restImg,  R.restAddr,  R.restNewAddr,  R.restLatitude,  R.restLongitude,
+			   R.restZIndex,  R.dongId,  R.metroId,  to_char(R.restRegDate, 'yyyy-mm-dd') as restRegDate,  R.restVisitor, R.restStatus, R.restContent
+		from 
+		TBL_Restaurant R join TBL_Grade G
+		on R.gradeSeq = G.gradeSeq
+		where userseq = #{userSeq} and restStatus = 0
+	</select>
 	
 </mapper>

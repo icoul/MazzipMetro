@@ -11,6 +11,6 @@
 	
 	<c:if test="${result != 0}">
 		alert("가게등록에 성공했습니다");
-		location.href="addRestaurantInfo.eat?restSeq=${restSeq}";
+		location.href="restAddInfo.eat?restSeq=${restSeq}";
 	</c:if>
 </script>
