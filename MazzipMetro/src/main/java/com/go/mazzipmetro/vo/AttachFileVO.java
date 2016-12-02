@@ -55,9 +55,8 @@ public class AttachFileVO {
 	public int getReviewImageStatus() {
 		return reviewImageStatus;
 	}
-	
+
 	public void setReviewImageStatus(int reviewImageStatus) {
 		this.reviewImageStatus = reviewImageStatus;
 	}
-	
 }

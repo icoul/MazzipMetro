@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.go.mazzipmetro.dao.AdminDAO;
+import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.UserVO;
 
 @Service
@@ -32,6 +33,12 @@ public class AdminService implements IService {
 		int n = dao.userDel(map);
 		return n;
 	}//end of int userDel(HashMap<String, String> map)-----------------------
+	
+	//컨텐츠 관리 리스트
+	public List<HashMap<String, String>>  restList(HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return restList;
+	}
 
 	
 }
