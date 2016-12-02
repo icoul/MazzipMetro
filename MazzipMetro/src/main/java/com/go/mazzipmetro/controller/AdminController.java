@@ -188,7 +188,7 @@ public class AdminController {
 		
 		else {
 			msg ="회원이 삭제되지 않았습니다.";
-			loc ="javascript:history.back();";
+			loc ="javascript:location.href='adminUserList.eat';";
 		}
 		
 		req.setAttribute("msg", msg);

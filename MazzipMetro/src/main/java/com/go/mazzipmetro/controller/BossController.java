@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.go.mazzipmetro.common.FileManager;
 import com.go.mazzipmetro.common.ThumbnailManager;
 import com.go.mazzipmetro.service.BossService;
+import com.go.mazzipmetro.service.UserService;
 import com.go.mazzipmetro.vo.UserVO;
 
 @Controller
@@ -27,6 +28,8 @@ public class BossController {
 	
 	@Autowired
 	private BossService service;
+	@Autowired
+	private UserService userService;
 	@Autowired
 	private FileManager fileManager;
 	@Autowired
@@ -38,10 +41,13 @@ public class BossController {
 	public String busiCoinResi(HttpServletRequest req) {
 		HttpSession ses = req.getSession();
 		UserVO loginUser = (UserVO)ses.getAttribute("loginUser");
+		loginUser = userService.getLoginUser(loginUser.getUserEmail());
+		ses.setAttribute("loginUser", loginUser);
+		
 		String restSeq = service.getRestSeq(loginUser.getUserSeq());
 		req.setAttribute("restSeq", restSeq);
 		
-		System.out.println(">>>>>>>>>>>>>"+loginUser.getUserPoint());
+		//System.out.println(">>>>>>>>확인용"+loginUser.getUserPoint());
 		return "boss/bossCoinResi";
 		
 	}
@@ -57,7 +63,8 @@ public class BossController {
 	
 	//코인충전 완료시
 	@RequestMapping(value="/bossCoinResiEnd.eat", method={RequestMethod.POST})
-	public String bossCoinResiEnd(HttpServletRequest req){
+	public String bossCoinResiEnd(HttpServletRequest req, HttpSession ses){
+		UserVO loginUser = (UserVO)ses.getAttribute("loginUser");
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
@@ -94,16 +101,14 @@ public class BossController {
 	
 	//파워배너 결제 
 	@RequestMapping(value="/bossBannBuy.eat", method={RequestMethod.POST})
-	public String bossBannBuy(HttpServletRequest req) throws Throwable{
+	public String bossBannBuy(HttpServletRequest req, HttpSession ses) throws Throwable{
+		UserVO loginUser = (UserVO)ses.getAttribute("loginUser");
 		
 		HashMap<String, String> map = new HashMap<String, String>();
-		
-		
 		String userSeq = req.getParameter("userSeq");
 		String restSeq = req.getParameter("restSeq");
 		String str_userPoint = req.getParameter("userPoint");
-		//** 나중에 session 에서 vo를 가져와서 get(userPoint)해서 가져와야함.
-		
+
 		
 		map.put("userSeq", userSeq);
 		map.put("restSeq", restSeq);
@@ -118,7 +123,7 @@ public class BossController {
 		String loc ="javascript:history.back();";
 		
 		//임의의 포인트 넣어줬음
-		 userPoint = 0;
+		 //int userPoint = 50000000;
 				
 		//포인트잔액이 부족했을시
 		if (userPoint < 1000000) {
@@ -127,7 +132,7 @@ public class BossController {
 		}
 		
 		else if (userPoint >= 1000000) {
-			result = service.bannBuyUpdate(map); 
+			result = service.bannBuyUpdate(map);
 			result = service.bannInsert(map);
 		}
 		
@@ -139,7 +144,7 @@ public class BossController {
 		
 		else if (result > 0) {
 			msg ="결제 되셨습니다.";
-			loc ="javascript:history.back();";
+			loc ="javascript:location.href='bossCoinResi.eat';";
 		}
 		
 		req.setAttribute("msg", msg);
@@ -155,28 +160,28 @@ public class BossController {
 	
 	//파워링크 결제
 	@RequestMapping(value="/bossLinknBuy.eat", method={RequestMethod.POST})
-	public String bossLinknBuy(HttpServletRequest req) throws Throwable{
+	public String bossLinknBuy(HttpServletRequest req, HttpSession ses) throws Throwable{
+		UserVO loginUser = (UserVO)ses.getAttribute("loginUser");
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		
 		
 		String userSeq = req.getParameter("userSeq");
 		String restSeq = req.getParameter("restSeq");
-		//String str_userPoint = req.getParameter("userPoint");
-		//** 나중에 session 에서 vo를 가져와서 get(userPoint)해서 가져와야함.
+		String str_userPoint = req.getParameter("userPoint");
 		
 		
 		map.put("userSeq", userSeq);
 		map.put("restSeq", restSeq);
 	
 		int result=0;
-		//int userPoint = Integer.parseInt(str_userPoint); 
+		int userPoint = Integer.parseInt(str_userPoint); 
 		
 		String msg = "없음";
 		String loc ="javascript:history.back();";
 		
 		//임의의 포인트 넣어줬음
-		int userPoint = 500000;
+		//int userPoint = 500000;
 				
 		//포인트잔액이 부족했을시
 		if (userPoint < 500000) {
@@ -197,7 +202,7 @@ public class BossController {
 		
 		else if (result > 0) {
 			msg ="결제 되셨습니다.";
-			loc ="javascript:history.back();";
+			loc ="javascript:location.href='bossCoinResi.eat';";
 		}
 		
 		req.setAttribute("msg", msg);
@@ -209,16 +214,16 @@ public class BossController {
 	
 	
 	//추천광고 결제
-	@RequestMapping(value="/bossRcomBuy.eat", method={RequestMethod.POST})
-	public String bossRcomBuy(HttpServletRequest req) throws Throwable{
-		
+	@RequestMapping(value="/bossRecomBuy.eat", method={RequestMethod.POST})
+	public String bossRecomBuy(HttpServletRequest req, HttpSession ses) throws Throwable{
+		UserVO loginUser = (UserVO)ses.getAttribute("loginUser");
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		
 		
 		String userSeq = req.getParameter("userSeq");
 		String restSeq = req.getParameter("restSeq");
-		//String str_userPoint = req.getParameter("userPoint");
+		String str_userPoint = req.getParameter("userPoint");
 		//** 나중에 session 에서 vo를 가져와서 get(userPoint)해서 가져와야함.
 		
 		
@@ -226,13 +231,13 @@ public class BossController {
 		map.put("restSeq", restSeq);
 	
 		int result=0;
-		//int userPoint = Integer.parseInt(str_userPoint); 
+		int userPoint = Integer.parseInt(str_userPoint); 
 		
 		String msg = "없음";
 		String loc ="javascript:history.back();";
 		
 		//임의의 포인트 넣어줬음
-		int userPoint = 600000;
+		//int userPoint = 600000;
 				
 		//포인트잔액이 부족했을시
 		if (userPoint < 300000) {
@@ -253,7 +258,7 @@ public class BossController {
 		
 		else if (result > 0) {
 			msg ="결제 되셨습니다.";
-			loc ="javascript:history.back();";
+			loc ="javascript:location.href='bossCoinResi.eat';";
 		}
 		
 		req.setAttribute("msg", msg);
