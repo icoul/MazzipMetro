@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>문의하기</title>
+<title>QnA/문의하기</title>
 <style type="text/css">
 	.title-label{font-weight:400;font-size:24px;}
 	.navbar-barnd{vertical-align : middle;line-height:45px;}
@@ -52,7 +52,6 @@
 					<th>문의종류</th>
 					<td>
 						 <select name="qnaQuiry" id="qnaQuiry">
-							<option value="0">문의종류</option>
 							<option value="회원">회원관련문의</option>
 							<option value="사업주">사업주관련문의</option>
 							<option value="음식점">음식점문의</option>

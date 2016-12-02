@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>고객 문의 내역</title>
+<title>QnA/고객 문의 내역</title>
 <style type="text/css">
 	.title-label{font-weight:400;font-size:24px;}
 	.navbar-barnd{vertical-align : middle;line-height:45px;}
@@ -96,15 +96,22 @@
 				        <td>
 				         <select id="qnaQuiry">
 							<option value="0">문의종류</option>
-							<option value="회원">회원관련문의</option>
-							<option value="사업주">사업주관련문의</option>
-							<option value="음식점">음식점문의</option>
-							<option value="기타">기타문의</option>
+							<option value="member">회원관련문의</option>
+							<option value="boss">사업주관련문의</option>
+							<option value="restaurant">음식점문의</option>
+							<option value="etc">기타문의</option>
 						  </select>
 						</td>
 				        
 						<th>문의 상세검색</th>
-						<td><input type="text"/> &nbsp; <button type="button">조회</button></td>
+						<td> <select id="qnaSearchType">
+							<option value="0">검색</option>
+							<option value="name">이름</option>
+							<option value="subject">제목</option>
+							<option value="content">내용</option>
+						  </select> 
+						  <input type="text"/> &nbsp; <button type="button">조회</button>
+						  </td>
 				      </tr>
 				  </table>
                 

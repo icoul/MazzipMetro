@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -30,6 +31,7 @@ import com.go.mazzipmetro.common.FileManager;
 import com.go.mazzipmetro.service.UserService;
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.UserVO;
+
 
 @Controller
 public class UserController {
@@ -226,29 +228,7 @@ public class UserController {
 		
 		
 	}
-	
-	
-	
-	//nos
-	@RequestMapping(value = "/myQna.eat", method = RequestMethod.GET)
-	public String myQnA(HttpServletRequest req) {
-		String userSeq = req.getParameter("userSeq");
-		
-		if(userSeq == null){
-			userSeq = "1";
-		}
-		
-		req.setAttribute("userSeq", userSeq);
-		return "user/myQna";
-	}
-	
-	@RequestMapping(value = "/myQnaList.eat", method = RequestMethod.GET)
-	public String myQnAList(HttpServletRequest req) {
-		
-		
-		return "user/myQnaList";
-	}
-	
+
 	// 로그인 처리
 	@RequestMapping(value="/login.eat", method={RequestMethod.POST})
 	public String UserLogin(UserVO vo, HttpServletRequest req, HttpServletResponse res){
