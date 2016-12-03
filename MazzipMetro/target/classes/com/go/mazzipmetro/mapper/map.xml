@@ -108,7 +108,7 @@
 		
 	</select>
 	
-	<!-- 지하철역별 등록된 음식점 보여주기 -->
+	<!-- 지하철역별 등록된 음식점 보여주기 (페이징)-->
 	<select id="searchByMetro" parameterType="java.util.HashMap" resultType="com.go.mazzipmetro.vo.RestaurantVO">
 		select V.*
 		from (
@@ -121,6 +121,19 @@
 		</if>
 		) V
 		where rnum between #{start} and #{end}
+	</select>
+	
+	<!-- 지하철역별 Best5 metroMap tooltip 정보 가져오기-->
+	<select id="getBest5RestInMetroMap" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select V.*
+		from (
+		select row_number () over(order by restVisitor desc) AS rnum
+		     , A.*
+		from tbl_restaurant A 
+		where  A.restStatus = 0
+		and metroId = #{keyword}
+		) V
+		where rnum between 1 and 5
 	</select>
 	
 	<!-- 지하철역별 등록된 음식점 보여주기(bgCat얻어오기) -->

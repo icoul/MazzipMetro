@@ -20,7 +20,6 @@
 		 <result column="metroid"	  	        property="metroid" 			    	javaType="String" />
 		 <result column="dongid"	  	    		property="dongid" 			    	javaType="String" />
 		 <result column="restregdate"	  	    property="restregdate" 			javaType="String" />
-
 	</resultMap>
 
 	<select id="getRestaurant" parameterType="String" resultMap="dataresultmap1">

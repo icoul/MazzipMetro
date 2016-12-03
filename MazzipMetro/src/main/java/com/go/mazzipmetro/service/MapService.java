@@ -128,6 +128,11 @@ public class MapService  implements IService {
 			return dao.getMetroNameList(metroNum);
 		}
 
+		// metroMap tooltip정보 가져오기
+		public List<RestaurantVO> getBest5RestInMetroMap(String metroId) {
+			return dao.getBest5RestInMetroMap(metroId);
+		}
+
 
 		
 		

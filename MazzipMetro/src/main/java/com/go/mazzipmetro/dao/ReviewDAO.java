@@ -15,11 +15,6 @@ public class ReviewDAO implements IDAO{
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
-	
-	public HashMap<String,String> getRestaurant(String restseq) {
-		HashMap<String,String> restvo = sqlSession.selectOne("review.getRestaurant", restseq);
-		return restvo;
-	}
 
 	public List<HashMap<String,String>> getReviewList(String restseq) {
 		List<HashMap<String,String>> reviewList = sqlSession.selectList("review.getReviewList", restseq);

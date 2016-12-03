@@ -30,6 +30,35 @@ public class MapController {
 		return "/maps/imgMapTest";
 	}
 	
+	// metroMap tooltip정보 가져오기
+	@RequestMapping(value="/getBest5RestInMetroMap.eat",method={RequestMethod.GET}) 
+	public String getBest5RestInMetroMap(HttpServletRequest req){
+		String metroId = req.getParameter("metroId");
+		
+		// 업장 리스트 가져오기
+		List<RestaurantVO> list = service.getBest5RestInMetroMap(metroId);
+		
+		// 업장 태그 가져오기
+		List<String> restSeqList = new ArrayList<String>();
+		
+		for (RestaurantVO vo : list) {
+			String restSeq = vo.getRestSeq();
+			restSeqList.add(restSeq);
+		}
+		
+		List<TagVO> tagList = service.getRestTag(restSeqList);
+		
+//		JSONObject jObj = new JSONObject();
+//		jObj.put("places", list);
+//		jObj.put("tags", tagList);
+//		req.setAttribute("jObj", jObj);
+		
+		req.setAttribute("tags", tagList);
+		req.setAttribute("places", list);
+		return "/maps/json/getBest5RestInMetroMap";
+	}
+	
+	
 	//지하철 역명 가져오기(업장 직접 등록시 사용)
 	@RequestMapping(value="/getMetroNameList.eat",method={RequestMethod.POST}) 
 	public String getMetroNameList(HttpServletRequest req){

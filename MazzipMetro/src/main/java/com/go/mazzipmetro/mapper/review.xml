@@ -5,12 +5,11 @@
 <!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) --> 
 <mapper namespace="review">
 	
-	
 	<resultMap type="java.util.HashMap" id="dataresultmap2">
 		 <result column="username"	  	        property="username" 			    javaType="String" />
-		 <result column="userprofile"	  	    property="userprofile" 			    javaType="String" />
+		 <result column="userprofile"	  	    	property="userprofile" 			    javaType="String" />
 		 <result column="reviewseq"	  	   		property="reviewseq" 			    javaType="String" />
-		 <result column="reviewtitle"	  	    property="reviewtitle" 			    javaType="String" />
+		 <result column="reviewtitle"	  	    	property="reviewtitle" 			    javaType="String" />
 		 <result column="reviewcontent"	  	    property="reviewcontent" 			javaType="String" />
 		 <result column="reviewavgscore"	  	property="reviewavgscore" 			javaType="String" />
 		 <result column="reviewregdate"	  	    property="reviewregdate" 			javaType="String" />

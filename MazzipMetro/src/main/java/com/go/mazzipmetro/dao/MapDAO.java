@@ -42,6 +42,11 @@ public class MapDAO  implements IDAO {
 		return sqlSession.selectList("map.searchByMetro", map);
 	}
 	
+	// metroMap tooltip 정보 가져오기
+	public List<RestaurantVO> getBest5RestInMetroMap(String metroId) {
+		return sqlSession.selectList("map.getBest5RestInMetroMap", metroId);
+	}
+
 	// 지하철역별 등록된 음식점 보여주기(대분류 태그 얻어오기)
 	public String getRestBgTag(String restSeq) {
 		return sqlSession.selectOne("map.getRestBgTag", restSeq);
@@ -96,8 +101,6 @@ public class MapDAO  implements IDAO {
 		return sqlSession.selectList("map.getMetroNameList", metroNum);
 	}
 
-	
-	
 
 
 }
