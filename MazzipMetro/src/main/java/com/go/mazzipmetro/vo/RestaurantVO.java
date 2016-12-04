@@ -19,12 +19,15 @@ public class RestaurantVO {
 	private String restVisitor; /* 업장방문수 */
 	private String restStatus; /* 업장상태 */
 	
+	//추가
+	private String restContent; /* 업장 소개글*/
+	
 	public RestaurantVO(){} 
 	
 	public RestaurantVO(String restSeq, String userSeq, String gradeSeq, String restName, String restPhone,
 			String restImg, String restAddr, String restNewAddr, String restLatitude, String restLongitude,
 			String restZIndex, String dongId, String metroId, String restRegDate, String restVisitor,
-			String restStatus) {
+			String restStatus, String restContent) {
 		this.restSeq = restSeq;
 		this.userSeq = userSeq;
 		this.gradeSeq = gradeSeq;
@@ -41,6 +44,8 @@ public class RestaurantVO {
 		this.restRegDate = restRegDate;
 		this.restVisitor = restVisitor;
 		this.restStatus = restStatus;
+		this.restContent = restContent;
+		
 	}
 
 	public String getRestSeq() {
@@ -169,5 +174,13 @@ public class RestaurantVO {
 
 	public void setRestStatus(String restStatus) {
 		this.restStatus = restStatus;
+	}
+
+	public String getRestContent() {
+		return restContent;
+	}
+
+	public void setRestContent(String restContent) {
+		this.restContent = restContent;
 	}
 }

@@ -55,7 +55,7 @@ public class MapController {
 		
 		req.setAttribute("tags", tagList);
 		req.setAttribute("places", list);
-		return "/maps/json/getBest5RestInMetroMap";
+		return "/maps/ajax/getBest5RestInMetroMap";
 	}
 	
 	
@@ -70,7 +70,7 @@ public class MapController {
 		
 		req.setAttribute("jObj", jObj);
 		
-		return "/maps/json/metroName";
+		return "/maps/ajax/metroName";
 	}
 	
 	
@@ -96,7 +96,7 @@ public class MapController {
 		}
 		
 		req.setAttribute("jObj", jObj);
-		return "/maps/json/autoComplete";
+		return "/maps/ajax/autoComplete";
 		
 		}
 	
@@ -140,7 +140,7 @@ public class MapController {
 		jObj.put("positions", list);
 		
 		req.setAttribute("jObj", jObj);
-		return "/maps/json/getRestaurantList";
+		return "/maps/ajax/getRestaurantList";
 	}
 	
 	//업장상세페이지에 쓰일 지도, 로드뷰 
@@ -321,7 +321,7 @@ public class MapController {
 		
 		req.setAttribute("jObj", jObj);
 		
-		return "/maps/json/searchByMetro";
+		return "/maps/ajax/searchByMetro";
 	}
 	
 	
@@ -423,7 +423,7 @@ public class MapController {
 		jObj.put("dongId", dongId);
 		
 		req.setAttribute("jObj", jObj);
-		return "/maps/json/dongId";
+		return "/maps/ajax/dongId";
 	}
 	
 	//지하철역 Id 얻기
@@ -440,7 +440,7 @@ public class MapController {
 		jObj.put("metroId", metroId);
 		
 		req.setAttribute("jObj", jObj);
-		return "/maps/json/metroId";
+		return "/maps/ajax/metroId";
 	}
 		
 

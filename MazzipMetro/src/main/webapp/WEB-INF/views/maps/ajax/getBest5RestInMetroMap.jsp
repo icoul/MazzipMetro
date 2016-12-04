@@ -87,7 +87,7 @@
 			<tr>
 				<th>${status.count}</th>
 				<td>
-					<a href="#" data-tooltip-content="#tooltip_content" class='tooltipster tooltip_group'>
+					<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${vo.restSeq}" data-tooltip-content="#tooltip_content${status.index}" class='tooltipster tooltip_group' style="color:black; text-decoration: none;">
 					<span style='font-weight:bold; font-size:18px;'>${vo.restName}</span>
 					<%-- TagsVO의 변수명은 bgCat, mdCat이다. 헷갈림 주의  --%>
 					<span style="color:orange; font-size:14px;">${tags[status.index].bgCat}</span>
@@ -109,9 +109,12 @@
 	</div>
 	
 	<div class="tooltip_templates">
-	    <span id="tooltip_content">
-	        <img src="resources/images/irin.png"  width=""/> <br/> <strong>This is the content of my tooltip!</strong>
+	<c:forEach var="vo" items="${places}"  varStatus="status">
+	    <span id="tooltip_content${status.index}">
+	        <img src="<%=request.getContextPath()%>/files/${vo.restImg}" /><br/>
+	        <strong>${vo.restContent}</strong>
 	    </span>
+	</c:forEach>
 	</div>
 	
 </c:if>
