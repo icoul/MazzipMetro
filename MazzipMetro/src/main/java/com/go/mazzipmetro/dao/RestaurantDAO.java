@@ -96,4 +96,12 @@ public class RestaurantDAO implements IDAO{
 		
 		return result;
 	}// end of setRestaurantInfo(HashMap<String, Object> map) 
+
+	// 매장 정보 수정을 위한 해당 회원이 등록한 매장 정보 모두 불러오기
+	public List<RestaurantVO> getRestList(String userSeq) {
+		
+		List<RestaurantVO> restList = sqlSession.selectList("restaurant.getRestrauntEditList", userSeq);
+		
+		return restList;
+	}
 }

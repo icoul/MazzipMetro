@@ -13,7 +13,7 @@ public class BossService implements IService{
 	
 	@Autowired
 	private BossDAO dao;
-
+	//코인충전하기
 	public int coinUpdate(HashMap<String, Object> map) {
 		int result = dao.coinUpdate(map);
 		return result;
@@ -56,6 +56,11 @@ public class BossService implements IService{
 	public int recomInsert(HashMap<String, String> map) throws Throwable {
 		int result = dao.recomInsert(map);
 		return result;
+	}
+	//컨텐츠테이블 등록하기위해 restSeq 구해오기
+	public String getRestSeq(String userSeq) {
+		String restSeq = dao.getRestSeq(userSeq);
+		return restSeq;
 	}
 }
 

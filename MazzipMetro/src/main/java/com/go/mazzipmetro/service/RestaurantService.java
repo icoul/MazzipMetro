@@ -65,4 +65,13 @@ public class RestaurantService implements IService{
 		
 		return result;
 	}// end of setRestaurantInfo(HashMap<String, Object> map) 
+
+	
+	// 매장 정보 수정을 위한 해당 회원이 등록한 매장 정보 모두 불러오기
+	public List<RestaurantVO> getRestList(String userSeq) {
+		
+		List<RestaurantVO> restList = dao.getRestList(userSeq);
+		
+		return restList;
+	}
 }

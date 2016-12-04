@@ -23,6 +23,7 @@ public class UserDAO implements IDAO{
 	}
 
 
+
 	public int UserLogin(HashMap<String, String> map) {
 		int n = sqlSession.selectOne("user.logincheck", map);
 		return n;
@@ -44,6 +45,7 @@ public class UserDAO implements IDAO{
 		int n = sqlSession.update("user.userEdit", vo);
 		return n;
 	}
+
 
 }
 

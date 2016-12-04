@@ -50,5 +50,10 @@ public class BossDAO implements IDAO{
 		int n = sqlSession.insert("boss.recomInsert", map);
 		return n;
 	}
+	//RestSeq 구하기
+	public String getRestSeq(String userSeq) {
+		String restSeq = sqlSession.selectOne("boss.getRestSeq", userSeq);
+		return restSeq;
+	}
 }
 

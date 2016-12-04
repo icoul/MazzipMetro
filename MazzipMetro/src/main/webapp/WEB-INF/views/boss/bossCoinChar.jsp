@@ -56,7 +56,7 @@ input[type=radio] {vertical-align:-3px;}
 				<option value="500000"><fmt:formatNumber pattern="###,###" value="5000000" /></option>
 				<option value="1000000" ><fmt:formatNumber pattern="###,###" value="10000000" /></option>
 			</select> 원
-			<input type="hidden" name="userSeq" <%-- value="${userSeq}" --%> value="7" /> 
+			<input type="hidden" name="userSeq"  value="${sessionScope.loginUser.userSeq}" /> 
 			<button class="btnCoin" type="button" onClick="goCharge();">충전하기</button>
 		</form>
 		</li>

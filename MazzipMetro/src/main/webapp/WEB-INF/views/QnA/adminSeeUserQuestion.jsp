@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>문의하기</title>
+<title>QnA/문의하기</title>
 <style type="text/css">
 	.title-label{font-weight:400;font-size:24px;}
 	.navbar-barnd{vertical-align : middle;line-height:45px;}
@@ -19,12 +19,12 @@
 		$("#qnaComment").keyup(function(){
 			var qnaCommentLength = $("#qnaComment").val().length;
 			
-			if(10 < qnaCommentLength){
-				alert("입력가능한 글자수는 10자 입니다");
+			if(200 < qnaCommentLength){
+				alert("입력가능한 글자수는 200자 입니다");
 				$("#qnaComment").val("");
 			}
 			
-			if(0 < qnaCommentLength && qnaCommentLength <= 10){
+			if(0 < qnaCommentLength && qnaCommentLength <= 200){
 				$("#qnaCommentLength").text(qnaCommentLength + "자 입력");
 			}else{
 				$("#qnaCommentLength").text("");
@@ -43,31 +43,56 @@
 </script>
 </head>
 <body>
-<div class="container">
+
+			
+<div class="container" style="width: 630px; height: 530px;">
 	<div class="row">
-		<h2> <span class="title-label">MazzipMetro에 문의하기</span>  </h2>
-		<form name="qnaRegisterFrm" action="<%=request.getContextPath() %>/myQnaRegister.eat" method="post">
+		<table class="table table-border">
+			<tr>
+				<th>질문유형</th>
+				<td>${qnaInquiry} 문의</td>
+			</tr>
+			<tr>
+				<th>제목</th>
+				<td>${qnaSubject}</td>
+			</tr>
+			<tr>
+				<th>등록일자</th>
+				<td>${qnaRegDate}</td>
+			</tr>
+			<tr>
+				<th>글쓴이</th>
+				<td>${userName}</td>
+			</tr>
+			<tr>
+				<th>처리상태</th>
+				<td> <span  style="color:red">${qnaProgress }</span></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div style="height:150px;">
+						${qnaContent}
+					</div>
+					
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<c:if test="${qnaProgress eq '접수완료'}">
+	<div class="row">
+		<h2> <span class="title-label">답변하기</span>  </h2>
+		<form name="qnaRegisterFrm" action="<%=request.getContextPath() %>/adminAnswerRegister.eat" method="post">
 			<table class="table table-border">
+				
 				<tr>
-					<th>문의종류</th>
+					<th>답변제목</th>
 					<td>
-						 <select name="qnaQuiry" id="qnaQuiry">
-							<option value="0">문의종류</option>
-							<option value="회원">회원관련문의</option>
-							<option value="사업주">사업주관련문의</option>
-							<option value="음식점">음식점문의</option>
-							<option value="기타">기타문의</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<th>문의제목</th>
-					<td>
-						<input name="qnaSubject" type="text"/> <input type="hidden" name="userSeq" value="${userSeq}"/>
+						<input name="qnaSubject" type="text"/> <input type="text" name="qnaSeq" value="${qnaSeq}"/>
 					</td>
 				</tr>
 				<tr> 
-					<th>문의내용<br>(10자입력가능)</th>
+					<th>답변내용<br>(200자입력가능)</th>
 					<td>
 						<textarea class="form-control" rows="5" name="qnaComment" id="qnaComment"></textarea>
 						<div id="qnaCommentLength"></div>
@@ -76,10 +101,11 @@
 			</table>
 		</form>
 		<div align="center">
-			<button class="btn btn-primary" type="button" onClick="javascript:goRegister();">문의하기 등록</button>
-			<button class="btn btn-danger" type="button">입력취소</button>
+			<button class="btn btn-primary" type="button" onClick="javascript:goRegister();">답변하기</button>
+			<button class="btn btn-danger" type="button">취소</button>
 		</div>
 	</div>
+	</c:if>
 	
 </div>
 </body>

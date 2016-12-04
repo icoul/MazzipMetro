@@ -4,38 +4,45 @@
 
 <!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) --> 
 <mapper namespace="boss">
+	<!-- 코인 충전시 -->
 	<update id="coinUpdate" parameterType="java.util.HashMap">
 		update tbl_User set userPoint = userPoint + #{userPoint}
-		where userstatus = 0 and userSort = 1 and userSeq = #{userSeq}
+		where userStatus = 0 and userSort = 1 and userSeq = #{userSeq}
 	</update>
-	
+	<!-- 파워배너 결제시 -->
 	<update id="bannBuyUpdate" parameterType="java.util.HashMap">
 		update tbl_User set userPoint = userPoint - 1000000
-		where userstatus = 0 and userSort = 1 and userSeq = #{userSeq}
+		where userSeq = #{userSeq}
 	</update>
-	
+	<!-- 파워배너 컨텐츠테이블 등록 -->
 	<insert id="bannInsert" parameterType="java.util.HashMap">
 		insert into tbl_restaurant_content(restSeq, userSeq, contentSeq, contentBuyDate, contentLimit, contentStatus) 
 		values(#{restSeq}, #{userSeq},'1', default , sysdate+30, default)
 	</insert>
-	
+	<!-- 파워링크 결제시 -->
 	<update id="linkBuyUpdate" parameterType="java.util.HashMap">
 		update tbl_User set userPoint = userPoint - 500000
-		where userstatus = 0 and userSort = 1 and userSeq = #{userSeq}
+		where userStatus = 0 and userSort = 1 and userSeq = #{userSeq}
 	</update>
-	
+	<!-- 파워링크 컨텐츠테이블 등록 -->
 	<insert id="linkInsert" parameterType="java.util.HashMap">
 		insert into tbl_restaurant_content(restSeq, userSeq, contentSeq, contentBuyDate, contentLimit, contentStatus) 
 		values(#{restSeq}, #{userSeq},'2', default , sysdate+30, default)
 	</insert>
-	
+	<!-- 추천광고 결제시 -->
 	<update id="recomBuyUpdate" parameterType="java.util.HashMap">
 		update tbl_User set userPoint = userPoint - 300000
-		where userstatus = 0 and userSort = 1 and userSeq = #{userSeq}
+		where userStatus = 0 and userSort = 1 and userSeq = #{userSeq}
 	</update>
-	
+	<!-- 추천광고  컨텐츠테이블 등록 -->
 	<insert id="recomInsert" parameterType="java.util.HashMap">
 		insert into tbl_restaurant_content(restSeq, userSeq, contentSeq, contentBuyDate, contentLimit, contentStatus) 
-		values(#{restSeq}, #{userSeq},'3', default , sysdate+30, default)
+		values(#{restSeq}, #{userSeq},'3', default , sysdate + 30, default)
 	</insert>
+	<!-- 컨텐츠테이블 등록하기위해 restSeq 구해오기 -->
+	<select id="getRestSeq" parameterType="String" resultType="String">
+		select restSeq
+		from tbl_restaurant
+		where userSeq = #{userSeq}
+	</select>
 </mapper>

@@ -42,18 +42,18 @@ public class RestaurantController {
 	
 	
 	// 업장을 등록하는 메서드
-	@RequestMapping(value="/addRestaurant.eat", method={RequestMethod.GET})
-	public String addRestaurant(HttpServletRequest req, HttpSession session){
+	@RequestMapping(value="/restAdd.eat", method={RequestMethod.GET})
+	public String restAdd(HttpServletRequest req, HttpServletResponse res, HttpSession session){
 		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
 		
 		req.setAttribute("userSeq", loginUser.getUserSeq());
 		
-		return "restaurant/addRestaurant";
+		return "restaurant/restAdd";
 	}
 	
 	// 입력한 업장명을 가진 곳이 DB에 존재하는지 확인하기 위해 검색하고 데이터를 가져오는 메서드
 	@RequestMapping(value="/restCheck.eat", method={RequestMethod.GET})
-	public String restCheck(HttpServletRequest req){
+	public String restCheck(HttpServletRequest req, HttpServletResponse res){
 		
 		String name = req.getParameter("name");
 		
@@ -67,7 +67,7 @@ public class RestaurantController {
 	
 	// 업장명이 존재하지 않아 자신이 직접 찾아서 등록하고자 하는 메서드
 	@RequestMapping(value="/notRestRegi.eat", method={RequestMethod.GET})
-	public String notRestRegi(HttpServletRequest req){
+	public String notRestRegi(HttpServletRequest req, HttpServletResponse res){
 		
 		String name = req.getParameter("name");
 		
@@ -78,7 +78,10 @@ public class RestaurantController {
 	
 	// 업장 정보를 받아서 insert 또는 update 시켜주는 메서드
 	@RequestMapping(value="/restRegister.eat", method={RequestMethod.POST})
-	public String restRegister(HttpServletRequest req){
+	public String restRegister(HttpServletRequest req, HttpServletResponse res){
+		
+		HttpSession session = req.getSession();
+		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
 		
 		String restSeq = req.getParameter("seq");
 		String restName = req.getParameter("name");
@@ -90,8 +93,8 @@ public class RestaurantController {
 		String restLongitude = req.getParameter("longitude");
 		String metroId = req.getParameter("metroId");
 		String dongId = req.getParameter("dongId");
+		String userSeq = loginUser.getUserSeq();
 		
-		String userSeq = "1"; // 임시. 나중에는 session으로 대체
 		int result = 0;
 		
 		RestaurantVO vo = new RestaurantVO();
@@ -124,20 +127,20 @@ public class RestaurantController {
 		return "restaurant/restRegister";
 	}
 	
-	@RequestMapping(value="/addRestaurantInfo.eat", method={RequestMethod.GET})
-	public String addRestaurantInfo(HttpServletRequest req){
+	@RequestMapping(value="/restAddInfo.eat", method={RequestMethod.GET})
+	public String restAddInfo(HttpServletRequest req, HttpServletResponse res){
 		
 		String restSeq = req.getParameter("restSeq");
 		
 		req.setAttribute("restSeq", restSeq);
 		
-		return "restaurant/addRestaurantInfo";
+		return "restaurant/restAddInfo";
 	}
 	
 
 	//음식점의 상세페이지 보여주기 no
 	@RequestMapping(value = "/restaurantDetail.eat", method = RequestMethod.GET)
-	public String restaurantDetail(HttpServletRequest req) {
+	public String restaurantDetail(HttpServletRequest req, HttpServletResponse res) {
 		String restSeq = req.getParameter("restSeq");
 		
 		HashMap<String,String> restvo = service.getRestaurant(restSeq);
@@ -157,8 +160,8 @@ public class RestaurantController {
 		return "restaurant/restaurantDetail";
 	}
 	
-	@RequestMapping(value="/addRestaurantInfoEnd.eat", method={RequestMethod.POST})
-	public String addRestaurantInfoEnd(MenuVO mvo, FileVO fvo, HttpServletRequest req, HttpSession session){
+	@RequestMapping(value="/restAddInfoEnd.eat", method={RequestMethod.POST})
+	public String restAddInfoEnd(HttpServletRequest req, HttpServletResponse res, MenuVO mvo, FileVO fvo, HttpSession session){
 		
 		String restSeq = req.getParameter("restSeq"); // 해당 업장 번호
 		String fileNum_Seq = req.getParameter("fileNum");
@@ -253,8 +256,43 @@ public class RestaurantController {
 		req.setAttribute("result", result);
 		req.setAttribute("msg", msg);
 		
-		return "restaurant/addRestaurantInfoEnd";
+		return "restaurant/restAddInfoEnd";
 
+	}
+	
+	// 업장 정보를 수정하기 위해 업장 리스트를 불러오는 메서드
+	@RequestMapping(value="/restEdit.eat", method={RequestMethod.GET})
+	public String restEdit(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+		String userSeq = loginUser.getUserSeq();
+				
+		List<RestaurantVO> restList = service.getRestList(userSeq);
+		
+		req.setAttribute("restList", restList);
+		
+		return "restaurant/restEdit";
+	}
+	
+	// 수정할 업장을 선택해서 해당 업장의 수정창을 띄우는 메서드
+	@RequestMapping(value="/restEditEnd.eat", method={RequestMethod.GET})
+	public String restEditEnd(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+
+		String restSeq = req.getParameter("restSeq");
+		
+		req.setAttribute("restSeq", restSeq);
+		
+		return "restaurant/restEditEnd";
+	}
+	
+	// 업장 정보를 수정하기 위해 업장 리스트를 불러오는 메서드
+	@RequestMapping(value="/restDel.eat", method={RequestMethod.POST})
+	public String restDel(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+		
+		String restSeq = req.getParameter("restSeq");
+		
+		req.setAttribute("restSeq", restSeq);
+		
+		return "restaurant/restDel";
 	}
 }
 

@@ -20,12 +20,14 @@ public class UserService implements IService {
 		int n = dao.userRegister(vo);
 		return n;
 	}
+
 	
 	public List<String> alignTest() {
 		List<String> list = dao.alignTest();
 		return list;
 	}
 	
+
 	public int UserLogin(HashMap<String, String> map) {
 		int n = dao.UserLogin(map);
 		return n;
