@@ -23,12 +23,21 @@ public class MapController {
 	@Autowired
 	MapService service;
 	
+	//metroMap 페이지 접근
+	@RequestMapping(value="/metroMap.eat",method={RequestMethod.GET}) 
+	public String metroMap(HttpServletRequest req){
+		String metroId = req.getParameter("metroId");
+		req.setAttribute("metroId", metroId);
+		return "metroMap";
+	}
+
 	//이미지맵 테스트
 	@RequestMapping(value="/imgMapTest.eat",method={RequestMethod.GET}) 
 	public String imgMapTest(){
 		
 		return "/maps/imgMapTest";
 	}
+	
 	
 	// metroMap tooltip정보 가져오기
 	@RequestMapping(value="/getBest5RestInMetroMap.eat",method={RequestMethod.GET}) 
@@ -166,7 +175,9 @@ public class MapController {
 	//지하철역별 등록된 음식점 보여주기(페이징)
 	@RequestMapping(value="/searchByMetro.eat",method={RequestMethod.GET}) 
 	public String searchByMetro(HttpServletRequest req){
-		String keyword = req.getParameter("keyword");
+		String metroId = req.getParameter("metroId");
+		System.out.println(">>>>>>"+metroId); 
+		String keyword = req.getParameter("keyword");// deprecated : metroMap에서는 지하철역이름으로 검색하지 않는다.
 		String pageNo = req.getParameter("pageNo");
 		
 		System.out.println("/"+keyword+" &"+pageNo+" /");
@@ -185,7 +196,8 @@ public class MapController {
 		
 
 		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("keyword", keyword);
+		map.put("keyword", keyword); // 지하철역명으로 검색
+		map.put("metroId", metroId); // 지하철역 id로 직접 검색
 		
 		// 페이징 작업 (총 게시물 수, 총 페이지수)
 		// 먼저 총 음식점 수를 구하기
@@ -290,7 +302,7 @@ public class MapController {
 		
 		// 이전 5페이지 만들기
 		if(!(sPage == 1)) {
-				pageBar += String.format("&nbsp;<a href='javascript:searchByMetro(%d)'>pre</a>&nbsp;", sPage-blockSize);
+				pageBar += String.format("&nbsp;<a href='javascript:searchByMetro(%d, %s)'>pre</a>&nbsp;", sPage-blockSize, metroId);
 		}
 		
 		while( !(loop >  blockSize || sPage > totalPage ) ) {
@@ -299,7 +311,7 @@ public class MapController {
 				pageBar += String.format("&nbsp;<span class='on'> %d </span>&nbsp;", sPage);
 			} else{
 				
-					pageBar += String.format("&nbsp;<a href='javascript:searchByMetro(%d)'>%d</a>&nbsp;", sPage, sPage);
+					pageBar += String.format("&nbsp;<a href='javascript:searchByMetro(%d, %s)'>%d</a>&nbsp;", sPage, metroId, sPage);
 			}
 			loop++;
 			sPage++;
@@ -307,7 +319,7 @@ public class MapController {
 		
 		// 다음 5페이지 만들기
 		if(!(sPage > totalPage)) {
-				pageBar += String.format("&nbsp;<a href='javascript:searchByMetro(%d)'>next</a>&nbsp;", sPage);		
+				pageBar += String.format("&nbsp;<a href='javascript:searchByMetro(%d, %s)'>next</a>&nbsp;", sPage, metroId);		
 		}
 		
 		

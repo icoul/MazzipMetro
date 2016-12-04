@@ -12,6 +12,13 @@
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script>
 
+<!-- 다음지도 api를 사용하기 위한 라이브러리 -->
+<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=07a6ce4a014b94664ec5968dee2fb0d2&libraries=services,clusterer,drawing"></script>
+<!-- 메트로맵 tooltip을 위한 라이브러리 -->
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/tooltipster/dist/css/tooltipster.bundle.min.css" />
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-noir.min.css" />
+
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/main.css" />
 <title>:::Mazzip Metro:::</title>
 

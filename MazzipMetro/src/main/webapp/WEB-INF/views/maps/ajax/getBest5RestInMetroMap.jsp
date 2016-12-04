@@ -12,6 +12,9 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-noir.min.css" />
 <style>
 .tooltip_templates { display: none; }
+table, th, td {border: solid 1px navy;}
+th, td{padding:5px;}
+
 </style>
 <script>
 	$(document).ready(function() {
@@ -85,7 +88,8 @@
 		<table>
 		<c:forEach var="vo" items="${places}"  varStatus="status">
 			<tr>
-				<th>${status.count}</th>
+				<c:set var="colorArr" value="${['red', 'navy', 'gold', 'blue', 'olive']}"/>
+				<th style="color: ${colorArr[status.index]}">${status.count}</th>
 				<td>
 					<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${vo.restSeq}" data-tooltip-content="#tooltip_content${status.index}" class='tooltipster tooltip_group' style="color:black; text-decoration: none;">
 					<span style='font-weight:bold; font-size:18px;'>${vo.restName}</span>
