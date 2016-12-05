@@ -161,19 +161,16 @@ public class RestaurantController {
 	//음식점의 상세페이지 보여주기 no
 	@RequestMapping(value = "/restaurantDetail.eat", method = RequestMethod.GET)
 	public String restaurantDetail(HttpServletRequest req, HttpServletResponse res) {
-		String restseq = req.getParameter("restseq");
+		String restSeq = req.getParameter("restSeq");
 		
-		if(restseq == null){
-			restseq = "220";
-		}
-		HashMap<String,String> restvo = reviewService.getRestaurant(restseq);
+		HashMap<String,String> restvo = service.getRestaurant(restSeq);
 			
 		List<HashMap<String,String>> reviewList = reviewService.getReviewList(restvo.get("restseq"));
 		
 		List<HashMap<String,String>> reviewImageList = reviewService.getReviewImageList();
 		
-		List<HashMap<String,String>> agelineChartList = reviewService.getAgeLineChartList(restseq);
-		List<HashMap<String,String>> genderChartList = reviewService.getGenderChartList(restseq);
+		List<HashMap<String,String>> agelineChartList = reviewService.getAgeLineChartList(restSeq);
+		List<HashMap<String,String>> genderChartList = reviewService.getGenderChartList(restSeq);
 		
 		req.setAttribute("restvo", restvo);
 		req.setAttribute("reviewList", reviewList);

@@ -31,23 +31,48 @@ public class MazzipMetroDAO implements IDAO{
 		return n;
 	}
 
-	public List<HashMap<String,String>> myQnaList(HashMap<String, String> map) {
-		List<HashMap<String,String>> myQnaList =  sqlSession.selectList("myQnaList", map);
-		return myQnaList;
+	public List<HashMap<String,String>> qnaList(HashMap<String, String> map) {
+		List<HashMap<String,String>> qnaList =  sqlSession.selectList("qnaList", map);
+		return qnaList;
 	}
 
-	public int getTotalMyQnaCount(HashMap<String, String> map) {
-		int myQnaTotalCount = sqlSession.selectOne("getTotalMyQnaCount",map);
-		return myQnaTotalCount;
+	public int getTotalQnaCount(HashMap<String, String> map) {
+		int qnaTotalCount = sqlSession.selectOne("getTotalQnaCount",map);
+		return qnaTotalCount;
 	}
 
-	public int getMyQnaProgressCount(HashMap<String, String> hashMap) {
-		int myQnaCount = sqlSession.selectOne("getMyQnaProgressCount", hashMap);
-		return myQnaCount;
+	public int getQnaProgressCount(HashMap<String, String> hashMap) {
+		int qnaCount = sqlSession.selectOne("getQnaProgressCount", hashMap);
+		return qnaCount;
 	}
 
 	public int getToday(HashMap<String,String> hashMap) {
 		int today = sqlSession.selectOne("getToday", hashMap);
 		return today;
+	}
+
+	public int adminAnswerRegister(HashMap<String,String> hashMap) {
+		int result = sqlSession.insert("adminAnswerRegister", hashMap);
+		return result;
+	}
+
+	public String getAnswerDate(HashMap<String, String> hashMap) {
+		String answerDate = sqlSession.selectOne("getAnswerDate",hashMap);
+		return answerDate;
+	}
+
+	public int updateUserQna(HashMap<String, String> hashMap) {
+		int result = sqlSession.update("updateUserQna",hashMap);
+		return result;
+	}
+
+	public HashMap<String, String> getAdminAnswer(String qnaSeq) {
+		 HashMap<String, String> andminAnswer = sqlSession.selectOne("getAdminAnswer", qnaSeq);
+		return andminAnswer;
+	}
+
+	public HashMap<String, String> getUserQuestion(String qnaSeq) {
+		HashMap<String, String> userQuestion = sqlSession.selectOne("getUserQuestion", qnaSeq);
+		return userQuestion;
 	}
 }

@@ -17,6 +17,12 @@ public class RestaurantDAO implements IDAO{
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
+	// 하나의 업장 정보 가져오기
+	public HashMap<String,String> getRestaurant(String restseq) {
+		HashMap<String,String> restvo = sqlSession.selectOne("restaurant.getRestaurant", restseq);
+		return restvo;
+	}
+	
 	// 업장이름 리스트 가져오기
 	public List<RestaurantVO> getRestName(String name){
 		

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.go.mazzipmetro.service.MapService;
+import com.go.mazzipmetro.vo.RestaurantAdVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.TagVO;
 
@@ -22,12 +23,74 @@ public class MapController {
 	
 	@Autowired
 	MapService service;
+	
+	//metroMap 페이지 접근
+	@RequestMapping(value="/metroMap.eat",method={RequestMethod.GET}) 
+	public String metroMap(HttpServletRequest req){
+		String metroId = req.getParameter("metroId");
+		req.setAttribute("metroId", metroId);
+		return "metroMap";
+	}
+
 	//이미지맵 테스트
 	@RequestMapping(value="/imgMapTest.eat",method={RequestMethod.GET}) 
 	public String imgMapTest(){
 		
 		return "/maps/imgMapTest";
 	}
+	
+	
+	// metroMap tooltip정보 가져오기
+	@RequestMapping(value="/getBest5RestInMetroMap.eat",method={RequestMethod.GET}) 
+	public String getBest5RestInMetroMap(HttpServletRequest req){
+		String metroId = req.getParameter("metroId");
+		// 지하철 역명 가져오기
+		String metroName = service.getMetroName(metroId);
+		
+		// 업장 리스트 가져오기
+		List<RestaurantVO> list = service.getBest5RestInMetroMap(metroId);
+		
+		// 업장 태그 가져오기
+		List<String> restSeqList = new ArrayList<String>();
+		
+		for (RestaurantVO vo : list) {
+			String restSeq = vo.getRestSeq();
+			restSeqList.add(restSeq);
+		}
+		
+		List<TagVO> tagList = service.getRestTag(restSeqList);
+		
+		// 업장 추가 이미지 가져오기(thumbnail이미지와 원래이미지 모두)
+		List<RestaurantAdVO> adImgList = service.getAdImg(restSeqList);
+		
+		
+//		JSONObject jObj = new JSONObject();
+//		jObj.put("places", list);
+//		jObj.put("tags", tagList);
+//		req.setAttribute("jObj", jObj);
+		
+		req.setAttribute("metroName", metroName);
+		req.setAttribute("tags", tagList);
+		req.setAttribute("places", list);
+		req.setAttribute("adImgList", adImgList);
+		return "/maps/ajax/getBest5RestInMetroMap";
+	}
+	
+	
+	//지하철 역명 가져오기(업장 직접 등록시 사용)
+	@RequestMapping(value="/getMetroNameList.eat",method={RequestMethod.POST}) 
+	public String getMetroNameList(HttpServletRequest req){
+		String metroNum = req.getParameter("metroNum");
+		List<String> metroNameList = service.getMetroNameList(metroNum);
+		
+		JSONObject jObj = new JSONObject();
+		jObj.put("metroNameList", metroNameList);
+		
+		req.setAttribute("jObj", jObj);
+		
+		return "/maps/ajax/metroName";
+	}
+	
 	
 	// 자동글완성 
 	@RequestMapping(value="/autoComplete.eat", method={RequestMethod.GET})
@@ -51,7 +114,7 @@ public class MapController {
 		}
 		
 		req.setAttribute("jObj", jObj);
-		return "/maps/json/autoComplete";
+		return "/maps/ajax/autoComplete";
 		
 		}
 	
@@ -89,13 +152,13 @@ public class MapController {
 		map.put("restStatus", restStatus);
 		
 		List<HashMap<String, String>> list = service.getRestaurantList(map);
+		//System.out.println(list); 
 		
 		JSONObject jObj = new JSONObject();
 		jObj.put("positions", list);
 		
 		req.setAttribute("jObj", jObj);
-		
-		return "/maps/json/getRestaurantList";
+		return "/maps/ajax/getRestaurantList";
 	}
 	
 	//업장상세페이지에 쓰일 지도, 로드뷰 
@@ -121,7 +184,9 @@ public class MapController {
 	//지하철역별 등록된 음식점 보여주기(페이징)
 	@RequestMapping(value="/searchByMetro.eat",method={RequestMethod.GET}) 
 	public String searchByMetro(HttpServletRequest req){
-		String keyword = req.getParameter("keyword");
+		String metroId = req.getParameter("metroId");
+		System.out.println(">>>>>>"+metroId); 
+		String keyword = req.getParameter("keyword");// deprecated : metroMap에서는 지하철역이름으로 검색하지 않는다.
 		String pageNo = req.getParameter("pageNo");
 		
 		System.out.println("/"+keyword+" &"+pageNo+" /");
@@ -140,7 +205,8 @@ public class MapController {
 		
 
 		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("keyword", keyword);
+		map.put("keyword", keyword); // 지하철역명으로 검색
+		map.put("metroId", metroId); // 지하철역 id로 직접 검색
 		
 		// 페이징 작업 (총 게시물 수, 총 페이지수)
 		// 먼저 총 음식점 수를 구하기
@@ -245,7 +311,7 @@ public class MapController {
 		
 		// 이전 5페이지 만들기
 		if(!(sPage == 1)) {
-				pageBar += String.format("&nbsp;<a href='javascript:searchByMetro(%d)'>pre</a>&nbsp;", sPage-blockSize);
+				pageBar += String.format("&nbsp;<a href='javascript:searchByMetro(%d, %s)'>pre</a>&nbsp;", sPage-blockSize, metroId);
 		}
 		
 		while( !(loop >  blockSize || sPage > totalPage ) ) {
@@ -254,7 +320,7 @@ public class MapController {
 				pageBar += String.format("&nbsp;<span class='on'> %d </span>&nbsp;", sPage);
 			} else{
 				
-					pageBar += String.format("&nbsp;<a href='javascript:searchByMetro(%d)'>%d</a>&nbsp;", sPage, sPage);
+					pageBar += String.format("&nbsp;<a href='javascript:searchByMetro(%d, %s)'>%d</a>&nbsp;", sPage, metroId, sPage);
 			}
 			loop++;
 			sPage++;
@@ -262,7 +328,7 @@ public class MapController {
 		
 		// 다음 5페이지 만들기
 		if(!(sPage > totalPage)) {
-				pageBar += String.format("&nbsp;<a href='javascript:searchByMetro(%d)'>next</a>&nbsp;", sPage);		
+				pageBar += String.format("&nbsp;<a href='javascript:searchByMetro(%d, %s)'>next</a>&nbsp;", sPage, metroId);		
 		}
 		
 		
@@ -276,7 +342,7 @@ public class MapController {
 		
 		req.setAttribute("jObj", jObj);
 		
-		return "/maps/json/searchByMetro";
+		return "/maps/ajax/searchByMetro";
 	}
 	
 	
@@ -378,7 +444,7 @@ public class MapController {
 		jObj.put("dongId", dongId);
 		
 		req.setAttribute("jObj", jObj);
-		return "/maps/json/dongId";
+		return "/maps/ajax/dongId";
 	}
 	
 	//지하철역 Id 얻기
@@ -395,7 +461,7 @@ public class MapController {
 		jObj.put("metroId", metroId);
 		
 		req.setAttribute("jObj", jObj);
-		return "/maps/json/metroId";
+		return "/maps/ajax/metroId";
 	}
 		
 

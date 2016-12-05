@@ -39,7 +39,7 @@
 	  }
 	  
 	  .ui-autocomplete {
-	    max-height: 200px;
+	    max-height: 300px;
 	    overflow-y: auto;
 	    /* prevent horizontal scrollbar */
 	    overflow-x: hidden;
@@ -48,7 +48,7 @@
 	   * we use height instead, but this forces the menu to always be this tall
 	   */
 	  html .ui-autocomplete {
-	    height: 200px;
+	    height: 300px;
 	  }
 	  </style>
 </head>
@@ -157,7 +157,6 @@
 						})	
 					}
 					
-					
 				}, //end of success: function(data)
 				error: function(request, status, error){
 					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -165,7 +164,7 @@
 			}); //end of $.ajax()
 			
 			
-		});
+		});// end of $("#keyword").keyup
 			
 	});
 	
@@ -323,7 +322,7 @@
 	        map.setLevel(level, {anchor: cluster.getCenter()});  
 	    });
 		
-	}//end of goMap()
+	}//end of getRestaurant()
     
 	
 

@@ -27,6 +27,22 @@
 		where metroName = #{metroName}
 	</select>
 	
+	<!-- 지하철 역명 가져오기(업장 직접 등록시 사용) -->
+	<select id="getMetroNameList"  parameterType="String" resultType="String" >
+		with t as (
+		  select 'ㄱ' as metroname from dual union all
+		  select 'ㄴ' from dual union all
+		  select 'ㄷ' from dual union all
+		  select 'A' from dual union all
+		  select 'B' from dual
+		)  
+		select metroname
+		from tbl_metro
+		where metronum= #{metroNum}
+		order by convert(metroname, 'ISO2022-KR')
+	</select>
+	
+	
 	<resultMap type="java.util.HashMap" id="restaurantList">
 		<result column="restName" 		property="restName" 		javaType="String"/><!-- vo의 멤버변수명이다. 여기는 xml -->
 		<result column="restSeq" 			property="restSeq" 			javaType="String"/> 	
@@ -36,7 +52,11 @@
 	
 	<!-- 관리자용 음식점 검색 -->
 	<select id="getRestaurantList" parameterType="java.util.HashMap" resultMap="restaurantList">
-		select A.*, B.guName
+		select A.restName
+				, A.restSeq
+				, A.restLongitude
+				, A.restLatitude
+				, B.guName
 		from (
 			select A.*, B.dongName, B.guId
 			from (
@@ -88,7 +108,7 @@
 		
 	</select>
 	
-	<!-- 지하철역별 등록된 음식점 보여주기 -->
+	<!-- 지하철역별 등록된 음식점 보여주기 (페이징)-->
 	<select id="searchByMetro" parameterType="java.util.HashMap" resultType="com.go.mazzipmetro.vo.RestaurantVO">
 		select V.*
 		from (
@@ -96,11 +116,27 @@
 		     , A.*
 		from tbl_restaurant A 
 		where  A.restStatus = 0
-		<if test="keyword != null">
-		and metroId = (select metroId from tbl_metro where metroName like '%'||#{keyword}||'%')
+		<if test="metroId != null">
+			and metroId = #{metroId}
 		</if>
+		<!-- <if test="keyword != null">
+		and metroId = (select metroId from tbl_metro where metroName like '%'||#{keyword}||'%')
+		</if> -->
 		) V
 		where rnum between #{start} and #{end}
+	</select>
+	
+	<!-- 지하철역별 Best5 metroMap tooltip 정보 가져오기-->
+	<select id="getBest5RestInMetroMap" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select V.*
+		from (
+		select row_number () over(order by restVisitor desc) AS rnum
+		     , A.*
+		from tbl_restaurant A 
+		where  A.restStatus = 0
+		and metroId = #{keyword}
+		) V
+		where rnum between 1 and 5
 	</select>
 	
 	<!-- 지하철역별 등록된 음식점 보여주기(bgCat얻어오기) -->
@@ -123,9 +159,12 @@
 		select count(*)
 		from tbl_restaurant
 		where restStatus = 0
-		<if test="keyword != null">
-			and metroId = (select metroId from tbl_metro where metroName like '%'||#{keyword}||'%')
+		<if test="metroId != null">
+			and metroId = #{metroId}
 		</if>
+		<!-- <if test="keyword != null">
+			and metroId = (select metroId from tbl_metro where metroName like '%'||#{keyword}||'%')
+		</if> -->
 	</select>
 	
 	<!-- 지하철 역이름 얻기 (지도페이지로 넘길 때 사용함) -->
@@ -133,6 +172,13 @@
 		select metroName
 		from tbl_metro
 		where metroId = #{metroId}
+	</select>
+	
+	<!-- 업장 추가이미지(restaurantAdVO)가져오기 -->
+	<select id="getAdImg" parameterType="String" resultType="String">
+		select adImg
+		from tbl_restaurant_ad
+		where restSeq = #{restSeq} 
 	</select>
 	
 </mapper>
