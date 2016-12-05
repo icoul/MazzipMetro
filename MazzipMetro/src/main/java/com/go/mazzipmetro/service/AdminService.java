@@ -37,8 +37,8 @@ public class AdminService implements IService {
 	}//end of int userDel(HashMap<String, String> map)-----------------------
 
 	// 관리자용 업장 수정 페이지
-	public RestaurantVO adminRestEdit(String restSeq) {
-		return dao.adminRestEdit(restSeq);
+	public RestaurantVO adminRestEditInfo(String restSeq) {
+		return dao.adminRestEditInfo(restSeq);
 	}
 
 	//컨텐츠리스트
@@ -52,6 +52,16 @@ public class AdminService implements IService {
 		
 		List<HashMap<String, String>> adminConList = dao.conTentList(map);
 		return adminConList;
+	}
+
+	// 관리자용 업장 수정 페이지 (업장 등급 리스트)
+	public List<HashMap<String, String>> restGradeList() {
+		return dao.restGradeList();
+	}
+
+	// 관리자용 업장 수정 요청 
+	public int adminRestEdit(RestaurantVO vo) {
+		return dao.adminRestEdit(vo);
 	}
 
 	

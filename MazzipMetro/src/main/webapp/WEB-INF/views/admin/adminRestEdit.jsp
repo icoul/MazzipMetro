@@ -29,20 +29,31 @@
 		<br/> 
 		<hr/> 
 		<br/> 
-		<form name="editFrm"></form>
-		<table>
-		<tr><th>업장명(restSeq)  :		</th><td><input type="text" id="restName" 			name="restName"  		size="50" value="${vo.restName}(${restSeq})" disabled/></td></tr>
-		<tr><th>업장관리자(userSeq)  :		</th><td><input type="text" id="userSeq" 		name="userSeq"  		size="50" value="${vo.userSeq}"/></td></tr>
-		<tr><th>지번주소  :		</th><td><input type="text" id="restAddr" 			name="restAddr"  		size="50" value="${vo.restAddr}"/></td></tr>
-		<tr><th>도로명주소  : 	</th><td><input type="text" id="restNewAddr" 		name="restNewAddr" 	size="50" value="${vo.restNewAddr}"/></td></tr>
-		<tr><th>전화번호  : 		</th><td><input type="text" id="restPhone" 			name="restPhone" 		size="50" value="${vo.restPhone}"/></td></tr>
-		<tr><th>위도  : 			</th><td><input type="text" id="restLatitude" 		name="restLatitude" 	size="50" value="${vo.restLatitude}" /></td></tr>
-		<tr><th>경도  :	 		</th><td><input type="text" id="restLongitude"	name="restLongitude" size="50" value="${vo.restLongitude}" /></td></tr>
-		<tr><th>인근 지하철역  : </th><td><select id="metroName" ></select> 
-		
+		<form name="editFrm">
+		<table style=" border-collapse: collapse; ">
+		<tr><th>업장고유번호 :				</th><td><input type="text" id="restSeq" 			name="restSeq"  			size="50" value="${vo.restSeq}" 	class="required"  disabled/></td></tr>
+		<tr><th>업장명 :						</th><td><input type="text" id="restName" 			name="restName"  		size="50" value="${vo.restName}" class="required" /></td></tr>
+		<tr><th>업장관리자(userSeq)  :	</th><td><input type="text" id="userSeq" 			name="userSeq"  		size="50" value="${vo.userSeq}"    class="required"/></td></tr>
+		<tr><th>업장 등급  : 					</th><td><select id="gradeSeq" name="gradeSeq" class="required"></select> 
+		<tr><th>지번주소  :					</th><td><input type="text" id="restAddr" 			name="restAddr"  		size="50" value="${vo.restAddr}" 	class="required" disabled/></td></tr>
+		<tr><th>도로명주소  : 				</th><td><input type="text" id="restNewAddr" 		name="restNewAddr" 	size="50" value="${vo.restNewAddr}"/></td></tr>
+		<tr><th>전화번호  : 					</th><td><input type="text" id="restPhone" 			name="restPhone" 		size="50" value="${vo.restPhone}"/></td></tr>
+		<tr><th>위도  : 						</th><td><input type="text" id="restLatitude" 		name="restLatitude" 	size="50" value="${vo.restLatitude}" class="required"/></td></tr>
+		<tr><th>경도  :	 					</th><td><input type="text" id="restLongitude"	name="restLongitude" size="50" value="${vo.restLongitude}" class="required"/></td></tr>
+		<tr><th>업장 대표이미지  :	 		</th><td id="addImg"><img src="<%=request.getContextPath()%>/files/${vo.restImg}" id="currImg" width="300px;"><br/><br/><input type='file' id="restImg" name="restImg" /></td></tr>
+		<tr><th>업장 소개글  :	 			</th><td><textarea id="restContent"		name="restContent"  rows="4" cols="48">${vo.restContent}</textarea></td></tr>
+		<tr><th>인근 지하철역  : 			</th><td><select id="metroId" name="metroId" class="required"></select> 
+		<tr>
+			<th style="border-top: solid 1px red; border-bottom: solid 1px red; border-left: solid 1px red;"><span style="color:red; font-weight:bold;">업장상태:</span></th>
+			<td style="border-top: solid 1px red;border-bottom: solid 1px red;border-right: solid 1px red;"><select id="restStatus" name="restStatus" class="required"><option value="0">이용가능</option><option value="1">삭제</option></select></td>
+		</tr>
+		<input type="hidden" name="dongId" />
 		</table>
-		<button type= "button" id = "btnEdit" onClick = "goEdit();">수정</button>
-		<button type= "button" id = "btnDel" onClick = "goDel();"><span style="color:red">삭제</span></button>
+		</form>
+		<hr/> 
+		<div align="center">
+		<button type= "button" id = "btnEdit" onClick = "goEdit();"><span style="color:red; font-weight: bold;">업장 정보 변경</span></button>
+		</div>
 	</div>
 
 	<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=0d211626a8ca667e54b95403a7ae692f&libraries=services"></script>
@@ -51,12 +62,21 @@
 	
 		$(document).ready(function(){
 			$("#searchAddr").focus();
-			
+			getGradeName();
 			getMetroName();
+			setCenter() ;
+			
+			// restStatus 값 select 에 넣어주기
+			$("#restStatus").val('${vo.restStatus}');
+			
+			// 주소 입력시 keyup이벤트 생성
 			$("#searchAddr").keyup(function(){
-				
 				showAddr($(this).val());	
-				
+			});
+			
+			// 파일 인풋태그변화시 호출된다. 하지만, 새로 생성한  html 코드에 대해서는 적용되지 않는다.
+			$("[name=restImg]").change(function(){
+			    showCurrImg(this);
 			});
 		
 		});//end of $(document).ready()
@@ -70,37 +90,78 @@
 			 return true;
 		}
 		
-		function goEditEnd(){
-			var name = "${name}";
-			var addr = $("#addr").val();
-			var newAddr = $("#newAddr").val();
-			var latitude = $("#latitude").val();
-			var longitude = $("#longitude").val();
-			var metroId = $("#metroName").val();
-			var dongId = getDongId(addr);
+		// test : 이미지 업로드시 바로 보여주는 코드
+		function showCurrImg(input) {
 			
-			if (addr == null || latitude == null || longitude == null || metroId == null || dongId == null) {
-				alert("등록할 수 없는 가게입니다. 다시 입력해주세요.");
-				event.preventDefault();
-			}
-			else if (name == null){
-				alert("가게명을 올바르게 입력해주세요.");
-				self.window.close(); // 팝업창 닫기
-			}
-			else {
-				var frm = opener.window.document.editFrm; 
+		    if (input.files && input.files[0]) {
+		        var reader = new FileReader();
+		
+		        reader.onload = function (e) {
+		            $('#currImg').attr('src', e.target.result);
+		        }
+		
+		        reader.readAsDataURL(input.files[0]);
 		        
-				frm.name.value = name;
-		        frm.addr.value = addr;
-		        frm.newAddr.value = newAddr;
-				frm.latitude.value = latitude;
-				frm.longitude.value = longitude;
-				frm.metroId.value = metroId;
-				frm.dongId.value = dongId;
-				
-				self.window.close(); // 팝업창 닫기
-			}
+		        var addHtml = "<br/><input type='file' name='restImg' onchange='showCurrImg(this);'/>";
+		        $("#addImg").append(addHtml);
+		    }
 		}
+
+
+		// event를 파라미터로 전달해서 event.preventDefault(); 실행!
+		function goEdit(event){
+			
+			var dongId = getDongId($("#restAddr").val());
+			
+			$(".required").each(function(){
+				//alert($(this).prop('tagName'));
+				if($(this).val().trim().length == 0){
+					alert('필수항목을 기입해주세요!');
+					$(this).focus();
+					event.preventDefault();
+				} 
+			});
+			
+				editFrm.dongId.value = dongId;
+				//editFrm.restArr.disabled = false;
+				//editFrm.restSeq.disabled = false;
+				$("#restAddr").prop('disabled', false);
+				$("#restSeq").prop('disabled', false);
+				editFrm.method="post";
+				editFrm.action="<%=request.getContextPath()%>/adminRestEditEnd.eat";
+				editFrm.submit();
+				
+		
+		}
+		
+		// 업장등급 가져오기
+		function getGradeName(){
+			
+			//alert('${vo.gradeSeq}');
+			$.ajax({
+				url: "restGradeList.eat",  
+				method:"POST",  	
+				dataType: "json",
+				success: function(data) {
+					
+					gradeNameList =  data.restGradeList;
+					var gradeNameOptionHtml = '';
+					
+					for (var i = 0; i < gradeNameList.length; i++) {
+						if ('${vo.gradeSeq}' == gradeNameList[i].gradeSeq ) {
+							gradeNameOptionHtml += "<option value='"+gradeNameList[i].gradeSeq+"' selected>"+gradeNameList[i].gradeName+"</option>";
+						} else {
+							gradeNameOptionHtml += "<option value='"+gradeNameList[i].gradeSeq+"'>"+gradeNameList[i].gradeName+"</option>";							
+						}
+					} // end of for (var i = 0; i < gradeNameList.length; i++)
+					
+					$("#gradeSeq").html(gradeNameOptionHtml);
+					}
+			});//end of $.ajax()
+			
+		}
+		
+		
 		//지하철역 명 가져오기
 		function getMetroName () {
 			//지하철 호선을 입력하면 해당 역이름 리스트를 가져온다.
@@ -125,7 +186,7 @@
 						}
 					} // end of for (var i = 0; i < metroNameList.length; i++)
 					
-					$("#metroName").html(metroNameOptionHtml);
+					$("#metroId").html(metroNameOptionHtml);
 					}
 			});//end of $.ajax()
 		}
@@ -198,10 +259,10 @@
 					    , addr =  result[0].jibunAddress.name
 					    , newAddr = result[0].roadAddress.name;
 					
-					$("#addr").val(addr);
-					$("#newAddr").val(newAddr);
-					$("#latitude").val(lat);
-					$("#longitude").val(lng);
+					$("#restAddr").val(addr);
+					$("#restNewAddr").val(newAddr);
+					$("#restLatitude").val(lat);
+					$("#restLongitude").val(lng);
 				
 				}  
 				    
@@ -218,6 +279,22 @@
 		// 지도를 생성합니다    
 		var map = new daum.maps.Map(mapContainer, mapOption);
 
+		marker  = new daum.maps.Marker({
+			map : map,
+			position : new daum.maps.LatLng(
+					${vo.restLatitude}, ${vo.restLongitude})
+		});
+		
+		// 지도 중심좌표 업장으로 변경하기
+		function setCenter() {
+		    // 이동할 위도 경도 위치를 생성합니다 
+		    var moveLatLon = new daum.maps.LatLng(${vo.restLatitude}, ${vo.restLongitude});
+		    
+		    // 지도 중심을 부드럽게 이동시킵니다
+		    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+		    map.setCenter(moveLatLon);            
+		}        
+		
 		function showAddr(keyword){
 			// 주소-좌표 변환 객체를 생성합니다
 			var geocoder = new daum.maps.services.Geocoder();
@@ -264,10 +341,10 @@
 								    , addr =  result[0].jibunAddress.name
 								    , newAddr = result[0].roadAddress.name;
 								
-								$("#addr").val(addr);
-								$("#newAddr").val(newAddr);
-								$("#latitude").val(lat);
-								$("#longitude").val(lng);
+								$("#restAddr").val(addr);
+								$("#restNewAddr").val(newAddr);
+								$("#restLatitude").val(lat);
+								$("#restLongitude").val(lng);
 							
 							}  
 							    
