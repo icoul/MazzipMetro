@@ -39,6 +39,7 @@ public class AdminService implements IService {
 	// 관리자용 업장 수정 페이지
 	public RestaurantVO adminRestEdit(String restSeq) {
 		return dao.adminRestEdit(restSeq);
+	}
 
 	//컨텐츠리스트
 	public int getConTotalCount(HashMap<String, String> map) {

@@ -29,7 +29,7 @@ public class RestaurantVO {
 	public RestaurantVO(String restSeq, String userSeq, String gradeSeq, String restName, String restPhone,
 			String restImg, String restAddr, String restNewAddr, String restLatitude, String restLongitude,
 			String restZIndex, String dongId, String metroId, String restRegDate, String restVisitor, String restStatus,
-			String restContent, String gradeName) {
+			String restContent, String gradeName, String dongName, String metroName) {
 		super();
 		this.restSeq = restSeq;
 		this.userSeq = userSeq;
@@ -49,6 +49,8 @@ public class RestaurantVO {
 		this.restStatus = restStatus;
 		this.restContent = restContent;
 		this.gradeName = gradeName;
+		this.dongName = dongName;
+		this.metroName = metroName;
 	}
 
 	public String getRestSeq() {
@@ -193,6 +195,22 @@ public class RestaurantVO {
 
 	public void setGradeName(String gradeName) {
 		this.gradeName = gradeName;
+	}
+
+	public String getDongName() {
+		return dongName;
+	}
+
+	public void setDongName(String dongName) {
+		this.dongName = dongName;
+	}
+
+	public String getMetroName() {
+		return metroName;
+	}
+
+	public void setMetroName(String metroName) {
+		this.metroName = metroName;
 	} 
 	
 }

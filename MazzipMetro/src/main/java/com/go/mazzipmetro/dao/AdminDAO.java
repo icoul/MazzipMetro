@@ -36,6 +36,7 @@ public class AdminDAO implements IDAO{
 	// 관리자용 업장 수정 페이지 요청을 위한 하나의 업장정보 알아오기
 	public RestaurantVO adminRestEdit(String restSeq) {
 		return sqlSession.selectOne("restaurant.adminRestEdit", restSeq);
+	}
 
 
 	public List<HashMap<String, String>> conTentList(HashMap<String, String> map) {
