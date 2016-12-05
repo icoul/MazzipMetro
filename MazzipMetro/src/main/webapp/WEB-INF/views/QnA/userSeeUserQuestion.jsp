@@ -44,7 +44,7 @@
 			</tr>
 			<tr>
 				<th>글쓴이</th>
-				<td>관리자</td>
+				<td>${userName}</td>
 			</tr>
 			<tr>
 				<th>처리상태</th>
@@ -59,6 +59,13 @@
 				</td>
 			</tr>
 		</table>
+		
+		<div align="center">	
+			<c:if test="${userQuestion.qnaProgress eq '접수완료'}">                                                                                                                                             
+				<button type="button" class="btn btn-primary"  onClick="javascript:location.href='<%=request.getContextPath() %>/userQuestionEdit.eat?qnaSeq=${qnaSeq }&userName=${userName}&qnaInquiry=${userQuestion.qnaInquiry}&qnaSubject=${userQuestion.qnaSubject}&qnaRegDate=${userQuestion.qnaRegDate }&qnaProgress=${userQuestion.qnaProgress }'">수정</button>
+			</c:if>
+			<button class="btn btn-danger" type="button" onClick="javascript:self.close();">닫기</button>
+		</div>
 	</div>
 	
 

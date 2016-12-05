@@ -279,16 +279,16 @@ public class MazzipMetroController {
 			if(qnaRegYearStart == null && qnaRegMonthStart == null && qnaRegDayStart == null
 				&& qnaRegYearEnd == null && qnaRegMonthEnd == null && qnaRegDayEnd == null	){
 				qnaRegYearStart = todayYear;
-				 qnaRegMonthStart = todayMonth;
+				 qnaRegMonthStart = "12";
+				 qnaRegDayStart = "01"; 
 				 
 				 qnaRegYearEnd = todayYear;
 				 qnaRegMonthEnd = todayMonth;
 				
 				 if(Integer.parseInt(todayDay) < 10){
-					 qnaRegDayStart = "0" + todayDay;
 					 qnaRegDayEnd = "0" + todayDay;
 				 }else{
-					 qnaRegDayStart = todayDay; 
+	
 					 qnaRegDayEnd = todayDay;
 				 }
 			}
@@ -576,16 +576,16 @@ public class MazzipMetroController {
 			if(qnaRegYearStart == null && qnaRegMonthStart == null && qnaRegDayStart == null
 				&& qnaRegYearEnd == null && qnaRegMonthEnd == null && qnaRegDayEnd == null	){
 				qnaRegYearStart = todayYear;
-				 qnaRegMonthStart = todayMonth;
+				 qnaRegMonthStart = "12";
+				 qnaRegDayStart = "01"; 
 				 
 				 qnaRegYearEnd = todayYear;
 				 qnaRegMonthEnd = todayMonth;
 				
 				 if(Integer.parseInt(todayDay) < 10){
-					 qnaRegDayStart = "0" + todayDay;
 					 qnaRegDayEnd = "0" + todayDay;
 				 }else{
-					 qnaRegDayStart = todayDay; 
+
 					 qnaRegDayEnd = todayDay;
 				 }
 			}
@@ -813,8 +813,48 @@ public class MazzipMetroController {
 	
 			HashMap<String, String> andminAnswer = service.getAdminAnswer(qnaSeq);
 			req.setAttribute("andminAnswer", andminAnswer);
-			
+			req.setAttribute("qnaSeq", qnaSeq);
 			return "QnA/adminSeeAdminAnswer";
+		}
+		
+		@RequestMapping(value = "/adminAnswerEdit.eat", method = {RequestMethod.GET})
+		public String adminAnswerEdit(HttpServletRequest req) {
+			String qnaSeq = req.getParameter("qnaSeq");
+			String qnaInquiry = req.getParameter("qnaInquiry");
+			String qnaSubject = req.getParameter("qnaSubject");
+			String qnaRegDate = req.getParameter("qnaRegDate");
+			String qnaProgress = req.getParameter("qnaProgress");
+			
+
+			req.setAttribute("qnaSeq", qnaSeq);
+			req.setAttribute("qnaInquiry", qnaInquiry);
+			req.setAttribute("qnaSubject", qnaSubject);
+			req.setAttribute("qnaRegDate", qnaRegDate);
+			req.setAttribute("qnaProgress", qnaProgress);
+			return "QnA/adminAnswerEdit";
+		}
+		
+		@RequestMapping(value = "/adminAnswerEditEnd.eat", method = {RequestMethod.GET})
+		public String adminAnswerEditEnd(HttpServletRequest req) {
+			String qnaSeq = req.getParameter("qnaSeq");
+			String qnaSubject = req.getParameter("qnaSubject");
+			String qnaComment = req.getParameter("qnaComment");
+			
+			HashMap<String, String> hashMap = new HashMap<String, String>();
+			hashMap.put("qnaSeq", qnaSeq);
+			hashMap.put("qnaSubject", qnaSubject);
+			hashMap.put("qnaComment", qnaComment);
+			
+			int n = service.editAdminAnswer(hashMap);
+			
+			if(n == 0 ){
+				req.setAttribute("msg", "수정이 실패하였습니다.");
+				req.setAttribute("loc", "javascript:history.back();");
+			}else if(n == 1){
+				req.setAttribute("msg", "수정이 성공하였습니다.");
+				req.setAttribute("loc", "javascript:self.close();");
+			}
+			return "QnA/msg";
 		}
 		
 		//관리자가 회원의 답변을 등록하는 컨트롤러
@@ -858,11 +898,96 @@ public class MazzipMetroController {
 		@RequestMapping(value = "/userSeeUserQuestion.eat", method = {RequestMethod.GET})
 		public String userSeeUserQuestion(HttpServletRequest req) {
 			String qnaSeq = req.getParameter("qnaSeq");
-		
+			String userName = req.getParameter("userName");
+			
 			HashMap<String, String> userQuestion = service.getUserQuestion(qnaSeq);
 			req.setAttribute("userQuestion", userQuestion);
+			req.setAttribute("userName", userName);
+			req.setAttribute("qnaSeq", qnaSeq);
 			return "QnA/userSeeUserQuestion";
 		}
 		
+		@RequestMapping(value = "/userQuestionEdit.eat", method = {RequestMethod.GET})
+		public String uesrQuestionEdit(HttpServletRequest req) {
+			String qnaSeq = req.getParameter("qnaSeq");
+			String userName = req.getParameter("userName");
+			String qnaInquiry = req.getParameter("qnaInquiry");
+			String qnaSubject = req.getParameter("qnaSubject");
+			String qnaRegDate = req.getParameter("qnaRegDate");
+			String qnaProgress = req.getParameter("qnaProgress");
+			
+
+			req.setAttribute("qnaSeq", qnaSeq);
+			req.setAttribute("userName", userName);
+			req.setAttribute("qnaInquiry", qnaInquiry);
+			req.setAttribute("qnaSubject", qnaSubject);
+			req.setAttribute("qnaRegDate", qnaRegDate);
+			req.setAttribute("qnaProgress", qnaProgress);
+			return "QnA/userQuestionEdit";
+		}
 		
+		@RequestMapping(value = "/userQuestionEditEnd.eat", method = {RequestMethod.GET})
+		public String userQuestionEditEnd(HttpServletRequest req) {
+			String qnaSeq = req.getParameter("qnaSeq");
+			String qnaInquiry = req.getParameter("qnaInquiry");
+			String qnaSubject = req.getParameter("qnaSubject");
+			String qnaComment = req.getParameter("qnaComment");
+			
+
+			HashMap<String, String> hashMap = new HashMap<String, String>();
+			hashMap.put("qnaSeq", qnaSeq);
+			hashMap.put("qnaInquiry", qnaInquiry);
+			hashMap.put("qnaSubject", qnaSubject);
+			hashMap.put("qnaComment", qnaComment);
+			
+			int n = service.editUserQuestion(hashMap);
+			
+			if(n == 0 ){
+				req.setAttribute("msg", "수정이 실패하였습니다.");
+				req.setAttribute("loc", "javascript:history.back();");
+			}else if(n == 1){
+				req.setAttribute("msg", "수정이 성공하였습니다.");
+				req.setAttribute("loc", "javascript:self.close();");
+			}
+			return "QnA/msg";
+		}
+		
+		//adminQnaList에서 Q&A를 삭제하는 컨트롤러
+		@RequestMapping(value = "/deleteQna.eat", method = {RequestMethod.POST})
+		public String deleteQna(HttpServletRequest req) {
+			String qnaColName = req.getParameter("qnaColNameDeleteFrm");
+			String qnaSearch = req.getParameter("qnaSearchDeleteFrm");
+			String qnaInquiry = req.getParameter("qnaInquiryDeleteFrm");
+			String qnaRegYearStart = req.getParameter("qnaRegYearStartDeleteFrm");
+			String qnaRegMonthStart = req.getParameter("qnaRegMonthStartDeleteFrm");
+			String qnaRegDayStart = req.getParameter("qnaRegDayStartDeleteFrm");
+			String qnaRegYearEnd = req.getParameter("qnaRegYearEndDeleteFrm");
+			String qnaRegMonthEnd = req.getParameter("qnaRegMonthEndDeleteFrm");
+			String qnaRegDayEnd = req.getParameter("qnaRegDayEndDeleteFrm");
+			String qnaProgress = req.getParameter("qnaProgressDeleteFrm");
+			
+			String[] qnaSeqArr =  req.getParameterValues("qnaSeqCheckBox");
+			
+			int count = service.countAnswer(qnaSeqArr);
+			int result = service.deleteQna(qnaSeqArr);
+			
+			String loc =  String.format(
+					"adminQnaList.eat?qnaRegYearStart=%s&qnaRegMonthStart=%s&qnaRegDayStart=%s&qnaRegYearEnd=%s&qnaRegMonthEnd=%s&qnaRegDayEnd=%s&qnaInquiry=%s&qnaColName=%s&qnaSearch=%s&qnaProgress=%s",
+					qnaRegYearStart,qnaRegMonthStart,qnaRegDayStart,qnaRegYearEnd ,qnaRegMonthEnd,qnaRegDayEnd,qnaInquiry, qnaColName, qnaSearch,qnaProgress);
+			
+			if(count + qnaSeqArr.length == result){
+				req.setAttribute("msg", "삭제가 완료되었습니다.");
+				req.setAttribute("loc", loc);
+				
+				
+			}else{
+				req.setAttribute("msg", "삭제가 실패되었습니다.");
+				req.setAttribute("loc", loc);
+			}
+			
+			return "QnA/msg";
+		}
+		
+		
+	
 }

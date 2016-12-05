@@ -308,10 +308,12 @@ public class AdminController {
 			ContentVO contVO = new ContentVO();
 			RestaurantVO rvo = new RestaurantVO();
 			rvo.setRestName(list.get(i).get("restName"));
-			//rvo.setGradeName(list.get(i).get("gradeName"));
+			rvo.setGradeName(list.get(i).get("gradeName"));
 			rvo.setRestPhone(list.get(i).get("restPhone"));
 			rvo.setRestAddr(list.get(i).get("restAddr"));
 			
+			System.out.println(list.get(i).get("gradeName"));
+			System.out.println(list.get(i).get("restPhone"));
 			contVO.setItem(rvo);
 		}
 		
