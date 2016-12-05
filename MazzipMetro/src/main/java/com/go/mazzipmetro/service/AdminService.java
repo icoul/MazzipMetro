@@ -33,6 +33,11 @@ public class AdminService implements IService {
 		int n = dao.userDel(map);
 		return n;
 	}//end of int userDel(HashMap<String, String> map)-----------------------
+
+	// 관리자용 업장 수정 페이지
+	public RestaurantVO adminRestEdit(String restSeq) {
+		return dao.adminRestEdit(restSeq);
+	}
 	
 	//컨텐츠 관리 리스트
 //	public List<HashMap<String, String>>  restList(HashMap<String, String> map) {

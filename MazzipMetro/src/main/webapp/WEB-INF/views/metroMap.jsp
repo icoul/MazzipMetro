@@ -46,6 +46,9 @@
         	
         	// metroMap area 클릭시 이벤트 생성
         	$("[name=metroMapArea]").click(function(){
+        		//종합운동장역은 map 에러가 나므로 지도를 호출하지 않는다.
+        		if($(this).attr('id')==2004){alert('종합운동장역에 등록된 맛집이 없습니다.'; return;}
+        		
         		searchByMetro(1, $(this).attr("id"));
         		
         		var title = "<h1 style='font-size:25px;'>"+$(this).attr('alt')+" 맛집리스트 </h1>";
@@ -535,7 +538,12 @@ function getListItem(index, places, tags) {
    
     //태그 클릭시 해당역주변, 분류되면 좋겠네~~!!            
     if (tags.bgCat) {
-    	itemStr += '<span style="color:blue; display: inline;">'+tags.bgCat+'</span>';
+    	for (var i = 0; i < tags.bgCat.length; i++) {
+    		if(i != 0 && i <= (tags.bgCat.length-1)){
+    			itemStr += ', ';
+    		}
+    		itemStr += '<span style="color:blue; display: inline;">'+tags.bgCat[i]+'</span>';
+    	}
 	}
     
     if(tags.mdCat){
