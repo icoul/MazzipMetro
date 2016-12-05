@@ -35,7 +35,7 @@
 	#placesList .item .marker_13 {background-position: 0 -562px;}
 	#placesList .item .marker_14 {background-position: 0 -608px;}
 	#placesList .item .marker_15 {background-position: 0 -654px;}
-	#placesList .bgc {background-color: pink;}
+	#placesList .bgc {background-color: lime;}
 	#pagination {margin:10px auto;text-align: center;}
 	#pagination a {display:inline-block;margin-right:0px;}
 	#pagination .on {font-weight: bold; cursor: default;color:#777;}
@@ -251,7 +251,7 @@
 					                // call the 'content' method to update the content of our tooltip with the returned data.
 					                // note: this content update will trigger an update animation (see the updateAnimation option)
 					                instance.content(data);
-
+					                
 					                // to remember that the data has been loaded
 					                $origin.data('loaded', true);
 		                 		}, //end of success: function(data)
@@ -317,58 +317,72 @@
         });// $(document).ready()
         
 </script>  
+<div id="leftCon">
+	<div class="mainBann">
+	
+	<img alt="" src="<%=request.getContextPath() %>/resources/images/metroMap.jpg"  usemap="#mazzipMetroImgMap" style="margin-top: 15px;margin-bottom: 15px;">
+	<map id="mazzipMetroImgMap" name="mazzipMetroImgMap">
+		<area shape="circle" alt="잠실역" 				  	coords="521,388,16" 	href="javascript: searchByMetro(1, '2005')" id="2005" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+		<area shape="circle" alt="잠실나루역" 			  	coords="561,386,15" 	href="javascript: searchByMetro(1, '2006')" id="2006" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+		<area shape="circle" alt="강변역" 				  	coords="598,374,16" 	href="javascript: searchByMetro(1, '2007')" id="2007" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+		<area shape="circle" alt="구의역" 				  	coords="628,358,15" 	href="javascript: searchByMetro(1, '2008')" id="2008" name="metroMapArea" class='tooltip_group tooltipster_right'/>
+		<area shape="circle" alt="건대입구역"	 		  	coords="659,333,14" 	href="javascript: searchByMetro(1, '2009')" id="2009" name="metroMapArea" class='tooltip_group tooltipster_right'/>
+		<area shape="circle" alt="성수역" 				  	coords="678,299,14" 	href="javascript: searchByMetro(1, '2010')" id="2010" name="metroMapArea" class='tooltip_group tooltipster_right'/>
+		<area shape="circle" alt="뚝섬역" 				  	coords="691,261,14" 	href="javascript: searchByMetro(1, '2011')" id="2011" name="metroMapArea" class='tooltip_group tooltipster_right'/>
+		<area shape="circle" alt="한양대역" 				coords="693,223,14" 	href="javascript: searchByMetro(1, '2012')" id="2012" name="metroMapArea" class='tooltip_group tooltipster_right'/>
+		<area shape="circle" alt="왕십리역" 				coords="681,185,14" 	href="javascript: searchByMetro(1, '2043')" id="2043" name="metroMapArea" class='tooltip_group tooltipster_right'/>
+		<area shape="circle" alt="상왕십리역" 			  	coords="662,150,14" 	href="javascript: searchByMetro(1, '2014')" id="2014" name="metroMapArea" class='tooltip_group tooltipster_right'/>
+		<area shape="circle" alt="신당역" 				  	coords="635,122,14" 	href="javascript: searchByMetro(1, '2015')" id="2015" name="metroMapArea" class='tooltip_group tooltipster_right'/>
+		<area shape="circle" alt="동대문역사문화공원역" coords="603,104,16" 	href="javascript: searchByMetro(1, '2016')" id="2016" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+		<area shape="circle" alt="을지로4가역" 			coords="566,92,15"   	href="javascript: searchByMetro(1, '2017')" id="2017" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+		<area shape="circle" alt="을지로3가역" 			coords="525,87,15"   	href="javascript: searchByMetro(1, '2018')" id="2018" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+		<area shape="circle" alt="을지로입구역" 		  	coords="487,87,14"   	href="javascript: searchByMetro(1, '2019')" id="2019" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+		<area shape="circle" alt="시청역" 				  	coords="445,87,14"  	href="javascript: searchByMetro(1, '2020')" id="2020" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+		<area shape="circle" alt="충정로역" 				coords="402,86,15" 	href="javascript: searchByMetro(1, '2021')" id="2021" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+		<area shape="circle" alt="아현역" 			  	  	coords="361,87,15" 	href="javascript: searchByMetro(1, '2022')" id="2022" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+		<area shape="circle" alt="이대역" 				  	coords="321,87,15" 	href="javascript: searchByMetro(1, '2023')" id="2023" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+		<area shape="circle" alt="신촌역" 				  	coords="282,85,15" 	href="javascript: searchByMetro(1, '2024')" id="2024" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+		<area shape="circle" alt="홍대역" 				  	coords="240,87,16" 	href="javascript: searchByMetro(1, '2025')" id="2025" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+		<area shape="circle" alt="합정역" 				  	coords="200,87,15" 	href="javascript: searchByMetro(1, '2026')" id="2026" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+		<area shape="circle" alt="당산역" 			      	coords="163,91,15" 	href="javascript: searchByMetro(1, '2027')" id="2027" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+		<area shape="circle" alt="영등포구청역" 		  	coords="126,99,15" 	href="javascript: searchByMetro(1, '2028')" id="2028" name="metroMapArea" class='tooltip_group tooltipster_left'/>
+		<area shape="circle" alt="문래역" 				  	coords="95,118,15" 	href="javascript: searchByMetro(1, '2029')" id="2029" name="metroMapArea" class='tooltip_group tooltipster_left'/>
+		<area shape="circle" alt="신도림역" 				coords="69,143,15" 	href="javascript: searchByMetro(1, '2030')" id="2030" name="metroMapArea" class='tooltip_group tooltipster_left'/>
+		<area shape="circle" alt="대림역" 				  	coords="48,172,16" 	href="javascript: searchByMetro(1, '2031')" id="2031" name="metroMapArea" class='tooltip_group tooltipster_left'/>
+		<area shape="circle" alt="구로디지털단지역" 	  	coords="36,207,15" 	href="javascript: searchByMetro(1, '2032')" id="2032" name="metroMapArea" class='tooltip_group tooltipster_left'/>
+		<area shape="circle" alt="신대방역" 				coords="34,239,15"  	href="javascript: searchByMetro(1, '2033')" id="2033" name="metroMapArea" class='tooltip_group tooltipster_left'/>
+		<area shape="circle" alt="신림역" 				  	coords="38,275,15" 	href="javascript: searchByMetro(1, '2034')" id="2034" name="metroMapArea" class='tooltip_group tooltipster_left'/>
+		<area shape="circle" alt="봉천역" 				  	coords="52,308,15" 	href="javascript: searchByMetro(1, '2035')" id="2035" name="metroMapArea" class='tooltip_group tooltipster_left'/>
+		<area shape="circle" alt="서울대입구역"		  	coords="74,334,15" 	href="javascript: searchByMetro(1, '2036')" id="2036" name="metroMapArea" class='tooltip_group tooltipster_left'/>
+		<area shape="circle" alt="낙성대역" 				coords="102,358,15" 	href="javascript: searchByMetro(1, '2037')" id="2037" name="metroMapArea" class='tooltip_group tooltipster_left'/>
+		<area shape="circle" alt="사당역" 				  	coords="132,374,14" 	href="javascript: searchByMetro(1, '2038')" id="2038" name="metroMapArea" class='tooltip_group tooltipster_left'/>
+		<area shape="circle" alt="방배역" 				  	coords="169,384,15" 	href="javascript: searchByMetro(1, '2039')" id="2039" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+		<area shape="circle" alt="서초역" 			 	  	coords="209,387,16" 	href="javascript: searchByMetro(1, '2040')" id="2040" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+		<area shape="circle" alt="교대역" 				  	coords="245,387,15" 	href="javascript: searchByMetro(1, '2041')" id="2041" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+		<area shape="circle" alt="강남역" 				  	coords="282,387,15" 	href="javascript: searchByMetro(1, '2042')" id="2042" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+		<area shape="circle" alt="역삼역" 				  	coords="324,386,16" 	href="javascript: searchByMetro(1, '2001')" id="2001" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+		<area shape="circle" alt="선릉역" 				  	coords="364,386,15" 	href="javascript: searchByMetro(1, '2002')" id="2002" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+		<area shape="circle" alt="삼성역" 				  	coords="403,387,15" 	href="javascript: searchByMetro(1, '2003')" id="2003" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+		<area shape="circle" alt="종합운동장역" 		  	coords="444,387,15" 	href="javascript: searchByMetro(1, '2004')" id="2004" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+		<area shape="circle" alt="신천역" 				  	coords="484,386,15" 	href="javascript: searchByMetro(1, '2061')" id="2061" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+	</map>
+</div>
+</div>
 
-<img alt="" src="<%=request.getContextPath() %>/resources/images/metroMap.jpg"  usemap="#mazzipMetroImgMap" style="margin-left: 200px;margin-top: 200px;">
-<map id="mazzipMetroImgMap" name="mazzipMetroImgMap">
-	<area shape="circle" alt="잠실역" 				  	coords="521,388,16" 	href="javascript: searchByMetro(1, '2005')" id="2005" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-	<area shape="circle" alt="잠실나루역" 			  	coords="561,386,15" 	href="javascript: searchByMetro(1, '2006')" id="2006" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-	<area shape="circle" alt="강변역" 				  	coords="598,374,16" 	href="javascript: searchByMetro(1, '2007')" id="2007" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-	<area shape="circle" alt="구의역" 				  	coords="628,358,15" 	href="javascript: searchByMetro(1, '2008')" id="2008" name="metroMapArea" class='tooltip_group tooltipster_right'/>
-	<area shape="circle" alt="건대입구역"	 		  	coords="659,333,14" 	href="javascript: searchByMetro(1, '2009')" id="2009" name="metroMapArea" class='tooltip_group tooltipster_right'/>
-	<area shape="circle" alt="성수역" 				  	coords="678,299,14" 	href="javascript: searchByMetro(1, '2010')" id="2010" name="metroMapArea" class='tooltip_group tooltipster_right'/>
-	<area shape="circle" alt="뚝섬역" 				  	coords="691,261,14" 	href="javascript: searchByMetro(1, '2011')" id="2011" name="metroMapArea" class='tooltip_group tooltipster_right'/>
-	<area shape="circle" alt="한양대역" 				coords="693,223,14" 	href="javascript: searchByMetro(1, '2012')" id="2012" name="metroMapArea" class='tooltip_group tooltipster_right'/>
-	<area shape="circle" alt="왕십리역" 				coords="681,185,14" 	href="javascript: searchByMetro(1, '2043')" id="2043" name="metroMapArea" class='tooltip_group tooltipster_right'/>
-	<area shape="circle" alt="상왕십리역" 			  	coords="662,150,14" 	href="javascript: searchByMetro(1, '2014')" id="2014" name="metroMapArea" class='tooltip_group tooltipster_right'/>
-	<area shape="circle" alt="신당역" 				  	coords="635,122,14" 	href="javascript: searchByMetro(1, '2015')" id="2015" name="metroMapArea" class='tooltip_group tooltipster_right'/>
-	<area shape="circle" alt="동대문역사문화공원역" coords="603,104,16" 	href="javascript: searchByMetro(1, '2016')" id="2016" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-	<area shape="circle" alt="을지로4가역" 			coords="566,92,15"   	href="javascript: searchByMetro(1, '2017')" id="2017" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-	<area shape="circle" alt="을지로3가역" 			coords="525,87,15"   	href="javascript: searchByMetro(1, '2018')" id="2018" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-	<area shape="circle" alt="을지로입구역" 		  	coords="487,87,14"   	href="javascript: searchByMetro(1, '2019')" id="2019" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-	<area shape="circle" alt="시청역" 				  	coords="445,87,14"  	href="javascript: searchByMetro(1, '2020')" id="2020" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-	<area shape="circle" alt="충정로역" 				coords="402,86,15" 	href="javascript: searchByMetro(1, '2021')" id="2021" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-	<area shape="circle" alt="아현역" 			  	  	coords="361,87,15" 	href="javascript: searchByMetro(1, '2022')" id="2022" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-	<area shape="circle" alt="이대역" 				  	coords="321,87,15" 	href="javascript: searchByMetro(1, '2023')" id="2023" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-	<area shape="circle" alt="신촌역" 				  	coords="282,85,15" 	href="javascript: searchByMetro(1, '2024')" id="2024" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-	<area shape="circle" alt="홍대역" 				  	coords="240,87,16" 	href="javascript: searchByMetro(1, '2025')" id="2025" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-	<area shape="circle" alt="합정역" 				  	coords="200,87,15" 	href="javascript: searchByMetro(1, '2026')" id="2026" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-	<area shape="circle" alt="당산역" 			      	coords="163,91,15" 	href="javascript: searchByMetro(1, '2027')" id="2027" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-	<area shape="circle" alt="영등포구청역" 		  	coords="126,99,15" 	href="javascript: searchByMetro(1, '2028')" id="2028" name="metroMapArea" class='tooltip_group tooltipster_left'/>
-	<area shape="circle" alt="문래역" 				  	coords="95,118,15" 	href="javascript: searchByMetro(1, '2029')" id="2029" name="metroMapArea" class='tooltip_group tooltipster_left'/>
-	<area shape="circle" alt="신도림역" 				coords="69,143,15" 	href="javascript: searchByMetro(1, '2030')" id="2030" name="metroMapArea" class='tooltip_group tooltipster_left'/>
-	<area shape="circle" alt="대림역" 				  	coords="48,172,16" 	href="javascript: searchByMetro(1, '2031')" id="2031" name="metroMapArea" class='tooltip_group tooltipster_left'/>
-	<area shape="circle" alt="구로디지털단지역" 	  	coords="36,207,15" 	href="javascript: searchByMetro(1, '2032')" id="2032" name="metroMapArea" class='tooltip_group tooltipster_left'/>
-	<area shape="circle" alt="신대방역" 				coords="34,239,15"  	href="javascript: searchByMetro(1, '2033')" id="2033" name="metroMapArea" class='tooltip_group tooltipster_left'/>
-	<area shape="circle" alt="신림역" 				  	coords="38,275,15" 	href="javascript: searchByMetro(1, '2034')" id="2034" name="metroMapArea" class='tooltip_group tooltipster_left'/>
-	<area shape="circle" alt="봉천역" 				  	coords="52,308,15" 	href="javascript: searchByMetro(1, '2035')" id="2035" name="metroMapArea" class='tooltip_group tooltipster_left'/>
-	<area shape="circle" alt="서울대입구역"		  	coords="74,334,15" 	href="javascript: searchByMetro(1, '2036')" id="2036" name="metroMapArea" class='tooltip_group tooltipster_left'/>
-	<area shape="circle" alt="낙성대역" 				coords="102,358,15" 	href="javascript: searchByMetro(1, '2037')" id="2037" name="metroMapArea" class='tooltip_group tooltipster_left'/>
-	<area shape="circle" alt="사당역" 				  	coords="132,374,14" 	href="javascript: searchByMetro(1, '2038')" id="2038" name="metroMapArea" class='tooltip_group tooltipster_left'/>
-	<area shape="circle" alt="방배역" 				  	coords="169,384,15" 	href="javascript: searchByMetro(1, '2039')" id="2039" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-	<area shape="circle" alt="서초역" 			 	  	coords="209,387,16" 	href="javascript: searchByMetro(1, '2040')" id="2040" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-	<area shape="circle" alt="교대역" 				  	coords="245,387,15" 	href="javascript: searchByMetro(1, '2041')" id="2041" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-	<area shape="circle" alt="강남역" 				  	coords="282,387,15" 	href="javascript: searchByMetro(1, '2042')" id="2042" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-	<area shape="circle" alt="역삼역" 				  	coords="324,386,16" 	href="javascript: searchByMetro(1, '2001')" id="2001" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-	<area shape="circle" alt="선릉역" 				  	coords="364,386,15" 	href="javascript: searchByMetro(1, '2002')" id="2002" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-	<area shape="circle" alt="삼성역" 				  	coords="403,387,15" 	href="javascript: searchByMetro(1, '2003')" id="2003" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-	<area shape="circle" alt="종합운동장역" 		  	coords="444,387,15" 	href="javascript: searchByMetro(1, '2004')" id="2004" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-	<area shape="circle" alt="신천역" 				  	coords="484,386,15" 	href="javascript: searchByMetro(1, '2061')" id="2061" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-</map>
+<%-- end of leftCon --%>
+		
+<div id="rightCon">
+	<div class="realTimeAppra" style="margin-top:20px;">
+		<img src="<%= request.getContextPath() %>/resources/images/imgTest01.png" border="0" />
+	</div>
+</div>
+<%-- end of rightCon --%>	
+
 <br/> 
+<div id="title_metroName" style="width:100%; padding-left: 50px; clear: both;"></div>
 <br/> 
-<div id="title_metroName" style="padding-left: 50px;"></div>
-<br/> 
-<div class="map_wrap">
+<!-- 지도 섹션 -->
+<div class="map_wrap" >
     <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
 
     <div id="menu_wrap" class="bg_white">
@@ -480,10 +494,14 @@ function displayPlaces(places, tags) {
 
             itemEl.onmouseover =  function () {
                 displayInfowindow(marker, title);
+                var dx = document.getElementById('div'+seq);
+                dx.classList.add('bgc');
             };
 
             itemEl.onmouseout =  function () {
                 infowindow.close();
+                var dx = document.getElementById('div'+seq);
+                dx.classList.remove('bgc');
             };
             
             daum.maps.event.addListener(marker, 'click', function() {

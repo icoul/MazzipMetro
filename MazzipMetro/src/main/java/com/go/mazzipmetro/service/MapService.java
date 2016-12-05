@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.go.mazzipmetro.dao.MapDAO;
+import com.go.mazzipmetro.vo.RestaurantAdVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.TagVO;
 
@@ -131,6 +132,22 @@ public class MapService  implements IService {
 		// metroMap tooltip정보 가져오기
 		public List<RestaurantVO> getBest5RestInMetroMap(String metroId) {
 			return dao.getBest5RestInMetroMap(metroId);
+		}
+
+		// 업장 추가이미지(restaurantAdVO)가져오기
+		public List<RestaurantAdVO> getAdImg(List<String> restSeqList) {
+			
+			List<RestaurantAdVO> list = new ArrayList<RestaurantAdVO>();
+			for (String restSeq : restSeqList) {
+				
+				RestaurantAdVO vo = new RestaurantAdVO();
+				vo.setRestSeq(restSeq);
+				vo.setAdImg(dao.getAdImg(restSeq));
+				
+				//System.out.println(">>> service단 vo.getAdImg().length = "+vo.getAdImg().length); 
+				list.add(vo);
+			}
+			return list;
 		}
 
 
