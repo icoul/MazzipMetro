@@ -22,7 +22,9 @@ th, td{padding:5px;}
 			animation: 'grow',
 			animationDuration: 200,
 			distance : 3,
-		   	delay: 100,
+		   	delay: 300,
+		   	side: 'left',
+		   	interactive: true,
 		   	theme: 'tooltipster-noir',
 		   	trigger: 'hover'
 		 });
@@ -84,21 +86,28 @@ th, td{padding:5px;}
 
 <c:if test="${not empty places || not empty tags || not empty masterUser }">
 	<!-- 베스트 음식점 정보 -->
-	<div style="position:relative; float: left;">
+	<div style="position:relative; float: left;margin: 10px;" align="center">
+		<h3 style="padding-bottom: 5px;"><span style="font-weight: bold;">${metroName}</span> 맛집 베스트5</h3> 
 		<table>
 		<c:forEach var="vo" items="${places}"  varStatus="status">
 			<tr>
-				<c:set var="colorArr" value="${['red', 'navy', 'gold', 'blue', 'olive']}"/>
-				<th style="color: ${colorArr[status.index]}">${status.count}</th>
-				<td>
+				<%-- jstl 배열선언하는 방법 --%>
+				<th style="color: lime">${status.count}</th>
+				<c:if test="${status.count%2 != 0 }">
+					<td style="background-color: lime;">
+				</c:if>
+				<c:if test="${status.count%2 == 0 }">
+					<td style="background-color: #ccffcc;">
+				</c:if>
+				
 					<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${vo.restSeq}" data-tooltip-content="#tooltip_content${status.index}" class='tooltipster tooltip_group' style="color:black; text-decoration: none;">
 					<span style='font-weight:bold; font-size:18px;'>${vo.restName}</span>
 					<%-- TagsVO의 변수명은 bgCat, mdCat이다. 헷갈림 주의  --%>
-					<span style="color:orange; font-size:14px;">${tags[status.index].bgCat}</span>
+					<span style="color:#0066ff; font-size:14px;">${tags[status.index].bgCat}</span>
 					
 					<%-- ${tags[status.index].mdCat} List의 size()를 알아내서 , 를 찍는다.--%>
 					<c:forEach var="mdTag" items="${tags[status.index].mdCat}" varStatus="vs">
-						<span style="color:navy; font-size:12px;">${mdTag}</span>	
+						<span style="color:#3333ff; font-size:12px;">${mdTag}</span>	
 						
 						<c:if test="${vs.count < tags[status.index].mdCat.size()}">, </c:if>
 					</c:forEach>
@@ -109,15 +118,41 @@ th, td{padding:5px;}
 		</table>
 	</div>
 	<!-- 베스트 유저 정보 -->
-	<div style="position:relative; float: left;">
+	<div style="position:relative; float: left; margin-left: 20px; margin: 10px;" align="center" >
+	<h3 style="padding-bottom: 5px;"><span style="font-weight: bold;">${metroName}</span> 마스터즈 5</h3>  
+	<table>
+		<c:forEach var="vo" items="${places}"  varStatus="status">
+			<tr>
+				<th style="color: lime">${status.count}</th>
+				<c:if test="${status.count%2 == 0 }">
+					<td style="background-color: lime;">
+				</c:if>
+				<c:if test="${status.count%2 != 0 }">
+					<td style="background-color: #ccffcc;">
+				</c:if>
+					개똥이 ${status.count}
+				</td>
+			</tr>
+		</c:forEach>
+	</table>
 	</div>
 	
 	<div class="tooltip_templates">
 	<c:forEach var="vo" items="${places}"  varStatus="status">
-	    <span id="tooltip_content${status.index}">
-	        <img src="<%=request.getContextPath()%>/files/${vo.restImg}" /><br/>
-	        <strong>${vo.restContent}</strong>
-	    </span>
+	    <div id="tooltip_content${status.index}">
+	    	<div id="div_tooltipImg">
+	        	<img src="<%=request.getContextPath()%>/files/${vo.restImg}" width="500px;"/>
+	        </div>
+	        <div style="padding: 5px; width: 500px;">
+	        	<strong>${vo.restContent}</strong>
+	        </div>
+	        <br/> 
+	        <c:if test="${not empty adImgList[status.index]}">
+		        <c:forEach var="adImg" items="${adImgList[status.index].adImg}" varStatus="num">
+		        	<img src="<%=request.getContextPath()%>/files/thumb${adImg}" name="thumbImg" />&nbsp;
+		        </c:forEach>
+	        </c:if>
+	    </div>
 	</c:forEach>
 	</div>
 	

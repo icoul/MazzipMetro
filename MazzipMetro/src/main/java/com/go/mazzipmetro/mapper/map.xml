@@ -174,4 +174,11 @@
 		where metroId = #{metroId}
 	</select>
 	
+	<!-- 업장 추가이미지(restaurantAdVO)가져오기 -->
+	<select id="getAdImg" parameterType="String" resultType="String">
+		select adImg
+		from tbl_restaurant_ad
+		where restSeq = #{restSeq} 
+	</select>
+	
 </mapper>

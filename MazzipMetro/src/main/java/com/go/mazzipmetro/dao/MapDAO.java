@@ -101,6 +101,17 @@ public class MapDAO  implements IDAO {
 		return sqlSession.selectList("map.getMetroNameList", metroNum);
 	}
 
+	// 업장 추가이미지(restaurantAdVO)가져오기
+	public String[] getAdImg(String restSeq) {
+		//List<Object>를 String[]로 캐스팅하기
+		List<String> adImgList = sqlSession.selectList("map.getAdImg", restSeq);
+		
+		System.out.println(">>>>>> adImgList.size() = "+adImgList.size() ); 
+		String[] adImgArr = adImgList.toArray(new String[adImgList.size()]);
+		
+		return adImgArr;
+	}
+
 
 
 }

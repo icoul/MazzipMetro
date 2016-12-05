@@ -35,7 +35,7 @@
 	#placesList .item .marker_13 {background-position: 0 -562px;}
 	#placesList .item .marker_14 {background-position: 0 -608px;}
 	#placesList .item .marker_15 {background-position: 0 -654px;}
-	#placesList .bgc {background-color: pink;}
+	#placesList .bgc {background-color: lime;}
 	#pagination {margin:10px auto;text-align: center;}
 	#pagination a {display:inline-block;margin-right:0px;}
 	#pagination .on {font-weight: bold; cursor: default;color:#777;}
@@ -251,7 +251,7 @@
 					                // call the 'content' method to update the content of our tooltip with the returned data.
 					                // note: this content update will trigger an update animation (see the updateAnimation option)
 					                instance.content(data);
-
+					                
 					                // to remember that the data has been loaded
 					                $origin.data('loaded', true);
 		                 		}, //end of success: function(data)
@@ -480,10 +480,14 @@ function displayPlaces(places, tags) {
 
             itemEl.onmouseover =  function () {
                 displayInfowindow(marker, title);
+                var dx = document.getElementById('div'+seq);
+                dx.classList.add('bgc');
             };
 
             itemEl.onmouseout =  function () {
                 infowindow.close();
+                var dx = document.getElementById('div'+seq);
+                dx.classList.remove('bgc');
             };
             
             daum.maps.event.addListener(marker, 'click', function() {
