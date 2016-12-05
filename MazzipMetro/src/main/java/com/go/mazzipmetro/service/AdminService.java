@@ -35,10 +35,10 @@ public class AdminService implements IService {
 	}//end of int userDel(HashMap<String, String> map)-----------------------
 	
 	//컨텐츠 관리 리스트
-	public List<HashMap<String, String>>  restList(HashMap<String, String> map) {
-		// TODO Auto-generated method stub
-		return restList;
-	}
+//	public List<HashMap<String, String>>  restList(HashMap<String, String> map) {
+//		// TODO Auto-generated method stub
+//		return restList;
+//	}
 
 	
 }

@@ -26,7 +26,6 @@ public class RestaurantVO {
 			String restImg, String restAddr, String restNewAddr, String restLatitude, String restLongitude,
 			String restZIndex, String dongId, String metroId, String restRegDate, String restVisitor, String restStatus,
 			String restContent) {
-		super();
 		this.restSeq = restSeq;
 		this.userSeq = userSeq;
 		this.gradeSeq = gradeSeq;
@@ -180,5 +179,5 @@ public class RestaurantVO {
 
 	public void setRestContent(String restContent) {
 		this.restContent = restContent;
-	} 
+	}
 }

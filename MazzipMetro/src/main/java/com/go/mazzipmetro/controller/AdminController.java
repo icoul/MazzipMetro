@@ -248,7 +248,7 @@ public class AdminController {
 	    map.put("end", String.valueOf(end) );      // 키값 end,   해쉬맵이 String 타입인데 end 는 int 타입이어서 String 타입으로 변경함.  
 
 		
-		List<HashMap<String, String>> list = service.restList(map); //업장리스트
+	  //List<HashMap<String, String>> list = service.restList(map); //업장리스트
 		
 		totalCount = service.getTotalCount(map);
 		
@@ -330,7 +330,7 @@ public class AdminController {
 	    pagebar += "</ul>";
 	    
 		
-	    req.setAttribute("list", list);
+	    //req.setAttribute("list", list);
 		req.setAttribute("colName", colName);
 		req.setAttribute("search", search);
 		req.setAttribute("pagebar", pagebar);

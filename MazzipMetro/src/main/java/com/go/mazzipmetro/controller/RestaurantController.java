@@ -1,6 +1,7 @@
 package com.go.mazzipmetro.controller;
 
 
+import java.io.File;
 import java.util.ArrayList;
 
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.go.mazzipmetro.common.FileManager;
 import com.go.mazzipmetro.common.ThumbnailManager;
@@ -78,14 +80,13 @@ public class RestaurantController {
 	
 	// 업장 정보를 받아서 insert 또는 update 시켜주는 메서드
 	@RequestMapping(value="/restRegister.eat", method={RequestMethod.POST})
-	public String restRegister(HttpServletRequest req, HttpServletResponse res){
+	public String restRegister(HttpServletRequest req, HttpServletResponse res, FileVO fvo){
 		
 		HttpSession session = req.getSession();
 		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
 		
 		String restSeq = req.getParameter("seq");
 		String restName = req.getParameter("name");
-		String restImg = req.getParameter("image");
 		String restAddr = req.getParameter("addr");
 		String restNewAddr = req.getParameter("newAddr");
 		String restPhone = req.getParameter("phone");
@@ -97,12 +98,31 @@ public class RestaurantController {
 		
 		int result = 0;
 		
+		// 업장 소개이미지 파일 업로드 및 파일명 배열에 저장하기
+		
+		String root = session.getServletContext().getRealPath("/");
+		String path = root + "files";
+		
+		String newFileName = "";
+		byte[] bytes = null;
+			
+	
+		try{
+				
+				bytes = fvo.getAttach()[0].getBytes();
+				newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[0].getOriginalFilename(), path);
+				thumbnailManager.doCreateThumbnail(newFileName, path);
+				
+		}catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
 		RestaurantVO vo = new RestaurantVO();
 		
 		vo.setRestSeq(restSeq);
 		vo.setRestName(restName);
 		vo.setUserSeq(userSeq);
-		vo.setRestImg(restImg);
+		vo.setRestImg(newFileName);
 		vo.setRestAddr(restAddr);
 		vo.setRestNewAddr(restNewAddr);
 		vo.setRestPhone(restPhone);
