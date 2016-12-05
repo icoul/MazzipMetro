@@ -25,6 +25,23 @@ public class AdminController {
 	@Autowired
 	private AdminService service;
 	
+	// 관리자용 업장 수정 페이지 
+	@RequestMapping(value="/adminRestEdit.eat", method={RequestMethod.POST})
+	public String adminRestEdit(HttpServletRequest req) {
+		String restSeq = req.getParameter("restSeq");
+		RestaurantVO vo = service.adminRestEdit(restSeq);
+		
+		req.setAttribute("vo", vo);
+		return "/admin/adminRestEdit";
+	}
+	
+	// 등록된 업장관리
+	@RequestMapping(value="/adminRestManager.eat", method={RequestMethod.GET})
+	public String adminRestManager() {
+		
+		return "/admin/adminRestManager";
+	}
+	
 	//회원리스트
 	@RequestMapping(value="/adminUserList.eat", method={RequestMethod.GET})
 	public String adminUserList(HttpServletRequest req, HttpSession session) {

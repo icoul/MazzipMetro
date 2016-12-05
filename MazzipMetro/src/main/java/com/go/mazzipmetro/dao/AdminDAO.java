@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.ContentVO;
 import com.go.mazzipmetro.vo.UserVO;
 
@@ -31,6 +32,12 @@ public class AdminDAO implements IDAO{
 		int n = sqlSession.update("admin.userDel", map);
 		return n;
 	}
+
+	// 관리자용 업장 수정 페이지 요청을 위한 하나의 업장정보 알아오기
+	public RestaurantVO adminRestEdit(String restSeq) {
+		return sqlSession.selectOne("restaurant.adminRestEdit", restSeq);
+	}
+
 
 	public List<HashMap<String, String>> conTentList(HashMap<String, String> map) {
 		List<HashMap<String, String>> list = sqlSession.selectList("admin.conTentList", map); 

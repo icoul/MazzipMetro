@@ -4,6 +4,11 @@
 
 <!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) --> 
 <mapper namespace="restaurant">
+
+	<!-- 관리자용 업장수정을 위한 하나의 RestaurantVO 가져오기 -->
+	<select id="adminRestEdit" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select * from tbl_restaurant where restSeq = #{restSeq}
+	</select>
 	
 	<!-- restSeq로 하나의 업장을 가져오기 -->
 	<resultMap type="java.util.HashMap" id="dataresultmap1">

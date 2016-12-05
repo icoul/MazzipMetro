@@ -81,7 +81,7 @@ public class MapController {
 	@RequestMapping(value="/getMetroNameList.eat",method={RequestMethod.POST}) 
 	public String getMetroNameList(HttpServletRequest req){
 		String metroNum = req.getParameter("metroNum");
-		List<String> metroNameList = service.getMetroNameList(metroNum);
+		List<HashMap<String,String>> metroNameList = service.getMetroNameList(metroNum);
 		
 		JSONObject jObj = new JSONObject();
 		jObj.put("metroNameList", metroNameList);
@@ -152,10 +152,20 @@ public class MapController {
 		map.put("restStatus", restStatus);
 		
 		List<HashMap<String, String>> list = service.getRestaurantList(map);
-		//System.out.println(list); 
+		
+		// 업장 태그 가져오기(보류)
+		/*List<String> restSeqList = new ArrayList<String>();
+		
+		for (HashMap<String, String> seqMap : list) {
+			String restSeq = seqMap.get("restSeq");
+			restSeqList.add(restSeq);
+		}
+		
+		List<TagVO> tagList = service.getRestTag(restSeqList);*/
 		
 		JSONObject jObj = new JSONObject();
 		jObj.put("positions", list);
+//		jObj.put("tags", tagList);
 		
 		req.setAttribute("jObj", jObj);
 		return "/maps/ajax/getRestaurantList";

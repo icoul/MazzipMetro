@@ -43,7 +43,7 @@
 </script>
 </head>
 <body>
-<div class="container">
+<div class="container" style="width: 90%">
 	<div class="row">
 		<h2> <span class="title-label">MazzipMetro에 문의하기</span>  </h2>
 		<form name="qnaRegisterFrm" action="<%=request.getContextPath() %>/myQnaRegister.eat" method="post">

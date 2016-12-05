@@ -36,6 +36,11 @@ public class AdminService implements IService {
 		return n;
 	}//end of int userDel(HashMap<String, String> map)-----------------------
 
+	// 관리자용 업장 수정 페이지
+	public RestaurantVO adminRestEdit(String restSeq) {
+		return dao.adminRestEdit(restSeq);
+	}
+
 	//컨텐츠리스트
 	public int getConTotalCount(HashMap<String, String> map) {
 		int count = dao.getConTotalCount(map);
