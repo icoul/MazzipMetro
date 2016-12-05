@@ -18,7 +18,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/1.0/zxcvbn-async.min.js"></script>
 	
-	<jsp:include page="top.jsp" />
+	<jsp:include page="../top.jsp" />
 	
 	<script type="text/javascript" >
 	
@@ -68,6 +68,6 @@
 		<p><button type="submit" class="btnagree">동의</button></p>
 	</form>
 </div><!-- /.container -->
-    <jsp:include page="footer.jsp"></jsp:include>
+    <jsp:include page="../footer.jsp" />
 </body>
 </html>

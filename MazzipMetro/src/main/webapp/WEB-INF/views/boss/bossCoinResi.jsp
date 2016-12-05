@@ -5,7 +5,7 @@
 <style type="text/css">
 * { padding:0; margin:0;}
 .subleftCon {float:left; width:200px; height:500px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;}
-.subleftCon h2 {width:187px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right;}
+.subleftCon h2 {font-size:25px;  width:187px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right;}
 .subrightCon {float:left; width:1200px; border-right:1px solid #dbdbdb; height:500px;}
 
 .coinWrap {padding:30px 0 0 20px; font-size:13px;}
@@ -96,6 +96,7 @@ function goRecomBuy(userSeq) {
 		<h2>사업자 코인 충전</h2>
 	</div>
 	<div class="subrightCon">
+	<jsp:include page="../userMyPage_Menubar.jsp" />
 		<ul class="coinWrap">
 			<li class="first">
 				코인 결제하기 : <button class="btnCoin" type="button" onClick="goCoinBuy('${userSeq}');">코인 충전</button>

@@ -20,6 +20,34 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-noir.min.css" />
 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/main.css" />
+
+<!-- 기본 jquery 라이브러리 -->
+<script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>
+
+
+
+
+	
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	
+	<link href="<%= request.getContextPath() %>/resources/css/hb_register_.css" rel="stylesheet">
+	
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/1.0/zxcvbn-async.min.js"></script>
+	 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+	 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+
+
 <title>:::Mazzip Metro:::</title>
 
 <script type="text/javascript">
@@ -66,7 +94,7 @@
 				<li><a href="#">지도찾기</a></li>	
 				<li><a href="#">맛집랭킹</a></li>
 				<li><a href="#">리뷰</a></li>
-				<li><a href="#">마이페이지</a></li>
+				<li><a href="<%= request.getContextPath() %>/userMyPage.eat">마이페이지</a></li>
 				<li><a href="#">문의하기</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
 				
 			</ul>
