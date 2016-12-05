@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,6 +26,7 @@ import com.go.mazzipmetro.service.ReviewService;
 import com.go.mazzipmetro.vo.MenuVO;
 
 import com.go.mazzipmetro.vo.RestaurantVO;
+import com.go.mazzipmetro.vo.ReviewVO;
 import com.go.mazzipmetro.vo.UserVO;
 import com.go.mazzipmetro.vo.FileVO;
 
@@ -151,6 +153,47 @@ public class RestaurantController {
 		
 		List<HashMap<String,String>> agelineChartList = reviewService.getAgeLineChartList(restSeq);
 		List<HashMap<String,String>> genderChartList = reviewService.getGenderChartList(restSeq);
+		
+		String start = req.getParameter("start");    // 1, 3, 5....
+		String len = req.getParameter("len");        // 2개씩   더보기.. 클릭에 보여줄 상품의 갯수 단위크기   
+		String pspec = req.getParameter("pspec");    // 
+		
+		if (start == null) {
+			start = "1";
+		}
+		if (len == null) {
+			len = "5";
+		}
+		if (pspec == null) {
+			pspec = "NEW";
+		}
+		
+		int startRno = Integer.parseInt(start);          // 공식!! 시작 행번호   1               3               5
+		int endRno   = startRno+Integer.parseInt(len)-1; // 공식!! 끝 행번호     1+2-1(==2)      3+2-1(==4)      5+2-1(==6)
+		
+		String StartRno = String.valueOf(startRno);
+		String EndRno = String.valueOf(endRno);
+		
+		System.out.println("확인용 DisplayJSONAction.java       start : " + start);   // 확인용
+		System.out.println("확인용 DisplayJSONAction.java       len : " + len);       // 확인용
+		System.out.println("확인용 DisplayJSONAction.java       pspec : " + pspec);   // 확인용
+
+		
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		
+		map.put("restSeq", restSeq);
+		map.put("pspec", pspec);
+		map.put("StartRno", StartRno);
+		map.put("EndRno", EndRno);
+				
+		//List<JSONObject> ListOfReview = service.getReviewList(map);
+		
+		//req.setAttribute("ListOfReview",  ListOfReview);
+		
+		////////////////////////////////////////////////////////////////////////////
+		//System.out.println("확인용 DisplayJSONAction.java       productList size : " + ListOfReview.size()); // 확인용				
+				
 		
 		req.setAttribute("restvo", restvo);
 		req.setAttribute("reviewList", reviewList);
