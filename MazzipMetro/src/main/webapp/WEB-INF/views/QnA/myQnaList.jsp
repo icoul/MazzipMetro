@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<jsp:include page="../top.jsp"/>  
 <!DOCTYPE html >
 <html>
 <head>
@@ -47,6 +48,48 @@
 		window.open(src,"팝업창이름(의미없음)", "width=" + 650 + ", height=" + 550 + ", left=100px, top=100px, menubar=no, status=no, scrollbars=no");
 		
 	}
+	
+	function allCheckBox(){
+		var allCheckBox = document.getElementById("allCheckBox");
+		var qnaSeqCheckBoxArr = document.getElementsByName("qnaSeqCheckBox");
+		
+			for(var i = 0; i < qnaSeqCheckBoxArr.length; ++i){
+				if(allCheckBox.checked){
+					qnaSeqCheckBoxArr[i].checked = true;
+				}else{
+					qnaSeqCheckBoxArr[i].checked = false;
+				}
+			}
+	}
+	
+	function qnaDelete(){
+		var chkboxQnaSeqArr = document.getElementsByName("qnaSeqCheckBox");
+
+		var cnt = 0;
+		for(var i = 0; i < chkboxQnaSeqArr.length; i++){
+			if(chkboxQnaSeqArr[i].checked){
+				cnt++;
+			}else{ //qna목록에서 체크가 안된 qna는 삭제를 해주면 안된다. 서브밋 대상에서 제외시킨다.
+				chkboxQnaSeqArr[i].disabled = true;
+				document.getElementById("qnaSeqCheckBox"+i).disabled = true;
+			}
+		}
+		
+		if(cnt == 0){
+			alert("삭제하신 Q&A를 하나 이상 선택하세요!!");
+			for(var i = 0; i < chkboxQnaSeqArr.length; i++){
+				chkboxQnaSeqArr[i].disabled = false;
+				document.getElementById("qnaSeqCheckBox"+i).disabled = false;
+			}
+		}else{
+			var deleteFrm = document.deleteFrm;
+			deleteFrm.action = "deleteQna.eat";
+			deleteFrm.method = "POST";
+			deleteFrm.submit();
+		}
+		
+	}
+	
 </script>
 </head>
 <body>
@@ -133,9 +176,14 @@
         </nav>
         
         <div class="table-responsive col-md-12">
+          <form name="deleteFrm"> 
             <table class="table table-striped table-hover">
                 <thead>
+                	<tr>
+		                <th colspan="8">선택한 QnA를 <button class="btn" onClick="javascript:qnaDelete();">삭제</button></th>
+		           </tr>
                     <tr>
+                    	<th><input type="checkbox" name="allCheckBox" id="allCheckBox" onClick="javascript:allCheckBox();"/></th>
                         <th>NO</th>
                         <th>글쓴이</th>
                         <th>문의종류</th>
@@ -149,10 +197,11 @@
                     <c:if test="${not empty myQnaList }">
                     	<c:forEach var="map" items="${myQnaList}" varStatus="status">
 	                    	<tr>
+	                    		<td><input type="checkbox" name="qnaSeqCheckBox" id="qnaSeqCheckBox${status.index}" value="${map.qnaSeq}" /></td>
 		                        <td>${map.rno }</td>
 		                        <td>${map.userName }</td>
 		                        <td>${map.qnaInquiry } 문의</td>
-		                        <td><a class="btn btn-link" href="#" onClick="openWin('<%=request.getContextPath() %>/userSeeUserQuestion.eat?qnaSeq=${map.qnaSeq}' );">${map.qnaSubject }</a></td>
+		                        <td><a class="btn btn-link" href="#" onClick="openWin('<%=request.getContextPath() %>/userSeeUserQuestion.eat?qnaSeq=${map.qnaSeq}&userName=${map.userName }' );">${map.qnaSubject }</a></td>
 		                        <td>${map.qnaRegDate }</td>
 		                        <td>${map.qnaAnswerDate }</td>
 		   						<td>
@@ -170,6 +219,18 @@
                     
                 </tbody>
             </table>
+            
+        	<input type="hidden" name="qnaColNameDeleteFrm" value="${qnaColName }" />
+	            <input type="hidden" name="qnaSearchDeleteFrm" value="${qnaSearch }" />
+	            <input type="hidden" name="qnaInquiryDeleteFrm" value="${qnaInquiry }" />
+	            <input type="hidden" name="qnaRegYearStartDeleteFrm" value="${qnaRegYearStart }" />
+	            <input type="hidden" name="qnaRegMonthStartDeleteFrm" value="${qnaRegMonthStart }" />
+	            <input type="hidden" name="qnaRegDayStartDeleteFrm" value="${qnaRegDayStart }" />
+	            <input type="hidden" name="qnaRegYearEndDeleteFrm" value="${qnaRegYearEnd }" />
+	            <input type="hidden" name="qnaRegMonthEndDeleteFrm" value="${qnaRegMonthEnd }" />
+	            <input type="hidden" name="qnaRegDayEndDeleteFrm" value="${qnaRegDayEnd }" />
+	            <input type="hidden" name="qnaProgressDeleteFrm" value="${qnaProgress }" />
+	    	</form>  
         </div>
         
         <div>${pageBar}</div>
@@ -177,3 +238,5 @@
 </div>
 </body>
 </html>
+
+<jsp:include page="../footer.jsp"/>
