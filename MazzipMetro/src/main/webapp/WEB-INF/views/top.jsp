@@ -61,7 +61,7 @@
 <div id="container">
 	<div id="headWrap">	
 		<div class="header">
-			<h1>Mazzip Metro</h1>
+			<h1><a href="<%= request.getContextPath() %>/index.eat" style="color: black; text-decoration: none">Mazzip Metro</a></h1>
 			<ul class="menu">
 				<li><a href="#">지도찾기</a></li>	
 				<li><a href="#">맛집랭킹</a></li>
