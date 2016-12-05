@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -13,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.go.mazzipmetro.dao.RestaurantDAO;
 import com.go.mazzipmetro.vo.MenuVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
+import com.go.mazzipmetro.vo.ReviewVO;
+import com.go.mazzipmetro.vo.UserVO;
 
 @Service
 public class RestaurantService implements IService{
@@ -74,4 +77,24 @@ public class RestaurantService implements IService{
 		
 		return restList;
 	}
+
+/*	public List<JSONObject> getReviewList(HashMap<String, String> map) {
+		
+		List<JSONObject> list = dao.getReviewList(map);
+		
+		return list;
+	}
+
+
+	public int getTotalCount(String restSeq) {
+
+		int result = dao.getTotalCount(restSeq);
+		
+		return result;
+	}
+*/
+
+
+
+	
 }

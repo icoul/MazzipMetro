@@ -5,24 +5,24 @@ import java.util.List;
 public class TagVO {
 	
 	private String restSeq;
-	private String bgCat;
+	private List<String> bgCat;
 	private List<String> mdCat;
 	private String tagStatus;
 	
 
 	public TagVO(){}
 	
-	public TagVO(String restSeq, String bgCat, List<String> mdCat, String tagStatus) {
+	public TagVO(String restSeq, List<String> bgCat, List<String> mdCat, String tagStatus) {
 		this.restSeq = restSeq;
 		this.bgCat = bgCat;
 		this.mdCat = mdCat;
 		this.tagStatus = tagStatus;
 	}
 
-	public String getBgCat() {
+	public List<String> getBgCat() {
 		return bgCat;
 	}
-	public void setBgCat(String bgCat) {
+	public void setBgCat(List<String> bgCat) {
 		this.bgCat = bgCat;
 	}
 	public List<String> getMdCat() {

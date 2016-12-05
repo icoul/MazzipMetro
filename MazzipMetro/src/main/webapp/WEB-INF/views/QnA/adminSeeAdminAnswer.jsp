@@ -35,10 +35,6 @@
 		
 	});
 	
-	function goRegister(){
-		var qnaRegisterFrm = document.qnaRegisterFrm;
-		qnaRegisterFrm.submit();
-	}
 	
 </script>
 </head>
@@ -78,6 +74,10 @@
 				</td>
 			</tr>
 		</table>
+		<div align="center">	
+			<button type="button" class="btn btn-primary"  onClick="javascript:location.href='<%=request.getContextPath() %>/adminAnswerEdit.eat?qnaSeq=${qnaSeq}&qnaInquiry=${andminAnswer.qnaInquiry}&qnaSubject=${andminAnswer.qnaSubject}&qnaRegDate=${andminAnswer.qnaRegDate}&qnaProgress=${andminAnswer.qnaProgress}'">수정</button>
+			<button type="button" class="btn btn-danger" onClick="javascript:self.close();">닫기</button>
+		</div>
 	</div>
 	
 </div>

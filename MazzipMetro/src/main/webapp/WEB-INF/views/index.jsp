@@ -259,6 +259,11 @@
             
         });// $(document).ready()
         
+        //등록된 맛집이 없는 경우(지도에러유발) 링크 폐쇄
+        function goAlert(metroName){
+        	alert(metroName + '에 등록된 맛집이 없습니다.');
+        }
+        
 </script> 
 		<div id="leftCon">
 			<div class="mainBann">
@@ -305,7 +310,7 @@
 					<area shape="circle" alt="역삼역" 				  	coords="324,386,16" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2001" id="2001" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
 					<area shape="circle" alt="선릉역" 				  	coords="364,386,15" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2002" id="2002" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
 					<area shape="circle" alt="삼성역" 				  	coords="403,387,15" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2003" id="2003" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-					<area shape="circle" alt="종합운동장역" 		  	coords="444,387,15" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2004" id="2004" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+					<area shape="circle" alt="종합운동장역" 		  	coords="444,387,15" 	href="javascript:goAlert('종합운동장역');" 														id="2004" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
 					<area shape="circle" alt="신천역" 				  	coords="484,386,15" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2061" id="2061" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
 				</map>
 			</div>

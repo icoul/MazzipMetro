@@ -75,7 +75,7 @@
 	  	  
 	  	  
 	  	  	<div id="largeImg" align="center" style="border: green solid 0px; width: 45%; padding: 2%; margin: 2% auto;">
-				<img src="<%= request.getContextPath() %>/resources/images/${image.reviewimg}" width="200px" height="200px">
+				<img src="<%= request.getContextPath() %>/files/${image.reviewImg}" width="200px" height="200px">
 	      	</div>
 	      	</div>
 	  </c:forEach>
@@ -94,7 +94,7 @@
   
   <div align="center" style="border: red solid 0px; width: 80%; margin: auto; padding: 20px;">
 		<c:forEach var="image" items="${reviewImageList}" varStatus="status">
-			<img src="<%= request.getContextPath() %>/resources/images/${image.reviewthumbimg}" class="my_thumbnail" style="margin-right: 10px;" data-target="#myCarousel" data-slide-to="${status.index}" />
+			<img src="<%= request.getContextPath() %>/files/thumb${image.reviewImg}" class="my_thumbnail" style="margin-right: 10px;" data-target="#myCarousel" data-slide-to="${status.index}" />
 		</c:forEach>
 	</div>
 </div>
@@ -103,14 +103,14 @@
 <div class="container" align="right">
 	<table class="table">
 		<tr>
-			<th>${restname}</th>
+			<th>${restName}</th>
 		</tr>
 		
 		<tr>
 			<td>
-				<p> <img  class="img-circle" src="<%= request.getContextPath() %>/resources/images/${reviewprofile }" width="50px" height="50px"/>${username}</p>
-				<p>${reviewcontent }</p>
-				<p>${reviewregdate }</p>
+				<p> <img  class="img-circle" src="<%= request.getContextPath() %>/files/${reviewProfile }" width="50px" height="50px"/>${userName}</p>
+				<p>${reviewContent }</p>
+				<p>${reviewRegDate }</p>
 			</td>
 		</tr>
 	</table>

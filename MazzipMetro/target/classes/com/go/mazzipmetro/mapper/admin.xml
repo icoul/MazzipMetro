@@ -25,7 +25,7 @@
 		) T
 		where T.RNO >= #{start} and T.RNO <![CDATA[<=]]> #{end}
     </select> 
-    <!-- 회원 삭제하기 -->
+    
      <select id="getTotalCount" parameterType="java.util.HashMap" resultType="int">  
     	select count(*)
     	from tbl_user
@@ -34,11 +34,63 @@
     	and ${colName} like '%' || #{search} || '%'
     	</if>
     </select>
-    
+    <!-- 회원 삭제하기 -->
     <update id="userDel" parameterType="java.util.HashMap">
     	update tbl_user set userStatus = 1
 		where userSeq = #{userSeq}
     </update>
     
+    <resultMap type="java.util.HashMap" id="conTentList">
+		<result column="restSeq" 		property="restSeq" 		javaType="String"/>
+		<result column="gradeName" 		property="gradeName" 	javaType="String"/> 	
+		<result column="restName" 		property="restName" 	javaType="String"/>
+		<result column="restPhone" 		property="restPhone" 	javaType="String" />
+		<result column="restAddr" 		property="restAddr" 	javaType="String" />  
+		<result column="contentName" 	property="contentName" 	javaType="String" />  
+		<result column="contentLimit" 	property="contentLimit" javaType="String" />    
+	</resultMap>
+	
+    <!-- 컨텐츠 리스트  -->
+    <select id="conTentList" resultMap="conTentList" parameterType="java.util.HashMap">
+    	select  T.restSeq,T.gradeName,T.restName, T.restPhone,T.restAddr,T.contentName, T.contentLimit
+		from 
+		(
+		select rownum as RNO
+		    , V.userseq,  V.restSeq,V.gradeName, V.restName,V.restPhone,V.restAddr,V.contentLimit,V.contentName
+         
+		from 
+      (
+      select E.userseq, E.restSeq, B.gradeName, E.restName,E.restPhone,E.restAddr, to_char(D.contentLimit,'yyyy-mm-dd') as contentLimit,A.contentName
+	      from tbl_restaurant E  join tbl_restaurant_content D
+	      on E .userSeq = D.userSeq
+          left join tbl_grade B
+	      on E.gradeSeq = B.gradeSeq
+	      left join tbl_content_cat A
+	      on d.contentseq = A.contentseq
+      ) V
+     <if test="colName != null and search != null">     
+	     where ${colName} like '%'|| #{search} ||'%'
+	 </if>
+      order by V.restSeq desc
+		) T
+		where T.RNO >= #{start} and T.RNO <![CDATA[<=]]> #{end}
+    </select>
+    
+     <select id="getConTotalCount" parameterType="java.util.HashMap" resultType="int">  
+    	select count(*)
+    		from 
+	      (
+	      select E.userseq, E.restSeq, B.gradeName, E.restName,E.restPhone,E.restAddr, to_char(D.contentLimit,'yyyy-mm-dd') as contentLimit,A.contentName
+	      from tbl_restaurant E  join tbl_restaurant_content D
+	      on E .userSeq = D.userSeq
+       	  left join tbl_grade B
+	      on E.gradeSeq = B.gradeSeq
+	      left join tbl_content_cat A
+	      on d.contentseq = A.contentseq
+	      ) V
+    	<if test="colName != null and search != null">
+    	 where ${colName} like '%' || #{search} || '%'
+    	</if>
+    </select>
     
 </mapper>

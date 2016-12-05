@@ -77,5 +77,40 @@ public class MazzipMetroService implements IService {
 		return userQuestion;
 	}
 
+	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
+	public int deleteQna(String[] qnaSeqArr) {
+		int n = 0;
+		int m = 0;
+		
+		for(int i = 0; i < qnaSeqArr.length; ++i){
+			int count = dao.countAnswer(qnaSeqArr[i]); //qna에 답변의 갯수를 가져오는 함수
+			
+			if(count == 1){
+				 n += dao.deleteAnswer(qnaSeqArr[i]);
+			}
+			 m += dao.deleteQuestion(qnaSeqArr[i]);
+		}
+		
+		return (n+m);
+	}
 
+	public int countAnswer(String[] qnaSeqArr) {
+		int count = 0;
+		
+		for(int i = 0; i < qnaSeqArr.length; ++i){
+			count += dao.countAnswer(qnaSeqArr[i]); //qna에 답변의 갯수를 가져오는 함수
+		}
+		
+		return count;
+	}
+
+	public int editAdminAnswer(HashMap<String, String> hashMap) {
+		int n = dao.editAdminAnswer(hashMap);
+		return n;
+	}
+
+	public int editUserQuestion(HashMap<String, String> hashMap) {
+		int n = dao.editUserQuestion(hashMap);
+		return n;
+	}
 }
