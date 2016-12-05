@@ -28,7 +28,11 @@
 	</select>
 	
 	<!-- 지하철 역명 가져오기(업장 직접 등록시 사용) -->
-	<select id="getMetroNameList"  parameterType="String" resultType="String" >
+	<resultMap type="java.util.HashMap" id="metroNameIdList">
+		<result column="metroname" 		property="metroName" 	javaType="String"/> 
+		<result column="metroId" 			property="metroId" 			javaType="String"/> 
+	</resultMap>
+	<select id="getMetroNameList"  parameterType="String" resultMap="metroNameIdList" >
 		with t as (
 		  select 'ㄱ' as metroname from dual union all
 		  select 'ㄴ' from dual union all
@@ -36,7 +40,7 @@
 		  select 'A' from dual union all
 		  select 'B' from dual
 		)  
-		select metroname
+		select metroname, metroId
 		from tbl_metro
 		where metronum= #{metroNum}
 		order by convert(metroname, 'ISO2022-KR')
@@ -45,7 +49,11 @@
 	
 	<resultMap type="java.util.HashMap" id="restaurantList">
 		<result column="restName" 		property="restName" 		javaType="String"/><!-- vo의 멤버변수명이다. 여기는 xml -->
-		<result column="restSeq" 			property="restSeq" 			javaType="String"/> 	
+		<result column="restSeq" 			property="restSeq" 			javaType="String"/> 
+		<result column="restImg" 			property="restImg" 			javaType="String"/>
+		<result column="restPhone" 		property="restPhone" 		javaType="String"/> 
+		<result column="dongName" 		property="dongName" 		javaType="String"/> 
+		<result column="guName" 			property="guName" 		javaType="String"/> 	
 		<result column="restLongitude" 	property="lng" 					javaType="String"/>
 		<result column="restLatitude" 		property="lat" 					javaType="String" />  
 	</resultMap>
@@ -54,8 +62,11 @@
 	<select id="getRestaurantList" parameterType="java.util.HashMap" resultMap="restaurantList">
 		select A.restName
 				, A.restSeq
+				, A.restImg
+				, A.restPhone
 				, A.restLongitude
 				, A.restLatitude
+				, A.dongName
 				, B.guName
 		from (
 			select A.*, B.dongName, B.guId
@@ -172,6 +183,13 @@
 		select metroName
 		from tbl_metro
 		where metroId = #{metroId}
+	</select>
+	
+	<!-- 업장 추가이미지(restaurantAdVO)가져오기 -->
+	<select id="getAdImg" parameterType="String" resultType="String">
+		select adImg
+		from tbl_restaurant_ad
+		where restSeq = #{restSeq} 
 	</select>
 	
 </mapper>

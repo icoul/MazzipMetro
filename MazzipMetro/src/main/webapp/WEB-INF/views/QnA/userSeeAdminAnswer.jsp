@@ -59,6 +59,9 @@
 				</td>
 			</tr>
 		</table>
+		<div align="center">
+			<button class="btn btn-danger" type="button" onClick="javascript:self.close();">닫기</button>
+		</div>
 	</div>
 	
 

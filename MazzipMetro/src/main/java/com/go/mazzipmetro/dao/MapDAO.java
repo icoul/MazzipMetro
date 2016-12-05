@@ -48,8 +48,8 @@ public class MapDAO  implements IDAO {
 	}
 
 	// 지하철역별 등록된 음식점 보여주기(대분류 태그 얻어오기)
-	public String getRestBgTag(String restSeq) {
-		return sqlSession.selectOne("map.getRestBgTag", restSeq);
+	public List<String> getRestBgTag(String restSeq) {
+		return sqlSession.selectList("map.getRestBgTag", restSeq);
 	}
 	
 	// 지하철역별 등록된 음식점 보여주기(분류 태그 얻어오기)
@@ -97,8 +97,19 @@ public class MapDAO  implements IDAO {
 	}
 
 	//지하철 역명 가져오기(업장 직접 등록시 사용)
-	public List<String> getMetroNameList(String metroNum) {
+	public List<HashMap<String,String>> getMetroNameList(String metroNum) {
 		return sqlSession.selectList("map.getMetroNameList", metroNum);
+	}
+
+	// 업장 추가이미지(restaurantAdVO)가져오기
+	public String[] getAdImg(String restSeq) {
+		//List<Object>를 String[]로 캐스팅하기
+		List<String> adImgList = sqlSession.selectList("map.getAdImg", restSeq);
+		
+		System.out.println(">>>>>> adImgList.size() = "+adImgList.size() ); 
+		String[] adImgArr = adImgList.toArray(new String[adImgList.size()]);
+		
+		return adImgArr;
 	}
 
 

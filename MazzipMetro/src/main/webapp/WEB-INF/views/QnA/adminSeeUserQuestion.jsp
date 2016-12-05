@@ -32,10 +32,23 @@
 			
 		});	
 		
-		
 	});
 	
 	function goRegister(){
+		
+		var qnaSubject = $("#qnaSubject").val();
+		var qnaComment = $("#qnaComment").val();
+		
+		if(qnaSubject.trim().length == 0){
+			alert("제목을 입력해주세요");
+			return;
+		}
+		
+		if(qnaComment.trim().length == 0){
+			alert("내용을 입력해주세요");
+			return;
+		}
+		
 		var qnaRegisterFrm = document.qnaRegisterFrm;
 		qnaRegisterFrm.submit();
 	}
@@ -88,7 +101,7 @@
 				<tr>
 					<th>답변제목</th>
 					<td>
-						<input name="qnaSubject" type="text"/> <input type="text" name="qnaSeq" value="${qnaSeq}"/>
+						<input name="qnaSubject" id="qnaSubject" type="text"/> <input type="text" name="qnaSeq" value="${qnaSeq}"/>
 					</td>
 				</tr>
 				<tr> 
@@ -100,12 +113,14 @@
 				</tr>
 			</table>
 		</form>
-		<div align="center">
-			<button class="btn btn-primary" type="button" onClick="javascript:goRegister();">답변하기</button>
-			<button class="btn btn-danger" type="button">취소</button>
-		</div>
 	</div>
 	</c:if>
+	<div align="center">
+		<c:if test="${qnaProgress eq '접수완료'}">
+			<button class="btn btn-primary" type="button" onClick="javascript:goRegister();">답변하기</button>
+		</c:if>
+		<button class="btn btn-danger" type="button" onClick="javascript:self.close();">닫기</button>
+	</div>
 	
 </div>
 </body>

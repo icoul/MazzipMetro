@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.go.mazzipmetro.service.MapService;
+import com.go.mazzipmetro.vo.RestaurantAdVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.TagVO;
 
@@ -43,6 +44,8 @@ public class MapController {
 	@RequestMapping(value="/getBest5RestInMetroMap.eat",method={RequestMethod.GET}) 
 	public String getBest5RestInMetroMap(HttpServletRequest req){
 		String metroId = req.getParameter("metroId");
+		// 지하철 역명 가져오기
+		String metroName = service.getMetroName(metroId);
 		
 		// 업장 리스트 가져오기
 		List<RestaurantVO> list = service.getBest5RestInMetroMap(metroId);
@@ -57,13 +60,19 @@ public class MapController {
 		
 		List<TagVO> tagList = service.getRestTag(restSeqList);
 		
+		// 업장 추가 이미지 가져오기(thumbnail이미지와 원래이미지 모두)
+		List<RestaurantAdVO> adImgList = service.getAdImg(restSeqList);
+		
+		
 //		JSONObject jObj = new JSONObject();
 //		jObj.put("places", list);
 //		jObj.put("tags", tagList);
 //		req.setAttribute("jObj", jObj);
 		
+		req.setAttribute("metroName", metroName);
 		req.setAttribute("tags", tagList);
 		req.setAttribute("places", list);
+		req.setAttribute("adImgList", adImgList);
 		return "/maps/ajax/getBest5RestInMetroMap";
 	}
 	
@@ -72,7 +81,7 @@ public class MapController {
 	@RequestMapping(value="/getMetroNameList.eat",method={RequestMethod.POST}) 
 	public String getMetroNameList(HttpServletRequest req){
 		String metroNum = req.getParameter("metroNum");
-		List<String> metroNameList = service.getMetroNameList(metroNum);
+		List<HashMap<String,String>> metroNameList = service.getMetroNameList(metroNum);
 		
 		JSONObject jObj = new JSONObject();
 		jObj.put("metroNameList", metroNameList);
@@ -143,10 +152,20 @@ public class MapController {
 		map.put("restStatus", restStatus);
 		
 		List<HashMap<String, String>> list = service.getRestaurantList(map);
-		//System.out.println(list); 
+		
+		// 업장 태그 가져오기(보류)
+		/*List<String> restSeqList = new ArrayList<String>();
+		
+		for (HashMap<String, String> seqMap : list) {
+			String restSeq = seqMap.get("restSeq");
+			restSeqList.add(restSeq);
+		}
+		
+		List<TagVO> tagList = service.getRestTag(restSeqList);*/
 		
 		JSONObject jObj = new JSONObject();
 		jObj.put("positions", list);
+//		jObj.put("tags", tagList);
 		
 		req.setAttribute("jObj", jObj);
 		return "/maps/ajax/getRestaurantList";
