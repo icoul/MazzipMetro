@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.go.mazzipmetro.dao.MapDAO;
+import com.go.mazzipmetro.vo.RestaurantAdVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.TagVO;
 
@@ -34,7 +35,36 @@ public class MapService  implements IService {
 		}
 
 		public List<HashMap<String, String>> getRestaurantList(HashMap<String, String[]> map) {
-			return dao.getRestaurantList(map);
+			List<HashMap<String, String>> list = dao.getRestaurantList(map);
+			
+			/*for (int i = 0; i < list.size(); i++) {
+				String restSeq = list.get(i).get("restSeq");
+				List<String> bgTagList = dao.getRestBgTag(restSeq);
+				List<String> mdTagList = dao.getRestMdTag(restSeq);
+				String restBgTag = "";
+				String restMdTag = "";
+				
+				for (int j = 0; j < bgTagList.size(); j++) {
+					restBgTag += bgTagList.get(j);
+					if(j < bgTagList.size()-1){
+						restBgTag += ", ";
+					}		
+				}// end of for (int j = 0; j < bgTagList.size(); j++) 
+				
+				
+				for (int k = 0; k< mdTagList.size(); k++) {
+					restMdTag += mdTagList.get(k);
+					if(k < mdTagList.size()-1){
+						restMdTag += ", ";
+					}		
+				}// end of for (int j = 0; j < mdTagList.size(); j++) 
+				
+				list.get(i).put("restBgTag", restBgTag);
+				list.get(i).put("restMdTag", restMdTag);
+			}*/
+			
+			return list;
+					
 		}
 
 		// 지하철역별 등록된 음식점 보여주기
@@ -87,12 +117,6 @@ public class MapService  implements IService {
 			
 			List<HashMap<String, String>> catList = new ArrayList<HashMap<String,String>>();
 			
-			for (String restName : restList) {
-				HashMap<String, String> elemMap = new HashMap<String, String>();
-				elemMap.put("label", restName);
-				elemMap.put("category", "음식점이름");
-				catList.add(elemMap);
-			}
 			
 			for (String metroName : metroList) {
 				HashMap<String, String> elemMap = new HashMap<String, String>();
@@ -115,12 +139,44 @@ public class MapService  implements IService {
 				catList.add(elemMap);
 			}
 			
+			for (String restName : restList) {
+				HashMap<String, String> elemMap = new HashMap<String, String>();
+				elemMap.put("label", restName);
+				elemMap.put("category", "음식점이름");
+				catList.add(elemMap);
+			}
 			return catList;
 		}
 
 		// 지하철 역이름 얻기 (지도페이지로 넘길 때 사용함)
 		public String getMetroName(String metroId) {
 			return dao.getMetroName(metroId);
+		}
+
+		//지하철 역명 가져오기(업장 직접 등록시 사용)
+		public List<HashMap<String,String>> getMetroNameList(String metroNum) {
+			return dao.getMetroNameList(metroNum);
+		}
+
+		// metroMap tooltip정보 가져오기
+		public List<RestaurantVO> getBest5RestInMetroMap(String metroId) {
+			return dao.getBest5RestInMetroMap(metroId);
+		}
+
+		// 업장 추가이미지(restaurantAdVO)가져오기
+		public List<RestaurantAdVO> getAdImg(List<String> restSeqList) {
+			
+			List<RestaurantAdVO> list = new ArrayList<RestaurantAdVO>();
+			for (String restSeq : restSeqList) {
+				
+				RestaurantAdVO vo = new RestaurantAdVO();
+				vo.setRestSeq(restSeq);
+				vo.setAdImg(dao.getAdImg(restSeq));
+				
+				//System.out.println(">>> service단 vo.getAdImg().length = "+vo.getAdImg().length); 
+				list.add(vo);
+			}
+			return list;
 		}
 
 

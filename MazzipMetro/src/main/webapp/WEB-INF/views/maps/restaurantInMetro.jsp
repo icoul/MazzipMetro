@@ -53,8 +53,8 @@
     <div id="menu_wrap" class="bg_white">
         <div class="option">
             <div>
-            	<form action="searchByMetro.eat" name="searchByMetroFrm" id="searchByMetroFrm">
-                    키워드 : <input type="text" value="${metroName}" id="keyword" size="15"> 
+            	<form action="searchByMetro.eat" name="searchByMetroFrm" id="searchByMetroFrm" onsubmit="return false;">
+                    키워드 : <input type="text" value="${metroName}" id="keyword" size="15" onkeydown="goButton();"> 
                     <button type="button" onclick="searchByMetro();">검색하기</button> 
                 </form>
                 <!-- <form onsubmit="searchPlaces(); return false;">
@@ -81,6 +81,15 @@
 
 </script>
 <script>
+
+//input 태그 엔터키 refresh 방지
+function goButton() {
+	 if (event.keyCode == 13) {
+		 searchByMetro();
+	  	return false;
+	 }
+	 return true;
+}
 
 function searchByMetro(reqPage){
 	var keyword = document.getElementById('keyword').value;

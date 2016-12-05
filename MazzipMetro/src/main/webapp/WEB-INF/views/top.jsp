@@ -12,6 +12,16 @@
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script>
 
+<!-- 다음지도 api를 사용하기 위한 라이브러리 -->
+<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=bf7db50bdf035e740bf5fd98b5509627&libraries=services,clusterer,drawing"></script>
+<!-- 메트로맵 tooltip을 위한 라이브러리 -->
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/tooltipster/dist/css/tooltipster.bundle.min.css" />
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-noir.min.css" />
+<!-- 검색어 자동완성을 위한 jquery-ui 라이브러리 -->
+<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/jquery-ui/jquery-ui.css">
+<script src="<%= request.getContextPath() %>/resources/jquery-ui/jquery-ui.js"></script>
+
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/main.css" />
 <title>:::Mazzip Metro:::</title>
 
@@ -38,14 +48,24 @@
 		$("#loginModal").modal();	
 	}
 	
-	function goRegister() {
-		
-	}
-	
 	function goLogOut(){
 		location.href = "logOut.eat";
 	}
 	
+	function goRegister(){
+		location.href = "<%=request.getContextPath()%>/accountSelect.eat";
+	}
+	
+	function goAsk(){
+		<c:if test="${empty sessionScope.loginUser.userSeq}">
+			alert("로그인후 문의하실 수 있습니다.");
+			goLogin();
+			return;		
+		</c:if>
+
+		var url = "<%=request.getContextPath()%>/myQna.eat";
+		window.open(url, "myQna", "left=350px, top=100px, width=500px, height=400px, status=no, scrollbars=yes");		
+	}
 	
 </script>
 
@@ -54,19 +74,39 @@
 <div id="container">
 	<div id="headWrap">	
 		<div class="header">
-			<h1>Mazzip Metro</h1>
+			<h1><a href="<%= request.getContextPath() %>/index.eat" style="color: black; text-decoration: none">Mazzip Metro</a></h1>
 			<ul class="menu">
-				<li><a href="#">지도찾기</a></li>	
-				<li><a href="#">맛집랭킹</a></li>
-				<li><a href="#">리뷰</a></li>
-				<li><a href="#">마이페이지</a></li>
-				<li><a href="#">문의하기</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
+				<!-- 비회원 로그인시(로그인전) -->
+				<c:if test="${empty sessionScope.loginUser.userSeq}">
+					<li><a href="#">맛집랭킹</a></li>
+					<li><a href="javascript:goAsk();">문의하기</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
+				</c:if>
+				<!-- 일반사용자 로그인시 -->
+				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 0}">
+					<li><a href="#">맛집랭킹</a></li>
+					<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
+					<li><a href="javascript:goAsk();">문의하기</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
+				</c:if>
+				<!-- 사업주 로그인시 -->
+				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 1}">
+					<li><a href="#">맛집랭킹</a></li>
+					<li><a href="<%=request.getContextPath()%>/restMyPage.eat">마이페이지</a></li>
+					<li><a href="javascript:goAsk();">문의하기</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
+				</c:if>
+				<!-- 관리자 로그인시 -->
+				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 2}">
+					<li><a href="#">맛집랭킹</a></li>
+					<li><a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a></li>
+					<li><a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a></li>
+					<li><a href="<%=request.getContextPath()%>/adminQnaList.eat">고객문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
+				</c:if>
+				
 				
 			</ul>
 
 			<c:if test="${sessionScope.loginUser.userSeq == null && empty sessionScope.loginUser.userSeq}"> 
 			<button type="button" class="btnLogin" onClick="goLogin();" style="margin-left:10px;">로그인</button>
-			<button type="button" class="btnLogin">회원가입</button>
+			<button type="button" class="btnLogin" onclick="goRegister();">회원가입</button>
 			</c:if>
 			<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
 			${sessionScope.loginUser.userName} 님 환영합니다. 
@@ -109,7 +149,7 @@
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 취소</button>
-        <p><a href="register.eat" style="color:#f4511e">회원가입하기</a></p>
+        <p><a href="javascript:goRegister();" style="color:#f4511e">회원가입하기</a></p>
         <p>
         <td colspan="2" align="center">
         	<a data-toggle="modal" data-target="#userIdfind" data-dismiss="modal">아이디찾기</a> / 

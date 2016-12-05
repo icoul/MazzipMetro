@@ -4,18 +4,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONObject;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.go.mazzipmetro.vo.MenuVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
+import com.go.mazzipmetro.vo.ReviewVO;
 
 @Repository
 public class RestaurantDAO implements IDAO{
 
 	@Autowired
 	private SqlSessionTemplate sqlSession;
+	
+	// 하나의 업장 정보 가져오기
+	public HashMap<String,String> getRestaurant(String restseq) {
+		HashMap<String,String> restvo = sqlSession.selectOne("restaurant.getRestaurant", restseq);
+		return restvo;
+	}
 	
 	// 업장이름 리스트 가져오기
 	public List<RestaurantVO> getRestName(String name){
@@ -98,4 +106,27 @@ public class RestaurantDAO implements IDAO{
 		
 		return restList;
 	}
+
+	public List<ReviewVO> pagging_list(HashMap<String, String> map) {
+		
+		List<ReviewVO> list = sqlSession.selectList("review.getReviewPaggingList", map);
+		
+		return list;
+	}
+
+/*	public int getTotalCount(String restSeq) {
+
+		int result = sqlSession.selectOne("review.getTotalCount", restSeq);
+		
+		return result;
+	}
+
+	public List<JSONObject> getReviewList(HashMap<String, String> map) {
+
+		List<JSONObject> list = sqlSession.selectList("review.getReviewPaggingList", map);
+		
+		return list;
+	}*/
+
+
 }

@@ -28,8 +28,6 @@ public class ReviewController {
 	@Autowired
 	private ReviewService service;
 	@Autowired
-	private ReviewService reviewService; 
-	@Autowired
 	private FileManager fileManager;
 	@Autowired
 	private ThumbnailManager thumbnailManager;
@@ -47,11 +45,11 @@ public class ReviewController {
 		List<HashMap<String,String>> reviewImageList = service.getReviewImageList(reviewseq);
 		
 		
-		req.setAttribute("restname", restname);
-		req.setAttribute("username", username);
-		req.setAttribute("reviewprofile", reviewprofile);
-		req.setAttribute("reviewcontent", reviewcontent);
-		req.setAttribute("reviewregdate", reviewregdate);
+		req.setAttribute("restName", restname);
+		req.setAttribute("userName", username);
+		req.setAttribute("reviewProfile", reviewprofile);
+		req.setAttribute("reviewContent", reviewcontent);
+		req.setAttribute("reviewRegDate", reviewregdate);
 		req.setAttribute("reviewImageList", reviewImageList);
 		
 		return "review/reviewModal";

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.go.mazzipmetro.common.FileManager;
 import com.go.mazzipmetro.common.ThumbnailManager;
 import com.go.mazzipmetro.service.AdminService;
+import com.go.mazzipmetro.vo.ContentVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.UserVO;
 
@@ -23,6 +24,23 @@ public class AdminController {
 
 	@Autowired
 	private AdminService service;
+	
+	// 관리자용 업장 수정 페이지 
+	@RequestMapping(value="/adminRestEdit.eat", method={RequestMethod.POST})
+	public String adminRestEdit(HttpServletRequest req) {
+		String restSeq = req.getParameter("restSeq");
+		RestaurantVO vo = service.adminRestEdit(restSeq);
+		
+		req.setAttribute("vo", vo);
+		return "/admin/adminRestEdit";
+	}
+	
+	// 등록된 업장관리
+	@RequestMapping(value="/adminRestManager.eat", method={RequestMethod.GET})
+	public String adminRestManager() {
+		
+		return "/admin/adminRestManager";
+	}
 	
 	//회원리스트
 	@RequestMapping(value="/adminUserList.eat", method={RequestMethod.GET})
@@ -195,7 +213,7 @@ public class AdminController {
 		req.setAttribute("msg", msg);
 		req.setAttribute("loc", loc);
 		
-		return "admin/adminUserDel";
+		return "/admin/adminUserDel";
 	}
 	
 	//컨텐츠관리
@@ -248,9 +266,30 @@ public class AdminController {
 	    map.put("end", String.valueOf(end) );      // 키값 end,   해쉬맵이 String 타입인데 end 는 int 타입이어서 String 타입으로 변경함.  
 
 		
-		List<HashMap<String, String>> list = service.restList(map); //업장리스트
+		List<HashMap<String,String>> list = service.conTentList(map); //업장리스트
 		
-		totalCount = service.getTotalCount(map);
+		/*for(HashMap<String,String> map2 : list) {
+			String restSeq = map2.get("restSeq");
+			String restSeq = map2.get("restName");
+		}*/
+		
+		for (int i = 0; i < list.size(); i++) {			
+			ContentVO contVO = new ContentVO();
+			RestaurantVO rvo = new RestaurantVO();
+			rvo.setRestName(list.get(i).get("restName"));
+			rvo.setGradeName(list.get(i).get("gradeName"));
+			rvo.setRestPhone(list.get(i).get("restPhone"));
+			rvo.setRestAddr(list.get(i).get("restAddr"));
+			
+			System.out.println(list.get(i).get("gradeName"));
+			System.out.println(list.get(i).get("restPhone"));
+			contVO.setItem(rvo);
+		}
+		
+			
+		
+		
+		totalCount = service.getConTotalCount(map);
 		
 		totalPage = (int)Math.ceil((double)totalCount/sizePerPage);  
 
@@ -273,11 +312,11 @@ public class AdminController {
 	    	
 	    	if(colName == null || search == null) {
 				// 검색어가 없는 경우
-				pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminUserList.eat?pageNo=%d'>[이전%d페이지]</a>&nbsp;", startPageNo-1, blocksize); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 블럭크기의값 이다.	
+				pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminConList.eat?pageNo=%d'>[이전%d페이지]</a>&nbsp;", startPageNo-1, blocksize); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 블럭크기의값 이다.	
 			}
 			else {
 				// 검색어가 있는 경우
-				pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminUserList.eat?pageNo=%d&colname=%s&search=%s'>[이전%d페이지]</a>&nbsp;", startPageNo-1, colName, search, blocksize); // 검색어 있는 경우
+				pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminConList.eat?pageNo=%d&colname=%s&search=%s'>[이전%d페이지]</a>&nbsp;", startPageNo-1, colName, search, blocksize); // 검색어 있는 경우
 			}
 	    }
 	    
@@ -292,11 +331,11 @@ public class AdminController {
 	    	else{
 	    		if(colName == null || search == null) {
 	    			// 검색어가 없는 경우
-	    			pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminUserList.eat?pageNo=%d'>%d</a>&nbsp;", startPageNo, startPageNo); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 페이지바에 나타낼 startPageNo값 이다.	
+	    			pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminConList.eat?pageNo=%d'>%d</a>&nbsp;", startPageNo, startPageNo); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 페이지바에 나타낼 startPageNo값 이다.	
 	    		}
 	    		else {
 	    			// 검색어가 있는 경우
-	    			pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminUserList.eat?pageNo=%d&colName=%s&search=%s'>%d</a>&nbsp;", startPageNo, colName, search, startPageNo); // 검색어 있는 경우
+	    			pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminConList.eat?pageNo=%d&colName=%s&search=%s'>%d</a>&nbsp;", startPageNo, colName, search, startPageNo); // 검색어 있는 경우
 	    		}
 	    		  
 	    	}
@@ -317,11 +356,11 @@ public class AdminController {
 	    	
 	    	if(colName == null || search == null) {
 				// 검색어가 없는 경우
-				pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminUserList.eat?pageNo=%d'>[다음%d페이지]</a>&nbsp;", startPageNo, blocksize); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 블럭크기의값 이다.	
+				pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminConList.eat?pageNo=%d'>[다음%d페이지]</a>&nbsp;", startPageNo, blocksize); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 블럭크기의값 이다.	
 			}
 			else {
 				// 검색어가 있는 경우
-				pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminUserList.eat?pageNo=%d&colName=%s&search=%s'>[다음%d페이지]</a>&nbsp;", startPageNo, colName, search, blocksize); // 검색어 있는 경우
+				pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminConList.eat?pageNo=%d&colName=%s&search=%s'>[다음%d페이지]</a>&nbsp;", startPageNo, colName, search, blocksize); // 검색어 있는 경우
 			}
 	    }
 	    
@@ -336,7 +375,7 @@ public class AdminController {
 		req.setAttribute("pagebar", pagebar);
 		
 		
-		return "admin/adminConList";
+		return "/admin/adminConList";
 		
 	}
 	

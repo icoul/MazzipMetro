@@ -33,6 +33,13 @@ public class MazzipMetroController {
 		return "index";
 	}
 	
+	
+	// 동현_image crop test중
+	@RequestMapping(value="/imgCropTest.eat", method={RequestMethod.GET})
+	public String imgCropTest(){
+		return "/img/imgCrop";
+	}
+	
 	@RequestMapping(value="/dbTest.eat", method={RequestMethod.GET})
 	public String dbTest(HttpServletRequest req){
 		

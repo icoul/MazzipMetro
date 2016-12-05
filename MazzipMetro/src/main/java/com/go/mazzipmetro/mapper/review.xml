@@ -5,73 +5,72 @@
 <!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) --> 
 <mapper namespace="review">
 	
-	
 	<resultMap type="java.util.HashMap" id="dataresultmap2">
-		 <result column="username"	  	        property="username" 			    javaType="String" />
-		 <result column="userprofile"	  	    property="userprofile" 			    javaType="String" />
-		 <result column="reviewseq"	  	   		property="reviewseq" 			    javaType="String" />
-		 <result column="reviewtitle"	  	    property="reviewtitle" 			    javaType="String" />
-		 <result column="reviewcontent"	  	    property="reviewcontent" 			javaType="String" />
-		 <result column="reviewavgscore"	  	property="reviewavgscore" 			javaType="String" />
-		 <result column="reviewregdate"	  	    property="reviewregdate" 			javaType="String" />
+		 <result column="userName"	  	        property="userName" 			    javaType="String" />
+		 <result column="userProfile"	  	    	property="userProfile" 			    javaType="String" />
+		 <result column="reviewSeq"	  	   		property="reviewSeq" 			    javaType="String" />
+		 <result column="reviewTitle"	  	    	property="reviewTitle" 			    javaType="String" />
+		 <result column="reviewContent"	  	    property="reviewContent" 			javaType="String" />
+		 <result column="reviewAvgScore"	  	property="reviewAvgScore" 			javaType="String" />
+		 <result column="reviewRegDate"	  	    property="reviewRegDate" 			javaType="String" />
 	</resultMap>
 	
 	<select id="getReviewList" parameterType="String" resultMap="dataresultmap2">
-		select username, userprofile, reviewseq, reviewtitle, reviewcontent, reviewavgscore, reviewregdate
-		from tbl_user A join nos_review B
+		select userName, userProfile, reviewSeq, reviewTitle, reviewContent, reviewAvgScore, reviewRegDate
+		from tbl_user A join tbl_review B
 		on A.userseq = B.userSeq
-		where restSeq = #{restseq} and reviewStatus = 0 and usersort = 1
+		where restSeq = #{restSeq} and reviewStatus = 0 and userSort = 1
 	</select>
 	
 	<resultMap type="java.util.HashMap" id="dataresultmap3">
-	 	 <result column="revimgseq"	  	        property="revimgseq" 			    javaType="String" />
-		 <result column="reviewseq"	  	        property="reviewseq" 			    javaType="String" />
-		 <result column="reviewimg"	  	    	property="reviewimg" 			    javaType="String" />
-		 <result column="reviewthumbimg"	  	    	property="reviewthumbimg" 			    javaType="String" />
+	 	 <result column="revImgSeq"	  	        property="revImgSeq" 			    javaType="String" />
+		 <result column="reviewSeq"	  	        property="reviewSeq" 			    javaType="String" />
+		 <result column="reviewImg"	  	    	property="reviewImg" 			    javaType="String" />
+		 
 	</resultMap>
 	
 	<select id="getReviewImageList" resultMap="dataresultmap3">
-		select revimgseq, reviewseq, reviewimg, reviewthumbimg
-		from nos_reviewImage
-		where reviewImagestatus = 0
+		select revImgSeq, reviewSeq, reviewImg
+		from tbl_review_Image
+		where reviewImgStatus = 0
 	</select>
 	
 	<resultMap type="java.util.HashMap" id="dataresultmap4">
-		 <result column="revimgseq"	  	        property="revimgseq" 			    javaType="String" />
-		 <result column="reviewseq"	  	        property="reviewseq" 			    javaType="String" />
-		 <result column="reviewimg"	  	    	property="reviewimg" 			    javaType="String" />
-		  <result column="reviewthumbimg"	  	    	property="reviewthumbimg" 			    javaType="String" />
+		 <result column="revImgSeq"	  	        property="revImgSeq" 			    javaType="String" />
+		 <result column="reviewSeq"	  	        property="reviewSeq" 			    javaType="String" />
+		 <result column="reviewImg"	  	    	property="reviewImg" 			    javaType="String" />
+		
 	</resultMap>
 	
 	<select id="getReviewImageListByReviewSeq" parameterType="String" resultMap="dataresultmap4">
-		select revimgseq, reviewseq, reviewimg, reviewthumbimg
-		from nos_reviewImage
-		where reviewImagestatus = 0 and reviewseq = #{reviewseq}
+		select revImgSeq, reviewSeq, reviewImg
+		from tbl_review_Image
+		where reviewImgStatus = 0 and reviewSeq = #{reviewSeq}
 	</select>
 	
 
 	<select id="getLargeReviewImageName" parameterType="String" resultType="String">
-		select reviewimg
-		from nos_reviewImage
-		where reviewImagestatus = 0 and revimgseq = #{revimgseq}
+		select reviewImg
+		from tbl_review_Image
+		where reviewImgStatus = 0 and revImgSeq = #{revImgSeq}
 	</select>
 	
 	<resultMap type="java.util.HashMap" id="dataresultmap5">
-		 <result column="ageline"	  	        property="ageline" 			    javaType="String" />
+		 <result column="ageLine"	  	        property="ageLine" 			    javaType="String" />
 		 <result column="cnt"	  	            property="cnt" 			        javaType="String" />
 		 <result column="percent"	  	    	property="percent" 			    javaType="String" />
 	</resultMap>
 	
 	<select id="getAgeLineChartList" parameterType="String" resultMap="dataresultmap5">
-		select decode(grouping(ageline), 0, to_char(ageline), '전체') as ageline
-		  , count(ageline) as cnt
-		  , round(count(ageline) / (select count(*) from nos_reviewData) * 100) as percent
+		select decode(grouping(ageLine), 0, to_char(ageLine), '전체') as ageLine
+		  , count(ageLine) as cnt
+		  , round(count(ageLine) / (select count(*) from tbl_reviewData) * 100) as percent
 		from
 		( 
 		select trunc(extract(year from sysdate) - (to_number(substr(B.birthday,1,2)) + case when substr(B.birthday,1,1) in('0','1','2') then 2000 else 1900 end ) + 1,-1) as ageline   
-		from nos_review A join nos_reviewData B
+		from tbl_review A join tbl_reviewData B
 		on A.reviewseq = B.reviewseq
-		where A.restseq = #{restseq}
+		where A.restseq = #{restSeq}
 		)V
 		group by rollup(ageline)
 	</select>
@@ -85,11 +84,11 @@
 	<select id="getGenderChartList" parameterType="String" resultMap="dataresultmap6">
 		select decode(grouping(gender), 0, to_char(gender), '전체') as gender
 		  , count(gender) as cnt
-		  , round(count(gender) / (select count(*) from nos_reviewData) * 100) as percent
+		  , round(count(gender) / (select count(*) from tbl_reviewData) * 100) as percent
 		from
 		( 
 		select B.gender   
-		from nos_review A join nos_reviewData B
+		from tbl_review A join tbl_reviewData B
 		on A.reviewseq = B.reviewseq
 		where A.restseq = #{restseq}
 		)V
@@ -97,18 +96,45 @@
 	</select>
 	<!-- 리뷰 넣기 -->
 	<insert id="reviewAdd" parameterType="com.go.mazzipmetro.vo.ReviewVO">
-		insert into nos_review(reviewSeq, userSeq, restSeq, reviewTitle, reviewContent, reviewScore, reviewHit, reviewRegdate, reviewAvgscore, reviewStatus)
-		values(nos_reviewSeq.nextval, #{userSeq}, #{restSeq}, #{reviewTitle}, #{reviewContent}, #{reviewScore}, #{reviewHit}, default, 0, 0)
+		insert into tbl_review(reviewSeq, userSeq, restSeq, reviewTitle, reviewContent, reviewScore, reviewHit, reviewRegdate, reviewAvgscore, reviewStatus)
+		values(tbl_reviewSeq.nextval, #{userSeq}, #{restSeq}, #{reviewTitle}, #{reviewContent}, #{reviewScore}, #{reviewHit}, default, 0, 0)
 	</insert>
-	
+	<!-- 리뷰 시퀀스 얻어오기 -->
 	<select id="getReviewSeq" parameterType="com.go.mazzipmetro.vo.ReviewVO" resultType="String">
 		select max(reviewSeq)
-		from nos_review
+		from tbl_review
 		where userSeq = #{userSeq}
 		and restSeq = #{restSeq}
 	</select>
-	
+	<!-- 리뷰 이미지 얻어오기 -->
 	<insert id="addReviewImg" parameterType="java.util.HashMap">
-		insert into review_Image values(#{Seq}, #{reviewImg}, default)
+		insert into tbl_review_Image values(#{Seq}, #{reviewImg}, default)
 	</insert>
+	
+	<!-- #32. 글 1개를 보여주기전에 조회수(readCount) 증가하기 -->
+	<update id="setAddReadCount" parameterType="String">
+		update tbl_review set readCount = readCount + 1
+        where status = 1 and seq = #{seq}
+	</update>
+	
+<!-- 	<select id="getTotalCount" parameterType="String" resultType="int">
+		select count(*)
+		from tbl_review
+		where restSeq = #{restSeq}
+	</select>
+	
+	<select id="getReviewPaggingList" parameterType="java.util.HashMap" resultMap="dataresultmap2" >
+		select V.*
+		from
+		(select row_number() over(order by reviewSeq DESC) AS rno,
+		 	   userName, userProfile, reviewSeq, reviewTitle, reviewContent, reviewAvgScore, reviewRegDate
+		from tbl_user A join tbl_review B
+		on A.userseq = B.userSeq
+		where restSeq = #{restSeq} and reviewStatus = 0 and userSort = 1
+		)V
+		WHERE V.rno BETWEEN #{StartRno} AND #{EndRno}
+	</select> -->
+	
+	
+	
 </mapper>
