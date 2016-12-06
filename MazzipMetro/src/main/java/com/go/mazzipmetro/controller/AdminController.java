@@ -209,6 +209,7 @@ public class AdminController {
 		req.setAttribute("colName", colName);
 		req.setAttribute("search", search);
 		req.setAttribute("pagebar", pagebar);
+		req.setAttribute("pageNo", pageNo);
 		
 		return "/admin/adminUserList";
 		
@@ -219,7 +220,43 @@ public class AdminController {
 	//회원삭제
 	@RequestMapping(value = "/adminUserDel.eat", method = RequestMethod.POST)
 	public String userDel(HttpServletRequest req) {
+		
 		String userSeq = req.getParameter("userSeq");
+		System.out.println(userSeq);
+		String str_pageNo = req.getParameter("pageNo");
+		
+		int pageNo = Integer.parseInt(str_pageNo);
+		HttpSession ses = req.getSession();
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("userSeq", userSeq);
+		
+		int result = service.userDel(map);
+		
+		String msg="";
+		String loc ="javascript:history.back();";
+		
+		if (result > 0) {
+			msg ="회원이 삭제되었습니다.";
+			loc = ("adminUserList.eat?pageNo="+pageNo);
+		}
+		
+		else {
+			msg ="회원이 삭제되지 않았습니다.";
+			loc ="javascript:location.href='adminUserList.eat';";
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
+		
+		return "/admin/adminUserDel";
+	}
+	
+	/*//회원 수정
+	@RequestMapping(value = "/adminUserEdit.eat", method = RequestMethod.POST)
+	public String userEdit(HttpServletRequest req) {
+		String userSeq = req.getParameter("userSeq");
+		String pageNo = req.getParameter("pageNo");
 		
 		HttpSession ses = req.getSession();
 		
@@ -233,7 +270,7 @@ public class AdminController {
 		
 		if (result > 0) {
 			msg ="회원이 삭제되었습니다.";
-			loc ="javascript:history.back();";
+			loc += "adminUserList.eat?pageNo=pageNo";
 		}
 		
 		else {
@@ -245,7 +282,7 @@ public class AdminController {
 		req.setAttribute("loc", loc);
 		
 		return "/admin/adminUserDel";
-	}
+	}*/
 	
 	//컨텐츠관리
 	@RequestMapping(value="/adminConList.eat", method={RequestMethod.GET})
