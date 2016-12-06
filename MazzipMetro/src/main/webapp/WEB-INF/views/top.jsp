@@ -30,7 +30,6 @@
 <!-- 미현_전체페이지 css -->
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/main.css" />
 
-<<<<<<< HEAD
 <!-- 기본 jquery 라이브러리 -->
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>
 
@@ -58,10 +57,10 @@
   <!-- 레스토랑 디테일.jsp에서 차트를 이용하기 위한 라이브러리 추가 -->
   <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/highcharts.js"></script>
   <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/modules/exporting.js"></script>
-=======
+
 <!-- 한별_회원가입 css -->
 <link href="<%= request.getContextPath() %>/resources/css/hb_register_.css" rel="stylesheet">
->>>>>>> a20e36b49545ba6f14ac3b7e2c710db2526355cc
+
 
 <!-- 한별_회원가입 유효성 검사용 라이브러 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
@@ -126,24 +125,26 @@
 				<!-- 비회원 로그인시(로그인전) -->
 				<c:if test="${empty sessionScope.loginUser.userSeq}">
 					<li><a href="#">맛집랭킹</a></li>
-					<li><a href="javascript:goAsk();">문의하기</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
+					<li><a href="javascript:goAsk();">문의하기</a></li>
+					<li><a href="<%=request.getContextPath()%>/faq.eat">자주하는 질문</a></li>
+					&nbsp;&nbsp;&nbsp;&nbsp;
 				</c:if>
 				<!-- 일반사용자 로그인시 -->
-				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 0}">
+				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 1}">
 					<li><a href="#">맛집랭킹</a></li>
 					<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
 					<li><a href="javascript:goAsk();">문의하기</a></li>
 					<li><a href="<%=request.getContextPath()%>/myQnaList.eat">나의 문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
 				</c:if>
 				<!-- 사업주 로그인시 -->
-				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 1}">
+				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 2}">
 					<li><a href="#">맛집랭킹</a></li>
 					<li><a href="<%=request.getContextPath()%>/restMyPage.eat">마이페이지</a></li>
 					<li><a href="javascript:goAsk();">문의하기</a></li>
 					<li><a href="<%=request.getContextPath()%>/myQnaList.eat">나의 문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
 				</c:if>
 				<!-- 관리자 로그인시 -->
-				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 2}">
+				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 3}">
 					<li><a href="#">맛집랭킹</a></li>
 					<li><a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a></li>
 					<li><a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a></li>

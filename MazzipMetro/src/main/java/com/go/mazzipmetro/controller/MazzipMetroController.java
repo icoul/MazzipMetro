@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.go.mazzipmetro.common.FileManager;
 import com.go.mazzipmetro.common.ThumbnailManager;
 import com.go.mazzipmetro.service.MazzipMetroService;
+import com.go.mazzipmetro.vo.FaqVO;
 import com.go.mazzipmetro.vo.QnaVO;
 import com.go.mazzipmetro.vo.UserVO;
 
@@ -997,5 +998,32 @@ public class MazzipMetroController {
 		}
 		
 		
-	
+		@RequestMapping(value = "/faq.eat", method = {RequestMethod.GET})
+		public String faq(HttpServletRequest req) {
+			List<FaqVO> faqList = service.getFaqList();
+			req.setAttribute("faqList", faqList);
+			return "QnA/FAQ";
+		}
+		
+		@RequestMapping(value = "/faqDetail.eat", method = {RequestMethod.GET})
+		public String faqDetail(HttpServletRequest req) {
+			String faqSeq = req.getParameter("faqSeq");
+			FaqVO vo = service.selectOneFaq(faqSeq);
+			
+			req.setAttribute("vo", vo);
+			return "QnA/faqDetail";
+		}
+		
+		
+		
+		@RequestMapping(value = "/faqListByType.eat", method = {RequestMethod.GET})
+		public String faqListByType(HttpServletRequest req) {
+			String faqType = req.getParameter("faqType");
+			List<FaqVO> faqList = service.getFaqListByType(faqType);
+			
+			req.setAttribute("faqList", faqList);
+			req.setAttribute("faqType", faqType);
+			req.setAttribute("faqListSize", faqList.size());
+			return "QnA/faqListByType";
+		}
 }

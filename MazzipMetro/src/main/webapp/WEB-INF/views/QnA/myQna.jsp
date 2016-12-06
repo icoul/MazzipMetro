@@ -66,7 +66,7 @@
 					</td>
 				</tr>
 				<tr> 
-					<th>문의내용<br>(10자입력가능)</th>
+					<th>문의내용<br>(200자입력가능)</th>
 					<td>
 						<textarea class="form-control" rows="5" name="qnaComment" id="qnaComment"></textarea>
 						<div id="qnaCommentLength"></div>
@@ -76,7 +76,7 @@
 		</form>
 		<div align="center">
 			<button class="btn btn-primary" type="button" onClick="javascript:goRegister();">문의하기 등록</button>
-			<button class="btn btn-danger" type="button">입력취소</button>
+			<button class="btn btn-danger" type="button" onClick="javascript:self.close();">입력취소</button>
 		</div>
 	</div>
 	

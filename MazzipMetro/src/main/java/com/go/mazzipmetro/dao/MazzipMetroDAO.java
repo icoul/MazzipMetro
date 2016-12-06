@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.go.mazzipmetro.vo.FaqVO;
 import com.go.mazzipmetro.vo.QnaVO;
 
 @Repository
@@ -99,5 +100,20 @@ public class MazzipMetroDAO implements IDAO{
 	public int editUserQuestion(HashMap<String, String> hashMap) {
 		int n = sqlSession.update("editUserQuestion",hashMap);
 		return n;
+	}
+
+	public List<FaqVO> getFaqList() {
+		List<FaqVO> faqList = sqlSession.selectList("getFaqList");
+		return faqList;
+	}
+
+	public FaqVO selectOneFaq(String faqSeq) {
+		FaqVO faqvo = sqlSession.selectOne("selectOneFaq", faqSeq);
+		return faqvo;
+	}
+
+	public List<FaqVO> getFaqListByType(String faqType) {
+		List<FaqVO> faqList = sqlSession.selectList("getFaqListByType", faqType);
+		return faqList;
 	}
 }
