@@ -93,12 +93,6 @@
 		<div class="header">
 			<h1><a href="<%= request.getContextPath() %>/index.eat" style="color: black; text-decoration: none">Mazzip Metro</a></h1>
 			<ul class="menu">
-				<li><a href="#">지도찾기</a></li>	
-				<li><a href="#">맛집랭킹</a></li>
-				<li><a href="#">리뷰</a></li>
-				<li><a href="<%= request.getContextPath() %>/userMyPage.eat">마이페이지</a></li>
-				<li><a href="#">문의하기</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
-				
 				<!-- 비회원 로그인시(로그인전) -->
 				<c:if test="${empty sessionScope.loginUser.userSeq}">
 					<li><a href="#">맛집랭킹</a></li>
