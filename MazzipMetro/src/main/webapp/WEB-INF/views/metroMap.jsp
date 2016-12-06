@@ -47,7 +47,7 @@
         	// metroMap area 클릭시 이벤트 생성
         	$("[name=metroMapArea]").click(function(){
         		//종합운동장역은 map 에러가 나므로 지도를 호출하지 않는다.
-        		if($(this).attr('id')==2004){alert('종합운동장역에 등록된 맛집이 없습니다.'; return;}
+        		if($(this).attr('id')==2004){alert('종합운동장역에 등록된 맛집이 없습니다.'); return;}
         		
         		searchByMetro(1, $(this).attr("id"));
         		

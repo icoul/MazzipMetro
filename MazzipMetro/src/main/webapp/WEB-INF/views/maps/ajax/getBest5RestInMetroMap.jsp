@@ -91,7 +91,6 @@ th, td{padding:5px;}
 		<table>
 		<c:forEach var="vo" items="${places}"  varStatus="status">
 			<tr>
-				<%-- jstl 배열선언하는 방법 --%>
 				<th style="color: lime">${status.count}</th>
 				<c:if test="${status.count%2 != 0 }">
 					<td style="background-color: lime;">
@@ -102,9 +101,12 @@ th, td{padding:5px;}
 				
 					<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${vo.restSeq}" data-tooltip-content="#tooltip_content${status.index}" class='tooltipster tooltip_group' style="color:black; text-decoration: none;">
 					<span style='font-weight:bold; font-size:18px;'>${vo.restName}</span>
-					<%-- TagsVO의 변수명은 bgCat, mdCat이다. 헷갈림 주의  --%>
-					<span style="color:#0066ff; font-size:14px;">${tags[status.index].bgCat}</span>
 					
+					<%-- TagsVO의 변수명은 bgCat, mdCat이다. 헷갈림 주의  --%>
+					<c:forEach var="bgTag" items="${tags[status.index].bgCat}" varStatus="vs">
+						<span style="color:#0066ff; font-size:14px;">${bgTag}</span>
+						<c:if test="${vs.count < tags[status.index].bgCat.size()}">, </c:if>
+					</c:forEach>
 					<%-- ${tags[status.index].mdCat} List의 size()를 알아내서 , 를 찍는다.--%>
 					<c:forEach var="mdTag" items="${tags[status.index].mdCat}" varStatus="vs">
 						<span style="color:#3333ff; font-size:12px;">${mdTag}</span>	
@@ -117,6 +119,7 @@ th, td{padding:5px;}
 		</c:forEach>
 		</table>
 	</div>
+	
 	<!-- 베스트 유저 정보 -->
 	<div style="position:relative; float: left; margin-left: 20px; margin: 10px;" align="center" >
 	<h3 style="padding-bottom: 5px;"><span style="font-weight: bold;">${metroName}</span> 마스터즈 5</h3>  
