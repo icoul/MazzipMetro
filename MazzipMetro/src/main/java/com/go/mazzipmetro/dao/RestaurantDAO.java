@@ -107,26 +107,20 @@ public class RestaurantDAO implements IDAO{
 		return restList;
 	}
 
-	public List<ReviewVO> pagging_list(HashMap<String, String> map) {
-		
-		List<ReviewVO> list = sqlSession.selectList("review.getReviewPaggingList", map);
+	// 페이징 처리 된 리뷰리스트
+	public List<HashMap<String, String>> getReviewList(HashMap<String, String> map) {
+
+		List<HashMap<String, String>> list = sqlSession.selectList("review.getReviewPaggingList", map);
 		
 		return list;
 	}
 
-/*	public int getTotalCount(String restSeq) {
-
+	public int getTotalReview(String restSeq) {
+		
 		int result = sqlSession.selectOne("review.getTotalCount", restSeq);
 		
 		return result;
 	}
-
-	public List<JSONObject> getReviewList(HashMap<String, String> map) {
-
-		List<JSONObject> list = sqlSession.selectList("review.getReviewPaggingList", map);
-		
-		return list;
-	}*/
 
 
 }

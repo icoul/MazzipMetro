@@ -144,60 +144,16 @@ public class RestaurantController {
 	@RequestMapping(value = "/restaurantDetail.eat", method = RequestMethod.GET)
 	public String restaurantDetail(HttpServletRequest req, HttpServletResponse res) {
 		String restSeq = req.getParameter("restSeq");
-		
 		HashMap<String,String> restvo = service.getRestaurant(restSeq);
-			
-		List<HashMap<String,String>> reviewList = reviewService.getReviewList(restvo.get("restseq"));
 		
-		List<HashMap<String,String>> reviewImageList = reviewService.getReviewImageList();
+			
+//		List<HashMap<String,String>> reviewList = reviewService.getReviewList(restvo.get("restseq"));
 		
 		List<HashMap<String,String>> agelineChartList = reviewService.getAgeLineChartList(restSeq);
 		List<HashMap<String,String>> genderChartList = reviewService.getGenderChartList(restSeq);
 		
-		String start = req.getParameter("start");    // 1, 3, 5....
-		String len = req.getParameter("len");        // 2개씩   더보기.. 클릭에 보여줄 상품의 갯수 단위크기   
-		String pspec = req.getParameter("pspec");    // 
-		
-		if (start == null) {
-			start = "1";
-		}
-		if (len == null) {
-			len = "5";
-		}
-		if (pspec == null) {
-			pspec = "NEW";
-		}
-		
-		int startRno = Integer.parseInt(start);          // 공식!! 시작 행번호   1               3               5
-		int endRno   = startRno+Integer.parseInt(len)-1; // 공식!! 끝 행번호     1+2-1(==2)      3+2-1(==4)      5+2-1(==6)
-		
-		String StartRno = String.valueOf(startRno);
-		String EndRno = String.valueOf(endRno);
-		
-		System.out.println("확인용 DisplayJSONAction.java       start : " + start);   // 확인용
-		System.out.println("확인용 DisplayJSONAction.java       len : " + len);       // 확인용
-		System.out.println("확인용 DisplayJSONAction.java       pspec : " + pspec);   // 확인용
-
-		
-		
-		HashMap<String, String> map = new HashMap<String, String>();
-		
-		map.put("restSeq", restSeq);
-		map.put("pspec", pspec);
-		map.put("StartRno", StartRno);
-		map.put("EndRno", EndRno);
-				
-		//List<JSONObject> ListOfReview = service.getReviewList(map);
-		
-		//req.setAttribute("ListOfReview",  ListOfReview);
-		
-		////////////////////////////////////////////////////////////////////////////
-		//System.out.println("확인용 DisplayJSONAction.java       productList size : " + ListOfReview.size()); // 확인용				
-				
-		
+		req.setAttribute("restSeq", restSeq);
 		req.setAttribute("restvo", restvo);
-		req.setAttribute("reviewList", reviewList);
-		req.setAttribute("reviewImageList", reviewImageList);
 		req.setAttribute("agelineChartList", agelineChartList);
 		req.setAttribute("genderChartList", genderChartList);
 		return "restaurant/restaurantDetail";
@@ -336,6 +292,56 @@ public class RestaurantController {
 		req.setAttribute("restSeq", restSeq);
 		
 		return "restaurant/restDel";
+	}
+	
+	// 업장 상세 페이지에 리뷰 띄어놓기
+	@RequestMapping(value="/ReviewListAjax.eat", method={RequestMethod.GET})
+	public String ReviewListAjax(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+		
+		
+		String restSeq = req.getParameter("restSeq");
+		String start = req.getParameter("StartRno");    // 1, 3, 5....
+		String len = req.getParameter("EndRno");        // 2개씩   더보기.. 클릭에 보여줄 상품의 갯수 단위크기   
+		
+		
+		
+		if (start == null) {
+			start = "1";
+		}
+		if (len == null) {
+			len = "5";
+		}
+				
+		int startRno = Integer.parseInt(start);          // 공식!! 시작 행번호   1               3               5
+		int endRno   = startRno+Integer.parseInt(len)-1; // 공식!! 끝 행번호     1+2-1(==2)      3+2-1(==4)      5+2-1(==6)
+		
+		String StartRno = String.valueOf(startRno);
+		String EndRno = String.valueOf(endRno);
+		
+/*		System.out.println("확인용 DisplayJSONAction.java       start : " + start);   // 확인용
+		System.out.println("확인용 DisplayJSONAction.java       len : " + len);       // 확인용
+		System.out.println("확인용 DisplayJSONAction.java       restSeq : " + restSeq);       // 확인용
+*/
+		HashMap<String,String> restvo = service.getRestaurant(restSeq);
+		List<HashMap<String,String>> reviewImageList = reviewService.getReviewImageList();
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		
+		map.put("restSeq", restSeq);
+		map.put("StartRno", StartRno);
+		map.put("EndRno", EndRno);
+				
+		List<HashMap<String,String>> reviewList = service.getReviewList(map);
+		int TotalReviewCount = service.getTotalReview(restSeq);
+		
+		req.setAttribute("TotalReviewCount", TotalReviewCount);
+		req.setAttribute("reviewList",  reviewList);
+		req.setAttribute("restvo", restvo);
+		req.setAttribute("reviewImageList", reviewImageList);
+		
+		////////////////////////////////////////////////////////////////////////////
+//		System.out.println("확인용 DisplayJSONAction.java       productList size : " + ListOfReview.size()); // 확인용
+		return "review/ReviewListAjax";
 	}
 }
 
