@@ -67,7 +67,7 @@
 </div>
 
 <div align="center">
-<form name="registerFrm" action="restRegister.eat" method="post">
+<form name="registerFrm" action="restRegister.eat" method="post" enctype="multipart/form-data">
 
 <input type = "hidden" name = "seq" id = "seq" value="-1" />
 
@@ -86,7 +86,7 @@
 	<tr>
 		<td width="20%" style = "font-size : 14pt;"><b>대표이미지</b></td>
 		<td width="80%" align="left">
-			<input type="file" name="image" id="image" size="7"/>
+			<input type="file" name="attach" size="7"/>
 		</td>
 	</tr>
 	<tr>

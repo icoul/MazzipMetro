@@ -194,4 +194,28 @@
 		from tbl_qna
 		where qnaSeq = #{qnaSeq} and qnaStatus = 0
     </select>
+    
+    <update id="deleteAnswer">
+    	update tbl_qna set qnaStatus = 1 where fk_seq = #{qnaSeq}
+    </update>
+    
+    <update id="deleteQuestion">
+    	update tbl_qna set qnaStatus = 1 where qnaSeq = #{qnaSeq}
+    </update>
+    
+    <select id="countAnswer" resultType="int">
+    	select count(*)
+    	from tbl_qna
+    	where fk_seq = #{qnaSeq}
+    </select>
+    
+    <update id="editAdminAnswer" parameterType="java.util.HashMap">
+    	update tbl_qna set qnaSubject = #{qnaSubject}, qnaContent = #{qnaComment}
+    	where fk_seq = ${qnaSeq} and qnaStatus = 0
+    </update>
+    
+     <update id="editUserQuestion" parameterType="java.util.HashMap">
+    	update tbl_qna set qnaSubject = #{qnaSubject}, qnaContent = #{qnaComment}, qnaInquiry = #{qnaInquiry}
+    	where qnaSeq = #{qnaSeq} and qnaStatus = 0
+    </update>
 </mapper>

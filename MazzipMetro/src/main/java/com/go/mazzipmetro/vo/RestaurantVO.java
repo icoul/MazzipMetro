@@ -20,12 +20,16 @@ public class RestaurantVO {
 	private String restStatus; /* 업장상태 */
 	private String restContent; /* 업장소개글*/
 	
+	private String gradeName; /*등급명*/
+	private String dongName; /* 동 명 */
+	private String metroName; /* 지하철명*/
+	
 	public RestaurantVO(){}
 
 	public RestaurantVO(String restSeq, String userSeq, String gradeSeq, String restName, String restPhone,
 			String restImg, String restAddr, String restNewAddr, String restLatitude, String restLongitude,
 			String restZIndex, String dongId, String metroId, String restRegDate, String restVisitor, String restStatus,
-			String restContent) {
+			String restContent, String gradeName, String dongName, String metroName) {
 		super();
 		this.restSeq = restSeq;
 		this.userSeq = userSeq;
@@ -44,6 +48,9 @@ public class RestaurantVO {
 		this.restVisitor = restVisitor;
 		this.restStatus = restStatus;
 		this.restContent = restContent;
+		this.gradeName = gradeName;
+		this.dongName = dongName;
+		this.metroName = metroName;
 	}
 
 	public String getRestSeq() {
@@ -180,5 +187,30 @@ public class RestaurantVO {
 
 	public void setRestContent(String restContent) {
 		this.restContent = restContent;
+	}
+
+	public String getGradeName() {
+		return gradeName;
+	}
+
+	public void setGradeName(String gradeName) {
+		this.gradeName = gradeName;
+	}
+
+	public String getDongName() {
+		return dongName;
+	}
+
+	public void setDongName(String dongName) {
+		this.dongName = dongName;
+	}
+
+	public String getMetroName() {
+		return metroName;
+	}
+
+	public void setMetroName(String metroName) {
+		this.metroName = metroName;
 	} 
+	
 }

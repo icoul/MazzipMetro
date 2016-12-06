@@ -75,4 +75,29 @@ public class MazzipMetroDAO implements IDAO{
 		HashMap<String, String> userQuestion = sqlSession.selectOne("getUserQuestion", qnaSeq);
 		return userQuestion;
 	}
+
+	public int deleteAnswer(String qnaSeq) {
+		int n = sqlSession.update("deleteAnswer",qnaSeq);
+		return n;
+	}
+
+	public int deleteQuestion(String qnaSeq) {
+		int n = sqlSession.update("deleteQuestion",qnaSeq);
+		return n;
+	}
+
+	public int countAnswer(String qnaSeq) {
+		int count = sqlSession.selectOne("countAnswer",qnaSeq);
+		return count;
+	}
+
+	public int editAdminAnswer(HashMap<String, String> hashMap) {
+		int n = sqlSession.update("editAdminAnswer",hashMap);
+		return n;
+	}
+
+	public int editUserQuestion(HashMap<String, String> hashMap) {
+		int n = sqlSession.update("editUserQuestion",hashMap);
+		return n;
+	}
 }

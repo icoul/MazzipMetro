@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/css/segmented-controls.css">
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/css/hb_register.css">
     
-    <jsp:include page="top.jsp"></jsp:include>
+    <jsp:include page="../top.jsp"></jsp:include>
     
     
     <link href="<%= request.getContextPath() %>/resources/css/hb_register_.css" rel="stylesheet">
@@ -21,7 +21,7 @@
 <style>
 .subleftCon {float:left; width:200px; height:500px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;}
 .subleftCon h2 {width:187px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right;}
-.subrightCon {float:left; width:797px; border-right:1px solid #dbdbdb; height:500px;}
+.subrightCon {float:left; width:1200px; border-right:1px solid #dbdbdb; height:500px;}
 
 </style>
 
@@ -47,7 +47,7 @@
 <div class="subleftCon">
 <h2>회원유형선택</h2>
 </div>
-<div class="subrightCon" style="padding:8%">
+<div class="subrightCon" style="padding:7%">
 <a href="<%= request.getContextPath()%>/userRegister1.eat?type=0" class="btn btn-sq-lg btn-info">
               <i style="font-size: 10em;" class="fa fa-user"></i><br><br>
               	<span style="font-size:2em;">개인</span>
@@ -63,6 +63,6 @@
 	<span style="font-size: 5em; color:red;">사업자</span>
 	</div>
 </a> --%>
-<jsp:include page="footer.jsp"></jsp:include>
+<jsp:include page="../footer.jsp"></jsp:include>
 </body>
 </html>

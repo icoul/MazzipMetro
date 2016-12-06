@@ -7,25 +7,165 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 
-	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
-	<script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>
-	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 	
-	<link href="<%= request.getContextPath() %>/resources/css/hb_register_.css" rel="stylesheet">
+	<jsp:include page="../top.jsp" />
 	
-	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/1.0/zxcvbn-async.min.js"></script>
-	 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-	 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>
+	
+	<script type="text/javascript" >
+	$(function() {
+        $("#userUpload").on('change', function(){
+            readURL(this);
+        });
+    });
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+                $('#userProfile').attr('src', e.target.result);
+            }
+
+          reader.readAsDataURL(input.files[0]);
+        }
+    }
+	
+	
+	 function goSubmit(){
+		
+		var editFrm = document.editFrm;
+		
+		var chkboxArr = document.getElementsByName("userStation");
+		
+		var bool = false;
+		var count = 0;
+		for(var i=0; i<chkboxArr.length; i++) {
+			bool = chkboxArr[i].checked;
+			if(bool == true) {
+				count++;
+			}
+		}
+		
+		if (count > 3) {
+			alert("최대3개만 선택가능합니다.");
+		}
+		else {
+			editFrm.submit();
+		}
+	} 
+	
+	 
+	 $(document).ready(function() {
+			
+		  
+		    $('#contact_form').bootstrapValidator({
+		        // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
+		        feedbackIcons: {
+		            valid: 'glyphicon glyphicon-ok',
+		            invalid: 'glyphicon glyphicon-remove',
+		            validating: 'glyphicon glyphicon-refresh'
+		        },
+		        fields: {
+		            userStation: {
+		                validators: {
+		                    choice: {
+		                        max: 3,
+		                        message: '3개까지 선택가능합니다.'
+		                    }
+		                }
+		            },
+		            userPw: {
+		                validators: {
+		                    notEmpty: {
+		                        message: '사용하실 비밀번호를 입력해주세요.'
+		                    }
+		                }
+		            },
+		            userPhone: {
+		                validators: {
+		                    notEmpty: {
+		                        message: '전화번호는 필수입력사항이니 입력해주세요.'
+		                    },
+		                    phone: {
+		                        country: 'CN',
+		                        message: '전화번호 형식에 맞지 않습니다. 정확한 전화번호를 입력해주세요.'
+		                    }
+		                }
+		            },
+		          }
+		        })
+		        .on('success.form.bv', function(e) {
+		            $('#success_message').slideDown({ opacity: "show" }, "slow") // Do something ...
+		                $('#contact_form').data('bootstrapValidator').resetForm();
+
+		            e.preventDefault();
+		            var $form = $(e.target);
+		            var bv = $form.data('bootstrapValidator');
+		            $.post($form.attr('action'), $form.serialize(), function(result) {
+		                console.log(result);
+		            }, 'json');
+		        });
+		    
+		    $("#userPw").blur(function(){
+	    		
+	    		var pwd = $("#userPw").val(); 
+	    		
+	    		var pattern = new RegExp(/^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).*$/g);
+	    		// 숫자/문자/특수문자/ 포함 형태의 8~15자리 이내의 암호 정규식 
+	    		
+	    		var bool = pattern.test(pwd);
+	    		
+	    		if(pwd.length > 0 && !bool) {
+	    			$(this).next().show();
+	    			$(":input").attr('disabled', true).addClass('bgcol'); 
+				    $(this).attr('disabled', false).removeClass('bgcol');
+				    
+				    $("#btnEdit").attr('disabled', true);
+	    		}
+	    		else if(bool) {
+	    			$(this).next().hide();
+	    			$(":input").attr('disabled', false).removeClass('bgcol'); 
+				    
+				    $("#btnEdit").attr('disabled', false);
+	    		}
+	    		
+	    	});// end of $("#passwd").blur();
+	    	
+	    	
+	    	$("#userPw2").blur(function(){ 
+	    		
+	    		var pwd = $("#userPw").val();
+	    		var userPw2 = $("#userPw2").val();
+	    		
+	    		if(pwd != userPw2) {
+	    			$("#pwmatch").removeClass("glyphicon-ok");
+	    			$("#pwmatch").addClass("glyphicon-remove");
+	    			$("#pwmatch").css("color","#FF0004");
+	    			$(this).next().show();
+	    			$(":input").attr('disabled', true).addClass('bgcol'); 
+				    $(this).attr('disabled', false).removeClass('bgcol');
+				    $("#userPw").attr('disabled', false).removeClass('bgcol');
+				    
+				    $("#btnEdit").attr('disabled', true);
+	    		}
+	    		else{
+	    			$(this).next().hide(); 
+	                $(":input").attr('disabled', false).removeClass('bgcol'); 
+				    $("#btnEdit").attr('disabled', false);
+				    $("#pwmatch").removeClass("glyphicon-remove");
+	    			$("#pwmatch").addClass("glyphicon-ok");
+	    			$("#pwmatch").css("color","#00A41E");
+	    		}
+	    		
+	    	});// end of $("#passwdCheck").blur();
+			 });
+	</script>
 
 </head>
 <body>
 
 
-<form name="registerFrm" class="well form-horizontal" action="<%= request.getContextPath() %>/userRegisterEnd.eat" method="post"  id="contact_form" enctype="multipart/form-data" style="width:700px; background:none;">
+<form name="editFrm" id="contact_form" class="well form-horizontal" action="<%= request.getContextPath() %>/userEditEnd.eat" method="post" enctype="multipart/form-data" style="width:700px; background:none;">
 		<fieldset>
 		<!-- Form Name -->
 		<legend> ${sessionScope.loginUser.userName}님의 정보수정</legend>
@@ -62,7 +202,7 @@
 		    <div class="col-md-7 inputGroupContainer">
 		    <div class="input-group">
 		        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-		        <input type="password" class="form-control" name="password2" id="password2" placeholder="Repeat Password" autocomplete="off">
+		        <input type="password" class="form-control" name="userPw2" id="userPw2" placeholder="Repeat Password" autocomplete="off">
 		        
 		  <!-- <input name="userPw_confirm" id="userPw_confirm" placeholder="정확하게 입력해주세요" class="form-control"  type="text"> -->
 		    </div>
@@ -96,10 +236,10 @@
 		</div>
 		
 		<div class="form-group">
-		  <label class="col-md-3 control-label">선호역(지역)<br>
+		  <label class="col-md-4 control-label">선호역(지역)<br>
 		  최대 3개까지 선택가능합니다
 		  </label>
-		    <div class="col-md-6 inputGroupContainer">
+		    <div class="col-md-7 inputGroupContainer">
 		    <div class="input-group">
 		        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
 		        	<p>
@@ -179,14 +319,12 @@
 		</div> 
 		
 		
-		<!-- Success message -->
-		<div class="alert alert-success" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i> Thanks for contacting us, we will get back to you shortly.</div>
 		
 		<!-- Button -->
 		<div class="form-group">
 		  <label class="col-md-4 control-label"></label>
 		  <div class="col-md-4">
-		    <button type="button" class="btn btn-warning" onClick="goSubmit();">Send<span class="glyphicon glyphicon-send"></span></button>
+		    <button type="button" id="btnEdit" class="btn btn-warning" onClick="goSubmit();">정보수정<span class="glyphicon glyphicon-send"></span></button>
 		  </div>
 		</div>
 		

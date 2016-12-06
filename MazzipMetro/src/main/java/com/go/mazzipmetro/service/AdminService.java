@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.go.mazzipmetro.dao.AdminDAO;
+import com.go.mazzipmetro.vo.ContentVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.UserVO;
 
@@ -22,7 +23,8 @@ public class AdminService implements IService {
 		
 		return list;
 	}//end of List<UserVO> list(HashMap<String, String> map) ---------------
-
+	
+	//회원리스트
 	public int getTotalCount(HashMap<String, String> map) {
 		int count = dao.getTotalCount(map);
 		return count;
@@ -33,12 +35,34 @@ public class AdminService implements IService {
 		int n = dao.userDel(map);
 		return n;
 	}//end of int userDel(HashMap<String, String> map)-----------------------
+
+	// 관리자용 업장 수정 페이지
+	public RestaurantVO adminRestEditInfo(String restSeq) {
+		return dao.adminRestEditInfo(restSeq);
+	}
+
+	//컨텐츠리스트
+	public int getConTotalCount(HashMap<String, String> map) {
+		int count = dao.getConTotalCount(map);
+		return count;
+	}
 	
 	//컨텐츠 관리 리스트
-//	public List<HashMap<String, String>>  restList(HashMap<String, String> map) {
-//		// TODO Auto-generated method stub
-//		return restList;
-//	}
+	public List<HashMap<String, String>>  conTentList(HashMap<String, String> map) {
+		
+		List<HashMap<String, String>> adminConList = dao.conTentList(map);
+		return adminConList;
+	}
+
+	// 관리자용 업장 수정 페이지 (업장 등급 리스트)
+	public List<HashMap<String, String>> restGradeList() {
+		return dao.restGradeList();
+	}
+
+	// 관리자용 업장 수정 요청 
+	public int adminRestEdit(RestaurantVO vo) {
+		return dao.adminRestEdit(vo);
+	}
 
 	
 }
