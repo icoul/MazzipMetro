@@ -108,6 +108,25 @@
 		</td>
 	</tr>
 	<tr>
+		<td width="20%" rowspan="2" style = "font-size : 14pt; vertical-align: middle;" ><b>태그</b></td>
+		<td width="80%" align="left">
+		   <input type = "checkbox" class = "restBgTag" name = "restBgTag" id="korea" value="한식" /><label for="korea">한식</label>&nbsp;&nbsp;
+		   <input type = "checkbox" class = "restBgTag" name = "restBgTag" id="japan" value="양식" /><label for="japan">양식</label>&nbsp;&nbsp;
+		   <input type = "checkbox" class = "restBgTag" name = "restBgTag" id="china" value="일식" /><label for="china">일식</label>&nbsp;&nbsp;
+		   <input type = "checkbox" class = "restBgTag" name = "restBgTag" id="europe" value="중식" /><label for="europe">중식</label>&nbsp;&nbsp;
+		   <input type = "checkbox" class = "restBgTag" name = "restBgTag" id="india" value="동남아" /><label for="india">동남아</label>
+		</td>
+	</tr>
+	<tr>
+		<td width="80%" align="left">
+			<input type = "checkbox" class = "restMdTag" name = "restMdTag" id="meet" value="고기류" /><label for="meet">고기류</label>&nbsp;&nbsp;
+			<input type = "checkbox" class = "restMdTag" name = "restMdTag" id="fish" value="어폐류" /><label for="fish">어폐류</label>&nbsp;&nbsp;
+			<input type = "checkbox" class = "restMdTag" name = "restMdTag" id="vegetable" value="채소류" /><label for="vegetable">채소류</label>&nbsp;&nbsp;
+			<input type = "checkbox" class = "restMdTag" name = "restMdTag" id="rice" value="밥류" /><label for="rice">밥류</label>&nbsp;&nbsp;
+			<input type = "checkbox" class = "restMdTag" name = "restMdTag" id="noodle" value="면류" /><label for="noodle">면류</label>
+		</td>
+	</tr>
+	<tr>
 		<td height = "40px" colspan="2" align="center" valign="middle">
 			<a id="btnRegister" onClick="goRegister();" href = "#" style = "width : 20%;"><span style = "color : black; font-weight : bold; font-size : 14pt;">등록신청</span></a>
 		</td>

@@ -19,6 +19,8 @@ public class RestaurantVO {
 	private String restVisitor; /* 업장방문수 */
 	private String restStatus; /* 업장상태 */
 	private String restContent; /* 업장소개글*/
+	private String restBgTag; /* 업장태그 대분류 */
+	private String restMdTag; /* 업장태그 중분류 */
 	
 	private String gradeName; /*등급명*/
 	private String dongName; /* 동 명 */
@@ -29,8 +31,8 @@ public class RestaurantVO {
 	public RestaurantVO(String restSeq, String userSeq, String gradeSeq, String restName, String restPhone,
 			String restImg, String restAddr, String restNewAddr, String restLatitude, String restLongitude,
 			String restZIndex, String dongId, String metroId, String restRegDate, String restVisitor, String restStatus,
-			String restContent, String gradeName, String dongName, String metroName) {
-		super();
+			String restContent, String restBgTag, String restMdTag, String gradeName, String dongName,
+			String metroName) {
 		this.restSeq = restSeq;
 		this.userSeq = userSeq;
 		this.gradeSeq = gradeSeq;
@@ -48,6 +50,8 @@ public class RestaurantVO {
 		this.restVisitor = restVisitor;
 		this.restStatus = restStatus;
 		this.restContent = restContent;
+		this.restBgTag = restBgTag;
+		this.restMdTag = restMdTag;
 		this.gradeName = gradeName;
 		this.dongName = dongName;
 		this.metroName = metroName;
@@ -189,6 +193,22 @@ public class RestaurantVO {
 		this.restContent = restContent;
 	}
 
+	public String getRestBgTag() {
+		return restBgTag;
+	}
+
+	public void setRestBgTag(String restBgTag) {
+		this.restBgTag = restBgTag;
+	}
+
+	public String getRestMdTag() {
+		return restMdTag;
+	}
+
+	public void setRestMdTag(String restMdTag) {
+		this.restMdTag = restMdTag;
+	}
+
 	public String getGradeName() {
 		return gradeName;
 	}
@@ -211,6 +231,5 @@ public class RestaurantVO {
 
 	public void setMetroName(String metroName) {
 		this.metroName = metroName;
-	} 
-	
+	}
 }

@@ -75,7 +75,10 @@ public class RestaurantController {
 		
 		String name = req.getParameter("name");
 		
+		//List<String> metroId = service.getMetroId();
+		
 		req.setAttribute("name", name);
+		//req.setAttribute("metroId", metroId);
 		
 		return "restaurant/notRestRegi";
 	}
@@ -98,6 +101,13 @@ public class RestaurantController {
 		String dongId = req.getParameter("dongId");
 		String userSeq = loginUser.getUserSeq();
 		
+		// 배열로 들어온 태그들 하나로 묶어서 VO에 넣기
+		String[] BgTagArr = req.getParameterValues("restBgTag");
+		String[] MdTagArr = req.getParameterValues("restMdTag");
+		
+		String restBgTag = arrayToTag(BgTagArr);
+		String restMdTag = arrayToTag(MdTagArr);
+		
 		int result = 0;
 		
 		// 업장 소개이미지 파일 업로드 및 파일명 배열에 저장하기
@@ -111,9 +121,9 @@ public class RestaurantController {
 	
 		try{
 				
-				bytes = fvo.getAttach()[0].getBytes();
-				newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[0].getOriginalFilename(), path);
-				thumbnailManager.doCreateThumbnail(newFileName, path);
+			bytes = fvo.getAttach()[0].getBytes();
+			newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[0].getOriginalFilename(), path);
+			thumbnailManager.doCreateThumbnail(newFileName, path);
 				
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -132,6 +142,8 @@ public class RestaurantController {
 		vo.setRestLongitude(restLongitude);
 		vo.setMetroId(metroId);
 		vo.setDongId(dongId);
+		vo.setRestBgTag(restBgTag);
+		vo.setRestMdTag(restMdTag);
 		
 		if (restSeq.equals("-1")) { // 새 업장 등록
 			result = service.setRestRegister(vo);
@@ -231,8 +243,6 @@ public class RestaurantController {
 		int fileNum = Integer.parseInt(fileNum_Seq);
 				
 		String restContent = req.getParameter("content"); // 메뉴설명글
-		String bgCat = req.getParameter("bgCat");	  // 대분류
-		String[] mdCat = req.getParameterValues("mdCat"); // 중분류
 		
 		String menuNum_Str = req.getParameter("menuNum"); // 추가한 메뉴의 갯수
 		int menuNum = Integer.parseInt(menuNum_Str); // 메뉴의 갯수를 int로..
@@ -300,15 +310,14 @@ public class RestaurantController {
 		
 		map.put("restSeq", restSeq);
 		map.put("restContent", restContent);
-		map.put("bgCat", bgCat);
 		
 		int result = 0;
 		
 		// 업장 세부정보 등록(소개글, 이미지, 태그)
-		result = service.setRestaurantInfo(map, imageList, mdCat, mvo, menuNum);
+		result = service.setRestaurantInfo(map, imageList, mvo, menuNum);
 		// (정보를 담은 Hashmap, 소개이미지 리스트 imageList, 중분류 배열, mdCat, 메뉴VO mvo, 메뉴갯수 menuNum) 
 		
-		int endNum = 2 + imageList.size() + mdCat.length + menuNum;
+		int endNum = 2 + imageList.size() + menuNum;
 		
 		String msg = "실패했습니다";
 		
@@ -323,9 +332,9 @@ public class RestaurantController {
 
 	}
 	
-	// 업장 정보를 수정하기 위해 업장 리스트를 불러오는 메서드
-	@RequestMapping(value="/restEdit.eat", method={RequestMethod.GET})
-	public String restEdit(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+	// 업장 리스트를 불러오는 메서드
+	@RequestMapping(value="/restList.eat", method={RequestMethod.GET})
+	public String restList(HttpServletRequest req, HttpServletResponse res, HttpSession session){
 		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
 		String userSeq = loginUser.getUserSeq();
 				
@@ -333,31 +342,132 @@ public class RestaurantController {
 		
 		req.setAttribute("restList", restList);
 		
-		return "restaurant/restEdit";
+		return "restaurant/restList";
 	}
 	
 	// 수정할 업장을 선택해서 해당 업장의 수정창을 띄우는 메서드
-	@RequestMapping(value="/restEditEnd.eat", method={RequestMethod.GET})
-	public String restEditEnd(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+	@RequestMapping(value="/restEdit.eat", method={RequestMethod.POST})
+	public String restEdit(HttpServletRequest req, HttpServletResponse res, HttpSession session){
 
 		String restSeq = req.getParameter("restSeq");
 		
+		RestaurantVO vo = service.getOneRestInfo(restSeq);
 		
+		String bgTag = vo.getRestBgTag();
+		String mdTag = vo.getRestMdTag();
 		
-		req.setAttribute("restSeq", restSeq);
+		if (bgTag != null && mdTag != null) {
+			String[] bgTagArr = tagToArray(bgTag);
+			String[] mdTagArr = tagToArray(mdTag);
+			
+			req.setAttribute("bgTagArr", bgTagArr);
+			req.setAttribute("mdTagArr", mdTagArr);
+		}
 		
-		return "restaurant/restEditEnd";
+		req.setAttribute("vo", vo);
+		
+		return "restaurant/restEdit";
 	}
 	
-	// 업장 정보를 수정하기 위해 업장 리스트를 불러오는 메서드
+	// 업장 수정 메서드
+	@RequestMapping(value="/restEditEnd.eat", method={RequestMethod.POST})
+	public String restEditEnd(HttpServletRequest req, HttpServletResponse res, HttpSession session, RestaurantVO rvo, FileVO fvo){
+
+		// 배열로 들어온 태그들 하나로 묶어서 VO에 넣기
+		String[] BgTagArr = req.getParameterValues("restBgTag");
+		String[] MdTagArr = req.getParameterValues("restMdTag");
+		
+		String restBgTag = arrayToTag(BgTagArr);
+		String restMdTag = arrayToTag(MdTagArr);
+		
+		rvo.setRestBgTag(restBgTag);
+		rvo.setRestMdTag(restMdTag);
+
+		// 업장 소개이미지 파일 업로드 및 파일명 배열에 저장하기
+		String root = session.getServletContext().getRealPath("/");
+		String path = root + "files";
+		
+		String newFileName = "";
+		byte[] bytes = null;
+			
+		try{
+				
+			bytes = fvo.getAttach()[0].getBytes();
+			newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[0].getOriginalFilename(), path);
+			thumbnailManager.doCreateThumbnail(newFileName, path);
+		}catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
+		rvo.setRestImg(newFileName);
+		
+		int result = service.editRest(rvo);
+		
+		String msg = "수정에 실패했습니다. 알 수 없는 오류가 발생했습니다.";
+		String loc = "restEdit.eat";
+		
+		if (result == 1) {
+			msg = "해당 정보를 수정했습니다.";
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
+		
+		return "msg";
+
+	}
+	
+	// 업장 삭제 메서드
 	@RequestMapping(value="/restDel.eat", method={RequestMethod.POST})
 	public String restDel(HttpServletRequest req, HttpServletResponse res, HttpSession session){
 		
 		String restSeq = req.getParameter("restSeq");
+		String userSeq = req.getParameter("userSeq");
 		
-		req.setAttribute("restSeq", restSeq);
+		HashMap<String, String> map = new HashMap<String, String>();
 		
-		return "restaurant/restDel";
+		map.put("restSeq", restSeq);
+		map.put("userSeq", userSeq);
+		
+		int result = service.delRest(map);
+		
+		String msg = "삭제에 실패했습니다. 알 수 없는 오류가 발생했습니다.";
+		String loc = "restEdit.eat";
+		
+		if (result == 1) {
+			msg = "해당 업장을 삭제했습니다.";
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
+		
+		return "msg";
+	}
+	
+	
+	// 태그 배열을 입력하면 VO에 맞는 형태로 만들어주는 메서드
+	public static String arrayToTag(String[] tagArr){
+		
+		String tag = "";
+		
+		for (int i = 0; i < tagArr.length; i++) {
+			
+			tag += tagArr[i];
+			
+			if ((i+1) != tagArr.length) {
+				tag += ",";
+			}
+		}
+		
+		return tag;
+	}
+	
+	// VO로 가져온 String의 태그를 입력하면 배열로 만들어주는 메서드
+	public static String[] tagToArray(String tag){
+		
+		String[] tagArr = tag.split(",");;
+		
+		return tagArr;
 	}
 }
 

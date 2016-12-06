@@ -62,9 +62,9 @@ public class RestaurantService implements IService{
 	
 	// 업장 세부정보 등록(소개글, 이미지, 태그)
 	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
-	public int setRestaurantInfo(HashMap<String, String> map, ArrayList<String> imageList, String[] mdCat, MenuVO mvo, int menuNum) {
+	public int setRestaurantInfo(HashMap<String, String> map, ArrayList<String> imageList, MenuVO mvo, int menuNum) {
 		
-		int result = dao.setRestaurantInfo(map, imageList, mdCat, mvo, menuNum);
+		int result = dao.setRestaurantInfo(map, imageList, mvo, menuNum);
 		
 		return result;
 	}// end of setRestaurantInfo(HashMap<String, Object> map) 
@@ -76,6 +76,36 @@ public class RestaurantService implements IService{
 		List<RestaurantVO> restList = dao.getRestList(userSeq);
 		
 		return restList;
+	}
+
+	// 매장 정보 수정을 위한 1개의 매장정보 가져오기
+	public RestaurantVO getOneRestInfo(String restSeq) {
+
+		RestaurantVO vo = dao.getOneRestInfo(restSeq);
+		
+		return vo;
+	}
+
+	// 매장 삭제 매서드
+	public int delRest(HashMap<String, String> map) {
+
+		int result = dao.delRest(map);
+		
+		return result;
+	}
+	
+	// 매장 수정 매서드
+	public int editRest(RestaurantVO rvo) {
+
+		int result = dao.editRest(rvo);
+		
+		return result;
+	}
+
+	// 지하철 ID, 역명 전체 리스트 가져오기
+	public List<String> getMetroId() {
+		List<String> metroId = dao.getMetroId();
+		return metroId;
 	}
 
 /*	public List<JSONObject> getReviewList(HashMap<String, String> map) {
