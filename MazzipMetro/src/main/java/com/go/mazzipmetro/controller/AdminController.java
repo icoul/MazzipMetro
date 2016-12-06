@@ -6,7 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,14 +25,45 @@ public class AdminController {
 	@Autowired
 	private AdminService service;
 	
+	
+	// 관리자용 업장 수정 페이지 (업장 등급 리스트)
+	@RequestMapping(value="/restGradeList.eat", method={RequestMethod.POST})
+	public String  restGradeList(HttpServletRequest req) {
+		List<HashMap<String, String>> restGradeList = service.restGradeList();
+		JSONObject jObj = new JSONObject();
+		jObj.put("restGradeList", restGradeList);
+		
+		req.setAttribute("jObj", jObj);
+		return "/admin/ajax/restGradeList";
+	}
+	
 	// 관리자용 업장 수정 페이지 
 	@RequestMapping(value="/adminRestEdit.eat", method={RequestMethod.POST})
 	public String adminRestEdit(HttpServletRequest req) {
 		String restSeq = req.getParameter("restSeq");
-		RestaurantVO vo = service.adminRestEdit(restSeq);
+		RestaurantVO vo = service.adminRestEditInfo(restSeq);
 		
 		req.setAttribute("vo", vo);
 		return "/admin/adminRestEdit";
+	}
+	
+	// 관리자용 업장 수정 요청 
+	@RequestMapping(value="/adminRestEditEnd.eat", method={RequestMethod.POST})
+	public String  adminRestEditEnd(HttpServletRequest req, RestaurantVO vo) {
+		System.out.println(vo.getRestImg());
+		
+		vo.setRestImg("900ba417cbe9597ae3ac58a3c3458bdc.jpg");
+		int result = service.adminRestEdit(vo);
+		
+		String msg = "";
+		String script = "self.close();";
+		
+		if (result > 0) {
+			msg ="업장 정보변경 성공!";
+		}
+		req.setAttribute("msg", msg);
+		req.setAttribute("script", script);
+		return "/admin/msgEnd";
 	}
 	
 	// 등록된 업장관리
@@ -178,6 +209,7 @@ public class AdminController {
 		req.setAttribute("colName", colName);
 		req.setAttribute("search", search);
 		req.setAttribute("pagebar", pagebar);
+		req.setAttribute("pageNo", pageNo);
 		
 		return "/admin/adminUserList";
 		
@@ -188,7 +220,43 @@ public class AdminController {
 	//회원삭제
 	@RequestMapping(value = "/adminUserDel.eat", method = RequestMethod.POST)
 	public String userDel(HttpServletRequest req) {
+		
 		String userSeq = req.getParameter("userSeq");
+		System.out.println(userSeq);
+		String str_pageNo = req.getParameter("pageNo");
+		
+		int pageNo = Integer.parseInt(str_pageNo);
+		HttpSession ses = req.getSession();
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("userSeq", userSeq);
+		
+		int result = service.userDel(map);
+		
+		String msg="";
+		String loc ="javascript:history.back();";
+		
+		if (result > 0) {
+			msg ="회원이 삭제되었습니다.";
+			loc = ("adminUserList.eat?pageNo="+pageNo);
+		}
+		
+		else {
+			msg ="회원이 삭제되지 않았습니다.";
+			loc ="javascript:location.href='adminUserList.eat';";
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
+		
+		return "/admin/adminUserDel";
+	}
+	
+	/*//회원 수정
+	@RequestMapping(value = "/adminUserEdit.eat", method = RequestMethod.POST)
+	public String userEdit(HttpServletRequest req) {
+		String userSeq = req.getParameter("userSeq");
+		String pageNo = req.getParameter("pageNo");
 		
 		HttpSession ses = req.getSession();
 		
@@ -202,7 +270,7 @@ public class AdminController {
 		
 		if (result > 0) {
 			msg ="회원이 삭제되었습니다.";
-			loc ="javascript:history.back();";
+			loc += "adminUserList.eat?pageNo=pageNo";
 		}
 		
 		else {
@@ -214,7 +282,7 @@ public class AdminController {
 		req.setAttribute("loc", loc);
 		
 		return "/admin/adminUserDel";
-	}
+	}*/
 	
 	//컨텐츠관리
 	@RequestMapping(value="/adminConList.eat", method={RequestMethod.GET})

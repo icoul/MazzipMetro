@@ -125,7 +125,8 @@
 	function goRegister(){
 		
 		var content = $(".content").val();
-		var mdCat = $(".mdCat:checked").length;
+		var restBgTag = $(".restBgTag:checked").length;
+		var restMdTag = $(".restMdTag:checked").length;
 		var menuNum = $("#menuNum").val();
 		var menuName = $(".menuName").val();
 		var menuContent = $(".menuContent").val();
@@ -136,9 +137,8 @@
 			return;
 		}
 		
-		if (mdCat < 1) {
+		if (restBgTag < 1 || restMdTag < 1) {
 			alert("태그는 최소 1개 이상 선택해주세요");
-			alert(mdCat);
 			return;
 		}
 		
@@ -194,27 +194,6 @@
 			<div id = "fileAttach">
 			
 			</div>
-		</td>
-	</tr>
-	<tr>
-		<td width="20%" rowspan="2" style = "font-size : 14pt; vertical-align: middle;" ><b>태그</b></td>
-		<td width="80%" align="left">
-		   <select name = "bgCat" id = "bgCat" style = "width: 100px; height: 25px; font-size: 12pt;">
-		   		<option value="한식">한식</option>
-		   		<option value="양식">양식</option>
-		   		<option value="일식">일식</option>
-		   		<option value="중식">중식</option>
-		   		<option value="동남아">동남아</option>
-		   </select>
-		</td>
-	</tr>
-	<tr>
-		<td width="80%" align="left">
-			<input type = "checkbox" class = "mdCat" name = "mdCat" id="meet" value="고기류" /><label for="meet">고기류</label>&nbsp;&nbsp;
-			<input type = "checkbox" class = "mdCat" name = "mdCat" id="fish" value="어폐류" /><label for="fish">어폐류</label>&nbsp;&nbsp;
-			<input type = "checkbox" class = "mdCat" name = "mdCat" id="vegetable" value="채소류" /><label for="vegetable">채소류</label>&nbsp;&nbsp;
-			<input type = "checkbox" class = "mdCat" name = "mdCat" id="rice" value="밥류" /><label for="rice">밥류</label>&nbsp;&nbsp;
-			<input type = "checkbox" class = "mdCat" name = "mdCat" id="noodle" value="면류" /><label for="noodle">면류</label>
 		</td>
 	</tr>
 	<!-- <tr>

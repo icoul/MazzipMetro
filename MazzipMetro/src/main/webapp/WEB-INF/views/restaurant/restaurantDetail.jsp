@@ -18,134 +18,158 @@
  
  <script type="text/javascript">
  $(document).ready(function(){
-		
-		
+		//alert("${restSeq}");
+	 getReviewList();
 				
 	});
  
  $(function () {
-		
-	    $('#container').highcharts({
-	        chart: {
-	            plotBackgroundColor: null,
-	            plotBorderWidth: 0,
-	            plotShadow: false
-	        },
-	        title: {
-	            text: '',
-	            align: 'center',
-	            verticalAlign: 'middle',
-	            y: 40
-	        },
-	        tooltip: {
-	            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-	        },
-	        plotOptions: {
-	            pie: {
-	                dataLabels: {
-	                    enabled: true,
-	                    distance: -50,
-	                    style: {
-	                        fontWeight: 'bold',
-	                        color: 'white',
-	                        textShadow: '0px 1px 2px black'
-	                    }
-	                },
-	                startAngle: -90,
-	                endAngle: 90,
-	                center: ['50%', '75%']
-	            }
-	        },
-	        series: [{
-	            type: 'pie',
-	            name: 'Browser share',
-	            innerSize: '50%',
-	            data: [
-	                
-	                <c:forEach var="map" items="${agelineChartList}" varStatus="status">
-	                		['${map.ageline}대',parseInt(${map.percent})],
-	           		</c:forEach>
-	                
-	                {
-	                    name: 'Proprietary or Undetectable',
-	                    y: 0.2,
-	                    dataLabels: {
-	                        enabled: false
-	                    }
-	                }
-	            ]
-	        }]
-	    });
-	}); 
+     
+     $('#container').highcharts({
+         chart: {
+             plotBackgroundColor: null,
+             plotBorderWidth: 0,
+             plotShadow: false
+         },
+         title: {
+             text: '',
+             align: 'center',
+             verticalAlign: 'middle',
+             y: 40
+         },
+         tooltip: {
+             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+         },
+         plotOptions: {
+             pie: {
+                 dataLabels: {
+                     enabled: true,
+                     distance: -50,
+                     style: {
+                         fontWeight: 'bold',
+                         color: 'white',
+                         textShadow: '0px 1px 2px black'
+                     }
+                 },
+                 startAngle: -90,
+                 endAngle: 90,
+                 center: ['50%', '75%']
+             }
+         },
+         series: [{
+             type: 'pie',
+             name: 'Browser share',
+             innerSize: '50%',
+             data: [
+                 
+                 <c:forEach var="map" items="${agelineChartList}" varStatus="status">
+                       ['${map.ageline}대',parseInt(${map.percent})],
+                  </c:forEach>
+                 
+                 {
+                     name: 'Proprietary or Undetectable',
+                     y: 0.2,
+                     dataLabels: {
+                         enabled: false
+                     }
+                 }
+             ]
+         }]
+     });
+ }); 
+
+
+$(function () {
+    
+    /* var dataArr = new Array(); //자바스크립트에서 배열을 선언하는 것
+    <c:forEach var="rcd" items="${list}">
+       dataArr.push("${rcd.PERCENT}"); //배열속에 값을 넣어주는 것.
+    </c:forEach> */
+    
+     $('#container2').highcharts({
+         chart: {
+             plotBackgroundColor: null,
+             plotBorderWidth: null,
+             plotShadow: false,
+             type: 'pie'
+         },
+         title: {
+             text: ''
+         },
+         tooltip: {
+             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+         },
+         plotOptions: {
+             pie: {
+                 allowPointSelect: true,
+                 cursor: 'pointer',
+                 dataLabels: {
+                     enabled: true,
+                     format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                     style: {
+                         color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                     }
+                 }
+             }
+         },
+         series: [{
+             name: '성별 구성비율',
+             colorByPoint: true,
+             data: [/* {
+                 name: '남자',
+                 y: Number(dataArr[0]) //Number() 함수를 꼭 써야한다.
+             }, {
+                 name: '여자',
+                 y: Number(dataArr[1]),
+                 sliced: true,
+                 selected: true
+             } */
+             
+             <c:forEach var="map" items="${genderChartList}" varStatus="status" >
+                <c:if test="${status.count < genderChartList.size()}">
+                {
+                     name: '${map.gender}',
+                     y: Number(${map.percent})
+                     <c:if test="${status.count == genderChartList.size() - 1}">
+                     ,
+                     sliced: true,
+                     selected: true
+                     </c:if>
+                 }
+                <c:if test="${status.count < genderChartList.size()-1}">
+                   ,
+                </c:if>               
+                </c:if>
+             </c:forEach>
+             
+             ]
+         }]
+     });
+ });
  
- 
- $(function () {
+ function getReviewList(){
+	 
+	 var form_data = {
+			 	StartRno : $("#StartRno").val(),   // 키값 : 밸류값 
+			 	EndRno  : $("#EndRno").val(),     // 키값 : 밸류값
+			 	restSeq : "${restSeq}"
+			}
+	 
+	 $.ajaxSettings.traditional = true;
+	 $.ajax({ 
+		 	
+			url: "<%= request.getContextPath()%>/ReviewListAjax.eat",  
+			method:"get",  	
+			data: form_data, 
+			dataType: "html",
+			success: function(data) {
+				
+				$("#ReviewListAjax").html(data);
+				}
+		});//end of $.ajax()
 		
-		/* var dataArr = new Array(); //자바스크립트에서 배열을 선언하는 것
-		<c:forEach var="rcd" items="${list}">
-			dataArr.push("${rcd.PERCENT}"); //배열속에 값을 넣어주는 것.
-		</c:forEach> */
-		
-	    $('#container2').highcharts({
-	        chart: {
-	            plotBackgroundColor: null,
-	            plotBorderWidth: null,
-	            plotShadow: false,
-	            type: 'pie'
-	        },
-	        title: {
-	            text: ''
-	        },
-	        tooltip: {
-	            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-	        },
-	        plotOptions: {
-	            pie: {
-	                allowPointSelect: true,
-	                cursor: 'pointer',
-	                dataLabels: {
-	                    enabled: true,
-	                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-	                    style: {
-	                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-	                    }
-	                }
-	            }
-	        },
-	        series: [{
-	            name: '성별 구성비율',
-	            colorByPoint: true,
-	            data: [/* {
-	                name: '남자',
-	                y: Number(dataArr[0]) //Number() 함수를 꼭 써야한다.
-	            }, {
-	                name: '여자',
-	                y: Number(dataArr[1]),
-	                sliced: true,
-	                selected: true
-	            } */
-	            
-	            <c:forEach var="map" items="${genderChartList}" varStatus="status" >
-	            	<c:if test="${status.count < genderChartList.size()}">
-	            	{
-	                    name: '${map.gender}',
-	                    y: Number(${map.percent})
-	                    <c:if test="${status.count == genderChartList.size() - 1}">
-	                    ,
-	                    sliced: true,
-	                    selected: true
-	                    </c:if>
-	                }
-	            	<c:if test="${status.count < genderChartList.size()-1}">
-	            		,
-	            	</c:if>            	
-	            	</c:if>
-	            </c:forEach>
-	            
-	            ]
-	        }]
-	    });
-	});
+	
+ }
  </script>
 </head>
 <body>
@@ -167,6 +191,7 @@
       </tr>
       <tr></tr>
   </table>
+  
 
 <!-- 음식점 지도 및 로드뷰 표시, 출발지 입력 -->
 <div id="mapContainer" style="border:solid 1px gray;padding: 10px;">
@@ -184,57 +209,14 @@
  <div id="container" style="width: 210px; height: 300px;  "></div>
  <div id="container2" style="width: 210px; height: 300px;  "></div>
 
-	<h2>${restvo.restname}의 리뷰(${reviewList.size() })</h2>
+	<%-- <h2>${restvo.restname}의 리뷰(${reviewList.size() })</h2> --%>
 	
-	<table  class="table table-bordered">
-		
-		<c:forEach var="review" items="${reviewList}" varStatus="status">
-			<tr>
-				<td>${review.userName }  <img src="<%= request.getContextPath() %>/files/${review.userProfile}" width="100px" height="100px"/></td>
-				<td>
-					<section>${review.reviewContent}</section>
-					<section>
-						<c:forEach var="reviewImage" items="${reviewImageList}">
-							<c:if test="${review.reviewSeq == reviewImage.reviewSeq}">
-								<a data-toggle="modal" data-target="#reviewImageDiv${status.index}"  data-dismiss="modal"><img src="<%= request.getContextPath() %>/files/${reviewImage.reviewImg}" width="100px" height="100px"/></a> &nbsp;&nbsp;
-							</c:if>
-						</c:forEach>
-					</section>
-				</td>
-			</tr>
-			
-			<%-- <div class="modal fade" id="reviewImageDiv${status.index}" role="dialog" >
-			 <div class="modal-dialog modal-lg">
-			    <!-- Modal content-->
-			    <div class="modal-content" align="center" >
-			      <div class="modal-header">
-			        <button type="button" class="close myclose" data-dismiss="modal">&times;</button> X버튼
-			       		<h4 class="modal-title"></h4>
-			      </div>
-			      <div class="modal-body" style="height: 600px; width: 100%;">
-			        <div id="reviewImage">
-			       <iframe scrolling="no" style=" border: none; width: 100%; height: 600px; " src="<%= request.getContextPath() %>/reviewModal.eat?reviewseq=${review.reviewseq}">
-				          </iframe> 
-				          </div>
-				   </div>
-				        <div class="modal-footer">
-				          <button type="button" class="btn btn-default myclose" data-dismiss="modal">닫기</button>
-				        </div>
-				      </div>
-				 </div>
-			</div> --%>
-			
-			<div class="modal  fade" id="reviewImageDiv${status.index}" role="dialog" >
-			  <iframe scrolling="no" style=" border: none; width: 100%; height: 600px; " src="<%= request.getContextPath() %>/reviewModal.eat?reviewseq=${review.reviewSeq}&restname=${restvo.restname}&username=${review.userName }&reviewprofile=${review.userProfile}&reviewcontent=${review.reviewContent}&reviewregdate=${review.reviewRegDate}">
-			  </iframe>
-			  <div >
-			   <button type="button" class="btn btn-default myclose" data-dismiss="modal">닫기</button>
-			  </div> 
-			  
-			</div>
-		</c:forEach>
-		
-	</table>
+	<div id="ReviewListAjax"></div>
+	
+	<input type = "hidden" id = "StartRno" value = "1" />
+	<input type = "hidden" id = "EndRno" value = "5" />
+	
+	
 
 </div>
 <script>

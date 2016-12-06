@@ -34,8 +34,8 @@ public class AdminDAO implements IDAO{
 	}
 
 	// 관리자용 업장 수정 페이지 요청을 위한 하나의 업장정보 알아오기
-	public RestaurantVO adminRestEdit(String restSeq) {
-		return sqlSession.selectOne("restaurant.adminRestEdit", restSeq);
+	public RestaurantVO adminRestEditInfo(String restSeq) {
+		return sqlSession.selectOne("restaurant.adminRestEditInfo", restSeq);
 	}
 
 
@@ -47,6 +47,16 @@ public class AdminDAO implements IDAO{
 	public int getConTotalCount(HashMap<String, String> map) {
 		int count = sqlSession.selectOne("admin.getConTotalCount", map); 
 		return count;
+	}
+
+	// 관리자용 업장 수정 페이지 (업장 등급 리스트)
+	public List<HashMap<String, String>> restGradeList() {
+		return sqlSession.selectList("restaurant.restGradeList");
+	}
+
+	// 관리자용 업장 수정 요청 
+	public int adminRestEdit(RestaurantVO vo) {
+		return sqlSession.insert("restaurant.adminRestEditEnd", vo);
 	}
 
 	

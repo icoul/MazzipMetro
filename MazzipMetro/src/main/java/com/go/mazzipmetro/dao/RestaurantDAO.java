@@ -57,7 +57,7 @@ public class RestaurantDAO implements IDAO{
 	}// end of getNewRestSeq(RestaurantVO vo)
 
 	// 업장 세부정보 등록(소개글, 이미지, 태그)
-	public int setRestaurantInfo(HashMap<String, String> map, ArrayList<String> imageList, String[] mdCat, MenuVO mvo, int menuNum) {
+	public int setRestaurantInfo(HashMap<String, String> map, ArrayList<String> imageList, MenuVO mvo, int menuNum) {
 		
 		int result = 0;
 		
@@ -68,14 +68,6 @@ public class RestaurantDAO implements IDAO{
 		for (int i = 0; i < imageList.size(); i++) {
 			map.put("AdImg", imageList.get(i));
 			result += sqlSession.insert("restaurant.setRestImg", map);
-		}
-		
-		//업장 태그추가
-		result += sqlSession.insert("restaurant.setRestBgTag", map);
-		
-		for (int i = 0; i < mdCat.length; i++) {
-			map.put("mdCat", mdCat[i]);
-			result += sqlSession.insert("restaurant.setRestMdTag", map);
 		}
 		
 		//메뉴 추가
@@ -107,26 +99,49 @@ public class RestaurantDAO implements IDAO{
 		return restList;
 	}
 
-	public List<ReviewVO> pagging_list(HashMap<String, String> map) {
+	// 매장 정보 수정을 위한 1개의 매장정보 가져오기
+	public RestaurantVO getOneRestInfo(String restSeq) {
 		
-		List<ReviewVO> list = sqlSession.selectList("review.getReviewPaggingList", map);
+		RestaurantVO vo = sqlSession.selectOne("restaurant.adminRestEditInfo", restSeq);
+		
+		return vo;
+	}
+	
+	// 페이징 처리 된 리뷰리스트
+	public List<HashMap<String, String>> getReviewList(HashMap<String, String> map) {
+
+		List<HashMap<String, String>> list = sqlSession.selectList("review.getReviewPaggingList", map);
 		
 		return list;
 	}
 
-/*	public int getTotalCount(String restSeq) {
+	// 매장 삭제 매서드
+	public int delRest(HashMap<String, String> map) {
 
-		int result = sqlSession.selectOne("review.getTotalCount", restSeq);
+		int result = sqlSession.update("restaurant.delRest", map);
 		
 		return result;
 	}
 
-	public List<JSONObject> getReviewList(HashMap<String, String> map) {
-
-		List<JSONObject> list = sqlSession.selectList("review.getReviewPaggingList", map);
+	public int editRest(RestaurantVO rvo) {
 		
-		return list;
-	}*/
+		int result = sqlSession.update("restaurant.adminRestEditEnd", rvo);
+		
+		return result;
+	}
+
+	// 지하철 ID, 역명 전체 리스트 가져오기
+	public List<String> getMetroId() {
+		List<String> metroId = sqlSession.selectList("restaurant.getMetro");
+		return metroId;
+	}
+
+	public int getTotalReview(String restSeq) {
+		
+		int result = sqlSession.selectOne("review.getTotalCount", restSeq);
+		
+		return result;
+	}
 
 
 }
