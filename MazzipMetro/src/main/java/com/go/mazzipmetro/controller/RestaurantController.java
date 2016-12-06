@@ -342,6 +342,8 @@ public class RestaurantController {
 
 		String restSeq = req.getParameter("restSeq");
 		
+		
+		
 		req.setAttribute("restSeq", restSeq);
 		
 		return "restaurant/restEditEnd";

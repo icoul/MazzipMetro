@@ -177,14 +177,6 @@
 		, default)
 	</insert>
 	
-	<!-- 해당 회원이 가진 업장번호를 모두 가져오는 SQL -->
-	<!--
-	<select id = "restaurant.getRestSeq" parameterType="String" resultType="java.util.ArrayList">
-		select restSeq
-		from TBL_Restaurant
-		where userSeq = #{userSeq}
-	</select> -->
-	
 	<!-- 업장 리스트를 위한 정보 가져오기 -->
 	<select id="restaurant.getRestrauntEditList" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
 		select R.restSeq,  R.userSeq, G.gradeName as gradeSeq,  R.restName,  R.restPhone,
