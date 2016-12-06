@@ -18,10 +18,10 @@ public class ReviewService implements IService{
 	@Autowired
 	private ReviewDAO dao;
 	
-	public List<HashMap<String,String>> getReviewList(String restseq) {
+	/*public List<HashMap<String,String>> getReviewList(String restseq) {
 		List<HashMap<String,String>> reviewList = dao.getReviewList(restseq);
 		return reviewList;
-	}
+	}*/
 
 	public List<HashMap<String,String>> getReviewImageList() {
 		List<HashMap<String,String>> reviewImageList = dao.getReviewImageList();
@@ -63,11 +63,11 @@ public class ReviewService implements IService{
 		int result = dao.addReview(rvo);
 		if(result == 1)
 		{
-			String Seq = dao.getReviewSeq(rvo);
+			String reviewSeq = dao.getReviewSeq(rvo);
 			
-			if(Seq != null)
+			if(reviewSeq != null)
 			{
-				map.put("Seq", Seq);
+				map.put("reviewSeq", reviewSeq);
 				
 				for(int i =0; i<imageList.size(); i++)
 				{
@@ -79,12 +79,20 @@ public class ReviewService implements IService{
 			}
 			else
 			{
-				System.out.println("Seq를 받아오지 못했습니다.");
+				System.out.println("reviewSeq를 받아오지 못했습니다.");
 			}
 			
 		}
 		
 		return result;
 	}// end of addReview
+	
+	// 총리뷰수 알아오기 
+	public int getTotalCount(String restSeq) {
+
+		int result = dao.getTotalCount(restSeq);
+		
+		return result;
+	}
 
 }

@@ -15,12 +15,12 @@
 		 <result column="reviewRegDate"	  	    property="reviewRegDate" 			javaType="String" />
 	</resultMap>
 	
-	<select id="getReviewList" parameterType="String" resultMap="dataresultmap2">
+	<!-- <select id="getReviewList" parameterType="String" resultMap="dataresultmap2">
 		select userName, userProfile, reviewSeq, reviewTitle, reviewContent, reviewAvgScore, reviewRegDate
 		from tbl_user A join tbl_review B
 		on A.userseq = B.userSeq
 		where restSeq = #{restSeq} and reviewStatus = 0 and userSort = 1
-	</select>
+	</select> -->
 	
 	<resultMap type="java.util.HashMap" id="dataresultmap3">
 	 	 <result column="revImgSeq"	  	        property="revImgSeq" 			    javaType="String" />
@@ -32,7 +32,7 @@
 	<select id="getReviewImageList" resultMap="dataresultmap3">
 		select revImgSeq, reviewSeq, reviewImg
 		from tbl_review_Image
-		where reviewImgStatus = 0
+		where reviewImageStatus = 0
 	</select>
 	
 	<resultMap type="java.util.HashMap" id="dataresultmap4">
@@ -45,14 +45,14 @@
 	<select id="getReviewImageListByReviewSeq" parameterType="String" resultMap="dataresultmap4">
 		select revImgSeq, reviewSeq, reviewImg
 		from tbl_review_Image
-		where reviewImgStatus = 0 and reviewSeq = #{reviewSeq}
+		where reviewImageStatus = 0 and reviewSeq = #{reviewSeq}
 	</select>
 	
 
 	<select id="getLargeReviewImageName" parameterType="String" resultType="String">
 		select reviewImg
 		from tbl_review_Image
-		where reviewImgStatus = 0 and revImgSeq = #{revImgSeq}
+		where reviewImageStatus = 0 and revImgSeq = #{revImgSeq}
 	</select>
 	
 	<resultMap type="java.util.HashMap" id="dataresultmap5">
@@ -108,21 +108,23 @@
 	</select>
 	<!-- 리뷰 이미지 얻어오기 -->
 	<insert id="addReviewImg" parameterType="java.util.HashMap">
-		insert into tbl_review_Image values(#{Seq}, #{reviewImg}, default)
+		insert into tbl_review_Image values(tbl_review_image_seq.nextval, #{reviewSeq}, #{reviewImg}, default)
 	</insert>
 	
-	<!-- #32. 글 1개를 보여주기전에 조회수(readCount) 증가하기 -->
+<!-- 	 #32. 글 1개를 보여주기전에 조회수(readCount) 증가하기 
 	<update id="setAddReadCount" parameterType="String">
 		update tbl_review set readCount = readCount + 1
         where status = 1 and seq = #{seq}
-	</update>
+	</update> -->
 	
-<!-- 	<select id="getTotalCount" parameterType="String" resultType="int">
+	<!-- 총 리뷰수 얻어오기 -->
+ 	<select id="getTotalCount" parameterType="String" resultType="int">
 		select count(*)
 		from tbl_review
 		where restSeq = #{restSeq}
 	</select>
 	
+	<!-- 페이징 처리된 리뷰 보이기 -->
 	<select id="getReviewPaggingList" parameterType="java.util.HashMap" resultMap="dataresultmap2" >
 		select V.*
 		from
@@ -133,7 +135,7 @@
 		where restSeq = #{restSeq} and reviewStatus = 0 and userSort = 1
 		)V
 		WHERE V.rno BETWEEN #{StartRno} AND #{EndRno}
-	</select> -->
+	</select>
 	
 	
 	

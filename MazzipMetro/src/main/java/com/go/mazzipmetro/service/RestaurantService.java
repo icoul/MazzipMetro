@@ -108,23 +108,21 @@ public class RestaurantService implements IService{
 		return metroId;
 	}
 
-/*	public List<JSONObject> getReviewList(HashMap<String, String> map) {
+	// 리뷰 가져오기 
+	public List<HashMap<String, String>> getReviewList(HashMap<String, String> map) {
 		
-		List<JSONObject> list = dao.getReviewList(map);
+		List<HashMap<String, String>> list = dao.getReviewList(map);
 		
 		return list;
 	}
 
-
-	public int getTotalCount(String restSeq) {
-
-		int result = dao.getTotalCount(restSeq);
+	//총 리뷰수 가져오기
+	public int getTotalReview(String restSeq) {
+		
+		int result = dao.getTotalReview(restSeq);
 		
 		return result;
 	}
-*/
-
-
 
 	
 }

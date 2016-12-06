@@ -122,8 +122,6 @@ public class BossController {
 		String msg = "없음";
 		String loc ="javascript:history.back();";
 		
-		//임의의 포인트 넣어줬음
-		 //int userPoint = 50000000;
 				
 		//포인트잔액이 부족했을시
 		if (userPoint < 1000000) {
@@ -236,8 +234,6 @@ public class BossController {
 		String msg = "없음";
 		String loc ="javascript:history.back();";
 		
-		//임의의 포인트 넣어줬음
-		//int userPoint = 600000;
 				
 		//포인트잔액이 부족했을시
 		if (userPoint < 300000) {
