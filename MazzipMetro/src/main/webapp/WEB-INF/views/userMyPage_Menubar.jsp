@@ -5,7 +5,6 @@
 <html>
 <head>
 
-
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
@@ -37,8 +36,16 @@
 	          <li><a href="#">마일리지현황</a></li>
 	          <li><a href="#">쿠폰현황</a></li>
 	          <li><a href="#">사용로그</a></li> 
-	          <li><a href="#">개인정보수정</a></li> 
+	          <li id="userEditBtn"> <a href="#">개인정보수정 </a></li> 
 	          <li><a href="#">회원탈퇴</a></li>  
+	        </ul>
+	      </li>
+	      <li class="dropdown">
+	        <a class="dropdown-toggle" data-toggle="dropdown" href="#">문의
+	        <span class="caret"></span></a>
+	        <ul class="dropdown-menu">
+	          <li><a href="javascript:goAsk();">문의하기</a></li>
+	          <li id="userQnaBtn"><a href="#">나의문의내역</a></li>
 	        </ul>
 	      </li>
 	    </ul>
@@ -80,5 +87,6 @@
 	  </div>
 </nav>
 </c:if>
+
 </body>
 </html>

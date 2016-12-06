@@ -351,7 +351,26 @@ public class UserController {
 
 //	로그인 시 개인회원 마이페이지
 	@RequestMapping(value="/userMyPage.eat", method={RequestMethod.GET})
-	public String userMyPage(UserVO vo, HttpServletRequest req, HttpServletResponse res){
+	public String userMyPage(UserVO vo, HttpServletRequest req, HttpServletResponse res, HttpSession session){
+		
+		UserVO loginUser =  (UserVO)session.getAttribute("loginUser");
+		String userSeq = loginUser.getUserSeq();
+		
+		int userPoint = service.userPoint(userSeq);
+		int restCount = service.restCount(userSeq);
+		int effectContent = service.userContent(userSeq);
+		int coupon = service.userCoupon(userSeq);
+		
+		int reviewCount = service.userReviewCount(userSeq);
+		int qnaCount = service.userQnaCount(userSeq);
+		
+		req.setAttribute("userPoint", userPoint);
+		req.setAttribute("restCount", restCount);
+		req.setAttribute("effectContent", effectContent);
+		req.setAttribute("coupon", coupon);
+		req.setAttribute("reviewCount", reviewCount);
+		req.setAttribute("qnaCount", qnaCount);
+		
 		return "user/userMyPage";
 	} // end : userMyPage
 
