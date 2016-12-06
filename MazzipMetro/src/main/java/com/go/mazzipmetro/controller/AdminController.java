@@ -6,7 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,14 +25,45 @@ public class AdminController {
 	@Autowired
 	private AdminService service;
 	
+	
+	// 관리자용 업장 수정 페이지 (업장 등급 리스트)
+	@RequestMapping(value="/restGradeList.eat", method={RequestMethod.POST})
+	public String  restGradeList(HttpServletRequest req) {
+		List<HashMap<String, String>> restGradeList = service.restGradeList();
+		JSONObject jObj = new JSONObject();
+		jObj.put("restGradeList", restGradeList);
+		
+		req.setAttribute("jObj", jObj);
+		return "/admin/ajax/restGradeList";
+	}
+	
 	// 관리자용 업장 수정 페이지 
 	@RequestMapping(value="/adminRestEdit.eat", method={RequestMethod.POST})
 	public String adminRestEdit(HttpServletRequest req) {
 		String restSeq = req.getParameter("restSeq");
-		RestaurantVO vo = service.adminRestEdit(restSeq);
+		RestaurantVO vo = service.adminRestEditInfo(restSeq);
 		
 		req.setAttribute("vo", vo);
 		return "/admin/adminRestEdit";
+	}
+	
+	// 관리자용 업장 수정 요청 
+	@RequestMapping(value="/adminRestEditEnd.eat", method={RequestMethod.POST})
+	public String  adminRestEditEnd(HttpServletRequest req, RestaurantVO vo) {
+		System.out.println(vo.getRestImg());
+		
+		vo.setRestImg("900ba417cbe9597ae3ac58a3c3458bdc.jpg");
+		int result = service.adminRestEdit(vo);
+		
+		String msg = "";
+		String script = "self.close();";
+		
+		if (result > 0) {
+			msg ="업장 정보변경 성공!";
+		}
+		req.setAttribute("msg", msg);
+		req.setAttribute("script", script);
+		return "/admin/msgEnd";
 	}
 	
 	// 등록된 업장관리

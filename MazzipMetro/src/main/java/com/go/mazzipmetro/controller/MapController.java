@@ -23,6 +23,7 @@ public class MapController {
 	
 	@Autowired
 	MapService service;
+
 	
 	//metroMap 페이지 접근
 	@RequestMapping(value="/metroMap.eat",method={RequestMethod.GET}) 

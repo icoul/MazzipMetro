@@ -42,15 +42,6 @@ public class MazzipMetroController {
 		return "/img/imgCrop";
 	}
 	
-	@RequestMapping(value="/dbTest.eat", method={RequestMethod.GET})
-	public String dbTest(HttpServletRequest req){
-		
-		List<HashMap<String, String>> list = service.dbTest();
-		
-		req.setAttribute("list", list);
-		return "dbTest";
-	}
-	
 	@RequestMapping(value="/alignTest.eat", method={RequestMethod.GET})
 	public String alignTest(HttpServletRequest req){
 		
