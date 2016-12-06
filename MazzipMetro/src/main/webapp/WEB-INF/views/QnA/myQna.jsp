@@ -19,12 +19,12 @@
 		$("#qnaComment").keyup(function(){
 			var qnaCommentLength = $("#qnaComment").val().length;
 			
-			if(10 < qnaCommentLength){
-				alert("입력가능한 글자수는 10자 입니다");
+			if(200 < qnaCommentLength){
+				alert("입력가능한 글자수는200자 입니다");
 				$("#qnaComment").val("");
 			}
 			
-			if(0 < qnaCommentLength && qnaCommentLength <= 10){
+			if(0 < qnaCommentLength && qnaCommentLength <= 200){
 				$("#qnaCommentLength").text(qnaCommentLength + "자 입력");
 			}else{
 				$("#qnaCommentLength").text("");
