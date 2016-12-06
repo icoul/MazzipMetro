@@ -47,5 +47,38 @@ public class UserDAO implements IDAO{
 	}
 
 
+
+	public int userPoint(String userSeq) {
+		int userPoint = sqlSession.selectOne("user.userPoint", userSeq);
+		return userPoint;
+	}
+
+	public int restCount(String userSeq) {
+		int restCount = sqlSession.selectOne("user.restCount", userSeq);
+		return restCount;
+	}
+
+	public int userContent(String userSeq) {
+		int userContent = sqlSession.selectOne("user.userContent", userSeq);
+		return userContent;
+	}
+	
+	public int userCoupon(String userSeq) {
+		int userCoupon = sqlSession.selectOne("user.userCoupon", userSeq);
+		return userCoupon;
+	}
+
+	public int reviewCount(String userSeq) {
+		int reviewCount = sqlSession.selectOne("user.reviewCount", userSeq);
+		return reviewCount;
+	}
+
+	public int qnaCount(String userSeq) {
+		int qnaCount = sqlSession.selectOne("user.qnaCount", userSeq);
+		return qnaCount;
+	}
+
+
+
 }
 

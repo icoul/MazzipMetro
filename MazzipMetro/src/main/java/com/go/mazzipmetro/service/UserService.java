@@ -43,5 +43,46 @@ public class UserService implements IService {
 		return n;
 	}
 
+
+	public int userPoint(String userSeq) {
+		int userPoint = dao.userPoint(userSeq);
+		return userPoint;
+	}
+
+
+	public int restCount(String userSeq) {
+		int restCount = dao.restCount(userSeq);
+		return restCount;
+	}
+
+
+	public int userContent(String userSeq) {
+		int userContent = dao.userContent(userSeq);
+		return userContent;
+	}
+
+
+	public int userCoupon(String userSeq) {
+		int userCoupon = dao.userCoupon(userSeq);
+		return userCoupon;
+	}
+
+
+	public int userReviewCount(String userSeq) {
+		int reviewCount = dao.reviewCount(userSeq);
+		return reviewCount;
+	}
+
+
+	public int userQnaCount(String userSeq) {
+		int qnaCount = dao.qnaCount(userSeq);
+		return qnaCount;
+	}
+
+
+
+
+	
+
 }
 

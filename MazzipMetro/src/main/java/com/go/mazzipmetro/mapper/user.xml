@@ -107,4 +107,40 @@
 		set userName = #{userName}, userPw = #{userPw}, userPhone = #{userPhone}, userProfile = #{userProfile}, userStation = #{userStation}
 		where userStatus = 0 and userSort = #{userSort} and userEmail = #{userEmail}
 	</update>
+	
+	<select id="userPoint" resultType="int">
+		select userPoint
+		from tbl_User
+		where userSeq = #{userSeq}
+	</select>
+	
+	<select id="restCount" resultType="int">
+		select count(*)
+		from tbl_restaurant
+		where userSeq = #{userSeq}
+	</select>
+	
+	<select id="userContent" resultType="int">
+		select count(*)
+		from tbl_restaurant_content
+		where contentStatus = 0 and userSeq = #{userSeq}
+	</select>
+	
+	<select id="userCoupon" resultType="int">
+		select count(*)
+		from tbl_coupon
+		where couponStatus = 0 and userSeq = #{userSeq}
+	</select>
+	
+	<select id="reviewCount" resultType="int">
+		select count(*)
+		from tbl_review
+		where reviewStatus = 0 and userSeq = #{userSeq}
+	</select>
+	
+	<select id="qnaCount" resultType="int">
+		select count(*)
+		from tbl_qna
+		where qnaProgress = '답변완료' and qnaStatus = 0 and userSeq = #{userSeq}
+	</select>
 </mapper>

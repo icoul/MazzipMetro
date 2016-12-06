@@ -177,7 +177,7 @@
 		var url = "<%=request.getContextPath()%>/adminRestEdit.eat";
 		var title = "adminRestEdit";
 		var status = "left=500px, top=100px, width=600px, height=915px, menubar=no, status=no, scrollbars=yes ";
-		var popup = window.open("", title, status); 
+		var popup = window.open(url, title, status); 
 		
         editFrm.restSeq.value = restSeq;
         editFrm.target = title;
