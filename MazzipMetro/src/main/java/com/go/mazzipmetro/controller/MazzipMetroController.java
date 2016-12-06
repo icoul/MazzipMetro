@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.go.mazzipmetro.common.FileManager;
 import com.go.mazzipmetro.common.ThumbnailManager;
 import com.go.mazzipmetro.service.MazzipMetroService;
+import com.go.mazzipmetro.vo.FaqVO;
 import com.go.mazzipmetro.vo.QnaVO;
+import com.go.mazzipmetro.vo.UserVO;
 
 @Controller
 public class MazzipMetroController {
@@ -144,14 +147,16 @@ public class MazzipMetroController {
 	
 		//문의하기페이지로 이동하는 컨트롤러
 		@RequestMapping(value = "/myQna.eat", method = {RequestMethod.GET})
-		public String myQnA(HttpServletRequest req) {
-			String userSeq = req.getParameter("userSeq");
+		public String myQnA(HttpServletRequest req, HttpSession session) {
+			UserVO loginuser = (UserVO)session.getAttribute("loginUser");
 			
-			if(userSeq == null){ 
-				userSeq = "1";
+			if(loginuser.getUserSeq() == null){ 
+				req.setAttribute("msg", "로그인 후 이용해주세요");
+				req.setAttribute("loc", "javascript:history.back();");
+				return "QnA/msg";
 			}
 			
-			req.setAttribute("userSeq", userSeq);
+			req.setAttribute("userSeq", loginuser.getUserSeq());
 			return "QnA/myQna";
 		}
 		
@@ -185,12 +190,11 @@ public class MazzipMetroController {
 		
 		//유저 한사람이 문의한 내역을 보여주는 컨트롤러 
 		@RequestMapping(value = "/myQnaList.eat", method = {RequestMethod.GET})
-		public String myQnAList(HttpServletRequest req) {
-			String userSeq = req.getParameter("userSeq");
+		public String myQnAList(HttpServletRequest req, HttpSession session) {
+			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
 			
-			if(userSeq == null){
-				userSeq = "1";
-			}
+			String userSeq = loginUser.getUserSeq();
+			
 			/*
 			 * 페이징 처리하기 글목록 보기 페이지 요청은 URL형태의 페이징 처리를 띄는 것으로 만들어 주어야 한다. 즉, 예를 들면
 			 * 3페이지의 내용을 보고자 한다라면 /board/list.action?pageNo=3 같이한다.
@@ -335,8 +339,8 @@ public class MazzipMetroController {
 			// 페이징처리를 위해 start end를 map에 추가하여 파라미터로 넘겨서 select되도록 한다.
 			map.put("start", String.valueOf(start));
 			map.put("end", String.valueOf(end));
-
 			map.put("userType", "회원");
+			
 			List<HashMap<String,String>> myQnaList = service.qnaList(map);
 
 			// 페이징 작업의 계속(페이지바에 나타낼 총 페이지 갯수 구하기)
@@ -499,9 +503,15 @@ public class MazzipMetroController {
 		}
 		
 		@RequestMapping(value = "/adminQnaList.eat", method = {RequestMethod.GET})
-		public String adminQnaList(HttpServletRequest req) {
+		public String adminQnaList(HttpServletRequest req, HttpSession session) {
+			UserVO loginuser = (UserVO)session.getAttribute("loginUser");
 			
-
+			if(loginuser == null){
+				req.setAttribute("msg", "로그인 후 이용해주세요");
+				req.setAttribute("loc", "javascript:history.back();");
+				return "QnA/msg";
+			}
+			
 			/*
 			 * 페이징 처리하기 글목록 보기 페이지 요청은 URL형태의 페이징 처리를 띄는 것으로 만들어 주어야 한다. 즉, 예를 들면
 			 * 3페이지의 내용을 보고자 한다라면 /board/list.action?pageNo=3 같이한다.
@@ -806,6 +816,19 @@ public class MazzipMetroController {
 			return "QnA/adminSeeUserQuestion";
 		}
 		
+		//myQnaList에서 제목을 클릭하면 사용자의 질문을 보는 컨트롤러
+		@RequestMapping(value = "/userSeeUserQuestion.eat", method = {RequestMethod.GET})
+		public String userSeeUserQuestion(HttpServletRequest req) {
+			String qnaSeq = req.getParameter("qnaSeq");
+			String userName = req.getParameter("userName");
+			
+			HashMap<String, String> userQuestion = service.getUserQuestion(qnaSeq);
+			req.setAttribute("userQuestion", userQuestion);
+			req.setAttribute("userName", userName);
+			req.setAttribute("qnaSeq", qnaSeq);
+			return "QnA/userSeeUserQuestion";
+		}
+		
 		//관리자가 adminQnaList에서 답변완료를 클릭하면 관리자의 답변을 보여주는 컨트롤러
 		@RequestMapping(value = "/adminSeeAdminAnswer.eat", method = {RequestMethod.GET})
 		public String adminSeeAdminAnswer(HttpServletRequest req) {
@@ -816,6 +839,16 @@ public class MazzipMetroController {
 			req.setAttribute("qnaSeq", qnaSeq);
 			return "QnA/adminSeeAdminAnswer";
 		}
+		
+		//myQnaList에서 답변완료를 클릭하면 사용자가 관리자의 답변을 보는 컨트롤러
+				@RequestMapping(value = "/userSeeAdminAnswer.eat", method = {RequestMethod.GET})
+				public String userSeeAdminAnswer(HttpServletRequest req) {
+					String qnaSeq = req.getParameter("qnaSeq");
+				
+					HashMap<String, String> andminAnswer = service.getAdminAnswer(qnaSeq);
+					req.setAttribute("andminAnswer", andminAnswer);
+					return "QnA/userSeeAdminAnswer";
+				}
 		
 		@RequestMapping(value = "/adminAnswerEdit.eat", method = {RequestMethod.GET})
 		public String adminAnswerEdit(HttpServletRequest req) {
@@ -834,6 +867,25 @@ public class MazzipMetroController {
 			return "QnA/adminAnswerEdit";
 		}
 		
+		@RequestMapping(value = "/userQuestionEdit.eat", method = {RequestMethod.GET})
+		public String uesrQuestionEdit(HttpServletRequest req) {
+			String qnaSeq = req.getParameter("qnaSeq");
+			String userName = req.getParameter("userName");
+			String qnaInquiry = req.getParameter("qnaInquiry");
+			String qnaSubject = req.getParameter("qnaSubject");
+			String qnaRegDate = req.getParameter("qnaRegDate");
+			String qnaProgress = req.getParameter("qnaProgress");
+			
+
+			req.setAttribute("qnaSeq", qnaSeq);
+			req.setAttribute("userName", userName);
+			req.setAttribute("qnaInquiry", qnaInquiry);
+			req.setAttribute("qnaSubject", qnaSubject);
+			req.setAttribute("qnaRegDate", qnaRegDate);
+			req.setAttribute("qnaProgress", qnaProgress);
+			return "QnA/userQuestionEdit";
+		}
+		
 		@RequestMapping(value = "/adminAnswerEditEnd.eat", method = {RequestMethod.GET})
 		public String adminAnswerEditEnd(HttpServletRequest req) {
 			String qnaSeq = req.getParameter("qnaSeq");
@@ -846,6 +898,32 @@ public class MazzipMetroController {
 			hashMap.put("qnaComment", qnaComment);
 			
 			int n = service.editAdminAnswer(hashMap);
+			
+			if(n == 0 ){
+				req.setAttribute("msg", "수정이 실패하였습니다.");
+				req.setAttribute("loc", "javascript:history.back();");
+			}else if(n == 1){
+				req.setAttribute("msg", "수정이 성공하였습니다.");
+				req.setAttribute("loc", "javascript:self.close();");
+			}
+			return "QnA/msg";
+		}
+		
+		@RequestMapping(value = "/userQuestionEditEnd.eat", method = {RequestMethod.GET})
+		public String userQuestionEditEnd(HttpServletRequest req) {
+			String qnaSeq = req.getParameter("qnaSeq");
+			String qnaInquiry = req.getParameter("qnaInquiry");
+			String qnaSubject = req.getParameter("qnaSubject");
+			String qnaComment = req.getParameter("qnaComment");
+			
+
+			HashMap<String, String> hashMap = new HashMap<String, String>();
+			hashMap.put("qnaSeq", qnaSeq);
+			hashMap.put("qnaInquiry", qnaInquiry);
+			hashMap.put("qnaSubject", qnaSubject);
+			hashMap.put("qnaComment", qnaComment);
+			
+			int n = service.editUserQuestion(hashMap);
 			
 			if(n == 0 ){
 				req.setAttribute("msg", "수정이 실패하였습니다.");
@@ -880,75 +958,6 @@ public class MazzipMetroController {
 				req.setAttribute("loc", "adminQnaList.eat");
 			}
 		
-			return "QnA/msg";
-		}
-		
-		
-		//myQnaList에서 답변완료를 클릭하면 사용자가 관리자의 답변을 보는 컨트롤러
-		@RequestMapping(value = "/userSeeAdminAnswer.eat", method = {RequestMethod.GET})
-		public String userSeeAdminAnswer(HttpServletRequest req) {
-			String qnaSeq = req.getParameter("qnaSeq");
-		
-			HashMap<String, String> andminAnswer = service.getAdminAnswer(qnaSeq);
-			req.setAttribute("andminAnswer", andminAnswer);
-			return "QnA/userSeeAdminAnswer";
-		}
-		
-		//myQnaList에서 제목을 클릭하면 사용자의 질문을 보는 컨트롤러
-		@RequestMapping(value = "/userSeeUserQuestion.eat", method = {RequestMethod.GET})
-		public String userSeeUserQuestion(HttpServletRequest req) {
-			String qnaSeq = req.getParameter("qnaSeq");
-			String userName = req.getParameter("userName");
-			
-			HashMap<String, String> userQuestion = service.getUserQuestion(qnaSeq);
-			req.setAttribute("userQuestion", userQuestion);
-			req.setAttribute("userName", userName);
-			req.setAttribute("qnaSeq", qnaSeq);
-			return "QnA/userSeeUserQuestion";
-		}
-		
-		@RequestMapping(value = "/userQuestionEdit.eat", method = {RequestMethod.GET})
-		public String uesrQuestionEdit(HttpServletRequest req) {
-			String qnaSeq = req.getParameter("qnaSeq");
-			String userName = req.getParameter("userName");
-			String qnaInquiry = req.getParameter("qnaInquiry");
-			String qnaSubject = req.getParameter("qnaSubject");
-			String qnaRegDate = req.getParameter("qnaRegDate");
-			String qnaProgress = req.getParameter("qnaProgress");
-			
-
-			req.setAttribute("qnaSeq", qnaSeq);
-			req.setAttribute("userName", userName);
-			req.setAttribute("qnaInquiry", qnaInquiry);
-			req.setAttribute("qnaSubject", qnaSubject);
-			req.setAttribute("qnaRegDate", qnaRegDate);
-			req.setAttribute("qnaProgress", qnaProgress);
-			return "QnA/userQuestionEdit";
-		}
-		
-		@RequestMapping(value = "/userQuestionEditEnd.eat", method = {RequestMethod.GET})
-		public String userQuestionEditEnd(HttpServletRequest req) {
-			String qnaSeq = req.getParameter("qnaSeq");
-			String qnaInquiry = req.getParameter("qnaInquiry");
-			String qnaSubject = req.getParameter("qnaSubject");
-			String qnaComment = req.getParameter("qnaComment");
-			
-
-			HashMap<String, String> hashMap = new HashMap<String, String>();
-			hashMap.put("qnaSeq", qnaSeq);
-			hashMap.put("qnaInquiry", qnaInquiry);
-			hashMap.put("qnaSubject", qnaSubject);
-			hashMap.put("qnaComment", qnaComment);
-			
-			int n = service.editUserQuestion(hashMap);
-			
-			if(n == 0 ){
-				req.setAttribute("msg", "수정이 실패하였습니다.");
-				req.setAttribute("loc", "javascript:history.back();");
-			}else if(n == 1){
-				req.setAttribute("msg", "수정이 성공하였습니다.");
-				req.setAttribute("loc", "javascript:self.close();");
-			}
 			return "QnA/msg";
 		}
 		
@@ -989,5 +998,32 @@ public class MazzipMetroController {
 		}
 		
 		
-	
+		@RequestMapping(value = "/faq.eat", method = {RequestMethod.GET})
+		public String faq(HttpServletRequest req) {
+			List<FaqVO> faqList = service.getFaqList();
+			req.setAttribute("faqList", faqList);
+			return "QnA/FAQ";
+		}
+		
+		@RequestMapping(value = "/faqDetail.eat", method = {RequestMethod.GET})
+		public String faqDetail(HttpServletRequest req) {
+			String faqSeq = req.getParameter("faqSeq");
+			FaqVO vo = service.selectOneFaq(faqSeq);
+			
+			req.setAttribute("vo", vo);
+			return "QnA/faqDetail";
+		}
+		
+		
+		
+		@RequestMapping(value = "/faqListByType.eat", method = {RequestMethod.GET})
+		public String faqListByType(HttpServletRequest req) {
+			String faqType = req.getParameter("faqType");
+			List<FaqVO> faqList = service.getFaqListByType(faqType);
+			
+			req.setAttribute("faqList", faqList);
+			req.setAttribute("faqType", faqType);
+			req.setAttribute("faqListSize", faqList.size());
+			return "QnA/faqListByType";
+		}
 }
