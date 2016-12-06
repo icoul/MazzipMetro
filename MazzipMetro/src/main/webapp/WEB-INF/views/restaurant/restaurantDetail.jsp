@@ -10,8 +10,7 @@
   <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>  
   <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/BootStrapStudy/css/bootstrap.min.css">
   <script src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script>
-  <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/highcharts.js"></script>
-  <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/modules/exporting.js"></script>
+
   <!-- 다음지도 api 로딩 -->
   <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=07a6ce4a014b94664ec5968dee2fb0d2"></script>
  	
