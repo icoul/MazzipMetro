@@ -42,18 +42,21 @@ public class UserController {
 	@Autowired
 	private FileManager fileManager;
 	
+//	회원유형선택
 	@RequestMapping(value="/accountSelect.eat", method={RequestMethod.GET})
 	public String accountSelect(){
-		return "accountSelect";
+		return "user/accountSelect";
 	}
 	
+//	회원동의
 	@RequestMapping(value="/userRegister1.eat", method={RequestMethod.GET})
 	public String userRegister1(HttpServletRequest req){
 		String type =  req.getParameter("type");
 		req.setAttribute("type", type);
-		return "userRegister1";
+		return "user/userRegister1";
 	}
 	
+//	회원가입
 	@RequestMapping(value="/userRegister2.eat", method={RequestMethod.POST})
 	public String userRegister2(HttpServletRequest req){
 		String userSort =  req.getParameter("userSort");
@@ -155,9 +158,10 @@ public class UserController {
 		
 		req.setAttribute("userSort", userSort);
 		
-		return "userRegister2";
+		return "user/userRegister2";
 	}
 	
+//	회원가입
 	@RequestMapping(value="/userRegisterEnd.eat", method={RequestMethod.POST})
 	public String userRegisterEnd(UserVO vo, MultipartHttpServletRequest req, HttpSession session){
 		
@@ -166,7 +170,7 @@ public class UserController {
 		
 		if(!vo.getAttach().isEmpty()) {
 			String root = session.getServletContext().getRealPath("/");
-			String path = root + "resources"+ File.separator +"files";
+			String path = root + File.separator +"files" + File.separator + "user";
 			
 			
 			byte[] bytes = null;
@@ -174,7 +178,7 @@ public class UserController {
 			try {
 				bytes = vo.getAttach().getBytes();
 				String newFileName =  fileManager.doFileUpload(bytes, vo.getAttach().getOriginalFilename(), path);
-				vo.setUserProfile(vo.getAttach().getOriginalFilename());
+				vo.setUserProfile(newFileName);
 		} catch (Exception e) {
 			
 		}
@@ -212,13 +216,129 @@ public class UserController {
 		return "userRegisterEnd";
 	} // end : userRegisterEnd 회원가입처리
 	
+//	로그인시 개인회원수정
 	@RequestMapping(value="/userEdit.eat", method=RequestMethod.GET)
-	public String userEdit(UserVO vo) {
+	public String userEdit(UserVO vo, HttpServletRequest req) {
+		
+		List<String> list = service.alignTest();
+		String[] array = list.toArray(new String[list.size()]);
+		
+		List<String> gaList = new ArrayList<String>();
+		List<String> naList = new ArrayList<String>();
+		List<String> daList = new ArrayList<String>();
+		List<String> raList = new ArrayList<String>();
+		List<String> maList = new ArrayList<String>();
+		List<String> baList = new ArrayList<String>();
+		List<String> saList = new ArrayList<String>();
+		List<String> aaList = new ArrayList<String>();
+		List<String> jaList = new ArrayList<String>();
+		List<String> chaList = new ArrayList<String>();
+		List<String> kaList = new ArrayList<String>();
+		List<String> taList = new ArrayList<String>();
+		List<String> paList = new ArrayList<String>();
+		List<String> haList = new ArrayList<String>();
+		
+		Arrays.sort(array, String.CASE_INSENSITIVE_ORDER);
+		
+		for (int i = 0; i < array.length; i++) {
+			int metroInt = (int)array[i].charAt(0);
+			
+			if (metroInt < 45208) {
+				gaList.add(array[i]);
+			}
+			
+			if (45208 < metroInt && metroInt < 45796) {
+				naList.add(array[i]);
+			}
+			
+			if (45796 <= metroInt && metroInt < 46972) {
+				daList.add(array[i]);
+			}
+			
+			if (46972 <= metroInt && metroInt < 47560) {
+				raList.add(array[i]);
+			}
+			
+			if (47560 <= metroInt && metroInt < 48148) {
+				maList.add(array[i]);
+			}
+			
+			if (48148 <= metroInt && metroInt < 49324) {
+				baList.add(array[i]);
+			}
+			
+			if (49324 <= metroInt && metroInt < 50500) {
+				saList.add(array[i]);
+			}
+			
+			if (50500 <= metroInt && metroInt < 51088) {
+				aaList.add(array[i]);
+			}
+			
+			if (51088 <= metroInt && metroInt < 52264) {
+				jaList.add(array[i]);
+			}
+			
+			if (52264 <= metroInt && metroInt < 52852) {
+				chaList.add(array[i]);
+			}
+			
+			if (52852 <= metroInt && metroInt < 53440) {
+				kaList.add(array[i]);
+			}
+			
+			if (53440 <= metroInt && metroInt < 54028) {
+				taList.add(array[i]);
+			}
+			
+			if (54028 <= metroInt && metroInt < 54616) {
+				paList.add(array[i]);
+			}
+			
+			if (54616 <= metroInt) {
+				haList.add(array[i]);
+			}
+		}
+		
+		req.setAttribute("gaList", gaList);
+		req.setAttribute("naList", naList);
+		req.setAttribute("daList", daList);
+		req.setAttribute("raList", raList);
+		req.setAttribute("maList", maList);
+		req.setAttribute("baList", baList);
+		req.setAttribute("saList", saList);
+		req.setAttribute("aaList", aaList);
+		req.setAttribute("jaList", jaList);
+		req.setAttribute("chaList", chaList);
+		req.setAttribute("kaList", kaList);
+		req.setAttribute("taList", taList);
+		req.setAttribute("paList", paList);
+		req.setAttribute("haList", haList);
+		
 		return "user/userEdit";
 	}
 	
+//	로그인시 개인회원 수정
 	@RequestMapping(value="/userEditEnd.eat", method=RequestMethod.POST)
-	public String userEditEnd(UserVO vo, HttpServletRequest req) {
+	public String userEditEnd(UserVO vo, MultipartHttpServletRequest req, HttpSession session) {
+		
+		if(!vo.getAttach().isEmpty()) {
+			String root = session.getServletContext().getRealPath("/");
+			String path = root + "resources"+ File.separator +"files";
+			
+			
+			byte[] bytes = null;
+			
+			try {
+				bytes = vo.getAttach().getBytes();
+				String newFileName =  fileManager.doFileUpload(bytes, vo.getAttach().getOriginalFilename(), path);
+				vo.setUserProfile(vo.getAttach().getOriginalFilename());
+		} catch (Exception e) {
+			
+		}
+		
+	}
+		
 		
 		int n = service.userEdit(vo);
 		
@@ -229,6 +349,28 @@ public class UserController {
 		
 	}
 
+//	로그인 시 개인회원 마이페이지
+	@RequestMapping(value="/userMyPage.eat", method={RequestMethod.GET})
+	public String userMyPage(UserVO vo, HttpServletRequest req, HttpServletResponse res){
+		return "user/userMyPage";
+	} // end : userMyPage
+
+	// 로그인 처리
+	@RequestMapping(value="/logOut.eat", method={RequestMethod.GET})
+	public String UserLogOut(HttpServletRequest req, HttpServletResponse res){
+		
+		HttpSession session = req.getSession();
+		session.invalidate();
+		
+		String msg = "로그아웃되었습니다";
+		String loc = "index.eat";
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
+		
+		return "msg";
+	}
+	
 	// 로그인 처리
 	@RequestMapping(value="/login.eat", method={RequestMethod.POST})
 	public String UserLogin(UserVO vo, HttpServletRequest req, HttpServletResponse res){
@@ -364,9 +506,8 @@ public class UserController {
 	}// end of logIn
 	
 	
-	// 로그인 처리
-	@RequestMapping(value="/logOut.eat", method={RequestMethod.GET})
-	public String UserLogOut(HttpServletRequest req, HttpServletResponse res){
+	@RequestMapping(value="/login_End.eat", method={RequestMethod.GET})
+	public String loginEnd(HttpServletRequest req, HttpServletResponse res){
 		
 		HttpSession session = req.getSession();
 		session.invalidate();
@@ -377,6 +518,6 @@ public class UserController {
 		req.setAttribute("msg", msg);
 		req.setAttribute("loc", loc);
 		
-		return "msg";
+		return "user/userLogin";
 	}
 }

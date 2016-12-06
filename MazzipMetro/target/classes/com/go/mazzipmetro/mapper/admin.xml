@@ -4,6 +4,7 @@
 
 <!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) --> 
 <mapper namespace="admin">
+
 	<!-- 회원리스트 가져오기 -->
 	<select id="list" resultType="com.go.mazzipmetro.vo.UserVO" parameterType="java.util.HashMap"  >
     	select T.userseq, T.gradeseq, T.username, T.useremail, T.usergender, T.userbirthday, T.userphone, T.userregdate, T.userpoint

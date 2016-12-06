@@ -5,9 +5,42 @@
 <!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) --> 
 <mapper namespace="restaurant">
 
+	<!-- 관리자용 업장 수정 요청(update) -->
+	<update id="adminRestEditEnd" parameterType="com.go.mazzipmetro.vo.RestaurantVO" >
+		update tbl_restaurant set
+		<if test="restStatus == 0">
+			restName = #{restName}, userSeq = #{userSeq}, gradeSeq = #{gradeSeq}
+		  , restAddr = #{restAddr}, restNewAddr = #{restNewAddr}, restPhone = #{restPhone}
+		  , restLatitude = #{restLatitude}, restLongitude = #{ restLongitude}, restImg = #{restImg}
+		  , restContent = #{restContent}, dongId = #{dongId}, metroId = #{metroId} 
+	  	</if>
+	  	<if test="restStatus == 1">
+	  		restStatus = 1
+	  	</if>
+		where restSeq = #{restSeq}
+	</update>
+	
+	<!-- 관리자용 업장수정을 위한 하나의  업장 등급 리스트 가져오기 -->
+	<resultMap type="java.util.HashMap" id="resultRestGradeList">
+		 <result column="gradeSeq"	  	        property="gradeSeq" 			    	javaType="String" />
+		 <result column="gradeName"	  	    property="gradeName" 			    javaType="String" />
+	 </resultMap>
+	<select id="restGradeList" resultMap="resultRestGradeList">
+		select * from tbl_grade where gradeSeq like 'RG%'
+	</select>
+
 	<!-- 관리자용 업장수정을 위한 하나의 RestaurantVO 가져오기 -->
-	<select id="adminRestEdit" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
-		select * from tbl_restaurant where restSeq = #{restSeq}
+	<select id="adminRestEditInfo" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select A.*, B.dongName
+		from(
+		select A.*, B.metroName
+		from(
+		select A.*, B.gradeName
+		from tbl_restaurant A left join tbl_grade B 
+		on A.gradeSeq = B.gradeSeq
+		where A.restSeq = #{restSeq}) A left join tbl_metro B
+		on A.metroId = B.metroId) A left join tbl_dong B
+		on A.dongId = B.dongId 
 	</select>
 	
 	<!-- restSeq로 하나의 업장을 가져오기 -->

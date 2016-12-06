@@ -176,8 +176,8 @@
 		
 		var url = "<%=request.getContextPath()%>/adminRestEdit.eat";
 		var title = "adminRestEdit";
-		var status = "left=500px, top=100px, width=600px, height=500px, menubar=no, status=no, scrollbars=yes ";
-		var popup = window.open("", title, status); //어느 속성때문인지 모르겠지만, url을 고쳐쓸 수가 없다. 복사는 가능.
+		var status = "left=500px, top=100px, width=600px, height=915px, menubar=no, status=no, scrollbars=yes ";
+		var popup = window.open("", title, status); 
 		
         editFrm.restSeq.value = restSeq;
         editFrm.target = title;
