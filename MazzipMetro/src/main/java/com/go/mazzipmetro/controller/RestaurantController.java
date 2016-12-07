@@ -301,6 +301,32 @@ public class RestaurantController {
 		return "restaurant/restList";
 	}
 	
+	// 메뉴 리스트를 불러오는 메서드
+	@RequestMapping(value="/restMenuList.eat", method={RequestMethod.POST})
+	public String restMenuList(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+
+		String restSeq = req.getParameter("restSeq");
+		
+		List<HashMap<String, String>> menuList = service.getMenuList(restSeq);
+		
+		req.setAttribute("menuList", menuList);
+		
+		return "restaurant/restMenuList";
+	}
+	
+	// 메뉴 수정 페이지로 이동하는 메서드
+	@RequestMapping(value="/restMenuEdit.eat", method={RequestMethod.POST})
+	public String restMenuEdit(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+
+		String restSeq = req.getParameter("restSeq");
+		
+		List<HashMap<String, String>> menuList = service.getMenuList(restSeq);
+		
+		req.setAttribute("menuList", menuList);
+		
+		return "restaurant/restMenuEdit";
+	}
+	
 	// 수정할 업장을 선택해서 해당 업장의 수정창을 띄우는 메서드
 	@RequestMapping(value="/restEdit.eat", method={RequestMethod.POST})
 	public String restEdit(HttpServletRequest req, HttpServletResponse res, HttpSession session){
@@ -377,8 +403,10 @@ public class RestaurantController {
 	@RequestMapping(value="/restDel.eat", method={RequestMethod.POST})
 	public String restDel(HttpServletRequest req, HttpServletResponse res, HttpSession session){
 		
+		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+		
 		String restSeq = req.getParameter("restSeq");
-		String userSeq = req.getParameter("userSeq");
+		String userSeq = loginUser.getUserSeq();
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		
@@ -388,7 +416,7 @@ public class RestaurantController {
 		int result = service.delRest(map);
 		
 		String msg = "삭제에 실패했습니다. 알 수 없는 오류가 발생했습니다.";
-		String loc = "restEdit.eat";
+		String loc = "restList.eat";
 		
 		if (result == 1) {
 			msg = "해당 업장을 삭제했습니다.";
