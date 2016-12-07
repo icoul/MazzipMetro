@@ -117,6 +117,12 @@ public class AdminService implements IService {
 		HashMap<String, String> adminUserInfo = dao.adminUserInfo(userSeq);
 		return adminUserInfo;
 	}
-
+	
+	// 관리자용 회원 수정 - 한명회원 정보 수정하기(tbl_user 업데이트)
+	public int adminUserEdit(HashMap<String, String> userinfoMap) {
+		int result = dao.adminUserEdit(userinfoMap);
+		return result;
+	}
+	
 	
 }

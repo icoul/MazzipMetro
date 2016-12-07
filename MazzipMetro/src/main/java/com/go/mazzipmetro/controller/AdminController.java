@@ -341,8 +341,44 @@ public class AdminController {
 	}
 	
 	//회원 수정 완료시
-	@RequestMapping(value = "/adminUserEditEnd.eat", method = RequestMethod.GET)
+	@RequestMapping(value = "/adminUserEditEnd.eat", method = RequestMethod.POST)
 	public String userEditEnd(HttpServletRequest req, HttpSession ses) {
+		String userSeq = req.getParameter("userSeq");
+		String userName = req.getParameter("userName");
+		String gradeName = req.getParameter("gradeName");
+		String userEmail = req.getParameter("userEmail");
+		String userPhone = req.getParameter("userPhone");
+		String userPoint = req.getParameter("userPoint");
+		String userRegDate = req.getParameter("userRegDate");
+		//System.out.println(userEmail);
+		
+		HashMap<String, String> userinfoMap = new HashMap<String, String>();
+		userinfoMap.put("userSeq", userSeq);
+		userinfoMap.put("userName", userName);
+		userinfoMap.put("gradeName", gradeName);
+		userinfoMap.put("userEmail", userEmail);
+		userinfoMap.put("userPoint", userPoint);
+		userinfoMap.put("userPhone", userPhone);
+		userinfoMap.put("userRegDate", userRegDate);
+		
+		String msg="";
+		String loc ="javascript:history.back();";
+		
+		int result = 0;
+		result = service.adminUserEdit(userinfoMap);
+		
+		if (result > 0) {
+			msg = "회원이 수정되었습니다.";
+			loc = "adminUserList.eat";
+		}
+		
+		else {
+			msg ="회원이 삭제되지 않았습니다.";
+			loc ="javascript:location.href='adminUserList.eat';";
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
 		
 		return "/admin/adminUserEditEnd";
 	}
