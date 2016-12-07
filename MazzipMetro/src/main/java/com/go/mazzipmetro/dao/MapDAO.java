@@ -49,14 +49,14 @@ public class MapDAO  implements IDAO {
 	}
 
 	// 지하철역별 등록된 음식점 보여주기(대분류 태그 얻어오기)
-	public List<String> getRestBgTag(String restSeq) {
+	/*public List<String> getRestBgTag(String restSeq) {
 		return sqlSession.selectList("map.getRestBgTag", restSeq);
-	}
+	}*/
 	
 	// 지하철역별 등록된 음식점 보여주기(분류 태그 얻어오기)
-	public List<String> getRestMdTag(String restSeq) {
+	/*public List<String> getRestMdTag(String restSeq) {
 		return sqlSession.selectList("map.getRestMdTag", restSeq);
-	}
+	}*/
 	
 	// 지하철역별 등록된 음식점 보여주기
 	public int getTotalCount(HashMap<String, String> map) {

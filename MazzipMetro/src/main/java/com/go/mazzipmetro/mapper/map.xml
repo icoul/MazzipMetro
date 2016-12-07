@@ -47,18 +47,21 @@
 	</select>
 	
 	
+	<!-- 관리자용 음식점 검색 -->
 	<resultMap type="java.util.HashMap" id="restaurantList">
 		<result column="restName" 		property="restName" 		javaType="String"/><!-- vo의 멤버변수명이다. 여기는 xml -->
 		<result column="restSeq" 			property="restSeq" 			javaType="String"/> 
 		<result column="restImg" 			property="restImg" 			javaType="String"/>
 		<result column="restPhone" 		property="restPhone" 		javaType="String"/> 
+		<result column="restBgTag" 		property="restBgTag" 		javaType="String"/> 
+		<result column="restMdTag" 		property="restMdTag" 		javaType="String"/> 
 		<result column="dongName" 		property="dongName" 		javaType="String"/> 
-		<result column="guName" 			property="guName" 		javaType="String"/> 	
+		<result column="guName" 			property="guName" 			javaType="String"/> 	
 		<result column="restLongitude" 	property="lng" 					javaType="String"/>
 		<result column="restLatitude" 		property="lat" 					javaType="String" />  
 	</resultMap>
 	
-	<!-- 관리자용 음식점 검색 -->
+	<!-- <select id="getRestaurantList" parameterType="java.util.HashMap" resultType="com.go.mazzipmetro.vo.RestaurantVO"> -->
 	<select id="getRestaurantList" parameterType="java.util.HashMap" resultMap="restaurantList">
 		select A.restName
 				, A.restSeq
@@ -66,6 +69,8 @@
 				, A.restPhone
 				, A.restLongitude
 				, A.restLatitude
+				, A.restBgTag
+				, A.restMdTag
 				, A.dongName
 				, B.guName
 		from (
@@ -151,18 +156,18 @@
 	</select>
 	
 	<!-- 지하철역별 등록된 음식점 보여주기(bgCat얻어오기) -->
-	<select id="getRestBgTag" parameterType="String" resultType="String">
+	<!-- <select id="getRestBgTag" parameterType="String" resultType="String">
 		select tagName
 		from tbl_restaurant_tag
 		where tagStatus = 0 and restSeq = #{restSeq} and tagSort='bgCat'
-	</select>
+	</select> -->
 	
 	<!-- 지하철역별 등록된 음식점 보여주기(mdCat얻어오기) -->
-	<select id="getRestMdTag" parameterType="String" resultType="String">
+	<!-- <select id="getRestMdTag" parameterType="String" resultType="String">
 		select tagName
 		from tbl_restaurant_tag
 		where tagStatus = 0 and restSeq = #{restSeq} and tagSort='mdCat'
-	</select>
+	</select> -->
 	
 	
 	<!-- 지하철역별 등록된 음식점 보여주기(총 음시점 수 구하기) -->

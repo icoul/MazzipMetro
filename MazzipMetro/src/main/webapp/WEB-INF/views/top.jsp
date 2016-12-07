@@ -16,7 +16,7 @@
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script>
 
 <!-- 동현_다음지도 api를 사용하기 위한 라이브러리 -->
-<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=07a6ce4a014b94664ec5968dee2fb0d2&libraries=services,clusterer,drawing"></script>
+<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=0d211626a8ca667e54b95403a7ae692f&libraries=services,clusterer,drawing"></script>
 
 <!-- 동현_메트로맵 tooltip을 위한 라이브러리 -->
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
@@ -107,21 +107,21 @@
 					&nbsp;&nbsp;&nbsp;&nbsp;
 				</c:if>
 				<!-- 일반사용자 로그인시 -->
-				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 1}">
+				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 0}">
 					<li><a href="#">맛집랭킹</a></li>
 					<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
 					<li><a href="javascript:goAsk();">문의하기</a></li>
 					<li><a href="<%=request.getContextPath()%>/myQnaList.eat">나의 문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
 				</c:if>
 				<!-- 사업주 로그인시 -->
-				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 2}">
+				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 1}">
 					<li><a href="#">맛집랭킹</a></li>
 					<li><a href="<%=request.getContextPath()%>/restMyPage.eat">마이페이지</a></li>
 					<li><a href="javascript:goAsk();">문의하기</a></li>
 					<li><a href="<%=request.getContextPath()%>/myQnaList.eat">나의 문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
 				</c:if>
 				<!-- 관리자 로그인시 -->
-				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 3}">
+				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 2}">
 					<li><a href="#">맛집랭킹</a></li>
 					<li><a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a></li>
 					<li><a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a></li>

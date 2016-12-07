@@ -11,18 +11,12 @@
 		<if test="restStatus == 0">
 			restName = #{restName}, userSeq = #{userSeq}, gradeSeq = #{gradeSeq}
 		  , restAddr = #{restAddr}, restNewAddr = #{restNewAddr}, restPhone = #{restPhone}
-<<<<<<< HEAD
 		  , restLatitude = #{restLatitude}, restLongitude = #{ restLongitude}
 		  , restContent = #{restContent}, dongId = #{dongId}, metroId = #{metroId} 
 		  <if test="restImg != null">
 		  	, restImg = #{restImg}
 		  </if>
-=======
-		  , restLatitude = #{restLatitude}, restLongitude = #{restLongitude}, restImg = #{restImg}
-		  , restContent = #{restContent}, dongId = #{dongId}, metroId = #{metroId}
-		  , restBgTag = #{restBgTag}, restMdTag = #{restMdTag} 
->>>>>>> da066e8a4c7d5dffa11217acf491efbff6d462c2
-	  	</if>
+		</if>
 	  	<if test="restStatus == 1">
 	  		restStatus = 1
 	  	</if>

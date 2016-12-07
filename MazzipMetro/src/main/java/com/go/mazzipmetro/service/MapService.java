@@ -74,7 +74,7 @@ public class MapService  implements IService {
 		}
 		
 		// 지하철역별 등록된 음식점 보여주기(음식점 태그 가져오기)
-		public List<TagVO> getRestTag(List<String> restSeqList) {
+		/*public List<TagVO> getRestTag(List<String> restSeqList) {
 			List<TagVO>  list = new ArrayList<TagVO>();
 			int i = 0;
 			for (String restSeq : restSeqList) {
@@ -89,7 +89,7 @@ public class MapService  implements IService {
 			}
 			
 			return list;
-		}
+		}*/
 		
 
 		// 지하철역별 등록된 음식점 보여주기(해당역 총 음식점 개수)

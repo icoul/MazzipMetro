@@ -58,8 +58,8 @@ public class MapController {
 			String restSeq = vo.getRestSeq();
 			restSeqList.add(restSeq);
 		}
-		
-		List<TagVO> tagList = service.getRestTag(restSeqList);
+//		
+//		List<TagVO> tagList = service.getRestTag(restSeqList);
 		
 		// 업장 추가 이미지 가져오기(thumbnail이미지와 원래이미지 모두)
 		List<RestaurantAdVO> adImgList = service.getAdImg(restSeqList);
@@ -71,7 +71,7 @@ public class MapController {
 //		req.setAttribute("jObj", jObj);
 		
 		req.setAttribute("metroName", metroName);
-		req.setAttribute("tags", tagList);
+		//req.setAttribute("tags", tagList);
 		req.setAttribute("places", list);
 		req.setAttribute("adImgList", adImgList);
 		return "/maps/ajax/getBest5RestInMetroMap";
@@ -276,14 +276,14 @@ public class MapController {
 		List<RestaurantVO> list = service.searchByMetro(map);
 		
 		//음식점 태그 가져오기
-		List<String> restSeqList = new ArrayList<String>();
+		/*List<String> restSeqList = new ArrayList<String>();
 		
 		for (RestaurantVO vo : list) {
 			String restSeq = vo.getRestSeq();
 			restSeqList.add(restSeq);
-		}
+		}*/
 		
-		List<TagVO> tagList = service.getRestTag(restSeqList);
+		//List<TagVO> tagList = service.getRestTag(restSeqList);
 		
 		String pageBar = "";
 		pageBar += "<ul>";
@@ -351,7 +351,7 @@ public class MapController {
 		
 		JSONObject jObj = new JSONObject();
 		jObj.put("places", list);
-		jObj.put("tagList", tagList);
+		//jObj.put("tagList", tagList);
 		jObj.put("pageBar", pageBar);
 		
 		req.setAttribute("jObj", jObj);

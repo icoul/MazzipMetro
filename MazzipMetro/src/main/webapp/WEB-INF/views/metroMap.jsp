@@ -472,7 +472,7 @@ function displayPlaces(places, tags) {
         // 마커를 생성하고 지도에 표시합니다
         var placePosition = new daum.maps.LatLng(places[i].restLatitude, places[i].restLongitude),
             marker = addMarker(placePosition, i), 
-            itemEl = getListItem(i, places[i], tags[i], marker); // 검색 결과 항목 Element를 생성합니다
+            itemEl = getListItem(i, places[i], marker); // 검색 결과 항목 Element를 생성합니다
 
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
         // LatLngBounds 객체에 좌표를 추가합니다
@@ -529,15 +529,22 @@ function displayPlaces(places, tags) {
 }
 
 // 검색결과 항목을 Element로 반환하는 함수입니다
-function getListItem(index, places, tags) {
+function getListItem(index, places) {
 
     var el = document.createElement('li'),
     itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
                 '<div class="info" id="div'+places.restSeq+'">' +
                 '   <h5>' + places.restName + '</h5>';
+    if (places.restBgTag) {
+    	itemStr += '<span style="color:blue; display: inline;">'+places.restBgTag+'</span>&nbsp;';
+
+	}
+    if (places.restMdTag) {
+    	itemStr += '<span style="color:orange; display: inline; font-size: 12px;">'+places.restMdTag+'</span>';
+    }
    
     //태그 클릭시 해당역주변, 분류되면 좋겠네~~!!            
-    if (tags.bgCat) {
+    /* if (tags.bgCat) {
     	for (var i = 0; i < tags.bgCat.length; i++) {
     		if(i != 0 && i <= (tags.bgCat.length-1)){
     			itemStr += ', ';
@@ -557,7 +564,7 @@ function getListItem(index, places, tags) {
     		itemStr += '<span style="color:orange; display: inline;">'+tags.mdCat[i]+'</span>';
     		
 		}
-    }
+    } */
     
     if (places.restNewAddr) {
         itemStr += '    <span>' + places.restNewAddr + '</span>' +
