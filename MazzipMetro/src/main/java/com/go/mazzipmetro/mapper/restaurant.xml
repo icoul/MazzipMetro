@@ -249,11 +249,51 @@
 		from TBL_Metro
 	</select>
 	
-	<select id="restaurant.restListStatistics" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
-		select A.restname, A.restimg, A.restaddr, B.metroname, A.restregdate
+	<!-- 사업자 매장 통계 (매장리스트) -->
+	<select id="restListStatistics" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select A.restSeq, A.restname, A.restimg, A.restaddr, B.metroname, A.restregdate
 		from tbl_restaurant A join tbl_metro B
 		on A.metroid = B.metroid
-		where userSeq = #{userSeq} and restStatus = 0;
+		where userSeq = #{userSeq} and restStatus = 0
+	</select>
+	
+	<!-- 사업자 매장 통계 (성별) -->
+	<resultMap type="java.util.HashMap" id="mapGender">
+		<result column="gender"  property="GENDER"  javaType="String" />
+		<result column="cnt"     property="CNT"     javaType="String" />
+		<result column="percent" property="PERCENT" javaType="String" />
+	</resultMap>
+
+	<select id="restStati_Gender" resultMap="mapGender">
+		select  decode( grouping(V.userGender), 0, V.userGender, '전체') as GENDER
+	      	  , count(V.userGender) as CNT
+	          , round( count(V.userGender) / (select count(*) from tbl_user) * 100 ) as PERCENT
+		from
+		(
+		  select A.userGender
+      from tbl_user A join tbl_review B
+      on A.userSeq = B.userSeq
+      where restSeq = #{restSeq}
+		) V
+		group by rollup(V.userGender)
+	</select>
+	
+	<resultMap type="java.util.HashMap" id="mapAgeline">
+		<result column="ageline" property="AGELINE" javaType="String" />
+		<result column="cnt"	 property="CNT" 	javaType="String" />
+		<result column="percent" property="PERCENT" javaType="String" />
+	</resultMap>
+	
+	<select id="restStati_Ageline" resultMap="mapAgeline">
+		select  decode( grouping(V.AGELINE), 0, to_char(V.AGELINE), '전체') as AGELINE
+	          , count(V.AGELINE) as CNT
+	          , round( count(V.AGELINE) / (select count(*) from employees) * 100 ) as PERCENT
+		from
+		(
+		  select trunc( extract(year from sysdate) - ( to_number(substr(jubun, 1, 2) ) + case when substr(jubun, 7, 1) in('1','2') then 1900 else 2000 end ) + 1 , -1 ) as AGELINE 
+		  from employees
+		) V
+		group by rollup(V.AGELINE)
 	</select>
 	
 </mapper>

@@ -148,5 +148,10 @@ public class RestaurantDAO implements IDAO{
 		return restList;
 	}
 
+	public List<HashMap<String, String>> restStati_Gender(String restSeq) {
+		List<HashMap<String, String>> ageList = sqlSession.selectList("restaurant.restStati_Gender", restSeq);
+		return ageList;
+	}
+
 
 }

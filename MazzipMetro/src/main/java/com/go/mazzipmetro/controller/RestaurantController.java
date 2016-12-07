@@ -488,5 +488,31 @@ public class RestaurantController {
 			
 			return "user/restListStatistics";
 		}
+		
+		
+		@RequestMapping(value="/Statistics.eat", method={RequestMethod.GET})
+		public String Statistics(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+			String userSeq = loginUser.getUserSeq();
+
+			String restSeq = req.getParameter("restSeq");
+			
+			List<HashMap<String, String>> genderList = service.restStati_Gender(restSeq);
+//			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
+//			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
+//			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
+//			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
+//			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
+			
+			req.setAttribute("genderList", genderList);
+/*			req.setAttribute("Agelist", Agelist);
+			req.setAttribute("Agelist", Agelist);
+			req.setAttribute("Agelist", Agelist);
+			req.setAttribute("Agelist", Agelist);
+			req.setAttribute("Agelist", Agelist);*/
+			
+			
+			return "user/Statistics";
+		}
 }
 

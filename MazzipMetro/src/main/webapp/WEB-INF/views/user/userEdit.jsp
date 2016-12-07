@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<jsp:include page="../top.jsp" />
+<!DOCTYPE html>
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -35,7 +37,7 @@
 	
 	 function goSubmit(){
 		
-		var editFrm = document.editFrm;
+		var contact_form = document.contact_form;
 		
 		var chkboxArr = document.getElementsByName("userStation");
 		
@@ -52,7 +54,7 @@
 			alert("최대3개만 선택가능합니다.");
 		}
 		else {
-			editFrm.submit();
+			contact_form.submit();
 		}
 	} 
 	
@@ -178,13 +180,14 @@
 </head>
 <body>
 
-
-<form name="editFrm" id="contact_form" class="well form-horizontal" action="<%= request.getContextPath() %>/userEditEnd.eat" method="post" enctype="multipart/form-data" style="width:700px; background:none;">
+<div class="subleftCon">
+		<h2>${sessionScope.loginUser.userName}님의<br> 정보수정</h2>
+</div>
+<div class="subrightCon">
+<jsp:include page="../userMyPage_Menubar.jsp" />
+<form name="contact_form" id="contact_form" class="well form-horizontal" action="<%= request.getContextPath() %>/userEditEnd.eat" method="post" enctype="multipart/form-data" style="width:700px; background:none;">
 		<fieldset>
-		<!-- Form Name -->
-		<legend> ${sessionScope.loginUser.userName}님의 정보수정</legend>
 		
-		<!-- Text input-->
 		
 		<div class="form-group">
 		  <label class="col-md-4 control-label">맛집메트로계정(이메일)</label>  
@@ -347,6 +350,6 @@
 
 
 
-
+</div>
 </body>
 </html>

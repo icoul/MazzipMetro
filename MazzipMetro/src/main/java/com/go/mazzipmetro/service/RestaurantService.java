@@ -129,5 +129,10 @@ public class RestaurantService implements IService{
 		return restList;
 	}
 
+	public List<HashMap<String, String>> restStati_Gender(String restSeq) {
+		List<HashMap<String, String>> ageList = dao.restStati_Gender(restSeq);
+		return ageList;
+	}
+
 	
 }
