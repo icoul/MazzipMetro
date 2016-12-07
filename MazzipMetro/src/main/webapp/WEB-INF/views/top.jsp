@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    
+<%@ page import="com.go.mazzipmetro.vo.UserVO"%> 
+<%@ page import="java.net.URLDecoder"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +18,7 @@
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script>
 
 <!-- 동현_다음지도 api를 사용하기 위한 라이브러리 -->
-<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=07a6ce4a014b94664ec5968dee2fb0d2&libraries=services,clusterer,drawing"></script>
+<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=0d211626a8ca667e54b95403a7ae692f&libraries=services,clusterer,drawing"></script>
 
 <!-- 동현_메트로맵 tooltip을 위한 라이브러리 -->
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
@@ -48,9 +50,87 @@
 
 <title>:::Mazzip Metro:::</title>
 
-<script type="text/javascript">
+<script type="text/javascript"> 
 
+function getLoginUserInfo(){
+		
+	 	alert('로그인 정보를 갱신하는 함수를 따로 만들었습니다. 사용자 정보가 바뀌는 경우 이 함수를 호출해 주세요~');
+		$.getJSON("loginUserInfo.do", function(data){
+		
+		}); // end of $.getJSON();	
+		
+	}//end of getLoginUserInfo () 
+
+	
 	$(document).ready(function(){
+		//생성된 쿠키를 사용하기 위한 자바코드
+		<%
+		  		UserVO loginUser = (UserVO)session.getAttribute("loginUser");	
+
+		  		// 1.로그인을 하지 않은 경우
+		  		if(loginUser == null){ // Not Logged In
+		  		
+			  		Cookie[] cookies = request.getCookies();
+			  		//쿠키는 쿠키의 이름별로 여러개 저장되어 있으므로,
+			  		//배열 타입으로 가져와서, 원하는 쿠키의 이름과 일치하는 것을 뽑는다.(반복문을 통해 비교할 것.)
+			  		
+			  		String cookieKey = ""; 
+			  		String cookieValueId = "";
+			  		String cookieValuePwd = "";
+			  		boolean isRememberId = false;
+			  		boolean isRememberPwd = false;
+			  		
+			  		if(cookies != null){
+			  			for(Cookie c: cookies){
+			  				cookieKey = c.getName();//쿠키의 이름을 꺼내오는 메소드
+			  				
+		 	 	 			System.out.println("cookieKey : "+c.getName()); 
+		 	 	 			System.out.println("cookieValue :"+c.getValue()); 
+			  				
+			  				if(cookieKey.equals("rememberId")){
+			  					String id_value = URLDecoder.decode(c.getValue(), "UTF-8");
+			  					//System.out.println(id_value);
+		%>
+								<%-- document.getElementById("dx_userId").value = "<%=id_value%>"; --%>
+								
+								$("#dx_userId").val('<%=id_value%>'); 
+								$("#dx_rememberId").prop('checked',true);
+								
+								
+		<%
+//		 	  					cookieValueId = c.getValue();//쿠키의 value 값을 리턴하는 메소드
+//		 	  					isRememberId = true;
+			  					continue;
+			  				}
+			  				
+			  				if(cookieKey.equals("rememberPwd")){
+		%>
+								$("#dx_password").val('<%=c.getValue()%>');
+								$("#dx_rememberPwd").prop('checked',true);
+		<%	  					
+//		 	  					cookieValuePwd = c.getValue();//쿠키의 value 값을 리턴하는 메소드
+//		 	  					isRememberPwd = true;
+			  					continue;
+			  				}
+			  				
+			  				if(cookieKey.equals("dx_autoLogin")){
+		%>				
+								loginSubmit();
+		<%	  				
+			  				}
+			  			}//end of for(Cookie c: cookies) 
+			  				
+			  		}//end of if(cookies != null) 
+		  		
+		  		} else {//로그인한 상태
+		%>  			
+					getLoginUserInfo();
+		<%  		
+		  		}
+		%>
+		
+		
+		
 		
 		//Login 모달창 폼 전송하기
 		$("#btnLoginSubmit").click(function(){
@@ -62,10 +142,13 @@
 			}
 			$("#dx_userId").val(dx_userId);
 			$("#dx_password").val(dx_password);
-			$("#dx_loginFrm").submit();
+			loginSubmit();
 		});
 		
 	});// end of ready~~~~~~~~~~~~~~
+	function loginSubmit(){
+		$("#dx_loginFrm").submit();
+	}
 	
 	function goLogin(){
 		$("#loginModal").modal();	
@@ -107,21 +190,21 @@
 					&nbsp;&nbsp;&nbsp;&nbsp;
 				</c:if>
 				<!-- 일반사용자 로그인시 -->
-				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 1}">
+				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 0}">
 					<li><a href="#">맛집랭킹</a></li>
 					<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
 					<li><a href="javascript:goAsk();">문의하기</a></li>
 					<li><a href="<%=request.getContextPath()%>/myQnaList.eat">나의 문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
 				</c:if>
 				<!-- 사업주 로그인시 -->
-				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 2}">
+				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 1}">
 					<li><a href="#">맛집랭킹</a></li>
 					<li><a href="<%=request.getContextPath()%>/restMyPage.eat">마이페이지</a></li>
 					<li><a href="javascript:goAsk();">문의하기</a></li>
 					<li><a href="<%=request.getContextPath()%>/myQnaList.eat">나의 문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
 				</c:if>
 				<!-- 관리자 로그인시 -->
-				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 3}">
+				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 2}">
 					<li><a href="#">맛집랭킹</a></li>
 					<li><a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a></li>
 					<li><a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a></li>
@@ -168,6 +251,7 @@
           <div class="checkbox">
             <label><input type="checkbox" id="dx_rememberId" name="dx_rememberId">아이디 저장</label>&nbsp;&nbsp;
             <label><input type="checkbox" id="dx_rememberPwd" name="dx_rememberPwd">비밀번호 저장</label>
+            <label><input type="checkbox" id="dx_autoLogin" name="dx_autoLogin">자동로그인</label>
             <button type="button" class="btn btn-default pull-right" id="btnLoginSubmit" name="btnLoginSubmit">
             <span class="glyphicon glyphicon-off"></span> 로그인</button>
           </div>
