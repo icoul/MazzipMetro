@@ -142,6 +142,14 @@ public class RestaurantDAO implements IDAO{
 		
 		return result;
 	}
+	
+	//메뉴 목록 가져오기
+	public List<HashMap<String, String>> getMenuList(String restSeq) {
+		
+		List<HashMap<String, String>> menuList = sqlSession.selectList("restaurant.getMenuList", restSeq);
+		
+		return menuList;
+	}
 
 	public List<RestaurantVO> restListStatistics(String userSeq) {
 		List<RestaurantVO> restList = sqlSession.selectList("restaurant.restListStatistics", userSeq);

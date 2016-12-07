@@ -47,13 +47,14 @@ input[type=radio] {vertical-align:-3px;}
 			</tr>
 		
 			<tr>
-				<td><input type="text" name="userSeq" value="${userSeq}" /></td>
-				<td><input type="text" name="userName" value="${userName}" /></td>
-				<td><input type="text" name="gradeName" value="${gradeName}" /></td>
-				<td><input type="text" name="userEmail" value="${userEmail}" /></td>
-				<td><input type="text" name=userPhone value="${userPhone}" /></td>
-				<td><input type="text" name="userRegDate" value="${userRegDate}" /></td>
-				<td><input type="text" name="userPoint" value="${userPoint}" /></td>
+			
+				<td><input type="text" name="userSeq" value="${userinfoMap.USERSEQ}" /></td>
+				<td><input type="text" name="userName" value="${userinfoMap.USERNAME}" /></td>
+				<td><input type="text" name="gradeName" value="${userinfoMap.GRADENAME}" /></td>
+				<td><input type="text" name="userEmail" value="${userinfoMap.USEREMAIL}" /></td>
+				<td><input type="text" name=userPhone value="${userinfoMap.USERPHONE}" /></td>
+				<td><input type="text" name="userRegDate" value="${userinfoMap.USERREGDATE}" /></td>
+				<td><input type="text" name="userPoint" value="${userinfoMap.USERPOINT}" /></td>
 			</tr>
 	</table>
 	</div>
