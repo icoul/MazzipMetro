@@ -122,7 +122,7 @@
 			var newAddr = $("#newAddr").val();
 			var latitude = $("#latitude").val();
 			var longitude = $("#longitude").val();
-			var metroId = getMetroId(metroName);
+			var metroId = $("#metroName").val(); // select 메뉴 value로 metroId를 가지고 있다.
 			var dongId = getDongId(addr);
 			
 			if (addr == null || latitude == null || longitude == null || metroId == null || dongId == null) {
@@ -164,7 +164,7 @@
 					var metroNameOptionHtml = '';
 					
 					for (var i = 0; i < metroNameList.length; i++) {
-						metroNameOptionHtml += "<option>"+metroNameList[i]+"</option>";
+						metroNameOptionHtml += "<option value='"+metroNameList[i].metroId+"'>"+metroNameList[i].metroName+"</option>";
 					}
 					
 					$("#metroName").html(metroNameOptionHtml);
@@ -173,7 +173,7 @@
 		}
 		
 		//지하철역id얻어오기
-		function getMetroId(metroName){
+		/* function getMetroId(metroName){
 			
 		    var metroId;
 			$.ajax({
@@ -190,7 +190,7 @@
 			});//end of $.ajax()
 			
 			return metroId;
-		}
+		} */
 		
 		//동id얻어오기
 		function getDongId(addr){
