@@ -39,7 +39,7 @@ public class BossController {
 	//사업주가 코인을 충전할시 or 광고 구매시
 	@RequestMapping(value="/bossCoinResi.eat", method={RequestMethod.GET})
 	public String busiCoinResi(HttpServletRequest req) {
-		HttpSession ses = req.getSession();
+		/*HttpSession ses = req.getSession();
 		UserVO loginUser = (UserVO)ses.getAttribute("loginUser");
 		loginUser = userService.getLoginUser(loginUser.getUserEmail());
 		ses.setAttribute("loginUser", loginUser);
@@ -48,7 +48,7 @@ public class BossController {
 		req.setAttribute("restSeq", restSeq);
 		
 		//System.out.println(">>>>>>>>확인용"+loginUser.getUserPoint());
-		return "boss/bossCoinResi";
+*/		return "boss/bossCoinResi";
 		
 	}
 	

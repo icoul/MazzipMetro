@@ -103,6 +103,7 @@ function goRecomBuy(userSeq) {
 				<p class="desc"><span style="font-size:12px;">※</span> 코인은 100만원 단위부터 충전 가능합니다.</p>
 			</li>
 			<li>
+				<input type="radio" value="업장" /><label for="spot"></label>
 				<form name="bannFrm" id="bannFrm" method="post">
 					<b>파워배너</b>  : <button class="btnPoint" type="button" name="bannCoin" onClick="goBannBuy('${userSeq}');">포인트 결제</button>
 					<p class="desc"><span style="font-size:12px;">※</span> 메인페이지에 광고 입니다. (100만 포인트)</p>
