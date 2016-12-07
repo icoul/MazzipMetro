@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+<<<<<<< HEAD
+Built-By: hamtal
+=======
+Built-By: eodyd
+>>>>>>> d97a9a6e8d7b4f37ac5de14acc4366f5387445b2
+Build-Jdk: 1.8.0_111
+Created-By: Maven Integration for Eclipse
+
