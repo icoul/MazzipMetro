@@ -10,7 +10,7 @@ function btnMore(){
 	EndRno += Five;
 	$("#EndRno").val(EndRno);
 	getReviewList();
-}
+}//end of btnMore
 
 function goTopAndBottom(){
 	
@@ -21,8 +21,63 @@ function goTopAndBottom(){
 	 $("#goBottom").click(function(){
 		document.body.scrollTop = document.body.scrollHeight;
 	 }); 
+}// end of goTopAndBottom
+
+function DownHit(reviewSeq, likeId){
+	 $.ajax({ 
+		 	
+			url: "<%= request.getContextPath()%>/DownHit.eat",
+			method:"get",  	
+			data: "reviewSeq="+reviewSeq, 
+			dataType: "JSON",
+			success: function(data) {
+				alert(data.reviewHit);
+				$("#"+likeId).val(data.reviewHit+"Hit!");
+				
+				}
+		});//end of $.ajax()
+} // end of DownHit
+
+function upHit(reviewSeq, likeId){
+	 $.ajax({ 
+		 	
+			url: "<%= request.getContextPath()%>/plusHit.eat",
+			method:"get",  	
+			data: "reviewSeq="+reviewSeq, 
+			dataType: "JSON",
+			success: function(data) {
+				alert(data.reviewHit);
+				$("#"+likeId).val(data.reviewHit+"Hit!");
+				
+				}
+		});//end of $.ajax()
+} // end of upHit
+
+function insert_Liker(reviewSeq, likeId){
+	 $.ajax({ 
+		 	
+			url: "<%= request.getContextPath()%>/insertLiker.eat",
+			method:"get",  	
+			data: "reviewSeq="+reviewSeq, 
+			dataType: "JSON",
+			success: function(data) {
+								
+				}
+		});//end of $.ajax()
+} // end of insert_Liker
+
+function insertAndUpHit(reviewSeq, likeId){
 	
-}
+	insert_Liker(reviewSeq, likeId);
+	upHit(reviewSeq, likeId);
+
+		
+} // end of upAndDownHit
+
+$(document).ready(function(){
+	
+	
+});// end of ready
 
 </script>
 
@@ -33,12 +88,38 @@ function goTopAndBottom(){
 	</p>
 
 <table  class="table table-bordered">
+		<tr>
+		<th style="text-align:center;">이름</th>
+		<th style="text-align:center;">평점</th>
+		<th style="text-align:center;">리뷰</th>
+		</tr>
+	
 		
 		<c:forEach var="review" items="${reviewList}" varStatus="status">
+				
 			<tr>
 				<td>${review.userName }  <img src="<%= request.getContextPath() %>/files/${review.userProfile}" width="100px" height="100px"/></td>
+					<td align="right">
+						평점<span style="font-weight:bold; font-size:15pt; color:red;">${review.reviewAvgScore}</span>점
+					</td>
 				<td>
 					<section>${review.reviewContent}</section>
+					<c:set value = "0" var="flag" />
+					
+					<c:forEach var="likers" items="${likers}" varStatus="status">
+						<c:if test="${likers == review.reviewSeq }">
+							<p align="right">
+								<input type="button" id="like${status.index}" name="like" value="${review.reviewHit}Hit!" onClick="DownHit('${review.reviewSeq}','like${status.index}');" style="background-color: white; color: black" />
+							</p>
+							<c:set value = "1" var="flag" />
+						</c:if>
+					</c:forEach>
+						<c:if test="${flag eq 0}">
+							<p align="right">
+								<input type="button" id="like${status.index}" name="like" value="${review.reviewHit}Hit!" onClick="insertAndUpHit('${review.reviewSeq}','like${status.index}');" />
+							</p>
+						</c:if>
+					
 					<section>
 						<c:forEach var="reviewImage" items="${reviewImageList}">
 							<c:if test="${review.reviewSeq == reviewImage.reviewSeq}">
@@ -47,7 +128,7 @@ function goTopAndBottom(){
 						</c:forEach>
 					</section>
 				</td>
-			
+		
 			
 			
 			<div class="modal  fade" id="reviewImageDiv${status.index}" role="dialog" >
@@ -59,6 +140,7 @@ function goTopAndBottom(){
 			  
 			</div>
 		</c:forEach>
+	
 	</table>
 	
 	<div>
