@@ -29,10 +29,19 @@ input[type=radio] {vertical-align:-3px;}
     cursor:pointer;
     }
 </style>
+<script type="text/javascript">
+goUserEdit(userSeq){
+	var userEditFrm = document.userEditFrm;
+	
+	userEditFrm.action="adminUserEditEnd.eat";
+	userEditFrm.method="post";
+	userEditFrm.submit();
+}
+</script>
 </head>
 <body>
 	<h2 class="title">회원 정보 수정 하기</h2>
-	<form name="coinCharFrm" action="<%= request.getContextPath() %>/adminUserEditEnd.eat" method="post">
+	<form name="editEditFrm" action="<%= request.getContextPath() %>/adminUserEditEnd.eat" method="post">
 	<div class="coinPopWrap">
 		<table class="tblUserList">
 			<tr>
@@ -43,17 +52,24 @@ input[type=radio] {vertical-align:-3px;}
 				<th style="width: 70px;" >전화번호</th>
 				<th style="width: 70px;" >가입일자</th>
 				<th style="width: 70px;" >포인트</th>
-				<th style="width: 70px;" >수정/삭제</th>
+				<th style="width: 70px;" >수정</th>
 			</tr>
 		
 			<tr>
-				<td><input type="text" name="userSeq" value="${userSeq}" /></td>
-				<td><input type="text" name="userName" value="${userName}" /></td>
-				<td><input type="text" name="gradeName" value="${gradeName}" /></td>
-				<td><input type="text" name="userEmail" value="${userEmail}" /></td>
-				<td><input type="text" name=userPhone value="${userPhone}" /></td>
-				<td><input type="text" name="userRegDate" value="${userRegDate}" /></td>
-				<td><input type="text" name="userPoint" value="${userPoint}" /></td>
+			
+				<td><input type="text" name="userSeq" value="${userinfoMap.USERSEQ}" /></td>
+				<td><input type="text" name="userName" value="${userinfoMap.USERNAME}" /></td>
+				<td><input type="text" name="gradeName" value="${userinfoMap.GRADENAME}" /></td>
+				<td><input type="text" name="userEmail" value="${userinfoMap.USEREMAIL}" /></td>
+				<td><input type="text" name="userPhone" value="${userinfoMap.USERPHONE}" /></td>
+				<td><input type="text" name="userRegDate" value="${userinfoMap.USERREGDATE}" /></td>
+				<td><input type="text" name="userPoint" value="${userinfoMap.USERPOINT}" /></td>
+				<td>
+					<form name="userEditFrm"  action="<%= request.getContextPath() %>/adminUserEditEnd.eat" method="post">
+					<button class="btnGray" onClick="goUserEdit('${userinfoMap.userSeq}');" style="margin-top:0; width:40px;">수정</button>
+					<%-- <input type="hidden" name="userSeq" value="${userinfoMap.userSeq}" /> --%>
+					</form>
+				</td>
 			</tr>
 	</table>
 	</div>

@@ -22,7 +22,7 @@
 	<!-- 파워링크 결제시 -->
 	<update id="linkBuyUpdate" parameterType="java.util.HashMap">
 		update tbl_User set userPoint = userPoint - 500000
-		where userStatus = 0 and userSort = 1 and userSeq = #{userSeq}
+		where userSeq = #{userSeq}
 	</update>
 	<!-- 파워링크 컨텐츠테이블 등록 -->
 	<insert id="linkInsert" parameterType="java.util.HashMap">
@@ -39,9 +39,15 @@
 		insert into tbl_restaurant_content(restSeq, userSeq, contentSeq, contentBuyDate, contentLimit, contentStatus) 
 		values(#{restSeq}, #{userSeq},'3', default , sysdate + 30, default)
 	</insert>
+	
+	<resultMap type="java.util.HashMap" id="userInfo">
+		<result column="restSeq" 		property="RESTSEQ" 		javaType="String"/>
+		<result column="restName" 		property="RESTNAME" 		javaType="String"/>
+	</resultMap>
+	
 	<!-- 컨텐츠테이블 등록하기위해 restSeq 구해오기 -->
-	<select id="getRestSeq" parameterType="String" resultType="String">
-		select restSeq
+	<select id="getRestSeq" parameterType="String" resultType="java.util.HashMap">
+		select restSeq,restName
 		from tbl_restaurant
 		where userSeq = #{userSeq}
 	</select>

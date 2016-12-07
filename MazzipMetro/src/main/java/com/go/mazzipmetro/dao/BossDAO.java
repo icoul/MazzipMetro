@@ -1,5 +1,7 @@
 package com.go.mazzipmetro.dao;
 import java.util.HashMap;
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -51,9 +53,9 @@ public class BossDAO implements IDAO{
 		return n;
 	}
 	//RestSeq 구하기
-	public String getRestSeq(String userSeq) {
-		String restSeq = sqlSession.selectOne("boss.getRestSeq", userSeq);
-		return restSeq;
+	public List<HashMap<String, String>> getRestSeq(String userSeq) {
+		List<HashMap<String, String>> list = sqlSession.selectList("boss.getRestSeq", userSeq);
+		return list;
 	}
 }
 
