@@ -11,15 +11,30 @@
 		<if test="restStatus == 0">
 			restName = #{restName}, userSeq = #{userSeq}, gradeSeq = #{gradeSeq}
 		  , restAddr = #{restAddr}, restNewAddr = #{restNewAddr}, restPhone = #{restPhone}
-		  , restLatitude = #{restLatitude}, restLongitude = #{restLongitude}, restImg = #{restImg}
-		  , restContent = #{restContent}, dongId = #{dongId}, metroId = #{metroId}
-		  , restBgTag = #{restBgTag}, restMdTag = #{restMdTag} 
-	  	</if>
+		  , restLatitude = #{restLatitude}, restLongitude = #{ restLongitude}
+		  , restContent = #{restContent}, dongId = #{dongId}, metroId = #{metroId} 
+		  <if test="restImg != null">
+		  	, restImg = #{restImg}
+		  </if>
+		</if>
 	  	<if test="restStatus == 1">
 	  		restStatus = 1
 	  	</if>
 		where restSeq = #{restSeq}
 	</update>
+	
+	
+	<!-- 관리자용 업장 소개 이미지 삭제 -->
+	<update id="delRestAd" parameterType="java.util.HashMap">
+		update tbl_restaurant_ad set adImgStatus = 1
+		where restSeq = #{restSeq} and adImg = #{adImg}
+	</update>
+	
+	<!-- 관리자용 업장 소개 이미지 추가 -->
+	<insert id="insertRestAd" parameterType="java.util.HashMap">
+		insert into tbl_restaurant_ad values(#{restSeq}, #{adImg}, default)
+	</insert>
+	
 	
 	<!-- 관리자용 업장수정을 위한 하나의  업장 등급 리스트 가져오기 -->
 	<resultMap type="java.util.HashMap" id="resultRestGradeList">
@@ -42,6 +57,16 @@
 		where A.restSeq = #{restSeq}) A left join tbl_metro B
 		on A.metroId = B.metroId) A left join tbl_dong B
 		on A.dongId = B.dongId 
+	</select>
+	
+	<!-- 임시_업장 restSeq 가져오기(태그가 있는 행만 가져오기) -->
+	<!-- <select id="temp_getRestSeqForTags" resultType="String">
+		select distinct(restSeq) from tbl_restaurant_tag
+	</select> -->
+	
+	<!-- 관리자용 업장 수정 요청 (AdImg 이름 요청) -->
+	<select id="adminRestAdImgInfo" parameterType="String" resultType="String">
+		select adImg from tbl_restaurant_ad where restSeq = #{restSeq} and adImgStatus = 0
 	</select>
 	
 	<!-- restSeq로 하나의 업장을 가져오기 -->
@@ -222,6 +247,13 @@
 	<select id="restaurant.getMetro" resultType="String">
 		select metroId
 		from TBL_Metro
+	</select>
+	
+	<select id="restaurant.restListStatistics" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select A.restname, A.restimg, A.restaddr, B.metroname, A.restregdate
+		from tbl_restaurant A join tbl_metro B
+		on A.metroid = B.metroid
+		where userSeq = #{userSeq} and restStatus = 0;
 	</select>
 	
 </mapper>

@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    
+<%@ page import="com.go.mazzipmetro.vo.UserVO"%> 
+<%@ page import="java.net.URLDecoder"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +18,7 @@
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script>
 
 <!-- 동현_다음지도 api를 사용하기 위한 라이브러리 -->
-<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=bf7db50bdf035e740bf5fd98b5509627&libraries=services,clusterer,drawing"></script>
+<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=0d211626a8ca667e54b95403a7ae692f&libraries=services,clusterer,drawing"></script>
 
 <!-- 동현_메트로맵 tooltip을 위한 라이브러리 -->
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
@@ -30,50 +32,105 @@
 <!-- 미현_전체페이지 css -->
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/main.css" />
 
-<!-- 기본 jquery 라이브러리 -->
-<script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>
-
-
-
-
-	
-	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-	
-	<link href="<%= request.getContextPath() %>/resources/css/hb_register_.css" rel="stylesheet">
-	
-	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/1.0/zxcvbn-async.min.js"></script>
-	 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-	 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>
-
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-  <!-- 레스토랑 디테일.jsp에서 차트를 이용하기 위한 라이브러리 추가 -->
-  <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/highcharts.js"></script>
-  <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/modules/exporting.js"></script>
+<!-- 은석_레스토랑 디테일.jsp에서 차트를 이용하기 위한 라이브러리 추가 -->
+<script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/highcharts.js"></script>
+<script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/modules/exporting.js"></script>
 
 <!-- 한별_회원가입 css -->
 <link href="<%= request.getContextPath() %>/resources/css/hb_register_.css" rel="stylesheet">
 
-
-<!-- 한별_회원가입 유효성 검사용 라이브러 -->
+<!-- 한별_회원가입 유효성 검사용 라이브러리 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/1.0/zxcvbn-async.min.js"></script>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>
 
+
+
 <title>:::Mazzip Metro:::</title>
 
-<script type="text/javascript">
+<script type="text/javascript"> 
 
+function getLoginUserInfo(){
+		
+	 	alert('로그인 정보를 갱신하는 함수를 따로 만들었습니다. 사용자 정보가 바뀌는 경우 이 함수를 호출해 주세요~');
+		$.getJSON("loginUserInfo.do", function(data){
+		
+		}); // end of $.getJSON();	
+		
+	}//end of getLoginUserInfo () 
+
+	
 	$(document).ready(function(){
+		//생성된 쿠키를 사용하기 위한 자바코드
+		<%
+		  		UserVO loginUser = (UserVO)session.getAttribute("loginUser");	
+
+		  		// 1.로그인을 하지 않은 경우
+		  		if(loginUser == null){ // Not Logged In
+		  		
+			  		Cookie[] cookies = request.getCookies();
+			  		//쿠키는 쿠키의 이름별로 여러개 저장되어 있으므로,
+			  		//배열 타입으로 가져와서, 원하는 쿠키의 이름과 일치하는 것을 뽑는다.(반복문을 통해 비교할 것.)
+			  		
+			  		String cookieKey = ""; 
+			  		String cookieValueId = "";
+			  		String cookieValuePwd = "";
+			  		boolean isRememberId = false;
+			  		boolean isRememberPwd = false;
+			  		
+			  		if(cookies != null){
+			  			for(Cookie c: cookies){
+			  				cookieKey = c.getName();//쿠키의 이름을 꺼내오는 메소드
+			  				
+		 	 	 			System.out.println("cookieKey : "+c.getName()); 
+		 	 	 			System.out.println("cookieValue :"+c.getValue()); 
+			  				
+			  				if(cookieKey.equals("rememberId")){
+			  					String id_value = URLDecoder.decode(c.getValue(), "UTF-8");
+			  					//System.out.println(id_value);
+		%>
+								<%-- document.getElementById("dx_userId").value = "<%=id_value%>"; --%>
+								
+								$("#dx_userId").val('<%=id_value%>'); 
+								$("#dx_rememberId").prop('checked',true);
+								
+								
+		<%
+//		 	  					cookieValueId = c.getValue();//쿠키의 value 값을 리턴하는 메소드
+//		 	  					isRememberId = true;
+			  					continue;
+			  				}
+			  				
+			  				if(cookieKey.equals("rememberPwd")){
+		%>
+								$("#dx_password").val('<%=c.getValue()%>');
+								$("#dx_rememberPwd").prop('checked',true);
+		<%	  					
+//		 	  					cookieValuePwd = c.getValue();//쿠키의 value 값을 리턴하는 메소드
+//		 	  					isRememberPwd = true;
+			  					continue;
+			  				}
+			  				
+			  				if(cookieKey.equals("dx_autoLogin")){
+		%>				
+								loginSubmit();
+		<%	  				
+			  				}
+			  			}//end of for(Cookie c: cookies) 
+			  				
+			  		}//end of if(cookies != null) 
+		  		
+		  		} else {//로그인한 상태
+		%>  			
+					getLoginUserInfo();
+		<%  		
+		  		}
+		%>
+		
+		
+		
 		
 		//Login 모달창 폼 전송하기
 		$("#btnLoginSubmit").click(function(){
@@ -85,10 +142,13 @@
 			}
 			$("#dx_userId").val(dx_userId);
 			$("#dx_password").val(dx_password);
-			$("#dx_loginFrm").submit();
+			loginSubmit();
 		});
 		
 	});// end of ready~~~~~~~~~~~~~~
+	function loginSubmit(){
+		$("#dx_loginFrm").submit();
+	}
 	
 	function goLogin(){
 		$("#loginModal").modal();	
@@ -130,21 +190,21 @@
 					&nbsp;&nbsp;&nbsp;&nbsp;
 				</c:if>
 				<!-- 일반사용자 로그인시 -->
-				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 1}">
+				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 0}">
 					<li><a href="#">맛집랭킹</a></li>
 					<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
 					<li><a href="javascript:goAsk();">문의하기</a></li>
 					<li><a href="<%=request.getContextPath()%>/myQnaList.eat">나의 문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
 				</c:if>
 				<!-- 사업주 로그인시 -->
-				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 2}">
+				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 1}">
 					<li><a href="#">맛집랭킹</a></li>
 					<li><a href="<%=request.getContextPath()%>/restMyPage.eat">마이페이지</a></li>
 					<li><a href="javascript:goAsk();">문의하기</a></li>
 					<li><a href="<%=request.getContextPath()%>/myQnaList.eat">나의 문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
 				</c:if>
 				<!-- 관리자 로그인시 -->
-				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 3}">
+				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 2}">
 					<li><a href="#">맛집랭킹</a></li>
 					<li><a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a></li>
 					<li><a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a></li>
@@ -191,6 +251,7 @@
           <div class="checkbox">
             <label><input type="checkbox" id="dx_rememberId" name="dx_rememberId">아이디 저장</label>&nbsp;&nbsp;
             <label><input type="checkbox" id="dx_rememberPwd" name="dx_rememberPwd">비밀번호 저장</label>
+            <label><input type="checkbox" id="dx_autoLogin" name="dx_autoLogin">자동로그인</label>
             <button type="button" class="btn btn-default pull-right" id="btnLoginSubmit" name="btnLoginSubmit">
             <span class="glyphicon glyphicon-off"></span> 로그인</button>
           </div>

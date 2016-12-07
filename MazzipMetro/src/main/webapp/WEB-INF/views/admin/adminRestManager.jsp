@@ -195,6 +195,9 @@
 		 return true;
 	}
 	
+	var map, clusterer;
+	
+	// 업장 검색 함수
 	function getRestaurant(){
 	
 		//alert($("[name=restTag]:checked").length);
@@ -215,23 +218,7 @@
 		  , restStatus : $("[name=restStatus]:checked").val()
 		}
 		
-		var map = new daum.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
-	        center : new daum.maps.LatLng(37.515812, 126.982340), // 지도의 중심좌표 
-	        level : 8// 지도의 확대 레벨 
-	    });
 		
-	    
-	    // 마커 클러스터러를 생성합니다 
-	    // 마커 클러스터러를 생성할 때 disableClickZoom 값을 true로 지정하지 않은 경우
-	    // 클러스터 마커를 클릭했을 때 클러스터 객체가 포함하는 마커들이 모두 잘 보이도록 지도의 레벨과 영역을 변경합니다 
-	    // 이 예제에서는 disableClickZoom 값을 true로 설정하여 기본 클릭 동작을 막고
-	    // 클러스터 마커를 클릭했을 때 클릭된 클러스터 마커의 위치를 기준으로 지도를 1레벨씩 확대합니다 
-	    var clusterer = new daum.maps.MarkerClusterer({
-	        map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
-	        averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
-	        minLevel: 7, // 클러스터 할 최소 지도 레벨 
-	        disableClickZoom: true // 클러스터 마커를 클릭했을 때 지도가 확대되지 않도록 설정한다 
-	    });
 	 
 	    // 데이터를 가져오기 위해 jQuery를 사용합니다
 	    // 데이터를 가져와 마커를 생성하고 클러스터러 객체에 넘겨줍니다
@@ -242,24 +229,62 @@
 			data: srchFrmData,
 			dataType: "json",
 			success: function(data) {
-				//alert(data.positions.length);
+				//alert(data.positions[0].restName);
 				
 				if(data.positions.length == 0){
 					alert('검색된 음식점이 없습니다. 검색조건을 확인해주세요!');
 					return;
 				}
 				
+				// 검색조건이 없을 때에는 기존의 마커들을 유지 하기 위햐여 지도 객체를 success 함수 안에 위치 시켰다. 전역변수화
+				map = new daum.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
+			        center : new daum.maps.LatLng(37.515812, 126.982340), // 지도의 중심좌표 
+			        level : 8// 지도의 확대 레벨 
+			    });
+				
+			    
+			    // 마커 클러스터러를 생성합니다 
+			    // 마커 클러스터러를 생성할 때 disableClickZoom 값을 true로 지정하지 않은 경우
+			    // 클러스터 마커를 클릭했을 때 클러스터 객체가 포함하는 마커들이 모두 잘 보이도록 지도의 레벨과 영역을 변경합니다 
+			    // 이 예제에서는 disableClickZoom 값을 true로 설정하여 기본 클릭 동작을 막고
+			    // 클러스터 마커를 클릭했을 때 클릭된 클러스터 마커의 위치를 기준으로 지도를 1레벨씩 확대합니다 
+			    clusterer = new daum.maps.MarkerClusterer({
+			        map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
+			        averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
+			        minLevel: 7, // 클러스터 할 최소 지도 레벨 
+			        disableClickZoom: true // 클러스터 마커를 클릭했을 때 지도가 확대되지 않도록 설정한다 
+			    });
+				
 				var markers = $(data.positions).map(function(i, position) {
 	        	//alert(i+" : "+position.lat+", "+position.lng+", "+position.restName);
 		        	
-					// 마커를 생성합니다
-				    var marker = new daum.maps.Marker({
-				        position:  new daum.maps.LatLng(position.lat, position.lng)// 마커의 위치
-				    });
+				// 마커를 생성합니다
+			    var marker = new daum.maps.Marker({
+			        position:  new daum.maps.LatLng(position.restLatitude, position.restLongitude)// 마커의 위치
+			    });
 
 				 // 커스텀 오버레이에 표시할 컨텐츠 입니다
 				 // 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
 				 // 별도의 이벤트 메소드를 제공하지 않습니다 
+				 /* var bgTag = "", mdTag = "";
+				 for (var j = 0; j < data.tags.length; j++) {
+					 if(position.restSeq == data.tags[j].restSeq){
+						 for (var k = 0; k < data.tags[j].bgCat.length; k++) {
+								bgTag += data.tags[j].bgCat[k];
+								if(k != (data.tags[j].bgCat.length-1)){
+									bdTag += ", ";
+								}			
+							}
+							 for (var l = 0; l < data.tags[j].mdCat.length; l++) {
+								 	mdTag += data.tags[j].mdCat[l];
+									if(l != (data.tags[j].mdCat.length-1)){
+										mdTag += ", ";
+									}			
+								}
+						 
+					 }
+					
+				} */
 				
 				 var content = '<div class="wrap">' + 
 							             '    <div class="info">' + 
@@ -270,9 +295,18 @@
 							             '            <div class="img">' +
 							             '                <img src="<%=request.getContextPath()%>/files/'+position.restImg+'" width="73" height="70">' +
 							             '           </div>' + 
-							             '            <div class="desc">' + 
-							             '                <div class="ellipsis">'+position.restBgTag+'/'+position.restMdTag+'</div>' + 
-							             '                <div class="ellipsis"><span style="color: navy; font-weight:bold;">'+position.guName+'</span>&nbsp<span style="color: blue; font-weight: bold;">'+position.dongName+'</span></div>' + 
+							             '            <div class="desc"><div class="ellipsis">'; 
+							             
+				if (position.restBgTag) {
+					content += '                <span style="color:#ff6600; font_size: 14px;">'+position.restBgTag+'</span>&nbsp;';
+				}		
+				if (position.restMdTag) {
+					content += '<span style="color:#80b3ff; font_size: 11px;">'+position.restMdTag+'</span>' ;  
+				}
+					  
+							            
+					   content += '                </div>'+
+					   					 '<div class="ellipsis"><span style="color: #000099; font-weight:bold;">'+position.guName+'</span>&nbsp<span style="color: #b3b3ff; font-weight: bold;">'+position.dongName+'</span></div>' + 
 							             '                <div class="jibun ellipsis">'+position.restPhone+'</div>' + 
 							             '                <div>마커를 <span style="color:red">클릭</span>해서 음식점 정보를 수정하기</div>' + 
 							             '            </div>' + 

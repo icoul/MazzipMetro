@@ -143,5 +143,10 @@ public class RestaurantDAO implements IDAO{
 		return result;
 	}
 
+	public List<RestaurantVO> restListStatistics(String userSeq) {
+		List<RestaurantVO> restList = sqlSession.selectList("restaurant.restListStatistics", userSeq);
+		return restList;
+	}
+
 
 }

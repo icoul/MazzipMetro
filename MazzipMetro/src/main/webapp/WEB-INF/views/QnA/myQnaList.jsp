@@ -13,8 +13,10 @@
 	.btn-primary.create {margin-top:10px;}
 </style>
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>  
-  <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/BootStrapStudy/css/bootstrap.min.css">
-  <script src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script>
+<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/BootStrapStudy/css/bootstrap.min.css">
+<script src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
 <script type="text/javascript">
 	$(document).ready(function(){
 		<c:if test="${not empty qnaSearch}">

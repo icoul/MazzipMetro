@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>코인충전하자</title>
+<title>코인 결제</title>
 <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/BootStrapStudy/css/bootstrap.css">
 <script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-2.0.0.js"></script>
 <script type="text/javascript" src="<%= request.getContextPath() %>/BootStrapStudy/js/bootstrap.js"></script>

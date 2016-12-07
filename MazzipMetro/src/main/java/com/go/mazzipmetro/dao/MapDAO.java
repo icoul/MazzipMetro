@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.go.mazzipmetro.vo.RestaurantVO;
+import com.go.mazzipmetro.vo.TagVO;
 
 @Repository
 public class MapDAO  implements IDAO {
@@ -36,11 +37,17 @@ public class MapDAO  implements IDAO {
 		//System.out.println(map.get("keyword")[0] == null); //false
 		return sqlSession.selectList("map.getRestaurantList", map);
 	}
+	
+	// vo로 가져오기
+	public List<RestaurantVO> getRestaurantVOList(HashMap<String, String[]> map) {
+		return sqlSession.selectList("map.getRestaurantVOList", map);
+	}
 
 	// 지하철역별 등록된 음식점 보여주기
 	public List<RestaurantVO> searchByMetro(HashMap<String, String> map) {
 		return sqlSession.selectList("map.searchByMetro", map);
 	}
+	
 	
 	// metroMap tooltip 정보 가져오기
 	public List<RestaurantVO> getBest5RestInMetroMap(String metroId) {
@@ -48,14 +55,14 @@ public class MapDAO  implements IDAO {
 	}
 
 	// 지하철역별 등록된 음식점 보여주기(대분류 태그 얻어오기)
-	public List<String> getRestBgTag(String restSeq) {
+	/*public List<String> getRestBgTag(String restSeq) {
 		return sqlSession.selectList("map.getRestBgTag", restSeq);
-	}
+	}*/
 	
 	// 지하철역별 등록된 음식점 보여주기(분류 태그 얻어오기)
-	public List<String> getRestMdTag(String restSeq) {
+	/*public List<String> getRestMdTag(String restSeq) {
 		return sqlSession.selectList("map.getRestMdTag", restSeq);
-	}
+	}*/
 	
 	// 지하철역별 등록된 음식점 보여주기
 	public int getTotalCount(HashMap<String, String> map) {
@@ -113,5 +120,9 @@ public class MapDAO  implements IDAO {
 	}
 
 
+	// 업장 restSeq 가져오기(태그가 있는 행만 가져오기) : tag 테이블 삭제
+	/*public List<String> temp_getRestSeqForTags() {
+		return sqlSession.selectList("restaurant.temp_getRestSeqForTags");
+	}*/
 
 }

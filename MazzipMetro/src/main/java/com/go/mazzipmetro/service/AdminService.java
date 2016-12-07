@@ -5,9 +5,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.go.mazzipmetro.dao.AdminDAO;
-import com.go.mazzipmetro.vo.ContentVO;
+import com.go.mazzipmetro.vo.RestaurantAdVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.UserVO;
 
@@ -60,9 +63,60 @@ public class AdminService implements IService {
 	}
 
 	// 관리자용 업장 수정 요청 
-	public int adminRestEdit(RestaurantVO vo) {
-		return dao.adminRestEdit(vo);
+	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
+	public int adminRestEdit(String[] delAdImgArr, List<String> adImgList, RestaurantVO vo) {
+		int result = 0, cnt = 0;
+		HashMap<String, String> map = new HashMap<String, String>();
+		
+		// 삭제할 소개 이미지가 존재하면, 삭제 실행!
+		if (delAdImgArr.length > 0) {
+			for (String adImg : delAdImgArr) {
+				map.put("restSeq", vo.getRestSeq());
+				map.put("adImg", adImg);
+				
+				result = dao.delRestAd(map);
+				cnt += result;
+			}
+		}
+		
+		// 추가할 소개 이미지가 있으면, tbl_restaurant_ad 테이블에 insert
+		if (adImgList.size() > 0) {
+			for (String adImg : adImgList) {
+				map.put("restSeq", vo.getRestSeq());
+				map.put("adImg", adImg);
+				
+				result = dao.insertRestAd(map);
+				cnt += result;
+			}
+		}
+		
+		cnt += dao.adminRestEdit(vo);
+		
+		System.out.println(">>>>>>>>>> cnt = "+cnt+", 데이터 실행 개수 = "+(delAdImgArr.length + adImgList.size()+1)); 
+		System.out.println(">>>>>>>>>> delAdImgArr.length="+delAdImgArr.length+", adImgList.size()= "+adImgList.size()); 
+		// cnt 총합과 작업할 데이터의 크기비교후 성공, 실패 여부를 리턴한다.
+		if(cnt == (delAdImgArr.length + adImgList.size()+1)){
+			result = 1;
+		} else {
+			result = 0;
+		}
+		return result;
 	}
+
+	// 관리자용 업장 수정 요청 (AdImg 이름 요청)
+	public RestaurantAdVO adminRestAdImgInfo(String restSeq) {
+		RestaurantAdVO ravo = new  RestaurantAdVO();
+		ravo.setRestSeq(restSeq);
+		ravo.setAdImg(dao.adminRestAdImgInfo(restSeq).toArray(new String[dao.adminRestAdImgInfo(restSeq).size()]));
+		
+		return ravo;
+	}
+	
+	/*// 관리자용 회원 수정 - 한명회원 정보 불러오기
+	public HashMap<String, String> adminUserInfo(HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}*/
 
 	
 }
