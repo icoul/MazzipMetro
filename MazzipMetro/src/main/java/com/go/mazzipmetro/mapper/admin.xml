@@ -121,4 +121,9 @@
 		and V.userSeq = #{userSeq}
 		order by V.userSeq desc
     </select>
+    
+    <update id="adminUserEdit" parameterType="java.util.HashMap">
+		update tbl_user set userName= #{userName}, userEmail= #{userEmail}, userPhone= #{userPhone}, userPoint= #{userPoint}
+		where userSeq = #{userSeq}
+    </update>
 </mapper>
