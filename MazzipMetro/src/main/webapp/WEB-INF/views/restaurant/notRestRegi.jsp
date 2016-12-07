@@ -31,60 +31,7 @@
 		위도  : <input type="text" id="latitude" name="latitude" size="50" /><br/> <br/> 
 		경도  : <input type="text" id="longitude" name="longitude" size="50" /><br/> <br/>
 		인근 지하철역  : <select id="metroName" >
-					<option>상계역</option>
-					<option>잠실역</option>
-					<option>잠실나루역</option>
-					<option>강변역</option>
-					<option>구의역</option>
-					<option>건대입구역</option>
-					<option>성수역</option>
-					<option>뚝섬역</option>
-					<option>한양대역</option>
-					<option>상왕십리역</option>
-					<option>신당역</option>
-					<option>동대문역사문화공원역</option>
-					<option>을지로4가역</option>
-					<option>을지로3가역</option>
-					<option>을지로입구역</option>
-					<option>시청역</option>
-					<option>충정로역</option>
-					<option>아현역</option>
-					<option>이대역</option>
-					<option>신촌역</option>
-					<option>홍대입구역</option>
-					<option>합정역</option>
-					<option>당산역</option>
-					<option>영등포구청역</option>
-					<option>문래역</option>
-					<option>신도림역</option>
-					<option>대림역</option>
-					<option>구로디지털단지역</option>
-					<option>신대방역</option>
-					<option>신림역</option>
-					<option>봉천역</option>
-					<option>서울대입구역</option>
-					<option>낙성대역</option>
-					<option>사당역</option>
-					<option>방배역</option>
-					<option>서초역</option>
-					<option>교대역</option>
-					<option>강남역</option>
-					<option>왕십리역</option>
-					<option>도림천역</option>
-					<option>양천구청역</option>
-					<option>신정네거리역</option>
-					<option>까치산역</option>
-					<option>용답역</option>
-					<option>신답역</option>
-					<option>용두역</option>
-					<option>신설동역</option>
-					<option>역삼역</option>
-					<option>선릉역</option>
-					<option>삼성역</option>
-					<option>종합운동장역</option>
-					<option>당고개역</option>
-					<option>신천역</option>
-				 </select> 
+					 </select> 
 		
 		<button type= "button" id = "button1" onClick = "goRegister();">등록</button>
 	</div>

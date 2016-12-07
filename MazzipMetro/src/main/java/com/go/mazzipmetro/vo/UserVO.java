@@ -25,12 +25,13 @@ public class UserVO {
    private String userProfile;      // 유저사진(이미지)
    
    private MultipartFile attach;    // 진짜 파일 ==> WAS(톰캣) 디스크에 저장됨.
+   private String gradeName; // 등급명
 
    public UserVO(){}
 
    public UserVO(String userSeq, String gradeSeq, String userName, String userEmail, String userPw, String userGender,
          String userBirthDay, String userYear, String userMonth, String userDate, String userPhone, String userRegDate, String userPoint,
-         String userSort, String userStatus, String userProfile, MultipartFile attach, String userStation) {
+         String userSort, String userStatus, String userProfile, MultipartFile attach, String userStation, String gradeName) {
       super();
       this.userSeq = userSeq;
       this.gradeSeq = gradeSeq;
@@ -50,6 +51,7 @@ public class UserVO {
       this.userProfile = userProfile;
       this.attach = attach;
       this.userStation = userStation;
+      this.gradeName = gradeName;
    }
 
    public String getUserSeq() {
@@ -196,6 +198,14 @@ public class UserVO {
    public void setUserStation(String userStation) {
       this.userStation = userStation;
    }
+
+	public String getGradeName() {
+		return gradeName;
+	}
+	
+	public void setGradeName(String gradeName) {
+		this.gradeName = gradeName;
+	}
 
 }
 

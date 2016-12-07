@@ -11,11 +11,17 @@
 		<if test="restStatus == 0">
 			restName = #{restName}, userSeq = #{userSeq}, gradeSeq = #{gradeSeq}
 		  , restAddr = #{restAddr}, restNewAddr = #{restNewAddr}, restPhone = #{restPhone}
+<<<<<<< HEAD
 		  , restLatitude = #{restLatitude}, restLongitude = #{ restLongitude}
 		  , restContent = #{restContent}, dongId = #{dongId}, metroId = #{metroId} 
 		  <if test="restImg != null">
 		  	, restImg = #{restImg}
 		  </if>
+=======
+		  , restLatitude = #{restLatitude}, restLongitude = #{restLongitude}, restImg = #{restImg}
+		  , restContent = #{restContent}, dongId = #{dongId}, metroId = #{metroId}
+		  , restBgTag = #{restBgTag}, restMdTag = #{restMdTag} 
+>>>>>>> da066e8a4c7d5dffa11217acf491efbff6d462c2
 	  	</if>
 	  	<if test="restStatus == 1">
 	  		restStatus = 1
@@ -172,7 +178,7 @@
 										</if>
 										, #{restAddr}, #{restNewAddr}
 										, #{restLatitude}, #{restLongitude}, TBL_Restaurant_Seq.nextval
-										, #{dongId}, #{metroId}, default, 0, default, null)
+										, #{dongId}, #{metroId}, default, 0, default, null, #{restBgTag}, #{restMdTag})
 	</insert>
 	
 	<!-- 기존 업장 업데이트 -->
@@ -203,17 +209,7 @@
 	
 	<!-- 업장 이미지 추가 -->
 	<insert id="restaurant.setRestImg" parameterType="java.util.HashMap">
-		insert into TBL_Restaurant_Ad(restSeq, AdImg) values(#{restSeq}, #{AdImg})
-	</insert>
-	
-	<!-- 업장 대태그 추가 -->
-	<insert id="restaurant.setRestBgTag" parameterType="java.util.HashMap">
-		insert into TBL_Restaurant_Tag(restSeq, tagSort, tagName, tagStatus) values(#{restSeq}, 'bgCat', #{bgCat}, default)
-	</insert>
-	
-	<!-- 업장 중태그 추가 -->
-	<insert id="restaurant.setRestMdTag" parameterType="java.util.HashMap">
-		insert into TBL_Restaurant_Tag(restSeq, tagSort, tagName, tagStatus) values(#{restSeq}, 'mdCat', #{mdCat}, default)
+		insert into TBL_Restaurant_Ad values(#{restSeq}, #{AdImg}, 0)
 	</insert>
 	
 	<!-- 메뉴 추가 -->
@@ -236,14 +232,6 @@
 		, default)
 	</insert>
 	
-	<!-- 해당 회원이 가진 업장번호를 모두 가져오는 SQL -->
-	<!--
-	<select id = "restaurant.getRestSeq" parameterType="String" resultType="java.util.ArrayList">
-		select restSeq
-		from TBL_Restaurant
-		where userSeq = #{userSeq}
-	</select> -->
-	
 	<!-- 업장 리스트를 위한 정보 가져오기 -->
 	<select id="restaurant.getRestrauntEditList" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
 		select R.restSeq,  R.userSeq, G.gradeName as gradeSeq,  R.restName,  R.restPhone,
@@ -253,6 +241,18 @@
 		TBL_Restaurant R join TBL_Grade G
 		on R.gradeSeq = G.gradeSeq
 		where userseq = #{userSeq} and restStatus = 0
+	</select>
+	
+	<!-- 업장삭제 SQL문 -->
+	<select id="restaurant.delRest" parameterType="java.util.HashMap" >
+		update TBL_Restaurant set restStatus = 1
+		where userSeq = #{userSeq} and restSeq = #{restSeq}
+	</select>
+	
+	<!-- 지하철 역명 가져오기 -->
+	<select id="restaurant.getMetro" resultType="String">
+		select metroId
+		from TBL_Metro
 	</select>
 	
 </mapper>

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.go.mazzipmetro.dao.MazzipMetroDAO;
+import com.go.mazzipmetro.vo.FaqVO;
 import com.go.mazzipmetro.vo.QnaVO;
 
 @Service
@@ -112,5 +113,20 @@ public class MazzipMetroService implements IService {
 	public int editUserQuestion(HashMap<String, String> hashMap) {
 		int n = dao.editUserQuestion(hashMap);
 		return n;
+	}
+
+	public List<FaqVO> getFaqList() {
+		List<FaqVO> faqList = dao.getFaqList();
+		return faqList;
+	}
+
+	public FaqVO selectOneFaq(String faqSeq) {
+		FaqVO faqvo = dao.selectOneFaq(faqSeq);
+		return faqvo;
+	}
+
+	public List<FaqVO> getFaqListByType(String faqType) {
+		List<FaqVO> faqList = dao.getFaqListByType(faqType);
+		return faqList;
 	}
 }

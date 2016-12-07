@@ -218,4 +218,24 @@
     	update tbl_qna set qnaSubject = #{qnaSubject}, qnaContent = #{qnaComment}, qnaInquiry = #{qnaInquiry}
     	where qnaSeq = #{qnaSeq} and qnaStatus = 0
     </update>
+    
+    <select id="getFaqList" resultType="com.go.mazzipmetro.vo.FaqVO">
+    	select faqSeq, faqType, faqQuestion, faqAnswer
+		from tbl_faq
+		where faqStatus = 0
+    </select>
+    
+    <select id="selectOneFaq" parameterType="String" resultType="com.go.mazzipmetro.vo.FaqVO">
+    	select faqSeq, faqType, faqQuestion, faqAnswer
+		from tbl_faq
+		where faqStatus = 0 and faqSeq = #{faqSeq}
+    </select>
+    
+    <select id="getFaqListByType" parameterType="String" resultType="com.go.mazzipmetro.vo.FaqVO">
+    	select faqSeq, faqType, faqQuestion, faqAnswer
+		from tbl_faq
+		where faqStatus = 0 and faqType = #{faqType}
+    </select>
+    
+    
 </mapper>

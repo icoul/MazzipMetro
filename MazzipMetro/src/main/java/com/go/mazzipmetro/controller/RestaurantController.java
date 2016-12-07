@@ -75,7 +75,10 @@ public class RestaurantController {
 		
 		String name = req.getParameter("name");
 		
+		//List<String> metroId = service.getMetroId();
+		
 		req.setAttribute("name", name);
+		//req.setAttribute("metroId", metroId);
 		
 		return "restaurant/notRestRegi";
 	}
@@ -98,6 +101,13 @@ public class RestaurantController {
 		String dongId = req.getParameter("dongId");
 		String userSeq = loginUser.getUserSeq();
 		
+		// 배열로 들어온 태그들 하나로 묶어서 VO에 넣기
+		String[] BgTagArr = req.getParameterValues("restBgTag");
+		String[] MdTagArr = req.getParameterValues("restMdTag");
+		
+		String restBgTag = arrayToTag(BgTagArr);
+		String restMdTag = arrayToTag(MdTagArr);
+		
 		int result = 0;
 		
 		// 업장 소개이미지 파일 업로드 및 파일명 배열에 저장하기
@@ -111,9 +121,9 @@ public class RestaurantController {
 	
 		try{
 				
-				bytes = fvo.getAttach()[0].getBytes();
-				newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[0].getOriginalFilename(), path);
-				thumbnailManager.doCreateThumbnail(newFileName, path);
+			bytes = fvo.getAttach()[0].getBytes();
+			newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[0].getOriginalFilename(), path);
+			thumbnailManager.doCreateThumbnail(newFileName, path);
 				
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -132,6 +142,8 @@ public class RestaurantController {
 		vo.setRestLongitude(restLongitude);
 		vo.setMetroId(metroId);
 		vo.setDongId(dongId);
+		vo.setRestBgTag(restBgTag);
+		vo.setRestMdTag(restMdTag);
 		
 		if (restSeq.equals("-1")) { // 새 업장 등록
 			result = service.setRestRegister(vo);
@@ -164,60 +176,16 @@ public class RestaurantController {
 	@RequestMapping(value = "/restaurantDetail.eat", method = RequestMethod.GET)
 	public String restaurantDetail(HttpServletRequest req, HttpServletResponse res) {
 		String restSeq = req.getParameter("restSeq");
-		
 		HashMap<String,String> restvo = service.getRestaurant(restSeq);
-			
-		List<HashMap<String,String>> reviewList = reviewService.getReviewList(restvo.get("restseq"));
 		
-		List<HashMap<String,String>> reviewImageList = reviewService.getReviewImageList();
+			
+//		List<HashMap<String,String>> reviewList = reviewService.getReviewList(restvo.get("restseq"));
 		
 		List<HashMap<String,String>> agelineChartList = reviewService.getAgeLineChartList(restSeq);
 		List<HashMap<String,String>> genderChartList = reviewService.getGenderChartList(restSeq);
 		
-		String start = req.getParameter("start");    // 1, 3, 5....
-		String len = req.getParameter("len");        // 2개씩   더보기.. 클릭에 보여줄 상품의 갯수 단위크기   
-		String pspec = req.getParameter("pspec");    // 
-		
-		if (start == null) {
-			start = "1";
-		}
-		if (len == null) {
-			len = "5";
-		}
-		if (pspec == null) {
-			pspec = "NEW";
-		}
-		
-		int startRno = Integer.parseInt(start);          // 공식!! 시작 행번호   1               3               5
-		int endRno   = startRno+Integer.parseInt(len)-1; // 공식!! 끝 행번호     1+2-1(==2)      3+2-1(==4)      5+2-1(==6)
-		
-		String StartRno = String.valueOf(startRno);
-		String EndRno = String.valueOf(endRno);
-		
-		System.out.println("확인용 DisplayJSONAction.java       start : " + start);   // 확인용
-		System.out.println("확인용 DisplayJSONAction.java       len : " + len);       // 확인용
-		System.out.println("확인용 DisplayJSONAction.java       pspec : " + pspec);   // 확인용
-
-		
-		
-		HashMap<String, String> map = new HashMap<String, String>();
-		
-		map.put("restSeq", restSeq);
-		map.put("pspec", pspec);
-		map.put("StartRno", StartRno);
-		map.put("EndRno", EndRno);
-				
-		//List<JSONObject> ListOfReview = service.getReviewList(map);
-		
-		//req.setAttribute("ListOfReview",  ListOfReview);
-		
-		////////////////////////////////////////////////////////////////////////////
-		//System.out.println("확인용 DisplayJSONAction.java       productList size : " + ListOfReview.size()); // 확인용				
-				
-		
+		req.setAttribute("restSeq", restSeq);
 		req.setAttribute("restvo", restvo);
-		req.setAttribute("reviewList", reviewList);
-		req.setAttribute("reviewImageList", reviewImageList);
 		req.setAttribute("agelineChartList", agelineChartList);
 		req.setAttribute("genderChartList", genderChartList);
 		return "restaurant/restaurantDetail";
@@ -231,8 +199,6 @@ public class RestaurantController {
 		int fileNum = Integer.parseInt(fileNum_Seq);
 				
 		String restContent = req.getParameter("content"); // 메뉴설명글
-		String bgCat = req.getParameter("bgCat");	  // 대분류
-		String[] mdCat = req.getParameterValues("mdCat"); // 중분류
 		
 		String menuNum_Str = req.getParameter("menuNum"); // 추가한 메뉴의 갯수
 		int menuNum = Integer.parseInt(menuNum_Str); // 메뉴의 갯수를 int로..
@@ -300,15 +266,14 @@ public class RestaurantController {
 		
 		map.put("restSeq", restSeq);
 		map.put("restContent", restContent);
-		map.put("bgCat", bgCat);
 		
 		int result = 0;
 		
 		// 업장 세부정보 등록(소개글, 이미지, 태그)
-		result = service.setRestaurantInfo(map, imageList, mdCat, mvo, menuNum);
+		result = service.setRestaurantInfo(map, imageList, mvo, menuNum);
 		// (정보를 담은 Hashmap, 소개이미지 리스트 imageList, 중분류 배열, mdCat, 메뉴VO mvo, 메뉴갯수 menuNum) 
 		
-		int endNum = 2 + imageList.size() + mdCat.length + menuNum;
+		int endNum = 2 + imageList.size() + menuNum;
 		
 		String msg = "실패했습니다";
 		
@@ -323,9 +288,9 @@ public class RestaurantController {
 
 	}
 	
-	// 업장 정보를 수정하기 위해 업장 리스트를 불러오는 메서드
-	@RequestMapping(value="/restEdit.eat", method={RequestMethod.GET})
-	public String restEdit(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+	// 업장 리스트를 불러오는 메서드
+	@RequestMapping(value="/restList.eat", method={RequestMethod.GET})
+	public String restList(HttpServletRequest req, HttpServletResponse res, HttpSession session){
 		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
 		String userSeq = loginUser.getUserSeq();
 				
@@ -333,29 +298,182 @@ public class RestaurantController {
 		
 		req.setAttribute("restList", restList);
 		
-		return "restaurant/restEdit";
+		return "restaurant/restList";
 	}
 	
 	// 수정할 업장을 선택해서 해당 업장의 수정창을 띄우는 메서드
-	@RequestMapping(value="/restEditEnd.eat", method={RequestMethod.GET})
-	public String restEditEnd(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+	@RequestMapping(value="/restEdit.eat", method={RequestMethod.POST})
+	public String restEdit(HttpServletRequest req, HttpServletResponse res, HttpSession session){
 
 		String restSeq = req.getParameter("restSeq");
 		
-		req.setAttribute("restSeq", restSeq);
+		RestaurantVO vo = service.getOneRestInfo(restSeq);
 		
-		return "restaurant/restEditEnd";
+		String bgTag = vo.getRestBgTag();
+		String mdTag = vo.getRestMdTag();
+		
+		if (bgTag != null && mdTag != null) {
+			String[] bgTagArr = tagToArray(bgTag);
+			String[] mdTagArr = tagToArray(mdTag);
+			
+			req.setAttribute("bgTagArr", bgTagArr);
+			req.setAttribute("mdTagArr", mdTagArr);
+		}
+		
+		req.setAttribute("vo", vo);
+		
+		return "restaurant/restEdit";
 	}
 	
-	// 업장 정보를 수정하기 위해 업장 리스트를 불러오는 메서드
+	// 업장 수정 메서드
+	@RequestMapping(value="/restEditEnd.eat", method={RequestMethod.POST})
+	public String restEditEnd(HttpServletRequest req, HttpServletResponse res, HttpSession session, RestaurantVO rvo, FileVO fvo){
+
+		// 배열로 들어온 태그들 하나로 묶어서 VO에 넣기
+		String[] BgTagArr = req.getParameterValues("restBgTag");
+		String[] MdTagArr = req.getParameterValues("restMdTag");
+		
+		String restBgTag = arrayToTag(BgTagArr);
+		String restMdTag = arrayToTag(MdTagArr);
+		
+		rvo.setRestBgTag(restBgTag);
+		rvo.setRestMdTag(restMdTag);
+
+		// 업장 소개이미지 파일 업로드 및 파일명 배열에 저장하기
+		String root = session.getServletContext().getRealPath("/");
+		String path = root + "files";
+		
+		String newFileName = "";
+		byte[] bytes = null;
+			
+		try{
+				
+			bytes = fvo.getAttach()[0].getBytes();
+			newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[0].getOriginalFilename(), path);
+			thumbnailManager.doCreateThumbnail(newFileName, path);
+		}catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
+		rvo.setRestImg(newFileName);
+		
+		int result = service.editRest(rvo);
+		
+		String msg = "수정에 실패했습니다. 알 수 없는 오류가 발생했습니다.";
+		String loc = "restEdit.eat";
+		
+		if (result == 1) {
+			msg = "해당 정보를 수정했습니다.";
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
+		
+		return "msg";
+
+	}
+	
+	// 업장 삭제 메서드
 	@RequestMapping(value="/restDel.eat", method={RequestMethod.POST})
 	public String restDel(HttpServletRequest req, HttpServletResponse res, HttpSession session){
 		
 		String restSeq = req.getParameter("restSeq");
+		String userSeq = req.getParameter("userSeq");
 		
-		req.setAttribute("restSeq", restSeq);
+		HashMap<String, String> map = new HashMap<String, String>();
 		
-		return "restaurant/restDel";
+		map.put("restSeq", restSeq);
+		map.put("userSeq", userSeq);
+		
+		int result = service.delRest(map);
+		
+		String msg = "삭제에 실패했습니다. 알 수 없는 오류가 발생했습니다.";
+		String loc = "restEdit.eat";
+		
+		if (result == 1) {
+			msg = "해당 업장을 삭제했습니다.";
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
+		
+		return "msg";
+	}
+	
+	
+	// 태그 배열을 입력하면 VO에 맞는 형태로 만들어주는 메서드
+	public static String arrayToTag(String[] tagArr){
+		
+		String tag = "";
+		
+		for (int i = 0; i < tagArr.length; i++) {
+			
+			tag += tagArr[i];
+			
+			if ((i+1) != tagArr.length) {
+				tag += ",";
+			}
+		}
+		
+		return tag;
+	}
+	
+	// VO로 가져온 String의 태그를 입력하면 배열로 만들어주는 메서드
+	public static String[] tagToArray(String tag){
+		
+		String[] tagArr = tag.split(",");;
+		
+		return tagArr;
+	}
+	
+	// 업장 상세 페이지에 리뷰 띄어놓기
+	@RequestMapping(value="/ReviewListAjax.eat", method={RequestMethod.GET})
+	public String ReviewListAjax(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+		
+		
+		String restSeq = req.getParameter("restSeq");
+		String start = req.getParameter("StartRno");    // 1, 3, 5....
+		String len = req.getParameter("EndRno");        // 2개씩   더보기.. 클릭에 보여줄 상품의 갯수 단위크기   
+		
+		
+		
+		if (start == null) {
+			start = "1";
+		}
+		if (len == null) {
+			len = "5";
+		}
+				
+		int startRno = Integer.parseInt(start);          // 공식!! 시작 행번호   1               3               5
+		int endRno   = startRno+Integer.parseInt(len)-1; // 공식!! 끝 행번호     1+2-1(==2)      3+2-1(==4)      5+2-1(==6)
+		
+		String StartRno = String.valueOf(startRno);
+		String EndRno = String.valueOf(endRno);
+		
+/*		System.out.println("확인용 DisplayJSONAction.java       start : " + start);   // 확인용
+		System.out.println("확인용 DisplayJSONAction.java       len : " + len);       // 확인용
+		System.out.println("확인용 DisplayJSONAction.java       restSeq : " + restSeq);       // 확인용
+*/
+		HashMap<String,String> restvo = service.getRestaurant(restSeq);
+		List<HashMap<String,String>> reviewImageList = reviewService.getReviewImageList();
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		
+		map.put("restSeq", restSeq);
+		map.put("StartRno", StartRno);
+		map.put("EndRno", EndRno);
+				
+		List<HashMap<String,String>> reviewList = service.getReviewList(map);
+		int TotalReviewCount = service.getTotalReview(restSeq);
+		
+		req.setAttribute("TotalReviewCount", TotalReviewCount);
+		req.setAttribute("reviewList",  reviewList);
+		req.setAttribute("restvo", restvo);
+		req.setAttribute("reviewImageList", reviewImageList);
+		
+		////////////////////////////////////////////////////////////////////////////
+//		System.out.println("확인용 DisplayJSONAction.java       productList size : " + ListOfReview.size()); // 확인용
+		return "review/ReviewListAjax";
 	}
 }
 
