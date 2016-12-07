@@ -301,6 +301,32 @@ public class RestaurantController {
 		return "restaurant/restList";
 	}
 	
+	// 메뉴 리스트를 불러오는 메서드
+	@RequestMapping(value="/restMenuList.eat", method={RequestMethod.POST})
+	public String restMenuList(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+
+		String restSeq = req.getParameter("restSeq");
+		
+		List<HashMap<String, String>> menuList = service.getMenuList(restSeq);
+		
+		req.setAttribute("menuList", menuList);
+		
+		return "restaurant/restMenuList";
+	}
+	
+	// 메뉴 수정 페이지로 이동하는 메서드
+	@RequestMapping(value="/restMenuEdit.eat", method={RequestMethod.POST})
+	public String restMenuEdit(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+
+		String restSeq = req.getParameter("restSeq");
+		
+		List<HashMap<String, String>> menuList = service.getMenuList(restSeq);
+		
+		req.setAttribute("menuList", menuList);
+		
+		return "restaurant/restMenuEdit";
+	}
+	
 	// 수정할 업장을 선택해서 해당 업장의 수정창을 띄우는 메서드
 	@RequestMapping(value="/restEdit.eat", method={RequestMethod.POST})
 	public String restEdit(HttpServletRequest req, HttpServletResponse res, HttpSession session){
@@ -377,8 +403,10 @@ public class RestaurantController {
 	@RequestMapping(value="/restDel.eat", method={RequestMethod.POST})
 	public String restDel(HttpServletRequest req, HttpServletResponse res, HttpSession session){
 		
+		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+		
 		String restSeq = req.getParameter("restSeq");
-		String userSeq = req.getParameter("userSeq");
+		String userSeq = loginUser.getUserSeq();
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		
@@ -388,7 +416,7 @@ public class RestaurantController {
 		int result = service.delRest(map);
 		
 		String msg = "삭제에 실패했습니다. 알 수 없는 오류가 발생했습니다.";
-		String loc = "restEdit.eat";
+		String loc = "restList.eat";
 		
 		if (result == 1) {
 			msg = "해당 업장을 삭제했습니다.";
@@ -430,11 +458,12 @@ public class RestaurantController {
 	@RequestMapping(value="/ReviewListAjax.eat", method={RequestMethod.GET})
 	public String ReviewListAjax(HttpServletRequest req, HttpServletResponse res, HttpSession session){
 		
-		
+		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+		String UserSeq = loginUser.getUserSeq();
 		String restSeq = req.getParameter("restSeq");
 		String start = req.getParameter("StartRno");    // 1, 3, 5....
 		String len = req.getParameter("EndRno");        // 2개씩   더보기.. 클릭에 보여줄 상품의 갯수 단위크기   
-		
+		List<String> likers = new ArrayList<String>();
 		
 		
 		if (start == null) {
@@ -450,10 +479,10 @@ public class RestaurantController {
 		String StartRno = String.valueOf(startRno);
 		String EndRno = String.valueOf(endRno);
 		
-/*		System.out.println("확인용 DisplayJSONAction.java       start : " + start);   // 확인용
-		System.out.println("확인용 DisplayJSONAction.java       len : " + len);       // 확인용
-		System.out.println("확인용 DisplayJSONAction.java       restSeq : " + restSeq);       // 확인용
-*/
+		likers = service.getLikers(UserSeq);
+		
+		System.out.println("eeeeeeeeeeeeeee"+likers+"ssssssssssssssssssss");
+		
 		HashMap<String,String> restvo = service.getRestaurant(restSeq);
 		List<HashMap<String,String>> reviewImageList = reviewService.getReviewImageList();
 		
@@ -466,11 +495,12 @@ public class RestaurantController {
 		List<HashMap<String,String>> reviewList = service.getReviewList(map);
 		int TotalReviewCount = service.getTotalReview(restSeq);
 		
+		req.setAttribute("likers", likers);
 		req.setAttribute("TotalReviewCount", TotalReviewCount);
 		req.setAttribute("reviewList",  reviewList);
 		req.setAttribute("restvo", restvo);
 		req.setAttribute("reviewImageList", reviewImageList);
-		
+//		req.setAttribute("UserEmail", UserEmail);
 		////////////////////////////////////////////////////////////////////////////
 //		System.out.println("확인용 DisplayJSONAction.java       productList size : " + ListOfReview.size()); // 확인용
 		return "review/ReviewListAjax";

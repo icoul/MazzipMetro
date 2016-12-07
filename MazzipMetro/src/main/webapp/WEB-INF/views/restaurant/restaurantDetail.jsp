@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <jsp:include page="../top.jsp" />   
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,9 +12,7 @@
   <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/BootStrapStudy/css/bootstrap.min.css">
   <script src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script>
 
-  <!-- 다음지도 api 로딩 -->
-  <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=07a6ce4a014b94664ec5968dee2fb0d2"></script>
- 	
+ 
  
  <script type="text/javascript">
  $(document).ready(function(){
@@ -21,7 +20,7 @@
 	 getReviewList();
 				
 	});
- 
+
  $(function () {
      
      $('#container').highcharts({
@@ -304,6 +303,6 @@ daum.maps.event.addListener(rv, 'init', function() {
 </body>
 </html>
 
-
+ <jsp:include page="../footer.jsp" />
 
 <%--werwerwierjweirjwirj --%>

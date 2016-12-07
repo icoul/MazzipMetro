@@ -123,6 +123,14 @@ public class RestaurantService implements IService{
 		
 		return result;
 	}
+	
+	//메뉴 목록 가져오기
+	public List<HashMap<String, String>> getMenuList(String restSeq) {
+
+		List<HashMap<String, String>> menuList = dao.getMenuList(restSeq);
+		
+		return menuList;
+	}
 
 	public List<RestaurantVO> restListStatistics(String userSeq) {
 		List<RestaurantVO> restList = dao.restListStatistics(userSeq);
@@ -133,6 +141,13 @@ public class RestaurantService implements IService{
 		List<HashMap<String, String>> ageList = dao.restStati_Gender(restSeq);
 		return ageList;
 	}
+
+	public List<String> getLikers(String userSeq) {
+		List<String> likers = dao.getLikers(userSeq);
+		return likers;
+	}
+
+
 
 	
 }

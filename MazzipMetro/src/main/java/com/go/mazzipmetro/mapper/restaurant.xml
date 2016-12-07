@@ -208,8 +208,8 @@
 	
 	<!-- 메뉴 추가 -->
 	<insert id="restaurant.setMenu" parameterType="java.util.HashMap">
-		insert into TBL_Restaurant_Menu(restSeq, menuName, menuContent, menuImg, menuPrice, menuSalePrice, menuSort, menuEvent, menuStatus) 
-		values(#{restSeq}, '${menuName}', #{menuContent}, 
+		insert into TBL_Restaurant_Menu(menuSeq, restSeq, menuName, menuContent, menuImg, menuPrice, menuSalePrice, menuSort, menuEvent, menuStatus) 
+		values(TBL_Restaurant_menuSeq.nextval, #{restSeq}, '${menuName}', #{menuContent}, 
 			<if test="menuImg == null or menuImg.equals('')">
 				default
 			</if>
@@ -294,6 +294,26 @@
 		  from employees
 		) V
 		group by rollup(V.AGELINE)
+	</select>
+
+	<!-- 메뉴 리스트 가져오기 -->
+	<resultMap type="java.util.HashMap" id="menuListMap">
+		 <result column="menuSeq"	  	    property="menuSeq" 			    javaType="String" />
+		 <result column="restseq"	  	    property="restseq" 			    javaType="String" />
+		 <result column="menuName"	  	    property="menuName" 			javaType="String" />
+		 <result column="menuContent"	  	property="menuContent" 			javaType="String" />
+		 <result column="menuImg"	  	    property="menuImg" 			    javaType="String" />
+		 <result column="menuPrice"	  	    property="menuPrice" 			javaType="String" />
+		 <result column="menuSalePrice"	  	property="menuSalePrice" 		javaType="String" />
+		 <result column="menuSort"	  	    property="menuSort" 			javaType="String" />
+		 <result column="menuEvent"	  	    property="menuEvent" 			javaType="String" />
+		 <result column="menuStatus"	  	property="menuStatus" 			javaType="String" />
+	</resultMap>
+	
+	<select id="restaurant.getMenuList" parameterType="String" resultMap="menuListMap">
+		select menuSeq, restSeq, menuName, menuContent, menuImg, menuPrice, menuSalePrice, menuSort, menuEvent, menuStatus
+		from TBL_Restaurant_Menu
+		where restSeq = #{restSeq} and menuStatus = 0
 	</select>
 	
 </mapper>

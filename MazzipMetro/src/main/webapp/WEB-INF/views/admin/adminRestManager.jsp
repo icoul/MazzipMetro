@@ -195,7 +195,7 @@
 		 return true;
 	}
 	
-	var map, cluster;
+	var map, clusterer;
 	
 	// 업장 검색 함수
 	function getRestaurant(){
@@ -229,7 +229,7 @@
 			data: srchFrmData,
 			dataType: "json",
 			success: function(data) {
-				//alert(data.positions.length);
+				//alert(data.positions[0].restName);
 				
 				if(data.positions.length == 0){
 					alert('검색된 음식점이 없습니다. 검색조건을 확인해주세요!');
@@ -260,7 +260,7 @@
 		        	
 				// 마커를 생성합니다
 			    var marker = new daum.maps.Marker({
-			        position:  new daum.maps.LatLng(position.lat, position.lng)// 마커의 위치
+			        position:  new daum.maps.LatLng(position.restLatitude, position.restLongitude)// 마커의 위치
 			    });
 
 				 // 커스텀 오버레이에 표시할 컨텐츠 입니다
@@ -295,9 +295,18 @@
 							             '            <div class="img">' +
 							             '                <img src="<%=request.getContextPath()%>/files/'+position.restImg+'" width="73" height="70">' +
 							             '           </div>' + 
-							             '            <div class="desc">' + 
-							            /*  '                <div class="ellipsis"><span style="color:#ff6600; font_size: 14px;">'+bgTag+'</span>&nbsp;<span style="color:#80b3ff; font_size: 11px;">'+mdTag+'</span></div>' + */ 
-							             '                <div class="ellipsis"><span style="color: #000099; font-weight:bold;">'+position.guName+'</span>&nbsp<span style="color: #b3b3ff; font-weight: bold;">'+position.dongName+'</span></div>' + 
+							             '            <div class="desc"><div class="ellipsis">'; 
+							             
+				if (position.restBgTag) {
+					content += '                <span style="color:#ff6600; font_size: 14px;">'+position.restBgTag+'</span>&nbsp;';
+				}		
+				if (position.restMdTag) {
+					content += '<span style="color:#80b3ff; font_size: 11px;">'+position.restMdTag+'</span>' ;  
+				}
+					  
+							            
+					   content += '                </div>'+
+					   					 '<div class="ellipsis"><span style="color: #000099; font-weight:bold;">'+position.guName+'</span>&nbsp<span style="color: #b3b3ff; font-weight: bold;">'+position.dongName+'</span></div>' + 
 							             '                <div class="jibun ellipsis">'+position.restPhone+'</div>' + 
 							             '                <div>마커를 <span style="color:red">클릭</span>해서 음식점 정보를 수정하기</div>' + 
 							             '            </div>' + 

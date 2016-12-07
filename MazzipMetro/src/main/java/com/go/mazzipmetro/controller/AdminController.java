@@ -322,37 +322,30 @@ public class AdminController {
 		return "/admin/adminUserDel";
 	}
 	
-	/*//회원 수정
-	@RequestMapping(value = "/adminUserEdit.eat", method = RequestMethod.POST)
+	//회원 수정 팝업창 열기
+	@RequestMapping(value = "/adminUserEdit.eat", method = RequestMethod.GET)
 	public String userEdit(HttpServletRequest req) {
 		String userSeq = req.getParameter("userSeq");
-		String pageNo = req.getParameter("pageNo");
 		
-		HttpSession ses = req.getSession();
+	//	map.put("userSeq", userSeq);
 		
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("userSeq", userSeq);
+	//	map = service.adminUserInfo(map); //여러개를 받아오면 map or vo로 받아와야 한다.
+	
+	    HashMap<String, String> userinfoMap = new HashMap<String, String>();
+	    
+	    userinfoMap = service.adminUserInfo(userSeq);
 		
-		int result = service.userDel(map);
+		req.setAttribute("userinfoMap", userinfoMap);
+				
+		return "/admin/adminUserEdit";
+	}
+	
+	//회원 수정 완료시
+	@RequestMapping(value = "/adminUserEditEnd.eat", method = RequestMethod.GET)
+	public String userEditEnd(HttpServletRequest req, HttpSession ses) {
 		
-		String msg="";
-		String loc ="javascript:history.back();";
-		
-		if (result > 0) {
-			msg ="회원이 삭제되었습니다.";
-			loc += "adminUserList.eat?pageNo=pageNo";
-		}
-		
-		else {
-			msg ="회원이 삭제되지 않았습니다.";
-			loc ="javascript:location.href='adminUserList.eat';";
-		}
-		
-		req.setAttribute("msg", msg);
-		req.setAttribute("loc", loc);
-		
-		return "/admin/adminUserDel";
-	}*/
+		return "/admin/adminUserEditEnd";
+	}
 	
 	//컨텐츠관리
 	@RequestMapping(value="/adminConList.eat", method={RequestMethod.GET})
