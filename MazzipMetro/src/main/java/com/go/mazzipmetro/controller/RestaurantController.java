@@ -430,11 +430,12 @@ public class RestaurantController {
 	@RequestMapping(value="/ReviewListAjax.eat", method={RequestMethod.GET})
 	public String ReviewListAjax(HttpServletRequest req, HttpServletResponse res, HttpSession session){
 		
-		
+		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+		String UserSeq = loginUser.getUserSeq();
 		String restSeq = req.getParameter("restSeq");
 		String start = req.getParameter("StartRno");    // 1, 3, 5....
 		String len = req.getParameter("EndRno");        // 2개씩   더보기.. 클릭에 보여줄 상품의 갯수 단위크기   
-		
+		List<String> likers = new ArrayList<String>();
 		
 		
 		if (start == null) {
@@ -450,10 +451,10 @@ public class RestaurantController {
 		String StartRno = String.valueOf(startRno);
 		String EndRno = String.valueOf(endRno);
 		
-/*		System.out.println("확인용 DisplayJSONAction.java       start : " + start);   // 확인용
-		System.out.println("확인용 DisplayJSONAction.java       len : " + len);       // 확인용
-		System.out.println("확인용 DisplayJSONAction.java       restSeq : " + restSeq);       // 확인용
-*/
+		likers = service.getLikers(UserSeq);
+		
+		System.out.println("eeeeeeeeeeeeeee"+likers+"ssssssssssssssssssss");
+		
 		HashMap<String,String> restvo = service.getRestaurant(restSeq);
 		List<HashMap<String,String>> reviewImageList = reviewService.getReviewImageList();
 		
@@ -466,11 +467,12 @@ public class RestaurantController {
 		List<HashMap<String,String>> reviewList = service.getReviewList(map);
 		int TotalReviewCount = service.getTotalReview(restSeq);
 		
+		req.setAttribute("likers", likers);
 		req.setAttribute("TotalReviewCount", TotalReviewCount);
 		req.setAttribute("reviewList",  reviewList);
 		req.setAttribute("restvo", restvo);
 		req.setAttribute("reviewImageList", reviewImageList);
-		
+//		req.setAttribute("UserEmail", UserEmail);
 		////////////////////////////////////////////////////////////////////////////
 //		System.out.println("확인용 DisplayJSONAction.java       productList size : " + ListOfReview.size()); // 확인용
 		return "review/ReviewListAjax";

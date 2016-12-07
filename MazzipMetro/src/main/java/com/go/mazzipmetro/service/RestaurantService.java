@@ -129,5 +129,12 @@ public class RestaurantService implements IService{
 		return restList;
 	}
 
+	public List<String> getLikers(String userSeq) {
+		List<String> likers = dao.getLikers(userSeq);
+		return likers;
+	}
+
+
+
 	
 }

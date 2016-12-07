@@ -95,4 +95,29 @@ public class ReviewService implements IService{
 		return result;
 	}
 
+	public int plusHit(String reviewSeq) {
+		int result = dao.upReviewHit(reviewSeq);
+		return result;
+	}
+
+	public int getHitScore(String reviewSeq) {
+		int HitScore = dao.getReviewHit(reviewSeq);
+		return HitScore;
+	}
+
+	public int DownHit(String reviewSeq) {
+		int DownScore = dao.getReviewDownHit(reviewSeq);
+		return DownScore;
+	}
+
+	public int insertLiker(HashMap<String, String> map) {
+		int insertLiker =dao.insertLiker(map);
+		return insertLiker;
+	}
+
+	public List<String> getLikers(String UserSeq) {
+		List<String> likers = dao.getLikers(UserSeq);
+		return likers;
+	}
+
 }

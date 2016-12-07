@@ -148,5 +148,10 @@ public class RestaurantDAO implements IDAO{
 		return restList;
 	}
 
+	public List<String> getLikers(String userSeq) {
+		List<String> likers = sqlSession.selectList("review.getLikers", userSeq);
+		return likers;
+	}
+
 
 }
