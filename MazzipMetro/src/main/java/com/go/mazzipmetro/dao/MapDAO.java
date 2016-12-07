@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.go.mazzipmetro.vo.RestaurantVO;
+import com.go.mazzipmetro.vo.TagVO;
 
 @Repository
 public class MapDAO  implements IDAO {
@@ -112,6 +113,9 @@ public class MapDAO  implements IDAO {
 		return adImgArr;
 	}
 
-
+	// 업장 restSeq 가져오기(태그가 있는 행만 가져오기) : tag 테이블 삭제
+	/*public List<String> temp_getRestSeqForTags() {
+		return sqlSession.selectList("restaurant.temp_getRestSeqForTags");
+	}*/
 
 }

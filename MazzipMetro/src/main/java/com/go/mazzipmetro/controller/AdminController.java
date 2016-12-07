@@ -1,5 +1,6 @@
 package com.go.mazzipmetro.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,6 +17,8 @@ import com.go.mazzipmetro.common.FileManager;
 import com.go.mazzipmetro.common.ThumbnailManager;
 import com.go.mazzipmetro.service.AdminService;
 import com.go.mazzipmetro.vo.ContentVO;
+import com.go.mazzipmetro.vo.FileVO;
+import com.go.mazzipmetro.vo.RestaurantAdVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.UserVO;
 
@@ -24,6 +27,10 @@ public class AdminController {
 
 	@Autowired
 	private AdminService service;
+	@Autowired
+	private FileManager fileManager;
+	@Autowired
+	private ThumbnailManager thumbnailManager;
 	
 	
 	// 관리자용 업장 수정 페이지 (업장 등급 리스트)
@@ -42,20 +49,83 @@ public class AdminController {
 	public String adminRestEdit(HttpServletRequest req) {
 		String restSeq = req.getParameter("restSeq");
 		RestaurantVO vo = service.adminRestEditInfo(restSeq);
+		RestaurantAdVO ravo = service.adminRestAdImgInfo(restSeq);
 		
+		//System.out.println(ravo.getAdImg()[1]); 
 		req.setAttribute("vo", vo);
+		req.setAttribute("ravo", ravo);
 		return "/admin/adminRestEdit";
 	}
 	
 	// 관리자용 업장 수정 요청 
 	@RequestMapping(value="/adminRestEditEnd.eat", method={RequestMethod.POST})
-	public String  adminRestEditEnd(HttpServletRequest req, RestaurantVO vo) {
-		System.out.println(vo.getRestImg());
+	public String  adminRestEditEnd(HttpServletRequest req, RestaurantVO vo, FileVO fvo) {
+		//삭제할 소개 이미지 리스트
+		String[] delAdImgArr = req.getParameter("delAdImgArr").split(",");
 		
-		vo.setRestImg("900ba417cbe9597ae3ac58a3c3458bdc.jpg");
-		int result = service.adminRestEdit(vo);
+		// 업장 대표이미지 및 소개이미지 파일 업로드 및 파일명 배열에 저장하기
+		HttpSession session = req.getSession();
+		String root = session.getServletContext().getRealPath("/");
+		String path = root + "files";
+		String newFileName = "";
+		byte[] bytes = null;
+		RestaurantAdVO ravo = new RestaurantAdVO();
 		
-		String msg = "";
+		
+		// 임시로 adImg 이름을 담을 list
+		List<String> adImgList = new ArrayList<String>();
+		
+		// 넘어온 데이터 유효성 검사.
+		//System.out.println(">>>> "+(fvo.getAttach()[0].getSize() == 0));
+		
+		for (int i = 0; i < fvo.getAttach().length; i++) {
+			// 업장 대표이미지
+			if(i == 0 && fvo.getAttach()[0].getSize() > 0){
+				try{
+					bytes = fvo.getAttach()[0].getBytes();
+					newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[0].getOriginalFilename(), path);
+					thumbnailManager.doCreateThumbnail(newFileName, path);
+					
+					vo.setRestImg(newFileName);
+				}catch (Exception e) {
+					e.printStackTrace();
+					
+				} 
+			}// end of if(i == 0 && fvo.getAttach()[0].getSize() > 0)
+			
+			// 업장 소개이미지
+			if(i > 0 && fvo.getAttach()[i].getSize() > 0){
+				try{
+					bytes = fvo.getAttach()[i].getBytes();
+					newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[i].getOriginalFilename(), path);
+					thumbnailManager.doCreateThumbnail(newFileName, path);
+					
+					adImgList.add(newFileName);
+				}catch (Exception e) {
+					e.printStackTrace();
+				} 
+			}// end of if(i > 0 && fvo.getAttach()[i].getSize() > 0)
+			
+		}
+		
+		// 업장 테이블 update
+		int result = service.adminRestEdit(delAdImgArr, adImgList, vo);
+		
+		// tbl_restaurant_ad 테이블 update
+		
+			
+		// 넘어온 addImg를 list에 담아서 가변적으로 size변환후에 다시 String[]으로 변환후에 ReataurantAdVO에 넣어준다.
+		// 어차피 배열을 반복문으로 돌리면서 insert할텐데, RestautantAdVO에 담을 필요가 있을까.
+		
+		/*String[] adImgArr = adImgList.toArray(new String[adImgList.size()]);
+		ravo.setAdImg(adImgArr);
+		ravo.setRestSeq(vo.getRestSeq());*/
+		
+		
+		
+		
+		
+		String msg = "업장 정보변경 실패!";
 		String script = "self.close();";
 		
 		if (result > 0) {
@@ -252,37 +322,40 @@ public class AdminController {
 		return "/admin/adminUserDel";
 	}
 	
-	/*//회원 수정
-	@RequestMapping(value = "/adminUserEdit.eat", method = RequestMethod.POST)
-	public String userEdit(HttpServletRequest req) {
+	//회원 수정 팝업창 열기
+	@RequestMapping(value = "/adminUserEdit.eat", method = RequestMethod.GET)
+	public String userEdit(HttpServletRequest req, HashMap<String, String> map) {
 		String userSeq = req.getParameter("userSeq");
-		String pageNo = req.getParameter("pageNo");
+		String userName = req.getParameter("userName");
+		String gradeName = req.getParameter("gradeName");
+		String userEmail = req.getParameter("userEmail");
+		String userPhone = req.getParameter("userPhone");
+		String userRegDate = req.getParameter("userRegDate");
+		String userPoint = req.getParameter("userPoint");
 		
-		HttpSession ses = req.getSession();
-		
-		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("userSeq", userSeq);
+		map.put("userName", userSeq);
+		map.put("gradeName", userSeq);
+		map.put("userEmail", userSeq);
+		map.put("userPhone", userSeq);
+		map.put("userRegDate", userSeq);
+		map.put("userPoint", userSeq);
 		
-		int result = service.userDel(map);
+		//map = service.adminUserInfo(map); //여러개를 받아오면 map or vo로 받아와야 한다.
 		
-		String msg="";
-		String loc ="javascript:history.back();";
 		
-		if (result > 0) {
-			msg ="회원이 삭제되었습니다.";
-			loc += "adminUserList.eat?pageNo=pageNo";
-		}
 		
-		else {
-			msg ="회원이 삭제되지 않았습니다.";
-			loc ="javascript:location.href='adminUserList.eat';";
-		}
 		
-		req.setAttribute("msg", msg);
-		req.setAttribute("loc", loc);
 		
-		return "/admin/adminUserDel";
-	}*/
+		return "/admin/adminUserEdit";
+	}
+	
+	//회원 수정 완료시
+	@RequestMapping(value = "/adminUserEditEnd.eat", method = RequestMethod.GET)
+	public String userEditEnd(HttpServletRequest req, HttpSession ses) {
+		
+		return "/admin/adminUserEditEnd";
+	}
 	
 	//컨텐츠관리
 	@RequestMapping(value="/adminConList.eat", method={RequestMethod.GET})

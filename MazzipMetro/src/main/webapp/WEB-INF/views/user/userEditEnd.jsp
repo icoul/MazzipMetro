@@ -12,13 +12,13 @@
 		<c:if test="${n == 1}">
 			alert("회원님의 정보가 수정되었습니다");
 			/* 글목록을 보여주는 페이지로 이동 */
-			location.href="<%= request.getContextPath() %>/index.eat";			
+			location.href="<%= request.getContextPath() %>/userMyPage.eat";			
 		</c:if>
 		
 		<c:if test="${n != 1}">
 			alert("회원님의 정보가 수정되지 않았습니다");
 			/* 글목록을 보여주는 페이지로 이동 */
-			location.href="<%= request.getContextPath() %>/userRegister.eat";	
+			location.href="<%= request.getContextPath() %>/userMyPage.eat";	
 		</c:if>
 	</script>
 </body>
