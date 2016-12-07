@@ -332,7 +332,7 @@ public class UserController {
 			try {
 				bytes = vo.getAttach().getBytes();
 				String newFileName =  fileManager.doFileUpload(bytes, vo.getAttach().getOriginalFilename(), path);
-				vo.setUserProfile(vo.getAttach().getOriginalFilename());
+				vo.setUserProfile(newFileName);
 		} catch (Exception e) {
 			
 		}

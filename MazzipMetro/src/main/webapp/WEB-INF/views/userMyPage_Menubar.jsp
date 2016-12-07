@@ -73,7 +73,7 @@
 	        </ul>
 	      </li>
 	      <li class="dropdown">
-	        <a class="dropdown-toggle" data-toggle="dropdown" href="#">통계</a>
+	        <a id="userStatisticsBtn" class="dropdown-toggle" data-toggle="dropdown" href="#">통계</a>
 	      </li>
 	      <li class="dropdown">
 	        <a class="dropdown-toggle" data-toggle="dropdown" href="#">컨텐츠

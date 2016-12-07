@@ -96,7 +96,7 @@
 		                validators: {
 		                    choice: {
 		                        max: 3,
-		                        message: 'Please choose 2 - 4 programming languages you are good at'
+		                        message: '최대 3개까지 선택가능 합니다.'
 		                    }
 		                }
 		            },
