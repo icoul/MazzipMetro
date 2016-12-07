@@ -252,4 +252,16 @@
 		where restSeq = #{restSeq} 
 	</select>
 	
+	<!-- 사용자가 정복한 맛집(리뷰를 쓴 맛집) 리스트 보여주기 -->
+	<select id="getUserRestConquest" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select * from tbl_restaurant 
+		<if test="'already' == conq ">
+			where restSeq in (select restSeq from tbl_review 
+		</if>
+		<if test="'notYet' == conq ">
+			where restSeq  not in (select restSeq from tbl_review
+		</if>
+			where userSeq != #{userSeq})
+	</select>
+	
 </mapper>

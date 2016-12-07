@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<jsp:include page="../top.jsp" />
+<script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>
+<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=0d211626a8ca667e54b95403a7ae692f&libraries=services,clusterer,drawing"></script>
 	 <style type="text/css">
 	    .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
 	    .wrap * {padding: 0;margin: 0;}
@@ -23,216 +24,50 @@
 	 th, td {padding: 10px;}
 	 </style>
 	 
-	 <!-- 카테고리화된 검색어 자동완성 css -->
-	 <style>
-	  .ui-autocomplete-category {
-	    font-weight: bold;
-	    padding: .2em .4em;
-	    margin: .8em 0 .2em;
-	    line-height: 1.5;
-	  }
-	  
-	  .ui-autocomplete {
-	    max-height: 300px;
-	    overflow-y: auto;
-	    /* prevent horizontal scrollbar */
-	    overflow-x: hidden;
-	  }
-	  /* IE 6 doesn't support max-height
-	   * we use height instead, but this forces the menu to always be this tall
-	   */
-	  html .ui-autocomplete {
-	    height: 300px;
-	  }
-	  </style>
 </head>
 
-
-<div id="searchFrmContainer" style="padding-top: 20px;">
-	<span style="font-weight: bold; color: gray; text-decoration: underline;">관리자님, 검색조건을 입력후에 검색버튼을 눌러주세요.</span>
-	<form id="searchFrm" onsubmit="return false;">
-		<br/>
-		<select name="srchType" id="srchType">
-			<option value="all">통합검색</option>
-			<option value="restName">음식점명 검색</option>
-			<option value="metroName">지하철역사 검색</option>
-			<option value="dongName">동 검색</option>
-			<option value="guName">구 검색</option>
-		</select>
-		<input type="text" name="keyword" id="keyword" onkeydown="goButton();">
-		<button type="button" onclick="getRestaurant();">검색</button> 
-		<br/>
-		<br/> 
-		<table>
-		<tr><th>대분류</th><td>
-		<label class="checkbox-inline"><input type="checkbox" name="restTag" value="한식">한식</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restTag" value="일식">일식</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restTag" value="중식">중식</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restTag" value="양식">양식</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restTag" value="동남아">동남아</label>
-		</td></tr>
-		<tr><th>중분류</th><td>
-		<label class="checkbox-inline"><input type="checkbox" name="restTag" value="고기류">고기류</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restTag" value="어폐류">어폐류</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restTag" value="채소류">채소류</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restTag" value="면류">면류</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restTag" value="밥류">밥류</label>
-		</td></tr>
-		<tr><th>관리여부</th><td>
-		<label class="radio-inline"><input type="radio" name="restManager" value="all" checked>전체</label>
-		<label class="radio-inline"><input type="radio" name="restManager" value="admin">관리자 관할 음식점</label>
-		<label class="radio-inline"><input type="radio" name="restManager" value="notAdmin">업주관리 음식점</label><!-- userSeq가 관리자가 아닌 매장 -->
-		</td></tr>
-		<tr><th>삭제여부</th><td> 
-		<label class="radio-inline"><input type="radio" name="restStatus" value="all" checked>전체</label>
-		<label class="radio-inline"><input type="radio" name="restStatus" value="0">이용 가능 음식점</label>
-		<label class="radio-inline"><input type="radio" name="restStatus" value="1">삭제된 음식점</label>
-		</td></tr>
-		</table>
-		
+<div id="selectFrmContainer" style="padding-top: 20px;padding-left: 20px;">
+	<form id="selectFrm" onsubmit="return false;">
+		<label class="radio-inline"><input type="radio" name="userSeq" value="= 42">정복한 맛집</label>
+		<label class="radio-inline"><input type="radio" name="userSeq" value="!= 42">정복해야 할 맛집</label>
 	</form>
 </div>
 
 <br/> 
 <div id="map" style="width:100%;height:500px;"></div>
 
-<!-- 업장수정차을 post방식으로 열기위한 form --> 
-<div id="editFrmDiv">
-	<form name="editFrm">
-		<input type="hidden" name="restSeq"/>
-	</form>
-</div>
 
 <script>
 	$(document).ready(function(){
 		//페이지 최초로딩시 등록된 음식점 모두 띄우기
-		//getRestaurant();
+		getRestaurant();
 		
 		var map = new daum.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
 	        center : new daum.maps.LatLng(37.515812, 126.982340), // 지도의 중심좌표 
 	        level : 8// 지도의 확대 레벨 
 	    });
 		
-		$("#keyword").keyup(function(){
-			var srchType = $("[name=srchType]").val();
-		
-			$.ajax({
-				url:"<%=request.getContextPath()%>/autoComplete.eat",
-				type :"GET",
-				data: "srchType="+srchType+"&keyword="+$("#keyword").val(),
-				dataType:"json",
-				success: function(data){
-					//alert(data.autoComSource);
-					
-					// 카테고리 auto-complete 인경우
-					if(data.autoComSource == null){
-						//alert(1);
-						$.widget( "custom.catcomplete", $.ui.autocomplete, {
-						      _create: function() {
-						        this._super();
-						        this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
-						      },
-						      _renderMenu: function( ul, items ) {
-						        var that = this,
-						          currentCategory = "";
-						        $.each( items, function( index, item ) {
-						          var li;
-						          if ( item.category != currentCategory ) {
-						            ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
-						            currentCategory = item.category;
-						          }
-						          li = that._renderItemData( ul, item );
-						          if ( item.category ) {
-						            li.attr( "aria-label", item.category + " : " + item.label );
-						          }
-						        });// end of  $.each()
-						      }
-						    });// end of $.widget( "custom.catcomplete", $.ui.autocomplete, {})
-						
-						$("#keyword").catcomplete({
-							delay : 0,
-							source : data.cat_autoComSource
-						})						
-					} else {// 일반 auto-complete인 경우
-						//alert(2);
-						$("#keyword").autocomplete({
-							source : data.autoComSource
-						})	
-					}
-					
-				}, //end of success: function(data)
-				error: function(request, status, error){
-					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-				} // end of error: function(request,status,error)
-			}); //end of $.ajax()
-			
-			
-		});// end of $("#keyword").keyup
-			
 	});
-	
-	// 업장 수정을 post방식으로 popup창을 연다.
-	function goEdit(restSeq) {
-		
-		var url = "<%=request.getContextPath()%>/adminRestEdit.eat";
-		var title = "adminRestEdit";
-		var status = "left=500px, top=100px, width=600px, height=915px, menubar=no, status=no, scrollbars=yes ";
-		var popup = window.open(url, title, status); 
-		
-        editFrm.restSeq.value = restSeq;
-        editFrm.target = title;
-        editFrm.action = url;
-        editFrm.method = "post";
-        editFrm.submit();
-	}
-	
-	// input 태그 엔터키 refresh 방지
-	function goButton() {
-		 if (event.keyCode == 13) {
-		 	getRestaurant();
-		  	return false;
-		 }
-		 return true;
-	}
 	
 	var map, clusterer;
 	
 	// 업장 검색 함수
 	function getRestaurant(){
 	
-		//alert($("[name=restTag]:checked").length);
-		
-		var restTagArr = [];     // 배열 초기화
-	    $("[name=restTag]:checked").each(function(i){
-	    	//alert($(this).val());
-	    	restTagArr.push($(this).val());     // 체크된 것만 값을 뽑아서 배열에 push
-	    });
-	    
-		//alert( $("[name=restManager]:checked").val());
-		
-		var srchFrmData = {
-			srchType : $("#srchType").val()
-		  , keyword : $("#keyword").val()
-		  , restTag : restTagArr
-		  , restManager : $("[name=restManager]:checked").val()
-		  , restStatus : $("[name=restStatus]:checked").val()
-		}
-		
-		
-	 
 	    // 데이터를 가져오기 위해 jQuery를 사용합니다
 	    // 데이터를 가져와 마커를 생성하고 클러스터러 객체에 넘겨줍니다
 	    $.ajaxSettings.traditional = true;
 	    $.ajax({
 			url: "<%=request.getContextPath()%>/getRestaurantList.eat",  
 			async: false, 
-			data: srchFrmData,
+			data: "userSeq="+$("[name=userSeq]").val(),
 			dataType: "json",
 			success: function(data) {
-				//alert(data.positions[0].restName);
+				
+				alert("dd"+data.positions[0].restName);
 				
 				if(data.positions.length == 0){
-					alert('검색된 음식점이 없습니다. 검색조건을 확인해주세요!');
+					alert('아직 리뷰를 작성한 음식점이 없습니다. 리뷰를 작성해보세요!');
 					return;
 				}
 				
@@ -308,7 +143,7 @@
 					   content += '                </div>'+
 					   					 '<div class="ellipsis"><span style="color: #000099; font-weight:bold;">'+position.guName+'</span>&nbsp<span style="color: #b3b3ff; font-weight: bold;">'+position.dongName+'</span></div>' + 
 							             '                <div class="jibun ellipsis">'+position.restPhone+'</div>' + 
-							             '                <div>마커를 <span style="color:red">클릭</span>해서 음식점 정보를 수정하기</div>' + 
+							             '                <div>마커를 <span style="color:red">클릭</span>해서 음식점 상세보기</div>' + 
 							             '            </div>' + 
 							             '        </div>' + 
 							             '    </div>' +    
@@ -365,7 +200,7 @@
 				}
 		});//end of $.ajax()
 	    
-
+		//alert(daum.maps.event == null);
 	    // 마커 클러스터러에 클릭이벤트를 등록합니다 
 	    // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우 
 	    // 이벤트 헨들러로 cluster 객체가 넘어오지 않을 수도 있습니다 
@@ -381,4 +216,3 @@
 	}//end of getRestaurant()
     
 </script>
-<jsp:include page="../footer.jsp" />
