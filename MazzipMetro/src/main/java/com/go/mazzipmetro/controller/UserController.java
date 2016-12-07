@@ -471,7 +471,7 @@ public class UserController {
 //			Cookie cookiePwd = new Cookie("rememberPwd", loginUser.getUserPw());//비보안
 			
 			Cookie cookieId=null, cookiePwd=null
-					, cookieAutoLogin = new Cookie("dx_autoLogin", "yes");
+					, cookieAutoLogin = new Cookie("autoLogin", autoLogin);
 			
 			try {
 				cookieId = new Cookie("rememberId", URLEncoder.encode(loginUser.getUserEmail(), "UTF-8"));
@@ -483,7 +483,7 @@ public class UserController {
 			//로그인 하는 사용자의 아이디값을 "rememberId" 문자열을 키값으로 하는 쿠키객체를 생성한다. 
 			//파라미터 타입은 Cookie(String name, String value)이다.
 			
-			System.out.println("확인용 cooooooooooooooooooookie" + cookieId + cookiePwd);
+			//System.out.println("확인용 cooooooooooooooooooookie" + cookieId + cookiePwd);
 			
 			if (rememberId != null) {//아이디저장 체크박스에 체크한 경우. 즉, "on"이다.
 				cookieId.setMaxAge(7*24*60*60);
@@ -499,7 +499,7 @@ public class UserController {
 				cookiePwd.setMaxAge(0);
 			}
 			
-			if (cookieAutoLogin != null) {
+			if (autoLogin != null) {
 				cookieAutoLogin.setMaxAge(7*24*60*60);
 			} else {
 				cookieAutoLogin.setMaxAge(0);

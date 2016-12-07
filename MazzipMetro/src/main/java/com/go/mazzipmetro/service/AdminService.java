@@ -112,11 +112,17 @@ public class AdminService implements IService {
 		return ravo;
 	}
 	
-	/*// 관리자용 회원 수정 - 한명회원 정보 불러오기
-	public HashMap<String, String> adminUserInfo(HashMap<String, String> map) {
-		// TODO Auto-generated method stub
-		return null;
-	}*/
-
+	// 관리자용 회원 수정 - 한명회원 정보 불러오기
+	public HashMap<String, String> adminUserInfo(String userSeq) {
+		HashMap<String, String> adminUserInfo = dao.adminUserInfo(userSeq);
+		return adminUserInfo;
+	}
+	
+	// 관리자용 회원 수정 - 한명회원 정보 수정하기(tbl_user 업데이트)
+	public int adminUserEdit(HashMap<String, String> userinfoMap) {
+		int result = dao.adminUserEdit(userinfoMap);
+		return result;
+	}
+	
 	
 }

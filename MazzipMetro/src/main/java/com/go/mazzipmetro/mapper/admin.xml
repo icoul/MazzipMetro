@@ -98,4 +98,32 @@
     	</if>
     </select>
     
+    <!-- 관리자용 회원 수정 - 한명회원 정보 불러오기 -->
+    <resultMap type="java.util.HashMap" id="userInfo">
+		<result column="userSeq" 		property="USERSEQ" 		javaType="String"/>
+		<result column="gradeName" 		property="GRADENAME" 	javaType="String"/> 	
+		<result column="restName" 		property="USERNAME" 	javaType="String"/>
+		<result column="userEmail" 		property="USEREMAIL" 	javaType="String" />
+		<result column="userPhone" 		property="USERPHONE" 	javaType="String" />  
+		<result column="userRegdate" 	property="USERREGDATE" 	javaType="String" />  
+		<result column="userPoint" 		property="USERPOINT" 	javaType="String" />    
+	</resultMap>
+    <select id="adminUserInfo" parameterType="String" resultMap="userInfo">
+		select V.userSeq, V.gradeName, V.userName,  V.userEmail, V.userPhone, V.userRegdate, V.userPoint
+		from 
+		(
+		select A.userSeq, B.gradeName, A.userName, A.userEmail, A.userGender, A.userBirthday, A.userPhone, to_char(A.userRegdate, 'yyyy-mm-dd') as userRegdate, A.userPoint,A.userExp, A.userStation,A.userStatus 
+		     
+		from tbl_user A left join tbl_grade B
+	      on A.gradeSeq = B.gradeSeq
+    	) V
+		where V.userStatus = 0 and V.userSeq!=0 
+		and V.userSeq = #{userSeq}
+		order by V.userSeq desc
+    </select>
+    
+    <update id="adminUserEdit" parameterType="java.util.HashMap">
+		update tbl_user set userName= #{userName}, userEmail= #{userEmail}, userPhone= #{userPhone}, userPoint= #{userPoint}
+		where userSeq = #{userSeq}
+    </update>
 </mapper>

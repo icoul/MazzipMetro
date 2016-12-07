@@ -74,6 +74,16 @@ public class AdminDAO implements IDAO{
 	public int insertRestAd(HashMap<String, String> map) {
 		return sqlSession.insert("restaurant.insertRestAd", map);
 	}
+	
+	// 관리자용 회원 수정 - 한명회원 정보 불러오기
+	public HashMap<String, String> adminUserInfo(String userSeq) {
+		return sqlSession.selectOne("admin.adminUserInfo", userSeq);
+	}
+	
+	// 관리자용 회원 수정 - 한명회원 정보 수정하기
+	public int adminUserEdit(HashMap<String, String> userinfoMap) {
+		return sqlSession.update("admin.adminUserEdit", userinfoMap);
+	}
 
 	
 	

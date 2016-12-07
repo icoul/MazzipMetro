@@ -324,35 +324,61 @@ public class AdminController {
 	
 	//회원 수정 팝업창 열기
 	@RequestMapping(value = "/adminUserEdit.eat", method = RequestMethod.GET)
-	public String userEdit(HttpServletRequest req, HashMap<String, String> map) {
+	public String userEdit(HttpServletRequest req) {
+		String userSeq = req.getParameter("userSeq");
+		
+	//	map.put("userSeq", userSeq);
+		
+	//	map = service.adminUserInfo(map); //여러개를 받아오면 map or vo로 받아와야 한다.
+	
+	    HashMap<String, String> userinfoMap = new HashMap<String, String>();
+	    
+	    userinfoMap = service.adminUserInfo(userSeq);
+		
+		req.setAttribute("userinfoMap", userinfoMap);
+				
+		return "/admin/adminUserEdit";
+	}
+	
+	//회원 수정 완료시
+	@RequestMapping(value = "/adminUserEditEnd.eat", method = RequestMethod.POST)
+	public String userEditEnd(HttpServletRequest req, HttpSession ses) {
 		String userSeq = req.getParameter("userSeq");
 		String userName = req.getParameter("userName");
 		String gradeName = req.getParameter("gradeName");
 		String userEmail = req.getParameter("userEmail");
 		String userPhone = req.getParameter("userPhone");
-		String userRegDate = req.getParameter("userRegDate");
 		String userPoint = req.getParameter("userPoint");
+		String userRegDate = req.getParameter("userRegDate");
+		//System.out.println(userEmail);
 		
-		map.put("userSeq", userSeq);
-		map.put("userName", userSeq);
-		map.put("gradeName", userSeq);
-		map.put("userEmail", userSeq);
-		map.put("userPhone", userSeq);
-		map.put("userRegDate", userSeq);
-		map.put("userPoint", userSeq);
+		HashMap<String, String> userinfoMap = new HashMap<String, String>();
+		userinfoMap.put("userSeq", userSeq);
+		userinfoMap.put("userName", userName);
+		userinfoMap.put("gradeName", gradeName);
+		userinfoMap.put("userEmail", userEmail);
+		userinfoMap.put("userPoint", userPoint);
+		userinfoMap.put("userPhone", userPhone);
+		userinfoMap.put("userRegDate", userRegDate);
 		
-		//map = service.adminUserInfo(map); //여러개를 받아오면 map or vo로 받아와야 한다.
+		String msg="";
+		String loc ="javascript:history.back();";
 		
+		int result = 0;
+		result = service.adminUserEdit(userinfoMap);
 		
+		if (result > 0) {
+			msg = "회원이 수정되었습니다.";
+			loc = "adminUserList.eat";
+		}
 		
+		else {
+			msg ="회원이 삭제되지 않았습니다.";
+			loc ="javascript:location.href='adminUserList.eat';";
+		}
 		
-		
-		return "/admin/adminUserEdit";
-	}
-	
-	//회원 수정 완료시
-	@RequestMapping(value = "/adminUserEditEnd.eat", method = RequestMethod.GET)
-	public String userEditEnd(HttpServletRequest req, HttpSession ses) {
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
 		
 		return "/admin/adminUserEditEnd";
 	}

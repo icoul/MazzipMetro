@@ -22,6 +22,7 @@ import com.go.mazzipmetro.vo.AttachFileVO;
 import com.go.mazzipmetro.vo.FileVO;
 import com.go.mazzipmetro.vo.MenuVO;
 import com.go.mazzipmetro.vo.ReviewVO;
+import com.go.mazzipmetro.vo.UserVO;
 
 @Controller
 public class ReviewController {
@@ -109,6 +110,74 @@ public class ReviewController {
 				
 		return "/review/reviewAddEnd";
 	}
+	
+	@RequestMapping(value="/plusHit.eat", method={RequestMethod.GET} ) 
+	public String plusHit(HttpServletRequest req) {
+		String reviewSeq = req.getParameter("reviewSeq");
+		
+		int reviewHit = service.plusHit(reviewSeq);
+		
+		if(reviewHit == 1)
+		{
+			reviewHit = service.getHitScore(reviewSeq);
+		}
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("reviewHit", reviewHit);
+		
+		req.setAttribute("jsonObj", jsonObj);
+		return "/review/plusHit";  
+		
+	}
+	
+	@RequestMapping(value="/DownHit.eat", method={RequestMethod.GET} ) 
+	public String DownHit(HttpServletRequest req) {
+		String reviewSeq = req.getParameter("reviewSeq");
+		
+		int reviewHit = service.DownHit(reviewSeq);
+		
+		if(reviewHit == 1)
+		{
+			reviewHit = service.getHitScore(reviewSeq);
+		}
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("reviewHit", reviewHit);
+		
+		req.setAttribute("jsonObj", jsonObj);
+		return "/review/plusHit";  
+		
+	}
+	
+	@RequestMapping(value="/insertLiker.eat", method={RequestMethod.GET} ) 
+	public String insertLiker(HttpServletRequest req, HttpSession ses) {
+		
+		UserVO loginUser = (UserVO)ses.getAttribute("loginUser");
+		String UserSeq = loginUser.getUserSeq();
+		String reviewSeq = req.getParameter("reviewSeq");
+		List<String> likers = new ArrayList<String>();
+		
+		HashMap<String, String> map = new HashMap<String,String>();
+		
+		map.put("UserSeq", UserSeq);
+		map.put("reviewSeq", reviewSeq);
+		
+		
+		int reviewHit = service.insertLiker(map);
+		
+		if(reviewHit == 1)
+		{
+			likers = service.getLikers(UserSeq);	
+		}
+		
+		System.out.println("UserSeq"+UserSeq);
+		System.out.println("dddddddddddddddddddddddddd"+likers+"dddddddddddddddddddddddddddd");
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("likers", likers);
+		
+		req.setAttribute("jsonObj", jsonObj);
+		return "/review/plusHit";  
+		
+	}
+	
 	
 }
 

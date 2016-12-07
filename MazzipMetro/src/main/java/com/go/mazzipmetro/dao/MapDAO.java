@@ -119,6 +119,11 @@ public class MapDAO  implements IDAO {
 		return adImgArr;
 	}
 
+	// 사용자가 정복한 맛집(리뷰를 쓴 맛집) 리스트 보여주기
+	public List<RestaurantVO> getUserRestConquest(HashMap<String, String> map) {
+		return sqlSession.selectList("map.getUserRestConquest", map);
+	}
+
 
 	// 업장 restSeq 가져오기(태그가 있는 행만 가져오기) : tag 테이블 삭제
 	/*public List<String> temp_getRestSeqForTags() {

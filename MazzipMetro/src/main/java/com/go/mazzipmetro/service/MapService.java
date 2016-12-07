@@ -184,6 +184,11 @@ public class MapService  implements IService {
 			return list;
 		}
 
+		// 사용자가 정복한 맛집(리뷰를 쓴 맛집) 리스트 보여주기
+		public List<RestaurantVO> getUserRestConquest(HashMap<String, String> map) {
+			return dao.getUserRestConquest(map);
+		}
+
 
 		// 업장 태그 가져오기(태그가 있는 행만 가져오기)	: 테그 테이블 삭제
 /*		public List<TagVO> temp_getRestTag() {
