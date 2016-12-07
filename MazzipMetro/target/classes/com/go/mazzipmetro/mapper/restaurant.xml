@@ -249,4 +249,11 @@
 		from TBL_Metro
 	</select>
 	
+	<select id="restaurant.restListStatistics" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select A.restname, A.restimg, A.restaddr, B.metroname, A.restregdate
+		from tbl_restaurant A join tbl_metro B
+		on A.metroid = B.metroid
+		where userSeq = #{userSeq} and restStatus = 0;
+	</select>
+	
 </mapper>

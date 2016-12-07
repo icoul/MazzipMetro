@@ -6,6 +6,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/1.0/zxcvbn-async.min.js"></script>
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>
+
 
 	<script type="text/javascript" >
 	$(function() {
@@ -154,6 +160,18 @@
 	    		}
 	    		
 	    	});// end of $("#passwdCheck").blur();
+	    	
+	    	$('.show-password').click(function(event) {
+		        event.preventDefault();
+		        if ($('#userPw').attr('type') === 'password') {
+		          $('#userPw').attr('type', 'text');
+		          $('.show-password').text('비밀번호 감추기');
+		        } else {
+		          $('#userPw').attr('type', 'password');
+		          $('.show-password').text('비밀번호 보기');
+		        }
+		      });
+	    	
 			 });
 	</script>
 
