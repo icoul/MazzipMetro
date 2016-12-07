@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <%-- <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/css/bootstrap.css"> --%>
   <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>
-  <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/bootstrap.js"></script>
+  <script type="text/javascript" src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script>
   <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/css/starability-all.min.css">
   <%-- 
   <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/JqueryUI/styles/jquery-ui.css">
@@ -55,11 +55,11 @@
 			
 			total = (taste + mood + price + service) / 4
 			total = total.toFixed(1);
-			
-			var reviewScore = "<input type='hidden' name='reviewScore' value='"+total+"'/>";
+							
 			
 			$("#total-result").empty();
-			$("#total-result").append(total+"점"+reviewScore);
+			$("#total-result").append(total+"점");
+			$("#inputAvgScore").val(total);
 		}
 		else
 		{
@@ -89,16 +89,15 @@
 	$(document).ready(function(){
 		
 		
-		
 		$("[name=taste-rating]").click(function(){
 			var html = "";
 			var taste = $(':radio[name=taste-rating]:checked').val();
 			
 			var html= taste;
 						
-			$("#taste-result").empty();
-			$("#taste-result").append(html+"점");
-			
+			$("#reviewTaste").empty();
+			$("#reviewTaste").append(html+"점");
+			$("#inputTaste").val(taste);
 			getTotalRating();
 		});
 		
@@ -111,9 +110,9 @@
 			
 			var html= mood;
 						
-			$("#mood-result").empty();
-			$("#mood-result").append(html+"점");
-			
+			$("#reviewMood").empty();
+			$("#reviewMood").append(html+"점");
+			$("#inputMood").val(mood);
 			getTotalRating();
 		});
 		
@@ -125,9 +124,9 @@
 				
 			var html= price;
 						
-			$("#price-result").empty();
-			$("#price-result").append(html+"점");
-			
+			$("#reviewPrice").empty();
+			$("#reviewPrice").append(html+"점");
+			$("#inputPrice").val(price);
 			getTotalRating();
 		});
 		
@@ -138,9 +137,10 @@
 				
 			var html= service;
 						
-			$("#service-result").empty();
-			$("#service-result").append(html+"점");
-			
+			$("#reviewService").empty();
+			$("#reviewService").append(html+"점");
+			$("#inputService").val(service);
+
 			getTotalRating();
 		});
 		
@@ -191,9 +191,7 @@
 			<tr>
 				<td align="center">
 					<input type="text" name="reviewTitle" />
-				</td>
-				<td align="right">
-					<input type="text" name="reviewHit" value="3"/>
+					<input type="hidden" id="reviewHit" name="reviewHit" value="like!"/>
 				</td>
 			</tr>			
 			<tr>
@@ -217,7 +215,9 @@
 					    <label for="rate1" title="Terrible">1 star</label>
 					  </fieldset>
 					</form>
-					<div id="mood-result"></div>
+					<div id="reviewMood" name="reviewMood"></div>
+					<input type= "hidden" id = "inputMood" name = "reviewMood" value="" />
+					
 				</td>
 			</tr>
 			<tr>
@@ -239,7 +239,8 @@
 					    <label for="rate11" title="Terrible">1 star</label>
 					  </fieldset>
 					</form>
-					<div id="taste-result"></div>
+					<div id="reviewTaste" name="reviewTaste"></div>
+					<input type= "hidden" id = "inputTaste" name = "reviewTaste" value="" />
 				</td>
 			</tr>
 			<tr>
@@ -260,7 +261,8 @@
 					    <label for="rate21" title="Terrible">1 star</label>
 					  </fieldset>
 					</form>
-					<div id="price-result"></div>
+					<div id="reviewPrice" name="reviewPrice"></div>
+					<input type= "hidden" id = "inputPrice" name = "reviewPrice" value="" />
 				</td>
 			</tr>
 			<tr>
@@ -282,9 +284,11 @@
 					    <label for="rate31" title="Terrible">1 star</label>
 					  </fieldset>
 					</form>
-					<div id="service-result"> </div><br/><br/>
+					<div id="reviewService" name="reviewService"> </div><br/><br/>
+					<input type= "hidden" id = "inputService" name = "reviewService" value="" />
 					
 					<div><span style="font-weight: bold; font-size: 16pt;">총 평점</span></div>
+					<input type= "hidden" id = "inputAvgScore" name = "reviewAvgScore" value="" />
 					<div id="total-result" name="reviewScore" style="font-weight: bold; font-size: 16pt;"></div>
 				</td>
 			</tr>
@@ -336,7 +340,7 @@
 		</table>
 		
 		<input type="text" name ="userSeq" value="${sessionScope.loginUser.userSeq}" />
-		<input type="text" name ="restSeq" value="1845" />
+		<input type="text" name ="restSeq" value="${restSeq}" />
 		<br/>
 		
 		<button type="button" class="btn btn-primary" style="margin-right: 10px;" onClick="goWrite();">쓰기</button>
