@@ -1,5 +1,7 @@
 package com.go.mazzipmetro.service;
 import java.util.HashMap;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -58,9 +60,9 @@ public class BossService implements IService{
 		return result;
 	}
 	//컨텐츠테이블 등록하기위해 restSeq 구해오기
-	public String getRestSeq(String userSeq) {
-		String restSeq = dao.getRestSeq(userSeq);
-		return restSeq;
+	public List<HashMap<String, String>>  getRestSeq(String userSeq) {
+		List<HashMap<String, String>>  list = dao.getRestSeq(userSeq);
+		return list;
 	}
 }
 
