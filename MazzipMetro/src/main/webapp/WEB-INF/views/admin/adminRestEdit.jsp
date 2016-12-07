@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,6 +16,8 @@
     /* 테이블 css */
     th, td { padding: 10px;}
 </style>
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery-2.0.0.js"></script>
+
 </head>
 <body>
 	<p style="margin-top: 10px">
@@ -29,7 +32,7 @@
 		<br/> 
 		<hr/> 
 		<br/> 
-		<form name="editFrm">
+		<form name="editFrm" enctype="multipart/form-data">
 		<table style=" border-collapse: collapse; ">
 		<tr><th>업장고유번호 :				</th><td><input type="text" id="restSeq" 			name="restSeq"  			size="50" value="${vo.restSeq}" 	class="required"  disabled/></td></tr>
 		<tr><th>업장명 :						</th><td><input type="text" id="restName" 			name="restName"  		size="50" value="${vo.restName}" class="required" /></td></tr>
@@ -40,14 +43,36 @@
 		<tr><th>전화번호  : 					</th><td><input type="text" id="restPhone" 			name="restPhone" 		size="50" value="${vo.restPhone}"/></td></tr>
 		<tr><th>위도  : 						</th><td><input type="text" id="restLatitude" 		name="restLatitude" 	size="50" value="${vo.restLatitude}" class="required"/></td></tr>
 		<tr><th>경도  :	 					</th><td><input type="text" id="restLongitude"	name="restLongitude" size="50" value="${vo.restLongitude}" class="required"/></td></tr>
-		<tr><th>업장 대표이미지  :	 		</th><td id="addImg"><img src="<%=request.getContextPath()%>/files/${vo.restImg}" id="currImg" width="300px;"><br/><br/><input type='file' id="restImg" name="restImg" /></td></tr>
+		<tr><th>업장 대표이미지  :	 		</th><td><img src="<%=request.getContextPath()%>/files/${vo.restImg}" id="currImg" width="300px;"><br/><br/>
+																		 <input type='file' id="attach" name="attach"  onchange='showCurrImg(this);'/></td></tr>
 		<tr><th>업장 소개글  :	 			</th><td><textarea id="restContent"		name="restContent"  rows="4" cols="48">${vo.restContent}</textarea></td></tr>
+		<tr>
+			<th>업장 소개이미지  :	 		</th>
+			<td>
+			<div id="currAdImgDiv"><img src="<%=request.getContextPath()%>/files/noImage.jpg" id="currAdImg" width="300px;"></div>
+			<c:set var="adImgNum" value="0"/>
+				<div id="adImages">
+					<c:if test="${not empty ravo.adImg}">
+					<c:forEach var="adImg" items="${ravo.adImg}" varStatus="status">
+						<img src="<%=request.getContextPath()%>/files/thumb${adImg}" name="thumbAdImg" id="${adImg}">&nbsp;
+						<c:set var="adImgNum" value="${status.count}"/>
+					</c:forEach>
+					</c:if>
+				</div>
+			<div id="inputFile">
+				<c:if test="${5-adImgNum > 0}">
+					<input type='file' class='attach0' name="attach" onchange='showCurrAdImg(this);'/>
+				</c:if>
+			</div>
+			</td>
+		</tr>
 		<tr><th>인근 지하철역  : 			</th><td><select id="metroId" name="metroId" class="required"></select> 
 		<tr>
 			<th style="border-top: solid 1px red; border-bottom: solid 1px red; border-left: solid 1px red;"><span style="color:red; font-weight:bold;">업장상태:</span></th>
 			<td style="border-top: solid 1px red;border-bottom: solid 1px red;border-right: solid 1px red;"><select id="restStatus" name="restStatus" class="required"><option value="0">이용가능</option><option value="1">삭제</option></select></td>
 		</tr>
 		<input type="hidden" name="dongId" />
+		<input type="hidden" name="delAdImgArr" />
 		</table>
 		</form>
 		<hr/> 
@@ -59,8 +84,22 @@
 	<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=0d211626a8ca667e54b95403a7ae692f&libraries=services"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery-2.0.0.js"></script>
 	<script type="text/javascript">
-	
+		
+		// 넘어온 String[] ravo.adImg.length의 길이를 구하는 데 에러가 나서 변수를 만들었다.
+		//alert('${adImgNum}');
+		var currNum = ${adImgNum};
+		
+		// 새로 생성된 thumbnail 이미지와 input태그 연결용 변수;
+		var c = 0;
+		
+		// 삭제할 사진이름이 담길 배열
+		var delAdImgArr = [];
+
 		$(document).ready(function(){
+			<c:if test='${not empty ravo.adImg}'>
+				$("#currAdImg").attr('src', '<%=request.getContextPath()%>/files/${ravo.adImg[0]}');
+			</c:if>
+
 			$("#searchAddr").focus();
 			getGradeName();
 			getMetroName();
@@ -74,11 +113,36 @@
 				showAddr($(this).val());	
 			});
 			
-			// 파일 인풋태그변화시 호출된다. 하지만, 새로 생성한  html 코드에 대해서는 적용되지 않는다.
-			$("[name=restImg]").change(function(){
-			    showCurrImg(this);
+			
+			// 정말 저장된 파일(배열에 담기)과  방금 올라온 사진은 분기해서 화면 감추기 작업 진행
+			$("[name=thumbAdImg]").click(function(){
+				
+				if(confirm('이 업장 소개사진을 삭제하시겠습니까?')){
+					delAdImgArr.push($(this).attr('id'));
+					
+					this.style.display = 'none';
+					
+					if (currNum == 5) {
+						var addHtml = "<br/><input type='file' name='attach' class='attach"+c+"' onchange='showCurrAdImg(this);'/>";
+					     $("#inputFile").append(addHtml);
+					}
+					
+					// 크게 보여주는 사진에서도 지우기
+					//alert($(this).attr('src'));
+					var str  = $(this).attr('src');
+					var srcStr = $('#currAdImg').attr('src');
+					//alert(str.indexOf('thumb'));//19
+					//alert(str.substring(24));//newFileName
+					//alert(srcStr.substring(srcStr.indexOf('files/')+6));
+					
+					if(str.substring(str.indexOf('thumb')+5) == srcStr.substring(srcStr.indexOf('files/')+6)){
+						$('#currAdImg').attr('src','<%=request.getContextPath()%>/files/noImage.jpg');
+					}
+					currNum--;
+				}
 			});
-		
+
+			
 		});//end of $(document).ready()
 		
 		// input 태그 엔터키 refresh 방지 및 form 주소 입력!
@@ -90,7 +154,7 @@
 			 return true;
 		}
 		
-		// test : 이미지 업로드시 바로 보여주는 코드
+		// 업장 대표 이미지 바로 보여주기
 		function showCurrImg(input) {
 			
 		    if (input.files && input.files[0]) {
@@ -102,8 +166,87 @@
 		
 		        reader.readAsDataURL(input.files[0]);
 		        
-		        var addHtml = "<br/><input type='file' name='restImg' onchange='showCurrImg(this);'/>";
-		        $("#addImg").append(addHtml);
+		    }
+		}
+		
+		// 가상 썸네일 이미지 감추기(input file은 실제로 지워야 한다.)
+		function goHide(elem){
+			//alert(elem.className);
+			
+			if(confirm('이 업장 소개사진을 삭제하시겠습니까?')){
+				elem.style.display = 'none';
+				
+				//alert($("input."+elem.className).prop('tagName'));
+				//alert($("input."+elem.className).val());
+				$("input."+elem.className).val('');
+				//alert($("input."+elem.className).val());
+				
+				/*input 파일타입을 reset 혹은 지우기 위한 뻘짓들*/
+				//var t = document.getElementById(elem.id);
+				//e.parentNode.removeChild(e);
+				//e.remove();
+				//$("#attach").remove();
+				//alert($("#attach").attr('type');// file
+				//$('#attach').replaceWith($('#attach').clone());
+				//$('#attach').val('');
+				//$('#attach').reset();
+				//$("#attach").hide();
+				//document.getElementById("attach").value ='';
+				//$("#attach").replaceWith($("#attach").val('').clone(true));	
+				
+				// 크게 보여주는 사진에서도 지우기
+				if($(elem).attr('src') == $('#currAdImg').attr('src')){
+					$('#currAdImg').attr('src','<%=request.getContextPath()%>/files/noImage.jpg');
+				}
+				
+				currNum--;
+			}
+		}
+		
+		
+		
+		// 업장 소개 이미지 업로드시 바로 보여주는 코드
+		function showCurrAdImg(input) {
+			
+			//alert(input.value);
+		    if (input.files && input.files[0]) {
+		        var reader = new FileReader();
+		
+		        reader.onload = function (e) {
+		            $('#currAdImg').attr('src', e.target.result);
+		            $('#currAdImg').attr('class', "attaach"+c);
+			        var thumbHtml = "<img src='"+ e.target.result+"' width='100px;' onclick='goHide(this)' class='attach"+c+"'/>&nbsp;";
+			        $("#adImages").append(thumbHtml);
+			        c++;
+		        }
+		
+		        reader.readAsDataURL(input.files[0]);
+		        
+		        // 비어있는 input 태그가 있다면 추가하지 않는다.
+		        var bool = true;
+		        
+		        $("#inputFile [name=attach]").each(function(){
+		        	//alert($(this).val());
+		        	if($(this).val() == '' || $(this).val() == null ){
+		        		bool = false;
+		        		return  false;
+		        		//return true; ==>  continue
+		        		//return false; ==> break
+		        	}	
+		        });
+		        
+		        // 기존의 input file에서 change가 되면 우째 막을 것인가?
+		        if (currNum < 5 && bool) {
+					currNum++;
+				} 
+		        
+		        //alert("currNum = "+currNum);
+		        
+		        if (currNum < 5 && bool){
+		        	 var addHtml = "<br/><input type='file' name='attach' class='attach"+c+"' onchange='showCurrAdImg(this);'/>";
+				        $("#inputFile").append(addHtml);
+		        }
+		     
 		    }
 		}
 
@@ -122,13 +265,18 @@
 				} 
 			});
 			
+				//삭제할 소개이미지 전송
+				editFrm.delAdImgArr.value = delAdImgArr;
 				editFrm.dongId.value = dongId;
+				
 				//editFrm.restArr.disabled = false;
 				//editFrm.restSeq.disabled = false;
 				$("#restAddr").prop('disabled', false);
 				$("#restSeq").prop('disabled', false);
 				editFrm.method="post";
 				editFrm.action="<%=request.getContextPath()%>/adminRestEditEnd.eat";
+				
+				//alert(delAdImgArr[0]+", "+delAdImgArr[1]);
 				editFrm.submit();
 				
 		

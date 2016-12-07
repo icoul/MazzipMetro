@@ -132,5 +132,10 @@ public class RestaurantService implements IService{
 		return menuList;
 	}
 
+	public List<RestaurantVO> restListStatistics(String userSeq) {
+		List<RestaurantVO> restList = dao.restListStatistics(userSeq);
+		return restList;
+	}
+
 	
 }

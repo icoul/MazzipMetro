@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.ContentVO;
+import com.go.mazzipmetro.vo.RestaurantAdVO;
 import com.go.mazzipmetro.vo.UserVO;
 
 @Repository
@@ -57,6 +58,26 @@ public class AdminDAO implements IDAO{
 	// 관리자용 업장 수정 요청 
 	public int adminRestEdit(RestaurantVO vo) {
 		return sqlSession.insert("restaurant.adminRestEditEnd", vo);
+	}
+
+	// 관리자용 업장 수정 요청 (AdImg 이름 요청)
+	public List<String> adminRestAdImgInfo(String restSeq) {
+		return sqlSession.selectList("restaurant.adminRestAdImgInfo", restSeq);
+	}
+
+	//업장 소개 이미지 삭제
+	public int delRestAd(HashMap<String, String> map) {
+		return sqlSession.update("restaurant.delRestAd", map);
+	}
+
+	//업장 소개 이미지 삭제
+	public int insertRestAd(HashMap<String, String> map) {
+		return sqlSession.insert("restaurant.insertRestAd", map);
+	}
+	
+	// 관리자용 회원 수정 - 한명회원 정보 불러오기
+	public HashMap<String, String> adminUserInfo(String userSeq) {
+		return sqlSession.selectOne("admin.adminUserInfo", userSeq);
 	}
 
 	

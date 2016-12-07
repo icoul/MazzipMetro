@@ -58,8 +58,8 @@ public class MapController {
 			String restSeq = vo.getRestSeq();
 			restSeqList.add(restSeq);
 		}
-		
-		List<TagVO> tagList = service.getRestTag(restSeqList);
+//		
+//		List<TagVO> tagList = service.getRestTag(restSeqList);
 		
 		// 업장 추가 이미지 가져오기(thumbnail이미지와 원래이미지 모두)
 		List<RestaurantAdVO> adImgList = service.getAdImg(restSeqList);
@@ -71,7 +71,7 @@ public class MapController {
 //		req.setAttribute("jObj", jObj);
 		
 		req.setAttribute("metroName", metroName);
-		req.setAttribute("tags", tagList);
+		//req.setAttribute("tags", tagList);
 		req.setAttribute("places", list);
 		req.setAttribute("adImgList", adImgList);
 		return "/maps/ajax/getBest5RestInMetroMap";
@@ -152,21 +152,27 @@ public class MapController {
 		map.put("userSeq", userSeq);
 		map.put("restStatus", restStatus);
 		
+		// map으로 가져오기
 		List<HashMap<String, String>> list = service.getRestaurantList(map);
 		
+		// vo로 가져오기
+		//List<RestaurantVO> list = service.getRestaurantVOList(map);
 		// 업장 태그 가져오기(보류)
-		/*List<String> restSeqList = new ArrayList<String>();
+//		List<String> restSeqList = new ArrayList<String>();
+//		
+//		for (HashMap<String, String> seqMap : list) {
+//			String restSeq = seqMap.get("restSeq");
+//			restSeqList.add(restSeq);
+//		}
+//		
+//		List<TagVO> tagList = service.getRestTag(restSeqList);
 		
-		for (HashMap<String, String> seqMap : list) {
-			String restSeq = seqMap.get("restSeq");
-			restSeqList.add(restSeq);
-		}
-		
-		List<TagVO> tagList = service.getRestTag(restSeqList);*/
+		// 업장 태그 가져오기(태그가 있는 행만 가져오기) : 태그 테이블 삭제
+		/*List<TagVO> tagList = service.temp_getRestTag();*/
 		
 		JSONObject jObj = new JSONObject();
 		jObj.put("positions", list);
-//		jObj.put("tags", tagList);
+		//jObj.put("tags", tagList);
 		
 		req.setAttribute("jObj", jObj);
 		return "/maps/ajax/getRestaurantList";
@@ -273,14 +279,14 @@ public class MapController {
 		List<RestaurantVO> list = service.searchByMetro(map);
 		
 		//음식점 태그 가져오기
-		List<String> restSeqList = new ArrayList<String>();
+		/*List<String> restSeqList = new ArrayList<String>();
 		
 		for (RestaurantVO vo : list) {
 			String restSeq = vo.getRestSeq();
 			restSeqList.add(restSeq);
-		}
+		}*/
 		
-		List<TagVO> tagList = service.getRestTag(restSeqList);
+		//List<TagVO> tagList = service.getRestTag(restSeqList);
 		
 		String pageBar = "";
 		pageBar += "<ul>";
@@ -348,7 +354,7 @@ public class MapController {
 		
 		JSONObject jObj = new JSONObject();
 		jObj.put("places", list);
-		jObj.put("tagList", tagList);
+		//jObj.put("tagList", tagList);
 		jObj.put("pageBar", pageBar);
 		
 		req.setAttribute("jObj", jObj);

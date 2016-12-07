@@ -67,6 +67,11 @@ public class MapService  implements IService {
 					
 		}
 
+		// vo로 가져오기
+		public List<RestaurantVO> getRestaurantVOList(HashMap<String, String[]> map) {
+			return dao.getRestaurantVOList(map); 
+		}
+		
 		// 지하철역별 등록된 음식점 보여주기
 		public List<RestaurantVO> searchByMetro(HashMap<String, String> map) {
 			List<RestaurantVO> list = dao.searchByMetro(map);
@@ -74,7 +79,7 @@ public class MapService  implements IService {
 		}
 		
 		// 지하철역별 등록된 음식점 보여주기(음식점 태그 가져오기)
-		public List<TagVO> getRestTag(List<String> restSeqList) {
+		/*public List<TagVO> getRestTag(List<String> restSeqList) {
 			List<TagVO>  list = new ArrayList<TagVO>();
 			int i = 0;
 			for (String restSeq : restSeqList) {
@@ -89,7 +94,7 @@ public class MapService  implements IService {
 			}
 			
 			return list;
-		}
+		}*/
 		
 
 		// 지하철역별 등록된 음식점 보여주기(해당역 총 음식점 개수)
@@ -178,6 +183,24 @@ public class MapService  implements IService {
 			}
 			return list;
 		}
+
+
+		// 업장 태그 가져오기(태그가 있는 행만 가져오기)	: 테그 테이블 삭제
+/*		public List<TagVO> temp_getRestTag() {
+			List<String> seqList = dao.temp_getRestSeqForTags();
+			List<TagVO> tagsList = new ArrayList<TagVO>();
+			
+			for (String restSeq : seqList) {
+				
+				TagVO vo = new TagVO();
+				vo.setRestSeq(restSeq);
+				vo.setBgCat(dao.getRestBgTag(restSeq));
+				vo.setMdCat(dao.getRestMdTag(restSeq));
+				tagsList.add(vo);
+			}
+			
+			return tagsList;
+		}*/
 
 
 		

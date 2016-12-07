@@ -11,6 +11,7 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
+<%-- 개인 사용자의 메뉴바 이동버튼 Ajax --%>
 	$("#userEditBtn").click(function(){
 		$.ajax({
 			url:"http://localhost:9090/mazzipmetro/userEdit.eat",
@@ -34,6 +35,21 @@ $(document).ready(function(){
 			}
 		});
 	});
+	
+<%-- 사업자의 메뉴바 이동버튼 Ajax --%>
+	$("#userStatisticsBtn").click(function(){
+		$.ajax({
+			url:"http://localhost:9090/mazzipmetro/restListStatistics.eat",
+			type:"GET",
+			datatype:"html",
+			success:function(data) {
+				$("#userInfo").empty();
+				$("#userInfo").html(data);
+			}
+		});
+	});
+	
+	
 });
 </script>
 
@@ -89,7 +105,11 @@ $(document).ready(function(){
 	</tr>
 </table>
 </c:if>
-<div id="userInfo" style="margin-top:60px;">
+<div id="userInfo" style="margin-top:60px; position: relative;">
+</div>
+
+<div id="statistics" style="margin-top:60px;">
+
 </div>
 </div>
 </body>

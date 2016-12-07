@@ -2,6 +2,7 @@ package com.go.mazzipmetro.controller;
 
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -41,13 +42,11 @@ public class BossController {
 	public String busiCoinResi(HttpServletRequest req) {
 		HttpSession ses = req.getSession();
 		UserVO loginUser = (UserVO)ses.getAttribute("loginUser");
-		loginUser = userService.getLoginUser(loginUser.getUserEmail());
-		ses.setAttribute("loginUser", loginUser);
 		
-		String restSeq = service.getRestSeq(loginUser.getUserSeq());
-		req.setAttribute("restSeq", restSeq);
+		List<HashMap<String, String>> list = service.getRestSeq(loginUser.getUserSeq());
 		
-		//System.out.println(">>>>>>>>확인용"+loginUser.getUserPoint());
+		req.setAttribute("list", list);
+		
 		return "boss/bossCoinResi";
 		
 	}
@@ -91,6 +90,9 @@ public class BossController {
 		else if (result > 0) {
 			msg ="충전되셨습니다.";
 			loc ="javascript:history.back();";
+			loginUser = (UserVO)ses.getAttribute("loginUser");
+			loginUser = userService.getLoginUser(loginUser.getUserEmail());
+			ses.setAttribute("loginUser", loginUser);
 		}
 		
 		req.setAttribute("msg", msg);
@@ -143,6 +145,11 @@ public class BossController {
 		else if (result > 0) {
 			msg ="결제 되셨습니다.";
 			loc ="javascript:location.href='bossCoinResi.eat';";
+			
+			ses = req.getSession();
+			loginUser = (UserVO)ses.getAttribute("loginUser");
+			loginUser = userService.getLoginUser(loginUser.getUserEmail());
+			ses.setAttribute("loginUser", loginUser);
 		}
 		
 		req.setAttribute("msg", msg);
@@ -165,9 +172,9 @@ public class BossController {
 		
 		
 		String userSeq = req.getParameter("userSeq");
-		String restSeq = req.getParameter("restSeq");
+		String restSeq = req.getParameter("linkRestSeq");
 		String str_userPoint = req.getParameter("userPoint");
-		
+		//System.out.println("확인용" + restSeq);
 		
 		map.put("userSeq", userSeq);
 		map.put("restSeq", restSeq);
@@ -201,6 +208,10 @@ public class BossController {
 		else if (result > 0) {
 			msg ="결제 되셨습니다.";
 			loc ="javascript:location.href='bossCoinResi.eat';";
+			ses = req.getSession();
+			loginUser = (UserVO)ses.getAttribute("loginUser");
+			loginUser = userService.getLoginUser(loginUser.getUserEmail());
+			ses.setAttribute("loginUser", loginUser);
 		}
 		
 		req.setAttribute("msg", msg);
@@ -220,9 +231,10 @@ public class BossController {
 		
 		
 		String userSeq = req.getParameter("userSeq");
-		String restSeq = req.getParameter("restSeq");
+		String restSeq = req.getParameter("recomRestSeq");
 		String str_userPoint = req.getParameter("userPoint");
 		//** 나중에 session 에서 vo를 가져와서 get(userPoint)해서 가져와야함.
+		//System.out.println("확인용"+restSeq);
 		
 		
 		map.put("userSeq", userSeq);
@@ -255,6 +267,10 @@ public class BossController {
 		else if (result > 0) {
 			msg ="결제 되셨습니다.";
 			loc ="javascript:location.href='bossCoinResi.eat';";
+			ses = req.getSession();
+			loginUser = (UserVO)ses.getAttribute("loginUser");
+			loginUser = userService.getLoginUser(loginUser.getUserEmail());
+			ses.setAttribute("loginUser", loginUser);
 		}
 		
 		req.setAttribute("msg", msg);

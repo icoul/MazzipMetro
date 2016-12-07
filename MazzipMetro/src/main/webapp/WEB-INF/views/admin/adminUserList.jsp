@@ -55,9 +55,8 @@ function goUserDel(userSeq){
 }
 
 function goUserEdit(userSeq){
-	userEditFrm.action="adminUserEdit.eat";
-	userEditFrm.method="post";
-	userEditFrm.submit();
+	var url = "adminUserEdit.eat?userSeq="+userSeq;
+	window.open(url, "adminUserEdit", "left=350px, top=100px, width=550px, height=500px, status=no, scrollbars=yes");
 }
 
 </script>
@@ -103,10 +102,8 @@ function goUserEdit(userSeq){
 				<td>${vo.userRegDate}</td>
 				<td>${vo.userPoint}</td>
 				<td>
-					<form name="userEditFrm"  action="<%= request.getContextPath() %>/adminUserEdit.eat" method="post">
-						<button class="btnGray" onClick="goUserEdit();" style="margin-top:0; width:40px;">수정</button>
-						<input type="hidden" name="userSeq" value="${vo.userSeq}" />
-					</form>
+					<button class="btnGray" onClick="goUserEdit('${vo.userSeq}');" style="margin-top:0; width:40px;">수정</button>
+					<input type="hidden" name="userSeq" value="${vo.userSeq}" />
 					<form name="userDelFrm"  action="<%= request.getContextPath() %>/adminUserDel.eat" method="post">
 						<button class="btnGray" onClick="goUserDel();" style="margin-top:0; width:40px;">삭제</button>
 						<input type="hidden" name="userSeq" value="${vo.userSeq}" />
