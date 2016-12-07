@@ -67,6 +67,11 @@ public class MapService  implements IService {
 					
 		}
 
+		// vo로 가져오기
+		public List<RestaurantVO> getRestaurantVOList(HashMap<String, String[]> map) {
+			return dao.getRestaurantVOList(map); 
+		}
+		
 		// 지하철역별 등록된 음식점 보여주기
 		public List<RestaurantVO> searchByMetro(HashMap<String, String> map) {
 			List<RestaurantVO> list = dao.searchByMetro(map);
@@ -178,6 +183,7 @@ public class MapService  implements IService {
 			}
 			return list;
 		}
+
 
 		// 업장 태그 가져오기(태그가 있는 행만 가져오기)	: 테그 테이블 삭제
 /*		public List<TagVO> temp_getRestTag() {

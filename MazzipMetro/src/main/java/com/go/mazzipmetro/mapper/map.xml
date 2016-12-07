@@ -57,11 +57,10 @@
 		<result column="restMdTag" 		property="restMdTag" 		javaType="String"/> 
 		<result column="dongName" 		property="dongName" 		javaType="String"/> 
 		<result column="guName" 			property="guName" 			javaType="String"/> 	
-		<result column="restLongitude" 	property="lng" 					javaType="String"/>
-		<result column="restLatitude" 		property="lat" 					javaType="String" />  
+		<result column="restLongitude" 	property="restLongitude" 	javaType="String"/>
+		<result column="restLatitude" 		property="restLatitude" 	javaType="String" />  
 	</resultMap>
 	
-	<!-- <select id="getRestaurantList" parameterType="java.util.HashMap" resultType="com.go.mazzipmetro.vo.RestaurantVO"> -->
 	<select id="getRestaurantList" parameterType="java.util.HashMap" resultMap="restaurantList">
 		select A.restName
 				, A.restSeq
@@ -123,6 +122,62 @@
 		</if>
 		
 	</select>
+	
+	<!-- vo로 가져오기 -->
+	<select id="getRestaurantVOList" parameterType="java.util.HashMap" resultType="com.go.mazzipmetro.vo.RestaurantVO"> 
+		select A.*
+				, B.guName
+		from (
+			select A.*, B.dongName, B.guId
+			from (
+				select A.*, B.metroName
+				from tbl_restaurant A left join tbl_metro B
+				on A.metroId = B.metroId) A 
+			left join tbl_dong B
+			on A.dongId = B.dongId) A
+		left join tbl_gu B
+		on A.guId = B.guId
+		where 1 = 1
+		
+		<!-- 키워드로 통합 검색하는 경우 -->
+		<if test="srchType[0].equals('all') and keyword[0] != '' ">
+			and ( restName like '%'||#{keyword[0]}||'%' 
+				or metroName like '%'||#{keyword[0]}||'%'
+				or dongName like '%'||#{keyword[0]}||'%'
+				or guName like '%'||#{keyword[0]}||'%' )
+		</if>
+		<!-- 키워드로 검색하는 경우 (1.음식점이름 2. 해당지하철 3. 해당 동 4. 해당 ) -->
+		<if test="!srchType[0].equals('all') and keyword[0] != null">
+			and ${srchType[0]} like '%'||#{keyword[0]}||'%'
+		</if>
+		
+		
+		<!-- 		태그명(대분류,중분류)검 -->
+		<if test="restTagArr != null">
+			and A.restSeq in (select distinct(restSeq)
+					                  from tbl_restaurant_tag
+					                  where tagName in
+									<foreach collection="restTagArr"  index="i" open="(" close=")" separator=",">
+										'${restTagArr[i]}'
+									</foreach>
+									 )
+		</if>
+		<!-- 업주 조건절 -->
+		<if test="!userSeq[0].equals('all')">
+			<if test="userSeq[0].equals('admin')">and A.userSeq = 0</if>
+			<if test="userSeq[0].equals('notAdmin')">and A.userSeq != 0 </if>
+			
+			<!-- <if test="userSeq[0].equals('0')">and A.userSeq = 0</if> -->
+			<!-- <if test="userSeq[0].equals('1')">and A.userSeq != 0 </if> -->
+		</if>
+			
+		<!-- 삭제 여부 조건절 -->
+		<if test="!restStatus[0].equals('all')">
+			and A.restStatus = #{restStatus[0]}
+		</if>
+	</select>
+	
+	
 	
 	<!-- 지하철역별 등록된 음식점 보여주기 (페이징)-->
 	<select id="searchByMetro" parameterType="java.util.HashMap" resultType="com.go.mazzipmetro.vo.RestaurantVO">

@@ -37,11 +37,17 @@ public class MapDAO  implements IDAO {
 		//System.out.println(map.get("keyword")[0] == null); //false
 		return sqlSession.selectList("map.getRestaurantList", map);
 	}
+	
+	// vo로 가져오기
+	public List<RestaurantVO> getRestaurantVOList(HashMap<String, String[]> map) {
+		return sqlSession.selectList("map.getRestaurantVOList", map);
+	}
 
 	// 지하철역별 등록된 음식점 보여주기
 	public List<RestaurantVO> searchByMetro(HashMap<String, String> map) {
 		return sqlSession.selectList("map.searchByMetro", map);
 	}
+	
 	
 	// metroMap tooltip 정보 가져오기
 	public List<RestaurantVO> getBest5RestInMetroMap(String metroId) {
@@ -112,6 +118,7 @@ public class MapDAO  implements IDAO {
 		
 		return adImgArr;
 	}
+
 
 	// 업장 restSeq 가져오기(태그가 있는 행만 가져오기) : tag 테이블 삭제
 	/*public List<String> temp_getRestSeqForTags() {

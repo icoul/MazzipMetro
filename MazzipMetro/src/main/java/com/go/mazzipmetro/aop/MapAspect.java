@@ -30,7 +30,7 @@ public class MapAspect {
 		
 	}*/
 	
-	@Around("pc1()") 
+	/*@Around("pc1()") 
 	public void arround(ProceedingJoinPoint joinPoint) throws Throwable {
 
 		// 보조업무 시작
@@ -52,7 +52,7 @@ public class MapAspect {
 
 		}
 
-	}
+	}*/
 	
 	/*
 	@AfterReturning(pointcut="pc1()", returning="data")

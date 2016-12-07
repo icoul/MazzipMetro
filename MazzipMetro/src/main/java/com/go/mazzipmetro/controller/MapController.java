@@ -152,8 +152,11 @@ public class MapController {
 		map.put("userSeq", userSeq);
 		map.put("restStatus", restStatus);
 		
+		// map으로 가져오기
 		List<HashMap<String, String>> list = service.getRestaurantList(map);
 		
+		// vo로 가져오기
+		//List<RestaurantVO> list = service.getRestaurantVOList(map);
 		// 업장 태그 가져오기(보류)
 //		List<String> restSeqList = new ArrayList<String>();
 //		
