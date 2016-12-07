@@ -179,6 +179,23 @@ public class MapService  implements IService {
 			return list;
 		}
 
+		// 업장 태그 가져오기(태그가 있는 행만 가져오기)	: 테그 테이블 삭제
+/*		public List<TagVO> temp_getRestTag() {
+			List<String> seqList = dao.temp_getRestSeqForTags();
+			List<TagVO> tagsList = new ArrayList<TagVO>();
+			
+			for (String restSeq : seqList) {
+				
+				TagVO vo = new TagVO();
+				vo.setRestSeq(restSeq);
+				vo.setBgCat(dao.getRestBgTag(restSeq));
+				vo.setMdCat(dao.getRestMdTag(restSeq));
+				tagsList.add(vo);
+			}
+			
+			return tagsList;
+		}*/
+
 
 		
 		
