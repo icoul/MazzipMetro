@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -250,6 +251,15 @@ public class MazzipMetroController {
 			String qnaSearch = req.getParameter("qnaSearch");   //검색어
 			String qnaInquiry = req.getParameter("qnaInquiry"); //문의 유형 - 회원, 음식점, 사업주, 기타
 			String qnaProgress = req.getParameter("qnaProgress"); //처리과정 접수완료, 답변완료
+			
+			if(qnaColName == null){
+				qnaColName = "userName";
+			}
+			
+			
+			if(qnaInquiry == null){
+				qnaInquiry = "전체";
+			}
 			
 			if(qnaProgress == null){
 				qnaProgress = "전체";
@@ -555,6 +565,15 @@ public class MazzipMetroController {
 			String qnaSearch = req.getParameter("qnaSearch");
 			String qnaInquiry = req.getParameter("qnaInquiry");
 			String qnaProgress = req.getParameter("qnaProgress");
+			
+			
+			if(qnaColName == null){
+				qnaColName = "userName";
+			}
+			
+			if(qnaInquiry == null){
+				qnaInquiry = "전체";
+			}
 			
 			if(qnaProgress == null){
 				qnaProgress = "전체";
@@ -981,7 +1000,7 @@ public class MazzipMetroController {
 			int result = service.deleteQna(qnaSeqArr);
 			
 			String loc =  String.format(
-					"adminQnaList.eat?qnaRegYearStart=%s&qnaRegMonthStart=%s&qnaRegDayStart=%s&qnaRegYearEnd=%s&qnaRegMonthEnd=%s&qnaRegDayEnd=%s&qnaInquiry=%s&qnaColName=%s&qnaSearch=%s&qnaProgress=%s",
+					"myQnaList.eat?qnaRegYearStart=%s&qnaRegMonthStart=%s&qnaRegDayStart=%s&qnaRegYearEnd=%s&qnaRegMonthEnd=%s&qnaRegDayEnd=%s&qnaInquiry=%s&qnaColName=%s&qnaSearch=%s&qnaProgress=%s",
 					qnaRegYearStart,qnaRegMonthStart,qnaRegDayStart,qnaRegYearEnd ,qnaRegMonthEnd,qnaRegDayEnd,qnaInquiry, qnaColName, qnaSearch,qnaProgress);
 			
 			if(count + qnaSeqArr.length == result){
@@ -991,7 +1010,7 @@ public class MazzipMetroController {
 				
 			}else{
 				req.setAttribute("msg", "삭제가 실패되었습니다.");
-				req.setAttribute("loc", loc);
+				req.setAttribute("loc", "javascript:history.back();");
 			}
 			
 			return "QnA/msg";
@@ -1020,10 +1039,18 @@ public class MazzipMetroController {
 		public String faqListByType(HttpServletRequest req) {
 			String faqType = req.getParameter("faqType");
 			List<FaqVO> faqList = service.getFaqListByType(faqType);
+			String count = req.getParameter("count");
+			
+			if(count == null){
+				count = "0";
+			}
 			
 			req.setAttribute("faqList", faqList);
 			req.setAttribute("faqType", faqType);
-			req.setAttribute("faqListSize", faqList.size());
+			req.setAttribute("count", count);
 			return "QnA/faqListByType";
 		}
+		
+		
+		
 }

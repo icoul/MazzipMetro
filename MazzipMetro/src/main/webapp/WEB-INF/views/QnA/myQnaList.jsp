@@ -216,7 +216,11 @@
 		                    </tr>
                     	</c:forEach>
                     </c:if>
-                    
+                     <c:if test="${empty myQnaList }">
+                     	<tr>
+                     		<td align="center" colspan="8">문의 내역이 없습니다.</td>
+                     	</tr>
+                     </c:if>
                 </tbody>
             </table>
             

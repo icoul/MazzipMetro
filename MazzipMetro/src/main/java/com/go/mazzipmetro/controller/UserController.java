@@ -539,4 +539,20 @@ public class UserController {
 		
 		return "user/userLogin";
 	}
+	
+	///////////////////////////////출석관련 컨트롤러//////////////////////////////////////////
+	@RequestMapping(value="/userAttend.eat", method={RequestMethod.GET})
+	public String loginEnd(HttpServletRequest req, HttpServletResponse res){
+		
+		HttpSession session = req.getSession();
+		session.invalidate();
+		
+		String msg = "로그아웃되었습니다";
+		String loc = "index.eat";
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
+		
+		return "user/userLogin";
+	}
 }
