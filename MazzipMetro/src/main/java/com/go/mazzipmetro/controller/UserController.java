@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 
@@ -374,7 +376,7 @@ public class UserController {
 		return "user/userMyPage";
 	} // end : userMyPage
 
-	// 로그인 처리
+	// 로그아웃 처리
 	@RequestMapping(value="/logOut.eat", method={RequestMethod.GET})
 	public String UserLogOut(HttpServletRequest req, HttpServletResponse res){
 		
@@ -383,6 +385,11 @@ public class UserController {
 		
 		String msg = "로그아웃되었습니다";
 		String loc = "index.eat";
+		
+		Cookie cookieAutoLogin = new Cookie("dx_autoLogin", "yes");
+		cookieAutoLogin.setMaxAge(0);
+		cookieAutoLogin.setPath("/");
+		res.addCookie(cookieAutoLogin);
 		
 		req.setAttribute("msg", msg);
 		req.setAttribute("loc", loc);
@@ -398,6 +405,7 @@ public class UserController {
 		String userPw = req.getParameter("dx_password");
 		String rememberId = req.getParameter("dx_rememberId");
 		String rememberPwd = req.getParameter("dx_rememberPwd");
+		String autoLogin = req.getParameter("dx_autoLogin");
 		
 		HttpSession ses = req.getSession();
 		
@@ -438,7 +446,7 @@ public class UserController {
 			
 			UserVO loginUser = service.getLoginUser(userEmail);
 						
-			System.out.println("확인용 loginusercheck");
+			//System.out.println("확인용 loginusercheck");
 			
 			msg = loginUser.getUserName() + "님, 환영합니다.";
 			loc = "index.eat";			
@@ -459,8 +467,19 @@ public class UserController {
 			// * checked : 쿠키 저장
 			// * unchecked : 쿠키 삭제
 			
-			Cookie cookieId = new Cookie("rememberId", loginUser.getUserName());
-			Cookie cookiePwd = new Cookie("rememberPwd", loginUser.getUserPw());//비보안
+//			Cookie cookieId = new Cookie("rememberId", loginUser.getUserEmail());
+//			Cookie cookiePwd = new Cookie("rememberPwd", loginUser.getUserPw());//비보안
+			
+			Cookie cookieId=null, cookiePwd=null
+					, cookieAutoLogin = new Cookie("dx_autoLogin", "yes");
+			
+			try {
+				cookieId = new Cookie("rememberId", URLEncoder.encode(loginUser.getUserEmail(), "UTF-8"));
+				cookiePwd = new Cookie("rememberPwd", URLEncoder.encode(loginUser.getUserPw(), "UTF-8"));//비보안
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			//로그인 하는 사용자의 아이디값을 "rememberId" 문자열을 키값으로 하는 쿠키객체를 생성한다. 
 			//파라미터 타입은 Cookie(String name, String value)이다.
 			
@@ -480,14 +499,22 @@ public class UserController {
 				cookiePwd.setMaxAge(0);
 			}
 			
+			if (cookieAutoLogin != null) {
+				cookieAutoLogin.setMaxAge(7*24*60*60);
+			} else {
+				cookieAutoLogin.setMaxAge(0);
+			}
+			
 			cookieId.setPath("/");
 			cookiePwd.setPath("/");
+			cookieAutoLogin.setPath("/");
 			//쿠키가 사용되어질 디렉토리 정보 설정.
 			// cookie.setPath("디렉토리");
 			// "/" : 해당 도메인의 모든 페이지에서 사용가능하다.
 			
-			/*res.addCookie(cookieId);
-			res.addCookie(cookiePwd);*/
+			res.addCookie(cookieId);
+			res.addCookie(cookiePwd);
+			res.addCookie(cookieAutoLogin);
 			//사용자의 웹브라우져로 쿠키를 전송시킨다.(response 객체에 담는다.)
 			//이로서, 우리는 7일간 사용가능한 쿠키를 전송할 수도 있고,
 			//0초짜리 쿠키(쿠키삭제)를 사용자 웹브라우져로 전송한다.
@@ -532,6 +559,7 @@ public class UserController {
 		
 		String msg = "로그아웃되었습니다";
 		String loc = "index.eat";
+		
 		
 		req.setAttribute("msg", msg);
 		req.setAttribute("loc", loc);
