@@ -234,7 +234,7 @@ public class BossController {
 		String restSeq = req.getParameter("recomRestSeq");
 		String str_userPoint = req.getParameter("userPoint");
 		//** 나중에 session 에서 vo를 가져와서 get(userPoint)해서 가져와야함.
-		System.out.println("확인용"+restSeq);
+		//System.out.println("확인용"+restSeq);
 		
 		
 		map.put("userSeq", userSeq);
