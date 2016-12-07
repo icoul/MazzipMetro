@@ -155,18 +155,21 @@ public class MapController {
 		List<HashMap<String, String>> list = service.getRestaurantList(map);
 		
 		// 업장 태그 가져오기(보류)
-		/*List<String> restSeqList = new ArrayList<String>();
+//		List<String> restSeqList = new ArrayList<String>();
+//		
+//		for (HashMap<String, String> seqMap : list) {
+//			String restSeq = seqMap.get("restSeq");
+//			restSeqList.add(restSeq);
+//		}
+//		
+//		List<TagVO> tagList = service.getRestTag(restSeqList);
 		
-		for (HashMap<String, String> seqMap : list) {
-			String restSeq = seqMap.get("restSeq");
-			restSeqList.add(restSeq);
-		}
-		
-		List<TagVO> tagList = service.getRestTag(restSeqList);*/
+		// 업장 태그 가져오기(태그가 있는 행만 가져오기) : 태그 테이블 삭제
+		/*List<TagVO> tagList = service.temp_getRestTag();*/
 		
 		JSONObject jObj = new JSONObject();
 		jObj.put("positions", list);
-//		jObj.put("tags", tagList);
+		//jObj.put("tags", tagList);
 		
 		req.setAttribute("jObj", jObj);
 		return "/maps/ajax/getRestaurantList";

@@ -475,5 +475,18 @@ public class RestaurantController {
 //		System.out.println("확인용 DisplayJSONAction.java       productList size : " + ListOfReview.size()); // 확인용
 		return "review/ReviewListAjax";
 	}
+	
+	// 업장 리스트를 불러오는 메서드
+		@RequestMapping(value="/restListStatistics.eat", method={RequestMethod.GET})
+		public String restListStatistics(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+			String userSeq = loginUser.getUserSeq();
+					
+			List<RestaurantVO> restList = service.restListStatistics(userSeq);
+			
+			req.setAttribute("restList", restList);
+			
+			return "user/restListStatistics";
+		}
 }
 
