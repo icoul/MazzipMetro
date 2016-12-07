@@ -143,4 +143,6 @@
 		from tbl_qna
 		where qnaProgress = '답변완료' and qnaStatus = 0 and userSeq = #{userSeq}
 	</select>
+	
+	
 </mapper>
