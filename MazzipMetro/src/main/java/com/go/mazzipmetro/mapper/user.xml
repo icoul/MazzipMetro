@@ -174,11 +174,11 @@
 	</select>
 	
 	<insert id="insertAttend" parameterType="String">
-		insert into tbl_userAttend values(tbl_userAttendSeq.nextval, #{userSeq}, 1, 1, 0, sysdate + 9/24 + 4/24/60, default, default)
+		insert into tbl_userAttend values(#{userSeq}, 1, 1, sysdate + 9/24 + 4/24/60, default, default)
 	</insert>
 	
 	<update id="updateUserPoint1" parameterType="String">
-		update tbl_user set userPoint =  userPoint + 3 where userSeq = #{userSeq}
+		update tbl_user set userPoint =  userPoint + 3, userExp = userExp + 15 where userSeq = #{userSeq}
 	</update>
 	
 	<select id="userLoginToday" parameterType="String" resultType="int">
@@ -193,13 +193,22 @@
 	</select>
 	
 	<select id="getUserAttend" parameterType="String" resultType="com.go.mazzipmetro.vo.UserAttendVO">
-		select attendSeq, userSeq, allAttendDay, continueAttendDay, contiueStatus, to_char(attendLastDay, 'yyyy-mm-dd hh24:mi:ss') as attendLastDay, userRandomBox
+		select userSeq, allAttendDay, continueAttendDay, to_char(attendLastDay, 'yyyy-mm-dd hh24:mi:ss') as attendLastDay, userRandomBox
 		from tbl_userAttend
 		where userSeq = #{userSeq}
 	</select>
 	
-	<update id="updateUserAttend" parameterType="String">
-		update tbl_userAttend set allAttendDay = allAttendDay + 1, continueAttendDay = continueAttendDay + 1, attendLastDay = sysdate + 9/24 + 4/24/60
+	<update id="updateUserAttend" parameterType="java.util.HashMap" >
+		update tbl_userAttend set allAttendDay = allAttendDay + 1,
+		 
+		 <if test="continueCheck == 0">
+		 continueAttendDay = 1,
+		 </if>
+		 
+		  <if test="continueCheck == 1">
+		 continueAttendDay = continueAttendDay +1, 
+		 </if>
+		 attendLastDay = sysdate + 9/24 + 4/24/60
 		 where userSeq = #{userSeq}
 	</update>
 	
@@ -222,6 +231,7 @@
 		<if test="contineuAttendDay == 20">
 			70
 		</if>
+		, userExp = userExp + 15
 		 where userSeq = #{userSeq}
 	</update>
 	
@@ -244,5 +254,10 @@
 		
 	</update>
 	
+	<select id="userLoginContinueCheck" parameterType="java.util.HashMap" resultType="int">
+		select count(*)
+		from tbl_userAttend
+		where to_char(to_date(#{attendLastDay}, 'yyyy-mm-dd hh24:mi:ss'), 'yyyy-mm-dd hh24:mi:ss') between to_char(sysdate-1 , 'YYYY-MM-DD ') || '00:00:00' and to_char(sysdate-1 , 'YYYY-MM-DD ') || '23:59:59' and userSeq = #{userSeq}
+	</select>
 	
 </mapper>

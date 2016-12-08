@@ -117,9 +117,15 @@ public class UserService implements IService {
 	}
 
 
-	public int updateUserAttend(String userSeq) {
-		int n = dao.updateUserAttend(userSeq);
+	public int updateUserAttend(HashMap<String, String> hashMap) {
+		int n = dao.updateUserAttend(hashMap);
 		return n;
+	}
+
+
+	public int userLoginContinueCheck(HashMap<String, String> hashMap) {
+		int isLoginContinue = dao.userLoginContinueCheck(hashMap);
+		return isLoginContinue;
 	}
 
 	

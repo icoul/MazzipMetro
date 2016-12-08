@@ -113,8 +113,8 @@ public class UserDAO implements IDAO{
 	}
 
 
-	public int updateUserAttend(String userSeq) {
-		int n = sqlSession.update("updateUserAttend", userSeq);
+	public int updateUserAttend(HashMap<String, String> hashMap) {
+		int n = sqlSession.update("updateUserAttend", hashMap);
 		return n;
 	}
 
@@ -129,6 +129,13 @@ public class UserDAO implements IDAO{
 	public int updateRandomBox(HashMap<String, String> hashMap) {
 		int f = sqlSession.update("updateRandomBox", hashMap);
 		return f;
+	}
+
+
+
+	public int userLoginContinueCheck(HashMap<String, String> hashMap) {
+		int isLoginContinue = sqlSession.selectOne("userLoginContinueCheck", hashMap);
+		return isLoginContinue;
 	}
 
 

@@ -593,8 +593,13 @@ public class UserController {
 			//로그인한 유저가 가입후 처음으로 접속했으면 userAttend테이블에 insert를 시킨다. 그리고 유저에가 3마일리지를 준다.
 			result =  service.insertAttend(loginUser.getUserSeq());
 			
+			UserVO userVO = service.getLoginUser(loginUser.getUserEmail());
+			loginUser.setUserPoint(userVO.getUserPoint());
+			
+			session.setAttribute("loginUser", loginUser);
+			
 			if(result == 2){
-				req.setAttribute("msg", "처음 출석체크가 되었습니다.");
+				req.setAttribute("msg", "처음 출석체크가 되었습니다." + "마일리지 : 3점이 지급되었습니다.");
 				req.setAttribute("loc", "index.eat");
 			}else{
 				req.setAttribute("msg", "처음 출석체크가 실패되었습니다.");
@@ -615,7 +620,26 @@ public class UserController {
 	                    ->7일출석    ->30mileage
 	                    ->15일출석    ->50mileage
 	                    ->20일 출석    ->70mileage*/
-				int m = service.updateUserAttend(loginUser.getUserSeq()); //로그인한 유저의 출석정보를 업데이트한다.
+				UserAttendVO vo2 = service.getUserAttend(loginUser.getUserSeq());
+				
+				HashMap<String, String> hashMap2 = new HashMap<String, String>();
+				hashMap2.put("attendLastDay", vo2.getAttendLastDay());
+				hashMap2.put("userSeq", loginUser.getUserSeq());
+				
+				int isLoginContinue = service.userLoginContinueCheck(hashMap2); //어제 출석했는지 체크해서 어제 출석을 안했으면 연속출석일수를 0으로 만든다.
+				
+				int  m = 0;
+				
+				HashMap<String, String> hashMap3 = new HashMap<String, String>();
+				hashMap3.put("userSeq", loginUser.getUserSeq());
+				
+				if(isLoginContinue == 0){ //0이면 어제 출석을 안한것
+					hashMap3.put("continueCheck", "0");
+					m = service.updateUserAttend(hashMap3); //로그인한 유저의 
+				}else{ // 1이면 어제 출석을 한것
+					hashMap3.put("continueCheck", "1");
+					m = service.updateUserAttend(hashMap3); //로그인한 유저의 출석정보를 업데이트한다. allAttendDay = allAttendDay + 1, continueAttendDay = continueAttendDay + 1, attendLastDay = sysdate + 9/24 + 4/24/60
+				}
 				
 				if(m == 1){ //업데이트를 성공했을 때
 					UserAttendVO vo = service.getUserAttend(loginUser.getUserSeq());
@@ -624,8 +648,6 @@ public class UserController {
 					hashMap.put("contineuAttendDay", vo.getContinueAttendDay());
 					hashMap.put("userSeq", loginUser.getUserSeq());
 					
-					String boxType = "";
-					
 					//로그인한 유저의 포인트와 랜덤박스 업데이트
 					int result2 = service.updateUserPoint_RandomBox(hashMap);
 					
@@ -633,34 +655,49 @@ public class UserController {
 					loginUser.setUserPoint(userVO.getUserPoint());
 					
 					session.setAttribute("loginUser", loginUser);
+					
+					String point = "";
+					if(Integer.parseInt(vo.getContinueAttendDay()) == 3){
+						point = "10";
+					}else if(Integer.parseInt(vo.getContinueAttendDay()) == 7){
+						point = "30";
+					}else if(Integer.parseInt(vo.getContinueAttendDay()) == 15){
+						point = "50";
+					}else if(Integer.parseInt(vo.getContinueAttendDay()) == 20){
+						point = "70";
+					}else{
+						point = "3";
+					}
+						
 					if(result2 == 2){
 						
 						if(Integer.parseInt(vo.getContinueAttendDay()) == 1){
-							req.setAttribute("msg", "출석체크 되었습니다.");
+							req.setAttribute("msg", "출석체크 되었습니다." + "마일리지 :" + point + "점이 지급되었습니다.");
 							req.setAttribute("loc", "index.eat");
 						}else{
 							
 							if("14".equals(vo.getContinueAttendDay())){
-								boxType = "랜덤 박스";
-								req.setAttribute("msg", vo.getContinueAttendDay() + "일 연속 출석입니다. " + boxType + "가 지급되었습니다.");
+								req.setAttribute("msg", vo.getContinueAttendDay() + "일 연속 출석입니다. " + "마일리지 :" + point + "점이 지급되었습니다." +  " 랜덤 박스가 지급되었습니다.");
 								req.setAttribute("loc", "index.eat");
 							}else if("30".equals(vo.getContinueAttendDay())){
-								boxType = "프리미엄 박스";
-								req.setAttribute("msg", vo.getContinueAttendDay() + "일 연속 출석입니다. " + boxType + "가 지급되었습니다.");
+								req.setAttribute("msg", vo.getContinueAttendDay() + "일 연속 출석입니다. " + "마일리지 :" + point + "점이 지급되었습니다." + " 프리미엄 박스가 지급되었습니다.");
 								req.setAttribute("loc", "index.eat");
 							}else{
-								req.setAttribute("msg", vo.getContinueAttendDay() + "일 연속 출석입니다.");
+								req.setAttribute("msg", vo.getContinueAttendDay() + "일 연속 출석입니다." + "마일리지 :" + point + "점이 지급되었습니다.");
 								req.setAttribute("loc", "index.eat");
 							}
 						}
 						
 						
 					}else{
-						req.setAttribute("msg", "출석체크 오류입니다.");
+						req.setAttribute("msg", "m==1일때  result2 == 2가 아닐떄 출석체크 오류입니다.");
 						req.setAttribute("loc", "index.eat");
 					}
 					
 					
+				}else{
+					req.setAttribute("msg", "m==1일이 아닐떄 출석체크 오류입니다.");
+					req.setAttribute("loc", "index.eat");
 				}
 				
 				
