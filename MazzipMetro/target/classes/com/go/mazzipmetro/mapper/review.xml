@@ -132,7 +132,7 @@
 		 	   userName, userProfile, reviewSeq, reviewTitle, reviewHit, reviewContent, reviewAvgScore, reviewRegDate
 		from tbl_user A join tbl_review B
 		on A.userseq = B.userSeq
-		where restSeq = #{restSeq} and reviewStatus = 0 and userSort = 1
+		where restSeq = #{restSeq} and reviewStatus = 0 and userSort = 0
 		)V
 		WHERE V.rno BETWEEN #{StartRno} AND #{EndRno}
 	</select>
