@@ -702,7 +702,6 @@ public class UserController {
 					req.setAttribute("loc", "index.eat");
 				}
 				
-				
 			}
 		}
 	

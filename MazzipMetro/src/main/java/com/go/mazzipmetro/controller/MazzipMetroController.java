@@ -149,15 +149,15 @@ public class MazzipMetroController {
 		//문의하기페이지로 이동하는 컨트롤러
 		@RequestMapping(value = "/myQna.eat", method = {RequestMethod.GET})
 		public String myQnA(HttpServletRequest req, HttpSession session) {
-			UserVO loginuser = (UserVO)session.getAttribute("loginUser");
+			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
 			
-			if(loginuser.getUserSeq() == null){ 
+			if(loginUser == null){ 
 				req.setAttribute("msg", "로그인 후 이용해주세요");
 				req.setAttribute("loc", "javascript:history.back();");
 				return "QnA/msg";
 			}
 			
-			req.setAttribute("userSeq", loginuser.getUserSeq());
+			req.setAttribute("userSeq", loginUser.getUserSeq());
 			return "QnA/myQna";
 		}
 		
@@ -193,6 +193,15 @@ public class MazzipMetroController {
 		@RequestMapping(value = "/myQnaList.eat", method = {RequestMethod.GET})
 		public String myQnAList(HttpServletRequest req, HttpSession session) {
 			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+			
+			if(loginUser == null){
+				//로그인을 하지 않고서 주문을 하려고 한 경우 로그인을 하면 돌아갈 페이지를 지정해 주어야 한다.
+				session.setAttribute("returnPage", "myQnaList.eat");
+				
+				req.setAttribute("msg", "로그인 후 이용해주세요");
+				req.setAttribute("loc", "javascript:history.back();");
+				return "QnA/msg";
+			}
 			
 			String userSeq = loginUser.getUserSeq();
 			
@@ -514,9 +523,12 @@ public class MazzipMetroController {
 		
 		@RequestMapping(value = "/adminQnaList.eat", method = {RequestMethod.GET})
 		public String adminQnaList(HttpServletRequest req, HttpSession session) {
-			UserVO loginuser = (UserVO)session.getAttribute("loginUser");
+			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
 			
-			if(loginuser == null){
+			if(loginUser == null){
+				//로그인을 하지 않고서 주문을 하려고 한 경우 로그인을 하면 돌아갈 페이지를 지정해 주어야 한다.
+				session.setAttribute("returnPage", "adminQnaList.eat");
+				
 				req.setAttribute("msg", "로그인 후 이용해주세요");
 				req.setAttribute("loc", "javascript:history.back();");
 				return "QnA/msg";
