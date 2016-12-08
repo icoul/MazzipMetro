@@ -536,7 +536,7 @@ public class AdminController {
 		req.setAttribute("search", search);
 		req.setAttribute("pagebar", pagebar);
 		
-		
+		System.out.println(list);
 		return "/admin/adminConList";
 		
 	}

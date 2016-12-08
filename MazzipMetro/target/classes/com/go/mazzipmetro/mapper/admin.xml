@@ -44,7 +44,7 @@
 		where userSeq = #{userSeq}
     </update>
     
-    <resultMap type="java.util.HashMap" id="conTentList">
+    <resultMap type="java.util.HashMap" id="conList">
 		<result column="restSeq" 		property="restSeq" 		javaType="String"/>
 		<result column="gradeName" 		property="gradeName" 	javaType="String"/> 	
 		<result column="restName" 		property="restName" 	javaType="String"/>
@@ -55,22 +55,22 @@
 	</resultMap>
 	
     <!-- 컨텐츠 리스트  -->
-    <select id="conTentList" resultMap="conTentList" parameterType="java.util.HashMap">
+    <select id="conTentList" resultMap="conList" parameterType="java.util.HashMap">
     	  select  T.restSeq,T.gradeName,T.restName, T.restPhone,T.restAddr,T.contentName, T.contentLimit
 		from 
 		(
-		select rownum as RNO
-		    , V.userseq,  V.restSeq,V.gradeName, V.restName,V.restPhone,V.restAddr,V.contentLimit,V.contentName,V.contentStatus
+		select rowNum as RNO
+		    ,  V.restSeq,V.gradeName, V.restName,V.restPhone,V.restAddr,V.contentLimit,V.contentName,V.contentStatus
          
 		from 
       (
-      select E.userseq, E.restSeq, B.gradeName, E.restName,E.restPhone,E.restAddr, to_char(D.contentLimit,'yyyy-mm-dd') as contentLimit, D.contentStatus,A.contentName
-	      from tbl_restaurant E  join tbl_restaurant_content D
-	      on E .userSeq = D.userSeq
-          left join tbl_grade B
-	      on E.gradeSeq = B.gradeSeq
-	      left join tbl_content_cat A
-	      on d.contentseq = A.contentseq
+     select C.restSeq, D.gradeName, C.restName, C.restPhone, C.restAddr, A.contentName, B.contentlimit, B.contentStatus
+		from tbl_content_cat A join tbl_restaurant_content B
+		on A.contentseq = B.contentseq
+		left join tbl_restaurant C
+		on C.restSeq = B.restSeq
+		join tbl_grade D
+		on D.gradeSeq = C.gradeSeq
       ) V where  V.contentStatus=0 
      <if test="colName != null and search != null">     
 	     and ${colName} like '%'|| #{search} ||'%'
@@ -85,13 +85,13 @@
     	select count(*)
     		from 
 	      (
-	      select E.userseq, E.restSeq, B.gradeName, E.restName,E.restPhone,E.restAddr, to_char(D.contentLimit,'yyyy-mm-dd') as contentLimit,A.contentName
-	      from tbl_restaurant E  join tbl_restaurant_content D
-	      on E .userSeq = D.userSeq
-       	  left join tbl_grade B
-	      on E.gradeSeq = B.gradeSeq
-	      left join tbl_content_cat A
-	      on d.contentseq = A.contentseq
+	      select C.restSeq, D.gradeName, C.restName, C.restPhone, C.restAddr, A.contentName, B.contentlimit, B.contentStatus
+			from tbl_content_cat A join tbl_restaurant_content B
+			on A.contentseq = B.contentseq
+			left join tbl_restaurant C
+			on C.restSeq = B.restSeq
+			join tbl_grade D
+			on D.gradeSeq = C.gradeSeq
 	      ) V
     	<if test="colName != null and search != null">
     	 where ${colName} like '%' || #{search} || '%'
