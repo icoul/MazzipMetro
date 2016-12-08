@@ -12,9 +12,9 @@
 	.navbar-barnd{vertical-align : middle;line-height:45px;}
 	.btn-primary.create {margin-top:10px;}
 </style>
-<script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>  
+<%-- <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>  
   <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/BootStrapStudy/css/bootstrap.min.css">
-  <script src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script>
+  <script src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script> --%>
 <script type="text/javascript">
 	$(document).ready(function(){
 		<c:if test="${not empty qnaSearch}">
@@ -217,6 +217,11 @@
 				                    </tr>
 	                    	</c:forEach>
 	                    </c:if>
+	                    <c:if test="${empty adminQnaList }">
+                     	<tr>
+                     		<td align="center" colspan="8">문의 내역이 없습니다.</td>
+                     	</tr>
+                     </c:if>
 	            </table>
 
 	            <input type="hidden" name="qnaColNameDeleteFrm" value="${qnaColName }" />

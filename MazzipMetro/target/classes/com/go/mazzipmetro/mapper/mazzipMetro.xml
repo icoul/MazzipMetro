@@ -225,6 +225,8 @@
 		where faqStatus = 0
     </select>
     
+    
+    
     <select id="selectOneFaq" parameterType="String" resultType="com.go.mazzipmetro.vo.FaqVO">
     	select faqSeq, faqType, faqQuestion, faqAnswer
 		from tbl_faq

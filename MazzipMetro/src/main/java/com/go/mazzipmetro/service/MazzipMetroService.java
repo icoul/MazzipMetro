@@ -129,4 +129,5 @@ public class MazzipMetroService implements IService {
 		List<FaqVO> faqList = dao.getFaqListByType(faqType);
 		return faqList;
 	}
+
 }
