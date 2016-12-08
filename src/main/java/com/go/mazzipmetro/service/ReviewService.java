@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.go.mazzipmetro.dao.ReviewDAO;
 import com.go.mazzipmetro.vo.AttachFileVO;
@@ -105,11 +106,6 @@ public class ReviewService implements IService{
 		return HitScore;
 	}
 
-	public int DownHit(String reviewSeq) {
-		int DownScore = dao.getReviewDownHit(reviewSeq);
-		return DownScore;
-	}
-
 	public int insertLiker(HashMap<String, String> map) {
 		int insertLiker =dao.insertLiker(map);
 		return insertLiker;
@@ -118,6 +114,23 @@ public class ReviewService implements IService{
 	public List<String> getLikers(String UserSeq) {
 		List<String> likers = dao.getLikers(UserSeq);
 		return likers;
+	}
+
+	public List<HashMap<String, String>> getRealReview(HashMap<String, String> map) {
+		List<HashMap<String, String>> list = dao.getRealReview(map);
+		return list;
+	}
+
+	public int getMyReviewCount(String restSeq, String userSeq) {
+		int reviewCount = dao.getMyReviewCount(restSeq, userSeq);
+		return reviewCount;
+	}
+	@Transactional
+	public int delLiker(String reviewSeq, String userSeq) {
+		
+		int n = dao.getReviewDownHit(reviewSeq);
+		int m = dao.delLiker(reviewSeq, userSeq);
+		return (n+m);
 	}
 
 }

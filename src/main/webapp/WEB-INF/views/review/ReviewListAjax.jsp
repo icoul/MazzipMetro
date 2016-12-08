@@ -74,6 +74,15 @@ function insertAndUpHit(reviewSeq, likeId){
 		
 } // end of upAndDownHit
 
+function goReviewAdd(restSeq){
+	
+	var url = "<%=request.getContextPath()%>/reviewAdd.eat?restSeq="+restSeq;
+	var title = "리뷰 작성";
+	var status = "left=500px, top=100px, width=600px, height=915px, menubar=no, status=no, scrollbars=yes ";
+	var popup = window.open(url, title, status); 
+	
+	}
+
 $(document).ready(function(){
 	
 	
@@ -81,7 +90,7 @@ $(document).ready(function(){
 
 </script>
 
-<h2>${restvo.restname}의 리뷰(${TotalReviewCount })</h2>
+<h2>${restvo.restname}의 리뷰(${TotalReviewCount }) <input type="button" id="reviewAdd" name="reviewAdd" value="리뷰쓰기 (내가 쓴 리뷰수 :${reviewCount})" onClick="goReviewAdd('${restSeq}');"/></h2> 
   	
   	<p align="right">
 		<button type="button" id="goBottom" onClick="goTopAndBottom();" >아래로</button>
@@ -106,7 +115,7 @@ $(document).ready(function(){
 					<section>${review.reviewContent}</section>
 					<c:set value = "0" var="flag" />
 					
-					<c:forEach var="likers" items="${likers}" varStatus="status">
+					<c:forEach var="likers" items="${likers}">
 						<c:if test="${likers == review.reviewSeq }">
 							<p align="right">
 								<input type="button" id="like${status.index}" name="like" value="${review.reviewHit}Hit!" onClick="DownHit('${review.reviewSeq}','like${status.index}');" style="background-color: white; color: black" />
