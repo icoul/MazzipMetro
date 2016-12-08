@@ -25,6 +25,36 @@ public class MapController {
 	@Autowired
 	MapService service;
 
+	// 사용자가 정복한 맛집(리뷰를 쓴 맛집) 동/지하철 역명 리스트
+	@RequestMapping(value="/getDongMetroNameList.eat",method={RequestMethod.GET}) 
+	public String getDongNameList(HttpServletRequest req){
+		String conq = req.getParameter("conq");
+		UserVO loginUser =  (UserVO)req.getSession().getAttribute("loginUser");
+		
+		// aop처리할 것!
+		String userSeq = "";
+		if (loginUser == null) {
+			userSeq = "139";
+		} else {
+			userSeq = loginUser.getUserSeq();
+		}
+					
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("userSeq", userSeq);
+		map.put("conq", conq);
+		
+		List<HashMap<String, String>> dongNameList = service.getDongNameList(map);
+		List<HashMap<String, String>> metroNameList = service.getMetroNameList(map);
+		
+		JSONObject jObj = new JSONObject();
+		jObj.put("dongNameList", dongNameList);
+		jObj.put("metroNameList", metroNameList);
+		
+		req.setAttribute("jObj", jObj);
+		return "/maps/ajax/jsonData";
+	}
+	
 	// 사용자가 정복한 맛집(리뷰를 쓴 맛집) 리스트 보여주기
 	@RequestMapping(value="/userRestMap.eat",method={RequestMethod.GET}) 
 	public String userMap(HttpServletRequest req){
@@ -37,11 +67,13 @@ public class MapController {
 		@RequestMapping(value="/getRestaurantVOList.eat",method={RequestMethod.GET}) 
 		public String getRestaurantVOList (HttpServletRequest req){
 			String conq = req.getParameter("conq");
-			String userSeq = "";
 			
 			UserVO loginUser =  (UserVO)req.getSession().getAttribute("loginUser");
+			
+			// aop처리할 것!
+			String userSeq = "";
 			if (loginUser == null) {
-				userSeq = "42";
+				userSeq = "139";
 			} else {
 				userSeq = loginUser.getUserSeq();
 			}
@@ -116,7 +148,7 @@ public class MapController {
 	
 	//지하철 역명 가져오기(업장 직접 등록시 사용)
 	@RequestMapping(value="/getMetroNameList.eat",method={RequestMethod.POST}) 
-	public String getMetroNameList(HttpServletRequest req){
+	public String userMapMetroNameList(HttpServletRequest req){
 		String metroNum = req.getParameter("metroNum");
 		List<HashMap<String,String>> metroNameList = service.getMetroNameList(metroNum);
 		

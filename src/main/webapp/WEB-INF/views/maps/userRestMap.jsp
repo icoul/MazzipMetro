@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../top.jsp" />
 	 <style type="text/css">
 	    .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
@@ -29,9 +30,15 @@
 <div id="selectFrmContainer" style="padding-top: 20px;padding-left: 20px;">
 	<form id="selectFrm" onsubmit="return false;">
 		<label class="radio-inline"><input type="radio" name="conq" value="already" checked>정복한 맛집</label>
-		<label class="radio-inline"><input type="radio" name="conq" value="notYet">정복해야 할 맛집</label>
+		<label class="radio-inline"><input type="radio" name="conq" value="notYet">정복해야 할 맛집</label>&nbsp;&nbsp;
+		
+		<select name="selMenu_metroName" id="selMenu_metroName"></select>&nbsp;&nbsp;
+		<select name="selMenu_dongName" id="selMenu_dongName"></select>
+		
 	</form>
 </div>
+
+
 
 <br/> 
 <div id="map" style="width:100%;height:500px;"></div>
@@ -41,8 +48,8 @@
 		
 		//페이지 최초로딩시 등록된 음식점 모두 띄우기
 		$("[name=conq]").change(function(){
-			//alert($("[name=conq]").val());
-			getRestaurant();
+			
+			getList();
 		});
 		
 		var map = new daum.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
@@ -50,16 +57,58 @@
 	        level : 8// 지도의 확대 레벨 
 	    });
 		
-		getRestaurant($("[name=conq]:checked").val());
+		getList();
+		
 			
 	});// end of $(document).ready(
 	
 	var map, clusterer;
 	
-	// 업장 검색 함수
-	function getRestaurant(){
-	
+	// 지도 마커 및 메뉴리스트 호출 함수
+	function getList(){
 		var conq = $("[name=conq]:checked").val();
+		getRestaurant(conq);
+		getDongMetroNameList(conq);
+	}
+	
+	// 동이름/지하철이름 셀렉트 메뉴 호출
+	function getDongMetroNameList(conq){
+		
+		$.ajax({
+				url:"<%=request.getContextPath()%>/getDongMetroNameList.eat",
+				type :"GET",
+				data: "conq="+conq,
+				dataType:"json",
+				success: function(data){
+							var dongNameList = data.dongNameList;
+							var metroNameList = data.metroNameList;
+							
+							var dongNameHtml = '<option value="0">동 선택하기</option>';
+							var metroNameHtml = '<option value="0">지하철 선택하기</option>';
+							
+							for (var i = 0; i < dongNameList.length; i++) {								
+								dongNameHtml += '<option value="'+dongNameList[i].dongId+'">'+dongNameList[i].dongName+'</option>';
+							}
+							
+							$("#selMenu_dongName").html(dongNameHtml);
+							
+							for (var i = 0; i < metroNameList.length; i++) {
+								metroNameHtml += '<option value="'+metroNameList[i].metroId+'">'+metroNameList[i].metroName+'</option>';
+							}
+							$("#selMenu_metroName").html(metroNameHtml);
+							
+				}, //end of success: function(data)
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				} // end of error: function(request,status,error)
+			}); //end of $.ajax()
+	}
+	
+	
+		
+	// 업장 검색 함수
+	function getRestaurant(conq){
+	
 	    // 데이터를 가져오기 위해 jQuery를 사용합니다
 	    // 데이터를 가져와 마커를 생성하고 클러스터러 객체에 넘겨줍니다
 	    $.ajaxSettings.traditional = true;
