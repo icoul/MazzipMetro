@@ -316,4 +316,34 @@
 		where restSeq = #{restSeq} and menuStatus = 0
 	</select>
 	
+	<!-- 메뉴 수정하기 // SQL문 3개를 씁니다 -->
+	<insert id = "restaurant.menuEditInsert" parameterType="java.util.HashMap">
+		insert into TBL_Restaurant_Menu(menuSeq, restSeq, menuName, menuContent, menuImg, menuPrice, menuSalePrice, menuSort, menuEvent, menuStatus)
+		values (TBL_RESTAURANT_MENUSEQ.nextval, #{restSeq}, #{menuName}, #{menuContent}, #{menuImg}, #{menuPrice}, #{menuSalePrice}, #{menuSort},
+			<if test="menuEvent == null or menuEvent.equals('')">
+				null
+			</if>
+			<if test="menuEvent != null and !menuEvent.equals('')">
+				#{menuEvent}
+			</if>
+			, default)
+	</insert>
+	
+	<update id = "restaurant.menuEditDelete" parameterType="java.util.HashMap">
+		update TBL_Restaurant_Menu set menuStatus = 1
+		where menuSeq = #{menuSeq} and restSeq = #{restSeq}
+	</update>
+	
+	<update id = "restaurant.menuEditUpdate" parameterType="java.util.HashMap">
+		update TBL_Restaurant_Menu set menuName = #{menuName}, menuContent = #{menuContent}, menuImg = #{menuImg}
+									 , menuPrice = #{menuPrice}, menuSalePrice = #{menuSalePrice}, menuSort = #{menuSort}, menuEvent = 
+									 <if test="menuEvent == null or menuEvent.equals('')">
+						 				 null
+									 </if>
+									 <if test="menuEvent != null and !menuEvent.equals('')">
+									 	 #{menuEvent}
+									 </if>
+		where menuSeq = #{menuSeq} and restSeq = #{restSeq}
+	</update>
+	
 </mapper>

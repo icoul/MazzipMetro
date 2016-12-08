@@ -125,8 +125,6 @@
 	function goRegister(){
 		
 		var content = $(".content").val();
-		var restBgTag = $(".restBgTag:checked").length;
-		var restMdTag = $(".restMdTag:checked").length;
 		var menuNum = $("#menuNum").val();
 		var menuName = $(".menuName").val();
 		var menuContent = $(".menuContent").val();
@@ -134,11 +132,6 @@
 		
 		if (content == "") {
 			alert("소개글을 작성해주세요");
-			return;
-		}
-		
-		if (restBgTag < 1 || restMdTag < 1) {
-			alert("태그는 최소 1개 이상 선택해주세요");
 			return;
 		}
 		

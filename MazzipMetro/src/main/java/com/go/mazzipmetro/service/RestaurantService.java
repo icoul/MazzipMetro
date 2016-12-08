@@ -131,6 +131,14 @@ public class RestaurantService implements IService{
 		
 		return menuList;
 	}
+	
+	//메뉴 수정하기
+	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
+	public int editRestMenu(MenuVO mvo){
+		int result = dao.editRestMenu(mvo);
+		
+		return result;
+	}
 
 	public List<RestaurantVO> restListStatistics(String userSeq) {
 		List<RestaurantVO> restList = dao.restListStatistics(userSeq);

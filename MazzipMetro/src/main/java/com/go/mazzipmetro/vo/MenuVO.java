@@ -4,6 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class MenuVO {
 	
+	private String[] menuSeq;		/* 메뉴번호 */
 	private String[] restSeq;		/* 업장번호 */
 	private String[] menuName; 		/* 메뉴명 */
 	private String[] menuContent;	/* 메뉴설명 */
@@ -18,9 +19,11 @@ public class MenuVO {
 	
 	public MenuVO(){}
 
-	public MenuVO(String[] restSeq, String[] menuName, String[] menuContent, String[] menuImg, String[] menuPrice,
-			String[] menuSalePrice, String[] menuSort, String[] menuEvent, String[] menuStatus,
+	public MenuVO(String[] menuSeq, String[] restSeq, String[] menuName, String[] menuContent, String[] menuImg,
+			String[] menuPrice, String[] menuSalePrice, String[] menuSort, String[] menuEvent, String[] menuStatus,
 			MultipartFile[] menuImgFile) {
+		super();
+		this.menuSeq = menuSeq;
 		this.restSeq = restSeq;
 		this.menuName = menuName;
 		this.menuContent = menuContent;
@@ -31,6 +34,14 @@ public class MenuVO {
 		this.menuEvent = menuEvent;
 		this.menuStatus = menuStatus;
 		this.menuImgFile = menuImgFile;
+	}
+
+	public String[] getMenuSeq() {
+		return menuSeq;
+	}
+
+	public void setMenuSeq(String[] menuSeq) {
+		this.menuSeq = menuSeq;
 	}
 
 	public String[] getRestSeq() {
