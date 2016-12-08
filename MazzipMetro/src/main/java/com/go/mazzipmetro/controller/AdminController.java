@@ -166,7 +166,7 @@ public class AdminController {
 			// 게시판 초기화면에 보여지는 것은
 			// req.getParameter("pageNo"); 값이 없으므로
 			// pageNo 는 null 이 된다.
-			
+			pageNo = "1";
 			currentShowPageNo = 1;
 			// 즉, 초기화면은 /list.eat?pageNo=1 로 하겠다는 말이다.
 		}
@@ -297,25 +297,30 @@ public class AdminController {
 		
 		int pageNo = Integer.parseInt(str_pageNo);
 		HttpSession ses = req.getSession();
-		
+		System.out.println(pageNo+"djdjdjdjdjdj");
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("userSeq", userSeq);
 		
 		int result = service.userDel(map);
-		
+
 		String msg="";
 		String loc ="javascript:history.back();";
 		
 		if (result > 0) {
-			msg ="회원이 삭제되었습니다.";
-			loc = ("adminUserList.eat?pageNo="+pageNo);
+				msg ="회원이 삭제되었습니다.";
+				loc = ("adminUserList.eat?pageNo="+pageNo);
+				System.out.println("loc" +loc);
+				
+			/*if(pageNo) {
+				msg ="회원이 삭제되었습니다.";
+				loc = ("adminUserList.eat?pageNo="+pageNo);
+			}*/
 		}
 		
 		else {
 			msg ="회원이 삭제되지 않았습니다.";
 			loc ="javascript:location.href='adminUserList.eat';";
 		}
-		
 		req.setAttribute("msg", msg);
 		req.setAttribute("loc", loc);
 		
@@ -326,10 +331,6 @@ public class AdminController {
 	@RequestMapping(value = "/adminUserEdit.eat", method = RequestMethod.GET)
 	public String userEdit(HttpServletRequest req) {
 		String userSeq = req.getParameter("userSeq");
-		
-	//	map.put("userSeq", userSeq);
-		
-	//	map = service.adminUserInfo(map); //여러개를 받아오면 map or vo로 받아와야 한다.
 	
 	    HashMap<String, String> userinfoMap = new HashMap<String, String>();
 	    
@@ -344,22 +345,15 @@ public class AdminController {
 	@RequestMapping(value = "/adminUserEditEnd.eat", method = RequestMethod.POST)
 	public String userEditEnd(HttpServletRequest req, HttpSession ses) {
 		String userSeq = req.getParameter("userSeq");
-		String userName = req.getParameter("userName");
-		String gradeName = req.getParameter("gradeName");
 		String userEmail = req.getParameter("userEmail");
 		String userPhone = req.getParameter("userPhone");
 		String userPoint = req.getParameter("userPoint");
-		String userRegDate = req.getParameter("userRegDate");
-		//System.out.println(userEmail);
 		
 		HashMap<String, String> userinfoMap = new HashMap<String, String>();
 		userinfoMap.put("userSeq", userSeq);
-		userinfoMap.put("userName", userName);
-		userinfoMap.put("gradeName", gradeName);
 		userinfoMap.put("userEmail", userEmail);
 		userinfoMap.put("userPoint", userPoint);
 		userinfoMap.put("userPhone", userPhone);
-		userinfoMap.put("userRegDate", userRegDate);
 		
 		String msg="";
 		String loc ="javascript:history.back();";
@@ -373,10 +367,11 @@ public class AdminController {
 		}
 		
 		else {
-			msg ="회원이 삭제되지 않았습니다.";
+			msg ="회원이 수정되지 않았습니다.";
 			loc ="javascript:location.href='adminUserList.eat';";
 		}
-		
+		req.setAttribute("userinfoMap", userinfoMap);
+		req.setAttribute("result", result);
 		req.setAttribute("msg", msg);
 		req.setAttribute("loc", loc);
 		
@@ -546,4 +541,12 @@ public class AdminController {
 		
 	}
 	
+	
+	//컨텐츠 통계
+		@RequestMapping(value = "/adminConStatis.eat", method = RequestMethod.GET)
+		public String adminConStatis(HttpServletRequest req) {
+			
+					
+			return "/admin/adminConStatis";
+		}
 }
