@@ -16,6 +16,7 @@ import com.go.mazzipmetro.service.MapService;
 import com.go.mazzipmetro.vo.RestaurantAdVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.TagVO;
+import com.go.mazzipmetro.vo.UserVO;
 
 
 @Controller
@@ -24,6 +25,41 @@ public class MapController {
 	@Autowired
 	MapService service;
 
+	// 사용자가 정복한 맛집(리뷰를 쓴 맛집) 리스트 보여주기
+	@RequestMapping(value="/userRestMap.eat",method={RequestMethod.GET}) 
+	public String userMap(HttpServletRequest req){
+		
+		
+		return "/maps/userRestMap";
+	}
+	
+	// ajax  요청 : 사용자가 정복한 맛집(리뷰를 쓴 맛집) 리스트 보여주기
+		@RequestMapping(value="/getRestaurantVOList.eat",method={RequestMethod.GET}) 
+		public String getRestaurantVOList (HttpServletRequest req){
+			String conq = req.getParameter("conq");
+			String userSeq = "";
+			
+			UserVO loginUser =  (UserVO)req.getSession().getAttribute("loginUser");
+			if (loginUser == null) {
+				userSeq = "42";
+			} else {
+				userSeq = loginUser.getUserSeq();
+			}
+			
+			System.out.println(">>>>>>>>>"+conq); 
+			
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("userSeq", userSeq);
+			map.put("conq", conq);
+			List<RestaurantVO> voList = service.getUserRestConquest(map);				
+		
+			
+			JSONObject jObj = new JSONObject();
+			jObj.put("positions", voList);
+			
+			req.setAttribute("jObj", jObj);
+			return "/maps/ajax/jsonData";
+		}
 	
 	//metroMap 페이지 접근
 	@RequestMapping(value="/metroMap.eat",method={RequestMethod.GET}) 
@@ -125,6 +161,7 @@ public class MapController {
 		return "/maps/clustererCustomOverlay";
 	}
 	
+	
 	//클러스터러 (clickable) 테스트 : 음식점 목록 가져오기
 	@RequestMapping(value="/getRestaurantList.eat",method={RequestMethod.GET}) 
 	public String getRestaurantList(HttpServletRequest req){
@@ -157,6 +194,7 @@ public class MapController {
 		
 		// vo로 가져오기
 		//List<RestaurantVO> list = service.getRestaurantVOList(map);
+	
 		// 업장 태그 가져오기(보류)
 //		List<String> restSeqList = new ArrayList<String>();
 //		
@@ -478,7 +516,7 @@ public class MapController {
 		jObj.put("metroId", metroId);
 		
 		req.setAttribute("jObj", jObj);
-		return "/maps/ajax/metroId";
+		return "/maps/ajax/jsonData";
 	}
 		
 

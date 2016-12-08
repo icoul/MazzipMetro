@@ -74,7 +74,7 @@
 	<select id="getGenderChartList" parameterType="String" resultMap="dataresultmap6">
 		select decode(grouping(gender), 0, to_char(gender), '전체') as gender
 		  , count(gender) as cnt
-		  , round(count(gender) / (select count(*) from tbl_reviewData) * 100) as percent
+		  , round(count(gender) / (select count(*) from tbl_review) * 100) as percent
 		from
 		( 
 		select B.gender   
@@ -83,6 +83,7 @@
 		where A.restseq = #{restseq}
 		)V
 		group by rollup(gender)
+
 	</select>
 	<!-- 리뷰 넣기 -->
 	<insert id="reviewAdd" parameterType="com.go.mazzipmetro.vo.ReviewVO">
