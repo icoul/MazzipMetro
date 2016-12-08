@@ -89,5 +89,21 @@ public class ReviewDAO implements IDAO{
 		List<String> likers = sqlSession.selectList("review.getLikers", UserSeq);
 		return likers;
 	}
+	public int delLiker(String reviewSeq, String userSeq) {
+		HashMap<String, String> map = new HashMap<String,String>();
+		map.put("reviewSeq", reviewSeq);
+		map.put("userSeq",userSeq);
+		
+		int delLiker = sqlSession.delete("review.delLikers", map);
+		return delLiker;
+	}
+	public int getMyReviewCount(String restSeq, String userSeq) {
+		HashMap<String, String> map = new HashMap<String,String>();
+		map.put("restSeq", restSeq);
+		map.put("userSeq", userSeq);
+		
+		int reviewCount = sqlSession.selectOne("review.MyReviewCount", map);
+		return reviewCount;
+	}
 
 }

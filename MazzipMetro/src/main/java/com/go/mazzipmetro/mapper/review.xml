@@ -155,6 +155,12 @@
 		update tbl_review set reviewHit = reviewHit - 1
 		where reviewSeq = #{reviewSeq}
 	</update>
+	
+	<!-- Like를 누른 사람들 지우기 -->
+	<delete id="delLikers">
+		delete tbl_review_liker
+		where reviewSeq = #{reviewSeq} and userSeq = #{userSeq}
+	</delete>	
 		
 	<!-- Like를 누른 사람들을 tbl_review_liker에 넣기 -->
 	<insert id="insertLiker" parameterType="java.util.HashMap" >
@@ -167,6 +173,12 @@
 		select reviewSeq
 		from tbl_review_Liker
 		where userSeq = #{userSeq}
+	</select>
+	
+	<select id="MyReviewCount" parameterType="String" resultType="int">
+		select count(*)
+		from tbl_review
+		where userSeq = #{userSeq} and restSeq = #{restSeq}
 	</select>
 	
 </mapper>
