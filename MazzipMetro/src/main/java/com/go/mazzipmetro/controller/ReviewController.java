@@ -72,8 +72,12 @@ public class ReviewController {
 	}
 	
 	@RequestMapping(value="/reviewAdd.eat", method={RequestMethod.GET} ) 
-	public String reviewAdd(HttpServletRequest req) {
+	public String reviewAdd(HttpServletRequest req, HttpSession ses) {
 		String restSeq = req.getParameter("restSeq");
+			
+		
+		
+		req.setAttribute("restSeq", restSeq);
 		return "/review/reviewAdd";  
 		
 	}
@@ -130,20 +134,34 @@ public class ReviewController {
 	}
 	
 	@RequestMapping(value="/DownHit.eat", method={RequestMethod.GET} ) 
-	public String DownHit(HttpServletRequest req) {
+	public String DownHit(HttpServletRequest req, HttpSession ses) {
 		String reviewSeq = req.getParameter("reviewSeq");
+		UserVO loginUser = (UserVO)ses.getAttribute("loginUser");
+		String UserSeq = loginUser.getUserSeq();
 		
-		int reviewHit = service.DownHit(reviewSeq);
+		int delLiker = service.delLiker(reviewSeq, UserSeq);
 		
-		if(reviewHit == 1)
+		if(delLiker == 2)
 		{
-			reviewHit = service.getHitScore(reviewSeq);
+			delLiker = service.getHitScore(reviewSeq);
+			
+			System.out.println(delLiker);
+			
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("delLiker", delLiker);
+			
+			req.setAttribute("jsonObj", jsonObj);
+			return "/review/plusHit";
 		}
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("reviewHit", reviewHit);
-		
-		req.setAttribute("jsonObj", jsonObj);
-		return "/review/plusHit";  
+		else
+		{	
+			String msg = "실패했습니다.";
+			String loc = "javascript:history.back();";
+			
+			req.setAttribute("msg", msg);
+			req.setAttribute("loc", loc);
+			return "msg";
+		}
 		
 	}
 	

@@ -174,8 +174,10 @@ public class RestaurantController {
 
 	//음식점의 상세페이지 보여주기 no
 	@RequestMapping(value = "/restaurantDetail.eat", method = RequestMethod.GET)
-	public String restaurantDetail(HttpServletRequest req, HttpServletResponse res) {
+	public String resDetail(HttpServletRequest req, HttpServletResponse res, HttpSession ses) {
 		String restSeq = req.getParameter("restSeq");
+		
+		
 		HashMap<String,String> restvo = service.getRestaurant(restSeq);
 		
 			
@@ -184,6 +186,7 @@ public class RestaurantController {
 		List<HashMap<String,String>> agelineChartList = reviewService.getAgeLineChartList(restSeq);
 		List<HashMap<String,String>> genderChartList = reviewService.getGenderChartList(restSeq);
 		
+				
 		req.setAttribute("restSeq", restSeq);
 		req.setAttribute("restvo", restvo);
 		req.setAttribute("agelineChartList", agelineChartList);
@@ -481,7 +484,7 @@ public class RestaurantController {
 		
 		likers = service.getLikers(UserSeq);
 		
-		System.out.println("eeeeeeeeeeeeeee"+likers+"ssssssssssssssssssss");
+		
 		
 		HashMap<String,String> restvo = service.getRestaurant(restSeq);
 		List<HashMap<String,String>> reviewImageList = reviewService.getReviewImageList();
@@ -495,11 +498,17 @@ public class RestaurantController {
 		List<HashMap<String,String>> reviewList = service.getReviewList(map);
 		int TotalReviewCount = service.getTotalReview(restSeq);
 		
+		int reviewCount = reviewService.getMyReviewCount(restSeq, UserSeq);
+		
+		/*System.out.println("dddddddddddddddddddddddddddddddddd"+restSeq);*/
+		
+		req.setAttribute("reviewCount", reviewCount);
 		req.setAttribute("likers", likers);
 		req.setAttribute("TotalReviewCount", TotalReviewCount);
 		req.setAttribute("reviewList",  reviewList);
 		req.setAttribute("restvo", restvo);
 		req.setAttribute("reviewImageList", reviewImageList);
+		req.setAttribute("restSeq", restSeq);
 //		req.setAttribute("UserEmail", UserEmail);
 		////////////////////////////////////////////////////////////////////////////
 //		System.out.println("확인용 DisplayJSONAction.java       productList size : " + ListOfReview.size()); // 확인용

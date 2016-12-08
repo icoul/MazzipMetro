@@ -23,6 +23,18 @@ function goTopAndBottom(){
 	 }); 
 }// end of goTopAndBottom
 
+function goReviewAdd(restSeq){
+	
+	alert(restSeq);
+	
+	var url = "<%=request.getContextPath()%>/reviewAdd.eat?restSeq="+restSeq;
+	var title = "reviewAdd";
+	var status = "left=500px, top=100px, width=600px, height=915px, menubar=no, status=no, scrollbars=yes ";
+	var popup = window.open(url, title, status); 
+    
+} // end of DownHit
+
+
 function DownHit(reviewSeq, likeId){
 	 $.ajax({ 
 		 	
@@ -31,8 +43,9 @@ function DownHit(reviewSeq, likeId){
 			data: "reviewSeq="+reviewSeq, 
 			dataType: "JSON",
 			success: function(data) {
-				alert(data.reviewHit);
-				$("#"+likeId).val(data.reviewHit+"Hit!");
+				//alert(data.reviewHit);
+				$("#"+likeId).val(data.delLiker+"Hit!");
+				getReviewList();
 				
 				}
 		});//end of $.ajax()
@@ -46,9 +59,8 @@ function upHit(reviewSeq, likeId){
 			data: "reviewSeq="+reviewSeq, 
 			dataType: "JSON",
 			success: function(data) {
-				alert(data.reviewHit);
 				$("#"+likeId).val(data.reviewHit+"Hit!");
-				
+				getReviewList()
 				}
 		});//end of $.ajax()
 } // end of upHit
@@ -81,7 +93,7 @@ $(document).ready(function(){
 
 </script>
 
-<h2>${restvo.restname}의 리뷰(${TotalReviewCount })</h2>
+<h2>${restvo.restname}의 리뷰(${TotalReviewCount })<input type="button" id="reviewAdd" name="reviewAdd" onClick="goReviewAdd('${restSeq}');" value="리뷰쓰기(내가쓴 리뷰 : ${reviewCount})"/></h2>
   	
   	<p align="right">
 		<button type="button" id="goBottom" onClick="goTopAndBottom();" >아래로</button>
@@ -99,14 +111,14 @@ $(document).ready(function(){
 				
 			<tr>
 				<td>${review.userName }  <img src="<%= request.getContextPath() %>/files/${review.userProfile}" width="100px" height="100px"/></td>
-					<td align="right">
-						평점<span style="font-weight:bold; font-size:15pt; color:red;">${review.reviewAvgScore}</span>점
-					</td>
+				<td align="right">
+					평점<span style="font-weight:bold; font-size:15pt; color:red;">${review.reviewAvgScore}</span>점
+				</td>
 				<td>
 					<section>${review.reviewContent}</section>
 					<c:set value = "0" var="flag" />
 					
-					<c:forEach var="likers" items="${likers}" varStatus="status">
+					<c:forEach var="likers" items="${likers}">
 						<c:if test="${likers == review.reviewSeq }">
 							<p align="right">
 								<input type="button" id="like${status.index}" name="like" value="${review.reviewHit}Hit!" onClick="DownHit('${review.reviewSeq}','like${status.index}');" style="background-color: white; color: black" />
@@ -139,6 +151,7 @@ $(document).ready(function(){
 			  </div> 
 			  
 			</div>
+			</tr>
 		</c:forEach>
 	
 	</table>
