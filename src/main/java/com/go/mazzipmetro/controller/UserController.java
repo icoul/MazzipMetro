@@ -386,7 +386,7 @@ public class UserController {
 		String msg = "로그아웃되었습니다";
 		String loc = "index.eat";
 		
-		Cookie cookieAutoLogin = new Cookie("dx_autoLogin", "yes");
+		Cookie cookieAutoLogin = new Cookie("autoLogin", "yes");
 		cookieAutoLogin.setMaxAge(0);
 		cookieAutoLogin.setPath("/");
 		res.addCookie(cookieAutoLogin);
@@ -475,7 +475,7 @@ public class UserController {
 			
 			try {
 				cookieId = new Cookie("rememberId", URLEncoder.encode(loginUser.getUserEmail(), "UTF-8"));
-				cookiePwd = new Cookie("rememberPwd", URLEncoder.encode(loginUser.getUserPw(), "UTF-8"));//비보안
+				cookiePwd = new Cookie("rememberPwd", loginUser.getUserPw());//비보안
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -113,7 +113,7 @@ function getLoginUserInfo(){
 			  					continue;
 			  				}
 			  				
-			  				if(cookieKey.equals("dx_autoLogin")){
+			  				if(cookieKey.equals("autoLogin")){
 		%>				
 								loginSubmit();
 		<%	  				

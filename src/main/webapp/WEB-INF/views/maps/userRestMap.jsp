@@ -28,8 +28,8 @@
 
 <div id="selectFrmContainer" style="padding-top: 20px;padding-left: 20px;">
 	<form id="selectFrm" onsubmit="return false;">
-		<label class="radio-inline"><input type="radio" name="conq" value="already">정복한 맛집</label>
-		<label class="radio-inline"><input type="radio" name="conq" value="notYet" checked>정복해야 할 맛집</label>
+		<label class="radio-inline"><input type="radio" name="conq" value="already" checked>정복한 맛집</label>
+		<label class="radio-inline"><input type="radio" name="conq" value="notYet">정복해야 할 맛집</label>
 	</form>
 </div>
 
@@ -42,7 +42,7 @@
 		//페이지 최초로딩시 등록된 음식점 모두 띄우기
 		$("[name=conq]").change(function(){
 			//alert($("[name=conq]").val());
-			getRestaurant($(this).val());
+			getRestaurant();
 		});
 		
 		var map = new daum.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
@@ -57,25 +57,29 @@
 	var map, clusterer;
 	
 	// 업장 검색 함수
-	function getRestaurant(conq){
+	function getRestaurant(){
 	
-		alert(conq);
+		var conq = $("[name=conq]:checked").val();
 	    // 데이터를 가져오기 위해 jQuery를 사용합니다
 	    // 데이터를 가져와 마커를 생성하고 클러스터러 객체에 넘겨줍니다
 	    $.ajaxSettings.traditional = true;
 	    $.ajax({
 			url: "<%=request.getContextPath()%>/getRestaurantVOList.eat",  
 			async: false, 
-			//data: "conq="+$("[name=conq]:checked").val(),
 			data: "conq="+conq,
 			dataType: "json",
 			success: function(data) {
 				//alert(data.positions[0].restName);
 				
-				if(data.positions.length == 0){
-					alert('검색된 음식점이 없습니다. 검색조건을 확인해주세요!');
+				if(data.positions.length == 0 && conq =="already"){
+					alert('정복한 음식점이 없습니다. 맛집 리뷰를 작성해주세요!');
+					return;
+				}else if(data.positions.length == 0 && conq=="notYet"){
+					alert('모든 음식점을 정복하셨습니다. 당신은 맛집지존입니다!');
 					return;
 				}
+				
+				
 				
 				// 검색조건이 없을 때에는 기존의 마커들을 유지 하기 위햐여 지도 객체를 success 함수 안에 위치 시켰다. 전역변수화
 				map = new daum.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
@@ -92,7 +96,7 @@
 			    clusterer = new daum.maps.MarkerClusterer({
 			        map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
 			        averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
-			        minLevel: 7, // 클러스터 할 최소 지도 레벨 
+			        minLevel: 4, // 클러스터 할 최소 지도 레벨 
 			        disableClickZoom: true // 클러스터 마커를 클릭했을 때 지도가 확대되지 않도록 설정한다 
 			    });
 				
