@@ -67,6 +67,11 @@ public class MapController {
 		@RequestMapping(value="/getRestaurantVOList.eat",method={RequestMethod.GET}) 
 		public String getRestaurantVOList (HttpServletRequest req){
 			String conq = req.getParameter("conq");
+			String dongId = req.getParameter("dongId");
+			String metroId = req.getParameter("metroId");
+			
+			System.out.println(dongId == null); 
+			System.out.println(">>>>>>>>>>>>>>>" + dongId+", "+ metroId); 
 			
 			UserVO loginUser =  (UserVO)req.getSession().getAttribute("loginUser");
 			
@@ -83,6 +88,10 @@ public class MapController {
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("userSeq", userSeq);
 			map.put("conq", conq);
+			
+			map.put("dongId", dongId);
+			map.put("metroId", metroId);
+			
 			List<RestaurantVO> voList = service.getUserRestConquest(map);				
 		
 			
@@ -200,15 +209,19 @@ public class MapController {
 		
 		String[] srchType = req.getParameterValues("srchType");
 		String[] keyword = req.getParameterValues("keyword");
-		String[] restTagArr = req.getParameterValues("restTag");
+		String[] restBgTagArr = req.getParameterValues("restBgTag");
+		String[] restMdTagArr = req.getParameterValues("restMdTag");
 		String[] userSeq = req.getParameterValues("restManager");
 		String[] restStatus = req.getParameterValues("restStatus");
 		
 		System.out.println("---------------------------------------"); 
 		System.out.println(srchType[0]);
-		System.out.println(keyword[0]);
-		if (restTagArr != null) {
-			System.out.println(restTagArr[0]);
+		System.out.println("keyword : "+keyword[0]);
+		if (restBgTagArr != null) {
+			System.out.println(restBgTagArr[0]);
+		}
+		if (restMdTagArr != null) {
+			System.out.println(restMdTagArr[0]);
 		}
 		System.out.println(userSeq[0]);
 		System.out.println(restStatus[0]);
@@ -217,7 +230,8 @@ public class MapController {
 		HashMap<String, String[]> map = new HashMap<String, String[]>();
 		map.put("srchType", srchType);
 		map.put("keyword", keyword);
-		map.put("restTagArr", restTagArr);
+		map.put("restBgTagArr", restBgTagArr);
+		map.put("restMdTagArr", restMdTagArr);
 		map.put("userSeq", userSeq);
 		map.put("restStatus", restStatus);
 		

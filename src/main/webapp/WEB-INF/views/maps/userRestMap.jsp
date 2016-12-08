@@ -48,7 +48,6 @@
 		
 		//페이지 최초로딩시 등록된 음식점 모두 띄우기
 		$("[name=conq]").change(function(){
-			
 			getList();
 		});
 		
@@ -59,7 +58,14 @@
 		
 		getList();
 		
-			
+		$("#selMenu_dongName").change(function(){
+			getRestaurant($("[name=conq]:checked").val());
+		});	
+		
+		$("#selMenu_metroName").change(function(){
+			getRestaurant($("[name=conq]:checked").val());
+		});
+		
 	});// end of $(document).ready(
 	
 	var map, clusterer;
@@ -73,6 +79,10 @@
 	
 	// 동이름/지하철이름 셀렉트 메뉴 호출
 	function getDongMetroNameList(conq){
+		var metroId = $("#selMenu_metroName").val()
+		, dongId = $("#selMenu_dongName").val();
+		
+		//alert('dongId = '+dongId+', metroId = '+metroId)
 		
 		$.ajax({
 				url:"<%=request.getContextPath()%>/getDongMetroNameList.eat",
@@ -83,17 +93,25 @@
 							var dongNameList = data.dongNameList;
 							var metroNameList = data.metroNameList;
 							
-							var dongNameHtml = '<option value="0">동 선택하기</option>';
-							var metroNameHtml = '<option value="0">지하철 선택하기</option>';
+							var dongNameHtml = '<option value="dongId">동 선택하기</option>';
+							var metroNameHtml = '<option value="metroId">지하철 선택하기</option>';
 							
-							for (var i = 0; i < dongNameList.length; i++) {								
-								dongNameHtml += '<option value="'+dongNameList[i].dongId+'">'+dongNameList[i].dongName+'</option>';
+							for (var i = 0; i < dongNameList.length; i++) {
+								if(dongId == dongNameList[i].dongId ){
+									dongNameHtml += '<option value="'+dongNameList[i].dongId+'" selected>'+dongNameList[i].dongName+'</option>';
+								} else {
+									dongNameHtml += '<option value="'+dongNameList[i].dongId+'">'+dongNameList[i].dongName+'</option>';
+								}
 							}
 							
 							$("#selMenu_dongName").html(dongNameHtml);
 							
 							for (var i = 0; i < metroNameList.length; i++) {
-								metroNameHtml += '<option value="'+metroNameList[i].metroId+'">'+metroNameList[i].metroName+'</option>';
+								if (metroId == metroNameList[i].metroId) {
+									metroNameHtml += '<option value="'+metroNameList[i].metroId+'" selected>'+metroNameList[i].metroName+'</option>';
+								}else {
+									metroNameHtml += '<option value="'+metroNameList[i].metroId+'">'+metroNameList[i].metroName+'</option>';									
+								}
 							}
 							$("#selMenu_metroName").html(metroNameHtml);
 							
@@ -104,10 +122,23 @@
 			}); //end of $.ajax()
 	}
 	
+	function setBounds(bounds) {
+	    // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
+	    // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
+	    map.setBounds(bounds);
+	}
 	
 		
 	// 업장 검색 함수
 	function getRestaurant(conq){
+		var metroId="metroId", dongId='dongId';
+		if ($("#selMenu_metroName").val() !=null) {
+			metroId = $("#selMenu_metroName").val();
+		} 
+		
+		if ($("#selMenu_dongName").val() != null) {
+			dongId = $("#selMenu_dongName").val();	
+		}
 	
 	    // 데이터를 가져오기 위해 jQuery를 사용합니다
 	    // 데이터를 가져와 마커를 생성하고 클러스터러 객체에 넘겨줍니다
@@ -115,27 +146,33 @@
 	    $.ajax({
 			url: "<%=request.getContextPath()%>/getRestaurantVOList.eat",  
 			async: false, 
-			data: "conq="+conq,
+			data: "conq="+conq+"&metroId="+metroId+"&dongId="+dongId,
 			dataType: "json",
 			success: function(data) {
 				//alert(data.positions[0].restName);
 				
 				if(data.positions.length == 0 && conq =="already"){
-					alert('정복한 음식점이 없습니다. 맛집 리뷰를 작성해주세요!');
+					var warning;
+					if(metroId != null || dongId != null){
+						warning = "이곳은 ";
+					}
+					warning += '정복한 맛집이 없습니다. 맛집 리뷰를 작성해주세요!';
+					alert(warning);
 					return;
 				}else if(data.positions.length == 0 && conq=="notYet"){
-					alert('모든 음식점을 정복하셨습니다. 당신은 맛집지존입니다!');
+					var warning;
+					if(metroId != null || dongId != null){
+						warning = "이곳은 ";
+					}
+					warning += "정복할 음식점이 없습니다. 검색조건을 확인해주세요!";
+					alert(warning);
 					return;
 				}
-				
-				
-				
 				// 검색조건이 없을 때에는 기존의 마커들을 유지 하기 위햐여 지도 객체를 success 함수 안에 위치 시켰다. 전역변수화
 				map = new daum.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
 			        center : new daum.maps.LatLng(37.515812, 126.982340), // 지도의 중심좌표 
 			        level : 8// 지도의 확대 레벨 
 			    });
-				
 			    
 			    // 마커 클러스터러를 생성합니다 
 			    // 마커 클러스터러를 생성할 때 disableClickZoom 값을 true로 지정하지 않은 경우
@@ -148,7 +185,11 @@
 			        minLevel: 4, // 클러스터 할 최소 지도 레벨 
 			        disableClickZoom: true // 클러스터 마커를 클릭했을 때 지도가 확대되지 않도록 설정한다 
 			    });
-				
+			    
+			 	// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+			    var bounds = new daum.maps.LatLngBounds();    
+			    
+			 	
 				var markers = $(data.positions).map(function(i, position) {
 	        	//alert(i+" : "+position.lat+", "+position.lng+", "+position.restName);
 		        	
@@ -156,6 +197,9 @@
 			    var marker = new daum.maps.Marker({
 			        position:  new daum.maps.LatLng(position.restLatitude, position.restLongitude)// 마커의 위치
 			    });
+				
+			    // LatLngBounds 객체에 좌표를 추가합니다
+			    bounds.extend(marker.getPosition());
 
 				 // 커스텀 오버레이에 표시할 컨텐츠 입니다
 				 // 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
@@ -190,8 +234,8 @@
 
 					//alert(marker.getPosition());
 				 
-					// 마커 위에 커스텀오버레이를 표시합니다
-				 // 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
+				// 마커 위에 커스텀오버레이를 표시합니다
+				// 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
 				 var overlay = new daum.maps.CustomOverlay({
 				     content: content,
 				     //map: map, //overlay에는 생성시에 map 옵션 지정하지 말것. 
@@ -217,7 +261,7 @@
 				        // 마커를 클릭하면 해당 업장 상세페이지로 이동한다.
 				       daum.maps.event.addListener(marker, 'click', function() {
 				    	   	//closeOverlay();
-				    	   	goEdit(position.restSeq);
+				    	   	location.href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq="+position.restSeq;
 				    	   	
 				        }); 
 				 
@@ -231,12 +275,16 @@
 		        	
 				    return marker;
 				    
-		        });
+		        }); //end of $(data.positions).map(function(i, postion){})
 
 		        // 클러스터러에 마커들을 추가합니다
 		        clusterer.addMarkers(markers);
 				
-				}
+		        setBounds(bounds);
+		        
+				}// end of success
+			
+	    		
 		});//end of $.ajax()
 	    
 
@@ -252,7 +300,10 @@
 	        map.setLevel(level, {anchor: cluster.getCenter()});  
 	    });
 		
+		
 	}//end of getRestaurant()
+	
+	
     
 </script>
 <jsp:include page="../footer.jsp" />
