@@ -651,6 +651,8 @@ public class UserController {
 					//로그인한 유저의 포인트와 랜덤박스 업데이트
 					int result2 = service.updateUserPoint_RandomBox(hashMap);
 					
+					
+					/*디비에서 변경된 값을  세션에 있는 로그인유저에게 변경*/
 					UserVO userVO = service.getLoginUser(loginUser.getUserEmail());
 					loginUser.setUserPoint(userVO.getUserPoint());
 					
