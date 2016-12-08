@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- #11. mapper 기본 설정 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) --> 
+<mapper namespace="review">
+	
+	<!-- <select id="getReviewList" parameterType="String" resultMap="dataresultmap2">
+		select userName, userProfile, reviewSeq, reviewTitle, reviewContent, reviewAvgScore, reviewRegDate
+		from tbl_user A join tbl_review B
+		on A.userseq = B.userSeq
+		where restSeq = #{restSeq} and reviewStatus = 0 and userSort = 1
+	</select> -->
+	
+	<resultMap type="java.util.HashMap" id="dataresultmap3">
+	 	 <result column="revImgSeq"	  	        property="revImgSeq" 			    javaType="String" />
+		 <result column="reviewSeq"	  	        property="reviewSeq" 			    javaType="String" />
+		 <result column="reviewImg"	  	    	property="reviewImg" 			    javaType="String" />
+		 
+	</resultMap>
+	
+	<select id="getReviewImageList" resultMap="dataresultmap3">
+		select revImgSeq, reviewSeq, reviewImg
+		from tbl_review_Image
+		where reviewImageStatus = 0
+	</select>
+	
+	<resultMap type="java.util.HashMap" id="dataresultmap4">
+		 <result column="revImgSeq"	  	        property="revImgSeq" 			    javaType="String" />
+		 <result column="reviewSeq"	  	        property="reviewSeq" 			    javaType="String" />
+		 <result column="reviewImg"	  	    	property="reviewImg" 			    javaType="String" />
+		
+	</resultMap>
+	
+	<select id="getReviewImageListByReviewSeq" parameterType="String" resultMap="dataresultmap4">
+		select revImgSeq, reviewSeq, reviewImg
+		from tbl_review_Image
+		where reviewImageStatus = 0 and reviewSeq = #{reviewSeq}
+	</select>
+	
+
+	<select id="getLargeReviewImageName" parameterType="String" resultType="String">
+		select reviewImg
+		from tbl_review_Image
+		where reviewImageStatus = 0 and revImgSeq = #{revImgSeq}
+	</select>
+	
+	<resultMap type="java.util.HashMap" id="dataresultmap5">
+		 <result column="ageLine"	  	        property="ageLine" 			    javaType="String" />
+		 <result column="cnt"	  	            property="cnt" 			        javaType="String" />
+		 <result column="percent"	  	    	property="percent" 			    javaType="String" />
+	</resultMap>
+	
+	<select id="getAgeLineChartList" parameterType="String" resultMap="dataresultmap5">
+		select decode(grouping(ageLine), 0, to_char(ageLine), '전체') as ageLine
+		  , count(ageLine) as cnt
+		  , round(count(ageLine) / (select count(*) from tbl_reviewData) * 100) as percent
+		from
+		( 
+		select trunc(extract(year from sysdate) - (to_number(substr(B.birthday,1,2)) + case when substr(B.birthday,1,1) in('0','1','2') then 2000 else 1900 end ) + 1,-1) as ageline   
+		from tbl_review A join tbl_reviewData B
+		on A.reviewseq = B.reviewseq
+		where A.restseq = #{restSeq}
+		)V
+		group by rollup(ageline)
+	</select>
+	
+	<resultMap type="java.util.HashMap" id="dataresultmap6">
+		 <result column="gender"	  	        property="gender" 			    javaType="String" />
+		 <result column="cnt"	  	            property="cnt" 			        javaType="String" />
+		 <result column="percent"	  	    	property="percent" 			    javaType="String" />
+	</resultMap>
+	
+	<select id="getGenderChartList" parameterType="String" resultMap="dataresultmap6">
+		select decode(grouping(gender), 0, to_char(gender), '전체') as gender
+		  , count(gender) as cnt
+		  , round(count(gender) / (select count(*) from tbl_review) * 100) as percent
+		from
+		( 
+		select B.gender   
+		from tbl_review A join tbl_reviewData B
+		on A.reviewseq = B.reviewseq
+		where A.restseq = #{restseq}
+		)V
+		group by rollup(gender)
+
+	</select>
+	<!-- 리뷰 넣기 -->
+	<insert id="reviewAdd" parameterType="com.go.mazzipmetro.vo.ReviewVO">
+		insert into tbl_review(reviewSeq, userSeq, restSeq, reviewTitle, reviewContent, reviewHit, reviewMood, reviewTaste, reviewPrice, reviewService, reviewAvgScore, reviewRegdate, reviewStatus)
+		values(tbl_reviewSeq.nextval, #{userSeq}, #{restSeq}, #{reviewTitle}, #{reviewContent}, default, #{reviewMood}, #{reviewTaste}, #{reviewPrice}, #{reviewService}, #{reviewAvgScore}, default, 0)
+	</insert>
+	<!-- 리뷰 시퀀스 얻어오기 -->
+	<select id="getReviewSeq" parameterType="com.go.mazzipmetro.vo.ReviewVO" resultType="String">
+		select max(reviewSeq)
+		from tbl_review
+		where userSeq = #{userSeq}
+		and restSeq = #{restSeq}
+	</select>
+	<!-- 리뷰 이미지 넣기 -->
+	<insert id="addReviewImg" parameterType="java.util.HashMap">
+		insert into tbl_review_Image values(tbl_review_image_seq.nextval, #{reviewSeq}, #{reviewImg}, default)
+	</insert>
+	
+	
+	<!-- 총 리뷰수 얻어오기 -->
+ 	<select id="getTotalCount" parameterType="String" resultType="int">
+		select count(*)
+		from tbl_review
+		where restSeq = #{restSeq}
+	</select>
+	
+	<resultMap type="java.util.HashMap" id="dataresultmap2">
+		 <result column="userName"	  	        property="userName" 			    javaType="String" />
+		 <result column="userProfile"	  	    property="userProfile" 				javaType="String" />
+		 <result column="reviewSeq"	  	   		property="reviewSeq" 			    javaType="String" />
+		 <result column="reviewTitle"	  	    property="reviewTitle" 				javaType="String" />
+		 <result column="reviewContent"	  	    property="reviewContent" 			javaType="String" />
+		 <result column="reviewHit" 			property="reviewHit"				javaType="String" />
+		 <result column="reviewMood"			property="reviewMood"				javaType="String" />
+		 <result column="reviewTatse"			property="reviewTatse"				javaType="String" />
+		 <result column="reviewPrice"			property="reviewPrice"				javaType="String" />
+		 <result column="reviewService"			property="reviewService"			javaType="String" />
+		 <result column="reviewAvgScore"	  	property="reviewAvgScore" 			javaType="String" />
+		 <result column="reviewRegDate"	  	    property="reviewRegDate" 			javaType="String" />
+	</resultMap>
+	
+	<!-- 페이징 처리된 리뷰 보이기 -->
+	<select id="getReviewPaggingList" parameterType="java.util.HashMap" resultMap="dataresultmap2" >
+		select V.*
+		from
+		(select row_number() over(order by reviewSeq DESC) AS rno,
+		 	   userName, userProfile, reviewSeq, reviewTitle, reviewHit, reviewContent, reviewAvgScore, reviewRegDate
+		from tbl_user A join tbl_review B
+		on A.userseq = B.userSeq
+		where restSeq = #{restSeq} and reviewStatus = 0 and userSort = 0
+		)V
+		WHERE V.rno BETWEEN #{StartRno} AND #{EndRno}
+	</select>
+	<!-- 좋아요 수 +1 하기 -->
+	<update id="upReviewHit" parameterType="String">
+		update tbl_review set reviewHit = reviewHit + 1
+		where reviewSeq = #{reviewSeq} 
+	</update>
+	
+	<!-- 새로운 좋아요 수 가져오기 -->
+	<select id="getReviewHit" parameterType="String" resultType="int">
+		select reviewHit
+		from tbl_review
+		where reviewSeq = #{reviewSeq}
+	</select>
+	
+	<!-- 좋아요 취소하기 -->
+	<update id="getReviewDownHit">
+		update tbl_review set reviewHit = reviewHit - 1
+		where reviewSeq = #{reviewSeq}
+	</update>
+	
+	<!-- Like를 누른 사람들 지우기 -->
+	<delete id="delLikers">
+		delete tbl_review_liker
+		where reviewSeq = #{reviewSeq} and userSeq = #{userSeq}
+	</delete>	
+		
+	<!-- Like를 누른 사람들을 tbl_review_liker에 넣기 -->
+	<insert id="insertLiker" parameterType="java.util.HashMap" >
+		insert into tbl_review_Liker(reviewSeq, UserSeq)
+		values(#{reviewSeq}, #{UserSeq})
+	</insert>
+	
+	<!-- tbl_review_Liker에서 reviewSeq 가져오기 -->
+	<select id="getLikers" parameterType="String" resultType="String">
+		select reviewSeq
+		from tbl_review_Liker
+		where userSeq = #{userSeq}
+	</select>
+	
+	<select id="MyReviewCount" parameterType="String" resultType="int">
+		select count(*)
+		from tbl_review
+		where userSeq = #{userSeq} and restSeq = #{restSeq}
+	</select>
+	
+</mapper>
