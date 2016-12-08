@@ -199,7 +199,7 @@ function getLoginUserInfo(){
 				<!-- 사업주 로그인시 -->
 				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 1}">
 					<li><a href="#">맛집랭킹</a></li>
-					<li><a href="<%=request.getContextPath()%>/restMyPage.eat">마이페이지</a></li>
+					<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
 					<li><a href="javascript:goAsk();">문의하기</a></li>
 					<li><a href="<%=request.getContextPath()%>/myQnaList.eat">나의 문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
 				</c:if>

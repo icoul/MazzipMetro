@@ -359,19 +359,24 @@ public class UserController {
 		String userSeq = loginUser.getUserSeq();
 		
 		int userPoint = service.userPoint(userSeq);
-		int restCount = service.restCount(userSeq);
-		int effectContent = service.userContent(userSeq);
-		int coupon = service.userCoupon(userSeq);
 		
-		int reviewCount = service.userReviewCount(userSeq);
-		int qnaCount = service.userQnaCount(userSeq);
+		if(loginUser.getUserSort().equals("1")) {
+			int restCount = service.restCount(userSeq);
+			int effectContent = service.userContent(userSeq);
+			int coupon = service.userCoupon(userSeq);
+			
+			req.setAttribute("restCount", restCount);
+			req.setAttribute("coupon", coupon);
+			req.setAttribute("effectContent", effectContent);
+		} else if (loginUser.getUserSort().equals("0")) {
+			int reviewCount = service.userReviewCount(userSeq);
+			int qnaCount = service.userQnaCount(userSeq);
+			
+			req.setAttribute("reviewCount", reviewCount);
+			req.setAttribute("qnaCount", qnaCount);
+		}
 		
 		req.setAttribute("userPoint", userPoint);
-		req.setAttribute("restCount", restCount);
-		req.setAttribute("effectContent", effectContent);
-		req.setAttribute("coupon", coupon);
-		req.setAttribute("reviewCount", reviewCount);
-		req.setAttribute("qnaCount", qnaCount);
 		
 		return "user/userMyPage";
 	} // end : userMyPage

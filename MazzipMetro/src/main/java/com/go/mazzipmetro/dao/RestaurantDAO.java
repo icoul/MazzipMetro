@@ -157,13 +157,28 @@ public class RestaurantDAO implements IDAO{
 	}
 
 	public List<HashMap<String, String>> restStati_Gender(String restSeq) {
-		List<HashMap<String, String>> ageList = sqlSession.selectList("restaurant.restStati_Gender", restSeq);
-		return ageList;
+		List<HashMap<String, String>> genderList = sqlSession.selectList("restaurant.restStati_Gender", restSeq);
+		return genderList;
 	}
 	
 	public List<String> getLikers(String userSeq) {
 		List<String> likers = sqlSession.selectList("review.getLikers", userSeq);
 		return likers;
+	}
+
+	public List<HashMap<String, String>> restStati_AgeLine(String restSeq) {
+		List<HashMap<String, String>> ageList = sqlSession.selectList("restaurant.restStati_AgeLine", restSeq);
+		return ageList;
+	}
+
+	public List<HashMap<String, String>> restStati_reviewCount(String restSeq) {
+		List<HashMap<String, String>> reviewCount = sqlSession.selectList("restaurant.restStati_reviewCount", restSeq);
+		return reviewCount;
+	}
+
+	public List<HashMap<String, String>> restStati_ReviewGrade(String restSeq) {
+		List<HashMap<String, String>> reviewGrade = sqlSession.selectList("restaurant.restStati_ReviewGrade", restSeq);
+		return reviewGrade;
 	}
 
 
