@@ -362,6 +362,7 @@
 		select menuSeq, restSeq, menuName, menuContent, menuImg, menuPrice, menuSalePrice, menuSort, menuEvent, menuStatus
 		from TBL_Restaurant_Menu
 		where restSeq = #{restSeq} and menuStatus = 0
+		order by menuSeq asc
 	</select>
 	
 	<!-- 메뉴 수정하기 // SQL문 3개를 씁니다 -->
