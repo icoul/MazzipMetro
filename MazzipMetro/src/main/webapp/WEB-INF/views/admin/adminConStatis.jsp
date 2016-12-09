@@ -14,57 +14,62 @@
 <script type="text/javascript">
 $(function () {
     $('#mhStatis').highcharts({
-        chart: {
-            type: 'column',
-            options3d: {
-                enabled: true,
-                alpha: 10,
-                beta: 25,
-                depth: 70
-            }
+    	chart: {
+            type: 'column'
         },
         title: {
-            text: '컨텐츠 판매량'
+            text: 'Monthly Average Rainfall'
         },
         subtitle: {
-            text: ''
+            text: 'Source: WorldClimate.com'
+        },
+        xAxis: {
+            categories: [
+            	<c:forEach var="val" items="${list_statis}" varStatus="status">
+                '${val.CONTENTNAME}'
+                <c:if test="${status.count < list_statis.size()}">
+                ,
+                </c:if>
+                </c:forEach>
+            ],
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Rainfall (mm)'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
         },
         plotOptions: {
             column: {
-                depth: 25
+                pointPadding: 0.2,
+                borderWidth: 0
             }
         },
-        xAxis: {
-            categories: 
-            	<c:forEach var="val" items="${list_statis}" varStatus="status">
-				        '${val.CONTENTNAME}'
-					<c:if test="${status.count < list_statis.size() - 1}">
- 								,
-				    </c:if>
-				</c:forEach>
-        },
-        yAxis: {
-            title: {
-                text: '판매량'
-            }
-        },
-        series:   [{
-            name: '컨텐츠별',
-            data: [
-	            	<c:forEach var="val" items="${list_statis}" varStatus="status">
-	            	//name: '${val.CONTENTNAME}',
-            	 <c:if test="${status.count==list_statis.size()}">
-					{
-						name: '${val.CONTENTNAME}',
-						y: Number(${val.CONTENTPRICE})
-						
-       					}
-						
-	 			</c:if> 
-	     </c:forEach>]
-        }]
+        series: [
+        	<c:forEach var="val" items="${list_statis}" varStatus="status">
+        	{
+            name: '${val.CONTENTNAME}',
+            data: [Number(${val.CONTENTPRICE})]
+	        }
+	        <c:if test="${status.count < list_statis.size()}">
+	        ,
+	        </c:if>
+	        </c:forEach>
+        ]
     });
 });
+
+
+
 </script>
 <table style="width:100%;">
 	<tr>
@@ -83,7 +88,7 @@ $(function () {
 			</c:forEach>
 			</table>
 		</td>
-		<td style="width:70px;" id="mhStatis">
+		<td style="width:70%;" id="mhStatis">
 		</td>
 	</tr>
 </table>
