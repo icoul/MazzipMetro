@@ -56,28 +56,22 @@
 	
     <!-- 컨텐츠 리스트  -->
     <select id="conTentList" resultMap="conList" parameterType="java.util.HashMap">
-    	  select  T.restSeq,T.gradeName,T.restName, T.restPhone,T.restAddr,T.contentName, T.contentLimit
-		from 
-		(
-		select rowNum as RNO
-		    ,  V.restSeq,V.gradeName, V.restName,V.restPhone,V.restAddr,V.contentLimit,V.contentName,V.contentStatus
-         
-		from 
-      (
-     select C.restSeq, D.gradeName, C.restName, C.restPhone, C.restAddr, A.contentName, B.contentlimit, B.contentStatus
-		from tbl_content_cat A join tbl_restaurant_content B
-		on A.contentseq = B.contentseq
-		left join tbl_restaurant C
-		on C.restSeq = B.restSeq
-		join tbl_grade D
-		on D.gradeSeq = C.gradeSeq
-      ) V where  V.contentStatus=0 
+    	 select V.rno, V.restSeq, V.gradeName, V.restName, V.restPhone, V.restAddr, V.contentName, V.contentLimit
+		    from 
+		    (   
+		      select rowNum as rno, T.restSeq, T.gradeName, T.restName, T.restPhone, T.restAddr, T.contentName, T.contentLimit
+		      from
+		      (
+		        select restSeq, gradeName, restName, restPhone, restAddr, contentName, to_char(contentLimit, 'yyyy-mm-dd') as contentLimit
+		        from view_contentList
+		        group by contentName,restSeq, gradeName, restName, restPhone, restAddr, contentLimit
+		       )T
+		  ) V
+		  where 1=1
      <if test="colName != null and search != null">     
-	     and ${colName} like '%'|| #{search} ||'%'
+	    and ${colName} like '%'|| #{search} ||'%'
 	 </if>
-      order by V.restSeq desc
-		) T
-		where T.RNO >= #{start} and T.RNO <![CDATA[<=]]> #{end}
+		and V.RNO >= #{start} and V.RNO <![CDATA[<=]]> #{end}
     </select>
     
      <!-- 컨텐츠 페이징바 -->
@@ -85,14 +79,18 @@
     	select count(*)
     		from 
 	      (
-	      select C.restSeq, D.gradeName, C.restName, C.restPhone, C.restAddr, A.contentName, B.contentlimit, B.contentStatus
-			from tbl_content_cat A join tbl_restaurant_content B
-			on A.contentseq = B.contentseq
-			left join tbl_restaurant C
-			on C.restSeq = B.restSeq
-			join tbl_grade D
-			on D.gradeSeq = C.gradeSeq
-	      ) V
+		        select V.rno, V.restSeq, V.gradeName, V.restName, V.restPhone, V.restAddr, V.contentName, V.contentLimit
+			    from 
+			    (   
+			      select rowNum as rno, T.restSeq, T.gradeName, T.restName, T.restPhone, T.restAddr, T.contentName, T.contentLimit
+			      from
+			      (
+			        select restSeq, gradeName, restName, restPhone, restAddr, contentName, to_char(contentLimit, 'yyyy-mm-dd') as contentLimit
+			        from view_contentList
+			        group by contentName,restSeq, gradeName, restName, restPhone, restAddr, contentLimit
+			       )T
+			  ) V
+	      ) P
     	<if test="colName != null and search != null">
     	 where ${colName} like '%' || #{search} || '%'
     	</if>
@@ -126,4 +124,11 @@
 		update tbl_user set userEmail= #{userEmail}, userPhone= #{userPhone}, userPoint= #{userPoint}
 		where userSeq = #{userSeq}
     </update>
+    
+    <!-- 컨텐츠 통계 -->
+    <select id="adminConStatis" resultType="java.util.HashMap">
+    	select  contentName,  sum(contentPrice) as contentPrice
+        from view_contentList
+        group by contentName, contentPrice
+    </select>
 </mapper>

@@ -124,5 +124,11 @@ public class AdminService implements IService {
 		return result;
 	}
 	
+	//컨텐츠 통계
+	public List<HashMap<String, String>> adminConStatis() {
+		List<HashMap<String, String>>  list = dao.adminConStatis();
+		return list;
+	}
+	
 	
 }
