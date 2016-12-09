@@ -25,6 +25,7 @@
 			<th style="text-align: center;">리뷰제목</th>
 			<th style="text-align: center;">리뷰내용</th>
 			<th style="text-align: center;">리뷰작성일자</th>
+			<th style="text-align: center;">수정 | 삭제</th>
 		</tr>
 		<c:forEach var="review" items="${myReviewList}" varStatus="status">
 		<tr>
@@ -32,6 +33,12 @@
 			<td style="text-align: center;">${review.reviewTitle}</td>
 			<td style="text-align: center;">${review.reviewContent}</td>
 			<td style="text-align: center;">${review.reviewRegdate}</td>
+			<td style="text-align: center;"> 
+				<div class="btn-group ">
+				<button type="button" class="btn btn-default" onClick="reviewEdit('${review.userSeq}', '${review.reviewSeq}');">수정</button>
+				<button type="button" class="btn btn-danger" onClick="reviewDel('${review.userSeq}', '${review.reviewSeq}');">삭제</button>
+				</div>
+			</td>
 		</tr>
 		</c:forEach>
 	</table>
