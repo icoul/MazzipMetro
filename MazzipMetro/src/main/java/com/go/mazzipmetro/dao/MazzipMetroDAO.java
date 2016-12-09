@@ -116,6 +116,4 @@ public class MazzipMetroDAO implements IDAO{
 		List<FaqVO> faqList = sqlSession.selectList("getFaqListByType", faqType);
 		return faqList;
 	}
-
-
 }

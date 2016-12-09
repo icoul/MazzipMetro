@@ -105,5 +105,9 @@ public class ReviewDAO implements IDAO{
 		int reviewCount = sqlSession.selectOne("review.MyReviewCount", map);
 		return reviewCount;
 	}
+	public List<HashMap<String, String>> getRealReview(HashMap<String, String> map) {
+		List<HashMap<String, String>> list = sqlSession.selectList("review.getRealReview",map);
+		return list;
+	}
 
 }

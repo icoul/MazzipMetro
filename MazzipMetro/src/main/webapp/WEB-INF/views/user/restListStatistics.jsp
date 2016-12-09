@@ -54,6 +54,6 @@
 			</tr>
 		</c:forEach>
 	</table>
-	 <div id="hb_container" style="width: 50%; height: 300px;"></div>
+	 <div id="hb_container" style="width: 100%; "></div>
 	</div>
 	<%-- subrightCon --%>

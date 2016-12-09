@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.go.mazzipmetro.common.FileManager;
 import com.go.mazzipmetro.common.ThumbnailManager;
 import com.go.mazzipmetro.service.MazzipMetroService;
+import com.go.mazzipmetro.service.ReviewService;
 import com.go.mazzipmetro.vo.FaqVO;
 import com.go.mazzipmetro.vo.QnaVO;
 import com.go.mazzipmetro.vo.UserVO;
@@ -30,6 +32,9 @@ public class MazzipMetroController {
 	private FileManager fileManager;
 	@Autowired
 	private ThumbnailManager thumbnailManager;
+	@Autowired
+	private ReviewService reviewService; 
+
 	
 	
 	@RequestMapping(value="/index.eat", method={RequestMethod.GET})
@@ -1146,7 +1151,49 @@ public class MazzipMetroController {
 			req.setAttribute("count", count);
 			return "QnA/faqListByType";
 		}
+
 		
-		
-		
+		@RequestMapping(value="/MainReviewAjax.eat", method={RequestMethod.GET})
+		public String MainReviewAjax(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+			
+			String start = req.getParameter("StartRno");    // 1, 3, 5....
+			String len = req.getParameter("EndRno");        // 2개씩   더보기.. 클릭에 보여줄 상품의 갯수 단위크기   			
+			
+			if (start == null) {
+				start = "1";
+			}
+			if (len == null) {
+				len = "5";
+			}
+					
+			int startRno = Integer.parseInt(start);          // 공식!! 시작 행번호   1               3               5
+			int endRno   = startRno+Integer.parseInt(len)-1; // 공식!! 끝 행번호     1+2-1(==2)      3+2-1(==4)      5+2-1(==6)
+			
+			String StartRno = String.valueOf(startRno);
+			String EndRno = String.valueOf(endRno);
+			
+			List<HashMap<String,String>> reviewImageList = reviewService.getReviewImageList();
+			
+			
+			
+			HashMap<String, String> map = new HashMap<String, String>();
+			
+			map.put("StartRno", StartRno);
+			map.put("EndRno", EndRno);
+					
+			List<HashMap<String,String>> reviewList = reviewService.getRealReview(map);
+			//int TotalReviewCount = service.getTotalReview(restSeq);
+			
+			
+			
+			/*System.out.println("dddddddddddddddddddddddddddddddddd"+restSeq);*/
+			
+			
+			
+			req.setAttribute("reviewList",  reviewList);
+			req.setAttribute("reviewImageList", reviewImageList);
+			return "review/realTimeReview";
+		}
+
+
 }

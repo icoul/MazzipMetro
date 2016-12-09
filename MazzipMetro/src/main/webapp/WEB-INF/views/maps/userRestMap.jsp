@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../top.jsp" />
 	 <style type="text/css">
 	    .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
@@ -28,10 +29,16 @@
 
 <div id="selectFrmContainer" style="padding-top: 20px;padding-left: 20px;">
 	<form id="selectFrm" onsubmit="return false;">
-		<label class="radio-inline"><input type="radio" name="conq" value="already">정복한 맛집</label>
-		<label class="radio-inline"><input type="radio" name="conq" value="notYet" checked>정복해야 할 맛집</label>
+		<label class="radio-inline"><input type="radio" name="conq" value="already" checked>정복한 맛집</label>
+		<label class="radio-inline"><input type="radio" name="conq" value="notYet">정복해야 할 맛집</label>&nbsp;&nbsp;
+		
+		<select name="selMenu_metroName" id="selMenu_metroName"></select>&nbsp;&nbsp;
+		<select name="selMenu_dongName" id="selMenu_dongName"></select>
+		
 	</form>
 </div>
+
+
 
 <br/> 
 <div id="map" style="width:100%;height:500px;"></div>
@@ -41,8 +48,7 @@
 		
 		//페이지 최초로딩시 등록된 음식점 모두 띄우기
 		$("[name=conq]").change(function(){
-			//alert($("[name=conq]").val());
-			getRestaurant($(this).val());
+			getList();
 		});
 		
 		var map = new daum.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
@@ -50,39 +56,123 @@
 	        level : 8// 지도의 확대 레벨 
 	    });
 		
-		getRestaurant($("[name=conq]:checked").val());
-			
+		getList();
+		
+		$("#selMenu_dongName").change(function(){
+			getRestaurant($("[name=conq]:checked").val());
+		});	
+		
+		$("#selMenu_metroName").change(function(){
+			getRestaurant($("[name=conq]:checked").val());
+		});
+		
 	});// end of $(document).ready(
 	
 	var map, clusterer;
 	
+	// 지도 마커 및 메뉴리스트 호출 함수
+	function getList(){
+		var conq = $("[name=conq]:checked").val();
+		getRestaurant(conq);
+		getDongMetroNameList(conq);
+	}
+	
+	// 동이름/지하철이름 셀렉트 메뉴 호출
+	function getDongMetroNameList(conq){
+		var metroId = $("#selMenu_metroName").val()
+		, dongId = $("#selMenu_dongName").val();
+		
+		//alert('dongId = '+dongId+', metroId = '+metroId)
+		
+		$.ajax({
+				url:"<%=request.getContextPath()%>/getDongMetroNameList.eat",
+				type :"GET",
+				data: "conq="+conq,
+				dataType:"json",
+				success: function(data){
+							var dongNameList = data.dongNameList;
+							var metroNameList = data.metroNameList;
+							
+							var dongNameHtml = '<option value="dongId">동 선택하기</option>';
+							var metroNameHtml = '<option value="metroId">지하철 선택하기</option>';
+							
+							for (var i = 0; i < dongNameList.length; i++) {
+								if(dongId == dongNameList[i].dongId ){
+									dongNameHtml += '<option value="'+dongNameList[i].dongId+'" selected>'+dongNameList[i].dongName+'</option>';
+								} else {
+									dongNameHtml += '<option value="'+dongNameList[i].dongId+'">'+dongNameList[i].dongName+'</option>';
+								}
+							}
+							
+							$("#selMenu_dongName").html(dongNameHtml);
+							
+							for (var i = 0; i < metroNameList.length; i++) {
+								if (metroId == metroNameList[i].metroId) {
+									metroNameHtml += '<option value="'+metroNameList[i].metroId+'" selected>'+metroNameList[i].metroName+'</option>';
+								}else {
+									metroNameHtml += '<option value="'+metroNameList[i].metroId+'">'+metroNameList[i].metroName+'</option>';									
+								}
+							}
+							$("#selMenu_metroName").html(metroNameHtml);
+							
+				}, //end of success: function(data)
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				} // end of error: function(request,status,error)
+			}); //end of $.ajax()
+	}
+	
+	function setBounds(bounds) {
+	    // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
+	    // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
+	    map.setBounds(bounds);
+	}
+	
+		
 	// 업장 검색 함수
 	function getRestaurant(conq){
+		var metroId="metroId", dongId='dongId';
+		if ($("#selMenu_metroName").val() !=null) {
+			metroId = $("#selMenu_metroName").val();
+		} 
+		
+		if ($("#selMenu_dongName").val() != null) {
+			dongId = $("#selMenu_dongName").val();	
+		}
 	
-		alert(conq);
 	    // 데이터를 가져오기 위해 jQuery를 사용합니다
 	    // 데이터를 가져와 마커를 생성하고 클러스터러 객체에 넘겨줍니다
 	    $.ajaxSettings.traditional = true;
 	    $.ajax({
 			url: "<%=request.getContextPath()%>/getRestaurantVOList.eat",  
 			async: false, 
-			//data: "conq="+$("[name=conq]:checked").val(),
-			data: "conq="+conq,
+			data: "conq="+conq+"&metroId="+metroId+"&dongId="+dongId,
 			dataType: "json",
 			success: function(data) {
 				//alert(data.positions[0].restName);
 				
-				if(data.positions.length == 0){
-					alert('검색된 음식점이 없습니다. 검색조건을 확인해주세요!');
+				if(data.positions.length == 0 && conq =="already"){
+					var warning;
+					if(metroId != null || dongId != null){
+						warning = "이곳은 ";
+					}
+					warning += '정복한 맛집이 없습니다. 맛집 리뷰를 작성해주세요!';
+					alert(warning);
+					return;
+				}else if(data.positions.length == 0 && conq=="notYet"){
+					var warning;
+					if(metroId != null || dongId != null){
+						warning = "이곳은 ";
+					}
+					warning += "정복할 음식점이 없습니다. 검색조건을 확인해주세요!";
+					alert(warning);
 					return;
 				}
-				
 				// 검색조건이 없을 때에는 기존의 마커들을 유지 하기 위햐여 지도 객체를 success 함수 안에 위치 시켰다. 전역변수화
 				map = new daum.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
 			        center : new daum.maps.LatLng(37.515812, 126.982340), // 지도의 중심좌표 
 			        level : 8// 지도의 확대 레벨 
 			    });
-				
 			    
 			    // 마커 클러스터러를 생성합니다 
 			    // 마커 클러스터러를 생성할 때 disableClickZoom 값을 true로 지정하지 않은 경우
@@ -92,10 +182,14 @@
 			    clusterer = new daum.maps.MarkerClusterer({
 			        map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
 			        averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
-			        minLevel: 7, // 클러스터 할 최소 지도 레벨 
+			        minLevel: 4, // 클러스터 할 최소 지도 레벨 
 			        disableClickZoom: true // 클러스터 마커를 클릭했을 때 지도가 확대되지 않도록 설정한다 
 			    });
-				
+			    
+			 	// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+			    var bounds = new daum.maps.LatLngBounds();    
+			    
+			 	
 				var markers = $(data.positions).map(function(i, position) {
 	        	//alert(i+" : "+position.lat+", "+position.lng+", "+position.restName);
 		        	
@@ -103,6 +197,9 @@
 			    var marker = new daum.maps.Marker({
 			        position:  new daum.maps.LatLng(position.restLatitude, position.restLongitude)// 마커의 위치
 			    });
+				
+			    // LatLngBounds 객체에 좌표를 추가합니다
+			    bounds.extend(marker.getPosition());
 
 				 // 커스텀 오버레이에 표시할 컨텐츠 입니다
 				 // 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
@@ -137,8 +234,8 @@
 
 					//alert(marker.getPosition());
 				 
-					// 마커 위에 커스텀오버레이를 표시합니다
-				 // 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
+				// 마커 위에 커스텀오버레이를 표시합니다
+				// 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
 				 var overlay = new daum.maps.CustomOverlay({
 				     content: content,
 				     //map: map, //overlay에는 생성시에 map 옵션 지정하지 말것. 
@@ -164,7 +261,7 @@
 				        // 마커를 클릭하면 해당 업장 상세페이지로 이동한다.
 				       daum.maps.event.addListener(marker, 'click', function() {
 				    	   	//closeOverlay();
-				    	   	goEdit(position.restSeq);
+				    	   	location.href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq="+position.restSeq;
 				    	   	
 				        }); 
 				 
@@ -178,12 +275,16 @@
 		        	
 				    return marker;
 				    
-		        });
+		        }); //end of $(data.positions).map(function(i, postion){})
 
 		        // 클러스터러에 마커들을 추가합니다
 		        clusterer.addMarkers(markers);
 				
-				}
+		        setBounds(bounds);
+		        
+				}// end of success
+			
+	    		
 		});//end of $.ajax()
 	    
 
@@ -199,7 +300,10 @@
 	        map.setLevel(level, {anchor: cluster.getCenter()});  
 	    });
 		
+		
 	}//end of getRestaurant()
+	
+	
     
 </script>
 <jsp:include page="../footer.jsp" />

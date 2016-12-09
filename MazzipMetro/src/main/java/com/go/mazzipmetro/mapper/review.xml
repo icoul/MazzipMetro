@@ -123,6 +123,7 @@
 		 <result column="reviewService"			property="reviewService"			javaType="String" />
 		 <result column="reviewAvgScore"	  	property="reviewAvgScore" 			javaType="String" />
 		 <result column="reviewRegDate"	  	    property="reviewRegDate" 			javaType="String" />
+		 <result column="restSeq"	  	  		property="restSeq" 					javaType="String" />
 	</resultMap>
 	
 	<!-- 페이징 처리된 리뷰 보이기 -->
@@ -134,6 +135,19 @@
 		from tbl_user A join tbl_review B
 		on A.userseq = B.userSeq
 		where restSeq = #{restSeq} and reviewStatus = 0 and userSort = 0
+		)V
+		WHERE V.rno BETWEEN #{StartRno} AND #{EndRno}
+	</select>
+	
+		<!-- 메인페이지 리뷰 보이기 -->
+	<select id="getRealReview" parameterType="java.util.HashMap" resultMap="dataresultmap2" >
+		select V.*
+		from
+		(select row_number() over(order by reviewSeq DESC) AS rno,
+		 	   userName, userProfile, reviewSeq, reviewTitle, reviewHit, reviewContent, reviewAvgScore, reviewRegDate, restSeq
+		from tbl_user A join tbl_review B
+		on A.userseq = B.userSeq
+		where reviewStatus = 0 and userSort = 0
 		)V
 		WHERE V.rno BETWEEN #{StartRno} AND #{EndRno}
 	</select>

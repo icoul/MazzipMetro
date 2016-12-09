@@ -267,7 +267,10 @@
 	<select id="restStati_Gender" resultMap="mapGender">
 		select  decode( grouping(V.userGender), 0, V.userGender, '전체') as GENDER
 	      	  , count(V.userGender) as CNT
-	          , round( count(V.userGender) / (select count(*) from tbl_user) * 100 ) as PERCENT
+	          , round( count(V.userGender) / (select count(A.userGender)
+      from tbl_user A join tbl_review B
+      on A.userSeq = B.userSeq
+      where restSeq = #{restSeq}) * 100 ) as PERCENT
 		from
 		(
 		  select A.userGender
@@ -278,22 +281,67 @@
 		group by rollup(V.userGender)
 	</select>
 	
+	<!-- 사업자 매장 통계 (나이) -->
 	<resultMap type="java.util.HashMap" id="mapAgeline">
 		<result column="ageline" property="AGELINE" javaType="String" />
 		<result column="cnt"	 property="CNT" 	javaType="String" />
 		<result column="percent" property="PERCENT" javaType="String" />
 	</resultMap>
 	
-	<select id="restStati_Ageline" resultMap="mapAgeline">
+	<select id="restStati_AgeLine" resultMap="mapAgeline">
 		select  decode( grouping(V.AGELINE), 0, to_char(V.AGELINE), '전체') as AGELINE
 	          , count(V.AGELINE) as CNT
-	          , round( count(V.AGELINE) / (select count(*) from employees) * 100 ) as PERCENT
+	          , round( count(V.AGELINE) / (
+             select count(trunc(extract(year from sysdate) - to_number(substr(userBirthday, 1, 4)) + 1, -1))
+            from tbl_user A join tbl_review B
+            on A.userSeq = B.userSeq
+            where restSeq = #{restSeq}) * 100 ) as PERCENT
 		from
 		(
-		  select trunc( extract(year from sysdate) - ( to_number(substr(jubun, 1, 2) ) + case when substr(jubun, 7, 1) in('1','2') then 1900 else 2000 end ) + 1 , -1 ) as AGELINE 
-		  from employees
+		  select trunc(extract(year from sysdate) - to_number(substr(userBirthday, 1, 4)) + 1, -1) as AGELINE
+      from tbl_user A join tbl_review B
+      on A.userSeq = B.userSeq
+      where restSeq = #{restSeq}
 		) V
 		group by rollup(V.AGELINE)
+	</select>
+	
+	<resultMap type="java.util.HashMap" id="mapReviewCount">
+		<result column="regdate" property="REGDATE" javaType="String" />
+		<result column="cnt"	 property="CNT" 	javaType="String" />
+		<result column="percent" property="PERCENT" javaType="String" />
+	</resultMap>
+	
+	<!-- 사업자 매장 통계 (날짜별 리뷰수) -->
+	<select id="restStati_reviewCount" resultMap="mapReviewCount">
+		select  decode( grouping(V.REVIEWREGDATE), 0, to_char(V.REVIEWREGDATE), '전체') as REGDATE
+	          , count(V.REVIEWREGDATE) as CNT
+	          , round( count(V.REVIEWREGDATE) / (
+              select count(B.REVIEWREGDATE)
+              from tbl_user A join tbl_review B
+              on A.userSeq = B.userSeq
+              where restSeq = #{restSeq}) * 100 ) as PERCENT
+		from
+		(
+		  select B.REVIEWREGDATE
+		  from tbl_user A join tbl_review B
+		  on A.userSeq = B.userSeq
+		  where restSeq = #{restSeq}
+		) V
+		group by rollup(V.REVIEWREGDATE)
+	</select>
+	
+	<!-- 사업자 매장 통계 (총리뷰평점) -->
+	<resultMap type="java.util.HashMap" id="mapReviewGrade">
+		<result column="reviewcount" property="REVIEWCOUNT" javaType="String" />
+		<result column="grade"	 property="GRADE" 	javaType="int" />
+	</resultMap>
+	
+	<select id="restStati_ReviewGrade" resultMap="mapReviewGrade">
+		select count(reviewSeq) as REVIEWCOUNT,  round(avg(sum(reviewavgscore)), 1) as GRADE
+		from tbl_review
+		where restSeq = #{restSeq}
+		group by reviewSeq
 	</select>
 
 	<!-- 메뉴 리스트 가져오기 -->
@@ -315,5 +363,35 @@
 		from TBL_Restaurant_Menu
 		where restSeq = #{restSeq} and menuStatus = 0
 	</select>
+	
+	<!-- 메뉴 수정하기 // SQL문 3개를 씁니다 -->
+	<insert id = "restaurant.menuEditInsert" parameterType="java.util.HashMap">
+		insert into TBL_Restaurant_Menu(menuSeq, restSeq, menuName, menuContent, menuImg, menuPrice, menuSalePrice, menuSort, menuEvent, menuStatus)
+		values (TBL_RESTAURANT_MENUSEQ.nextval, #{restSeq}, #{menuName}, #{menuContent}, #{menuImg}, #{menuPrice}, #{menuSalePrice}, #{menuSort},
+			<if test="menuEvent == null or menuEvent.equals('')">
+				null
+			</if>
+			<if test="menuEvent != null and !menuEvent.equals('')">
+				#{menuEvent}
+			</if>
+			, default)
+	</insert>
+	
+	<update id = "restaurant.menuEditDelete" parameterType="java.util.HashMap">
+		update TBL_Restaurant_Menu set menuStatus = 1
+		where menuSeq = #{menuSeq} and restSeq = #{restSeq}
+	</update>
+	
+	<update id = "restaurant.menuEditUpdate" parameterType="java.util.HashMap">
+		update TBL_Restaurant_Menu set menuName = #{menuName}, menuContent = #{menuContent}, menuImg = #{menuImg}
+									 , menuPrice = #{menuPrice}, menuSalePrice = #{menuSalePrice}, menuSort = #{menuSort}, menuEvent = 
+									 <if test="menuEvent == null or menuEvent.equals('')">
+						 				 null
+									 </if>
+									 <if test="menuEvent != null and !menuEvent.equals('')">
+									 	 #{menuEvent}
+									 </if>
+		where menuSeq = #{menuSeq} and restSeq = #{restSeq}
+	</update>
 	
 </mapper>
