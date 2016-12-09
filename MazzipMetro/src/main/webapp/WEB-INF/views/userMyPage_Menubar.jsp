@@ -16,7 +16,7 @@
 	     <li class="dropdown">
 	        <a class="dropdown-toggle" data-toggle="dropdown" href="#">맛집<span class="caret"></span></a>
 	        <ul class="dropdown-menu">
-	          <li><a href="#">정복한맛집</a></li>
+	          <li><a id="btn_Mazzip" href="#">정복한맛집</a></li>
 	          <li><a href="#">태그별통계</a></li>
 	        </ul>
 	      </li>
@@ -45,7 +45,7 @@
 	        <span class="caret"></span></a>
 	        <ul class="dropdown-menu">
 	          <li><a href="javascript:goAsk();">문의하기</a></li>
-	          <li id="userQnaBtn"><a href="#">나의문의내역</a></li>
+	          <li id="btn_userQna"><a href="#">나의문의내역</a></li>
 	        </ul>
 	      </li>
 	    </ul>

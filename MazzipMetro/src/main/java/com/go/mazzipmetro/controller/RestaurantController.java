@@ -618,19 +618,28 @@ public class RestaurantController {
 
 			String restSeq = req.getParameter("restSeq");
 			
-			List<HashMap<String, String>> genderList = service.restStati_Gender(restSeq);
-//			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
-//			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
-//			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
+//			성별 차트 DB
+			List<HashMap<String, String>> genderList = service.restStati_Gender(restSeq); 
+
+//			나이별 차트 DB
+			List<HashMap<String, String>> ageList = service.restStati_AgeLine(restSeq);
+			
+//			리뷰수 차트 DB
+			List<HashMap<String, String>> reviewCount = service.restStati_ReviewCount(restSeq);
+			
+//			리뷰평점 차트 DB
+			List<HashMap<String, String>> reviewGrade = service.restStati_ReviewGrade(restSeq);
+			
+			
 //			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
 //			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
 			
 			req.setAttribute("genderList", genderList);
-/*			req.setAttribute("Agelist", Agelist);
-			req.setAttribute("Agelist", Agelist);
-			req.setAttribute("Agelist", Agelist);
-			req.setAttribute("Agelist", Agelist);
-			req.setAttribute("Agelist", Agelist);*/
+			req.setAttribute("ageList", ageList);
+			req.setAttribute("reviewCount", reviewCount);
+			req.setAttribute("reviewGrade", reviewGrade);
+//			req.setAttribute("Agelist", Agelist);
+//			req.setAttribute("Agelist", Agelist);
 			
 			
 			return "user/Statistics";
