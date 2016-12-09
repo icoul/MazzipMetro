@@ -12,7 +12,7 @@
 .subrightCon {float:left; width:70%; height:auto; border-right:1px solid #dbdbdb; padding-bottom:40px;}
 .subrightCon .searchWrap {padding-top:10px; text-align:center;}
 
-.tblRestList {margin:30px 0 0 50px; border-collapse: collapse; width:90%;}
+.tblRestList {margin:50px 0 0 50px; border-collapse: collapse; width:90%;}
 .tblRestList th {height:50px; padding-top:16px; border-top:1px solid #00bad2; border-bottom:1px solid #c2c2c2; background-color:#fafafa; color:#444; text-align:center; font-size:13px; font-weight:normal;}
 .tblRestList td {height:10px; padding-top:16px; padding-bottom:16px; border-bottom:1px solid #e0e0e0; font-size:12px; text-align:center; vertical-align: middle;}
 .btnGray {width:63px; height:23px; border:1px solid #6c6c6c; background-color:#777; color:#fff; margin-top: 20px; margin-bottom: 10px; font-size:10px; }
@@ -83,15 +83,15 @@
 
 </script>
 
-
-	<div class="subleftCon">
-		<h2>업장리스트</h2>
+	<div class="subleftCon" style="height:auto; font-size:25px;">
+	<h2>업장 리스트</h2>
 	</div>
-	<%-- subleftCon --%>
 	
-	<div class="subrightCon" id = "demobtn">
-		<table class="tblRestList">
-		<span style = "position : absolute; margin-left: 50px; top: 80px; " >*클릭하시면 메뉴를 확인할 수 있습니다</span>
+	<%-- subleftCon --%>
+	<div class="subrightCon" id = "demobtn" style="height:2500px;">
+		<jsp:include page="../userMyPage_Menubar.jsp" />
+		<table class="tblRestList" >
+		<span style = "position : absolute; margin-left: 50px; top: 155px; " >*클릭하시면 메뉴를 확인할 수 있습니다</span>
 		<c:forEach var="vo" items="${restList}" varStatus="status">
 			
 			<tr>

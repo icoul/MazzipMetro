@@ -69,8 +69,8 @@
 	        <a class="dropdown-toggle" data-toggle="dropdown" href="#">점포메뉴
 	        <span class="caret"></span></a>
 	        <ul class="dropdown-menu">
-	          <li><a href="#">매장등록신청</a></li>
-	          <li><a href="#">매장리스트</a></li>
+	          <li><a href="<%= request.getContextPath() %>/restAdd.eat">매장등록신청</a></li>
+	          <li><a href="<%= request.getContextPath() %>/restList.eat">매장리스트</a></li>
 	        </ul>
 	      </li>
 	      <li class="dropdown">

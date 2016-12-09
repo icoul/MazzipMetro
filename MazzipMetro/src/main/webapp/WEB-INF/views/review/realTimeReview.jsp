@@ -1,15 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script type="text/javascript">
 
-
 $(document).ready(function(){
-    
-    
+	
+     var $wrapper = $("#Scroller");
+     $wrapper.css({'top':0});
+     
+     animator($wrapper); 
 });// end of ready
 
+function animator(){    
+    var animator =   function(imgblock){
+     imgblock.animate({'top':-100}, 5500,
+                    function(){
+                      imgblock.css({'top':0});
+                      animator(imgblock); //재귀함수 호출 -> 반복효과
+                        }
+                      );   
+     } // 함수정의
+ } 
+ 
 </script>
 
 
