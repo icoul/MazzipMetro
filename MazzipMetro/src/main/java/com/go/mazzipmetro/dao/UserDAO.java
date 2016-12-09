@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.go.mazzipmetro.vo.RestaurantVO;
+import com.go.mazzipmetro.vo.UserAttendVO;
 import com.go.mazzipmetro.vo.UserVO;
 
 @Repository
@@ -78,7 +79,62 @@ public class UserDAO implements IDAO{
 		return qnaCount;
 	}
 
+	public int userExist(String userSeq) {
+		int isUserExist = sqlSession.selectOne("userExist", userSeq);
+		return isUserExist;
+	}
 
+
+
+	public int insertAttend(String userSeq) {
+		int n =  sqlSession.insert("insertAttend", userSeq);
+		return n;
+	}
+
+
+
+	public int updateUserPoint1(String userSeq) {
+		int m =  sqlSession.update("updateUserPoint1", userSeq);
+		return m;
+	}
+
+
+
+	public int userLoginToday(String userSeq) {
+		int n = sqlSession.selectOne("userLoginToday", userSeq);
+		return n;
+	}
+
+	public UserAttendVO getUserAttend(String userSeq) {
+		UserAttendVO vo = sqlSession.selectOne("getUserAttend", userSeq);
+		return vo;
+	}
+
+
+	public int updateUserAttend(HashMap<String, String> hashMap) {
+		int n = sqlSession.update("updateUserAttend", hashMap);
+		return n;
+	}
+
+
+	public int updateUserPoint2(HashMap<String, String> hashMap) {
+		int n = sqlSession.update("updateUserPoint2", hashMap);
+		return n;
+	}
+
+
+
+	public int updateRandomBox(HashMap<String, String> hashMap) {
+		int f = sqlSession.update("updateRandomBox", hashMap);
+		return f;
+	}
+
+
+
+	public int userLoginContinueCheck(HashMap<String, String> hashMap) {
+		int isLoginContinue = sqlSession.selectOne("userLoginContinueCheck", hashMap);
+		return isLoginContinue;
+	}
 
 }
 
