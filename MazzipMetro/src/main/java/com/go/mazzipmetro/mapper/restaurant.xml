@@ -334,7 +334,7 @@
 	<!-- 사업자 매장 통계 (총리뷰평점) -->
 	<resultMap type="java.util.HashMap" id="mapReviewGrade">
 		<result column="reviewcount" property="REVIEWCOUNT" javaType="String" />
-		<result column="grade"	 property="GRADE" 	javaType="int" />
+		<result column="grade"	 property="GRADE" 	javaType="double" />
 	</resultMap>
 	
 	<select id="restStati_ReviewGrade" resultMap="mapReviewGrade">
