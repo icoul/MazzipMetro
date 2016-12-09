@@ -150,6 +150,59 @@ public class RestaurantDAO implements IDAO{
 		
 		return menuList;
 	}
+	
+	//메뉴 수정하기
+	public int editRestMenu(MenuVO mvo) {
+		
+		String menuSeq = "";
+		String menuStatus ="";
+		int result = 0;
+		
+		for (int i = 0; i < mvo.getMenuSeq().length; i++) {
+			System.out.println("menuSeq = " + mvo.getMenuSeq()[i]);
+			System.out.println("restSeq = " + mvo.getRestSeq()[i]);
+			System.out.println("menuName = " + mvo.getMenuName()[i]);
+			System.out.println("menuContent = " + mvo.getMenuContent()[i]);
+			System.out.println("menuImg = " + mvo.getMenuImg()[i]);
+			System.out.println("menuPrice = " + mvo.getMenuPrice()[i]);
+			System.out.println("menuSalePrice = " + mvo.getMenuSalePrice()[i]);
+			System.out.println("menuSort = " + mvo.getMenuSort()[i]);
+			System.out.println("menuEvent = " + mvo.getMenuEvent()[i]);
+			
+			menuSeq = mvo.getMenuSeq()[i];
+			menuStatus = mvo.getMenuStatus()[i];
+			
+			HashMap<String, String> map = new HashMap<String, String>();
+
+			map.put("menuSeq", mvo.getMenuSeq()[i]);
+			map.put("restSeq", mvo.getRestSeq()[i]);
+			map.put("menuName", mvo.getMenuName()[i]);
+			map.put("menuContent", mvo.getMenuContent()[i]);
+			map.put("menuImg", mvo.getMenuImg()[i]);
+			map.put("menuPrice", mvo.getMenuPrice()[i]);
+			map.put("menuSalePrice", mvo.getMenuSalePrice()[i]);
+			map.put("menuSort", mvo.getMenuSort()[i]);
+			map.put("menuEvent", mvo.getMenuEvent()[i]);
+			
+			// 둘 다 0이면 새로 추가한 메뉴이므로 insert해준다.
+			if (menuSeq.equals("0") && menuStatus.equals("0")) {
+				result += sqlSession.insert("restaurant.menuEditInsert", map);
+			}
+			
+			// 삭제한 기존메뉴이므로 delete해준다.
+			if (!menuSeq.equals("0") && menuStatus.equals("1")) {
+				result += sqlSession.insert("restaurant.menuEditDelete", map);
+			}
+			
+			// 수정한 기존메뉴이므로 update해준다
+			if (!menuSeq.equals("0") && menuStatus.equals("0")) {
+				result += sqlSession.insert("restaurant.menuEditUpdate", map);
+			}
+			
+		}
+		
+		return result;
+	}
 
 	public List<RestaurantVO> restListStatistics(String userSeq) {
 		List<RestaurantVO> restList = sqlSession.selectList("restaurant.restListStatistics", userSeq);
@@ -157,13 +210,28 @@ public class RestaurantDAO implements IDAO{
 	}
 
 	public List<HashMap<String, String>> restStati_Gender(String restSeq) {
-		List<HashMap<String, String>> ageList = sqlSession.selectList("restaurant.restStati_Gender", restSeq);
-		return ageList;
+		List<HashMap<String, String>> genderList = sqlSession.selectList("restaurant.restStati_Gender", restSeq);
+		return genderList;
 	}
 	
 	public List<String> getLikers(String userSeq) {
 		List<String> likers = sqlSession.selectList("review.getLikers", userSeq);
 		return likers;
+	}
+
+	public List<HashMap<String, String>> restStati_AgeLine(String restSeq) {
+		List<HashMap<String, String>> ageList = sqlSession.selectList("restaurant.restStati_AgeLine", restSeq);
+		return ageList;
+	}
+
+	public List<HashMap<String, String>> restStati_reviewCount(String restSeq) {
+		List<HashMap<String, String>> reviewCount = sqlSession.selectList("restaurant.restStati_reviewCount", restSeq);
+		return reviewCount;
+	}
+
+	public List<HashMap<String, String>> restStati_ReviewGrade(String restSeq) {
+		List<HashMap<String, String>> reviewGrade = sqlSession.selectList("restaurant.restStati_ReviewGrade", restSeq);
+		return reviewGrade;
 	}
 
 

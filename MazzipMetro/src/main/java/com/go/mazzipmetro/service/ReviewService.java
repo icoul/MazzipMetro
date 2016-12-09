@@ -6,14 +6,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.go.mazzipmetro.dao.ReviewDAO;
 import com.go.mazzipmetro.vo.AttachFileVO;
 import com.go.mazzipmetro.vo.ReviewVO;
-import com.go.mazzipmetro.vo.UserVO;
 
 
 @Service
@@ -98,50 +95,42 @@ public class ReviewService implements IService{
 		
 		return result;
 	}
-	// hit(좋아요)수 올리기
+
 	public int plusHit(String reviewSeq) {
 		int result = dao.upReviewHit(reviewSeq);
 		return result;
 	}
-	// tbl_review에서 hit(좋아요)수 가져오기
+
 	public int getHitScore(String reviewSeq) {
 		int HitScore = dao.getReviewHit(reviewSeq);
 		return HitScore;
 	}
-	// hit(좋아요) 누른사람 tbl_review_liker에 넣기
+
 	public int insertLiker(HashMap<String, String> map) {
 		int insertLiker =dao.insertLiker(map);
 		return insertLiker;
 	}
-	// hit(좋아요) 누른사람 tbl_review_liker에서 가져오기
+
 	public List<String> getLikers(String UserSeq) {
 		List<String> likers = dao.getLikers(UserSeq);
 		return likers;
 	}
-	// hit(좋아요) 수 내리기 + tbl_review_liker에서 삭제하기
-	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})	
-	public int delLiker(String reviewSeq, String userSeq) {
-		int result = 0;
-		
-		int DownScore = dao.getReviewDownHit(reviewSeq);
-		int delLiker = dao.delLiker(reviewSeq, userSeq);
-		
-		result = DownScore + delLiker;
-				
-		if(result == 2)
-		{
-			return result;
-		}
-		else
-		{
-			result = 0;
-			return result;
-		}
+
+	public List<HashMap<String, String>> getRealReview(HashMap<String, String> map) {
+		List<HashMap<String, String>> list = dao.getRealReview(map);
+		return list;
 	}
-	// 자기가 해당 업장에 쓴 리뷰 수 가져오기
-	public int getMyReviewCount(String restSeq, String userSeq ) {
-		int ReviewCount = dao.getMyReviewCount(restSeq, userSeq); 
-		return ReviewCount;
+
+	public int getMyReviewCount(String restSeq, String userSeq) {
+		int reviewCount = dao.getMyReviewCount(restSeq, userSeq);
+		return reviewCount;
+	}
+	@Transactional
+	public int delLiker(String reviewSeq, String userSeq) {
+		
+		int n = dao.getReviewDownHit(reviewSeq);
+		int m = dao.delLiker(reviewSeq, userSeq);
+		return (n+m);
 	}
 
 }

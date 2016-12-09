@@ -345,7 +345,7 @@
 		
 		<button type="button" class="btn btn-primary" style="margin-right: 10px;" onClick="goWrite();">쓰기</button>
 		<button type="button" class="btn btn-primary" style="margin-right: 10px;" onClick="goReset();">취소</button>
-		
+		<button type="button" class="btn btn-primary" style="margin-right: 10px;" onClick="goList();">글목록</button>
 	
 	</form>
 	</div>

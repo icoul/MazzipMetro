@@ -353,7 +353,11 @@
 			  			<option value="">월</option>
 			  			<script type="text/javascript">
 			  				for (var j=1; j<=12; j++) {
-								document.write('<option value="'+j+'">'+j+'</option>');
+			  					if (j < 10) {
+									document.write('<option value="0'+j+'">0'+j+'</option>');
+			  					} else {
+			  						document.write('<option value="'+j+'">'+j+'</option>');
+			  					}
 						  	}
 						</script>
 			  		</select>
@@ -361,7 +365,11 @@
 			  			<option value="">일</option>
 			  			<script type="text/javascript">
 			  				for (k=1; k<=31; k++) {
-			  					document.write("<option>"+k+'</option>'); 
+			  					if (k < 10) {
+									document.write('<option value="0'+k+'">0'+k+'</option>');
+			  					} else {
+			  						document.write("<option>"+k+'</option>'); 
+			  					}
 			  				}
 			  			</script>
 			  		</select> 

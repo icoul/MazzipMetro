@@ -65,18 +65,18 @@
 		<br/> 
 		<table>
 		<tr><th>대분류</th><td>
-		<label class="checkbox-inline"><input type="checkbox" name="restTag" value="한식">한식</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restTag" value="일식">일식</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restTag" value="중식">중식</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restTag" value="양식">양식</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restTag" value="동남아">동남아</label>
+		<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="한식">한식</label>
+		<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="일식">일식</label>
+		<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="중식">중식</label>
+		<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="양식">양식</label>
+		<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="동남아">동남아</label>
 		</td></tr>
 		<tr><th>중분류</th><td>
-		<label class="checkbox-inline"><input type="checkbox" name="restTag" value="고기류">고기류</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restTag" value="어폐류">어폐류</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restTag" value="채소류">채소류</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restTag" value="면류">면류</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restTag" value="밥류">밥류</label>
+		<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="고기류">고기류</label>
+		<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="어폐류">어폐류</label>
+		<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="채소류">채소류</label>
+		<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="면류">면류</label>
+		<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="밥류">밥류</label>
 		</td></tr>
 		<tr><th>관리여부</th><td>
 		<label class="radio-inline"><input type="radio" name="restManager" value="all" checked>전체</label>
@@ -202,22 +202,26 @@
 	
 		//alert($("[name=restTag]:checked").length);
 		
-		var restTagArr = [];     // 배열 초기화
-	    $("[name=restTag]:checked").each(function(i){
-	    	//alert($(this).val());
-	    	restTagArr.push($(this).val());     // 체크된 것만 값을 뽑아서 배열에 push
+		var restBgTagArr = [], restMdTagArr = [];
+	    $("[name=restBgTag]:checked").each(function(i){
+	    	alert($(this).val());
+	    	restBgTagArr.push($(this).val());     // 체크된 것만 값을 뽑아서 배열에 push
 	    });
 	    
+	    $("[name=restMdTag]:checked").each(function(i){
+	    	alert($(this).val());
+	    	restMdTagArr.push($(this).val());     // 체크된 것만 값을 뽑아서 배열에 push
+	    });
 		//alert( $("[name=restManager]:checked").val());
 		
 		var srchFrmData = {
 			srchType : $("#srchType").val()
 		  , keyword : $("#keyword").val()
-		  , restTag : restTagArr
+		  , restBgTag : restBgTagArr
+		  , restMdTag : restMdTagArr
 		  , restManager : $("[name=restManager]:checked").val()
 		  , restStatus : $("[name=restStatus]:checked").val()
 		}
-		
 		
 	 
 	    // 데이터를 가져오기 위해 jQuery를 사용합니다
@@ -255,6 +259,10 @@
 			        disableClickZoom: true // 클러스터 마커를 클릭했을 때 지도가 확대되지 않도록 설정한다 
 			    });
 				
+			 // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+			    var bounds = new daum.maps.LatLngBounds();    
+			    
+			    
 				var markers = $(data.positions).map(function(i, position) {
 	        	//alert(i+" : "+position.lat+", "+position.lng+", "+position.restName);
 		        	
@@ -262,30 +270,13 @@
 			    var marker = new daum.maps.Marker({
 			        position:  new daum.maps.LatLng(position.restLatitude, position.restLongitude)// 마커의 위치
 			    });
+				
+			    // LatLngBounds 객체에 좌표를 추가합니다
+			    bounds.extend(marker.getPosition());
 
 				 // 커스텀 오버레이에 표시할 컨텐츠 입니다
 				 // 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
 				 // 별도의 이벤트 메소드를 제공하지 않습니다 
-				 /* var bgTag = "", mdTag = "";
-				 for (var j = 0; j < data.tags.length; j++) {
-					 if(position.restSeq == data.tags[j].restSeq){
-						 for (var k = 0; k < data.tags[j].bgCat.length; k++) {
-								bgTag += data.tags[j].bgCat[k];
-								if(k != (data.tags[j].bgCat.length-1)){
-									bdTag += ", ";
-								}			
-							}
-							 for (var l = 0; l < data.tags[j].mdCat.length; l++) {
-								 	mdTag += data.tags[j].mdCat[l];
-									if(l != (data.tags[j].mdCat.length-1)){
-										mdTag += ", ";
-									}			
-								}
-						 
-					 }
-					
-				} */
-				
 				 var content = '<div class="wrap">' + 
 							             '    <div class="info">' + 
 							             '        <div class="title">' + position.restName+ '('+position.restSeq+')'+
@@ -362,6 +353,7 @@
 		        // 클러스터러에 마커들을 추가합니다
 		        clusterer.addMarkers(markers);
 				
+		        setBounds(bounds);
 				}
 		});//end of $.ajax()
 	    
@@ -379,6 +371,12 @@
 	    });
 		
 	}//end of getRestaurant()
+	
+	function setBounds(bounds) {
+	    // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
+	    // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
+	    map.setBounds(bounds);
+	}
     
 </script>
 <jsp:include page="../footer.jsp" />

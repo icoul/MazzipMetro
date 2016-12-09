@@ -25,18 +25,6 @@ $(document).ready(function(){
 	
 });
 
-function statistics(restSeq) {
-	$.ajax({
-		url:"<%=request.getContextPath()%>/adminConStatis.eat",
-		type :"GET",
-		data: "restSeq="+restSeq,
-		dataType:"html",
-		success: function(data){
-			$("#mhStatiWrap").html(data);
-		}
-	});
-}
-
 function goSearch() {
 	var searchFrm = document.searchFrm;
 	
@@ -109,8 +97,8 @@ function searchKeep(){
 			${pagebar}
 		</div>
 		<br/>
-		<a href="javascript:statistics('${vo.restSeq}')">${vo.restName}</a>
-		<div id="mhStatiWrap" style="width: 50%; height: 300px;"></div>
+	
+	
 	</div>
 	<%-- subrightCon --%>
 <jsp:include page="../footer.jsp" />

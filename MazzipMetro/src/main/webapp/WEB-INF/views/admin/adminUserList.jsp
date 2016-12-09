@@ -56,7 +56,7 @@ function goUserDel(userSeq){
 
 function goUserEdit(userSeq){
 	var url = "adminUserEdit.eat?userSeq="+userSeq;
-	window.open(url, "adminUserEdit", "left=350px, top=100px, width=350px, height=300px, status=no, scrollbars=yes");
+	window.open(url, "adminUserEdit", "left=350px, top=100px, width=550px, height=500px, status=no, scrollbars=yes");
 }
 
 </script>
@@ -105,7 +105,7 @@ function goUserEdit(userSeq){
 					<button class="btnGray" onClick="goUserEdit('${vo.userSeq}');" style="margin-top:0; width:40px;">수정</button>
 					<input type="hidden" name="userSeq" value="${vo.userSeq}" />
 					<form name="userDelFrm"  action="<%= request.getContextPath() %>/adminUserDel.eat" method="post">
-						<button class="btnGray" onClick="goUserDel('${vo.userSeq}');" style="margin-top:0; width:40px;">삭제</button>
+						<button class="btnGray" onClick="goUserDel();" style="margin-top:0; width:40px;">삭제</button>
 						<input type="hidden" name="userSeq" value="${vo.userSeq}" />
 						<input type="hidden" name="pageNo" value="${pageNo}"/>
 					</form>		

@@ -131,6 +131,14 @@ public class RestaurantService implements IService{
 		
 		return menuList;
 	}
+	
+	//메뉴 수정하기
+	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
+	public int editRestMenu(MenuVO mvo){
+		int result = dao.editRestMenu(mvo);
+		
+		return result;
+	}
 
 	public List<RestaurantVO> restListStatistics(String userSeq) {
 		List<RestaurantVO> restList = dao.restListStatistics(userSeq);
@@ -138,13 +146,28 @@ public class RestaurantService implements IService{
 	}
 
 	public List<HashMap<String, String>> restStati_Gender(String restSeq) {
-		List<HashMap<String, String>> ageList = dao.restStati_Gender(restSeq);
-		return ageList;
+		List<HashMap<String, String>> genderList = dao.restStati_Gender(restSeq);
+		return genderList;
 	}
 
 	public List<String> getLikers(String userSeq) {
 		List<String> likers = dao.getLikers(userSeq);
 		return likers;
+	}
+
+	public List<HashMap<String, String>> restStati_AgeLine(String restSeq) {
+		List<HashMap<String, String>> ageList = dao.restStati_AgeLine(restSeq);
+		return ageList;
+	}
+
+	public List<HashMap<String, String>> restStati_ReviewCount(String restSeq) {
+		List<HashMap<String, String>> reviewCount = dao.restStati_reviewCount(restSeq);
+		return reviewCount;
+	}
+
+	public List<HashMap<String, String>> restStati_ReviewGrade(String restSeq) {
+		List<HashMap<String, String>> reviewGrade = dao.restStati_ReviewGrade(restSeq);
+		return reviewGrade;
 	}
 
 
