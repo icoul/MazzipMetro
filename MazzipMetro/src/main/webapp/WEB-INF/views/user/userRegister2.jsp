@@ -13,7 +13,6 @@
 	<title>회원가입</title>
 	
 	<jsp:include page="../top.jsp" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
 	<script type="text/javascript" >
 	
 	 function goSubmit(){
@@ -274,10 +273,10 @@
     <form name="registerFrm" class="well form-horizontal" action="<%= request.getContextPath() %>/userRegisterEnd.eat" method="post"  id="contact_form" enctype="multipart/form-data" style="background:none;">
 		<fieldset>
 		<!-- Form Name -->
-		<legend>필수입력사항</legend>
+		<legend>::: 필수입력사항</legend>
 		
 		<!-- Text input-->
-		
+	<div style="margin-top:20px; padding:10px;">
 		<div class="form-group">
 		  <label class="col-md-4 control-label" >이름</label> 
 		    <div class="col-md-7 inputGroupContainer">
@@ -389,19 +388,7 @@
 		    </div>
 		  </div>
 		</div>
-		
-		<div class="form-group">
-		  <label class="col-md-4 control-label">프로필사진</label>
-		  <div class="col-md-7 inputGroupContainer">
-		    <div class="input-group">
-		    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>  
-			<input type='file' id="userUpload" name="attach" />
-	        <img id="userProfile" name="userProfile" src="<%= request.getContextPath() %>/resources/images/userNoImg.png" alt="your image" width="150px;" height="150px;"/>
-			</div>
-		  </div>
-		</div>
-		
-		
+	
 		<!-- radio checks -->
 		 <div class="form-group">
            <label class="col-md-4 control-label">성별</label>
@@ -418,6 +405,22 @@
                </div>
            </div>
        </div>
+	</div>	
+		<legend>::: 선택입력사항</legend>
+		<div style="margin-top:20px; padding:10px;">
+		<div class="form-group">
+		  <label class="col-md-4 control-label">프로필사진</label>
+		  <div class="col-md-7 inputGroupContainer">
+		    <div class="input-group">
+		    <span class="input-group-addon"><i class="glyphicon glyphicon-upload"></i></span>  
+			<input type='file' id="userUpload" name="attach" />
+	        <img id="userProfile" name="userProfile" src="<%= request.getContextPath() %>/resources/images/userNoImg.png" alt="your image" width="150px;" height="150px;"/>
+			</div>
+		  </div>
+		</div>
+		
+		
+		
 		
                                           
 		
@@ -507,15 +510,13 @@
 		  </div> 
 		</div> 
 		
-		
-		<!-- Success message -->
-		<div class="alert alert-success" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i> Thanks for contacting us, we will get back to you shortly.</div>
+</div>
 		
 		<!-- Button -->
 		<div class="form-group">
-		  <label class="col-md-4 control-label"></label>
-		  <div class="col-md-4">
-		    <button type="button" class="btn btn-warning" onClick="goSubmit();">Send<span class="glyphicon glyphicon-send"></span></button>
+		  <div align = "center" class="col-md-12">
+		    <button type="button" class="btn btn-default" onClick="goSubmit();">회원가입<span class="glyphicon glyphicon-send"></span></button>
+		  	<button type="button" class="btn btn-default" onClick="javascript:location.href='index.eat'">취소</button>
 		  </div>
 		</div>
 		

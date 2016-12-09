@@ -78,6 +78,12 @@ public class UserDAO implements IDAO{
 		int qnaCount = sqlSession.selectOne("user.qnaCount", userSeq);
 		return qnaCount;
 	}
+	
+	public List<String> myReviewList(String userSeq) {
+		List<String> myReviewList = sqlSession.selectList("user.myReviewList", userSeq);
+		return myReviewList;
+	}
+
 
 	public int userExist(String userSeq) {
 		int isUserExist = sqlSession.selectOne("userExist", userSeq);
@@ -135,6 +141,9 @@ public class UserDAO implements IDAO{
 		int isLoginContinue = sqlSession.selectOne("userLoginContinueCheck", hashMap);
 		return isLoginContinue;
 	}
+
+
+
 
 }
 
