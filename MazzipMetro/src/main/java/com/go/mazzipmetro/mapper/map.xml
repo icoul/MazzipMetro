@@ -96,24 +96,16 @@
 			and ${srchType[0]} like '%'||#{keyword[0]}||'%'
 		</if>
 		
-		<!-- 대분류, 중분류 체크박스가 있을 경우 -->
-		<if test="restBgTagArr != null or restMdTagArr != null">
-			and 
-			<!-- 태그명(대분류)검색 -->
-			<if test="restBgTagArr != null">
-				<foreach collection="restBgTagArr"  index="i" open="(" close=")" separator=" or ">
-					A.restBgTag like '%'||'${restBgTagArr[i]}'||'%'   
-				</foreach>
-			</if>
-			
-			<!-- 태그명(중분류)검색 -->
-			<if test="restMdTagArr != null">
-			<if test="restBgTagArr != null">or</if>
-				<foreach collection="restMdTagArr"  index="i" open="(" close=")" separator=" or ">
-					A.restMdTag like '%'||'${restMdTagArr[i]}'||'%'   
-				</foreach>
-				
-			</if>
+		
+		<!-- 		태그명(대분류,중분류)검 -->
+		<if test="restTagArr != null">
+			and A.restSeq in (select distinct(restSeq)
+					                  from tbl_restaurant_tag
+					                  where tagName in
+									<foreach collection="restTagArr"  index="i" open="(" close=")" separator=",">
+										'${restTagArr[i]}'
+									</foreach>
+									 )
 		</if>
 		<!-- 업주 조건절 -->
 		<if test="!userSeq[0].equals('all')">
@@ -263,26 +255,18 @@
 	<!-- 사용자가 정복한 맛집(리뷰를 쓴 맛집) 리스트 보여주기 -->
 	<select id="getUserRestConquest" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
 			select A.*
-					, B.guName
+				, B.guName
+		from (
+			select A.*, B.dongName, B.guId
 			from (
-				select A.*, B.dongName, B.guId
-				from (
-					select A.*, B.metroName
-					from tbl_restaurant A left join tbl_metro B
-					on A.metroId = B.metroId) A 
-				left join tbl_dong B
-				on A.dongId = B.dongId) A
-			left join tbl_gu B
-			on A.guId = B.guId
-			where 1 = 1 
-		<!-- 지하철역이름을 선택한 경우 -->
-		<if test="metroId != null and metroId != 'metroId'">
-			and metroId = #{metroId}
-		</if>	
-		<!-- 동이름을 선택한 경우 -->
-		<if test="dongId != null and dongId != 'dongId'">
-			and dongId = #{dongId}
-		</if>	
+				select A.*, B.metroName
+				from tbl_restaurant A left join tbl_metro B
+				on A.metroId = B.metroId) A 
+			left join tbl_dong B
+			on A.dongId = B.dongId) A
+		left join tbl_gu B
+		on A.guId = B.guId
+		where 1 = 1 
 		<if test="'already' == conq ">
 			and restSeq in (select distinct(restSeq) from tbl_review 
 		</if>
@@ -290,60 +274,6 @@
 			and restSeq  not in (select distinct(restSeq) from tbl_review
 		</if>
 			where userSeq = #{userSeq})
-	</select>
-	
-	<!-- 사용자가 정복한 맛집(리뷰를 쓴 맛집) 동 리스트 -->
-	<resultMap type="java.util.HashMap" id="getDongNameListMap">
-		 <result column="dongName" 	property="dongName" 	javaType="String"/>
-		 <result column="dongId" 		property="dongId" 		javaType="String"/>
-	</resultMap>
-	<select id="getDongNameList" parameterType="java.util.HashMap" resultMap="getDongNameListMap">
-		with t as (
-		  select 'ㄱ' as dongName from dual union all
-		  select 'ㄴ' from dual union all
-		  select 'ㄷ' from dual union all
-		  select 'A' from dual union all
-		  select 'B' from dual
-		)  
-		select distinct(A.dongId),B.dongName
-		from tbl_restaurant A join tbl_dong B
-		on A.dongId = B.dongId
-		where 1=1
-		<if test="'already' == conq ">
-			and restSeq in (select distinct(restSeq) from tbl_review 
-		</if>
-		<if test="'notYet' == conq ">
-			and restSeq  not in (select distinct(restSeq) from tbl_review
-		</if>
-			where userSeq = #{userSeq})
-			order by convert(B.dongName, 'ISO2022-KR')
-	</select>
-	
-	<!-- 사용자가 정복한 맛집(리뷰를 쓴 맛집) 지하철 역 리스트 -->
-	<resultMap type="java.util.HashMap" id="getMetroNameListMap">
-		 <result column="metroName" property="metroName" javaType="String"/>
-		 <result column="metroId" 		property="metroId" 		 javaType="String"/>
-	</resultMap>
-	<select id="userMapMetroNameList" parameterType="java.util.HashMap" resultMap="getMetroNameListMap">
-		with t as (
-		  select 'ㄱ' as metroName from dual union all
-		  select 'ㄴ' from dual union all
-		  select 'ㄷ' from dual union all
-		  select 'A' from dual union all
-		  select 'B' from dual
-		)  
-		select distinct(A.metroId), B.metroName
-		from tbl_restaurant A join tbl_metro B
-		on A.metroId = B.metroId
-		where 1=1
-		<if test="'already' == conq ">
-			and restSeq in (select distinct(restSeq) from tbl_review 
-		</if>
-		<if test="'notYet' == conq ">
-			and restSeq  not in (select distinct(restSeq) from tbl_review
-		</if>
-			where userSeq = #{userSeq})
-			order by convert(B.metroName, 'ISO2022-KR')
 	</select>
 	
 </mapper>

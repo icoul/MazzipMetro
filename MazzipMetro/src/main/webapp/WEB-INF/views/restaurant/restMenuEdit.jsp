@@ -39,11 +39,13 @@
 	function goMenuEdit(){
 		
 		var num = $("#addMenuNum").val();
+		var regexp = /[^[0-9]/gi;
 		
 		for (var i = 0; i < num; i++) {
 			var menuName = $(".menuName"+i).val();
 			var menuContent = $(".menuContent"+i).val();
 			var menuPrice = $(".menuPrice"+i).val();
+			var menuSalePrice = $(".menuSalePrice"+i).val();
 			
 			if (menuName == "") {
 				alert("메뉴명을 작성해주세요");
@@ -57,6 +59,16 @@
 			
 			if (menuPrice == "") {
 				alert("메뉴가격을 작성해주세요");
+				return;
+			}
+			
+			if(regexp.test(menuPrice)){
+				alert("메뉴가격은 숫자만 입력가능합니다");
+				return;
+			}
+			
+			if(regexp.test(menuSalePrice)){
+				alert("세일가격은 숫자만 입력가능합니다");
 				return;
 			}
 		}
@@ -79,7 +91,6 @@
 	function menuDel(divId){
 		$("#"+divId+" tr").remove();
 		$("#"+divId).remove();
-		
 	}
 	
 	// 테이블 삭제(기존메뉴)
@@ -94,7 +105,6 @@
 		$("#menuImg"+status).val("");
 		$("#menuImgFile"+status).val("");
 		$(".currImg"+status).hide();
-		
 	}
 	
 	// 메뉴 이벤트를 1개만 선택 가능하도록 한 함수
@@ -157,11 +167,12 @@
 			html += "<td style = 'font-size : 11pt;' rowspan='2'><b>메뉴이미지</b></td>"
 			html += "<td class = 'rcontent' id='addImg' rowspan='2' style = 'padding-left : 40px; border-right-width: 0px; position : relative; font-size: 10pt; text-align: left;'><img src=\"<%=request.getContextPath() %>/files/noimage.jpg\" class=\"currImg"+num+"\" width='100px;' /></td>"	
 			html += "<td class = 'lcontent' style = 'border-left-width: 0px; vertical-align: middle;' rowspan='2'><input type='file' name='attach' id = \"menuImgFile"+num+"\" onchange = \"showCurrImg('"+num+"');\" /></td>"
+			html += "<td class = 'lcontent' style = 'border-left-width: 0px; vertical-align: middle;' rowspan='2'><button type = 'button' onClick = \"imageHide("+i+");\">이미지 삭제</button></td>"
 			html += "</tr>"
 			html += "<tr class = 'tr'>"
 			html += "<td style = 'font-size : 11pt;'><b>세일가격</b></td>"
 			html += "<td class = 'lcontent' align='left' style = 'vertical-align: middle;'>"
-			html += "<input type='text' class=\"menuSalePrice\" name=\"menuSalePrice\" id=\"menuSalePrice"+num+"\" value = '0' /></td>"
+			html += "<input type='text' class=\"menuSalePrice"+num+"\" name=\"menuSalePrice\" id=\"menuSalePrice"+num+"\" value = '0' /></td>"
 			html += "</tr>"
 			html += "<tr class = 'tr'>"
 			html += "<td style = 'font-size : 11pt;'><b>메뉴분류</b></td>"
@@ -241,7 +252,7 @@
 		<tr class = "tr">
 			<td style = 'font-size : 11pt;'><b>세일가격</b></td>
 			<td class = "lcontent" align='left' style = "vertical-align: middle;">
-			<input type='text' class="menuSalePrice" name="menuSalePrice" id="menuSalePrice" value = "${list.menuSalePrice}" /></td>
+			<input type='text' class="menuSalePrice${status.index}" name="menuSalePrice" id="menuSalePrice" value = "${list.menuSalePrice}" /></td>
 		</tr>
 		<tr class = "tr">
 			<td style = 'font-size : 11pt;'><b>메뉴분류</b></td>

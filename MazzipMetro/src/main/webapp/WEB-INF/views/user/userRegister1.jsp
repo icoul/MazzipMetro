@@ -6,17 +6,16 @@
 <head>
     <meta charset="utf-8">
 	<title>회원가입</title>
-	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+	<%-- <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
 	<script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>
 	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 	
-	<link href="<%= request.getContextPath() %>/resources/css/hb_register_.css" rel="stylesheet">
 	
 	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/1.0/zxcvbn-async.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/1.0/zxcvbn-async.min.js"></script> --%>
 	
 	<jsp:include page="../top.jsp" />
 	
@@ -33,12 +32,6 @@
 	  }
 	
 	</script>
-	<style>
-.subleftCon {float:left; width:200px; height:600px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;}
-.subleftCon h2 {width:187px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right;}
-.subrightCon {float:left; width:797px; height:600px; border-right:1px solid #dbdbdb;}
-.btnagree{width:58px; height:25px;  font-size:10px; border:1px solid #000; border-radius:2px; color:#000; cursor:pointer;}
-</style>
 	
 </head>
 <body>

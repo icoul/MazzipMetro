@@ -3,30 +3,24 @@
 <jsp:include page="../top.jsp" />
 
 <style>
-	table {
-	     width: 100%;
-	     height : 20px;
-	     border: solid gray 1px;
-	     border-collapse: collapse;
-	     margin-top: 30px;
-	     margin-bottom: 10px;
+	.table{
+			border : solid 1px black;
+			padding-right : 10px;
+			padding-left : 10px;
+			margin : 20px;
+			width : 85%;
+			position : relative;
+			}
+	
+	.lcontent {
+			border : solid 1px black;
+			padding : 10px;
+			width : 150px;
 	}
 	
-	th#th {
-		 background-color: silver;
-		 font-size: 13pt;
-	}
-	
-	table tr {
-		border: solid gray 1px;
-
-	}
-	
-	table td {
-		padding-left : 15px;
-		padding-top : 10px;
-		padding-bottom : 10px;
-		border: solid gray 1px;
+	.rcontent {
+			border : solid 1px black;
+			padding : 10px;
 	}
 	
 </style>
@@ -35,73 +29,93 @@
 <script type = "text/javascript">
 	$(document).ready(function(){
 		
-		$("#fileNum").change(function(){
+		$("#fileAdd").click(function(){
 			
-			$("#fileAttach").empty();
+			var fileIdNum = $("#fileIdNum").val();
+			var limit = $("[name=attach]").length;
+			var num = $("#fileNum").val();
 			
-			var num = $(this).val();
-			var html= "<input type='file' name='attach' size='7'/><br/>"
+			var limitNum = Number(limit) + Number(num);
+			
+			if (limit == 5 || limitNum > 5) {
+				alert("파일은 5개까지만 등록 가능합니다");
+				return;
+			}
+			
+			var html = "<div id = 'file"+fileIdNum+"'><table = 'table'><tr><td><input type='file' name='attach' size='7'/></td>"
+				html += "<td><button type = 'button' onClick = \"fileDel('file"+fileIdNum+"');\">이미지 삭제</button><br/></td></tr></table><br/></div>"
+				
 			for (var i = 0; i < num; i++) {
 				$("#fileAttach").append(html);
+				fileIdNum++;
 			}
+				
+			$("#fileIdNum").val(fileIdNum);
 		});
 		
 		$("#menuNum").change(function(){
 			
-			$("#addMenu").empty();
-			
+			var count = $("#addMenuCount").val();
 			var num = $(this).val();
+			
+			var menuNum = Number(count) + Number(num);
+			
 			var html = "";
 			
-			for (var i = 0; i < num; i++) {
+			for (var i = count; i < menuNum; i++) {
+					
 					html += "<input type = 'hidden' name = 'restSeq' value = \"${restSeq}\" />"
-					html += "<div>"
-					html +=  "<table class = 'table'>"
+					html += "<table class = 'table' id = 'table"+i+"'>"
 					html += "<tr>"
-					html +=	"<td width='10%' style = 'font-size : 11pt;'><b>메뉴명</b></td>"
-					html +=	"<td width='25%' align='left'><input type='text' class=\"menuName\" name=\"menuName\" id=\"menuName"+i+"\" />" 
-					html +=	"</td>"
-					html +=	"<td width='10%' style = 'font-size : 11pt;'><b>한 줄 설명</b></td>"
-					html +=	"<td width='45%' align='left' colspan = '3'>"
-					html +=	"<input type='text' class=\"menuContent\"  name=\"menuContent\" id=\"menuContent"+i+"\" style = 'width: 450px;' /> "
-					html +=	"</td>"
-					html +=	"</tr>"
-					html +=	"<tr>"
-					html +=	"<td width='10%' style = 'font-size : 11pt;'><b>메뉴이미지</b></td>"
-					html +=	"<td width='25%' align='left'><input type='file' name='menuImgFile'/> "
-					html +=	"</td>"
-					html +=	"<td width='10%' style = 'font-size : 11pt;'><b>메뉴가격</b></td>"
-					html +=	"<td width='15%' align='left'>"
-					html +=	"<input type='text' class=\"menuPrice\"  name=\"menuPrice\" id=\"menuPrice"+i+"\" style = 'width: 100px;' />&nbsp;원"
-					html +=	"</td>"
-					html +=	"<td width='10%' style = 'font-size : 11pt;'><b>세일가격</b></td>"
-					html +=	"<td width='15%' align='left'>"
-					html +=	"<input type='text' name='menuSalePrice' style = 'width: 100px;' value = '0' />&nbsp;원" 
-					html +=	"</td>"
-					html +=	"</tr>"
-					html +=	"<tr>"
-					html +=	"<td width='10%' style = 'font-size : 11pt;'><b>메뉴분류</b></td>"
-					html +=	"<td width='25%' align='left'>"
-					html +=	"<select name = 'menuSort' style = 'width: 100px; height: 25px; font-size: 12pt;'>"
-					html +=	"<option value='식사류'>식사류</option>"
-					html +=	"<option value='음료'>음료</option>"
-					html +=	"<option value='디저트'>디저트</option>"
-					html +=	"<option value='기타'>기타</option>"
-					html +=	"</select>"
-					html +=	"</td>"
-					html +=	"<td width='10%' style = 'font-size : 11pt;'><b>메뉴이벤트</b></td>"
-					html +=	"<td width='45%' align='left' colspan = '3' style = 'font-size : 11pt;'>"
-					html +=	"<input type = 'checkbox' name = \"menuEvent"+i+"\" id='new"+i+"' value = '신메뉴' onClick=\"oneCheckbox(this, 'menuEvent"+i+"');\" /><label for='new"+i+"'>신메뉴</label>&nbsp;"
-					html +=	"<input type = 'checkbox' name = \"menuEvent"+i+"\" id='popular"+i+"' value = '간판메뉴' onClick=\"oneCheckbox(this, 'menuEvent"+i+"');\" /><label for='popular"+i+"'>간판메뉴</label>&nbsp;"
-					html +=	"<input type = 'checkbox' name = \"menuEvent"+i+"\" id='dayLimit"+i+"' value = '기간한정' onClick=\"oneCheckbox(this, 'menuEvent"+i+"');\" /><label for='dayLimit"+i+"'>기간한정</label>&nbsp;"
-					html += "<input type = 'checkbox' name = \"menuEvent"+i+"\" id='weatherLimit"+i+"' value = '계절한정' onClick=\"oneCheckbox(this, 'menuEvent"+i+"');\" /><label for='weatherLimit"+i+"'>계절한정</label>&nbsp;"
-					html += "<input type = 'checkbox' name = \"menuEvent"+i+"\" id='event"+i+"' value = '이벤트메뉴' onClick=\"oneCheckbox(this, 'menuEvent"+i+"');\" /><label for='event"+i+"'>이벤트메뉴</label>"
+					html += "<th style = 'border : solid 1px black; background-color: grey;' colspan= '7'></th>"
+					html += "</tr>"
+					html += "<tr class = 'tr'>"
+					html += "<td style = 'font-size : 11pt;'><b>메뉴명</b></td>"
+					html += "<td class = 'lcontent' align='left'>"
+					html += "<input type='text' class=\"menuName"+i+"\" name=\"menuName\" id=\"menuName"+i+"\" value=\"\" /></td>"
+					html += "<td style = 'font-size : 11pt;'><b>한 줄 설명</b></td>"
+					html += "<td class = 'rcontent' align='left' colspan = '3'>"
+					html += "<input type='text' class=\"menuContent"+i+"\" name=\"menuContent\" id=\"menuContent"+i+"\" value=\"\" size = '65'/></td>"
+					html += "<td rowspan='5'><button type = 'button' onClick = \"menuDel('table"+i+"');\">메뉴삭제</button></td>"
+					html += "</tr>"
+					html += "<tr class = 'tr'>"
+					html += "<td style = 'font-size : 11pt;'><b>메뉴가격</b></td>"
+					html += "<td class = 'lcontent' align='left' style = 'vertical-align: middle;'>"
+					html += "<input type='text' class=\"menuPrice"+i+"\" name=\"menuPrice\" id=\"menuPrice"+i+"\" value=\"\" /></td>"
+					html += "<td style = 'font-size : 11pt;' rowspan='2'><b>메뉴이미지</b></td>"
+					html += "<td id='addImg' rowspan='2' style = 'border : solid 1px black; border-right-width: 0px;'><img src=\"<%=request.getContextPath() %>/files/noimage.jpg\" class=\"currImg"+i+"\" width='100px;' height='100px;' />"
+					html += "</td>"
+					html += "<td style = 'border : solid 1px red; border-left-width: 0px; vertical-align: middle;' rowspan='2'><input type='file' name='menuImgFile' id = \"menuImgFile"+i+"\" onchange = \"showCurrImg('"+i+"');\" /></span></td>"
+					html += "<td style = 'border : solid 1px blue; border-left-width: 0px; vertical-align: middle;' rowspan='2'><button type = 'button' onClick = \"imageHide("+i+");\">이미지 삭제</button></td>"
+					html += "</tr>"
+					html += "<tr class = 'tr'>"
+					html += "<td style = 'font-size : 11pt;'><b>세일가격</b></td>"
+					html += "<td class = 'lcontent' align='left' style = 'vertical-align: middle;'>"
+					html += "<input type='text' class=\"menuSalePrice"+i+"\" name=\"menuSalePrice\" id=\"menuSalePrice"+i+"\" value = '0' /></td>"
+					html += "</tr>"
+					html += "<tr class = 'tr'>"
+					html += "<td style = 'font-size : 11pt;'><b>메뉴분류</b></td>"
+					html += "<td class = 'lcontent' align='left'>"
+					html += "<select name = \"menuSort\" style = 'width: 100px; height: 25px; font-size: 12pt;'>"
+					html += "<option value='식사류'>식사류</option>"
+					html += "<option value='음료'>음료</option>"
+					html += "<option value='디저트'>디저트</option>"
+					html += "<option value='기타'>기타</option>"
+					html += "</select>"
+					html += "</td>"
+					html += "<td style = 'font-size : 11pt;'><b>메뉴이벤트</b></td>"
+					html += "<td class = 'rcontent' align='left' colspan = '3' style = 'font-size : 11pt;'>"
+					html += "<input type = 'checkbox' name = \"menuEvent"+i+"\" id=\"신메뉴"+i+"\" value = \"신메뉴\" onClick=\"oneCheckbox(this, 'menuEvent"+i+"');\" /><label for=\"신메뉴"+i+"\">신메뉴</label>&nbsp;"
+					html += "<input type = 'checkbox' name = \"menuEvent"+i+"\" id=\"간판메뉴"+i+"\" value = \"간판메뉴\" onClick=\"oneCheckbox(this, 'menuEvent"+i+"');\" /><label for=\"간판메뉴"+i+"\">간판메뉴</label>&nbsp;"
+					html += "<input type = 'checkbox' name = \"menuEvent"+i+"\" id=\"기간한정"+i+"\" value = \"기간한정\" onClick=\"oneCheckbox(this, 'menuEvent"+i+"');\" /><label for=\"기간한정"+i+"\">기간한정</label>&nbsp;"
+					html += "<input type = 'checkbox' name = \"menuEvent"+i+"\" id=\"계절한정"+i+"\" value = \"계절한정\" onClick=\"oneCheckbox(this, 'menuEvent"+i+"');\" /><label for=\"계절한정"+i+"\">계절한정</label>&nbsp;"
+					html += "<input type = 'checkbox' name = \"menuEvent"+i+"\" id=\"이벤트메뉴"+i+"\" value = \"이벤트메뉴\" onClick=\"oneCheckbox(this, 'menuEvent"+i+"');\" /><label for=\"이벤트메뉴"+i+"\">이벤트메뉴</label>"
 					html += "</td>"
 					html += "</tr>"
 					html += "</table>"
-					html += "</div>";
 					
 				$("#addMenu").append(html);
+				$("#addMenuCount").val(menuNum);
 				
 				html = "";
 			}//end of for
@@ -109,6 +123,24 @@
 		
 	});
 	
+	// 업장 소개 이미지 삭제
+	function fileDel(fileId){
+		$("#"+fileId).remove();
+	}
+	
+	// 메뉴 삭제
+	function menuDel(tableId){
+		$("#"+tableId+" tr").remove();
+		$("#"+tableId).remove();
+	}
+	
+	// 메뉴 이미지 삭제
+	function imageHide(status){
+		$("#menuImgFile"+status).val("");
+		$(".currImg"+status).hide();
+	}
+	
+	// 체크박스 1개만 체크 되도록
 	function oneCheckbox(ckbox, name){
 
 		var ckboxName = name
@@ -122,6 +154,26 @@
 		}
 	} 
 	
+	// 업로드하면 바로 이미지가 보이도록
+	function showCurrImg(index){
+			
+		$(".currImg"+index).show();
+		
+		var preview = document.querySelector(".currImg"+index);
+		var file = document.querySelector("#menuImgFile"+index).files[0];	
+
+	    var reader = new FileReader();
+	
+	    reader.addEventListener("load", function () {
+	        preview.src = reader.result;
+	      }, false);
+	
+	      if (file) {
+	        reader.readAsDataURL(file);
+	      }
+	}
+	
+	// 등록
 	function goRegister(){
 		
 		var content = $(".content").val();
@@ -129,6 +181,7 @@
 		var menuName = $(".menuName").val();
 		var menuContent = $(".menuContent").val();
 		var menuPrice = $(".menuPrice").val();
+		var menuSalePrice = $(".menuSalePrice").val();
 		
 		if (content == "") {
 			alert("소개글을 작성해주세요");
@@ -149,6 +202,16 @@
 			alert("메뉴가격을 작성해주세요");
 			return;
 		}
+		
+		if(regexp.test(menuPrice)){
+			alert("메뉴가격은 숫자만 입력가능합니다");
+			return;
+		}
+		
+		if(regexp.test(menuSalePrice)){
+			alert("세일가격은 숫자만 입력가능합니다");
+			return;
+		}
 			
 		var registerFrm = document.registerFrm;
 		registerFrm.submit();
@@ -156,11 +219,12 @@
 	
 </script>
 
-<div style ="margin-top : 20px; background-color : #0E6DAC; border-radius: 6px;">
-<span style = "padding-top : 30px; padding-left : 20px; font-size : 25pt; color : white;">업장등록</span>
+<div class="subleftCon" style="height:auto; font-size:25px;">
+<h3>추가 정보 등록</h3>
 </div>
 
-<div align="center">
+<div class="subrightCon" style="height:2500px;">
+<jsp:include page="../userMyPage_Menubar.jsp" />
 <form name="registerFrm" action="restAddInfoEnd.eat?restSeq=${restSeq}" method="post" enctype="multipart/form-data">
 
 <table class = "table">
@@ -174,14 +238,14 @@
 		<td width="20%" style = "font-size : 14pt;"><b>소개이미지</b></td>
 		<td width="80%" align="left">
 			<select name = "fileNum" id = "fileNum" style = "width: 50px; height: 25px; font-size: 12pt;">
-				<option value="0">0</option>
 				<option value="1">1</option>
 				<option value="2">2</option>
 				<option value="3">3</option>
 				<option value="4">4</option>
 				<option value="5">5</option>
 			</select>
-			&nbsp;&nbsp; 업로드 할 이미지 갯수를 선택해주세요
+			&nbsp;&nbsp;<button type = "button" id = "fileAdd">추가</button> &nbsp;&nbsp;업로드 할 이미지 갯수를 선택해주세요
+			<input type = "text" id = "fileIdNum" value = "0" />
 			<br/>
 			<br/>	
 			<div id = "fileAttach">
@@ -197,9 +261,6 @@
 	</tr> -->
 </table>
 
-<div style ="margin-top : 20px; background-color : #0E6DAC; border-radius: 6px;" align ="left">
-<span style = "padding-top : 30px; padding-left : 20px; font-size : 25pt; color : white;">메뉴추가</span>
-</div>
 <br/>
 <span style = "padding-left : 20px; font-size : 15pt; color : black;" >추가할 메뉴의 갯수를 입력해주세요</span>
 <select name = "menuNum" id="menuNum" style = "padding-left : 35px; width: 100px; height: 25px; font-size: 12pt;">
@@ -218,10 +279,11 @@
 
 <div id = "addMenu">
 </div>
+<input type = "hidden" id = "addMenuCount" value = "0" />
 
-<table>
+<table class = "table">
 	<tr>
-		<td height = "40px" colspan="2" align="center" valign="middle">
+		<td align="center">
 			<a id="btnRegister" onClick="goRegister();" href = "#" style = "width : 20%;"><span style = "color : black; font-weight : bold; font-size : 14pt;">등록신청</span></a>
 		</td>
 	</tr>
