@@ -141,7 +141,9 @@
 	
 		<!-- 메인페이지 리뷰 보이기 -->
 	<select id="getRealReview" parameterType="java.util.HashMap" resultMap="dataresultmap2" >
-		select V.*
+		select T.*
+		from
+		(select V.*
 		from
 		(select row_number() over(order by reviewSeq DESC) AS rno,
 		 	   userName, userProfile, reviewSeq, reviewTitle, reviewHit, reviewContent, reviewAvgScore, reviewRegDate, restSeq
@@ -149,7 +151,8 @@
 		on A.userseq = B.userSeq
 		where reviewStatus = 0 and userSort = 0
 		)V
-		WHERE V.rno BETWEEN #{StartRno} AND #{EndRno}
+		)T
+		<!-- WHERE V.rno BETWEEN #{StartRno} AND #{EndRno} -->
 	</select>
 	<!-- 좋아요 수 +1 하기 -->
 	<update id="upReviewHit" parameterType="String">
