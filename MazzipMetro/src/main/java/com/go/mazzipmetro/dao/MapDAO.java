@@ -124,6 +124,15 @@ public class MapDAO  implements IDAO {
 		return sqlSession.selectList("map.getUserRestConquest", map);
 	}
 
+	// 사용자가 정복한 맛집(리뷰를 쓴 맛집) 동 리스트
+	public List<HashMap<String, String>> getDongNameList(HashMap<String, String> map) {
+		return sqlSession.selectList("map.getDongNameList", map);
+	}
+
+	// 사용자가 정복한 맛집(리뷰를 쓴 맛집) 지하철 역 리스트
+	public List<HashMap<String, String>> getMetroNameList(HashMap<String, String> map) {
+		return sqlSession.selectList("map.userMapMetroNameList", map);
+	}
 
 	// 업장 restSeq 가져오기(태그가 있는 행만 가져오기) : tag 테이블 삭제
 	/*public List<String> temp_getRestSeqForTags() {

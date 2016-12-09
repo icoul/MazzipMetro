@@ -35,6 +35,36 @@
 		eventChecked();
 	});
 	
+	// 메뉴 데이터 전송
+	function goMenuEdit(){
+		
+		var num = $("#addMenuNum").val();
+		
+		for (var i = 0; i < num; i++) {
+			var menuName = $(".menuName"+i).val();
+			var menuContent = $(".menuContent"+i).val();
+			var menuPrice = $(".menuPrice"+i).val();
+			
+			if (menuName == "") {
+				alert("메뉴명을 작성해주세요");
+				return;
+			}
+			
+			if (menuContent == "") {
+				alert("메뉴설명을 작성해주세요");
+				return;
+			}
+			
+			if (menuPrice == "") {
+				alert("메뉴가격을 작성해주세요");
+				return;
+			}
+		}
+		
+		var registerFrm = document.registerFrm;
+		registerFrm.submit();
+	}
+	
 	// 태그에 체크하기
 	function eventChecked(){
 		
@@ -45,9 +75,26 @@
 		
 	}
 	
-	// 테이블 삭제
+	// 테이블 삭제(추가메뉴)
 	function menuDel(divId){
-		$("#"+divId+" tr").remove(); 
+		$("#"+divId+" tr").remove();
+		$("#"+divId).remove();
+		
+	}
+	
+	// 테이블 삭제(기존메뉴)
+	function menuHide(divId, menuStatus){
+		$("#"+divId).hide();
+		$("#"+menuStatus).val("1");
+		
+	}
+	
+	// 이미지 삭제
+	function imageHide(status){
+		$("#menuImg"+status).val("");
+		$("#menuImgFile"+status).val("");
+		$(".currImg"+status).hide();
+		
 	}
 	
 	// 메뉴 이벤트를 1개만 선택 가능하도록 한 함수
@@ -64,25 +111,33 @@
 		}
 	} 
 
-	function showCurrImg(input){
-		if (input.files && input.files[0]) {
-			var reader = new FileReader();
-			
-			reader.onload = function(e){
-				$("#currImg").attr('src', e.target.result);
-			}
-			
-			reader.readAsDataURL(input.files[0]);
-		}
+	function showCurrImg(index){
+		
+		$(".currImg"+index).show();
+		
+		var preview = document.querySelector(".currImg"+index);
+		var file = document.querySelector("#menuImgFile"+index).files[0];	
+
+	    var reader = new FileReader();
+	
+	    reader.addEventListener("load", function () {
+	        preview.src = reader.result;
+	      }, false);
+	
+	      if (file) {
+	        reader.readAsDataURL(file);
+	      }
 	}
 	
 	function menuAdd(){
 		var num = $("#addMenuNum").val();
-		num++;
 		var html = "";
 		
 			html += "<div align ='center' id = 'div"+num+"'>"
+			html += "<input type = \"hidden\" name = \"menuImg\" value = \"\" />"
+			html += "<input type = 'hidden' name = 'restSeq' value = '${restSeq}' />"
 			html += "<input type = 'hidden' name = 'menuSeq' value = '0' />"
+			html += "<input type = 'hidden' name = 'menuStatus' value = '0' />"
 			html += "<table class = 'table'>"
 			html += "<tr>"
 			html += "<th style = 'border : solid 1px black; background-color: grey;' colspan= '6'></th>"
@@ -90,28 +145,28 @@
 			html += "<tr class = 'tr'>"
 			html += "<td style = 'font-size : 11pt;'><b>메뉴명</b></td>"
 			html += "<td class = 'lcontent' align='left'>"
-			html += "<input type='text' class='menuName' name='menuName' id='menuName' /></td>"
+			html += "<input type='text' class=\"menuName"+num+"\" name=\"menuName\" id=\"menuName"+num+"\" value=\"\" /></td>"
 			html += "<td style = 'font-size : 11pt;'><b>한 줄 설명</b></td>"
 			html += "<td class = 'rcontent' align='left' colspan = '3'>"
-			html += "<input type='text' class='menuContent' name='menuContent' id='menuContent' size = '65'/></td>"
+			html += "<input type='text' class=\"menuContent"+num+"\" name=\"menuContent\" id=\"menuContent"+num+"\" value=\"\" size = '65'/></td>"
 			html += "</tr>"
 			html += "<tr class = 'tr'>"
 			html += "<td style = 'font-size : 11pt;'><b>메뉴가격</b></td>"
 			html += "<td class = 'lcontent' align='left' style = 'vertical-align: middle;'>"
-			html += "<input type='text' class='menuPrice' name='menuPrice' id='menuPrice'/></td>"
+			html += "<input type='text' class=\"menuPrice"+num+"\" name=\"menuPrice\" id=\"menuPrice"+num+"\" value=\"\" /></td>"
 			html += "<td style = 'font-size : 11pt;' rowspan='2'><b>메뉴이미지</b></td>"
-			html += "<td class = 'rcontent' id='addImg' rowspan='2' style = 'padding-left : 40px; border-right-width: 0px; position : relative; font-size: 10pt; text-align: left;'><img src=\"\" id='currImg' width='100px;' /></td>"	
-			html += "<td class = 'lcontent' style = 'border-left-width: 0px; vertical-align: middle;' rowspan='2'><input type='file' name='menuImgFile' onchange = 'showCurrImg(event);' /></td>"
+			html += "<td class = 'rcontent' id='addImg' rowspan='2' style = 'padding-left : 40px; border-right-width: 0px; position : relative; font-size: 10pt; text-align: left;'><img src=\"<%=request.getContextPath() %>/files/noimage.jpg\" class=\"currImg"+num+"\" width='100px;' /></td>"	
+			html += "<td class = 'lcontent' style = 'border-left-width: 0px; vertical-align: middle;' rowspan='2'><input type='file' name='attach' id = \"menuImgFile"+num+"\" onchange = \"showCurrImg('"+num+"');\" /></td>"
 			html += "</tr>"
 			html += "<tr class = 'tr'>"
 			html += "<td style = 'font-size : 11pt;'><b>세일가격</b></td>"
 			html += "<td class = 'lcontent' align='left' style = 'vertical-align: middle;'>"
-			html += "<input type='text' class='menuSalePrice' name='menuSalePrice' id='menuSalePrice' value = '0' /></td>"
+			html += "<input type='text' class=\"menuSalePrice\" name=\"menuSalePrice\" id=\"menuSalePrice"+num+"\" value = '0' /></td>"
 			html += "</tr>"
 			html += "<tr class = 'tr'>"
 			html += "<td style = 'font-size : 11pt;'><b>메뉴분류</b></td>"
 			html += "<td class = 'lcontent' align='left'>"
-			html += "<select name = 'menuSort' style = 'width: 100px; height: 25px; font-size: 12pt;'>"
+			html += "<select name = \"menuSort\" style = 'width: 100px; height: 25px; font-size: 12pt;'>"
 			html += "<option value='식사류'>식사류</option>"
 			html += "<option value='음료'>음료</option>"
 			html += "<option value='디저트'>디저트</option>"
@@ -135,46 +190,53 @@
 			html += "</table>"
 			html += "</div>"
 				
-			$("#addMenu").append(html); 
+			$("#addMenu").append(html);
 			
 			html = "";
-			
+			num++;
 			$("#addMenuNum").val(num);
 	}
-		
-	
 	
 </script>
 
 
 <div align="center">
-<form name="registerFrm" action="restAddInfoEnd.eat?restSeq=${restSeq}" method="post" enctype="multipart/form-data">
+<form name="registerFrm" action="restMenuEditEnd.eat" method="post" enctype="multipart/form-data">
 <div>
-	<button type = "button" onClick = "menuAdd()">메뉴추가</button>
-	<input type = "hidden" id = "addMenuNum" value = "${menuList.size()}" />
+	<table>
+		<tr>
+			<td style = "padding : 20px;" height = "40px" colspan="2" align="center" valign="middle">
+				<button type = "button" onClick = "menuAdd()">메뉴추가</button>
+				<input type = "hidden" id = "addMenuNum" name = "addMenuNum" value = "${menuList.size()}" />
+			</td>
+		</tr>
+	</table>
 </div>
 <c:forEach var="list" items = "${menuList}" varStatus="status" >
-	<div align ="center" id = "div${status.index}">
-		<input type = "hidden" name = "menuSeq" value = "${menuSeq}" />
-		<table class = "table" >
+	<div align ="center" >
+		<input type = "hidden" name = "menuImg" id = "menuImg${status.index}" value = "${list.menuImg}" />
+		<input type = "hidden" name = "restSeq" value = "${restSeq}" />
+		<input type = "hidden" name = "menuSeq" value = "${list.menuSeq}" />
+		<input type = "hidden" name = "menuStatus" id = "menuStatus${status.index}" value = "0" />
+		<table class = "table" id = "div${status.index}" >
 		<tr>
 			<th style = "border : solid 1px black; background-color: grey;" colspan= "6"></th>
 		</tr>
 		<tr class = "tr">
 			<td style = "font-size : 11pt;"><b>메뉴명</b></td>
 			<td class = "lcontent" align="left">
-				<input type="text" class="menuName" name="menuName" id="menuName" value = "${list.menuName}" /></td>
+				<input type="text" class="menuName${status.index} " name="menuName" id="menuName" value = "${list.menuName}" /></td>
 			<td style = 'font-size : 11pt;'><b>한 줄 설명</b></td>
 			<td class = "rcontent" align="left" colspan = '3'>
-				<input type="text" class="menuContent" name="menuContent" id="menuContent" size = "65" value = "${list.menuContent}" /></td>
+				<input type="text" class="menuContent${status.index} " name="menuContent" id="menuContent" size = "65" value = "${list.menuContent}" /></td>
 		</tr>
 		<tr class = "tr">
 			<td style = 'font-size : 11pt;'><b>메뉴가격</b></td>
 			<td class = "lcontent" align='left' style = "vertical-align: middle;">
-			<input type='text' class="menuPrice" name="menuPrice" id="menuPrice" value = "${list.menuPrice}" /></td>
+			<input type='text' class="menuPrice${status.index} " name="menuPrice" id="menuPrice" value = "${list.menuPrice}" /></td>
 			<td style = 'font-size : 11pt;' rowspan="2"><b>메뉴이미지</b></td>
-			<td class = "rcontent" id="addImg" rowspan="2" style = "padding-left : 40px; border-right-width: 0px; position : relative; font-size: 10pt; text-align: left;"><img src="<%=request.getContextPath() %>/files/thumb${list.menuImg}" id="currImg" width="100px;" /></td>	
-				<td class = "lcontent" style = "border-left-width: 0px; vertical-align: middle;" rowspan="2"><input type='file' name='menuImgFile' onchange = "showCurrImg(event);" /></td>
+			<td class = "rcontent" id="addImg" rowspan="2" style = "padding-left : 40px; border-right-width: 0px; position : relative; font-size: 10pt; text-align: left;"><img src="<%=request.getContextPath() %>/files/thumb${list.menuImg}" class="currImg${status.index}" width="100px;" /></td>	
+				<td class = "lcontent" style = "border-left-width: 0px; vertical-align: middle;" rowspan="2"><input type="file" name="attach" id = "menuImgFile${status.index}" value = "" onchange = "showCurrImg(${status.index});" /></td>
 		</tr>
 		<tr class = "tr">
 			<td style = 'font-size : 11pt;'><b>세일가격</b></td>
@@ -202,7 +264,8 @@
 		</tr>
 		<tr align="center">
 			<td colspan="6">
-				<button type = "button" onClick = "menuDel('div${status.index}');">메뉴삭제</button>
+				<button type = "button" onClick = "menuHide('div${status.index}', 'menuStatus${status.index}');">메뉴삭제</button>
+				<button type = "button" onClick = "imageHide(${status.index});">이미지 삭제</button>
 			</td>
 		</tr>
 		</table>
@@ -211,13 +274,15 @@
 <div id = "addMenu">
 </div>
 
-<table>
-	<tr>
-		<td height = "40px" colspan="2" align="center" valign="middle">
-			<a id="btnRegister" onClick="goRegister();" href = "#" style = "width : 20%;"><span style = "color : black; font-weight : bold; font-size : 14pt;">등록신청</span></a>
-		</td>
-	</tr>
-</table>
+<div>
+	<table>
+		<tr>
+			<td height = "40px" colspan="2" align="center" valign="middle">
+				<a id="btnRegister" onClick="goMenuEdit();" href = "#" style = "width : 20%;"><span style = "color : black; font-weight : bold; font-size : 14pt;">등록신청</span></a>
+			</td>
+		</tr>
+	</table>
+</div>
 
 </form>
 </div>

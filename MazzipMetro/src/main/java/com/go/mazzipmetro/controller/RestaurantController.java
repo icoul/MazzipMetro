@@ -117,7 +117,6 @@ public class RestaurantController {
 		
 		String newFileName = "";
 		byte[] bytes = null;
-			
 	
 		try{
 				
@@ -174,8 +173,10 @@ public class RestaurantController {
 
 	//음식점의 상세페이지 보여주기 no
 	@RequestMapping(value = "/restaurantDetail.eat", method = RequestMethod.GET)
-	public String restaurantDetail(HttpServletRequest req, HttpServletResponse res) {
+	public String resDetail(HttpServletRequest req, HttpServletResponse res, HttpSession ses) {
 		String restSeq = req.getParameter("restSeq");
+		
+		
 		HashMap<String,String> restvo = service.getRestaurant(restSeq);
 		
 			
@@ -184,6 +185,7 @@ public class RestaurantController {
 		List<HashMap<String,String>> agelineChartList = reviewService.getAgeLineChartList(restSeq);
 		List<HashMap<String,String>> genderChartList = reviewService.getGenderChartList(restSeq);
 		
+				
 		req.setAttribute("restSeq", restSeq);
 		req.setAttribute("restvo", restvo);
 		req.setAttribute("agelineChartList", agelineChartList);
@@ -271,9 +273,9 @@ public class RestaurantController {
 		
 		// 업장 세부정보 등록(소개글, 이미지, 태그)
 		result = service.setRestaurantInfo(map, imageList, mvo, menuNum);
-		// (정보를 담은 Hashmap, 소개이미지 리스트 imageList, 중분류 배열, mdCat, 메뉴VO mvo, 메뉴갯수 menuNum) 
+		// (정보를 담은 Hashmap, 소개이미지 리스트 imageList, 메뉴VO mvo, 메뉴갯수 menuNum) 
 		
-		int endNum = 2 + imageList.size() + menuNum;
+		int endNum = 1 + imageList.size() + menuNum;
 		
 		String msg = "실패했습니다";
 		
@@ -323,8 +325,91 @@ public class RestaurantController {
 		List<HashMap<String, String>> menuList = service.getMenuList(restSeq);
 		
 		req.setAttribute("menuList", menuList);
+		req.setAttribute("restSeq", restSeq);
 		
 		return "restaurant/restMenuEdit";
+	}
+	
+	// 데이터를 받아 메뉴를 수정해주는 메서드
+	@RequestMapping(value="/restMenuEditEnd.eat", method={RequestMethod.POST})
+	public String restMenuEditEnd(HttpServletRequest req, HttpServletResponse res, HttpSession session, MenuVO mvo, FileVO fvo){
+
+		String addMenuNum_str = req.getParameter("addMenuNum");
+		String[] menuImg = req.getParameterValues("menuImg");
+		
+		for (int i = 0; i < fvo.getAttach().length; i++) {
+			System.out.println(menuImg[i]);
+			System.out.println(fvo.getAttach()[i]);
+			System.out.println(fvo.getAttach().length);
+		}
+		
+		int addMenuNum = Integer.parseInt(addMenuNum_str);
+		
+		ArrayList<String> menuEventArray = new ArrayList<String>(); // 메뉴이벤트를 넣어주기 위해 받아온 값을 저장할 ArrayList
+		
+		// 메뉴 이미지 업로드하기
+		String root = session.getServletContext().getRealPath("/");
+		String path = root + "files";
+		
+		String newFileName = "";
+		byte[] bytes = null;
+		
+		String[] menuImgList = new String[addMenuNum];
+		
+		try{
+			for (int i = 0; i < fvo.getAttach().length; i++) {
+				
+				bytes = fvo.getAttach()[i].getBytes();
+				newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[i].getOriginalFilename(), path);
+				
+				if (newFileName == null && menuImg[i] == null) {
+					newFileName = "noimage.jpg";
+				}
+				
+				if (newFileName == null && menuImg[i] != null) {
+					newFileName = menuImg[i];
+				}
+				
+				if (newFileName != null) {
+					thumbnailManager.doCreateThumbnail(newFileName, path);
+				}
+				
+				menuImgList[i] = newFileName;
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
+		mvo.setMenuImg(menuImgList);
+		//완료
+		
+		for (int i = 0; i < addMenuNum; i++) {// 받아온 이벤트 값을 ArrayList에 차례대로 저장
+			String menuEvent = req.getParameter("menuEvent"+i);
+			menuEventArray.add(menuEvent);
+		}
+		
+		// 저장한 ArrayList를 VO에 넣기 위해 배열로 바꾸고 VO에 입력
+		String[] menuEventList = menuEventArray.toArray(new String[menuEventArray.size()]);
+		mvo.setMenuEvent(menuEventList);
+		
+		int result = 0;
+		
+		// 업장 세부정보 등록(소개글, 이미지, 태그)
+		result = service.editRestMenu(mvo);
+		// (정보를 담은 Hashmap, 소개이미지 리스트 imageList, 중분류 배열, mdCat, 메뉴VO mvo, 메뉴갯수 menuNum) 
+		
+		int endNum = menuEventArray.size();
+		
+		String msg = "실패했습니다";
+		
+		if (result == endNum) {
+			msg = "메뉴수정을 성공했습니다";
+		}
+		
+		req.setAttribute("result", result);
+		req.setAttribute("msg", msg);
+		
+		return "restaurant/restAddInfoEnd";
 	}
 	
 	// 수정할 업장을 선택해서 해당 업장의 수정창을 띄우는 메서드
@@ -481,7 +566,7 @@ public class RestaurantController {
 		
 		likers = service.getLikers(UserSeq);
 		
-		System.out.println("eeeeeeeeeeeeeee"+likers+"ssssssssssssssssssss");
+		
 		
 		HashMap<String,String> restvo = service.getRestaurant(restSeq);
 		List<HashMap<String,String>> reviewImageList = reviewService.getReviewImageList();
@@ -495,11 +580,17 @@ public class RestaurantController {
 		List<HashMap<String,String>> reviewList = service.getReviewList(map);
 		int TotalReviewCount = service.getTotalReview(restSeq);
 		
+		int reviewCount = reviewService.getMyReviewCount(restSeq, UserSeq);
+		
+		/*System.out.println("dddddddddddddddddddddddddddddddddd"+restSeq);*/
+		
+		req.setAttribute("reviewCount", reviewCount);
 		req.setAttribute("likers", likers);
 		req.setAttribute("TotalReviewCount", TotalReviewCount);
 		req.setAttribute("reviewList",  reviewList);
 		req.setAttribute("restvo", restvo);
 		req.setAttribute("reviewImageList", reviewImageList);
+		req.setAttribute("restSeq", restSeq);
 //		req.setAttribute("UserEmail", UserEmail);
 		////////////////////////////////////////////////////////////////////////////
 //		System.out.println("확인용 DisplayJSONAction.java       productList size : " + ListOfReview.size()); // 확인용
@@ -527,28 +618,19 @@ public class RestaurantController {
 
 			String restSeq = req.getParameter("restSeq");
 			
-//			성별 차트 DB
-			List<HashMap<String, String>> genderList = service.restStati_Gender(restSeq); 
-
-//			나이별 차트 DB
-			List<HashMap<String, String>> ageList = service.restStati_AgeLine(restSeq);
-			
-//			리뷰수 차트 DB
-			List<HashMap<String, String>> reviewCount = service.restStati_ReviewCount(restSeq);
-			
-//			리뷰평점 차트 DB
-			List<HashMap<String, String>> reviewGrade = service.restStati_ReviewGrade(restSeq);
-			
-			
+			List<HashMap<String, String>> genderList = service.restStati_Gender(restSeq);
+//			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
+//			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
+//			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
 //			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
 //			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
 			
 			req.setAttribute("genderList", genderList);
-			req.setAttribute("ageList", ageList);
-			req.setAttribute("reviewCount", reviewCount);
-			req.setAttribute("reviewGrade", reviewGrade);
-//			req.setAttribute("Agelist", Agelist);
-//			req.setAttribute("Agelist", Agelist);
+/*			req.setAttribute("Agelist", Agelist);
+			req.setAttribute("Agelist", Agelist);
+			req.setAttribute("Agelist", Agelist);
+			req.setAttribute("Agelist", Agelist);
+			req.setAttribute("Agelist", Agelist);*/
 			
 			
 			return "user/Statistics";

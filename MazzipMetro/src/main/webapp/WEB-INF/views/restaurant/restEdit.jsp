@@ -74,6 +74,7 @@
 	<script type="text/javascript">
 	
 		$(document).ready(function(){
+			
 			$("#searchAddr").focus();
 			getGradeName();
 			getMetroName();
@@ -97,11 +98,13 @@
 		
 		// 태그에 체크하기
 		function tagChecked(){
-			
+			alert("dd");
 			<c:forEach var = "bgtag" items = "${bgTagArr}">
+				alert("${bgtag}");
 				$("input:checkbox[id='${bgtag}']").prop("checked",true);
 			</c:forEach>
 			<c:forEach var = "mdtag" items = "${mdTagArr}">
+				alert("${mdtag}");
 				$("input:checkbox[id='${mdtag}']").prop("checked",true);
 			</c:forEach>
 		}

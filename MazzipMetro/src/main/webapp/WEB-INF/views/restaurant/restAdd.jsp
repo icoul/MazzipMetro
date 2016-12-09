@@ -50,9 +50,17 @@
 		var seq = $("#seq").val();
 		var latitude = $("#latitude").val();
 		
+		var restBgTag = $(".restBgTag:checked").length;
+		var restMdTag = $(".restMdTag:checked").length;
+		
 		if (seq == -1 && latitude == -1) {
 			
 			alert("업장검색 후 다시 진행해주세요");
+			return;
+		}
+		
+		if (restBgTag < 1 || restMdTag < 1) {
+			alert("태그는 최소 1개 이상 선택해주세요");
 			return;
 		}
 		

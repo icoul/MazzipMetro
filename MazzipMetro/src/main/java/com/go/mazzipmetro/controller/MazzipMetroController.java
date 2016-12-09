@@ -6,8 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.go.mazzipmetro.common.FileManager;
 import com.go.mazzipmetro.common.ThumbnailManager;
 import com.go.mazzipmetro.service.MazzipMetroService;
+import com.go.mazzipmetro.service.ReviewService;
 import com.go.mazzipmetro.vo.FaqVO;
 import com.go.mazzipmetro.vo.QnaVO;
 import com.go.mazzipmetro.vo.UserVO;
@@ -29,6 +32,9 @@ public class MazzipMetroController {
 	private FileManager fileManager;
 	@Autowired
 	private ThumbnailManager thumbnailManager;
+	@Autowired
+	private ReviewService reviewService; 
+
 	
 	
 	@RequestMapping(value="/index.eat", method={RequestMethod.GET})
@@ -148,15 +154,15 @@ public class MazzipMetroController {
 		//문의하기페이지로 이동하는 컨트롤러
 		@RequestMapping(value = "/myQna.eat", method = {RequestMethod.GET})
 		public String myQnA(HttpServletRequest req, HttpSession session) {
-			UserVO loginuser = (UserVO)session.getAttribute("loginUser");
+			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
 			
-			if(loginuser.getUserSeq() == null){ 
+			if(loginUser == null){ 
 				req.setAttribute("msg", "로그인 후 이용해주세요");
 				req.setAttribute("loc", "javascript:history.back();");
 				return "QnA/msg";
 			}
 			
-			req.setAttribute("userSeq", loginuser.getUserSeq());
+			req.setAttribute("userSeq", loginUser.getUserSeq());
 			return "QnA/myQna";
 		}
 		
@@ -192,6 +198,15 @@ public class MazzipMetroController {
 		@RequestMapping(value = "/myQnaList.eat", method = {RequestMethod.GET})
 		public String myQnAList(HttpServletRequest req, HttpSession session) {
 			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+			
+			if(loginUser == null){
+				//로그인을 하지 않고서 주문을 하려고 한 경우 로그인을 하면 돌아갈 페이지를 지정해 주어야 한다.
+				session.setAttribute("returnPage", "myQnaList.eat");
+				
+				req.setAttribute("msg", "로그인 후 이용해주세요");
+				req.setAttribute("loc", "javascript:history.back();");
+				return "QnA/msg";
+			}
 			
 			String userSeq = loginUser.getUserSeq();
 			
@@ -250,6 +265,15 @@ public class MazzipMetroController {
 			String qnaSearch = req.getParameter("qnaSearch");   //검색어
 			String qnaInquiry = req.getParameter("qnaInquiry"); //문의 유형 - 회원, 음식점, 사업주, 기타
 			String qnaProgress = req.getParameter("qnaProgress"); //처리과정 접수완료, 답변완료
+			
+			if(qnaColName == null){
+				qnaColName = "userName";
+			}
+			
+			
+			if(qnaInquiry == null){
+				qnaInquiry = "전체";
+			}
 			
 			if(qnaProgress == null){
 				qnaProgress = "전체";
@@ -504,9 +528,12 @@ public class MazzipMetroController {
 		
 		@RequestMapping(value = "/adminQnaList.eat", method = {RequestMethod.GET})
 		public String adminQnaList(HttpServletRequest req, HttpSession session) {
-			UserVO loginuser = (UserVO)session.getAttribute("loginUser");
+			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
 			
-			if(loginuser == null){
+			if(loginUser == null){
+				//로그인을 하지 않고서 주문을 하려고 한 경우 로그인을 하면 돌아갈 페이지를 지정해 주어야 한다.
+				session.setAttribute("returnPage", "adminQnaList.eat");
+				
 				req.setAttribute("msg", "로그인 후 이용해주세요");
 				req.setAttribute("loc", "javascript:history.back();");
 				return "QnA/msg";
@@ -555,6 +582,15 @@ public class MazzipMetroController {
 			String qnaSearch = req.getParameter("qnaSearch");
 			String qnaInquiry = req.getParameter("qnaInquiry");
 			String qnaProgress = req.getParameter("qnaProgress");
+			
+			
+			if(qnaColName == null){
+				qnaColName = "userName";
+			}
+			
+			if(qnaInquiry == null){
+				qnaInquiry = "전체";
+			}
 			
 			if(qnaProgress == null){
 				qnaProgress = "전체";
@@ -981,7 +1017,7 @@ public class MazzipMetroController {
 			int result = service.deleteQna(qnaSeqArr);
 			
 			String loc =  String.format(
-					"adminQnaList.eat?qnaRegYearStart=%s&qnaRegMonthStart=%s&qnaRegDayStart=%s&qnaRegYearEnd=%s&qnaRegMonthEnd=%s&qnaRegDayEnd=%s&qnaInquiry=%s&qnaColName=%s&qnaSearch=%s&qnaProgress=%s",
+					"myQnaList.eat?qnaRegYearStart=%s&qnaRegMonthStart=%s&qnaRegDayStart=%s&qnaRegYearEnd=%s&qnaRegMonthEnd=%s&qnaRegDayEnd=%s&qnaInquiry=%s&qnaColName=%s&qnaSearch=%s&qnaProgress=%s",
 					qnaRegYearStart,qnaRegMonthStart,qnaRegDayStart,qnaRegYearEnd ,qnaRegMonthEnd,qnaRegDayEnd,qnaInquiry, qnaColName, qnaSearch,qnaProgress);
 			
 			if(count + qnaSeqArr.length == result){
@@ -991,7 +1027,7 @@ public class MazzipMetroController {
 				
 			}else{
 				req.setAttribute("msg", "삭제가 실패되었습니다.");
-				req.setAttribute("loc", loc);
+				req.setAttribute("loc", "javascript:history.back();");
 			}
 			
 			return "QnA/msg";
@@ -1020,10 +1056,60 @@ public class MazzipMetroController {
 		public String faqListByType(HttpServletRequest req) {
 			String faqType = req.getParameter("faqType");
 			List<FaqVO> faqList = service.getFaqListByType(faqType);
+			String count = req.getParameter("count");
+			
+			if(count == null){
+				count = "0";
+			}
 			
 			req.setAttribute("faqList", faqList);
 			req.setAttribute("faqType", faqType);
-			req.setAttribute("faqListSize", faqList.size());
+			req.setAttribute("count", count);
 			return "QnA/faqListByType";
 		}
+
+		
+		@RequestMapping(value="/MainReviewAjax.eat", method={RequestMethod.GET})
+		public String MainReviewAjax(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+			
+			String start = req.getParameter("StartRno");    // 1, 3, 5....
+			String len = req.getParameter("EndRno");        // 2개씩   더보기.. 클릭에 보여줄 상품의 갯수 단위크기   			
+			
+			if (start == null) {
+				start = "1";
+			}
+			if (len == null) {
+				len = "5";
+			}
+					
+			int startRno = Integer.parseInt(start);          // 공식!! 시작 행번호   1               3               5
+			int endRno   = startRno+Integer.parseInt(len)-1; // 공식!! 끝 행번호     1+2-1(==2)      3+2-1(==4)      5+2-1(==6)
+			
+			String StartRno = String.valueOf(startRno);
+			String EndRno = String.valueOf(endRno);
+			
+			List<HashMap<String,String>> reviewImageList = reviewService.getReviewImageList();
+			
+			
+			
+			HashMap<String, String> map = new HashMap<String, String>();
+			
+			map.put("StartRno", StartRno);
+			map.put("EndRno", EndRno);
+					
+			List<HashMap<String,String>> reviewList = reviewService.getRealReview(map);
+			//int TotalReviewCount = service.getTotalReview(restSeq);
+			
+			
+			
+			/*System.out.println("dddddddddddddddddddddddddddddddddd"+restSeq);*/
+			
+			
+			
+			req.setAttribute("reviewList",  reviewList);
+			req.setAttribute("reviewImageList", reviewImageList);
+			return "review/realTimeReview";
+		}
+
+
 }

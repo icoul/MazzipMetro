@@ -359,24 +359,19 @@ public class UserController {
 		String userSeq = loginUser.getUserSeq();
 		
 		int userPoint = service.userPoint(userSeq);
+		int restCount = service.restCount(userSeq);
+		int effectContent = service.userContent(userSeq);
+		int coupon = service.userCoupon(userSeq);
 		
-		if(loginUser.getUserSort().equals("1")) {
-			int restCount = service.restCount(userSeq);
-			int effectContent = service.userContent(userSeq);
-			int coupon = service.userCoupon(userSeq);
-			
-			req.setAttribute("restCount", restCount);
-			req.setAttribute("coupon", coupon);
-			req.setAttribute("effectContent", effectContent);
-		} else if (loginUser.getUserSort().equals("0")) {
-			int reviewCount = service.userReviewCount(userSeq);
-			int qnaCount = service.userQnaCount(userSeq);
-			
-			req.setAttribute("reviewCount", reviewCount);
-			req.setAttribute("qnaCount", qnaCount);
-		}
+		int reviewCount = service.userReviewCount(userSeq);
+		int qnaCount = service.userQnaCount(userSeq);
 		
 		req.setAttribute("userPoint", userPoint);
+		req.setAttribute("restCount", restCount);
+		req.setAttribute("effectContent", effectContent);
+		req.setAttribute("coupon", coupon);
+		req.setAttribute("reviewCount", reviewCount);
+		req.setAttribute("qnaCount", qnaCount);
 		
 		return "user/userMyPage";
 	} // end : userMyPage
@@ -391,7 +386,7 @@ public class UserController {
 		String msg = "로그아웃되었습니다";
 		String loc = "index.eat";
 		
-		Cookie cookieAutoLogin = new Cookie("dx_autoLogin", "yes");
+		Cookie cookieAutoLogin = new Cookie("autoLogin", "yes");
 		cookieAutoLogin.setMaxAge(0);
 		cookieAutoLogin.setPath("/");
 		res.addCookie(cookieAutoLogin);
@@ -480,7 +475,7 @@ public class UserController {
 			
 			try {
 				cookieId = new Cookie("rememberId", URLEncoder.encode(loginUser.getUserEmail(), "UTF-8"));
-				cookiePwd = new Cookie("rememberPwd", URLEncoder.encode(loginUser.getUserPw(), "UTF-8"));//비보안
+				cookiePwd = new Cookie("rememberPwd", loginUser.getUserPw());//비보안
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
