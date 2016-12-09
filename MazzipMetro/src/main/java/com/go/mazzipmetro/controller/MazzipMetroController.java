@@ -199,17 +199,8 @@ public class MazzipMetroController {
 		
 		//유저 한사람이 문의한 내역을 보여주는 컨트롤러 
 		@RequestMapping(value = "/myQnaList.eat", method = {RequestMethod.GET})
-		public String aopmyQnAList(HttpServletRequest req, HttpSession session) {
+		public String login_myQnaList(HttpServletRequest req, HttpServletResponse res, HttpSession session) {
 			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
-			
-			if(loginUser == null){
-				//로그인을 하지 않고서 주문을 하려고 한 경우 로그인을 하면 돌아갈 페이지를 지정해 주어야 한다.
-				session.setAttribute("returnPage", "myQnaList.eat");
-				
-				req.setAttribute("msg", "로그인 후 이용해주세요");
-				req.setAttribute("loc", "javascript:history.back();");
-				return "QnA/msg";
-			}
 			
 			String userSeq = loginUser.getUserSeq();
 			
@@ -530,17 +521,7 @@ public class MazzipMetroController {
 		}
 		
 		@RequestMapping(value = "/adminQnaList.eat", method = {RequestMethod.GET})
-		public String aopadminQnaList(HttpServletRequest req, HttpSession session) {
-			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
-			
-			if(loginUser == null){
-				//로그인을 하지 않고서 주문을 하려고 한 경우 로그인을 하면 돌아갈 페이지를 지정해 주어야 한다.
-				session.setAttribute("returnPage", "adminQnaList.eat");
-				
-				req.setAttribute("msg", "로그인 후 이용해주세요");
-				req.setAttribute("loc", "javascript:history.back();");
-				return "QnA/msg";
-			}
+		public String login_adminQnaList(HttpServletRequest req, HttpServletResponse res, HttpSession session) {
 			
 			/*
 			 * 페이징 처리하기 글목록 보기 페이지 요청은 URL형태의 페이징 처리를 띄는 것으로 만들어 주어야 한다. 즉, 예를 들면

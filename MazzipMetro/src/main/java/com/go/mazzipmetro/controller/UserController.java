@@ -577,12 +577,6 @@ public class UserController {
 	public String userAttendCheck(HttpServletRequest req, HttpSession session){
 		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
 		
-		if(loginUser == null){
-			req.setAttribute("msg", "로그인 후 이용해주세요");
-			req.setAttribute("loc", "index.eat");
-		}
-		
-		
 		int isUserExist = service.userExist(loginUser.getUserSeq()); //userAttend테이블에  유저가 있는지 체크
 		
 		int result = 0;
