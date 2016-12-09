@@ -1,0 +1,59 @@
+@CHARSET "UTF-8";
+
+.center{margin:0 auto 0 auto}
+.watermark{color:#b4b4b4 !important}
+.btn-group{text-align:center}
+input[type=checkbox]{vertical-align:middle}
+a.btn{border:1px solid #aaa; border-radius:5px;
+display:inline-block;outline:none;text-align:center;color:#555;letter-spacing:-1px;font-size:15px;font-weight:bold;padding:10px 24px;background-color:#fdfdfd}
+a.btn-important{background-color:#ffe83b;color:#333;border:1px solid #ffdc38}a.next{background-image:url(/assets/weblogin/ico_next-0a85d7bfaf22890592dfd248705a5324.png);background-position:20px 10px;background-repeat:no-repeat;padding-left:50px;padding-right:20px}a.confirm{background-image:url(/assets/weblogin/ico_confirm-aa382c39c9d4896de9a2bd9dca465d0d.png);background-position:20px 10px;background-repeat:no-repeat;padding-left:50px;padding-right:20px}a.find{background-image:url(/assets/weblogin/ico_find-d1a6be6b225fe0fd4b7e8d8a464b84bc.png)!important;background-position:10px 14px;background-repeat:no-repeat;padding:14px 15px 14px 35px;border-color:#68594e;color:#fff;font-size:15px;letter-spacing:-1px;background-color:#736357}.checkbox{margin-bottom:20px}.accept-right{height:10px;letter-spacing:-1px;text-align:right;margin-top:11px;font-size:14px;color:#777}.right{display:inline-block;position:absolute;right:0}.mask{position:fixed;display:none;top:0;background-color:#fff;opacity:.70;filter:alpha(opacity=70);z-index:999;width:100%;height:100%}div.btn-block{text-align:center}.btn.small{padding:6px 12px;font-size:13px;font-weight:normal}.btn-square{display:inline-block;height:23px;padding:3px 15px 0;border-radius:2px;background-color:#fafafa;vertical-align:middle;border:1px solid #b6b6b6}.btn-square:hover{background-color:#f4f4f4}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.password-background {
+  position: relative;
+  top: -34px;
+  margin-bottom: -34px;
+  height: 34px;
+  width: 0;
+  border-radius: 4px;
+  z-index: -1;
+  /* CSS Transitions */
+  -webkit-transition: all .3s ease-in-out;
+  -moz-transition: all .3s ease-in-out;
+  -o-transition: all .3s ease-in-out;
+  -ms-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+}
+
+#password {
+  background: none;
+}
+
+.strength {
+  float: right;
+}
+
+.btn-sq-lg {
+  width: 300px !important;
+  height: 300px !important;
+}
+
+.subleftCon {float:left; width:200px; height:600px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;}
+.subleftCon h2 {width:187px; font-size:30px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right;}
+.subrightCon {float:left; width:1200px; height:auto; border-right:1px solid #dbdbdb;}
+.btnagree{width:58px; height:25px;  font-size:10px; border:1px solid #000; border-radius:2px; color:#000; cursor:pointer;}
+
+}

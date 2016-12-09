@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- #11. mapper 기본 설정 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) -->
+<mapper namespace="user">
+
+	<!-- 사용자 회원가입 -->
+	<insert id="userRegister" parameterType="com.go.mazzipmetro.vo.UserVO">
+
+		<!-- 프로필사진과 선호지역을 모두 선택하여 값을 넣어준 경우 -->
+		<if test="userProfile != null and  userStation != null">
+			insert into TBL_USER(userSeq, gradeSeq, userName, userEmail, userPw, userGender,
+			userBirthDay, userPhone, userRegDate, userProfile, userPoint,
+			userStation, userSort, userStatus)
+			values(tbl_user_seq.nextval,
+			<if test = "userSort == 0">
+			 default,
+			</if>
+			<if test = "userSort == 1">
+			 null,
+			</if>
+			#{userName}, #{userEmail}, #{userPw}, #{userGender},
+			#{userBirthDay}, #{userPhone}, default, #{userProfile}, default ,
+			#{userStation}, #{userSort}, default)
+		</if>
+
+		<!-- 프로필사진은 선택하지 않고 선호지역을 선택하여 값을 넣어준 경우 -->
+		<if test="userProfile == null and userStation != null">
+			insert into TBL_USER(userSeq, gradeSeq, userName, userEmail, userPw, userGender,
+			userBirthday, userPhone, userRegDate, userPoint, userStation,
+			userSort, userStatus)
+			values(tbl_user_seq.nextval,
+			<if test = "userSort == 0">
+			 default,
+			</if>
+			<if test = "userSort == 1">
+			null,
+			</if>
+			 #{userName}, #{userEmail}, #{userPw}, #{userGender},
+			#{userBirthDay}, #{userPhone}, default, default , #{userStation},
+			#{userSort}, default)
+		</if>
+
+		<!-- 프로필사진은 선택하고 선호지역을 선택하지 않은 경우 -->
+		<if test="userProfile != null and userStation == null">
+			insert into TBL_USER(userSeq, gradeSeq, userName, userEmail, userPw, userGender,
+			userBirthDay, userPhone, userRegDate, userProfile, userPoint,
+			userSort, userStatus)
+			values(tbl_user_seq.nextval,
+			<if test = "userSort == 0">
+			 default,
+			</if>
+			<if test = "userSort == 1">
+			null,
+			</if>
+			#{userName}, #{userEmail}, #{userPw}, #{userGender},
+			#{userBirthDay}, #{userPhone}, default, #{userProfile}, default ,
+			#{userSort}, default)
+			
+			
+		</if>
+
+		<!-- 프로필사진과 선호지역을 모두 선택하지 않은 경우 -->
+		<if test="userProfile == null and userStation == null">
+			insert into TBL_USER(userSeq, gradeSeq, userName, userEmail, userPw,
+			userGender, userBirthDay, userPhone, userRegDate, userPoint,
+			userSort, userStatus)
+			values(tbl_user_seq.nextval,
+			<if test = "userSort == 0">
+			 default,
+			</if>
+			<if test = "userSort == 1">
+			 null,
+			</if>
+			#{userName}, #{userEmail}, #{userPw}, #{userGender},
+			#{userBirthDay}, #{userPhone}, default, default , #{userSort},
+			default)
+		</if>
+	</insert>
+
+	<!-- 로그인 체크 1:정상 로그인, 0:아이디 없음, -1: 계정자체가 없음 -->
+	<select id="logincheck" resultType="int" parameterType="java.util.HashMap">
+		SELECT CASE (SELECT COUNT(*)
+		FROM tbl_User
+		WHERE userStatus = 0 AND userEmail = #{userEmail} AND userPw = #{userPw})
+		WHEN 1 THEN 1
+		ELSE(CASE(SELECT COUNT(*) FROM tbl_User WHERE userStatus = 0 and userEmail =
+		#{userEmail})
+		WHEN 1 THEN 0
+		ELSE -1 END)
+		END AS loginCheck
+		FROM dual
+	</select>
+
+	<select id="getLoginUser" resultType="com.go.mazzipmetro.vo.UserVO">
+		select userSeq, gradeSeq, userName, userEmail, userPw, userGender,
+		userBirthday, userPhone, userRegDate
+		,userProfile, userPoint, userExp, userStation, userSort, userStatus
+		from tbl_User
+		where userEmail = #{userEmail}
+	</select>
+	
+	<update id="userEdit" parameterType="com.go.mazzipmetro.vo.UserVO">
+		<!-- 프로필사진과 선호지역을 모두 선택하여 값을 넣어준 경우 -->
+		<if test="userProfile != null and  userStation != null">
+		update tbl_user 
+		set userPw = #{userPw}, userPhone = #{userPhone}, userProfile = #{userProfile}, userStation = #{userStation}
+		where userEmail = #{userEmail}
+		</if>
+		
+		<!-- 프로필사진은 선택하지 않고 선호지역을 선택하여 값을 넣어준 경우 -->
+		<if test="userProfile == null and userStation != null">
+		update tbl_user 
+		set userPw = #{userPw}, userPhone = #{userPhone}, userStation = #{userStation}
+		where userEmail = #{userEmail}
+		</if>
+		
+		<!-- 프로필사진은 선택하고 선호지역을 선택하지 않은 경우 -->
+		<if test="userProfile != null and userStation == null">
+		update tbl_user 
+		set userPw = #{userPw}, userPhone = #{userPhone}, userProfile = #{userProfile}
+		where userEmail = #{userEmail}
+		</if>
+		
+		<!-- 프로필사진과 선호지역을 모두 선택하지 않은 경우 -->
+		<if test="userProfile == null and userStation == null">
+		update tbl_user 
+		set userPw = #{userPw}, userPhone = #{userPhone}
+		where userEmail = #{userEmail}
+		</if>
+	</update>
+	
+	<select id="userPoint" resultType="int">
+		select userPoint
+		from tbl_User
+		where userSeq = #{userSeq}
+	</select>
+	
+	<select id="restCount" resultType="int">
+		select count(*)
+		from tbl_restaurant
+		where userSeq = #{userSeq}
+	</select>
+	
+	<select id="userContent" resultType="int">
+		select count(*)
+		from tbl_restaurant_content
+		where contentStatus = 0 and userSeq = #{userSeq}
+	</select>
+	
+	<select id="userCoupon" resultType="int">
+		select count(*)
+		from tbl_coupon
+		where couponStatus = 0 and userSeq = #{userSeq}
+	</select>
+	
+	<select id="reviewCount" resultType="int">
+		select count(*)
+		from tbl_review
+		where reviewStatus = 0 and userSeq = #{userSeq}
+	</select>
+	
+	<select id="qnaCount" resultType="int">
+		select count(*)
+		from tbl_qna
+		where qnaProgress = '답변완료' and qnaStatus = 0 and userSeq = #{userSeq}
+	</select>
+	
+	<select id="userExist" parameterType="String" resultType="int">
+		select count(*)
+		from tbl_user_attend
+		where userSeq = #{userSeq} 
+	</select>
+	
+	<insert id="insertAttend" parameterType="String">
+		insert into tbl_user_attend values(#{userSeq}, 1, 1, sysdate + 9/24 + 4/24/60, default, default)
+	</insert>
+	
+	<update id="updateUserPoint1" parameterType="String">
+		update tbl_user set userPoint =  userPoint + 3, userExp = userExp + 15 where userSeq = #{userSeq}
+	</update>
+	
+	<select id="userLoginToday" parameterType="String" resultType="int">
+		select  count(*)
+		from
+		(
+		select to_char(attendLastDay, 'yyyy-mm-dd hh24:mi:ss') as attendLastDay
+		from tbl_user_attend
+		where userSeq = #{userSeq}
+		)V
+		where V.attendLastDay between to_char(sysdate , 'YYYY-MM-DD ') || '00:00:00' and to_char(sysdate , 'YYYY-MM-DD ') || '23:59:59'
+	</select>
+	
+	<select id="getUserAttend" parameterType="String" resultType="com.go.mazzipmetro.vo.UserAttendVO">
+		select userSeq, allAttendDay, continueAttendDay, to_char(attendLastDay, 'yyyy-mm-dd hh24:mi:ss') as attendLastDay, userRandomBox
+		from tbl_user_attend
+		where userSeq = #{userSeq}
+	</select>
+	
+	<update id="updateUserAttend" parameterType="java.util.HashMap" >
+		update tbl_user_attend set allAttendDay = allAttendDay + 1,
+		 
+		 <if test="continueCheck == 0">
+		 continueAttendDay = 1,
+		 </if>
+		 
+		  <if test="continueCheck == 1">
+		 continueAttendDay = continueAttendDay +1, 
+		 </if>
+		 attendLastDay = sysdate + 9/24 + 4/24/60
+		 where userSeq = #{userSeq}
+	</update>
+	
+	<update id="updateUserPoint2" parameterType="java.util.HashMap">
+		update tbl_user set 
+		userPoint = userPoint +
+		<if test="contineuAttendDay != 3 and contineuAttendDay != 7 and contineuAttendDay != 15 and contineuAttendDay != 20 ">
+			3
+		</if>
+		
+		<if test="contineuAttendDay == 3">
+			10
+		</if>
+		<if test="contineuAttendDay == 7">
+			30
+		</if>
+		<if test="contineuAttendDay == 15">
+			50
+		</if>
+		<if test="contineuAttendDay == 20">
+			70
+		</if>
+		, userExp = userExp + 15
+		 where userSeq = #{userSeq}
+	</update>
+	
+	<update id="updateRandomBox" parameterType="java.util.HashMap">
+		
+		<if test="contineuAttendDay != 14 and contineuAttendDay != 30">
+			update tbl_user_attend set userRandomBox = userRandomBox where userSeq = #{userSeq}
+		</if>
+		<if test="contineuAttendDay == 14">
+			update tbl_user_attend set 
+			userRandomBox = userRandomBox + 1
+			where userSeq = #{userSeq}
+		</if>
+		
+		<if test="contineuAttendDay == 30">
+			update tbl_user_attend set
+			userPremiumRandomBox = userPremiumRandomBox + 1
+			where userSeq = #{userSeq}
+		</if>
+		
+	</update>
+	
+	<select id="userLoginContinueCheck" parameterType="java.util.HashMap" resultType="int">
+		select count(*)
+		from tbl_user_attend
+		where to_char(to_date(#{attendLastDay}, 'yyyy-mm-dd hh24:mi:ss'), 'yyyy-mm-dd hh24:mi:ss') between to_char(sysdate-1 , 'YYYY-MM-DD ') || '00:00:00' and to_char(sysdate-1 , 'YYYY-MM-DD ') || '23:59:59' and userSeq = #{userSeq}
+	</select>
+	
+</mapper>
