@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:include page="../top.jsp" />
+<!-- 기본 jquery 라이브러리 -->
+<script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>
+<!-- 동현_다음지도 api를 사용하기 위한 라이브러리 -->
+<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=07a6ce4a014b94664ec5968dee2fb0d2&libraries=services,clusterer,drawing"></script>
+
 	 <style type="text/css">
 	    .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
 	    .wrap * {padding: 0;margin: 0;}
@@ -306,4 +310,3 @@
 	
     
 </script>
-<jsp:include page="../footer.jsp" />
