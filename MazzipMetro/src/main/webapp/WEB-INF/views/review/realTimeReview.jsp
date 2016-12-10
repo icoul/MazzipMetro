@@ -5,13 +5,15 @@
 
 $(document).ready(function(){
 	
-     var $wrapper = $("#Scroller");
-     $wrapper.css({'top':0});
-     
-     animator($wrapper); 
+	scrolling();
+      
 });// end of ready
+ 
+function scrolling(){    
 
-function animator(){    
+    var $wrapper = $("#Scroller");
+    $wrapper.css({'top':0});
+    
     var animator =   function(imgblock){
      imgblock.animate({'top':-100}, 5500,
                     function(){
@@ -20,15 +22,15 @@ function animator(){
                         }
                       );   
      } // 함수정의
- } 
- 
+     
+    animator($wrapper);
+ }
 </script>
 
 
-<table  class="table table-bordered" id="Scroller">
+<table  class="table table-bordered" id = "Scroll">
     
         <c:forEach var="review" items="${reviewList}" varStatus="status">
-                
             <tr>
                 <td>${review.userName }  <img src="<%= request.getContextPath() %>/files/${review.userProfile}" width="100px" height="100px"/></td>
                 <td align="right">
@@ -44,17 +46,6 @@ function animator(){
                         </c:forEach>
                     </section>
                 </td>
-        
-            
-            
-            <%-- <div class="modal  fade" id="reviewImageDiv${status.index}" role="dialog" >
-              <iframe scrolling="no" style=" border: none; width: 100%; height: 600px; " src="<%= request.getContextPath() %>/reviewModal.eat?reviewseq=${review.reviewSeq}&restname=${restvo.restname}&username=${review.userName }&reviewprofile=${review.userProfile}&reviewcontent=${review.reviewContent}&reviewregdate=${review.reviewRegDate}">
-              </iframe>
-              <div >
-               <button type="button" class="btn btn-default myclose" data-dismiss="modal">닫기</button> 
-              </div> 
-              
-            </div>--%>
             </tr>
         </c:forEach>
 </table>
