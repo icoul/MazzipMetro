@@ -260,4 +260,18 @@
 		where to_char(to_date(#{attendLastDay}, 'yyyy-mm-dd hh24:mi:ss'), 'yyyy-mm-dd hh24:mi:ss') between to_char(sysdate-1 , 'YYYY-MM-DD ') || '00:00:00' and to_char(sysdate-1 , 'YYYY-MM-DD ') || '23:59:59' and userSeq = #{userSeq}
 	</select>
 	
+	<resultMap type="java.util.HashMap" id="mapMyReviewList">
+		<result column="restName"  property="restName"  javaType="String" />
+		<result column="reviewTitle"     property="reviewTitle"     javaType="String" />
+		<result column="reviewContent" property="reviewContent" javaType="String" />
+		<result column="reviewRegdate" property="reviewRegdate" javaType="String" />
+	</resultMap>
+	
+	<select id="myReviewList" parameterType="String" resultMap="mapMyReviewList">
+		select A.userSeq , B.restName, A.reviewTitle, A.reviewContent, A.reviewRegdate
+		from tbl_review A join tbl_restaurant B
+		on A.restSeq = B.restSeq
+		where A.userSeq = #{userSeq}
+	</select>
+	
 </mapper>
