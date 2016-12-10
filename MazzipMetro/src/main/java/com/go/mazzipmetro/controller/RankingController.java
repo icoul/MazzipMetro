@@ -1,5 +1,9 @@
 package com.go.mazzipmetro.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.go.mazzipmetro.service.RankingService;
+import com.go.mazzipmetro.vo.RankingRestVO;
 
 
 @Controller
@@ -20,54 +25,23 @@ public class RankingController {
 	
 	/*--------------------------------------- 음식점 랭킹 ------------------------------------------------------*/
 	// 역별로 음식점 랭킹
-	@RequestMapping(value="/rankingRestMetro.eat", method={RequestMethod.GET})
+	@RequestMapping(value="/restRanking.eat", method={RequestMethod.GET})
 	public String rankingRestMetro(HttpServletRequest req, HttpServletResponse res, HttpSession session){
 		
-		String metroId = req.getParameter("metroId");
+		RankingRestVO rvo = new RankingRestVO();
+		List<RankingRestVO> optionList = new ArrayList<RankingRestVO>();
+		HashMap<String, Object> optionMap = new HashMap<String, Object>();
 		
-		return "ranking/rankingRestMetro";
-	}
+		/*rvo.setParameter("metroid");
+		rvo.setValue("2001");
+		optionList.add(rvo);*/
+		optionMap.put("optionList", optionList);
 		
-	// 기간별로 음식점 랭킹
-	@RequestMapping(value="/rankingRestPeriod.eat", method={RequestMethod.GET})
-	public String rankingRestPeriod(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+		List<HashMap<String, String>> mapList = service.getRestRanking(optionMap);
 		
-		return "ranking/rankingRestPeriod";
-	}
-	
-	// 태그별로 음식점 랭킹
-	@RequestMapping(value="/rankingRestTag.eat", method={RequestMethod.GET})
-	public String rankingRestTag(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+		req.setAttribute("mapList", mapList);
 		
-		return "ranking/rankingRestTag";
-	}
-	
-	// 역+태그별로 음식점 랭킹
-	@RequestMapping(value="/rankingRestMetroTag.eat", method={RequestMethod.GET})
-	public String rankingRestMetroTag(HttpServletRequest req, HttpServletResponse res, HttpSession session){
-		
-		return "ranking/rankingRestMetroTag";
-	}
-	
-	// 기간+태그별로 음식점 랭킹
-	@RequestMapping(value="/rankingRestPeriodTag.eat", method={RequestMethod.GET})
-	public String rankingRestPeriodTag(HttpServletRequest req, HttpServletResponse res, HttpSession session){
-		
-		return "ranking/rankingRestPeriodTag";
-	}
-	
-	// 역+기간별로 음식점 랭킹
-	@RequestMapping(value="/rankingRestMetroPeriod.eat", method={RequestMethod.GET})
-	public String rankingRestMetroPeriod(HttpServletRequest req, HttpServletResponse res, HttpSession session){
-		
-		return "ranking/rankingRestMetroPeriod";
-	}
-	
-	// 종합 음식점 랭킹
-	@RequestMapping(value="/rankingRestAll.eat", method={RequestMethod.GET})
-	public String rankingRestAll(HttpServletRequest req, HttpServletResponse res, HttpSession session){
-		
-		return "ranking/rankingRestAll";
+		return "ranking/restRanking";
 	}
 	
 	/*--------------------------------------- 리뷰 랭킹 ------------------------------------------------------*/
