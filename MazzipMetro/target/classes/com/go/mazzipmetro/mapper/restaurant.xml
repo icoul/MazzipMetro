@@ -334,7 +334,11 @@
 	<!-- 사업자 매장 통계 (총리뷰평점) -->
 	<resultMap type="java.util.HashMap" id="mapReviewGrade">
 		<result column="reviewcount" property="REVIEWCOUNT" javaType="String" />
+<<<<<<< HEAD
+		<result column="grade"	 property="GRADE" 	javaType="double" />
+=======
 		<result column="grade"	 property="GRADE" 	javaType="int" />
+>>>>>>> 39bc9c4c6839b7f9cd4c02f899c8ef08df745c4c
 	</resultMap>
 	
 	<select id="restStati_ReviewGrade" resultMap="mapReviewGrade">
@@ -362,6 +366,10 @@
 		select menuSeq, restSeq, menuName, menuContent, menuImg, menuPrice, menuSalePrice, menuSort, menuEvent, menuStatus
 		from TBL_Restaurant_Menu
 		where restSeq = #{restSeq} and menuStatus = 0
+<<<<<<< HEAD
+		order by menuSeq asc
+=======
+>>>>>>> 39bc9c4c6839b7f9cd4c02f899c8ef08df745c4c
 	</select>
 	
 	<!-- 메뉴 수정하기 // SQL문 3개를 씁니다 -->

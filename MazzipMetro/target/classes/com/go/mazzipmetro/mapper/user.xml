@@ -166,6 +166,7 @@
 		from tbl_qna
 		where qnaProgress = '답변완료' and qnaStatus = 0 and userSeq = #{userSeq}
 	</select>
+<<<<<<< HEAD
 	
 	<select id="userExist" parameterType="String" resultType="int">
 		select count(*)
@@ -261,6 +262,7 @@
 	</select>
 	
 	<resultMap type="java.util.HashMap" id="mapMyReviewList">
+		<result column="reviewSeq" property="reviewSeq" javaType="String" />
 		<result column="restName"  property="restName"  javaType="String" />
 		<result column="reviewTitle"     property="reviewTitle"     javaType="String" />
 		<result column="reviewContent" property="reviewContent" javaType="String" />
@@ -268,10 +270,12 @@
 	</resultMap>
 	
 	<select id="myReviewList" parameterType="String" resultMap="mapMyReviewList">
-		select A.userSeq , B.restName, A.reviewTitle, A.reviewContent, A.reviewRegdate
+		select A.reviewSeq, A.userSeq , B.restName, A.reviewTitle, A.reviewContent, A.reviewRegdate
 		from tbl_review A join tbl_restaurant B
 		on A.restSeq = B.restSeq
 		where A.userSeq = #{userSeq}
 	</select>
 	
+=======
+>>>>>>> 39bc9c4c6839b7f9cd4c02f899c8ef08df745c4c
 </mapper>

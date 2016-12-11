@@ -1,3 +1,133 @@
+<<<<<<< HEAD
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- #11. mapper 기본 설정 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) --> 
+<mapper namespace="admin">
+
+	<!-- 회원리스트 가져오기 -->
+	<select id="list" resultType="com.go.mazzipmetro.vo.UserVO" parameterType="java.util.HashMap"  >
+    	select T.userseq, T.gradeName, T.username, T.useremail, T.usergender, T.userbirthday, T.userphone, T.userregdate, T.userpoint
+		from 
+		(
+		select rownum as RNO
+		     , V.userSeq, V.gradeName, V.userName,  V.userEmail, V.userGender, V.userBirthday, V.userPhone, V.userRegdate, V.userPoint
+		from 
+		(
+		select A.userSeq, B.gradeName, A.userName, A.userEmail, A.userGender, A.userBirthday, A.userPhone, to_char(A.userRegdate, 'yyyy-mm-dd') as userRegdate, A.userPoint,A.userExp, A.userStation,A.userStatus 
+		     
+		from tbl_user A left join tbl_grade B
+	      on A.gradeSeq = B.gradeSeq
+    	) V
+		where V.userStatus = 0 and V.userSeq!=0  
+		<if test="colName != null and search != null">     
+		    and ${colName} like '%'|| #{search} ||'%'
+		</if>
+		order by V.userSeq desc
+		) T
+		where T.RNO >= #{start} and T.RNO <![CDATA[<=]]> #{end}
+    </select> 
+    
+    <!-- 회원 페이징바 -->
+     <select id="getTotalCount" parameterType="java.util.HashMap" resultType="int">  
+    	select count(*)
+    	from tbl_user
+    	where userStatus = 0 and userSeq!=0
+    	<if test="colName != null and search != null">
+    	and ${colName} like '%' || #{search} || '%'
+    	</if>
+    </select>
+    
+    <!-- 회원 삭제하기 -->
+    <update id="userDel" parameterType="java.util.HashMap">
+    	update tbl_user set userStatus = 1
+		where userSeq = #{userSeq}
+    </update>
+    
+    <resultMap type="java.util.HashMap" id="conTentList">
+		<result column="restSeq" 		property="restSeq" 		javaType="String"/>
+		<result column="gradeName" 		property="gradeName" 	javaType="String"/> 	
+		<result column="restName" 		property="restName" 	javaType="String"/>
+		<result column="restPhone" 		property="restPhone" 	javaType="String" />
+		<result column="restAddr" 		property="restAddr" 	javaType="String" />  
+		<result column="contentName" 	property="contentName" 	javaType="String" />  
+		<result column="contentLimit" 	property="contentLimit" javaType="String" />    
+	</resultMap>
+	
+    <!-- 컨텐츠 리스트  -->
+    <select id="conTentList" resultMap="conTentList" parameterType="java.util.HashMap">
+    	  select  T.restSeq,T.gradeName,T.restName, T.restPhone,T.restAddr,T.contentName, T.contentLimit
+		from 
+		(
+		select rownum as RNO
+		    , V.userseq,  V.restSeq,V.gradeName, V.restName,V.restPhone,V.restAddr,V.contentLimit,V.contentName,V.contentStatus
+         
+		from 
+      (
+      select E.userseq, E.restSeq, B.gradeName, E.restName,E.restPhone,E.restAddr, to_char(D.contentLimit,'yyyy-mm-dd') as contentLimit, D.contentStatus,A.contentName
+	      from tbl_restaurant E  join tbl_restaurant_content D
+	      on E .userSeq = D.userSeq
+          left join tbl_grade B
+	      on E.gradeSeq = B.gradeSeq
+	      left join tbl_content_cat A
+	      on d.contentseq = A.contentseq
+      ) V where  V.contentStatus=0 
+     <if test="colName != null and search != null">     
+	     and ${colName} like '%'|| #{search} ||'%'
+	 </if>
+      order by V.restSeq desc
+		) T
+		where T.RNO >= #{start} and T.RNO <![CDATA[<=]]> #{end}
+    </select>
+    
+     <!-- 컨텐츠 페이징바 -->
+     <select id="getConTotalCount" parameterType="java.util.HashMap" resultType="int">  
+    	select count(*)
+    		from 
+	      (
+	      select E.userseq, E.restSeq, B.gradeName, E.restName,E.restPhone,E.restAddr, to_char(D.contentLimit,'yyyy-mm-dd') as contentLimit,A.contentName
+	      from tbl_restaurant E  join tbl_restaurant_content D
+	      on E .userSeq = D.userSeq
+       	  left join tbl_grade B
+	      on E.gradeSeq = B.gradeSeq
+	      left join tbl_content_cat A
+	      on d.contentseq = A.contentseq
+	      ) V
+    	<if test="colName != null and search != null">
+    	 where ${colName} like '%' || #{search} || '%'
+    	</if>
+    </select>
+    
+    <!-- 관리자용 회원 수정 - 한명회원 정보 불러오기 -->
+    <resultMap type="java.util.HashMap" id="userInfo">
+		<result column="userSeq" 		property="USERSEQ" 		javaType="String"/>
+		<result column="gradeName" 		property="GRADENAME" 	javaType="String"/> 	
+		<result column="restName" 		property="USERNAME" 	javaType="String"/>
+		<result column="userEmail" 		property="USEREMAIL" 	javaType="String" />
+		<result column="userPhone" 		property="USERPHONE" 	javaType="String" />  
+		<result column="userRegdate" 	property="USERREGDATE" 	javaType="String" />  
+		<result column="userPoint" 		property="USERPOINT" 	javaType="String" />    
+	</resultMap>
+    <select id="adminUserInfo" parameterType="String" resultMap="userInfo">
+		select V.userSeq, V.gradeName, V.userName,  V.userEmail, V.userPhone, V.userRegdate, V.userPoint
+		from 
+		(
+		select A.userSeq, B.gradeName, A.userName, A.userEmail, A.userGender, A.userBirthday, A.userPhone, to_char(A.userRegdate, 'yyyy-mm-dd') as userRegdate, A.userPoint,A.userExp, A.userStation,A.userStatus 
+		     
+		from tbl_user A left join tbl_grade B
+	      on A.gradeSeq = B.gradeSeq
+    	) V
+		where V.userStatus = 0 and V.userSeq!=0 
+		and V.userSeq = #{userSeq}
+		order by V.userSeq desc
+    </select>
+    
+    <update id="adminUserEdit" parameterType="java.util.HashMap">
+		update tbl_user set userName= #{userName}, userEmail= #{userEmail}, userPhone= #{userPhone}, userPoint= #{userPoint}
+		where userSeq = #{userSeq}
+    </update>
+=======
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- #11. mapper 기본 설정 -->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
@@ -131,4 +261,5 @@
         from view_contentList
         group by contentName, contentPrice
     </select>
+>>>>>>> 39bc9c4c6839b7f9cd4c02f899c8ef08df745c4c
 </mapper>
