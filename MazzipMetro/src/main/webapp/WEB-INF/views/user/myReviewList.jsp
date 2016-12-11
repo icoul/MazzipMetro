@@ -12,6 +12,34 @@
 .myReviewList th {height:50px; padding-top:16px; border-top:1px solid #00bad2; border-bottom:1px solid #c2c2c2; background-color:#fafafa; color:#444; text-align:center; font-size:13px; font-weight:normal;}
 .myReviewList td {height:10px; padding-top:16px; padding-bottom:16px; border-bottom:1px solid #e0e0e0; font-size:12px; text-align:center; vertical-align: middle;}
 </style>
+
+<script type="text/javascript">
+	function reviewEdit(reviewSeq) {
+		alert(reviewSeq);
+		var url = "reviewEdit.eat?reviewSeq="+reviewSeq;
+		
+		window.open(url, "reviewEdit", "left=500px, top=100px, width=600px, height=915px, menubar=no, status=no, scrollbars=yes ");
+	}
+
+	
+	function reviewDel(reviewSeq, restName) {
+		
+	    var bool = confirm(restName + "의 리뷰를 정말로 삭제하시겠습니까?");
+
+	    if(bool) {
+	    	var reviewDelFrm = document.reviewDelFrm;
+	    	reviewDelFrm.reviewSeq.value = reviewSeq;
+	    	reviewDelFrm.action = "reviewDelete.eat";
+	    	reviewDelFrm.method = "post";
+	    	reviewDelFrm.submit();
+	    }
+		
+	}
+	
+</script>
+
+	
+
 </head>
 <body>
 <div class="subleftCon">
@@ -35,13 +63,18 @@
 			<td style="text-align: center;">${review.reviewRegdate}</td>
 			<td style="text-align: center;"> 
 				<div class="btn-group ">
-				<button type="button" class="btn btn-default" onClick="reviewEdit('${review.userSeq}', '${review.reviewSeq}');">수정</button>
-				<button type="button" class="btn btn-danger" onClick="reviewDel('${review.userSeq}', '${review.reviewSeq}');">삭제</button>
+				<button type="button" class="btn btn-default" onClick="reviewEdit('${review.reviewSeq}');">수정</button>
+				<button type="button" class="btn btn-danger" onClick="reviewDel('${review.reviewSeq}', ${review.restName});">삭제</button>
 				</div>
 			</td>
 		</tr>
 		</c:forEach>
 	</table>
+
+<form name="reviewDelFrm">
+	<input type="hidden" name="reviewSeq" />
+</form>
+
 </div>
 </body>
 </html>
