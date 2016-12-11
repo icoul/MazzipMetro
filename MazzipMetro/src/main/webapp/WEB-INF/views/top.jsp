@@ -8,8 +8,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <!-- 기본 jquery 라이브러리 -->
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>
 
@@ -45,8 +45,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/1.0/zxcvbn-async.min.js"></script>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>
-
-
 
 <title>:::Mazzip Metro:::</title>
 
@@ -151,7 +149,8 @@ function getLoginUserInfo(){
 	}
 	
 	function goLogin(){
-		$("#loginModal").modal();	
+		var $modal = $('#loginModal');
+    	$modal.modal();
 	}
 	
 	function goLogOut(){
@@ -214,7 +213,7 @@ function getLoginUserInfo(){
 			</ul>
 
 			<c:if test="${sessionScope.loginUser.userSeq == null && empty sessionScope.loginUser.userSeq}"> 
-			<button type="button" class="btnLogin" onClick="goLogin();" style="margin-left:10px;">로그인</button>
+			<button class="btnLogin" data-target="#loginModal" data-toggle="modal">모달출력버튼</button><br/>
 			<button type="button" class="btnLogin" onclick="goRegister();">회원가입</button>
 			</c:if>
 			

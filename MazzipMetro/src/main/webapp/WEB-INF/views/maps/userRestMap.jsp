@@ -24,7 +24,7 @@
 	 </style>
 	 
 	 <style>
-	 table, th, td { border: solid 1px black;}
+	 /* table, th, td { border: solid 1px black;} */
 	 th, td {padding: 10px;}
 	 </style>
 	

@@ -8,13 +8,11 @@
 .subleftCon {float:left; width:200px; height:500px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;}
 .subleftCon h2 {width:187px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right;}
 .subrightCon {float:left; width:1200px; border-right:1px solid #dbdbdb; height:500px;}
-
 </style>
     <meta charset="utf-8">
 	<title>회원가입</title>
 	
 	<jsp:include page="../top.jsp" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
 	<script type="text/javascript" >
 	
 	 function goSubmit(){
@@ -275,10 +273,10 @@
     <form name="registerFrm" class="well form-horizontal" action="<%= request.getContextPath() %>/userRegisterEnd.eat" method="post"  id="contact_form" enctype="multipart/form-data" style="background:none;">
 		<fieldset>
 		<!-- Form Name -->
-		<legend>필수입력사항</legend>
+		<legend>::: 필수입력사항</legend>
 		
 		<!-- Text input-->
-		
+	<div style="margin-top:20px; padding:10px;">
 		<div class="form-group">
 		  <label class="col-md-4 control-label" >이름</label> 
 		    <div class="col-md-7 inputGroupContainer">
@@ -390,19 +388,7 @@
 		    </div>
 		  </div>
 		</div>
-		
-		<div class="form-group">
-		  <label class="col-md-4 control-label">프로필사진</label>
-		  <div class="col-md-7 inputGroupContainer">
-		    <div class="input-group">
-		    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>  
-			<input type='file' id="userUpload" name="attach" />
-	        <img id="userProfile" name="userProfile" src="<%= request.getContextPath() %>/resources/images/userNoImg.png" alt="your image" width="150px;" height="150px;"/>
-			</div>
-		  </div>
-		</div>
-		
-		
+	
 		<!-- radio checks -->
 		 <div class="form-group">
            <label class="col-md-4 control-label">성별</label>
@@ -419,6 +405,22 @@
                </div>
            </div>
        </div>
+	</div>	
+		<legend>::: 선택입력사항</legend>
+		<div style="margin-top:20px; padding:10px;">
+		<div class="form-group">
+		  <label class="col-md-4 control-label">프로필사진</label>
+		  <div class="col-md-7 inputGroupContainer">
+		    <div class="input-group">
+		    <span class="input-group-addon"><i class="glyphicon glyphicon-upload"></i></span>  
+			<input type='file' id="userUpload" name="attach" />
+	        <img id="userProfile" name="userProfile" src="<%= request.getContextPath() %>/resources/images/userNoImg.png" alt="your image" width="150px;" height="150px;"/>
+			</div>
+		  </div>
+		</div>
+		
+		
+		
 		
                                           
 		
@@ -432,96 +434,89 @@
 		  <label class="col-md-4 control-label">선호역(지역)<br>
 		  최대 3개까지 선택가능합니다
 		  </label>
-		    <div class="col-md-6 inputGroupContainer">
+		    <div class="col-md-7 inputGroupContainer">
 		    <div class="input-group">
-		        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-		        	<p>
-		        	가 <br>
-		        	
-		        	<c:forEach var="list" items="${gaList}">
-						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
-					</c:forEach>
-					
-		   			</p>
-		   			
-		   			<p>
-					나 <br>
-					<c:forEach var="list" items="${naList}">
-						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
-					</c:forEach>
-					</p>
-					
-					<p>
-					다 <br>
-					<c:forEach var="list" items="${daList}">
-						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
-					</c:forEach>
-					</p>
-					
-					<p>
-					마 <br>
-					<c:forEach var="list" items="${maList}">
-						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
-					</c:forEach>
-					</p>
-					
-					<p>
-					바 <br>   
-					<c:forEach var="list" items="${baList}">
-						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
-					</c:forEach>
-					</p>
-					
-					<p>
-					사 <br>		        	
-					<c:forEach var="list" items="${saList}">
-						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
-					</c:forEach>
-					</p>
-					
-					<p>
-					아 <br>		        	
-					<c:forEach var="list" items="${aaList}">
-						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
-					</c:forEach>
-					</p>
-					
-					<p>
-					자 <br>
-					<c:forEach var="list" items="${jaList}">
-						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
-					</c:forEach>
-					</p>
-					
-					<p>
-					차 <br>
-					<c:forEach var="list" items="${chaList}">
-						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
-					</c:forEach>
-					
-					
-					<p>
-					하 <br>
-					<c:forEach var="list" items="${haList}">
-						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
-					</c:forEach>
-					</p>
-					
-					
-					        	
-		  </div> 
+		        	<table class ="table table_Station" style="width:730px;">
+		        		<tr>
+		        			<th> <span class="tablethline">가 </span></th>
+		        			<th> <span class="tablethline">나 </span></th>
+		        			<th> <span class="tablethline">다 </span></th>
+		        			<th> <span class="tablethline">마 </span></th>
+		        			<th> <span class="tablethline">바 </span></th>
+		        		</tr>
+		        		<tr>
+		        			<td class="tabletdblock">
+					        	<c:forEach var="list" items="${gaList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+							</td>
+							<td class="tabletdblock">
+								<c:forEach var="list" items="${naList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+							</td>
+							<td class="tabletdblock">
+								<c:forEach var="list" items="${daList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+							</td>
+							<td class="tabletdblock">
+								<c:forEach var="list" items="${maList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+							</td>
+							<td class="tabletdblock">
+								<c:forEach var="list" items="${baList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+							</td>
+			   			</tr>
+			   			<tr>
+			   				<th>사</th>
+			   				<th>아</th>
+			   				<th>자</th>
+			   				<th>차</th>
+			   				<th>하</th>
+			   			</tr>
+			   			<tr>
+			   				<td>
+			   					<c:forEach var="list" items="${saList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+			   				</td>
+			   				<td style="width:16%;">
+			   					<c:forEach var="list" items="${aaList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+			   				</td>
+			   				<td>
+				   				<c:forEach var="list" items="${jaList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+			   				</td>
+			   				<td>
+			   					<c:forEach var="list" items="${chaList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+			   				</td>
+			   				<td>
+			   					<c:forEach var="list" items="${haList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+			   				</td>
+			   			</tr>
+					</table>
+		  	</div> 
 		  </div> 
 		</div> 
 		
-		
-		<!-- Success message -->
-		<div class="alert alert-success" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i> Thanks for contacting us, we will get back to you shortly.</div>
+</div>
 		
 		<!-- Button -->
 		<div class="form-group">
-		  <label class="col-md-4 control-label"></label>
-		  <div class="col-md-4">
-		    <button type="button" class="btn btn-warning" onClick="goSubmit();">Send<span class="glyphicon glyphicon-send"></span></button>
+		  <div align = "center" class="col-md-12">
+		    <button type="button" class="btn btn-default" onClick="goSubmit();">회원가입<span class="glyphicon glyphicon-send"></span></button>
+		  	<button type="button" class="btn btn-default" onClick="javascript:location.href='index.eat'">취소</button>
 		  </div>
 		</div>
 		

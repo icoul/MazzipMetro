@@ -9,13 +9,14 @@ public class ContentVO {
 	String contentStatus;   // 컨텐츠상태
 	
 	String contentName; //컨텐츠명
+	String contentPrice; //컨텐츠가격
 	
 	private RestaurantVO item; //레스토랑 VO쓰기위해 써줌 
 	
 	public ContentVO(){} //기본생성자
 	
 	public ContentVO(String restSeq, String userSeq, String contentSeq, String contentBuyDate, String contentLimit,
-			String contentStatus, String contentName, RestaurantVO item, UserVO item2) {
+			String contentStatus, String contentName, RestaurantVO item, String contentPrice) {
 		this.restSeq = restSeq;
 		this.userSeq = userSeq;
 		this.contentSeq = contentSeq;
@@ -24,6 +25,8 @@ public class ContentVO {
 		this.contentStatus = contentStatus;
 		this.contentName = contentName;
 		this.item = item;
+		this.contentPrice = contentPrice;
+		
 	}
 
 	public String getRestSeq() {
@@ -88,6 +91,14 @@ public class ContentVO {
 
 	public void setItem(RestaurantVO item) {
 		this.item = item;
+	}
+
+	public String getContentPrice() {
+		return contentPrice;
+	}
+
+	public void setContentPrice(String contentPrice) {
+		this.contentPrice = contentPrice;
 	}
 
 	

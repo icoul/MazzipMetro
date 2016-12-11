@@ -84,6 +84,13 @@ public class AdminDAO implements IDAO{
 	public int adminUserEdit(HashMap<String, String> userinfoMap) {
 		return sqlSession.update("admin.adminUserEdit", userinfoMap);
 	}
+	
+	//컨텐츠 통계
+	public List<HashMap<String, String>> adminConStatis() {
+		return sqlSession.selectList("admin.adminConStatis");
+	}
+
+	
 
 	
 	

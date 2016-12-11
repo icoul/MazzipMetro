@@ -185,7 +185,7 @@
 </div>
 <div class="subrightCon">
 <jsp:include page="../userMyPage_Menubar.jsp" />
-<form name="contact_form" id="contact_form" class="well form-horizontal" action="<%= request.getContextPath() %>/userEditEnd.eat" method="post" enctype="multipart/form-data" style="width:700px; background:none;">
+<form name="contact_form" id="contact_form" class="well form-horizontal" action="<%= request.getContextPath() %>/userEditEnd.eat" method="post" enctype="multipart/form-data" style="background:none;">
 		<fieldset>
 		
 		
@@ -245,7 +245,7 @@
 		  <label class="col-md-4 control-label">프로필사진</label>
 		  <div class="col-md-7 inputGroupContainer">
 		    <div class="input-group">
-		    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>  
+		    <span class="input-group-addon"><i class="glyphicon glyphicon-upload"></i></span>  
 			<input type='file' id="userUpload" name="attach" />
 	        <img id="userProfile" name="userProfile" src="<%= request.getContextPath() %>/resources/images/userNoImg.png" alt="your image" width="150px;" height="150px;"/>
 			</div>
@@ -258,80 +258,77 @@
 		  </label>
 		    <div class="col-md-7 inputGroupContainer">
 		    <div class="input-group">
-		        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-		        	<p>
-		        	가 <br>
-		        	<c:forEach var="list" items="${gaList}">
-						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
-					</c:forEach>
-		   			</p>
-		   			
-		   			<p>
-					나 <br>
-					<c:forEach var="list" items="${naList}">
-						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
-					</c:forEach>
-					</p>
-					
-					<p>
-					다 <br>
-					<c:forEach var="list" items="${daList}">
-						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
-					</c:forEach>
-					</p>
-					
-					<p>
-					마 <br>
-					<c:forEach var="list" items="${maList}">
-						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
-					</c:forEach>
-					</p>
-					
-					<p>
-					바 <br>   
-					<c:forEach var="list" items="${baList}">
-						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
-					</c:forEach>
-					</p>
-					
-					<p>
-					사 <br>		        	
-					<c:forEach var="list" items="${saList}">
-						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
-					</c:forEach>
-					</p>
-					
-					<p>
-					아 <br>		        	
-					<c:forEach var="list" items="${aaList}">
-						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
-					</c:forEach>
-					</p>
-					
-					<p>
-					자 <br>
-					<c:forEach var="list" items="${jaList}">
-						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
-					</c:forEach>
-					</p>
-					
-					<p>
-					차 <br>
-					<c:forEach var="list" items="${chaList}">
-						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
-					</c:forEach>
-					
-					
-					<p>
-					하 <br>
-					<c:forEach var="list" items="${haList}">
-						<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
-					</c:forEach>
-					</p>
-					
-					
-					        	
-		  </div> 
+		        	<table class ="table table_Station" style="width:730px;">
+		        		<tr>
+		        			<th> <span class="tablethline">가 </span></th>
+		        			<th> <span class="tablethline">나 </span></th>
+		        			<th> <span class="tablethline">다 </span></th>
+		        			<th> <span class="tablethline">마 </span></th>
+		        			<th> <span class="tablethline">바 </span></th>
+		        		</tr>
+		        		<tr>
+		        			<td class="tabletdblock">
+					        	<c:forEach var="list" items="${gaList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+							</td>
+							<td class="tabletdblock">
+								<c:forEach var="list" items="${naList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+							</td>
+							<td class="tabletdblock">
+								<c:forEach var="list" items="${daList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+							</td>
+							<td class="tabletdblock">
+								<c:forEach var="list" items="${maList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+							</td>
+							<td class="tabletdblock">
+								<c:forEach var="list" items="${baList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+							</td>
+			   			</tr>
+			   			<tr>
+			   				<th>사</th>
+			   				<th>아</th>
+			   				<th>자</th>
+			   				<th>차</th>
+			   				<th>하</th>
+			   			</tr>
+			   			<tr>
+			   				<td>
+			   					<c:forEach var="list" items="${saList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+			   				</td>
+			   				<td style="width:16%;">
+			   					<c:forEach var="list" items="${aaList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+			   				</td>
+			   				<td>
+				   				<c:forEach var="list" items="${jaList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+			   				</td>
+			   				<td>
+			   					<c:forEach var="list" items="${chaList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+			   				</td>
+			   				<td>
+			   					<c:forEach var="list" items="${haList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+			   				</td>
+			   			</tr>
+					</table>
+		  	</div> 
 		  </div> 
 		</div> 
 		
