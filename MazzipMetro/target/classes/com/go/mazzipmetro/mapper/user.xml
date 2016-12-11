@@ -166,6 +166,7 @@
 		from tbl_qna
 		where qnaProgress = '답변완료' and qnaStatus = 0 and userSeq = #{userSeq}
 	</select>
+<<<<<<< HEAD
 	
 	<select id="userExist" parameterType="String" resultType="int">
 		select count(*)
@@ -275,4 +276,6 @@
 		where A.userSeq = #{userSeq}
 	</select>
 	
+=======
+>>>>>>> 39bc9c4c6839b7f9cd4c02f899c8ef08df745c4c
 </mapper>
