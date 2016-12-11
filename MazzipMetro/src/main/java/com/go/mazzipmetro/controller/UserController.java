@@ -1,6 +1,9 @@
 package com.go.mazzipmetro.controller;
 
 
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -10,14 +13,6 @@ import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-
-import org.json.JSONObject;
-
 import com.go.mazzipmetro.common.FileManager;
 import com.go.mazzipmetro.service.UserService;
-import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.UserAttendVO;
 import com.go.mazzipmetro.vo.UserVO;
 
@@ -410,8 +401,6 @@ public class UserController {
 		
 		HttpSession ses = req.getSession();
 		
-		
-		
 		HashMap<String, String> map = new HashMap<String, String>();
 	    map.put("userEmail", userEmail);
 	    map.put("userPw", userPw);
@@ -454,8 +443,6 @@ public class UserController {
 			req.setAttribute("msg", msg);
 			req.setAttribute("loc", loc);
 			
-			
-			
 			//로그인할 사용자의 정보를 세션에 저장하도록 한다.
 			
 			ses.setAttribute("loginUser", loginUser);
@@ -467,13 +454,10 @@ public class UserController {
 			//사용자 로그인시 아이디저장 체크박스에 체크를 했을 경우와, 체크를 하지 않았을 경우
 			// * checked : 쿠키 저장
 			// * unchecked : 쿠키 삭제
-			
-//			Cookie cookieId = new Cookie("rememberId", loginUser.getUserEmail());
-//			Cookie cookiePwd = new Cookie("rememberPwd", loginUser.getUserPw());//비보안
-			
 			Cookie cookieId=null, cookiePwd=null
 					, cookieAutoLogin = new Cookie("autoLogin", autoLogin);
 			
+			// 아이디,비번 암호화하기
 			try {
 				cookieId = new Cookie("rememberId", URLEncoder.encode(loginUser.getUserEmail(), "UTF-8"));
 				cookiePwd = new Cookie("rememberPwd", loginUser.getUserPw());//비보안
@@ -523,7 +507,7 @@ public class UserController {
 			
 			msg = loginUser.getUserName() + "님, 환영합니다.";
 			
-			if(loginUser.getUserSort().equals("0")){ //userSort가 0인 일반사용자일떄만 출석체크를 한다.
+			if(loginUser.getUserSort().equals("0")){ //userSort가 0인 일반사용자일때만 출석체크를 한다.
 				loc = "attendCheck.eat";
 				
 			}else{
