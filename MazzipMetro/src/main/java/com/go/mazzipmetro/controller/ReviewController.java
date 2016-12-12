@@ -21,7 +21,9 @@ import com.go.mazzipmetro.service.ReviewService;
 import com.go.mazzipmetro.vo.AttachFileVO;
 import com.go.mazzipmetro.vo.FileVO;
 import com.go.mazzipmetro.vo.MenuVO;
+import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.ReviewVO;
+import com.go.mazzipmetro.vo.UserAliasVO;
 import com.go.mazzipmetro.vo.UserVO;
 
 @Controller
@@ -108,10 +110,42 @@ public class ReviewController {
 			e.printStackTrace();
 		} // 완료
 		
-		int result = service.addReview(rvo,imageList);
+		// 테스트용 대분류/중분류 삽입!!
+		rvo.setReviewBgTag(new String[]{"한식"});
+		rvo.setReviewMdTag(new String[]{"물고기","채소","고기"});
+		
+		// review insert작업 및 alias관련 작업을 trasactional 처리한다.
+		List<String> list = service.addReview(rvo,imageList);
+		String freeScript = "";
+		int result = Integer.parseInt(list.get(list.size()-1));
+		
+		System.out.println(">>>>>>>>>>>>>>> list.size() ="+ list.size()); 
+		System.out.println(">>>>>>>>>>>>>>> result ="+ result);
+		
+		
+		if(result == 1 && list.size() > 1){
+			System.out.println(">>>>>> 글쓰기 성공 & 칭호 갱신!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); 
+			result = 1;
+			freeScript += "alert('축하합니다.\\n"; // alert개행 문자는 \n 인데, 여기서는 \\n이라 써야 에러가 나지 않는다. 차이는 모르겠다.
+			for (int i = 0; i < list.size()-1; i++) {
+				freeScript += "\\n"+(i+1)+" : ";
+				freeScript += list.get(i);
+			}
+			freeScript += "\\n\\n"+(list.size()-1)+"가지 칭호를 획득하셨습니다.');";
+		}else if (result == 1  && list.size() == 1) {
+			System.out.println(">>>>>> 글쓰기 성공 & 갱신할 칭호 없음!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); 
+			result = 1;
+		} else if ("0".equals(list.get(list.size()-1))){
+			System.out.println(">>>>>> 글쓰기 실패!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); 
+			result  = 0;
+		} else {
+			System.out.println("예외상황 발생!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); 
+		}
+		
+		System.out.println(freeScript); 
 		
 		req.setAttribute("result", result);
-				
+		req.setAttribute("freeScript", freeScript);	
 		return "/review/reviewAddEnd";
 	}
 	

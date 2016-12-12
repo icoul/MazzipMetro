@@ -129,6 +129,8 @@ public class AdminService implements IService {
 		List<HashMap<String, String>>  list = dao.adminConStatis();
 		return list;
 	}
+
+
 	
 	
 }

@@ -199,6 +199,22 @@ public class MapService  implements IService {
 			return dao.getMetroNameList(map);
 		}
 
+		
+		// 관리자용 업장관리 페이지 : 동이름 가져오기
+		public List<HashMap<String, String>> adminDongNameList(HashMap<String, String> map) {
+			return dao.adminDongNameList(map);
+		}
+
+		// 관리자용 업장관리 페이지 : 구/지하철이름 가져오기
+		public List<HashMap<String, String>> adminGuNameList() {
+			return dao.adminGuNameList();
+		}
+
+		// 관리자용 업장관리 페이지 : 구/지하철이름 가져오기
+		public List<HashMap<String, String>> adminMetroNameList() {
+			return dao.adminMetroNameList();
+		}
+
 		// 업장 태그 가져오기(태그가 있는 행만 가져오기)	: 테그 테이블 삭제
 /*		public List<TagVO> temp_getRestTag() {
 			List<String> seqList = dao.temp_getRestSeqForTags();

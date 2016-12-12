@@ -260,6 +260,47 @@
 		where to_char(to_date(#{attendLastDay}, 'yyyy-mm-dd hh24:mi:ss'), 'yyyy-mm-dd hh24:mi:ss') between to_char(sysdate-1 , 'YYYY-MM-DD ') || '00:00:00' and to_char(sysdate-1 , 'YYYY-MM-DD ') || '23:59:59' and userSeq = #{userSeq}
 	</select>
 	
+	<!-- 동현_칭호 동이름, 지하철이름, 구이름을 구하기 -->
+	<select id="getAliasIdName" parameterType="java.util.HashMap" resultType="String">
+		select
+		<if test="aliasType == 'dongId">
+			dongName from tbl_dong where dongId = #{dongId}
+		</if>
+		<if test="aliasType == 'metroId">
+			metroName from tbl_metro where metroId = #{metroId}
+		</if>
+		<if test="aliasType == 'guId">
+			guName from tbl_gu where guId = #{guId}
+		</if>
+	</select>
+	
+	<!-- 칭호 존재여부 검사 -->
+	<select id="isAliasExist" parameterType="java.util.HashMap" resultType="int">
+		select count(*) from tbl_user_alias where userSeq = #{userSeq} and aliasId = #{aliasId}
+	</select>
+	
+	<!-- 사용자의 칭호를 update한다. -->
+	<update id="userAliasUpdate" parameterType="java.util.HashMap">
+		update tbl_user_alias set aliasNum = aliasNum +1
+		<if test="aliasName != null">
+			, aliasName = #{aliasName}
+		</if>
+		where userSeq = #{userSeq} and aliasType = #{aliasType} and aliasId = #{aliasId}
+	</update>
+	
+	<!-- 사용자의 칭호를 insert한다. -->
+	<insert id="userAliasInsert" parameterType="java.util.HashMap">
+		insert into tbl_user_alias(aliasSeq, userSeq, aliasType, aliasId)
+		values(seq_tbl_user_alias.nextval, #{userSeq}, #{aliasType}, #{aliasId})
+	</insert>
+	
+	<!-- 사용자 칭호 aliasId별로 해당 테이블 가져온다. -->
+	<select id="getUserAlias" parameterType="java.util.HashMap" resultType="com.go.mazzipmetro.vo.UserAliasVO">
+		select * from tbl_user_alias 
+		where userSeq = #{userSeq} and aliasId = #{aliasId}
+	</select>
+
+
 	<resultMap type="java.util.HashMap" id="mapMyReviewList">
 		<result column="reviewSeq" property="reviewSeq" javaType="String" />
 		<result column="restName"  property="restName"  javaType="String" />
