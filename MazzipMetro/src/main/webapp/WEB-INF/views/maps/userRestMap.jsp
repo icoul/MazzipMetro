@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:include page="../top.jsp" />
 	 <style type="text/css">
 	    .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
 	    .wrap * {padding: 0;margin: 0;}
@@ -20,7 +19,7 @@
 	 </style>
 	 
 	 <style>
-	 table, th, td { border: solid 1px black;}
+	 /* table, th, td { border: solid 1px black;} */
 	 th, td {padding: 10px;}
 	 </style>
 	

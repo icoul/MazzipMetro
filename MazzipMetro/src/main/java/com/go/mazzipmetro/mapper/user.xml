@@ -166,4 +166,113 @@
 		from tbl_qna
 		where qnaProgress = '답변완료' and qnaStatus = 0 and userSeq = #{userSeq}
 	</select>
+	
+	<select id="userExist" parameterType="String" resultType="int">
+		select count(*)
+		from tbl_user_attend
+		where userSeq = #{userSeq} 
+	</select>
+	
+	<insert id="insertAttend" parameterType="String">
+		insert into tbl_user_attend values(#{userSeq}, 1, 1, sysdate + 9/24 + 4/24/60, default, default)
+	</insert>
+	
+	<update id="updateUserPoint1" parameterType="String">
+		update tbl_user set userPoint =  userPoint + 3, userExp = userExp + 15 where userSeq = #{userSeq}
+	</update>
+	
+	<select id="userLoginToday" parameterType="String" resultType="int">
+		select  count(*)
+		from
+		(
+		select to_char(attendLastDay, 'yyyy-mm-dd hh24:mi:ss') as attendLastDay
+		from tbl_user_attend
+		where userSeq = #{userSeq}
+		)V
+		where V.attendLastDay between to_char(sysdate , 'YYYY-MM-DD ') || '00:00:00' and to_char(sysdate , 'YYYY-MM-DD ') || '23:59:59'
+	</select>
+	
+	<select id="getUserAttend" parameterType="String" resultType="com.go.mazzipmetro.vo.UserAttendVO">
+		select userSeq, allAttendDay, continueAttendDay, to_char(attendLastDay, 'yyyy-mm-dd hh24:mi:ss') as attendLastDay, userRandomBox
+		from tbl_user_attend
+		where userSeq = #{userSeq}
+	</select>
+	
+	<update id="updateUserAttend" parameterType="java.util.HashMap" >
+		update tbl_user_attend set allAttendDay = allAttendDay + 1,
+		 
+		 <if test="continueCheck == 0">
+		 continueAttendDay = 1,
+		 </if>
+		 
+		  <if test="continueCheck == 1">
+		 continueAttendDay = continueAttendDay +1, 
+		 </if>
+		 attendLastDay = sysdate + 9/24 + 4/24/60
+		 where userSeq = #{userSeq}
+	</update>
+	
+	<update id="updateUserPoint2" parameterType="java.util.HashMap">
+		update tbl_user set 
+		userPoint = userPoint +
+		<if test="contineuAttendDay != 3 and contineuAttendDay != 7 and contineuAttendDay != 15 and contineuAttendDay != 20 ">
+			3
+		</if>
+		
+		<if test="contineuAttendDay == 3">
+			10
+		</if>
+		<if test="contineuAttendDay == 7">
+			30
+		</if>
+		<if test="contineuAttendDay == 15">
+			50
+		</if>
+		<if test="contineuAttendDay == 20">
+			70
+		</if>
+		, userExp = userExp + 15
+		 where userSeq = #{userSeq}
+	</update>
+	
+	<update id="updateRandomBox" parameterType="java.util.HashMap">
+		
+		<if test="contineuAttendDay != 14 and contineuAttendDay != 30">
+			update tbl_user_attend set userRandomBox = userRandomBox where userSeq = #{userSeq}
+		</if>
+		<if test="contineuAttendDay == 14">
+			update tbl_user_attend set 
+			userRandomBox = userRandomBox + 1
+			where userSeq = #{userSeq}
+		</if>
+		
+		<if test="contineuAttendDay == 30">
+			update tbl_user_attend set
+			userPremiumRandomBox = userPremiumRandomBox + 1
+			where userSeq = #{userSeq}
+		</if>
+		
+	</update>
+	
+	<select id="userLoginContinueCheck" parameterType="java.util.HashMap" resultType="int">
+		select count(*)
+		from tbl_user_attend
+		where to_char(to_date(#{attendLastDay}, 'yyyy-mm-dd hh24:mi:ss'), 'yyyy-mm-dd hh24:mi:ss') between to_char(sysdate-1 , 'YYYY-MM-DD ') || '00:00:00' and to_char(sysdate-1 , 'YYYY-MM-DD ') || '23:59:59' and userSeq = #{userSeq}
+	</select>
+	
+	<resultMap type="java.util.HashMap" id="mapMyReviewList">
+		<result column="reviewSeq" property="reviewSeq" javaType="String" />
+		<result column="restName"  property="restName"  javaType="String" />
+		<result column="reviewTitle"     property="reviewTitle"     javaType="String" />
+		<result column="reviewContent" property="reviewContent" javaType="String" />
+		<result column="reviewRegdate" property="reviewRegdate" javaType="String" />
+	</resultMap>
+	
+	<select id="myReviewList" parameterType="String" resultMap="mapMyReviewList">
+		select A.reviewSeq, A.userSeq , B.restName, A.reviewTitle, A.reviewContent, A.reviewRegdate
+		from tbl_review A join tbl_restaurant B
+		on A.restSeq = B.restSeq
+		where A.userSeq = #{userSeq}
+	</select>
+	
 </mapper>

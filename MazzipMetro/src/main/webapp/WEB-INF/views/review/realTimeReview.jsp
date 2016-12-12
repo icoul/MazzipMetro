@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -26,32 +25,40 @@
 </style>
 
 <script type="text/javascript">
-
-
+    
 
 $(document).ready(function(){
-    
 	
-	// 함수호출
-    
+	scrolling();
+      
+
 });// end of ready
+ 
+function scrolling(){    
 
-
-	
-	
- 		             
-
+    var $wrapper = $("#Scroll");
+    $wrapper.css({'top':0});
+    
+    var animator = function(imgblock){
+     imgblock.animate({'top':-100}, 5500,
+                    function(){
+                      imgblock.css({'top':0});
+                      animator(imgblock); //재귀함수 호출 -> 반복효과
+                        }
+                      );   
+     } // 함수정의
+     
+    animator($wrapper);
+ }
 
 </script>
 </html>
 <div id="woo_scroller"> 
 
+<table  class="table table-bordered" id = "Scroll">
 
-
-<table  class="table table-bordered" >
     
         <c:forEach var="review" items="${reviewList}" varStatus="status">
-                
             <tr>
                 <td align="right">
                     	평점<span style="font-weight:bold; font-size:15pt; color:red;">${review.reviewAvgScore}</span>점
@@ -64,6 +71,7 @@ $(document).ready(function(){
                      </c:if>         
                     </section>
                 </td>
+
         
             
             
@@ -75,6 +83,7 @@ $(document).ready(function(){
               </div> 
               
             </div>--%> 
+
             </tr>
         </c:forEach>
 </table> 

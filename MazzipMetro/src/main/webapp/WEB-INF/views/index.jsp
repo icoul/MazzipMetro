@@ -1,15 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<jsp:include page="library.jsp" />
+
 <jsp:include page="top.jsp" />
 
 
 	<script>
         $(document).ready(function() {
-        	
+
         	// 실시간 리뷰 애니메이트
             MainReview();
             scrolling();
+
+        	MainReview();
+
         	// tooltipster 중복호출 방지용
         	var metroIdArr = [];
         	
@@ -263,8 +268,6 @@
             });
             
             
-            
-            
         });// $(document).ready()
         
         //등록된 맛집이 없는 경우(지도에러유발) 링크 폐쇄
@@ -272,6 +275,7 @@
         	alert(metroName + '에 등록된 맛집이 없습니다.');
         }
         
+
         function MainReview(){
         	
     	 $.ajax({ 
@@ -347,6 +351,25 @@
                  animator($wrapper); 
               } 
         
+
+        	
+      function MainReview(){
+        $.ajax({ 
+            url: "<%= request.getContextPath()%>/MainReviewAjax.eat",  
+            method:"get",      
+            dataType: "html",
+            success: function(data) {
+               
+               $("#Scroller").html(data);
+               
+               }
+         });//end of $.ajax()
+          
+       }// end of MainReview
+       
+
+
+
        
 </script> 
 		<div id="leftCon">

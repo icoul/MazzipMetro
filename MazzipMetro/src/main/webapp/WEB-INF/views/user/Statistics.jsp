@@ -8,6 +8,7 @@
 <style type="text/css">
 	table  th {background: #FAFAFA; text-align:center;}
 	table  td {text-align:center;}
+	.btnClass {height:40px; background:#fff; font-size:15px; border:1px solid #000; border-radius:2px; color:#000; cursor:pointer; padding:5px;}
 </style>
 
 <script type="text/javascript">
@@ -266,13 +267,72 @@ $(function () {
          }]
      });
  });
- 
+
+$(document).ready(function(){
+	$("#table_Gender").hide();
+//	$("#table_Gender").hide();
+	$("#table_AgeLine").hide();
+	$("#table_ReviewCount").hide();
+	$("#table_ReviewGrade").hide();
+//	$("#table_Gender").hide();
+	
+//	$("#btn_restGrade").mouseover(function(){
+//		 $("#table_Gender").show();
+//	});
+	 
+	$("#btn_Gender").mouseover(function(){
+		 $("#table_Gender").show();
+		 $("#table_AgeLine").hide();
+		 $("#table_ReviewCount").hide();
+		 $("#table_ReviewGrade").hide();
+	});
+	
+	$("#btn_AgeLine").mouseover(function(){
+		 $("#table_AgeLine").show();
+		 $("#table_Gender").hide();
+		 $("#table_ReviewCount").hide();
+		 $("#table_ReviewGrade").hide();
+	});
+	
+	$("#btn_ReviewCount").mouseover(function(){
+		 $("#table_ReviewCount").show();
+		 $("#table_Gender").hide();
+		 $("#table_AgeLine").hide();
+		 $("#table_ReviewGrade").hide();
+	});
+	
+	$("#btn_ReviewGrade").mouseover(function(){
+		 $("#table_ReviewGrade").show();
+		 $("#table_Gender").hide();
+		 $("#table_AgeLine").hide();
+		 $("#table_ReviewCount").hide();
+		 
+	});
+	
+//	$("#btn_ViewsCount").mouseover(function(){
+//		 $("#table_Gender").show();
+//	});
+});
  
 
 </script>
 
+
+<table style="width:100%; height:100px; margin-top:30px;">
+	<tr>
+		<td>
+			<button type="button" class="btnClass" id="btn_restGrade">매장등급</button> &nbsp;
+			<button type="button" class="btnClass" id="btn_Gender">남녀비율</button> &nbsp;
+			<button type="button" class="btnClass" id="btn_AgeLine">성별비율</button> &nbsp;
+			<button type="button" class="btnClass" id="btn_ReviewCount">날짜별리뷰수</button> &nbsp;
+			<button type="button" class="btnClass" id="btn_ReviewGrade">리뷰점수에따른평점</button> &nbsp;
+			<button type="button" class="btnClass" id="btn_ViewsCount">조회수</button>
+		</td>
+	</tr>
+</table>
+
 <%-- 성별 비율 --%>
-<table style="width:100%; height:389px;">
+<table style="width:100%; height:389px;" id="table_Gender">
 	<tr>
 		<td style="width:30%; height:100px; vertical-align:middle;" align="center">
 			<table style="width:90%; margin-left: 5%" class="table" align="center">
@@ -315,7 +375,7 @@ $(function () {
 </table>
 
 <%-- 나이별 비율 --%>
-<table style="width:100%; height:389px;">
+<table style="width:100%; height:389px;" id="table_AgeLine">
 	<tr>
 		<td style="width:30%; height:100px; vertical-align:middle;" align="center">
 			<table style="width:90%; margin-left: 5%" class="table" align="center">
@@ -358,7 +418,7 @@ $(function () {
 </table>
 
 <%-- 리뷰수 비율 --%>
-<table style="width:100%; height:389px;">
+<table style="width:100%; height:389px;" id="table_ReviewCount">
 	<tr>
 		<td style="width:30%; height:100px; vertical-align:middle;" align="center">
 			<table style="width:90%; margin-left: 5%" class="table" align="center">
@@ -401,7 +461,7 @@ $(function () {
 </table>
 
 <%-- 리뷰평점 비율 --%>
-<table style="width:100%; height:389px;">
+<table style="width:100%; height:389px;" id="table_ReviewGrade">
 	<tr>
 		<td style="width:30%; height:100px; vertical-align:middle;" align="center">
 			<table style="width:90%; margin-left: 5%" class="table" align="center">

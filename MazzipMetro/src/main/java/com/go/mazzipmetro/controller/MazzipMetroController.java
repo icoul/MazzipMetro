@@ -169,6 +169,9 @@ public class MazzipMetroController {
 		//QnA/myQna.jsp페이지에서 등록하기를 누르면 등록해주는 컨트롤러
 		@RequestMapping(value = "/myQnaRegister.eat", method = {RequestMethod.POST})
 		public String myQnaRegister(HttpServletRequest req) {
+			
+			
+			
 			String userSeq = req.getParameter("userSeq");
 			String qnaQuiry = req.getParameter("qnaQuiry");
 			String qnaSubject = req.getParameter("qnaSubject");
@@ -196,17 +199,8 @@ public class MazzipMetroController {
 		
 		//유저 한사람이 문의한 내역을 보여주는 컨트롤러 
 		@RequestMapping(value = "/myQnaList.eat", method = {RequestMethod.GET})
-		public String myQnAList(HttpServletRequest req, HttpSession session) {
+		public String login_myQnaList(HttpServletRequest req, HttpServletResponse res, HttpSession session) {
 			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
-			
-			if(loginUser == null){
-				//로그인을 하지 않고서 주문을 하려고 한 경우 로그인을 하면 돌아갈 페이지를 지정해 주어야 한다.
-				session.setAttribute("returnPage", "myQnaList.eat");
-				
-				req.setAttribute("msg", "로그인 후 이용해주세요");
-				req.setAttribute("loc", "javascript:history.back();");
-				return "QnA/msg";
-			}
 			
 			String userSeq = loginUser.getUserSeq();
 			
@@ -527,17 +521,7 @@ public class MazzipMetroController {
 		}
 		
 		@RequestMapping(value = "/adminQnaList.eat", method = {RequestMethod.GET})
-		public String adminQnaList(HttpServletRequest req, HttpSession session) {
-			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
-			
-			if(loginUser == null){
-				//로그인을 하지 않고서 주문을 하려고 한 경우 로그인을 하면 돌아갈 페이지를 지정해 주어야 한다.
-				session.setAttribute("returnPage", "adminQnaList.eat");
-				
-				req.setAttribute("msg", "로그인 후 이용해주세요");
-				req.setAttribute("loc", "javascript:history.back();");
-				return "QnA/msg";
-			}
+		public String login_adminQnaList(HttpServletRequest req, HttpServletResponse res, HttpSession session) {
 			
 			/*
 			 * 페이징 처리하기 글목록 보기 페이지 요청은 URL형태의 페이징 처리를 띄는 것으로 만들어 주어야 한다. 즉, 예를 들면
@@ -833,6 +817,15 @@ public class MazzipMetroController {
 		//관리자가 adminQnaList에서 문의제목을 클릭하면 회원의 질문사항을 보여주는 컨트롤러
 		@RequestMapping(value = "/adminSeeUserQuestion.eat", method = {RequestMethod.GET})
 		public String adminSeeUserQuestion(HttpServletRequest req) {
+			HttpSession session =  req.getSession();
+			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+			
+			if(loginUser == null){
+				req.setAttribute("msg", "잘못된 접근입니다.");
+				req.setAttribute("loc", "javascript:history.back();");
+				return "QnA/msg";
+			}
+			
 			String qnaSeq = req.getParameter("qnaSeq");
 			String userName = req.getParameter("userName");   
 			String qnaInquiry = req.getParameter("qnaInquiry");  
@@ -855,6 +848,15 @@ public class MazzipMetroController {
 		//myQnaList에서 제목을 클릭하면 사용자의 질문을 보는 컨트롤러
 		@RequestMapping(value = "/userSeeUserQuestion.eat", method = {RequestMethod.GET})
 		public String userSeeUserQuestion(HttpServletRequest req) {
+			HttpSession session =  req.getSession();
+			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+			
+			if(loginUser == null){
+				req.setAttribute("msg", "잘못된 접근입니다.");
+				req.setAttribute("loc", "javascript:history.back();");
+				return "QnA/msg";
+			}
+			
 			String qnaSeq = req.getParameter("qnaSeq");
 			String userName = req.getParameter("userName");
 			
@@ -868,6 +870,16 @@ public class MazzipMetroController {
 		//관리자가 adminQnaList에서 답변완료를 클릭하면 관리자의 답변을 보여주는 컨트롤러
 		@RequestMapping(value = "/adminSeeAdminAnswer.eat", method = {RequestMethod.GET})
 		public String adminSeeAdminAnswer(HttpServletRequest req) {
+			
+			HttpSession session =  req.getSession();
+			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+			
+			if(loginUser == null){
+				req.setAttribute("msg", "잘못된 접근입니다.");
+				req.setAttribute("loc", "javascript:history.back();");
+				return "QnA/msg";
+			}
+			
 			String qnaSeq = req.getParameter("qnaSeq");
 	
 			HashMap<String, String> andminAnswer = service.getAdminAnswer(qnaSeq);
@@ -877,17 +889,37 @@ public class MazzipMetroController {
 		}
 		
 		//myQnaList에서 답변완료를 클릭하면 사용자가 관리자의 답변을 보는 컨트롤러
-				@RequestMapping(value = "/userSeeAdminAnswer.eat", method = {RequestMethod.GET})
-				public String userSeeAdminAnswer(HttpServletRequest req) {
-					String qnaSeq = req.getParameter("qnaSeq");
-				
-					HashMap<String, String> andminAnswer = service.getAdminAnswer(qnaSeq);
-					req.setAttribute("andminAnswer", andminAnswer);
-					return "QnA/userSeeAdminAnswer";
-				}
+		@RequestMapping(value = "/userSeeAdminAnswer.eat", method = {RequestMethod.GET})
+		public String userSeeAdminAnswer(HttpServletRequest req) {
+			
+			HttpSession session =  req.getSession();
+			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+			
+			if(loginUser == null){
+				req.setAttribute("msg", "잘못된 접근입니다.");
+				req.setAttribute("loc", "javascript:history.back();");
+				return "QnA/msg";
+			}
+			
+			String qnaSeq = req.getParameter("qnaSeq");
+		
+			HashMap<String, String> andminAnswer = service.getAdminAnswer(qnaSeq);
+			req.setAttribute("andminAnswer", andminAnswer);
+			return "QnA/userSeeAdminAnswer";
+		}
 		
 		@RequestMapping(value = "/adminAnswerEdit.eat", method = {RequestMethod.GET})
 		public String adminAnswerEdit(HttpServletRequest req) {
+			
+			HttpSession session =  req.getSession();
+			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+			
+			if(loginUser == null){
+				req.setAttribute("msg", "잘못된 접근입니다.");
+				req.setAttribute("loc", "javascript:history.back();");
+				return "QnA/msg";
+			}
+			
 			String qnaSeq = req.getParameter("qnaSeq");
 			String qnaInquiry = req.getParameter("qnaInquiry");
 			String qnaSubject = req.getParameter("qnaSubject");
@@ -905,6 +937,16 @@ public class MazzipMetroController {
 		
 		@RequestMapping(value = "/userQuestionEdit.eat", method = {RequestMethod.GET})
 		public String uesrQuestionEdit(HttpServletRequest req) {
+			
+			HttpSession session =  req.getSession();
+			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+			
+			if(loginUser == null){
+				req.setAttribute("msg", "잘못된 접근입니다.");
+				req.setAttribute("loc", "javascript:history.back();");
+				return "QnA/msg";
+			}
+			
 			String qnaSeq = req.getParameter("qnaSeq");
 			String userName = req.getParameter("userName");
 			String qnaInquiry = req.getParameter("qnaInquiry");
@@ -924,6 +966,16 @@ public class MazzipMetroController {
 		
 		@RequestMapping(value = "/adminAnswerEditEnd.eat", method = {RequestMethod.GET})
 		public String adminAnswerEditEnd(HttpServletRequest req) {
+			
+			HttpSession session =  req.getSession();
+			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+			
+			if(loginUser == null){
+				req.setAttribute("msg", "잘못된 접근입니다.");
+				req.setAttribute("loc", "javascript:history.back();");
+				return "QnA/msg";
+			}
+			
 			String qnaSeq = req.getParameter("qnaSeq");
 			String qnaSubject = req.getParameter("qnaSubject");
 			String qnaComment = req.getParameter("qnaComment");
@@ -947,6 +999,16 @@ public class MazzipMetroController {
 		
 		@RequestMapping(value = "/userQuestionEditEnd.eat", method = {RequestMethod.GET})
 		public String userQuestionEditEnd(HttpServletRequest req) {
+			
+			HttpSession session =  req.getSession();
+			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+			
+			if(loginUser == null){
+				req.setAttribute("msg", "잘못된 접근입니다.");
+				req.setAttribute("loc", "javascript:history.back();");
+				return "QnA/msg";
+			}
+			
 			String qnaSeq = req.getParameter("qnaSeq");
 			String qnaInquiry = req.getParameter("qnaInquiry");
 			String qnaSubject = req.getParameter("qnaSubject");
@@ -974,6 +1036,7 @@ public class MazzipMetroController {
 		//관리자가 회원의 답변을 등록하는 컨트롤러
 		@RequestMapping(value = "/adminAnswerRegister.eat", method = {RequestMethod.POST})
 		public String adminAnswerRegister(HttpServletRequest req) {
+			
 			String qnaSeq = req.getParameter("qnaSeq");
 			String qnaSubject = req.getParameter("qnaSubject");   
 			String qnaContent = req.getParameter("qnaComment");  
@@ -1000,6 +1063,7 @@ public class MazzipMetroController {
 		//adminQnaList에서 Q&A를 삭제하는 컨트롤러
 		@RequestMapping(value = "/deleteQna.eat", method = {RequestMethod.POST})
 		public String deleteQna(HttpServletRequest req) {
+			
 			String qnaColName = req.getParameter("qnaColNameDeleteFrm");
 			String qnaSearch = req.getParameter("qnaSearchDeleteFrm");
 			String qnaInquiry = req.getParameter("qnaInquiryDeleteFrm");
@@ -1036,6 +1100,7 @@ public class MazzipMetroController {
 		
 		@RequestMapping(value = "/faq.eat", method = {RequestMethod.GET})
 		public String faq(HttpServletRequest req) {
+			
 			List<FaqVO> faqList = service.getFaqList();
 			req.setAttribute("faqList", faqList);
 			return "QnA/FAQ";

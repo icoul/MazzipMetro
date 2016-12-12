@@ -9,6 +9,7 @@
 <head>
 <meta charset="UTF-8">
 
+<<<<<<< HEAD
 <meta name="viewport" content="width=device-width, initial-scale=1">
     
 <!-- 기본 jquery 라이브러리 -->
@@ -47,7 +48,6 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>
     
-
 
 <title>:::Mazzip Metro:::</title>
 
@@ -152,8 +152,11 @@ function getLoginUserInfo(){
 	}
 	
 	function goLogin(){
-		var $modal = $("#loginModal");
-		$modal.modal();	
+
+
+		var $modal = $('#loginModal');
+    	$modal.modal();
+
 	}
 	
 	function goLogOut(){
@@ -217,6 +220,7 @@ function getLoginUserInfo(){
 
 			<c:if test="${sessionScope.loginUser.userSeq == null && empty sessionScope.loginUser.userSeq}"> 
 			<button type="button" class="btnLogin" data-target="#loginModal" data-toggle="modal" style="margin-left:10px;">로그인</button>
+
 			<button type="button" class="btnLogin" onclick="goRegister();">회원가입</button>
 			</c:if>
 			<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">

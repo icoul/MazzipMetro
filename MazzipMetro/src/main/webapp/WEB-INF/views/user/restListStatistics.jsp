@@ -57,3 +57,4 @@
 	 <div id="hb_container" style="width: 100%; "></div>
 	</div>
 	<%-- subrightCon --%>
+<jsp:include page="../footer.jsp" />

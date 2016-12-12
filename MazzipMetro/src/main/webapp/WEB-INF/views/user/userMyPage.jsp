@@ -11,6 +11,29 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
+	$("#btn_Mazzip").click(function(){
+		$.ajax({	
+			url:"<%= request.getContextPath() %>/userRestMap.eat",
+		    type:"GET",
+			datatype:"html", 
+			success:function(data){ 
+				$("#userInfo").html(data);
+			}
+		});
+	});
+	
+	$("#btn_userQna").click(function(){
+		$.ajax({	
+			url:"<%= request.getContextPath() %>/myQnaList.eat",
+		    type:"GET",
+			datatype:"html", 
+			success:function(data){ 
+				$("#userInfo").html(data);
+			}
+		});
+	});
+	
+	
 	
 });
 </script>

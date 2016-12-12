@@ -32,6 +32,7 @@ import org.json.JSONObject;
 import com.go.mazzipmetro.common.FileManager;
 import com.go.mazzipmetro.service.UserService;
 import com.go.mazzipmetro.vo.RestaurantVO;
+import com.go.mazzipmetro.vo.UserAttendVO;
 import com.go.mazzipmetro.vo.UserVO;
 
 
@@ -359,19 +360,24 @@ public class UserController {
 		String userSeq = loginUser.getUserSeq();
 		
 		int userPoint = service.userPoint(userSeq);
-		int restCount = service.restCount(userSeq);
-		int effectContent = service.userContent(userSeq);
-		int coupon = service.userCoupon(userSeq);
 		
-		int reviewCount = service.userReviewCount(userSeq);
-		int qnaCount = service.userQnaCount(userSeq);
+		if(loginUser.getUserSort().equals("1")) {
+			int restCount = service.restCount(userSeq);
+			int effectContent = service.userContent(userSeq);
+			int coupon = service.userCoupon(userSeq);
+			
+			req.setAttribute("restCount", restCount);
+			req.setAttribute("coupon", coupon);
+			req.setAttribute("effectContent", effectContent);
+		} else if (loginUser.getUserSort().equals("0")) {
+			int reviewCount = service.userReviewCount(userSeq);
+			int qnaCount = service.userQnaCount(userSeq);
+			
+			req.setAttribute("reviewCount", reviewCount);
+			req.setAttribute("qnaCount", qnaCount);
+		}
 		
 		req.setAttribute("userPoint", userPoint);
-		req.setAttribute("restCount", restCount);
-		req.setAttribute("effectContent", effectContent);
-		req.setAttribute("coupon", coupon);
-		req.setAttribute("reviewCount", reviewCount);
-		req.setAttribute("qnaCount", qnaCount);
 		
 		return "user/userMyPage";
 	} // end : userMyPage
@@ -521,8 +527,13 @@ public class UserController {
 			//이 후의 일은 모두 웹브라우져가 알아서 해준다.
 			
 			msg = loginUser.getUserName() + "님, 환영합니다.";
-			loc = "index.eat";
-
+			
+			if(loginUser.getUserSort().equals("0")){ //userSort가 0인 일반사용자일떄만 출석체크를 한다.
+				loc = "attendCheck.eat";
+				
+			}else{
+				loc = "index.eat";
+			}
 			
 			/*
 			 	로그인 하지 않은 상태에서 장바구니 담기를 하면, 로그인메세지를 출력한다.
@@ -566,4 +577,144 @@ public class UserController {
 		
 		return "user/userLogin";
 	}
+	
+	@RequestMapping(value="/attendCheck.eat", method={RequestMethod.GET})
+	public String userAttendCheck(HttpServletRequest req, HttpSession session){
+		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+		
+		int isUserExist = service.userExist(loginUser.getUserSeq()); //userAttend테이블에  유저가 있는지 체크
+		
+		int result = 0;
+		if(isUserExist == 0){
+			//로그인한 유저가 가입후 처음으로 접속했으면 userAttend테이블에 insert를 시킨다. 그리고 유저에가 3마일리지를 준다.
+			result =  service.insertAttend(loginUser.getUserSeq());
+			
+			UserVO userVO = service.getLoginUser(loginUser.getUserEmail());
+			loginUser.setUserPoint(userVO.getUserPoint());
+			
+			session.setAttribute("loginUser", loginUser);
+			
+			if(result == 2){
+				req.setAttribute("msg", "처음 출석체크가 되었습니다." + "마일리지 : 3점이 지급되었습니다.");
+				req.setAttribute("loc", "index.eat");
+			}else{
+				req.setAttribute("msg", "처음 출석체크가 실패되었습니다.");
+				req.setAttribute("loc", "index.eat");
+			}
+			
+		}else{//tbl_userAttend에 있는 유저가 접속했으면 tbl_userAttend에 update를 시킨다.
+			
+			//로그인한 사람이 오늘 다시 로그인 했는지 체크 
+			int isLoginToday = service.userLoginToday(loginUser.getUserSeq()); 
+			
+			if(isLoginToday == 1){//isLoginToday가 1이면 오늘 로그인 했었다.
+				req.setAttribute("msg", "오늘 이미 출석체크를 하셨습니다.");
+				req.setAttribute("loc", "index.eat");
+			}else{//오늘 처음 로그인
+				/*로그인      -> 출석        ->3mileage
+	            -> 연속출석    ->3일출석    ->10mileage
+	                    ->7일출석    ->30mileage
+	                    ->15일출석    ->50mileage
+	                    ->20일 출석    ->70mileage*/
+				UserAttendVO vo2 = service.getUserAttend(loginUser.getUserSeq());
+				
+				HashMap<String, String> hashMap2 = new HashMap<String, String>();
+				hashMap2.put("attendLastDay", vo2.getAttendLastDay());
+				hashMap2.put("userSeq", loginUser.getUserSeq());
+				
+				int isLoginContinue = service.userLoginContinueCheck(hashMap2); //어제 출석했는지 체크해서 어제 출석을 안했으면 연속출석일수를 0으로 만든다.
+				
+				int  m = 0;
+				
+				HashMap<String, String> hashMap3 = new HashMap<String, String>();
+				hashMap3.put("userSeq", loginUser.getUserSeq());
+				
+				if(isLoginContinue == 0){ //0이면 어제 출석을 안한것
+					hashMap3.put("continueCheck", "0");
+					m = service.updateUserAttend(hashMap3); //로그인한 유저의 
+				}else{ // 1이면 어제 출석을 한것
+					hashMap3.put("continueCheck", "1");
+					m = service.updateUserAttend(hashMap3); //로그인한 유저의 출석정보를 업데이트한다. allAttendDay = allAttendDay + 1, continueAttendDay = continueAttendDay + 1, attendLastDay = sysdate + 9/24 + 4/24/60
+				}
+				
+				if(m == 1){ //업데이트를 성공했을 때
+					UserAttendVO vo = service.getUserAttend(loginUser.getUserSeq());
+					
+					HashMap<String, String> hashMap = new HashMap<String, String>();
+					hashMap.put("contineuAttendDay", vo.getContinueAttendDay());
+					hashMap.put("userSeq", loginUser.getUserSeq());
+					
+					//로그인한 유저의 포인트와 랜덤박스 업데이트
+					int result2 = service.updateUserPoint_RandomBox(hashMap);
+					
+					
+					/*디비에서 변경된 값을  세션에 있는 로그인유저에게 변경*/
+					UserVO userVO = service.getLoginUser(loginUser.getUserEmail());
+					loginUser.setUserPoint(userVO.getUserPoint());
+					
+					session.setAttribute("loginUser", loginUser);
+					
+					String point = "";
+					if(Integer.parseInt(vo.getContinueAttendDay()) == 3){
+						point = "10";
+					}else if(Integer.parseInt(vo.getContinueAttendDay()) == 7){
+						point = "30";
+					}else if(Integer.parseInt(vo.getContinueAttendDay()) == 15){
+						point = "50";
+					}else if(Integer.parseInt(vo.getContinueAttendDay()) == 20){
+						point = "70";
+					}else{
+						point = "3";
+					}
+						
+					if(result2 == 2){
+						
+						if(Integer.parseInt(vo.getContinueAttendDay()) == 1){
+							req.setAttribute("msg", "출석체크 되었습니다." + "마일리지 :" + point + "점이 지급되었습니다.");
+							req.setAttribute("loc", "index.eat");
+						}else{
+							
+							if("14".equals(vo.getContinueAttendDay())){
+								req.setAttribute("msg", vo.getContinueAttendDay() + "일 연속 출석입니다. " + "마일리지 :" + point + "점이 지급되었습니다." +  " 랜덤 박스가 지급되었습니다.");
+								req.setAttribute("loc", "index.eat");
+							}else if("30".equals(vo.getContinueAttendDay())){
+								req.setAttribute("msg", vo.getContinueAttendDay() + "일 연속 출석입니다. " + "마일리지 :" + point + "점이 지급되었습니다." + " 프리미엄 박스가 지급되었습니다.");
+								req.setAttribute("loc", "index.eat");
+							}else{
+								req.setAttribute("msg", vo.getContinueAttendDay() + "일 연속 출석입니다." + "마일리지 :" + point + "점이 지급되었습니다.");
+								req.setAttribute("loc", "index.eat");
+							}
+						}
+						
+						
+					}else{
+						req.setAttribute("msg", "m==1일때  result2 == 2가 아닐떄 출석체크 오류입니다.");
+						req.setAttribute("loc", "index.eat");
+					}
+					
+					
+				}else{
+					req.setAttribute("msg", "m==1일이 아닐떄 출석체크 오류입니다.");
+					req.setAttribute("loc", "index.eat");
+				}
+				
+			}
+		}
+	
+		return "msg";
+	}
+	
+	@RequestMapping(value="/myReviewList.eat", method={RequestMethod.GET})
+	public String myReviewList(UserVO vo, HttpServletRequest req, HttpSession session) {
+		UserVO loginUser =  (UserVO)session.getAttribute("loginUser");
+		String userSeq = loginUser.getUserSeq();
+		
+		List<String> myReviewList = service.myReviewList(userSeq);
+		
+		System.out.println("######" + myReviewList);
+		req.setAttribute("myReviewList", myReviewList);
+		
+		return "user/myReviewList";
+	}
+	
 }
