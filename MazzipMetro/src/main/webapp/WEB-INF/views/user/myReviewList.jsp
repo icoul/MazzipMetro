@@ -14,14 +14,6 @@
 </style>
 
 <script type="text/javascript">
-	function reviewEdit(reviewSeq) {
-		alert(reviewSeq);
-		var url = "reviewEdit.eat?reviewSeq="+reviewSeq;
-		
-		window.open(url, "reviewEdit", "left=500px, top=100px, width=600px, height=915px, menubar=no, status=no, scrollbars=yes ");
-	}
-
-	
 	function reviewDel(reviewSeq, restName) {
 		
 	    var bool = confirm(restName + "의 리뷰를 정말로 삭제하시겠습니까?");
@@ -53,7 +45,7 @@
 			<th style="text-align: center;">리뷰제목</th>
 			<th style="text-align: center;">리뷰내용</th>
 			<th style="text-align: center;">리뷰작성일자</th>
-			<th style="text-align: center;">수정 | 삭제</th>
+			<th style="text-align: center;">삭제</th>
 		</tr>
 		<c:forEach var="review" items="${myReviewList}" varStatus="status">
 		<tr>
@@ -62,10 +54,7 @@
 			<td style="text-align: center;">${review.reviewContent}</td>
 			<td style="text-align: center;">${review.reviewRegdate}</td>
 			<td style="text-align: center;"> 
-				<div class="btn-group ">
-				<button type="button" class="btn btn-default" onClick="reviewEdit('${review.reviewSeq}');">수정</button>
 				<button type="button" class="btn btn-danger" onClick="reviewDel('${review.reviewSeq}', ${review.restName});">삭제</button>
-				</div>
 			</td>
 		</tr>
 		</c:forEach>
