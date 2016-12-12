@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<jsp:include page="library.jsp" />
 <jsp:include page="top.jsp" />
 	<script>
         $(document).ready(function() {
@@ -266,25 +266,7 @@
         	alert(metroName + '에 등록된 맛집이 없습니다.');
         }
         
-        <%--  function MainReview(){
-        	var form_data = {
-    			 	StartRno : $("#StartRno").val(),   // 키값 : 밸류값 
-    			 	EndRno  : $("#EndRno").val(),     // 키값 : 밸류값
-    			}
-    	 $.ajaxSettings.traditional = true;
-    	 $.ajax({ 
-    			url: "<%= request.getContextPath()%>/MainReviewAjax.eat",  
-    			method:"get",  	
-    			data: form_data, 
-    			dataType: "html",
-    			success: function(data) {
-    				
-    				$("#Scroller").html(data);
-    				}
-    		});//end of $.ajax()
         	
-        }// end of MainReview--%>
-        
       function MainReview(){
         $.ajax({ 
             url: "<%= request.getContextPath()%>/MainReviewAjax.eat",  
@@ -298,6 +280,9 @@
          });//end of $.ajax()
           
        }// end of MainReview
+       
+
+
        
 </script> 
 		<div id="leftCon">

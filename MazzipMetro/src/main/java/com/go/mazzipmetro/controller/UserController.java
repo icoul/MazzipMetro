@@ -695,7 +695,7 @@ public class UserController {
 		
 		List<String> myReviewList = service.myReviewList(userSeq);
 		
-		System.out.println("####" + myReviewList);
+		System.out.println("######" + myReviewList);
 		req.setAttribute("myReviewList", myReviewList);
 		
 		return "user/myReviewList";

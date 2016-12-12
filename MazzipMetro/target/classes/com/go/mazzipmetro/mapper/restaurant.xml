@@ -47,9 +47,7 @@
 
 	<!-- 관리자용 업장수정을 위한 하나의 RestaurantVO 가져오기 -->
 	<select id="adminRestEditInfo" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
-		select A.*, B.guName
-		from(
-		select A.*, B.dongName, B.guId
+		select A.*, B.dongName
 		from(
 		select A.*, B.metroName
 		from(
@@ -58,8 +56,7 @@
 		on A.gradeSeq = B.gradeSeq
 		where A.restSeq = #{restSeq}) A left join tbl_metro B
 		on A.metroId = B.metroId) A left join tbl_dong B
-		on A.dongId = B.dongId ) A left join tbl_gu B
-		on A.guId = B.guId
+		on A.dongId = B.dongId 
 	</select>
 	
 	<!-- 임시_업장 restSeq 가져오기(태그가 있는 행만 가져오기) -->
@@ -337,7 +334,11 @@
 	<!-- 사업자 매장 통계 (총리뷰평점) -->
 	<resultMap type="java.util.HashMap" id="mapReviewGrade">
 		<result column="reviewcount" property="REVIEWCOUNT" javaType="String" />
+<<<<<<< HEAD
 		<result column="grade"	 property="GRADE" 	javaType="double" />
+=======
+		<result column="grade"	 property="GRADE" 	javaType="int" />
+>>>>>>> 39bc9c4c6839b7f9cd4c02f899c8ef08df745c4c
 	</resultMap>
 	
 	<select id="restStati_ReviewGrade" resultMap="mapReviewGrade">
@@ -365,7 +366,10 @@
 		select menuSeq, restSeq, menuName, menuContent, menuImg, menuPrice, menuSalePrice, menuSort, menuEvent, menuStatus
 		from TBL_Restaurant_Menu
 		where restSeq = #{restSeq} and menuStatus = 0
+<<<<<<< HEAD
 		order by menuSeq asc
+=======
+>>>>>>> 39bc9c4c6839b7f9cd4c02f899c8ef08df745c4c
 	</select>
 	
 	<!-- 메뉴 수정하기 // SQL문 3개를 씁니다 -->
