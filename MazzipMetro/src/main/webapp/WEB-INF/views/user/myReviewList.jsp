@@ -54,12 +54,13 @@
 			<td style="text-align: center;">${review.reviewContent}</td>
 			<td style="text-align: center;">${review.reviewRegdate}</td>
 			<td style="text-align: center;"> 
-				<button type="button" class="btn btn-danger" onClick="reviewDel('${review.reviewSeq}', ${review.restName});">삭제</button>
+				<button type="button" class="btn btn-danger" onClick="reviewDel('${review.reviewSeq}', '${review.restName}');">삭제</button>
 			</td>
 		</tr>
 		</c:forEach>
 	</table>
-
+	
+		${pageBar}
 <form name="reviewDelFrm">
 	<input type="hidden" name="reviewSeq" />
 </form>

@@ -10,6 +10,7 @@
 <title>마이페이지</title>
 
 <script type="text/javascript">
+
 $(document).ready(function(){
 	$("#btn_Mazzip").click(function(){
 		$.ajax({	
@@ -32,7 +33,6 @@ $(document).ready(function(){
 			}
 		});
 	});
-	
 	
 	
 });

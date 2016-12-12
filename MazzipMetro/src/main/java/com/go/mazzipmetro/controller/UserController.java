@@ -45,22 +45,28 @@ public class UserController {
 	@Autowired
 	private FileManager fileManager;
 	
-//	회원유형선택
-	@RequestMapping(value="/accountSelect.eat", method={RequestMethod.GET})
-	public String accountSelect(){
-		return "user/accountSelect";
-	}
-	
 //	회원동의
-	@RequestMapping(value="/userRegister1.eat", method={RequestMethod.GET})
-	public String userRegister1(HttpServletRequest req){
+	@RequestMapping(value="/userRegisterAgree.eat", method={RequestMethod.GET})
+	public String userRegisterAgree(HttpServletRequest req){
 		String type =  req.getParameter("type");
 		req.setAttribute("type", type);
-		return "user/userRegister1";
+		return "user/userRegister_Agree";
+	}
+	
+//	회원가입 중 이메일 중복체크
+	@RequestMapping(value="/emailDuplicatecheck.eat", method={RequestMethod.POST})
+	public String emailDuplicatecheck(HttpServletRequest req){
+		String userEmail =  req.getParameter("userEmail");
+		System.out.println(userEmail);
+		int result = service.emailDuplicatecheck(userEmail);
+		
+		req.setAttribute("result", result);
+		System.out.println(userEmail);
+		return "user/emailDuplicatecheck";
 	}
 	
 //	회원가입
-	@RequestMapping(value="/userRegister2.eat", method={RequestMethod.POST})
+	@RequestMapping(value="/userRegisterForm.eat", method={RequestMethod.POST})
 	public String userRegister2(HttpServletRequest req){
 		String userSort =  req.getParameter("userSort");
 		
@@ -161,7 +167,7 @@ public class UserController {
 		
 		req.setAttribute("userSort", userSort);
 		
-		return "user/userRegister2";
+		return "user/userRegister_Form";
 	}
 	
 //	회원가입
@@ -705,16 +711,130 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/myReviewList.eat", method={RequestMethod.GET})
-	public String myReviewList(UserVO vo, HttpServletRequest req, HttpSession session) {
-		UserVO loginUser =  (UserVO)session.getAttribute("loginUser");
+	public String login_myReviewList(HttpServletRequest req, HttpServletResponse res, HttpSession session) {
+		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
 		String userSeq = loginUser.getUserSeq();
+		HashMap<String,String> map = new HashMap<String,String>();
 		
-		List<String> myReviewList = service.myReviewList(userSeq);
 		
-		System.out.println("######" + myReviewList);
+		
+		String pageNo = req.getParameter("pageNo");
+		int totalCount = 0; // 총게시물 건수
+		int sizePerPage = 5; // 한 페이지당 게시물 수
+		int currentShowPageNo = 1; // 현재 보여주는 페이지 번호로서, 초기치로는 1페이지로 설정한다.
+
+		int totalPage = 0; // 총 페이지수 (웹브라우저상에 보여줄 총 페이지 갯수)
+
+		int start = 0; // 시작 행 번호
+		int end = 0; // 끝 행 번호
+		int startPageNo = 0; // 페이지바에서 시작될 페이지 번호
+		/*
+		 * 페이지바란 이전5페이지 [1][2][3][4][5] 다음5페이지 이전5페이지 [6][7][8][9][10] 다음5페이지
+		 * 와같이 페이지바라고 부른다. statrtPageNo는 1또는 6이 된다.
+		 */
+		int loop = 0; // statrtPageNo이 값이 증가할때마다 1씩 증가하는 용도
+		int blockSize = 5; // 페이지바에 보여줄 페이지 갯수
+
+		if (pageNo == null) {
+			currentShowPageNo = 1;
+		} else {
+			currentShowPageNo = Integer.parseInt(pageNo); // GET방식으로 파라미터
+															// pageNo에 넘어온 값을 현재
+															// 보여주고자 하는 페이지로 한다.
+		}
+
+		// 가져올 게시글의 범위를 구한다.(공식)
+		/*
+		 * currentShowPageNo start end 1page 1 5 2page 6 10 3page 11 15 4page 16
+		 * 20 5page 21 25 6page 26 30 7page 31 35
+		 */
+		start = ((currentShowPageNo - 1) * sizePerPage) + 1;
+		end = start + sizePerPage - 1;
+
+		
+		
+		
+		// 페이징처리를 위해 start end를 map에 추가하여 파라미터로 넘겨서 select되도록 한다.
+		map.put("start", String.valueOf(start));
+		map.put("end", String.valueOf(end));
+		map.put("userSeq", userSeq);
+		
+		List<HashMap<String,String>> myReviewList = service.myReviewList(map);
+		// List<String> myReviewList = service.myReviewList(userSeq);
+
+		
+		// 총 게시물건수를 구한다.
+		totalCount = service.userReviewCount(map);
+		/*System.out.println("게시물 총갯수 : " + totalCount);*/
+		totalPage = (int) Math.ceil((double) totalCount / sizePerPage);
+
+		// 이제부터 페이지바 작업을 한다.
+		String pageBar = "";
+		pageBar += "<ul class='pagination'>";
+
+		/*
+		 * 우리는 위에서 blocksize를 5로 설정했으므로 이전5페이지 [1][2][3][4][5] 다음5페이지 로 나와야 한다.
+		 * 페이지 번호는 1씩 증가하므로 페이지번호를 증가시켜주는 반복변수가 필요하다. 위에서 선언한 loop를 사용한다. 이때
+		 * loop는 blocksize의 크기보다 크면 안된다.
+		 */
+		loop = 1;
+		/*************************
+		 * 페이지바의 시작 페이지 번호(startPageNo)값 만들기
+		 **************************/
+		startPageNo = ((currentShowPageNo - 1) / blockSize) * blockSize + 1;
+		/*
+		 * 현재 우리는 blockSize를 위에서 5로 설정했다. 만약에 조회하고자 하는 currentShowPageNo가
+		 * 3페이지이라면((3 - 1)/5) * 5 + 1 ==>1 만약에 조회하고자 하는 currentShowPageNo가
+		 * 7페이지이라면((7 - 1)/5) * 5 + 1 ==>6
+		 */
+
+		// ***** 이전 5페이지 만들기 *****
+	
+		if(startPageNo == 1) {
+			if(((startPageNo - blockSize) > 0) ) {
+				pageBar += String.format("<li><a href='/mazzipmetro/myReviewList.eat?pageNo=%d'>[이전%d페이지]</a></li>", startPageNo-1, blockSize ) + "&nbsp;";
+			}
+		} else {
+				pageBar += String.format("<li><a href='/mazzipmetro/myReviewList.eat?pageNo=%d'>[이전%d페이지]</a></li>", startPageNo-1, blockSize ) + "&nbsp;";
+			
+		}
+		
+		while (!(loop > blockSize || startPageNo > totalPage)) {
+
+			if (currentShowPageNo == startPageNo) {
+				pageBar += String.format("<li><span style='color:red; font-weight:bold; text-decoration:underline;'>%d</span></li>", startPageNo) + "&nbsp;";
+			} else {
+				pageBar += String.format("<li><a href='/mazzipmetro/myReviewList.eat?pageNo=%d'>%d</a></li>", startPageNo, startPageNo ) + "&nbsp;";
+			}
+			loop ++;
+			startPageNo++;
+		} // end of while
+
+		// ***** 다음 5페이지 만들기 *****
+
+		if(totalPage > startPageNo) {
+			pageBar += String.format("<li><a href='/mazzipmetro/myReviewList.eat?pageNo=%d'>[다음%d페이지]</a></li>", startPageNo, blockSize ) + "&nbsp;";
+		}
+
+		pageBar += "</ul>";
+
+		
+
 		req.setAttribute("myReviewList", myReviewList);
+		req.setAttribute("pageBar", pageBar);
 		
 		return "user/myReviewList";
+	}
+	
+	@RequestMapping(value="/reviewDelete.eat", method={RequestMethod.POST})
+	public String reviewDelete(UserVO vo, HttpServletRequest req, HttpSession session) {
+		String reviewSeq = req.getParameter("reviewSeq");
+		
+		int del = service.reviewDelete(reviewSeq);
+		
+		req.setAttribute("del", del);
+		
+		return "user/reviewDelete";
 	}
 	
 }

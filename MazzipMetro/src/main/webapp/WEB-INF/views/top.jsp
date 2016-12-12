@@ -214,7 +214,8 @@ function getLoginUserInfo(){
 
 			<c:if test="${sessionScope.loginUser.userSeq == null && empty sessionScope.loginUser.userSeq}"> 
 			<button class="btnLogin" data-target="#loginModal" data-toggle="modal">모달출력버튼</button><br/>
-			<button type="button" class="btnLogin" onclick="goRegister();">회원가입</button>
+			<!-- <button type="button" class="btnLogin" onclick="goRegister();">회원가입</button> -->
+			<button type="button" class="btnLogin" data-toggle="modal" data-target="#accountSelectModal">회원가입</button>
 			</c:if>
 			<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
 			${sessionScope.loginUser.userName} 님 환영합니다. 
@@ -270,6 +271,61 @@ function getLoginUserInfo(){
     
   </div>
 </div><!-- end of Login Modal -->
+
+
+<!-- 회원가입을 위한 Modal -->
+  <div class="modal fade" id="accountSelectModal" role="dialog" style="">
+    <div class="modal-dialog  modal-lg">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">회원유형선택</h4>
+        </div>
+        <div class="modal-body" align="center">
+          <a href="<%= request.getContextPath()%>/userRegisterAgree.eat?type=0" class="btn btn-sq-lg btn-info">
+              <i style="font-size: 10em;" class="fa fa-user"></i><br><br>
+              	<span style="font-size:2em;">개인</span>
+		  </a>
+		  <a href="<%= request.getContextPath()%>/userRegisterAgree.eat?type=1" style="margin-left: 3%" class="btn btn-sq-lg btn-success">
+              <i style="font-size: 10em;" class="fa fa-users"></i><br><br>
+              	<span style="font-size:2em;">사업자</span>
+            </a>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <%-- ****** 아이디 찾기 Modal ******* --%> 
 <div class="modal fade" id="userIdfind" role="dialog">

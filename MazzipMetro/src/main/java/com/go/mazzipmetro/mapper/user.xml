@@ -64,7 +64,7 @@
 		<!-- 프로필사진과 선호지역을 모두 선택하지 않은 경우 -->
 		<if test="userProfile == null and userStation == null">
 			insert into TBL_USER(userSeq, gradeSeq, userName, userEmail, userPw,
-			userGender, userBirthDay, userPhone, userRegDate, userPoint,
+			userGender, userBirthDay, userPhone, userRegDate, userPoint, userProfile,
 			userSort, userStatus)
 			values(tbl_user_seq.nextval,
 			<if test = "userSort == 0">
@@ -74,7 +74,7 @@
 			 null,
 			</if>
 			#{userName}, #{userEmail}, #{userPw}, #{userGender},
-			#{userBirthDay}, #{userPhone}, default, default , #{userSort},
+			#{userBirthDay}, #{userPhone}, default, default , default, #{userSort},
 			default)
 		</if>
 	</insert>
@@ -269,10 +269,34 @@
 	</resultMap>
 	
 	<select id="myReviewList" parameterType="String" resultMap="mapMyReviewList">
-		select A.reviewSeq, A.userSeq , B.restName, A.reviewTitle, A.reviewContent, A.reviewRegdate
+		select rno, reviewSeq, userSeq, restName, reviewTitle, reviewContent, reviewRegdate
+		from
+		(
+		select rownum as rno, V.reviewSeq, V.userSeq, V.restName, V.reviewTitle, V.reviewContent, V.reviewRegdate
+		from
+		(
+		select A.reviewSeq, A.userSeq , B.restName, A.reviewTitle,
+		case when length(A.reviewContent) > 10 then substr (A.reviewContent, 1, 10) || '..' else A.reviewContent end as reviewContent, A.reviewRegdate
 		from tbl_review A join tbl_restaurant B
 		on A.restSeq = B.restSeq
-		where A.userSeq = #{userSeq}
+		where reviewStatus = 0 and A.userSeq = #{userSeq}
+		) V
+		) T
+		where rno <![CDATA[>=]]> #{start} and rno <![CDATA[<=]]> #{end}
 	</select>
 	
+	
+	
+	
+	
+	<update id="reviewDelete">
+		update tbl_review set reviewStatus = 1
+		where reviewSeq = #{reviewSeq}
+	</update>
+	
+	<select id="userReviewCount" parameterType="java.util.HashMap" resultType="int" >
+		select count(*)
+		from tbl_review
+		where userSeq = #{userSeq} and reviewStatus = 0
+	</select>
 </mapper>
