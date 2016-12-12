@@ -160,9 +160,9 @@ public class UserDAO implements IDAO{
 
 
 
-	public List<GradeVO> getGradeList() {
-		List<GradeVO> gradeList = sqlSession.selectList("getGradeList");
-		return gradeList;
+	public List<GradeVO> getUserGradeList() {
+		List<GradeVO> userGradeList = sqlSession.selectList("getUserGradeList");
+		return userGradeList;
 	}
 
 

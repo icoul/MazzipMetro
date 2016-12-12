@@ -272,9 +272,10 @@
 		where gradeSeq = #{gradeSeq}
 	</select>
 	
-	<select id="getGradeList" resultType="com.go.mazzipmetro.vo.GradeVO">
+	<select id="getUserGradeList" resultType="com.go.mazzipmetro.vo.GradeVO">
 		select gradeSeq, gradeName, gradeExp, gradeReviewNum, gradeScore
 		from tbl_grade
+		where gradeSeq like 'UG%'
 	</select>
 
 	<resultMap type="java.util.HashMap" id="mapMyReviewList">

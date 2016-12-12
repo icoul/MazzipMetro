@@ -27,12 +27,12 @@ public class UserVO {
    
    private MultipartFile attach;    // 진짜 파일 ==> WAS(톰캣) 디스크에 저장됨.
    private String gradeName; // 등급명
-
+   
    public UserVO(){}
 
    public UserVO(String userSeq, String gradeSeq, String userName, String userEmail, String userPw, String userGender,
          String userBirthDay, String userYear, String userMonth, String userDate, String userPhone, String userRegDate, String userPoint,
-         String userSort, String userStatus, String userProfile, MultipartFile attach, String userStation, String gradeName) {
+         String userExp, String userSort, String userStatus, String userProfile, MultipartFile attach, String userStation, String gradeName) {
       super();
       this.userSeq = userSeq;
       this.gradeSeq = gradeSeq;

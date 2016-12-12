@@ -144,55 +144,53 @@ public class UserService implements IService {
 		HashMap<String, String> hashMap = new HashMap<String,String>();
 		hashMap.put("userSeq", uservo.getUserSeq());
 		
-		List<GradeVO> gradeList = dao.getGradeList();
+		List<GradeVO> userGradeList = dao.getUserGradeList();
 		
 		int n = 0;
 		String gradeSeq = "";
 		
-		for(int i = 0; i < gradeList.size(); ++i){
+		for(int i = 0; i < userGradeList.size(); ++i){
 			
-			if("UG2".equals(gradeList.get(i).getGradeSeq()) 
+			if("UG2".equals(userGradeList.get(i).getGradeSeq()) 
 				&& uservo.getGradeSeq().equals("UG1")
-				&& Integer.parseInt(gradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
+				&& Integer.parseInt(userGradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
 				
 				gradeSeq = "UG2";
 				hashMap.put("gradeSeq", gradeSeq);
 				n = dao.updateUserGrade(hashMap);
-			}else if("UG3".equals(gradeList.get(i).getGradeSeq()) 
+			}else if("UG3".equals(userGradeList.get(i).getGradeSeq()) 
 				&& uservo.getGradeSeq().equals("UG2")
-				&& Integer.parseInt(gradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
+				&& Integer.parseInt(userGradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
 				
 				gradeSeq = "UG3";
 				hashMap.put("gradeSeq", gradeSeq);
 				n = dao.updateUserGrade(hashMap);
-			}else if("UG4".equals(gradeList.get(i).getGradeSeq()) 
+			}else if("UG4".equals(userGradeList.get(i).getGradeSeq()) 
 				&& uservo.getGradeSeq().equals("UG3")
-				&& Integer.parseInt(gradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
+				&& Integer.parseInt(userGradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
 				
 				gradeSeq = "UG4";
 				hashMap.put("gradeSeq", gradeSeq);
 				n = dao.updateUserGrade(hashMap);
-			}else if("UG5".equals(gradeList.get(i).getGradeSeq()) 
+			}else if("UG5".equals(userGradeList.get(i).getGradeSeq()) 
 				&& uservo.getGradeSeq().equals("UG4")
-				&& Integer.parseInt(gradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
+				&& Integer.parseInt(userGradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
 				
 				gradeSeq = "UG5";
 				hashMap.put("gradeSeq", gradeSeq);
 				n = dao.updateUserGrade(hashMap);
-			}else if("UG6".equals(gradeList.get(i).getGradeSeq()) 
+			}else if("UG6".equals(userGradeList.get(i).getGradeSeq()) 
 				&& uservo.getGradeSeq().equals("UG5")
-				&& Integer.parseInt(gradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
+				&& Integer.parseInt(userGradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
 				
 				gradeSeq = "UG6";
-				hashMap.put("gradeSeq", gradeSeq);
-				n = dao.updateUserGrade(hashMap);
-			}else if("UG7".equals(gradeList.get(i).getGradeSeq()) 
+				n = 1;
+			}else if("UG7".equals(userGradeList.get(i).getGradeSeq()) 
 				&& uservo.getGradeSeq().equals("UG6")
-				&& Integer.parseInt(gradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
+				&& Integer.parseInt(userGradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
 				
 				gradeSeq = "UG7";
-				hashMap.put("gradeSeq", gradeSeq);
-				n = dao.updateUserGrade(hashMap);
+				n = 1;
 			}
 		}
 		

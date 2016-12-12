@@ -715,23 +715,36 @@ public class UserController {
 	public String userGradeCheck(HttpServletRequest req, HttpServletResponse res, HttpSession session){
 		System.out.println("********************************************");
 		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
-		
 		HashMap<String, String> resultHashMap = service.userGradeCheck(loginUser.getUserEmail()); //유저의 경험치를 가져온후에 그 경험치가 등급기준에 맞는지 확인해서 등급이름을 업데이트 시킨다.
 		
 		
 		if(resultHashMap.get("result").equals("1")){ //등급업
-			String userGradeName = resultHashMap.get("userGradeName");
 			
-			loginUser.setGradeName(userGradeName);
-			session.setAttribute("loginUser", loginUser);
+			if((resultHashMap.get("gradeSeq").equals("UG6") || resultHashMap.get("gradeSeq").equals("UG7"))){
+				String userGradeName = resultHashMap.get("userGradeName");
+								
+				req.setAttribute("msg", userGradeName + "으로 등급업 하실수 있습니다!!!!");
+				
+				if(resultHashMap.get("gradeSeq").equals("UG6")){
+					req.setAttribute("script", "alert('마스터 칭호 10개와 1500마일리지로 마이페이지에서 등급업을 해주세요'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+				}else if(resultHashMap.get("gradeSeq").equals("UG7")){
+					req.setAttribute("script", "alert('구 마스터 칭호 1개와 3000마일리지로 마이페이지에서 등급업을 해주세요'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+				}
+
+			}else{
+				String userGradeName = resultHashMap.get("userGradeName");
+				
+				loginUser.setGradeName(userGradeName);
+				session.setAttribute("loginUser", loginUser);
+				
+				req.setAttribute("msg", userGradeName + "로 등급업 하셨습니다!!!!");
+				req.setAttribute("script", "location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+			}
 			
-			req.setAttribute("msg", userGradeName + "로 등급업 하셨습니다!!!!");
-			req.setAttribute("script", "location.href='index.eat'; self.close(); opener.location.reload(true);  ");
 		}else{ //등급업을 안하고 기존 등급 유지
 			req.setAttribute("msg", "기존등급 유지");
 			req.setAttribute("script", "location.href='index.eat'; self.close(); opener.location.reload(true);  ");
 		}
-		
 		
 		return "/admin/msgEnd";
 	}
