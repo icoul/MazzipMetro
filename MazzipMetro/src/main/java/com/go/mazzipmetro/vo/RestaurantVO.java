@@ -26,6 +26,7 @@ public class RestaurantVO {
 	private String guName;  /*구 명*/
 	private String dongName; /* 동 명 */
 	private String metroName; /* 지하철명*/
+	private String guId; /*구 */
 	
 	public RestaurantVO(){}
 
@@ -33,7 +34,7 @@ public class RestaurantVO {
 			String restImg, String restAddr, String restNewAddr, String restLatitude, String restLongitude,
 			String restZIndex, String dongId, String metroId, String restRegDate, String restVisitor, String restStatus,
 			String restContent, String restBgTag, String restMdTag, String gradeName, String dongName,
-			String metroName, String guName) {
+			String metroName, String guName, String guId) {
 		this.restSeq = restSeq;
 		this.userSeq = userSeq;
 		this.gradeSeq = gradeSeq;
@@ -57,6 +58,7 @@ public class RestaurantVO {
 		this.guName = guName;
 		this.dongName = dongName;
 		this.metroName = metroName;
+		this.guId = guId;
 	}
 
 	public String getRestSeq() {
@@ -241,5 +243,13 @@ public class RestaurantVO {
 
 	public void setGuName(String guName) {
 		this.guName = guName;
+	}
+
+	public String getGuId() {
+		return guId;
+	}
+
+	public void setGuId(String guId) {
+		this.guId = guId;
 	}
 }

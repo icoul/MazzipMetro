@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<jsp:include page="../library.jsp" />
 <jsp:include page="../top.jsp" />
 	 <style type="text/css">
 	    .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
@@ -63,6 +64,14 @@
 		<button type="button" onclick="getRestaurant();">검색</button> 
 		<br/>
 		<br/> 
+		<!-- 지하철 역명 선택 -->
+		<select name="selMenu_metroName" id="selMenu_metroName"></select>&nbsp;&nbsp;
+		<!-- 구 이름 선택 -->
+		<select name="selMenu_guName" id="selMenu_guName"></select>&nbsp;&nbsp;
+		<!-- 동이름 선택 -->
+		<select name="selMenu_dongName" id="selMenu_dongName"><option value="dongId">구를 먼저 선택하세요!</option></select>
+		<br/>
+		<br/> 
 		<table>
 		<tr><th>대분류</th><td>
 		<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="한식">한식</label>
@@ -107,6 +116,14 @@
 	$(document).ready(function(){
 		//페이지 최초로딩시 등록된 음식점 모두 띄우기
 		//getRestaurant();
+		
+		getGuMetroNameList();
+		
+		$("#selMenu_guName").change(function(){
+			getDongNameList();
+		});
+		
+		
 		
 		var map = new daum.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
 	        center : new daum.maps.LatLng(37.515812, 126.982340), // 지도의 중심좌표 
@@ -200,11 +217,17 @@
 	// 업장 검색 함수
 	function getRestaurant(){
 	
+		alert( $("#selMenu_metroName").val()+" , "+$("#selMenu_dongName").val()+" , "+$("#selMenu_guName").val());
 		//alert($("[name=restTag]:checked").length);
 		
+		
+		var metroId = $("#selMenu_metroName").val()
+			, dongId = $("#selMenu_dongName").val()
+		    , guId = $("#selMenu_guName").val();	
+	
 		var restBgTagArr = [], restMdTagArr = [];
 	    $("[name=restBgTag]:checked").each(function(i){
-	    	alert($(this).val());
+	    	//alert($(this).val());
 	    	restBgTagArr.push($(this).val());     // 체크된 것만 값을 뽑아서 배열에 push
 	    });
 	    
@@ -217,6 +240,9 @@
 		var srchFrmData = {
 			srchType : $("#srchType").val()
 		  , keyword : $("#keyword").val()
+		  , dongId : dongId
+		  , metroId : metroId
+		  , guId : guId
 		  , restBgTag : restBgTagArr
 		  , restMdTag : restMdTagArr
 		  , restManager : $("[name=restManager]:checked").val()
@@ -376,6 +402,63 @@
 	    // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
 	    // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
 	    map.setBounds(bounds);
+	}
+	
+	// 구이름/지하철이름 셀렉트 메뉴 호출
+	function getGuMetroNameList(){
+		
+		$.ajax({
+				url:"<%=request.getContextPath()%>/adminGuMetroNameList.eat",
+				type :"GET",
+				dataType:"json",
+				success: function(data){
+							var guNameList = data.guNameList;
+							var metroNameList = data.metroNameList;
+							
+							var guNameHtml = '<option value="guId">구 선택하기</option>';
+							var metroNameHtml = '<option value="metroId">지하철 선택하기</option>';
+							
+							for (var i = 0; i < guNameList.length; i++) {
+									guNameHtml += '<option value="'+guNameList[i].guId+'">'+guNameList[i].guName+'</option>';
+							}
+							
+							$("#selMenu_guName").html(guNameHtml);
+							
+							for (var i = 0; i < metroNameList.length; i++) {
+								metroNameHtml += '<option value="'+metroNameList[i].metroId+'">'+metroNameList[i].metroName+'</option>';				
+							}
+							$("#selMenu_metroName").html(metroNameHtml);
+							
+				}, //end of success: function(data)
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				} // end of error: function(request,status,error)
+			}); //end of $.ajax()
+	}
+	
+	// 동이름 셀렉트 메뉴 호출
+	function getDongNameList(){
+		
+		$.ajax({
+				url:"<%=request.getContextPath()%>/adminDongNameList.eat",
+				type :"GET",
+				data: "guId="+$("#selMenu_guName").val(),
+				dataType:"json",
+				success: function(data){
+							var dongNameList = data.dongNameList;
+							
+							var dongNameHtml = '<option value="dongId">동 선택하기</option>';
+							
+							for (var i = 0; i < dongNameList.length; i++) {
+									dongNameHtml += '<option value="'+dongNameList[i].dongId+'">'+dongNameList[i].dongName+'</option>';
+							}
+							
+							$("#selMenu_dongName").html(dongNameHtml);
+				}, //end of success: function(data)
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				} // end of error: function(request,status,error)
+			}); //end of $.ajax()
 	}
     
 </script>

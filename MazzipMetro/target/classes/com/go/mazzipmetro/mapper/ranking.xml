@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- #11. mapper 기본 설정 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) --> 
+<mapper namespace="ranking">
+
+	<resultMap type="java.util.HashMap" id="restRanking">
+		 <result column="restseq"	  	        property="restseq" 			    	javaType="String" />
+		 <result column="restname"	  	    	property="restname" 			    javaType="String" />
+		 <result column="userseq"	  	        property="userseq" 			    	javaType="String" />
+		 <result column="gradeseq"	  	    	property="gradeseq" 			    javaType="String" />
+		 <result column="restaddr"	  	        property="restaddr" 			    javaType="String" />
+		 <result column="restnewaddr"	  		property="restnewaddr" 				javaType="String" />
+		 <result column="restphone"	  	    	property="restphone" 			    javaType="String" />
+		 <result column="restlatitude"	  	    property="restlatitude" 			javaType="String" />
+		 <result column="restlongitude"	  		property="restlongitude" 			javaType="String" />
+		 <result column="restzindex"	  	    property="restzindex" 			    javaType="String" />
+		 <result column="metroid"	  	        property="metroid" 			    	javaType="String" />
+		 <result column="dongid"	  	    	property="dongid" 			    	javaType="String" />
+		 <result column="restregdate"	  	    property="restregdate" 				javaType="String" />
+		 <result column="rank"	  	    		property="rank" 					javaType="String" />
+		 <result column="reviewavgscore"	  	property="reviewavgscore" 			javaType="String" />
+		 <result column="count"	  	    		property="count" 					javaType="String" />
+		 <result column="score"	  	    		property="score" 					javaType="String" />
+	</resultMap>
+
+	<select id = "getRestRanking" parameterType="java.util.HashMap" resultMap="restRanking" >
+		select rank() over(order by reviewavgscore*count desc) as rank, T.*, F.reviewavgscore, F.count, F.reviewavgscore*F.count as score
+		from TBL_restaurant T join
+		(
+		select restseq, avg(reviewavgscore) as reviewavgscore, count(*) as count
+		from TBL_Review
+		group by restseq
+		)F
+		on T.restSeq = F.restSeq
+		where 1=1 
+			<foreach collection="optionList" item="option">
+				and ${option.parameter} = #{option.value}
+			</foreach>
+	</select>
+
+</mapper>

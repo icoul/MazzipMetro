@@ -149,7 +149,7 @@ function getLoginUserInfo(){
 				<c:if test="${empty sessionScope.loginUser.userSeq}">
 					<li><a href="#">맛집랭킹</a></li>
 					<li><a href="javascript:goAsk();">문의하기</a></li>
-					<li><a href="<%=request.getContextPath()%>/faq.eat">자주하는 질문</a></li>
+					<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
 					&nbsp;&nbsp;&nbsp;&nbsp;
 				</c:if>
 				<!-- 일반사용자 로그인시 -->
@@ -157,14 +157,14 @@ function getLoginUserInfo(){
 					<li><a href="#">맛집랭킹</a></li>
 					<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
 					<li><a href="javascript:goAsk();">문의하기</a></li>
-					<li><a href="<%=request.getContextPath()%>/myQnaList.eat">나의 문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
+					<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
 				</c:if>
 				<!-- 사업주 로그인시 -->
 				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 1}">
 					<li><a href="#">맛집랭킹</a></li>
 					<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
 					<li><a href="javascript:goAsk();">문의하기</a></li>
-					<li><a href="<%=request.getContextPath()%>/myQnaList.eat">나의 문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
+					<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
 				</c:if>
 				<!-- 관리자 로그인시 -->
 				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 2}">
@@ -180,7 +180,10 @@ function getLoginUserInfo(){
 			<button class="btnLogin" data-target="#loginModal" data-toggle="modal">모달출력버튼</button><br/>
 			<button type="button" class="btnLogin" onclick="goRegister();">회원가입</button>
 			</c:if>
+			
+			<!-- 메뉴바 : top 우측-->
 			<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
+<<<<<<< HEAD
 			${sessionScope.loginUser.userName} 님 환영합니다. 
 			현재 마일리지: <span style="color:gold">${sessionScope.loginUser.userPoint }</span>
 			&nbsp;&nbsp;
@@ -188,6 +191,14 @@ function getLoginUserInfo(){
 			&nbsp;&nbsp;
 			Exp: <span style="color: red;">${sessionScope.loginUser.userExp }</span>
 			<button type="button" class="btnLogin" onClick="goLogOut();">로그아웃</button>
+=======
+			<div style="float: right;">
+				<span>${sessionScope.loginUser.userName} 님 환영합니다. </span>
+				현재 마일리지: <span style="color:gold; margin-right: 100px;">${sessionScope.loginUser.userPoint }</span>
+				
+				<button type="button" class="btnLogin" onClick="goLogOut();">로그아웃</button>
+			</div>
+>>>>>>> 59ac4d980f19709b5bcc3c8356e678b6c4b47aac
 			</c:if>
 
 		</div>

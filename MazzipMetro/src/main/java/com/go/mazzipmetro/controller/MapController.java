@@ -25,6 +25,38 @@ public class MapController {
 	@Autowired
 	MapService service;
 
+	// 관리자용 업장관리 페이지 : 동이름 가져오기
+	@RequestMapping(value="/adminDongNameList.eat",method={RequestMethod.GET}) 
+	public String adminDongNameList(HttpServletRequest req){
+		String guId = req.getParameter("guId");
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("guId", guId);
+		
+		List<HashMap<String, String>> dongNameList = service.adminDongNameList(map);
+		
+		JSONObject jObj = new JSONObject();
+		jObj.put("dongNameList", dongNameList);
+		
+		req.setAttribute("jObj", jObj);
+		return "/maps/ajax/jsonData";
+	}
+	
+	// 관리자용 업장관리 페이지 : 구/지하철이름 가져오기
+		@RequestMapping(value="/adminGuMetroNameList.eat",method={RequestMethod.GET}) 
+		public String adminGuMetroNameList (HttpServletRequest req){
+			
+			List<HashMap<String, String>> guNameList = service.adminGuNameList();
+			List<HashMap<String, String>> metroNameList = service.adminMetroNameList();
+			
+			JSONObject jObj = new JSONObject();
+			jObj.put("guNameList", guNameList);
+			jObj.put("metroNameList", metroNameList);
+			
+			req.setAttribute("jObj", jObj);
+			return "/maps/ajax/jsonData";
+		}
+	
 	// 사용자가 정복한 맛집(리뷰를 쓴 맛집) 동/지하철 역명 리스트
 	@RequestMapping(value="/getDongMetroNameList.eat",method={RequestMethod.GET}) 
 	public String getDongNameList(HttpServletRequest req){
@@ -71,7 +103,7 @@ public class MapController {
 			String metroId = req.getParameter("metroId");
 			
 			System.out.println(dongId == null); 
-			System.out.println(">>>>>>>>>>>>>>>" + dongId+", "+ metroId); 
+			System.out.println(">>>>>>>>>>>>>>> dongId =" + dongId+", metroId = "+ metroId); 
 			
 			UserVO loginUser =  (UserVO)req.getSession().getAttribute("loginUser");
 			
@@ -213,6 +245,9 @@ public class MapController {
 		String[] restMdTagArr = req.getParameterValues("restMdTag");
 		String[] userSeq = req.getParameterValues("restManager");
 		String[] restStatus = req.getParameterValues("restStatus");
+		String[] guId = req.getParameterValues("guId");
+		String[] dongId = req.getParameterValues("dongId");
+		String[] metroId = req.getParameterValues("metroId");
 		
 		System.out.println("---------------------------------------"); 
 		System.out.println(srchType[0]);
@@ -225,6 +260,9 @@ public class MapController {
 		}
 		System.out.println(userSeq[0]);
 		System.out.println(restStatus[0]);
+		System.out.println(guId[0]);
+		System.out.println(dongId[0]);
+		System.out.println(metroId[0]);
 		System.out.println("---------------------------------------");
 		
 		HashMap<String, String[]> map = new HashMap<String, String[]>();
@@ -235,24 +273,15 @@ public class MapController {
 		map.put("userSeq", userSeq);
 		map.put("restStatus", restStatus);
 		
+		map.put("guId", guId);
+		map.put("dongId", dongId);
+		map.put("metroId", metroId);
+		
 		// map으로 가져오기
 		List<HashMap<String, String>> list = service.getRestaurantList(map);
 		
 		// vo로 가져오기
 		//List<RestaurantVO> list = service.getRestaurantVOList(map);
-	
-		// 업장 태그 가져오기(보류)
-//		List<String> restSeqList = new ArrayList<String>();
-//		
-//		for (HashMap<String, String> seqMap : list) {
-//			String restSeq = seqMap.get("restSeq");
-//			restSeqList.add(restSeq);
-//		}
-//		
-//		List<TagVO> tagList = service.getRestTag(restSeqList);
-		
-		// 업장 태그 가져오기(태그가 있는 행만 가져오기) : 태그 테이블 삭제
-		/*List<TagVO> tagList = service.temp_getRestTag();*/
 		
 		JSONObject jObj = new JSONObject();
 		jObj.put("positions", list);
