@@ -127,8 +127,8 @@
     
     <!-- 컨텐츠 통계 -->
     <select id="adminConStatis" resultType="java.util.HashMap">
-    	  select  contentName,count(contentSeq) as contentSeq,sum(contentPrice) as contentPrice
+    	select  contentName, sum(contentPrice) as contentPrice
         from view_contentList
-        group by contentName,contentPrice
+        group by contentName, contentPrice
     </select>
 </mapper>

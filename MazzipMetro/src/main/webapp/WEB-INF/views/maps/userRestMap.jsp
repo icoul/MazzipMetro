@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!-- 기본 jquery 라이브러리 -->
+<script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>
+<!-- 동현_다음지도 api를 사용하기 위한 라이브러리 -->
+<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=07a6ce4a014b94664ec5968dee2fb0d2&libraries=services,clusterer,drawing"></script>
+
 	 <style type="text/css">
 	    .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
 	    .wrap * {padding: 0;margin: 0;}
@@ -58,10 +63,12 @@
 		getList();
 		
 		$("#selMenu_dongName").change(function(){
+			$("#selMenu_metroName").val('metroId');
 			getRestaurant($("[name=conq]:checked").val());
 		});	
 		
 		$("#selMenu_metroName").change(function(){
+			$("#selMenu_dongName").val('dongId');
 			getRestaurant($("[name=conq]:checked").val());
 		});
 		
@@ -205,7 +212,7 @@
 				 // 별도의 이벤트 메소드를 제공하지 않습니다 
 				 var content = '<div class="wrap">' + 
 							             '    <div class="info">' + 
-							             '        <div class="title">' + position.restName+ '('+position.restSeq+')'+
+							             '        <div class="title">' + position.restName+
 							             /* '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +  */
 							             '        </div>' + 
 							             '        <div class="body">' + 
@@ -225,7 +232,7 @@
 					   content += '                </div>'+
 					   					 '<div class="ellipsis"><span style="color: #000099; font-weight:bold;">'+position.guName+'</span>&nbsp<span style="color: #b3b3ff; font-weight: bold;">'+position.dongName+'</span></div>' + 
 							             '                <div class="jibun ellipsis">'+position.restPhone+'</div>' + 
-							             '                <div>마커를 <span style="color:red">클릭</span>해서 음식점 정보를 수정하기</div>' + 
+							             '                <div>마커를 <span style="color:red">클릭</span>해서 음식점 상세정보 보기</div>' + 
 							             '            </div>' + 
 							             '        </div>' + 
 							             '    </div>' +    
@@ -305,4 +312,3 @@
 	
     
 </script>
-<jsp:include page="../footer.jsp" />

@@ -8,7 +8,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.ReviewVO;
+import com.go.mazzipmetro.vo.UserAliasVO;
 
 @Repository
 public class ReviewDAO implements IDAO{
@@ -108,6 +110,47 @@ public class ReviewDAO implements IDAO{
 	public List<HashMap<String, String>> getRealReview(HashMap<String, String> map) {
 		List<HashMap<String, String>> list = sqlSession.selectList("review.getRealReview",map);
 		return list;
+	}
+	
+	// 사용자의 칭호를 update한다.
+	public int userAliasUpdate(HashMap<String, String> map) {
+		return sqlSession.update("user.userAliasUpdate", map);
+	}
+	
+	// 사용자의 칭호를 insert한다.
+	public int userAliasInsert(HashMap<String, String> map) {
+		return sqlSession.update("user.userAliasInsert", map);
+	}
+	
+	// 해당 업장 정보를 가져온다.
+	public RestaurantVO getRestaurant(String restSeq) {
+		return sqlSession.selectOne("restaurant.adminRestEditInfo", restSeq);
+	}
+	
+	// 칭호테이블 존재여부 검사
+	public boolean isAliasExist(HashMap<String, String> map) {
+		int result = sqlSession.selectOne("user.isAliasExist", map);
+		return (result > 0)?true:false;
+	}
+	
+	// 사용자 칭호 aliasId별로 해당 테이블 가져온다.
+	public UserAliasVO getUserAlias(HashMap<String, String> map) {
+		return sqlSession.selectOne("user.getUserAlias", map);
+	}
+	
+	// tbl_review에 사용자가 썼던 리뷰가 있는지 확인한다.
+	public int isFirstReview(HashMap<String, String> map) {
+		return sqlSession.selectOne("review.isFirstReview", map);
+	}
+	
+	// 해당 구에 동 리스트 구하기
+	public List<String> getDongList(String guId) {
+		return sqlSession.selectList("review.getDongList", guId);
+	}
+	
+	//동칭호의 aliasNum을 구한다.
+	public int getDongAliasNum(HashMap<String, String> dongMap) {
+		return sqlSession.selectOne("review.getDongAliasNum", dongMap);
 	}
 
 }

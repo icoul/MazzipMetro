@@ -6,6 +6,7 @@
 <head>
 <meta charset="utf-8">
 <title>:: 업장 수정 페이지입니다 ::</title>
+
 <style type="text/css">
     .map_wrap {position:relative;width:100%;height:350px;}
     .title {font-weight:bold;display:block;}
@@ -96,6 +97,12 @@
 		var delAdImgArr = [];
 
 		$(document).ready(function(){
+			
+			// 썸네일 이미지 mouseover event 생성
+			$("[name=thumbAdImg]").mouseover(function(){
+				//alert('event!!');
+			});	
+		
 			<c:if test='${not empty ravo.adImg}'>
 				$("#currAdImg").attr('src', '<%=request.getContextPath()%>/files/${ravo.adImg[0]}');
 			</c:if>
