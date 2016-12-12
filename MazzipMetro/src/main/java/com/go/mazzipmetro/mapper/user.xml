@@ -261,7 +261,6 @@
 		where to_char(to_date(#{attendLastDay}, 'yyyy-mm-dd hh24:mi:ss'), 'yyyy-mm-dd hh24:mi:ss') between to_char(sysdate-1 , 'YYYY-MM-DD ') || '00:00:00' and to_char(sysdate-1 , 'YYYY-MM-DD ') || '23:59:59' and userSeq = #{userSeq}
 	</select>
 	
-<<<<<<< HEAD
 
 	<update id="updateUserGrade" parameterType="java.util.HashMap">
 		update tbl_user set gradeSeq = #{gradeSeq} where userSeq = #{userSeq}
@@ -279,7 +278,7 @@
 		where gradeSeq like 'UG%'
 	</select>
 
-=======
+
 	<!-- 동현_칭호 동이름, 지하철이름, 구이름을 구하기 -->
 	<select id="getAliasIdName" parameterType="java.util.HashMap" resultType="String">
 		select
@@ -321,7 +320,7 @@
 	</select>
 
 
->>>>>>> 59ac4d980f19709b5bcc3c8356e678b6c4b47aac
+
 	<resultMap type="java.util.HashMap" id="mapMyReviewList">
 		<result column="reviewSeq" property="reviewSeq" javaType="String" />
 		<result column="restName"  property="restName"  javaType="String" />
@@ -337,4 +336,100 @@
 		where A.userSeq = #{userSeq}
 	</select>
 	
+	
+	<resultMap type="java.util.HashMap" id="getUserGuAliasList">
+		<result column="aliasSeq" property="aliasSeq" javaType="String" />
+		<result column="userSeq"  property="userSeq"  javaType="String" />
+		<result column="aliasType"     property="aliasType"     javaType="String" />
+		<result column="aliasId" property="aliasId" javaType="String" />
+		<result column="guName" property="guName" javaType="String" />
+		<result column="aliasName" property="aliasName" javaType="String" />
+		<result column="aliasNum" property="aliasNum" javaType="String" />
+	</resultMap>
+	
+	<select id="getUserGuAliasList" parameterType="java.util.HashMap" resultMap="getUserGuAliasList">
+			select aliasSeq, userSeq, aliasType, aliasId, guName, aliasName, aliasNum 
+			from tbl_user_alias a join tbl_gu b
+			on a.aliasId = b.guId
+			where userSeq = #{userSeq} and aliasStatus = 0
+			order by aliasSeq
+	</select>
+	
+	<resultMap type="java.util.HashMap" id="getUserDongAliasList">
+		<result column="aliasSeq" property="aliasSeq" javaType="String" />
+		<result column="userSeq"  property="userSeq"  javaType="String" />
+		<result column="aliasType"     property="aliasType"     javaType="String" />
+		<result column="aliasId" property="aliasId" javaType="String" />
+		<result column="dongName" property="dongName" javaType="String" />
+		<result column="aliasName" property="aliasName" javaType="String" />
+		<result column="aliasNum" property="aliasNum" javaType="String" />
+	</resultMap>
+	
+	<select id="getUserDongAliasList" parameterType="java.util.HashMap" resultMap="getUserDongAliasList">
+		select aliasSeq, userSeq, aliasType, aliasId, dongName, aliasName, aliasNum
+			from tbl_user_alias a join tbl_dong b
+			on a.aliasId = b.dongId
+			where userSeq = #{userSeq} and aliasStatus = 0
+			order by aliasSeq
+	</select>
+	
+	<resultMap type="java.util.HashMap" id="getUserMetroAliasList">
+		<result column="aliasSeq" property="aliasSeq" javaType="String" />
+		<result column="userSeq"  property="userSeq"  javaType="String" />
+		<result column="aliasType"     property="aliasType"     javaType="String" />
+		<result column="aliasId" property="aliasId" javaType="String" />
+		<result column="metroName" property="metroName" javaType="String" />
+		<result column="aliasName" property="aliasName" javaType="String" />
+		<result column="aliasNum" property="aliasNum" javaType="String" />
+	</resultMap>
+	
+	<select id="getUserMetroAliasList" parameterType="java.util.HashMap" resultMap="getUserMetroAliasList">
+			select aliasSeq, userSeq, aliasType, aliasId, metroName, aliasName, aliasNum
+			from tbl_user_alias a join tbl_metro b
+			on a.aliasId = b.metroId
+			where userSeq = #{userSeq} and aliasStatus = 0
+			order by aliasSeq
+	</select>
+	
+	
+	<resultMap type="java.util.HashMap" id="getUserRestTagAliasList">
+		<result column="aliasSeq" property="aliasSeq" javaType="String" />
+		<result column="userSeq"  property="userSeq"  javaType="String" />
+		<result column="aliasType"     property="aliasType"     javaType="String" />
+		<result column="aliasId" property="aliasId" javaType="String" />
+		<result column="aliasName" property="aliasName" javaType="String" />
+		<result column="aliasNum" property="aliasNum" javaType="String" />
+	</resultMap>
+	
+	<select id="getUserRestTagAliasList" parameterType="java.util.HashMap" resultMap="getUserRestTagAliasList">
+			select aliasSeq, userSeq, aliasType, aliasId, aliasName, aliasNum
+			from tbl_user_alias
+			where userSeq = #{userSeq} and aliasStatus = 0 and aliastype like 'rest%'
+			order by aliasSeq
+	</select>
+	
+			
+	<select id="getUserAliasCount" parameterType="java.util.HashMap" resultType="int">
+		select count(*)
+		from tbl_user_alias
+		where userSeq = #{userSeq} and aliasType = #{aliasType} and aliasName = '마스터'
+	</select>	
+		
+	<update id="updateUserPoint" parameterType="java.util.HashMap">
+		
+		update tbl_user set userPoint = userPoint 
+		<if test="gradeSeq == 'UG6'">
+			- 1500
+		</if>
+		
+		<if test="gradeSeq == 'UG7'">
+			- 3000
+		</if> 
+	</update>	
+			
+		
+		
+		
+			
+		
 </mapper>

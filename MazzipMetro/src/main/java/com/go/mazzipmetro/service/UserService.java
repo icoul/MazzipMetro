@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.go.mazzipmetro.dao.UserDAO;
 import com.go.mazzipmetro.vo.GradeVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
+import com.go.mazzipmetro.vo.UserAliasVO;
 import com.go.mazzipmetro.vo.UserAttendVO;
 import com.go.mazzipmetro.vo.UserVO;
 
@@ -205,5 +206,71 @@ public class UserService implements IService {
 	}
 
 
+	public List<UserAliasVO> getUserGuAliasList(String userSeq) {
+		List<UserAliasVO> userGuAliasList = dao.getUserGuAliasList(userSeq);
+		return userGuAliasList;
+	}
+
+
+	public List<UserAliasVO> getUserDongAliasList(String userSeq) {
+		List<UserAliasVO> userDongAliasList = dao.getUserDongAliasList(userSeq);
+		return userDongAliasList;
+	}
+
+
+	public List<UserAliasVO> getUserMetroAliasList(String userSeq) {
+		List<UserAliasVO> userMetroAliasList = dao.getUserMetroAliasList(userSeq);
+		return userMetroAliasList;
+	}
+
+
+	public List<UserAliasVO> getUserRestTagAliasList(String userSeq) {
+		List<UserAliasVO> userRestTagAliasList = dao.getUserRestTagAliasList(userSeq);
+		return userRestTagAliasList;
+	}
+
+
+	public int getUserAliasCount(HashMap<String,String> hashMap) {
+		int userAliasCount = dao.getUserAliasCount(hashMap);
+		return userAliasCount;
+	}
+
+	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
+	public int updateUserGrade(String email) {
+		UserVO uservo = dao.getLoginUser(email);
+
+		HashMap<String, String> hashMap = new HashMap<String, String>();
+		hashMap.put("userSeq", uservo.getUserSeq());
+		
+		List<GradeVO> userGradeList = dao.getUserGradeList();
+
+		int n = 0;
+		int m = 0;
+
+		for (int i = 0; i < userGradeList.size(); ++i) {
+
+			if ("UG6".equals(userGradeList.get(i).getGradeSeq()) && uservo.getGradeSeq().equals("UG5")
+					&& Integer.parseInt(userGradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())) {
+				hashMap.put("gradeSeq", "UG6");
+				
+				n = dao.updateUserPoint(hashMap);
+				m = dao.updateUserGrade(hashMap);
+			} else if ("UG7".equals(userGradeList.get(i).getGradeSeq()) && uservo.getGradeSeq().equals("UG6")
+					&& Integer.parseInt(userGradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())) {
+				hashMap.put("gradeSeq", "UG7");
+				
+				n = dao.updateUserPoint(hashMap);
+				m = dao.updateUserGrade(hashMap);
+			
+			}
+
+		}
+		return (n+m);
+	}
+	
 }
+
+
+	
+
 

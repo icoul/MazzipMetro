@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.go.mazzipmetro.vo.GradeVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
+import com.go.mazzipmetro.vo.UserAliasVO;
 import com.go.mazzipmetro.vo.UserAttendVO;
 import com.go.mazzipmetro.vo.UserVO;
 
@@ -142,10 +143,6 @@ public class UserDAO implements IDAO{
 		int isLoginContinue = sqlSession.selectOne("userLoginContinueCheck", hashMap);
 		return isLoginContinue;
 	}
-<<<<<<< HEAD
-
-
-
 
 	public int updateUserGrade(HashMap<String, String> hashMap) {
 		int n = sqlSession.update("updateUserGrade", hashMap);
@@ -166,13 +163,52 @@ public class UserDAO implements IDAO{
 		return userGradeList;
 	}
 
-
-=======
-	
 	// 동현_칭호 동이름, 지하철이름, 구이름을 구하기
 	public String getAliasIdName(HashMap<String, String> map) {
 		return sqlSession.selectOne("user.getAliasIdName", map);
 	}
->>>>>>> 59ac4d980f19709b5bcc3c8356e678b6c4b47aac
+
+
+
+	public List<UserAliasVO> getUserGuAliasList(String userSeq) {
+		List<UserAliasVO> userGuAliasList = sqlSession.selectList("getUserGuAliasList", userSeq);
+		return userGuAliasList;
+	}
+
+
+
+	public List<UserAliasVO> getUserDongAliasList(String userSeq) {
+		List<UserAliasVO> userDongAliasList = sqlSession.selectList("getUserDongAliasList", userSeq);
+		return userDongAliasList;
+	}
+
+
+
+	public List<UserAliasVO> getUserMetroAliasList(String userSeq) {
+		List<UserAliasVO> userMetroAliasList = sqlSession.selectList("getUserMetroAliasList", userSeq);
+		return userMetroAliasList;
+	}
+
+
+
+	public List<UserAliasVO> getUserRestTagAliasList(String userSeq) {
+		List<UserAliasVO> userRestTagAliasList = sqlSession.selectList("getUserRestTagAliasList", userSeq);
+		return userRestTagAliasList;
+	}
+
+
+
+	public int getUserAliasCount(HashMap<String,String> hashMap) {
+		int userDongAliasCount = sqlSession.selectOne("getUserAliasCount", hashMap);
+		return userDongAliasCount;
+	}
+
+
+
+	public int updateUserPoint(HashMap<String,String> hashMap) {
+		int n = sqlSession.update("updateUserPoint",hashMap);
+		return n;
+	}
+
 }
 

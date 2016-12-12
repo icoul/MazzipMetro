@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.go.mazzipmetro.common.FileManager;
 import com.go.mazzipmetro.service.UserService;
+import com.go.mazzipmetro.vo.UserAliasVO;
 import com.go.mazzipmetro.vo.UserAttendVO;
 import com.go.mazzipmetro.vo.UserVO;
 
@@ -561,6 +562,7 @@ public class UserController {
 		return "user/userLogin";
 	}
 	
+	//출석체크
 	@RequestMapping(value="/attendCheck.eat", method={RequestMethod.GET})
 	public String userAttendCheck(HttpServletRequest req, HttpSession session){
 		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
@@ -695,6 +697,7 @@ public class UserController {
 		//return "msg";
 	}
 	
+	//유저등급체크
 	@RequestMapping(value="/userGradeCheck.eat", method={RequestMethod.GET})
 	public String userGradeCheck(HttpServletRequest req, HttpServletResponse res, HttpSession session){
 		System.out.println("********************************************");
@@ -710,7 +713,7 @@ public class UserController {
 				req.setAttribute("msg", userGradeName + "으로 등급업 하실수 있습니다!!!!");
 				
 				if(resultHashMap.get("gradeSeq").equals("UG6")){
-					req.setAttribute("script", "alert('마스터 칭호 10개와 1500마일리지로 마이페이지에서 등급업을 해주세요'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+					req.setAttribute("script", "alert('동,역 마스터 칭호 각각 5개와 1500마일리지로 마이페이지에서 등급업을 해주세요'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
 				}else if(resultHashMap.get("gradeSeq").equals("UG7")){
 					req.setAttribute("script", "alert('구 마스터 칭호 1개와 3000마일리지로 마이페이지에서 등급업을 해주세요'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
 				}
@@ -746,4 +749,98 @@ public class UserController {
 		return "user/myReviewList";
 	}
 	
+	@RequestMapping(value="/userAliasList.eat", method={RequestMethod.GET})
+	public String login_userAliasList(HttpServletRequest req,HttpServletResponse res, HttpSession session) {
+		UserVO loginUser =  (UserVO)session.getAttribute("loginUser");
+		
+	
+		List<UserAliasVO> userGuAliasList = service.getUserGuAliasList(loginUser.getUserSeq());
+		
+
+		List<UserAliasVO> userDongAliasList = service.getUserDongAliasList(loginUser.getUserSeq());
+		
+	
+		List<UserAliasVO> userMetroAliasList = service.getUserMetroAliasList(loginUser.getUserSeq());
+		
+	
+		List<UserAliasVO> userRestTagAliasList = service.getUserRestTagAliasList(loginUser.getUserSeq());
+		
+		
+		
+		req.setAttribute("userGuAliasList", userGuAliasList);
+		req.setAttribute("userDongAliasList", userDongAliasList);
+		req.setAttribute("userMetroAliasList", userMetroAliasList);
+		req.setAttribute("userRestTagAliasList", userRestTagAliasList);
+		
+		
+		return "user/userAliasList";
+	}
+	
+	
+	
+	@RequestMapping(value="/updateUserGrade.eat", method={RequestMethod.GET})
+	public String updateUserGrade(HttpServletRequest req,HttpServletResponse res, HttpSession session) {
+		UserVO loginUser =  (UserVO)session.getAttribute("loginUser");
+		String gradeSeq = req.getParameter("gradeSeq");
+		
+		HashMap<String,String> hashMap = new HashMap<String,String>();
+		hashMap.put("userSeq", loginUser.getUserSeq());
+		
+	
+		int result = 0;
+		if("UG6".equals(gradeSeq)){
+			hashMap.put("aliasType", "dongId");
+			int userDongAliasCount = service.getUserAliasCount(hashMap);
+			
+			hashMap.put("aliasType", "metroId");
+			int userMetroAliasCount = service.getUserAliasCount(hashMap);
+			
+			
+			if(userDongAliasCount >= 5 && userMetroAliasCount >= 5){
+				result = service.updateUserGrade(loginUser.getUserEmail());
+				
+			}
+			
+			if(result >= 2){
+				UserVO userVO = service.getLoginUser(loginUser.getUserEmail());
+				loginUser.setGradeName("달인");
+				loginUser.setUserPoint(userVO.getUserPoint());	
+				session.setAttribute("loginUser", loginUser);
+				
+				req.setAttribute("msg", "달인으로 등급업 성공!!");
+				req.setAttribute("script", "location.href='javascript:history.back()'; self.close(); opener.location.reload(true);");
+			}else{
+				req.setAttribute("msg", "달인 등급업이 실패하였습니다 ㅠㅠ");
+				req.setAttribute("script", "location.href='javascript:history.back()'; self.close(); opener.location.reload(true);");
+			}
+			
+		}else if("UG7".equals(gradeSeq)){
+			hashMap.put("aliasType", "guId");
+			int userGuAliasCount = service.getUserAliasCount(hashMap);
+			
+			if(userGuAliasCount  >= 1){
+				result = service.updateUserGrade(loginUser.getUserEmail());
+			}
+			
+			if(result >= 2){
+				UserVO userVO = service.getLoginUser(loginUser.getUserEmail());
+				loginUser.setGradeName("달인");
+				loginUser.setUserPoint(userVO.getUserPoint());	
+				session.setAttribute("loginUser", loginUser);
+				
+				req.setAttribute("msg", "신으로 등급업 성공!!");
+				req.setAttribute("script", "location.href='javascript:history.back()'; self.close(); opener.location.reload(true);");
+			}else{
+				req.setAttribute("msg", "신 등급업이 실패하였습니다 ㅠㅠ");
+				req.setAttribute("script", "location.href='javascript:history.back()'; self.close(); opener.location.reload(true);");
+			}
+		}
+		
+		
+	
+		
+		
+		
+		return "admin/msgEnd";
+	}
 }

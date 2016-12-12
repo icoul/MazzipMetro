@@ -37,6 +37,7 @@
 	          <li><a href="#">쿠폰현황</a></li>
 	          <li><a href="#">사용로그</a></li> 
 	          <li><a href="<%= request.getContextPath() %>/userEdit.eat">개인정보수정 </a></li> 
+	          <li id="userAlias"><a href="#">칭호관리</a></li>
 	          <li><a href="#">회원탈퇴</a></li>  
 	        </ul>
 	      </li>

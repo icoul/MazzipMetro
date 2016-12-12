@@ -34,7 +34,16 @@ $(document).ready(function(){
 		});
 	});
 	
-	
+	$("#userAlias").click(function(){
+		$.ajax({	
+			url:"<%= request.getContextPath() %>/userAliasList.eat",
+		    type:"GET",
+			datatype:"html", 
+			success:function(data){ 
+				$("#userInfo").html(data);
+			}
+		});
+	});
 	
 });
 </script>
