@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.go.mazzipmetro.vo.GradeVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.UserAttendVO;
 import com.go.mazzipmetro.vo.UserVO;
@@ -93,8 +94,8 @@ public class UserDAO implements IDAO{
 
 
 
-	public int updateUserPoint1(String userSeq) {
-		int m =  sqlSession.update("updateUserPoint1", userSeq);
+	public int updateUserPointandExp(String userSeq) {
+		int m =  sqlSession.update("updateUserPointandExp", userSeq);
 		return m;
 	}
 
@@ -135,6 +136,28 @@ public class UserDAO implements IDAO{
 		int isLoginContinue = sqlSession.selectOne("userLoginContinueCheck", hashMap);
 		return isLoginContinue;
 	}
+
+
+
+	public int updateUserGrade(HashMap<String, String> hashMap) {
+		int n = sqlSession.update("updateUserGrade", hashMap);
+		return n;
+	}
+
+
+
+	public String getUserGradeName(String gradeSeq) {
+		String userGradeName = sqlSession.selectOne("getUserGradeName", gradeSeq);
+		return userGradeName;
+	}
+
+
+
+	public List<GradeVO> getGradeList() {
+		List<GradeVO> gradeList = sqlSession.selectList("getGradeList");
+		return gradeList;
+	}
+
 
 }
 

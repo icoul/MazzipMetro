@@ -220,6 +220,10 @@ function getLoginUserInfo(){
 			<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
 			${sessionScope.loginUser.userName} 님 환영합니다. 
 			현재 마일리지: <span style="color:gold">${sessionScope.loginUser.userPoint }</span>
+			&nbsp;&nbsp;
+			등급 : <span style="color: red;">${sessionScope.loginUser.gradeName }</span>
+			&nbsp;&nbsp;
+			Exp: <span style="color: red;">${sessionScope.loginUser.userExp }</span>
 			<button type="button" class="btnLogin" onClick="goLogOut();">로그아웃</button>
 			</c:if>
 

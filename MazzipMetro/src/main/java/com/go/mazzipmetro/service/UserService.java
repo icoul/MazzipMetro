@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.go.mazzipmetro.dao.UserDAO;
+import com.go.mazzipmetro.vo.GradeVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.UserAttendVO;
 import com.go.mazzipmetro.vo.UserVO;
@@ -91,7 +92,7 @@ public class UserService implements IService {
 	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
 	public int insertAttend(String userSeq) {
 		int n =  dao.insertAttend(userSeq);
-		int m = dao.updateUserPoint1(userSeq);
+		int m = dao.updateUserPointandExp(userSeq);
 		
 		return (n+m);
 	}
@@ -129,6 +130,76 @@ public class UserService implements IService {
 
 
 	
+
+	public HashMap<String, String> userGradeCheck(String email) {
+		
+		UserVO uservo = dao.getLoginUser(email);
+		
+		HashMap<String, String> hashMap = new HashMap<String,String>();
+		hashMap.put("userSeq", uservo.getUserSeq());
+		
+		List<GradeVO> gradeList = dao.getGradeList();
+		
+		int n = 0;
+		String gradeSeq = "";
+		
+		for(int i = 0; i < gradeList.size(); ++i){
+			
+			if("UG2".equals(gradeList.get(i).getGradeSeq()) 
+				&& uservo.getGradeSeq().equals("UG1")
+				&& Integer.parseInt(gradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
+				
+				gradeSeq = "UG2";
+				hashMap.put("gradeSeq", gradeSeq);
+				n = dao.updateUserGrade(hashMap);
+			}else if("UG3".equals(gradeList.get(i).getGradeSeq()) 
+				&& uservo.getGradeSeq().equals("UG2")
+				&& Integer.parseInt(gradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
+				
+				gradeSeq = "UG3";
+				hashMap.put("gradeSeq", gradeSeq);
+				n = dao.updateUserGrade(hashMap);
+			}else if("UG4".equals(gradeList.get(i).getGradeSeq()) 
+				&& uservo.getGradeSeq().equals("UG3")
+				&& Integer.parseInt(gradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
+				
+				gradeSeq = "UG4";
+				hashMap.put("gradeSeq", gradeSeq);
+				n = dao.updateUserGrade(hashMap);
+			}else if("UG5".equals(gradeList.get(i).getGradeSeq()) 
+				&& uservo.getGradeSeq().equals("UG4")
+				&& Integer.parseInt(gradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
+				
+				gradeSeq = "UG5";
+				hashMap.put("gradeSeq", gradeSeq);
+				n = dao.updateUserGrade(hashMap);
+			}else if("UG6".equals(gradeList.get(i).getGradeSeq()) 
+				&& uservo.getGradeSeq().equals("UG5")
+				&& Integer.parseInt(gradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
+				
+				gradeSeq = "UG6";
+				hashMap.put("gradeSeq", gradeSeq);
+				n = dao.updateUserGrade(hashMap);
+			}else if("UG7".equals(gradeList.get(i).getGradeSeq()) 
+				&& uservo.getGradeSeq().equals("UG6")
+				&& Integer.parseInt(gradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
+				
+				gradeSeq = "UG7";
+				hashMap.put("gradeSeq", gradeSeq);
+				n = dao.updateUserGrade(hashMap);
+			}
+		}
+		
+		
+		String userGradeName = dao.getUserGradeName(gradeSeq); //등급이름 가져오기
+		
+		HashMap<String, String> resultHashMap = new HashMap<String, String>();
+		resultHashMap.put("result", String.valueOf(n)); //등급업이 되면 반환되는 결과값 1이 등급업, 0이 실패
+		resultHashMap.put("userGradeName", userGradeName);       //알림창에 어떤 등급으로 업했는지 알려주기
+		resultHashMap.put("gradeSeq", gradeSeq);
+		return resultHashMap;
+	}
+
 
 }
 

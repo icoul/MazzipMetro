@@ -525,7 +525,6 @@ public class UserController {
 			
 			if(loginUser.getUserSort().equals("0")){ //userSort가 0인 일반사용자일떄만 출석체크를 한다.
 				loc = "attendCheck.eat";
-				
 			}else{
 				loc = "index.eat";
 			}
@@ -581,20 +580,23 @@ public class UserController {
 		
 		int result = 0;
 		if(isUserExist == 0){
-			//로그인한 유저가 가입후 처음으로 접속했으면 userAttend테이블에 insert를 시킨다. 그리고 유저에가 3마일리지를 준다.
+			//로그인한 유저가 가입후 처음으로 접속했으면 userAttend테이블에 insert를 시킨다. 그리고 유저에게 3마일리지와 경험치15를 업데이트시킨다..
 			result =  service.insertAttend(loginUser.getUserSeq());
 			
 			UserVO userVO = service.getLoginUser(loginUser.getUserEmail());
 			loginUser.setUserPoint(userVO.getUserPoint());
+			loginUser.setUserExp(userVO.getUserExp());
 			
 			session.setAttribute("loginUser", loginUser);
 			
+			
 			if(result == 2){
 				req.setAttribute("msg", "처음 출석체크가 되었습니다." + "마일리지 : 3점이 지급되었습니다.");
-				req.setAttribute("loc", "index.eat");
+				req.setAttribute("script", "location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
+				
 			}else{
 				req.setAttribute("msg", "처음 출석체크가 실패되었습니다.");
-				req.setAttribute("loc", "index.eat");
+				req.setAttribute("script", "location.href='index.eat'; self.close(); opener.location.reload(true);  ");
 			}
 			
 		}else{//tbl_userAttend에 있는 유저가 접속했으면 tbl_userAttend에 update를 시킨다.
@@ -603,8 +605,10 @@ public class UserController {
 			int isLoginToday = service.userLoginToday(loginUser.getUserSeq()); 
 			
 			if(isLoginToday == 1){//isLoginToday가 1이면 오늘 로그인 했었다.
+				/*req.setAttribute("msg", "오늘 이미 출석체크를 하셨습니다.");
+				req.setAttribute("loc", "index.eat");*/
 				req.setAttribute("msg", "오늘 이미 출석체크를 하셨습니다.");
-				req.setAttribute("loc", "index.eat");
+				req.setAttribute("script", "location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
 			}else{//오늘 처음 로그인
 				/*로그인      -> 출석        ->3mileage
 	            -> 연속출석    ->3일출석    ->10mileage
@@ -639,13 +643,14 @@ public class UserController {
 					hashMap.put("contineuAttendDay", vo.getContinueAttendDay());
 					hashMap.put("userSeq", loginUser.getUserSeq());
 					
-					//로그인한 유저의 포인트와 랜덤박스 업데이트
+					//로그인한 유저의 포인트와 경험치, 랜덤박스 업데이트
 					int result2 = service.updateUserPoint_RandomBox(hashMap);
 					
 					
 					/*디비에서 변경된 값을  세션에 있는 로그인유저에게 변경*/
 					UserVO userVO = service.getLoginUser(loginUser.getUserEmail());
 					loginUser.setUserPoint(userVO.getUserPoint());
+					loginUser.setUserExp(userVO.getUserExp());
 					
 					session.setAttribute("loginUser", loginUser);
 					
@@ -666,37 +671,64 @@ public class UserController {
 						
 						if(Integer.parseInt(vo.getContinueAttendDay()) == 1){
 							req.setAttribute("msg", "출석체크 되었습니다." + "마일리지 :" + point + "점이 지급되었습니다.");
-							req.setAttribute("loc", "index.eat");
+							req.setAttribute("script", "location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
 						}else{
 							
 							if("14".equals(vo.getContinueAttendDay())){
-								req.setAttribute("msg", vo.getContinueAttendDay() + "일 연속 출석입니다. " + "마일리지 :" + point + "점이 지급되었습니다." +  " 랜덤 박스가 지급되었습니다.");
-								req.setAttribute("loc", "index.eat");
+								req.setAttribute("msg", vo.getContinueAttendDay() + "일 연속 출석입니다. " + "마일리지 :" + point + "점이 지급되었습니다.");
+								req.setAttribute("script", "alert('랜덤 박스가 지급되었습니다.'); location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
 							}else if("30".equals(vo.getContinueAttendDay())){
-								req.setAttribute("msg", vo.getContinueAttendDay() + "일 연속 출석입니다. " + "마일리지 :" + point + "점이 지급되었습니다." + " 프리미엄 박스가 지급되었습니다.");
-								req.setAttribute("loc", "index.eat");
+								req.setAttribute("msg", vo.getContinueAttendDay() + "일 연속 출석입니다. " + "마일리지 :" + point + "점이 지급되었습니다.");
+								req.setAttribute("script", "alert('프리미엄 박스가 지급되었습니다.'); location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
 							}else{
 								req.setAttribute("msg", vo.getContinueAttendDay() + "일 연속 출석입니다." + "마일리지 :" + point + "점이 지급되었습니다.");
-								req.setAttribute("loc", "index.eat");
+								req.setAttribute("script", "location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
 							}
 						}
 						
 						
 					}else{
 						req.setAttribute("msg", "m==1일때  result2 == 2가 아닐떄 출석체크 오류입니다.");
-						req.setAttribute("loc", "index.eat");
+						req.setAttribute("script", "location.href='index.eat'; self.close(); opener.location.reload(true);  ");
 					}
 					
 					
 				}else{
 					req.setAttribute("msg", "m==1일이 아닐떄 출석체크 오류입니다.");
-					req.setAttribute("loc", "index.eat");
+					req.setAttribute("script", "location.href='index.eat'; self.close(); opener.location.reload(true);  ");
 				}
 				
 			}
 		}
+		
+		
+		return "/admin/msgEnd";
+		//return "msg";
+	}
 	
-		return "msg";
+	@RequestMapping(value="/userGradeCheck.eat", method={RequestMethod.GET})
+	public String userGradeCheck(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+		System.out.println("********************************************");
+		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+		
+		HashMap<String, String> resultHashMap = service.userGradeCheck(loginUser.getUserEmail()); //유저의 경험치를 가져온후에 그 경험치가 등급기준에 맞는지 확인해서 등급이름을 업데이트 시킨다.
+		
+		
+		if(resultHashMap.get("result").equals("1")){ //등급업
+			String userGradeName = resultHashMap.get("userGradeName");
+			
+			loginUser.setGradeName(userGradeName);
+			session.setAttribute("loginUser", loginUser);
+			
+			req.setAttribute("msg", userGradeName + "로 등급업 하셨습니다!!!!");
+			req.setAttribute("script", "location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+		}else{ //등급업을 안하고 기존 등급 유지
+			req.setAttribute("msg", "기존등급 유지");
+			req.setAttribute("script", "location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+		}
+		
+		
+		return "/admin/msgEnd";
 	}
 	
 }

@@ -94,10 +94,11 @@
 	</select>
 
 	<select id="getLoginUser" resultType="com.go.mazzipmetro.vo.UserVO">
-		select userSeq, gradeSeq, userName, userEmail, userPw, userGender,
+		select userSeq, a.gradeSeq, b.gradeName, userName, userEmail, userPw, userGender,
 		userBirthday, userPhone, userRegDate
 		,userProfile, userPoint, userExp, userStation, userSort, userStatus
-		from tbl_User
+		from tbl_user a join tbl_grade b
+		on a.gradeSeq = b.gradeSeq
 		where userEmail = #{userEmail}
 	</select>
 	
@@ -174,10 +175,10 @@
 	</select>
 	
 	<insert id="insertAttend" parameterType="String">
-		insert into tbl_user_attend values(#{userSeq}, 1, 1, sysdate + 9/24 + 4/24/60, default, default)
+		insert into tbl_user_attend values(#{userSeq}, 1, 1, sysdate, default, default)
 	</insert>
 	
-	<update id="updateUserPoint1" parameterType="String">
+	<update id="updateUserPointandExp" parameterType="String">
 		update tbl_user set userPoint =  userPoint + 3, userExp = userExp + 15 where userSeq = #{userSeq}
 	</update>
 	
@@ -193,7 +194,7 @@
 	</select>
 	
 	<select id="getUserAttend" parameterType="String" resultType="com.go.mazzipmetro.vo.UserAttendVO">
-		select userSeq, allAttendDay, continueAttendDay, to_char(attendLastDay, 'yyyy-mm-dd hh24:mi:ss') as attendLastDay, userRandomBox
+		select userSeq, allAttendDay, continueAttendDay, to_char(attendLastDay + 9/24, 'yyyy-mm-dd hh24:mi:ss') as attendLastDay, userRandomBox
 		from tbl_user_attend
 		where userSeq = #{userSeq}
 	</select>
@@ -208,7 +209,7 @@
 		  <if test="continueCheck == 1">
 		 continueAttendDay = continueAttendDay +1, 
 		 </if>
-		 attendLastDay = sysdate + 9/24 + 4/24/60
+		 attendLastDay = sysdate
 		 where userSeq = #{userSeq}
 	</update>
 	
@@ -260,4 +261,18 @@
 		where to_char(to_date(#{attendLastDay}, 'yyyy-mm-dd hh24:mi:ss'), 'yyyy-mm-dd hh24:mi:ss') between to_char(sysdate-1 , 'YYYY-MM-DD ') || '00:00:00' and to_char(sysdate-1 , 'YYYY-MM-DD ') || '23:59:59' and userSeq = #{userSeq}
 	</select>
 	
+	<update id="updateUserGrade" parameterType="java.util.HashMap">
+		update tbl_user set gradeSeq = #{gradeSeq} where userSeq = #{userSeq}
+	</update>
+	
+	<select id="getUserGradeName" parameterType="String" resultType="String">
+		select gradeName
+		from tbl_grade
+		where gradeSeq = #{gradeSeq}
+	</select>
+	
+	<select id="getGradeList" resultType="com.go.mazzipmetro.vo.GradeVO">
+		select gradeSeq, gradeName, gradeExp, gradeReviewNum, gradeScore
+		from tbl_grade
+	</select>
 </mapper>
