@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
-
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <style type="text/css">
 #mhStatis {
@@ -10,40 +10,48 @@
     max-width: 800px;
     margin: 0 auto;
 }
+.table th {text-align:center;}
 </style>
 <script type="text/javascript">
-$(function () {
+ $(function () {
     $('#mhStatis').highcharts({
     	chart: {
             type: 'column'
         },
         title: {
-            text: 'Monthly Average Rainfall'
+            text: '컨텐츠 판매 수입'
         },
         subtitle: {
-            text: 'Source: WorldClimate.com'
+            text: 'Content sales.'
         },
         xAxis: {
             categories: [
-            	<c:forEach var="val" items="${list_statis}" varStatus="status">
+            	'컨텐츠별',
+            	 /*<c:forEach var="val" items="${list_statis}" varStatus="status">
                 '${val.CONTENTNAME}'
                 <c:if test="${status.count < list_statis.size()}">
                 ,
                 </c:if>
-                </c:forEach>
+                </c:forEach> */
             ],
             crosshair: true
         },
         yAxis: {
             min: 0,
+            labels: {
+                format: '{value}원',
+                style: {
+                   color: Highcharts.getOptions().colors[1]
+                }
+             },
             title: {
-                text: 'Rainfall (mm)'
+                text: '단위: 원'
             }
         },
         tooltip: {
             headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
             pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                '<td style="padding:0"><b>{point.y:.0f}원</b></td></tr>',
             footerFormat: '</table>',
             shared: true,
             useHTML: true
@@ -66,24 +74,26 @@ $(function () {
 	        </c:forEach>
         ]
     });
-});
+}); 
 
 
 
 </script>
 <table style="width:100%;">
 	<tr>
-		<td style="width:30%; vertical-align:top;">
+		<td style="width:30%; vertical-align:middle;">
 			<table class="table">
 				<tr>
 					<th style="width: 70px;" >컨텐츠명</th>
 					<th style="width: 80px;" >판매량</th>
+					<th style="width: 80px;" >판매액</th>
 					
 				</tr>
 			<c:forEach var="list" items="${list_statis}" varStatus="status"> 
 				<tr>
 					<td>${list.CONTENTNAME}</td>
-					<td>${list.CONTENTPRICE}</td>
+					<td>${list.CONTENTSEQ}</td>
+					<td><fmt:formatNumber pattern="###,###" value="${list.CONTENTPRICE}" /> \</td>
 				</tr>
 			</c:forEach>
 			</table>
@@ -92,6 +102,3 @@ $(function () {
 		</td>
 	</tr>
 </table>
-
-
-
