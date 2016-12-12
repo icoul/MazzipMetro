@@ -9,7 +9,6 @@
 <head>
 <meta charset="UTF-8">
 
-<<<<<<< HEAD
 <meta name="viewport" content="width=device-width, initial-scale=1">
     
 <!-- 기본 jquery 라이브러리 -->
