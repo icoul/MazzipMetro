@@ -81,8 +81,8 @@ public class UserDAO implements IDAO{
 		return qnaCount;
 	}
 	
-	public List<String> myReviewList(String userSeq) {
-		List<String> myReviewList = sqlSession.selectList("user.myReviewList", userSeq);
+	public List<HashMap<String,String>> myReviewList(HashMap<String, String> map) {
+		List<HashMap<String,String>> myReviewList = sqlSession.selectList("user.myReviewList", map);
 		return myReviewList;
 	}
 
@@ -144,6 +144,7 @@ public class UserDAO implements IDAO{
 		return isLoginContinue;
 	}
 
+
 	public int updateUserGrade(HashMap<String, String> hashMap) {
 		int n = sqlSession.update("updateUserGrade", hashMap);
 		return n;
@@ -162,6 +163,23 @@ public class UserDAO implements IDAO{
 		List<GradeVO> userGradeList = sqlSession.selectList("getUserGradeList");
 		return userGradeList;
 	}
+
+
+	public int reviewDelete(String reviewSeq) {
+		int del = sqlSession.update("user.reviewDelete", reviewSeq);
+		return del;
+	}
+
+	public int userReviewCount(HashMap<String, String> map) {
+		int count = sqlSession.selectOne("user.userReviewCount", map);
+		return count;
+	}
+
+	public int emailDuplicatecheck(String userEmail) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
 
 	// 동현_칭호 동이름, 지하철이름, 구이름을 구하기
 	public String getAliasIdName(HashMap<String, String> map) {

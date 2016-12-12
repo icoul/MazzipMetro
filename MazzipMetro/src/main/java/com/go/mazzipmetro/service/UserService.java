@@ -130,9 +130,27 @@ public class UserService implements IService {
 	}
 
 
-	public List<String> myReviewList(String userSeq) {
-		List<String> myReviewList = dao.myReviewList(userSeq);
+	public List<HashMap<String,String>> myReviewList(HashMap<String, String> map) {
+		List<HashMap<String,String>> myReviewList = dao.myReviewList(map);
 		return myReviewList;
+	}
+
+
+	public int reviewDelete(String reviewSeq) {
+		int del = dao.reviewDelete(reviewSeq);
+		return del;
+	}
+
+
+	public int userReviewCount(HashMap<String, String> map) {
+		int count = dao.userReviewCount(map);
+		return count;
+	}
+
+
+	public int emailDuplicatecheck(String userEmail) {
+		int result = dao.emailDuplicatecheck(userEmail);
+		return result;
 	}
 
 

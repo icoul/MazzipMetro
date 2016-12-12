@@ -324,18 +324,38 @@
          	</tr>
          	<tr align="center">	
          		<td>
-         		<input type="checkbox" value="single" />혼밥&nbsp;&nbsp;
-         		<input type="checkbox" value="family" />가족&nbsp;&nbsp;
-         		<input type="checkbox" value="cost" />가성비&nbsp;&nbsp;
-         		<input type="checkbox" value="luxury" />고급스러움<br/>
-         		<input type="checkbox" value="drink" />술 안주&nbsp;&nbsp;
-         		<input type="checkbox" value="night" />야식&nbsp;&nbsp;
-         		<input type="checkbox" value="feel" />분위기 좋음&nbsp;&nbsp;
-         		<input type="checkbox" value="party" />회식&nbsp;
+         		<input type="checkbox" id="single" value="혼밥"   /><label for="single">혼밥</label>&nbsp;&nbsp;
+         		<input type="checkbox" id="family" value="가족"   />가족&nbsp;&nbsp;
+         		<input type="checkbox" id="cost"   value="가성비"   />가성비&nbsp;&nbsp;
+         		<input type="checkbox" id="luxury" value="고급스러움"   />고급스러움<br/>
+         		<input type="checkbox" id="drink"  value="술 안주"   />술 안주&nbsp;&nbsp;
+         		<input type="checkbox" id="night"  value="야식"   />야식&nbsp;&nbsp;
+         		<input type="checkbox" id="feel"   value="분위기 좋음"   />분위기 좋음&nbsp;&nbsp;
+         		<input type="checkbox" id="party"  value="회식"   />회식&nbsp;
          		</td>
+         	</tr>	
+         	<tr>
+				<th width="20%" rowspan="2" style = "font-size : 14pt; vertical-align: middle;" ><b>태그</b></th>
+			</tr>
+			<tr>	
+				<td width="80%" align="left">
+				   <input type = "checkbox" class = "restBgTag" name = "restBgTag" id="korea" value="한식" /><label for="korea">한식</label>&nbsp;&nbsp;
+				   <input type = "checkbox" class = "restBgTag" name = "restBgTag" id="japan" value="양식" /><label for="japan">양식</label>&nbsp;&nbsp;
+				   <input type = "checkbox" class = "restBgTag" name = "restBgTag" id="china" value="일식" /><label for="china">일식</label>&nbsp;&nbsp;
+				   <input type = "checkbox" class = "restBgTag" name = "restBgTag" id="europe" value="중식" /><label for="europe">중식</label>&nbsp;&nbsp;
+				   <input type = "checkbox" class = "restBgTag" name = "restBgTag" id="india" value="동남아" /><label for="india">동남아</label>
+				</td>
+			</tr>
+			<tr>
+				<td width="80%" align="left">
+					<input type = "checkbox" class = "restMdTag" name = "restMdTag" id="meet" value="고기류" /><label for="meet">고기류</label>&nbsp;&nbsp;
+					<input type = "checkbox" class = "restMdTag" name = "restMdTag" id="fish" value="어폐류" /><label for="fish">어폐류</label>&nbsp;&nbsp;
+					<input type = "checkbox" class = "restMdTag" name = "restMdTag" id="vegetable" value="채소류" /><label for="vegetable">채소류</label>&nbsp;&nbsp;
+					<input type = "checkbox" class = "restMdTag" name = "restMdTag" id="rice" value="밥류" /><label for="rice">밥류</label>&nbsp;&nbsp;
+					<input type = "checkbox" class = "restMdTag" name = "restMdTag" id="noodle" value="면류" /><label for="noodle">면류</label>
+				</td>
+			</tr>
          	
-         	
-         	</tr>
          	
 		</table>
 		
