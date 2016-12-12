@@ -1,7 +1,6 @@
 package com.go.mazzipmetro.controller;
 
 
-import java.io.File;
 import java.util.ArrayList;
 
 import java.util.HashMap;
@@ -11,13 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.go.mazzipmetro.common.FileManager;
 import com.go.mazzipmetro.common.ThumbnailManager;
@@ -28,7 +24,6 @@ import com.go.mazzipmetro.service.ReviewService;
 import com.go.mazzipmetro.vo.MenuVO;
 
 import com.go.mazzipmetro.vo.RestaurantVO;
-import com.go.mazzipmetro.vo.ReviewVO;
 import com.go.mazzipmetro.vo.UserVO;
 import com.go.mazzipmetro.vo.FileVO;
 
@@ -618,19 +613,28 @@ public class RestaurantController {
 
 			String restSeq = req.getParameter("restSeq");
 			
-			List<HashMap<String, String>> genderList = service.restStati_Gender(restSeq);
-//			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
-//			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
-//			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
+//			성별 차트 DB
+			List<HashMap<String, String>> genderList = service.restStati_Gender(restSeq); 
+
+//			나이별 차트 DB
+			List<HashMap<String, String>> ageList = service.restStati_AgeLine(restSeq);
+			
+//			리뷰수 차트 DB
+			List<HashMap<String, String>> reviewCount = service.restStati_ReviewCount(restSeq);
+			
+//			리뷰평점 차트 DB
+			List<HashMap<String, String>> reviewGrade = service.restStati_ReviewGrade(restSeq);
+			
+			
 //			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
 //			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
 			
 			req.setAttribute("genderList", genderList);
-/*			req.setAttribute("Agelist", Agelist);
-			req.setAttribute("Agelist", Agelist);
-			req.setAttribute("Agelist", Agelist);
-			req.setAttribute("Agelist", Agelist);
-			req.setAttribute("Agelist", Agelist);*/
+			req.setAttribute("ageList", ageList);
+			req.setAttribute("reviewCount", reviewCount);
+			req.setAttribute("reviewGrade", reviewGrade);
+//			req.setAttribute("Agelist", Agelist);
+//			req.setAttribute("Agelist", Agelist);
 			
 			
 			return "user/Statistics";

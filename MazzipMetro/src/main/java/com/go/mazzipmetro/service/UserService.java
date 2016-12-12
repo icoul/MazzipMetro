@@ -129,6 +129,12 @@ public class UserService implements IService {
 	}
 
 
+	public List<String> myReviewList(String userSeq) {
+		List<String> myReviewList = dao.myReviewList(userSeq);
+		return myReviewList;
+	}
+
+
 	
 
 	public HashMap<String, String> userGradeCheck(String email) {

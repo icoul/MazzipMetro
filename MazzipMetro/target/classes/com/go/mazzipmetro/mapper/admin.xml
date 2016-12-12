@@ -44,7 +44,7 @@
 		where userSeq = #{userSeq}
     </update>
     
-    <resultMap type="java.util.HashMap" id="conTentList">
+    <resultMap type="java.util.HashMap" id="conList">
 		<result column="restSeq" 		property="restSeq" 		javaType="String"/>
 		<result column="gradeName" 		property="gradeName" 	javaType="String"/> 	
 		<result column="restName" 		property="restName" 	javaType="String"/>
@@ -55,29 +55,23 @@
 	</resultMap>
 	
     <!-- 컨텐츠 리스트  -->
-    <select id="conTentList" resultMap="conTentList" parameterType="java.util.HashMap">
-    	  select  T.restSeq,T.gradeName,T.restName, T.restPhone,T.restAddr,T.contentName, T.contentLimit
-		from 
-		(
-		select rownum as RNO
-		    , V.userseq,  V.restSeq,V.gradeName, V.restName,V.restPhone,V.restAddr,V.contentLimit,V.contentName,V.contentStatus
-         
-		from 
-      (
-      select E.userseq, E.restSeq, B.gradeName, E.restName,E.restPhone,E.restAddr, to_char(D.contentLimit,'yyyy-mm-dd') as contentLimit, D.contentStatus,A.contentName
-	      from tbl_restaurant E  join tbl_restaurant_content D
-	      on E .userSeq = D.userSeq
-          left join tbl_grade B
-	      on E.gradeSeq = B.gradeSeq
-	      left join tbl_content_cat A
-	      on d.contentseq = A.contentseq
-      ) V where  V.contentStatus=0 
+    <select id="conTentList" resultMap="conList" parameterType="java.util.HashMap">
+    	 select V.rno, V.restSeq, V.gradeName, V.restName, V.restPhone, V.restAddr, V.contentName, V.contentLimit
+		    from 
+		    (   
+		      select rowNum as rno, T.restSeq, T.gradeName, T.restName, T.restPhone, T.restAddr, T.contentName, T.contentLimit
+		      from
+		      (
+		        select restSeq, gradeName, restName, restPhone, restAddr, contentName, to_char(contentLimit, 'yyyy-mm-dd') as contentLimit
+		        from view_contentList
+		        group by contentName,restSeq, gradeName, restName, restPhone, restAddr, contentLimit
+		       )T
+		  ) V
+		  where 1=1
      <if test="colName != null and search != null">     
-	     and ${colName} like '%'|| #{search} ||'%'
+	    and ${colName} like '%'|| #{search} ||'%'
 	 </if>
-      order by V.restSeq desc
-		) T
-		where T.RNO >= #{start} and T.RNO <![CDATA[<=]]> #{end}
+		and V.RNO >= #{start} and V.RNO <![CDATA[<=]]> #{end}
     </select>
     
      <!-- 컨텐츠 페이징바 -->
@@ -85,14 +79,18 @@
     	select count(*)
     		from 
 	      (
-	      select E.userseq, E.restSeq, B.gradeName, E.restName,E.restPhone,E.restAddr, to_char(D.contentLimit,'yyyy-mm-dd') as contentLimit,A.contentName
-	      from tbl_restaurant E  join tbl_restaurant_content D
-	      on E .userSeq = D.userSeq
-       	  left join tbl_grade B
-	      on E.gradeSeq = B.gradeSeq
-	      left join tbl_content_cat A
-	      on d.contentseq = A.contentseq
-	      ) V
+		        select V.rno, V.restSeq, V.gradeName, V.restName, V.restPhone, V.restAddr, V.contentName, V.contentLimit
+			    from 
+			    (   
+			      select rowNum as rno, T.restSeq, T.gradeName, T.restName, T.restPhone, T.restAddr, T.contentName, T.contentLimit
+			      from
+			      (
+			        select restSeq, gradeName, restName, restPhone, restAddr, contentName, to_char(contentLimit, 'yyyy-mm-dd') as contentLimit
+			        from view_contentList
+			        group by contentName,restSeq, gradeName, restName, restPhone, restAddr, contentLimit
+			       )T
+			  ) V
+	      ) P
     	<if test="colName != null and search != null">
     	 where ${colName} like '%' || #{search} || '%'
     	</if>
@@ -121,9 +119,16 @@
 		and V.userSeq = #{userSeq}
 		order by V.userSeq desc
     </select>
-    
+    <!-- 관리자용 회원 수정 - 한명회원 정보 수정하기 -->
     <update id="adminUserEdit" parameterType="java.util.HashMap">
-		update tbl_user set userName= #{userName}, userEmail= #{userEmail}, userPhone= #{userPhone}, userPoint= #{userPoint}
+		update tbl_user set userEmail= #{userEmail}, userPhone= #{userPhone}, userPoint= #{userPoint}
 		where userSeq = #{userSeq}
     </update>
+    
+    <!-- 컨텐츠 통계 -->
+    <select id="adminConStatis" resultType="java.util.HashMap">
+    	select  contentName, sum(contentPrice) as contentPrice
+        from view_contentList
+        group by contentName, contentPrice
+    </select>
 </mapper>

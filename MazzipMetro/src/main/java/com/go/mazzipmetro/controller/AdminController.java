@@ -546,4 +546,15 @@ public class AdminController {
 		
 	}
 	
+	
+	//컨텐츠 통계
+	@RequestMapping(value = "/adminConStatis.eat", method = RequestMethod.GET)
+	public String adminConStatis(HttpServletRequest req) {
+		
+		List<HashMap<String,String>> list_statis = service.adminConStatis();
+		
+		req.setAttribute("list_statis", list_statis);
+		System.out.println("확인용list 입니다" + list_statis);
+		return "admin/adminConStatis";
+	}		
 }

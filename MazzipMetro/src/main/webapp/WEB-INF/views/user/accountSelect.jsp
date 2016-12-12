@@ -47,13 +47,13 @@
 <div class="subleftCon">
 <h2>회원유형선택</h2>
 </div>
-<div class="subrightCon" style="padding:7%">
+<div class="subrightCon" style="padding:7%; padding-left:20%;">
 <a href="<%= request.getContextPath()%>/userRegister1.eat?type=0" class="btn btn-sq-lg btn-info">
               <i style="font-size: 10em;" class="fa fa-user"></i><br><br>
               	<span style="font-size:2em;">개인</span>
 </a>
 <a href="<%= request.getContextPath()%>/userRegister1.eat?type=1" style="margin-left: 3%" class="btn btn-sq-lg btn-success">
-              <i style="font-size: 10em;" class="fa fa-user"></i><br><br>
+              <i style="font-size: 10em;" class="fa fa-users"></i><br><br>
               	<span style="font-size:2em;">사업자</span>
             </a>
 </div>

@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<jsp:include page="library.jsp" />
 <jsp:include page="top.jsp" />
 	<script>
         $(document).ready(function() {
-        	
+        	MainReview();
         	// tooltipster 중복호출 방지용
         	var metroIdArr = [];
         	
@@ -256,8 +257,7 @@
                 }
             });
             
-            MainReview();
-            scrolling();
+            
             
         });// $(document).ready()
         
@@ -266,43 +266,24 @@
         	alert(metroName + '에 등록된 맛집이 없습니다.');
         }
         
-        function MainReview(){
-        	var form_data = {
-    			 	StartRno : $("#StartRno").val(),   // 키값 : 밸류값 
-    			 	EndRno  : $("#EndRno").val(),     // 키값 : 밸류값
-    			}
-    	 $.ajaxSettings.traditional = true;
-    	 $.ajax({ 
-    			url: "<%= request.getContextPath()%>/MainReviewAjax.eat",  
-    			method:"get",  	
-    			data: form_data, 
-    			dataType: "html",
-    			success: function(data) {
-    				
-    				$("#Scroller").html(data);
-    				}
-    		});//end of $.ajax()
         	
-        }// end of MainReview
-        
-        function scrolling(){
-        	var $wrapper = $("#Scroller");
-    		$wrapper.css({'top':0});
+      function MainReview(){
+        $.ajax({ 
+            url: "<%= request.getContextPath()%>/MainReviewAjax.eat",  
+            method:"get",      
+            dataType: "html",
+            success: function(data) {
+               
+               $("#Scroller").html(data);
+               
+               }
+         });//end of $.ajax()
+          
+       }// end of MainReview
+       
 
-    		var animator =	function(imgblock){
-    							imgblock.animate({'top':-1000}, 1500,
-    											   function(){
-    												  imgblock.css({'top':0});
-    												// $(this).css({'top':550});
-    												  animator(imgblock); //재귀함수 호출 -> 반복효과
-    												  // animator($(this));
-    							                   }
-    							                 );	
-    		                } // 함수정의
-			animator($wrapper); // 함수호출
-    	 
-        }
-        
+
+       
 </script> 
 		<div id="leftCon">
 			<div class="mainBann">
