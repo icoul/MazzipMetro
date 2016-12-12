@@ -96,17 +96,41 @@
 			and ${srchType[0]} like '%'||#{keyword[0]}||'%'
 		</if>
 		
-		
-		<!-- 		태그명(대분류,중분류)검 -->
-		<if test="restTagArr != null">
-			and A.restSeq in (select distinct(restSeq)
-					                  from tbl_restaurant_tag
-					                  where tagName in
-									<foreach collection="restTagArr"  index="i" open="(" close=")" separator=",">
-										'${restTagArr[i]}'
-									</foreach>
-									 )
+		<!-- 지하철 역명으로 검색하는 경우 -->
+		<if test="!metroId[0].equals('metroId')">
+			and A.metroId = #{metroId[0]}
 		</if>
+		
+		<!-- 구 명으로 검색하는 경우 -->
+		<if test="!guId[0].equals('guId')">
+			and A.guId = #{guId[0]}
+		</if>
+		
+		<!-- 동이름으로 검색하는 경우 -->
+		<if test="!dongId[0].equals('dongId')">
+			and A.dongId = #{dongId[0]}
+		</if>
+		
+		<!-- 대분류, 중분류 체크박스가 있을 경우 -->
+		<if test="restBgTagArr != null or restMdTagArr != null">
+			and 
+			<!-- 태그명(대분류)검색 -->
+			<if test="restBgTagArr != null">
+				<foreach collection="restBgTagArr"  index="i" open="(" close=")" separator=" or ">
+					A.restBgTag like '%'||'${restBgTagArr[i]}'||'%'   
+				</foreach>
+			</if>
+			
+			<!-- 태그명(중분류)검색 -->
+			<if test="restMdTagArr != null">
+			<if test="restBgTagArr != null">or</if>
+				<foreach collection="restMdTagArr"  index="i" open="(" close=")" separator=" or ">
+					A.restMdTag like '%'||'${restMdTagArr[i]}'||'%'   
+				</foreach>
+				
+			</if>
+		</if>
+		
 		<!-- 업주 조건절 -->
 		<if test="!userSeq[0].equals('all')">
 			<if test="userSeq[0].equals('admin')">and A.userSeq = 0</if>
@@ -152,7 +176,7 @@
 		</if>
 		
 		
-		<!-- 		태그명(대분류,중분류)검 -->
+		<!-- 		태그명(대분류,중분류)검색 -->
 		<if test="restTagArr != null">
 			and A.restSeq in (select distinct(restSeq)
 					                  from tbl_restaurant_tag
@@ -255,25 +279,136 @@
 	<!-- 사용자가 정복한 맛집(리뷰를 쓴 맛집) 리스트 보여주기 -->
 	<select id="getUserRestConquest" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
 			select A.*
-				, B.guName
-		from (
-			select A.*, B.dongName, B.guId
+					, B.guName
 			from (
-				select A.*, B.metroName
-				from tbl_restaurant A left join tbl_metro B
-				on A.metroId = B.metroId) A 
-			left join tbl_dong B
-			on A.dongId = B.dongId) A
-		left join tbl_gu B
-		on A.guId = B.guId
-		where 1 = 1 
-		<if test="'already' == conq ">
-			and restSeq in (select distinct(restSeq) from tbl_review 
-		</if>
-		<if test="'notYet' == conq ">
-			and restSeq  not in (select distinct(restSeq) from tbl_review
-		</if>
-			where userSeq = #{userSeq})
+				select A.*, B.dongName, B.guId
+				from (
+					select A.*, B.metroName
+					from tbl_restaurant A left join tbl_metro B
+					on A.metroId = B.metroId) A 
+				left join tbl_dong B
+				on A.dongId = B.dongId) A
+			left join tbl_gu B
+			on A.guId = B.guId
+			where 1 = 1 
+			<if test="'already' == conq ">
+				and restSeq in (select distinct(restSeq) from tbl_review 
+			</if>
+			<if test="'notYet' == conq ">
+				and restSeq  not in (select distinct(restSeq) from tbl_review
+			</if>
+				where userSeq = #{userSeq})
+			<if test="dongId != 'dongId'">
+				and dongId = #{dongId}
+			</if>	
+			<if test="metroId != 'metroId'">
+				and metroId = #{metroId}
+			</if>
+				
 	</select>
+	
+	<!-- 동이름 가져오기(사용자 마이페이지) -->
+	<resultMap type="java.util.HashMap" id="dongNameIdListMap">
+		<result column="dongName" 	property="dongName" 		javaType="String"/> 
+		<result column="dongId" 			property="dongId" 			javaType="String"/> 
+	</resultMap>
+	<select id="getDongNameList"  parameterType="String" resultMap="dongNameIdListMap" >
+		with t as (
+		  select 'ㄱ' as dongName from dual union all
+		  select 'ㄴ' from dual union all
+		  select 'ㄷ' from dual union all
+		  select 'A' from dual union all
+		  select 'B' from dual
+		)  
+		select distinct(A.dongId),B.dongName
+		from tbl_restaurant A join tbl_dong B
+		on A.dongId = B.dongId
+		where 1=1
+		  and restSeq 
+		  <if test="conq == 'already'"> </if>
+		  <if test="conq == 'notYet'"> not </if>
+		  in (select distinct(restSeq) from tbl_review
+		  where userSeq = #{userSeq})
+		order by convert(B.dongName, 'ISO2022-KR')
+	</select>
+	
+	<!-- 지하철 이름 가져오기(사용자 마이페이지) -->
+	<resultMap type="java.util.HashMap" id="metroNameIdListMap">
+		<result column="metroName" 	property="metroName" 		javaType="String"/> 
+		<result column="metroId" 			property="metroId" 			javaType="String"/> 
+	</resultMap>
+	<select id="userMapMetroNameList"  parameterType="String" resultMap="metroNameIdListMap" >
+		with t as (
+		  select 'ㄱ' as metroName from dual union all
+		  select 'ㄴ' from dual union all
+		  select 'ㄷ' from dual union all
+		  select 'A' from dual union all
+		  select 'B' from dual
+		)  
+		select distinct(A.metroId),B.metroName
+		from tbl_restaurant A join tbl_metro B
+		on A.metroId = B.metroId
+		where 1=1
+		  and restSeq 
+		  <if test="conq == 'already'"> </if>
+		  <if test="conq == 'notYet'"> not </if>
+		  in (select distinct(restSeq) from tbl_review
+		  where userSeq = #{userSeq})
+		order by convert(B.metroName, 'ISO2022-KR')
+	</select>
+	
+	<!-- 관리자 업장관리 동이름 가져오기 -->
+	<resultMap type="java.util.HashMap" id="adminDongNameIdListMap">
+		<result column="dongName" 	property="dongName" 		javaType="String"/> 
+		<result column="dongId" 			property="dongId" 			javaType="String"/> 
+	</resultMap>
+	<select id="adminDongNameList"  parameterType="String" resultMap="adminDongNameIdListMap" >
+		with t as (
+		  select 'ㄱ' as dongName from dual union all
+		  select 'ㄴ' from dual union all
+		  select 'ㄷ' from dual union all
+		  select 'A' from dual union all
+		  select 'B' from dual
+		)  
+		select dongId, dongName
+		from tbl_dong
+		where guId = #{guId}
+	</select>
+	
+	<!-- 관리자 업장관리 구 이름 가져오기 -->
+	<resultMap type="java.util.HashMap" id="adminGuNameIdListMap">
+		<result column="guName" 	property="guName" 		javaType="String"/> 
+		<result column="guId" 			property="guId" 			javaType="String"/> 
+	</resultMap>
+	<select id="adminGuNameList"  parameterType="String" resultMap="adminGuNameIdListMap" >
+		with t as (
+		  select 'ㄱ' as guName from dual union all
+		  select 'ㄴ' from dual union all
+		  select 'ㄷ' from dual union all
+		  select 'A' from dual union all
+		  select 'B' from dual
+		)  
+		select guId, guName
+		from tbl_gu
+	</select>
+	
+	<!-- 관리자 업장관리 지하철 이름 가져오기 -->
+	<resultMap type="java.util.HashMap" id="adminMetroNameIdListMap">
+		<result column="metroName" 	property="metroName" 		javaType="String"/> 
+		<result column="metroId" 			property="metroId" 			javaType="String"/> 
+	</resultMap>
+	<select id="adminMetroNameList"  parameterType="String" resultMap="adminMetroNameIdListMap" >
+		with t as (
+		  select 'ㄱ' as metroName from dual union all
+		  select 'ㄴ' from dual union all
+		  select 'ㄷ' from dual union all
+		  select 'A' from dual union all
+		  select 'B' from dual
+		)  
+		select metroId, metroName
+		from tbl_metro
+	</select>
+	
+	
 	
 </mapper>

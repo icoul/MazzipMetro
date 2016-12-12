@@ -63,10 +63,12 @@
 		getList();
 		
 		$("#selMenu_dongName").change(function(){
+			$("#selMenu_metroName").val('metroId');
 			getRestaurant($("[name=conq]:checked").val());
 		});	
 		
 		$("#selMenu_metroName").change(function(){
+			$("#selMenu_dongName").val('dongId');
 			getRestaurant($("[name=conq]:checked").val());
 		});
 		
@@ -210,7 +212,7 @@
 				 // 별도의 이벤트 메소드를 제공하지 않습니다 
 				 var content = '<div class="wrap">' + 
 							             '    <div class="info">' + 
-							             '        <div class="title">' + position.restName+ '('+position.restSeq+')'+
+							             '        <div class="title">' + position.restName+
 							             /* '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +  */
 							             '        </div>' + 
 							             '        <div class="body">' + 
@@ -230,7 +232,7 @@
 					   content += '                </div>'+
 					   					 '<div class="ellipsis"><span style="color: #000099; font-weight:bold;">'+position.guName+'</span>&nbsp<span style="color: #b3b3ff; font-weight: bold;">'+position.dongName+'</span></div>' + 
 							             '                <div class="jibun ellipsis">'+position.restPhone+'</div>' + 
-							             '                <div>마커를 <span style="color:red">클릭</span>해서 음식점 정보를 수정하기</div>' + 
+							             '                <div>마커를 <span style="color:red">클릭</span>해서 음식점 상세정보 보기</div>' + 
 							             '            </div>' + 
 							             '        </div>' + 
 							             '    </div>' +    
