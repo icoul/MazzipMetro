@@ -198,4 +198,18 @@
 		where userSeq = #{userSeq} and restSeq = #{restSeq}
 	</select>
 	
+	<!-- tbl_review에 사용자가 썼던 리뷰가 있는지 확인한다. -->
+	<select id="isFirstReview" parameterType="java.util.HashMap" resultType="int">
+		select count(*) from tbl_review where userSeq = #{userSeq} and restSeq = #{restSeq}
+	</select>
+	
+	<!-- 해당 구에 동 리스트 구하기 -->
+	<select id="getDongList" parameterType="String" resultType="String">
+		select dongId from tbl_dong where guId = #{guId}
+	</select>
+	
+	<!-- 동칭호의 aliasNum을 구한다. -->
+	<select id="getDongAliasNum" parameterType="java.util.HashMap" resultType="int">
+		select aliasNum from tbl_user_alias where userSeq = #{userSeq} and aliasId = #{aliasId}
+	</select>
 </mapper>

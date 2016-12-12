@@ -141,9 +141,10 @@ public class UserDAO implements IDAO{
 		int isLoginContinue = sqlSession.selectOne("userLoginContinueCheck", hashMap);
 		return isLoginContinue;
 	}
-
-
-
-
+	
+	// 동현_칭호 동이름, 지하철이름, 구이름을 구하기
+	public String getAliasIdName(HashMap<String, String> map) {
+		return sqlSession.selectOne("user.getAliasIdName", map);
+	}
 }
 

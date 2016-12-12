@@ -16,6 +16,10 @@ public class ReviewVO {
    private String reviewAvgScore; 
    private String reviewRegDate;  
    private String reviewStatus;
+   
+   // 동현 추가 : 사용자가 기입하는 복수개가 가능한 음식점 태그(칭호부여에 사용함)
+   private String[] reviewBgTag;
+   private String[] reviewMdTag;
 
    public ReviewVO() {
 	
@@ -23,7 +27,7 @@ public class ReviewVO {
 
    public ReviewVO(String reviewSeq, String userSeq, String restSeq, String reviewTitle, String reviewContent,
 		String reviewHit, String reviewMood, String reviewTaste, String reviewPrice, String reviewService,
-		String reviewAvgScore, String reviewRegDate, String reviewStatus) {
+		String reviewAvgScore, String reviewRegDate, String reviewStatus, String[] reviewBgTag, String[] reviewMdTag) {
 	
 	this.reviewSeq = reviewSeq;
 	this.userSeq = userSeq;
@@ -38,6 +42,8 @@ public class ReviewVO {
 	this.reviewAvgScore = reviewAvgScore;
 	this.reviewRegDate = reviewRegDate;
 	this.reviewStatus = reviewStatus;
+	this.reviewBgTag = reviewBgTag;
+	this.reviewMdTag = reviewMdTag;
    }
 
 	public String getReviewSeq() {
@@ -142,6 +148,22 @@ public class ReviewVO {
 	
 	public void setReviewStatus(String reviewStatus) {
 		this.reviewStatus = reviewStatus;
+	}
+
+	public String[] getReviewBgTag() {
+		return reviewBgTag;
+	}
+
+	public void setReviewBgTag(String[] reviewBgTag) {
+		this.reviewBgTag = reviewBgTag;
+	}
+
+	public String[] getReviewMdTag() {
+		return reviewMdTag;
+	}
+
+	public void setReviewMdTag(String[] reviewMdTag) {
+		this.reviewMdTag = reviewMdTag;
 	}
    
    

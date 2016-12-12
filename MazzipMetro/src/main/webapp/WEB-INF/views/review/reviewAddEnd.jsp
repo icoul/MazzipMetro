@@ -23,6 +23,11 @@
 			self.window.close();  
 			// 글목록을 보여주는 페이지로 이동
 		</c:if>
+		
+		<c:if test="${freeScript != null}">
+		${freeScript}
+		</c:if>
+			
 	</script>
 </body>
 </html>
