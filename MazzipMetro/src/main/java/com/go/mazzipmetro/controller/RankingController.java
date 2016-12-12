@@ -28,16 +28,52 @@ public class RankingController {
 	@RequestMapping(value="/restRanking.eat", method={RequestMethod.GET})
 	public String rankingRestMetro(HttpServletRequest req, HttpServletResponse res, HttpSession session){
 		
-		RankingRestVO rvo = new RankingRestVO();
-		List<RankingRestVO> optionList = new ArrayList<RankingRestVO>();
-		HashMap<String, Object> optionMap = new HashMap<String, Object>();
+		// 랭킹에 필요한 각 파라미터
+		String metroId = req.getParameter("metroId");
+		String dongId = req.getParameter("dongId");
+		String regDate = req.getParameter("regDate");
+		String[] bgTag = req.getParameterValues("bgTag");
+		String[] mdTag = req.getParameterValues("mdTag");
 		
-		/*rvo.setParameter("metroid");
-		rvo.setValue("2001");
-		optionList.add(rvo);*/
+		RankingRestVO rvo = new RankingRestVO(); // 랭킹 조건들을 담을 VO
+		List<RankingRestVO> optionList = new ArrayList<RankingRestVO>(); 
+		// VO를 담을 리스트. 조건의 갯수가 유저의 결정에 따라 달라지므로 유동적으로 대응 가능하도록 리스트를 사용.
+		// 또한 Mybatis의 forEach는 리스트와 해쉬맵 밖에 못 받는다.
+		
+		HashMap<String, Object> optionMap = new HashMap<String, Object>();
+		// 리스트를 담아줄 해쉬맵. 이걸 안 하면 forEach가 못 읽는다.
+		
+		if (metroId != null) {
+			rvo.setParameter("metroid");
+			rvo.setValue(metroId);
+			optionList.add(rvo);
+		}
+		
+		if (dongId != null) {
+			rvo.setParameter("dongId");
+			rvo.setValue(dongId);
+			optionList.add(rvo);
+		}
+		
+		if (bgTag != null) {
+			for (int i = 0; i < bgTag.length; i++) {
+				rvo.setParameter("restBgTag");
+				rvo.setValue(bgTag[i]);
+				optionList.add(rvo);
+			}
+		}
+		
+		if (mdTag != null) {
+			for (int i = 0; i < mdTag.length; i++) {
+				rvo.setParameter("restMdTag");
+				rvo.setValue(mdTag[i]);
+				optionList.add(rvo);
+			}
+		}
+		
 		optionMap.put("optionList", optionList);
 		
-		List<HashMap<String, String>> mapList = service.getRestRanking(optionMap);
+		List<HashMap<String, String>> mapList = service.getRestRanking(optionMap, regDate);
 		
 		req.setAttribute("mapList", mapList);
 		

@@ -14,9 +14,9 @@ public class RankingService {
 	@Autowired
 	private RankingDAO dao;
 
-	public List<HashMap<String, String>> getRestRanking(HashMap<String, Object> optionMap) {
+	public List<HashMap<String, String>> getRestRanking(HashMap<String, Object> optionMap, String regDate) {
 
-		List<HashMap<String, String>> mapList = dao.getRestRanking(optionMap);
+		List<HashMap<String, String>> mapList = dao.getRestRanking(optionMap, regDate);
 		
 		return mapList;
 	}

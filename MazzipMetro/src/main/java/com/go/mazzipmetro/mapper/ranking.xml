@@ -24,8 +24,8 @@
 		 <result column="count"	  	    		property="count" 					javaType="String" />
 		 <result column="score"	  	    		property="score" 					javaType="String" />
 	</resultMap>
-
-	<select id = "getRestRanking" parameterType="java.util.HashMap" resultMap="restRanking" >
+	<!-- 기간 상관없이 랭킹 -->
+	<select id = "getNotDateRestRanking" parameterType="java.util.HashMap" resultMap="restRanking" >
 		select rank() over(order by reviewavgscore*count desc) as rank, T.*, F.reviewavgscore, F.count, F.reviewavgscore*F.count as score
 		from TBL_restaurant T join
 		(
@@ -36,7 +36,71 @@
 		on T.restSeq = F.restSeq
 		where 1=1 
 			<foreach collection="optionList" item="option">
-				and ${option.parameter} = #{option.value}
+				and ${option.parameter} like '%' || #{option.value} || '%' 
+			</foreach>
+	</select>
+	
+	<!-- 최근 일주일 랭킹 -->	
+	<select id = "getNotDateRestRanking" parameterType="java.util.HashMap" resultMap="restRanking" >
+		select rank() over(order by reviewavgscore*count desc) as rank, T.*, F.reviewavgscore, F.count, F.reviewavgscore*F.count as score
+		from TBL_restaurant T join
+		(
+		select restseq, avg(reviewavgscore) as reviewavgscore, count(*) as count
+		from TBL_Review
+		group by restseq
+		)F
+		on T.restSeq = F.restSeq
+		where restRegDate > (sysdate - 7) 
+			<foreach collection="optionList" item="option">
+				and ${option.parameter} like '%' || #{option.value} || '%' 
+			</foreach>
+	</select>
+
+	<!-- 최근 한 달 랭킹 -->	
+	<select id = "getNotDateRestRanking" parameterType="java.util.HashMap" resultMap="restRanking" >
+		select rank() over(order by reviewavgscore*count desc) as rank, T.*, F.reviewavgscore, F.count, F.reviewavgscore*F.count as score
+		from TBL_restaurant T join
+		(
+		select restseq, avg(reviewavgscore) as reviewavgscore, count(*) as count
+		from TBL_Review
+		group by restseq
+		)F
+		on T.restSeq = F.restSeq
+		where restRegDate > (sysdate - 30) 
+			<foreach collection="optionList" item="option">
+				and ${option.parameter} like '%' || #{option.value} || '%' 
+			</foreach>
+	</select>
+
+	<!-- 최근 3달 랭킹 -->	
+	<select id = "getNotDateRestRanking" parameterType="java.util.HashMap" resultMap="restRanking" >
+		select rank() over(order by reviewavgscore*count desc) as rank, T.*, F.reviewavgscore, F.count, F.reviewavgscore*F.count as score
+		from TBL_restaurant T join
+		(
+		select restseq, avg(reviewavgscore) as reviewavgscore, count(*) as count
+		from TBL_Review
+		group by restseq
+		)F
+		on T.restSeq = F.restSeq
+		where restRegDate > (sysdate - 90) 
+			<foreach collection="optionList" item="option">
+				and ${option.parameter} like '%' || #{option.value} || '%' 
+			</foreach>
+	</select>
+
+	<!-- 최근 1년 랭킹 -->	
+	<select id = "getNotDateRestRanking" parameterType="java.util.HashMap" resultMap="restRanking" >
+		select rank() over(order by reviewavgscore*count desc) as rank, T.*, F.reviewavgscore, F.count, F.reviewavgscore*F.count as score
+		from TBL_restaurant T join
+		(
+		select restseq, avg(reviewavgscore) as reviewavgscore, count(*) as count
+		from TBL_Review
+		group by restseq
+		)F
+		on T.restSeq = F.restSeq
+		where restRegDate > (sysdate - 365) 
+			<foreach collection="optionList" item="option">
+				and ${option.parameter} like '%' || #{option.value} || '%' 
 			</foreach>
 	</select>
 
