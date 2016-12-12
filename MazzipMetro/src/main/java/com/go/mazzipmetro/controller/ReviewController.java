@@ -122,16 +122,16 @@ public class ReviewController {
 		System.out.println(">>>>>>>>>>>>>>> list.size() ="+ list.size()); 
 		System.out.println(">>>>>>>>>>>>>>> result ="+ result);
 		
+		
 		if(result == 1 && list.size() > 1){
 			System.out.println(">>>>>> 글쓰기 성공 & 칭호 갱신!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); 
 			result = 1;
-			freeScript += "alert('축하합니다.\n";
+			freeScript += "alert('축하합니다.\\n"; // alert개행 문자는 \n 인데, 여기서는 \\n이라 써야 에러가 나지 않는다. 차이는 모르겠다.
 			for (int i = 0; i < list.size()-1; i++) {
-				freeScript += "\n"+(i+1)+" : ";
+				freeScript += "\\n"+(i+1)+" : ";
 				freeScript += list.get(i);
-				freeScript += (i != (list.size()-2))?", ":"";
 			}
-			freeScript += "\n\n 칭호를 획득하셨습니다.');";
+			freeScript += "\\n\\n"+(list.size()-1)+"가지 칭호를 획득하셨습니다.');";
 		}else if (result == 1  && list.size() == 1) {
 			System.out.println(">>>>>> 글쓰기 성공 & 갱신할 칭호 없음!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); 
 			result = 1;
@@ -141,6 +141,8 @@ public class ReviewController {
 		} else {
 			System.out.println("예외상황 발생!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); 
 		}
+		
+		System.out.println(freeScript); 
 		
 		req.setAttribute("result", result);
 		req.setAttribute("freeScript", freeScript);	
