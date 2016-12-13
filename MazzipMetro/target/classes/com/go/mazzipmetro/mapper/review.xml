@@ -87,8 +87,36 @@
 	</select>
 	<!-- 리뷰 넣기 -->
 	<insert id="reviewAdd" parameterType="com.go.mazzipmetro.vo.ReviewVO">
-		insert into tbl_review(reviewSeq, userSeq, restSeq, reviewTitle, reviewContent, reviewHit, reviewMood, reviewTaste, reviewPrice, reviewService, reviewAvgScore, reviewRegdate, reviewStatus)
-		values(tbl_reviewSeq.nextval, #{userSeq}, #{restSeq}, #{reviewTitle}, #{reviewContent}, default, #{reviewMood}, #{reviewTaste}, #{reviewPrice}, #{reviewService}, #{reviewAvgScore}, default, 0)
+		
+			insert into tbl_review(reviewSeq, userSeq, restSeq, reviewTitle, reviewContent, reviewHit, reviewMood, reviewTaste, reviewPrice, reviewService, reviewAvgScore, reviewRegdate, reviewStatus, reviewBTag, reviewMTag)
+			values(tbl_reviewSeq.nextval, #{userSeq}, #{restSeq}, #{reviewTitle}, #{reviewContent}, default, #{reviewMood}, #{reviewTaste}, #{reviewPrice}, #{reviewService}, #{reviewAvgScore}, default, 0, 
+			<if test="reviewBTag == null">
+				null
+			</if>
+			<if test="reviewBTag != null">
+				#{reviewBTag}
+			</if>
+			, 
+			<if test="reviewMTag == null">
+				null
+			</if>
+			<if test="reviewMTag != null">
+				#{reviewMTag}
+			</if>
+				)
+		
+		<!-- <if test="reviewMTag == null">
+			insert into tbl_review(reviewSeq, userSeq, restSeq, reviewTitle, reviewContent, reviewHit, reviewMood, reviewTaste, reviewPrice, reviewService, reviewAvgScore, reviewRegdate, reviewStatus, reviewBTag, reviewMTag)
+			values(tbl_reviewSeq.nextval, #{userSeq}, #{restSeq}, #{reviewTitle}, #{reviewContent}, default, #{reviewMood}, #{reviewTaste}, #{reviewPrice}, #{reviewService}, #{reviewAvgScore}, default, 0, #{reviewBTag}, null)
+		</if>
+		<if test="reviewMTag == null and reviewBTag == null">
+			insert into tbl_review(reviewSeq, userSeq, restSeq, reviewTitle, reviewContent, reviewHit, reviewMood, reviewTaste, reviewPrice, reviewService, reviewAvgScore, reviewRegdate, reviewStatus, reviewBTag, reviewMTag)
+			values(tbl_reviewSeq.nextval, #{userSeq}, #{restSeq}, #{reviewTitle}, #{reviewContent}, default, #{reviewMood}, #{reviewTaste}, #{reviewPrice}, #{reviewService}, #{reviewAvgScore}, default, 0, null, null)
+		</if>
+		<if test="reviewMTag != null and reviewBTag != null">
+			insert into tbl_review(reviewSeq, userSeq, restSeq, reviewTitle, reviewContent, reviewHit, reviewMood, reviewTaste, reviewPrice, reviewService, reviewAvgScore, reviewRegdate, reviewStatus, reviewBTag, reviewMTag)
+			values(tbl_reviewSeq.nextval, #{userSeq}, #{restSeq}, #{reviewTitle}, #{reviewContent}, default, #{reviewMood}, #{reviewTaste}, #{reviewPrice}, #{reviewService}, #{reviewAvgScore}, default, 0, #{reviewBTag}, #{reviewMTag})
+		</if> -->
 	</insert>
 	<!-- 리뷰 시퀀스 얻어오기 -->
 	<select id="getReviewSeq" parameterType="com.go.mazzipmetro.vo.ReviewVO" resultType="String">
@@ -212,4 +240,10 @@
 	<select id="getDongAliasNum" parameterType="java.util.HashMap" resultType="int">
 		select aliasNum from tbl_user_alias where userSeq = #{userSeq} and aliasId = #{aliasId}
 	</select>
+	
+	<!-- 테마 추가하기 -->
+	<insert id="insertTheme">
+	insert into	tbl_theme(themeSeq, reviewSeq, restSeq, theme)
+					values(tbl_themeSeq.nextval, #{reviewSeq}, #{restSeq}, #{theme})	
+	</insert>
 </mapper>
