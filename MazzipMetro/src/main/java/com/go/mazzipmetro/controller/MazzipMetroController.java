@@ -199,7 +199,7 @@ public class MazzipMetroController {
 		
 		//유저 한사람이 문의한 내역을 보여주는 컨트롤러 
 		@RequestMapping(value = "/myQnaList.eat", method = {RequestMethod.GET})
-		public String login_myQnaList(HttpServletRequest req, HttpServletResponse res, HttpSession session) {
+		public String loginAndReturn_myQnaList(HttpServletRequest req, HttpServletResponse res, HttpSession session) {
 			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
 			
 			String userSeq = loginUser.getUserSeq();
