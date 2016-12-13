@@ -41,7 +41,7 @@
 		                 var str = instance.elementOrigin().toString(); // localhost로 시작하는 href 값이 나오지만, 객체이다.
 		                 
 						 var metroId = str.substring(str.indexOf("=")+1, str.indexOf("=")+5);//시작index, 끝나는 index  : javascript: searchByMetro(1, '2005')
-		              	//alert(metroId);
+		              	alert(metroId);
 		                 
 		                 for (var i = 0; i < metroIdArr.length; i++) {
 							if(metroIdArr[i] == metroId)
@@ -268,8 +268,6 @@
                 }
             });
             
-            
-<<<<<<< HEAD
             $("#keyword").keyup(function(){
         		
     			$.ajax({
@@ -318,8 +316,6 @@
     			
     		});// end of $("#keyword").keyup
             
-=======
->>>>>>> b1fb988f1f201e7caf9d6553a665dc2787ad5a15
         });// $(document).ready()
         
         //등록된 맛집이 없는 경우(지도에러유발) 링크 폐쇄

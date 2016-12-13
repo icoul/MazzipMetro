@@ -67,5 +67,31 @@ public class RankingDAO {
 		
 		return mapList;
 	}
+
+	public List<HashMap<String, String>> getReviewRanking(HashMap<String, Object> optionMap, String regDate) {
+		List<HashMap<String, String>> mapList = new ArrayList<HashMap<String, String>>();
+		
+		if (regDate.equals("0")) { // 기간 상관없이 랭킹
+			mapList = sqlSession.selectList("ranking.getNotDateReviewRanking", optionMap);
+		}
+		
+		else if (regDate.equals("7")) {// 최근 일주일 랭킹
+			mapList = sqlSession.selectList("ranking.getOneWeekReviewRanking", optionMap);
+		}
+		
+		else if (regDate.equals("30")) {// 최근 한 달 랭킹
+			mapList = sqlSession.selectList("ranking.getOneMonthReviewRanking", optionMap);
+		}
+		
+		else if (regDate.equals("90")) {// 최근 3달 랭킹
+			mapList = sqlSession.selectList("ranking.getThreeMonthReviewRanking", optionMap);
+		}
+		
+		else if (regDate.equals("365")) {// 최근 1년 랭킹
+			mapList = sqlSession.selectList("ranking.getOneYearReviewRanking", optionMap);
+		}
+		
+		return mapList;
+	}
 	
 }

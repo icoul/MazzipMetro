@@ -14,12 +14,16 @@
 	<table id = "tblRankingView">
 		<c:forEach var = "list" items = "${mapList}" begin="${pageNum*pageBar-10}" end="${pageNum*pageBar-1}">
 			<tr style = "border-left-width: 0px; border-right-width: 0px;">
-				<td width = "10%" ><span style = "font-size: 15pt; font-weight: bold;">${list.rank}</span></th>
-				<td width = "15%" style = "border-left-width: 0px;"><img src="<%= request.getContextPath() %>/thumb${list.restImg}" /></th>
-				<td width = "35%" style = "border-left-width: 0px; text-align: left; font-size : 12pt; font-weight: bold;">${list.restName}</th>
-				<td width = "20%" style = "border-left-width: 0px; font-size : 12pt;">${list.restBgTag}</th>
-				<td width = "10%" style = "border-left-width: 0px;">${list.metroName}</th>
-				<td width = "10%" style = "border-left-width: 0px;">${list.dongName}</th>
+				<td width = "10%" ><span style = "font-size: 15pt; font-weight: bold;">${list.rank}</span></td>
+				<td width = "15%" style = "border-left-width: 0px;"><img src="<%= request.getContextPath() %>/thumb${list.restImg}" /></td>
+				<td width = "35%" style = "border-left-width: 0px; text-align: left; font-size : 12pt; font-weight: bold;">
+					<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${list.restSeq}">
+						<span style = "color : black;">${list.restName}</span>
+					</a>
+				</td>
+				<td width = "20%" style = "border-left-width: 0px; font-size : 12pt;">${list.restBgTag}</td>
+				<td width = "10%" style = "border-left-width: 0px;">${list.metroName}</td>
+				<td width = "10%" style = "border-left-width: 0px;">${list.dongName}</td>
 			</tr>
 		</c:forEach>
 	</table>

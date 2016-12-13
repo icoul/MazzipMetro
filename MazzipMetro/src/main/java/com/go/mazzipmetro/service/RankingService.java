@@ -49,5 +49,12 @@ public class RankingService {
 		
 		return mapList;
 	}
+
+	// 사용자 랭킹을 검색하여 받아오는 메서드
+	public List<HashMap<String, String>> getReviewRanking(HashMap<String, Object> optionMap, String regDate) {
+		List<HashMap<String, String>> mapList = dao.getReviewRanking(optionMap, regDate);
+		
+		return mapList;
+	}
 	
 }
