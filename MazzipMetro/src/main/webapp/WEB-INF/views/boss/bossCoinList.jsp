@@ -54,10 +54,12 @@
 			<input type="hidden" name="userSeq"  value="${sessionScope.loginUser.userSeq}" /> 
 		</form>
 		<!-- #75. 페이지바 보여주기 -->
-		<div align="center">
-			${pagebar}
-		</div>
-		<br/>
+		<c:if test="${list  != null && not empty list}">
+			<div align="center">
+				${pagebar}
+			</div>
+			<br/>
+		</c:if>
 </div>
 
 <jsp:include page="../footer.jsp" />

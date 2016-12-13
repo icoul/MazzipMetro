@@ -10,7 +10,7 @@
     	select T.userseq, T.gradeName, T.username, T.useremail, T.usergender, T.userbirthday, T.userphone, T.userregdate, T.userpoint
 		from 
 		(
-		select rownum as RNO
+		select rowNum as RNO
 		     , V.userSeq, V.gradeName, V.userName,  V.userEmail, V.userGender, V.userBirthday, V.userPhone, V.userRegdate, V.userPoint
 		from 
 		(
@@ -120,7 +120,7 @@
     </select>
     <!-- 관리자용 회원 수정 - 한명회원 정보 수정하기 -->
     <update id="adminUserEdit" parameterType="java.util.HashMap">
-		update tbl_user set userEmail= #{userEmail}, userPhone= #{userPhone}, userPoint= #{userPoint}
+		update tbl_user set userName= #{userName}, userPhone= #{userPhone}, userPoint= #{userPoint}
 		where userSeq = #{userSeq}
     </update>
     
