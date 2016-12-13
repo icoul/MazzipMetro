@@ -8,11 +8,16 @@
 .subleftCon {float:left; width:200px; height:500px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;}
 .subleftCon h2 {width:187px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right;}
 .subrightCon {float:left; width:1200px; border-right:1px solid #dbdbdb; height:500px;}
+.line {border-width:7px; border-style:double; margin-bottom: 40px;}
 </style>
     <meta charset="utf-8">
 	<title>회원가입</title>
 	
 	<jsp:include page="../top.jsp" />
+	
+	<style type="text/css">
+		.order {font-size:2em;}
+	</style>	
 	<script type="text/javascript" >
 	
 	 function goSubmit(){
@@ -38,6 +43,19 @@
 		}
 		
 	} 
+	 
+	 function emailDuplicatecheck() {
+		var registerFrm = document.registerFrm;
+		var userEmail = registerFrm.userEmail.value;
+		
+		var emailDuplicatecheckFrm = document.emailDuplicatecheckFrm;
+		emailDuplicatecheckFrm.userEmail.value = userEmail;
+		
+		emailDuplicatecheckFrm.action = "emailDuplicatecheck.eat";
+		emailDuplicatecheckFrm.method = "POST";
+		emailDuplicatecheckFrm.submit();
+		
+	 }
 	
 	
 	 $(function() {
@@ -258,71 +276,78 @@
 </head>
 <body>
 <div class="subleftCon" style="height:1450px;">
-	<h2>맛집메트로계정 정보입력</h2>
+	<h2>회원가입</h2>
 </div>
 <%-- subleftCon --%>
 <div class="subrightCon" style="height:auto;">
-	<div align="center" style="height: 100px; width:604px; margin:0 auto; padding-top:20px;" >
-		<div align="center" style="padding: 1em; float:left; border: 2px solid; border-top-left-radius: 1em; border-bottom-left-radius: 1em; height: 50px; width:150px; border-right:none;"><span class="glyphicon glyphicon-pencil"></span>약관동의</div>
-		<div align="center" style="padding: 1em; float:left; border: 2px solid; background-color:blue;  height: 50px; width: 150px;"><span class="glyphicon glyphicon-pencil"></span>정보입력</div>
-		<div align="center" style="padding: 1em; float:left; border: 2px solid; height: 50px; width: 150px; border-left:none;"><span class="glyphicon glyphicon-sort"></span>가입인증</div>
-		<div align="center" style="padding: 1em; float:left; border: 2px solid; border-top-right-radius: 1em; border-bottom-right-radius: 1em; height: 50px; width: 150px; border-left:none;"><span class="glyphicon glyphicon-home"></span>가입완료</div>
+	<div align="center" style="height: 100px; width:1200px; margin:0 auto;" >
+		<div align="center" style="padding: 1em; float:left; border: 2px solid; border-top-left-radius: 5px; border-bottom-left-radius: 5px; height: 70px; width:300px; border-right:none;">
+			<span class="glyphicon glyphicon-pencil order"> 약관동의 </span>
+		</div>
+		<div align="center" style="padding: 1em; float:left; border: 2px solid; background-color:blue; height: 70px; width: 300px;">
+			<span class="glyphicon glyphicon-pencil order"> 정보입력 </span>
+		</div>
+		<div align="center" style="padding: 1em; float:left; border: 2px solid; height: 70px; width: 300px; border-left:none;">
+			<span class="glyphicon glyphicon-sort order"> 가입인증 </span>
+		</div>
+		<div align="center" style="padding: 1em; float:left; border: 2px solid; border-top-right-radius: 5px; border-bottom-right-radius: 5px; height: 70px; width: 300px; border-left:none;">
+			<span class="glyphicon glyphicon-home order"> 가입완료 </span>
+		</div>
 	</div>
-    
 <div class="container">
-    <form name="registerFrm" class="well form-horizontal" action="<%= request.getContextPath() %>/userRegisterEnd.eat" method="post"  id="contact_form" enctype="multipart/form-data" style="background:none;">
+    <form name="registerFrm" class="form-horizontal" action="<%= request.getContextPath() %>/userRegisterEnd.eat" method="post"  id="contact_form" enctype="multipart/form-data" style="background:none;">
 		<fieldset>
 		<!-- Form Name -->
-		<legend>::: 필수입력사항</legend>
+		<legend style="margin-bottom:20px;">::: 필수입력사항</legend>
 		
-		<!-- Text input-->
-	<div style="margin-top:20px; padding:10px;">
+		<div class="line">
+		<div style="margin-top:20px; padding:10px;">
 		<div class="form-group">
-		  <label class="col-md-4 control-label" >이름</label> 
+		  <label class="col-md-3 control-label" >이름</label> 
 		    <div class="col-md-7 inputGroupContainer">
 		    <div class="input-group">
-		  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-		  <input  name="userName" placeholder="사용자이름" class="form-control"  type="text">
+			  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+			  <input  name="userName" class="form-control"  type="text">
 		    </div>
+			  <span class="help-block" align="right">사용자 이름을 입력해주세요</span>
 		  </div>
 		</div>
 		
-		<!-- Text input-->
-		
 		<div class="form-group">
-		  <label class="col-md-4 control-label">맛집메트로계정(이메일)</label>  
+		  <label class="col-md-3 control-label">맛집메트로계정(이메일)</label>  
 		  <div class="col-md-7 inputGroupContainer">
 		  <div class="input-group">
 		  <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-		  <input name="userEmail" placeholder="사용자 이메일" class="form-control"  type="text">
+		  <input name="userEmail"class="form-control"  type="text">
+		  	<span class="input-group-btn">
+        		<button class="btn btn-warning" type="button" onClick="emailDuplicatecheck();">중복검사</button>
+      		</span>
 		</div>
+			<span class="help-block" align="right">실제 사용하고 계신 이메일을 입력해주세요</span>
 		  </div>
 		</div>
 		
-		<!-- Text input-->
-		
 		<div class="form-group">
-		<label class="col-md-4 control-label">비밀번호입력</label>
+		<label class="col-md-3 control-label">비밀번호입력</label>
 		<div class="col-md-7 inputGroupContainer">
 		<div class="input-group">
 		<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-		<input type="password" class="form-control" name="userPw" id="userPw" placeholder="비밀번호 입력" autocomplete="off">
+		<input type="password" class="form-control" name="userPw" id="userPw">
 		</div>
 		<a class="show-password" href="">비밀번호 보기</a>
 		<span class="strength"></span>
+		<span class="help-block" align="right">최소 : 8글자이상 / 영문 및 특수문자를 포함하여 입력해주세요</span>
 		</div>
 		</div>
 		
 		<!-- Text input-->
 		
 		<div class="form-group">
-		  <label class="col-md-4 control-label">비밀번호확인</label>  
+		  <label class="col-md-3 control-label">비밀번호확인</label>  
 		    <div class="col-md-7 inputGroupContainer">
 		    <div class="input-group">
 		        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-		        <input type="password" class="form-control" name="password2" id="password2" placeholder="Repeat Password" autocomplete="off">
-		        
-		  <!-- <input name="userPw_confirm" id="userPw_confirm" placeholder="정확하게 입력해주세요" class="form-control"  type="text"> -->
+		        <input type="password" class="form-control" name="userPw_Confirm" id="userPw_Confirm" autocomplete="off">
 		    </div>
 		    <span id="pwmatch" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> 비밀번호 일치 확인
 		</div>
@@ -331,7 +356,7 @@
 		<!-- Text input-->
 		       
 		<div class="form-group" style="overflow:hidden;">
-		  <label class="col-md-4 control-label" style="float:left">생년월일</label>  
+		  <label class="col-md-3 control-label" style="float:left">생년월일</label>  
 		    <div class="col-md-7 inputGroupContainer" style=" float:left;">
 		    <div class="input-group" style="width:100%;">
 		   		 
@@ -345,6 +370,11 @@
 							  for(var i = year; i > 1900; i--){
 								  document.write('<option value="'+i+'">'+i+'</option>');
 							  }
+							
+							  /* if(i >= 2009) {
+								 var bool = confirm("본인 생년월일이 맞으신가요?");
+							  } */
+							  
 						  </script>
 					</select>
 			  		<select id="userMonth" name="userMonth" style="width:30%;" class="form-control">
@@ -380,7 +410,7 @@
 		<!-- Text input-->
 		       
 		<div class="form-group">
-		  <label class="col-md-4 control-label">휴대폰번호</label>  
+		  <label class="col-md-3 control-label">휴대폰번호</label>  
 		    <div class="col-md-7 inputGroupContainer">
 		    <div class="input-group">
 		        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
@@ -391,14 +421,14 @@
 	
 		<!-- radio checks -->
 		 <div class="form-group">
-           <label class="col-md-4 control-label">성별</label>
-           <div class="col-md-5 btn-group" data-toggle="buttons">
-               <div class="btn btn-default">
+           <label class="col-md-3 control-label">성별</label>
+           <div class="col-md-8 inputGroupContainer btn-group" data-toggle="buttons" style="width:400px;">
+               <div class="btn btn-primary col-md-4">
                    <label>
                        <input type="radio" name="userGender" value="M" /> 남
                    </label>
                </div>
-               <div class="btn btn-default">
+               <div class="btn btn-danger col-md-4">
                    <label>
                        <input type="radio" name="userGender" value="F" /> 여
                    </label>
@@ -406,10 +436,12 @@
            </div>
        </div>
 	</div>	
-		<legend>::: 선택입력사항</legend>
+	</div>
+		<legend style="margin-bottom:20px;">::: 선택입력사항</legend>
+		<div class="line">
 		<div style="margin-top:20px; padding:10px;">
 		<div class="form-group">
-		  <label class="col-md-4 control-label">프로필사진</label>
+		  <label class="col-md-3 control-label">프로필사진</label>
 		  <div class="col-md-7 inputGroupContainer">
 		    <div class="input-group">
 		    <span class="input-group-addon"><i class="glyphicon glyphicon-upload"></i></span>  
@@ -422,16 +454,9 @@
 		
 		
 		
-                                          
-		
-		
-		
-		
-		
-		
 		  
 		<div class="form-group">
-		  <label class="col-md-4 control-label">선호역(지역)<br>
+		  <label class="col-md-3 control-label">선호역(지역)<br>
 		  최대 3개까지 선택가능합니다
 		  </label>
 		    <div class="col-md-7 inputGroupContainer">
@@ -509,13 +534,16 @@
 		  	</div> 
 		  </div> 
 		</div> 
-		
+		</div>
 </div>
+		
+		<!-- Success message -->
+		<div class="alert alert-success" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i> Thanks for contacting us, we will get back to you shortly.</div>
 		
 		<!-- Button -->
 		<div class="form-group">
 		  <div align = "center" class="col-md-12">
-		    <button type="button" class="btn btn-default" onClick="goSubmit();">회원가입<span class="glyphicon glyphicon-send"></span></button>
+		    <button type="button" class="btn btn-default" onClick="goSubmit();">다음단계로<span class="glyphicon glyphicon-send"></span></button>
 		  	<button type="button" class="btn btn-default" onClick="javascript:location.href='index.eat'">취소</button>
 		  </div>
 		</div>
@@ -525,8 +553,10 @@
 		</div>
 		    </div><!-- /.container -->
 		      <jsp:include page="../footer.jsp" />
-</div>
 
 <%--subrightCon --%>
+<form name = "emailDuplicatecheckFrm">
+	<input type="hidden" name="userEmail">
+</form>
 </body>
 </html>

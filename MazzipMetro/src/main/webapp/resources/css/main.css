@@ -94,3 +94,7 @@ footer .copyRight {color:#8a8a8a;}
  html .ui-autocomplete {
    height: 300px;
  }
+ 
+#woo_scroller {  position:relative;  height:400px;  width:270px;    left:50px; }
+
+#woo_scroller table {border:0px; position:relative;}

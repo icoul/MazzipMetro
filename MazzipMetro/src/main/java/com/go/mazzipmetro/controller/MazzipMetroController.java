@@ -1195,16 +1195,17 @@ public class MazzipMetroController {
 		public String faqListByType(HttpServletRequest req) {
 			String faqType = req.getParameter("faqType");
 			List<FaqVO> faqList = service.getFaqListByType(faqType);
-			String count = req.getParameter("count");
-			
-			if(count == null){
-				count = "0";
-			}
-			
-			req.setAttribute("faqList", faqList);
-			req.setAttribute("faqType", faqType);
-			req.setAttribute("count", count);
-			return "QnA/faqListByType";
+            String count = req.getParameter("count");
+            
+            if(count == null){
+                count = "0";
+            }
+            
+            req.setAttribute("faqList", faqList);
+            req.setAttribute("faqType", faqType);
+            req.setAttribute("count", count);
+            return "QnA/faqListByType";
+
 		}
 
 		

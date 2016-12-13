@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <!DOCTYPE html >
+<jsp:include page="../library.jsp" />
  <jsp:include page="../top.jsp"/> 
 <html>
 <head>
@@ -12,9 +13,7 @@
 	.navbar-barnd{vertical-align : middle;line-height:45px;}
 	.btn-primary.create {margin-top:10px;}
 </style>
-<script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>  
-  <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/BootStrapStudy/css/bootstrap.min.css">
-  <script src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script>
+
 <script type="text/javascript">
 	$(document).ready(function(){
 		<c:if test="${not empty qnaSearch}">

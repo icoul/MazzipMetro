@@ -18,7 +18,8 @@ public class UserVO {
    
    private String userPhone;      // 유저핸드폰   
    private String userRegDate;      // 유저가입일   
-   private String userPoint;      // 유저포인트   
+   private String userPoint;      // 유저포인트  
+   private String userExp;			//유저 경험치
    private String userStation;      // 선호지역
    private String userSort;      // 유저구분   
    private String userStatus;         // 유저상태
@@ -26,12 +27,12 @@ public class UserVO {
    
    private MultipartFile attach;    // 진짜 파일 ==> WAS(톰캣) 디스크에 저장됨.
    private String gradeName; // 등급명
-
+   
    public UserVO(){}
 
    public UserVO(String userSeq, String gradeSeq, String userName, String userEmail, String userPw, String userGender,
          String userBirthDay, String userYear, String userMonth, String userDate, String userPhone, String userRegDate, String userPoint,
-         String userSort, String userStatus, String userProfile, MultipartFile attach, String userStation, String gradeName) {
+         String userExp, String userSort, String userStatus, String userProfile, MultipartFile attach, String userStation, String gradeName) {
       super();
       this.userSeq = userSeq;
       this.gradeSeq = gradeSeq;
@@ -47,6 +48,7 @@ public class UserVO {
       this.userRegDate = userRegDate;
       this.userPoint = userPoint;
       this.userSort = userSort;
+      this.userExp = userExp;
       this.userStatus = userStatus;
       this.userProfile = userProfile;
       this.attach = attach;
@@ -207,5 +209,14 @@ public class UserVO {
 		this.gradeName = gradeName;
 	}
 
+	public String getUserExp() {
+		return userExp;
+	}
+
+	public void setUserExp(String userExp) {
+		this.userExp = userExp;
+	}
+
+	
 }
 

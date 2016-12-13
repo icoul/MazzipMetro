@@ -9,6 +9,44 @@
 <head>
 <meta charset="UTF-8">
 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    
+<!-- 기본 jquery 라이브러리 -->
+<script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>
+
+<!-- 부트스트랩 라이브러리 -->
+<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/BootStrapStudy/css/bootstrap.css">
+<script type="text/javascript" src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script>
+
+<!-- 동현_다음지도 api를 사용하기 위한 라이브러리 -->
+<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=07a6ce4a014b94664ec5968dee2fb0d2&libraries=services,clusterer,drawing"></script>
+
+<!-- 동현_메트로맵 tooltip을 위한 라이브러리 -->
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/tooltipster/dist/css/tooltipster.bundle.min.css" />
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-noir.min.css" />
+
+<!-- 동현_검색어 자동완성을 위한 jquery-ui 라이브러리 -->
+<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/jquery-ui/jquery-ui.css">
+<script src="<%= request.getContextPath() %>/resources/jquery-ui/jquery-ui.js"></script>
+
+<!-- 미현_전체페이지 css -->
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/main.css" />
+
+<!-- 은석_레스토랑 디테일.jsp에서 차트를 이용하기 위한 라이브러리 추가 -->
+<script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/highcharts.js"></script>
+<script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/modules/exporting.js"></script>
+
+<!-- 한별_회원가입 css -->
+<link href="<%= request.getContextPath() %>/resources/css/hb_register_.css" rel="stylesheet">
+
+<!-- 한별_회원가입 유효성 검사용 라이브러리 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/1.0/zxcvbn-async.min.js"></script>
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>
+    
 
 <title>:::Mazzip Metro:::</title>
 
@@ -113,8 +151,11 @@ function getLoginUserInfo(){
 	}
 	
 	function goLogin(){
+
+
 		var $modal = $('#loginModal');
     	$modal.modal();
+
 	}
 	
 	function goLogOut(){
@@ -177,18 +218,23 @@ function getLoginUserInfo(){
 			</ul>
 
 			<c:if test="${sessionScope.loginUser.userSeq == null && empty sessionScope.loginUser.userSeq}"> 
-			<button class="btnLogin" data-target="#loginModal" data-toggle="modal">모달출력버튼</button><br/>
-			<button type="button" class="btnLogin" onclick="goRegister();">회원가입</button>
+			<button type="button" class="btnLogin" data-target="#loginModal" data-toggle="modal" style="margin-left:10px;">로그인</button>
+			<!-- <button type="button" class="btnLogin" onclick="goRegister();">회원가입</button> -->
+			<button type="button" class="btnLogin" data-toggle="modal" data-target="#accountSelectModal">회원가입</button>
 			</c:if>
 			
 			<!-- 메뉴바 : top 우측-->
 			<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
+
 			<div style="float: right;">
 				<span>${sessionScope.loginUser.userName} 님 환영합니다. </span>
 				현재 마일리지: <span style="color:gold; margin-right: 100px;">${sessionScope.loginUser.userPoint }</span>
-				
+				등급 : <span style="color: red;">${sessionScope.loginUser.gradeName }</span>
+				Exp: <span style="color: red;">${sessionScope.loginUser.userExp }</span>
+			
 				<button type="button" class="btnLogin" onClick="goLogOut();">로그아웃</button>
 			</div>
+
 			</c:if>
 
 		</div>
@@ -239,6 +285,36 @@ function getLoginUserInfo(){
     
   </div>
 </div><!-- end of Login Modal -->
+
+
+<!-- 회원가입을 위한 Modal -->
+  <div class="modal fade" id="accountSelectModal" role="dialog" style="">
+    <div class="modal-dialog  modal-lg">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">회원유형선택</h4>
+        </div>
+        <div class="modal-body" align="center">
+          <a href="<%= request.getContextPath()%>/userRegisterAgree.eat?type=0" class="btn btn-sq-lg btn-info">
+              <i style="font-size: 10em;" class="fa fa-user"></i><br><br>
+              	<span style="font-size:2em;">개인</span>
+		  </a>
+		  <a href="<%= request.getContextPath()%>/userRegisterAgree.eat?type=1" style="margin-left: 3%" class="btn btn-sq-lg btn-success">
+              <i style="font-size: 10em;" class="fa fa-users"></i><br><br>
+              	<span style="font-size:2em;">사업자</span>
+            </a>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
 
 <%-- ****** 아이디 찾기 Modal ******* --%> 
 <div class="modal fade" id="userIdfind" role="dialog">
