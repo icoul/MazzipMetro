@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<jsp:include page="../library.jsp" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,18 +45,27 @@
 		
 	} 
 	 
-	 function emailDuplicatecheck() {
+	
+	 
+	 function emailDuplicateCheck() {
 		var registerFrm = document.registerFrm;
 		var userEmail = registerFrm.userEmail.value;
 		
-		var emailDuplicatecheckFrm = document.emailDuplicatecheckFrm;
-		emailDuplicatecheckFrm.userEmail.value = userEmail;
+		if(userEmail.trim()=='') {
+			alert("이메일을 입력해주세요.");
+			userEmail.focus();
+		} else {
+			var url = "emailDuplicateCheck.eat?userEmail="+userEmail;
+			
+			window.open(url,"emailDuplicateCheck",
+	                "left=500px, top=100px, width=430px, height=200px, menubar=no, status=no, scrollbars=yes ");
+	    }
+	   
+			
+		}
 		
-		emailDuplicatecheckFrm.action = "emailDuplicatecheck.eat";
-		emailDuplicatecheckFrm.method = "POST";
-		emailDuplicatecheckFrm.submit();
 		
-	 }
+		
 	
 	
 	 $(function() {
@@ -77,7 +87,9 @@
      }
 	
 	  $(document).ready(function() {
-		
+		  $("#emailDuplicateCheck").hide();
+		  
+		  
 		  
 		    $('#contact_form').bootstrapValidator({
 		        // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
@@ -284,7 +296,7 @@
 		<div align="center" style="padding: 1em; float:left; border: 2px solid; border-top-left-radius: 5px; border-bottom-left-radius: 5px; height: 70px; width:300px; border-right:none;">
 			<span class="glyphicon glyphicon-pencil order"> 약관동의 </span>
 		</div>
-		<div align="center" style="padding: 1em; float:left; border: 2px solid; background-color:blue; height: 70px; width: 300px;">
+		<div align="center" style="padding: 1em; float:left; border: 2px solid; background-color:yellow; height: 70px; width: 300px;">
 			<span class="glyphicon glyphicon-pencil order"> 정보입력 </span>
 		</div>
 		<div align="center" style="padding: 1em; float:left; border: 2px solid; height: 70px; width: 300px; border-left:none;">
@@ -320,10 +332,11 @@
 		  <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
 		  <input name="userEmail"class="form-control"  type="text">
 		  	<span class="input-group-btn">
-        		<button class="btn btn-warning" type="button" onClick="emailDuplicatecheck();">중복검사</button>
+        		<button class="btn btn-warning" type="button" onClick="emailDuplicateCheck();">중복검사</button>
       		</span>
 		</div>
 			<span class="help-block" align="right">실제 사용하고 계신 이메일을 입력해주세요</span>
+			
 		  </div>
 		</div>
 		
@@ -555,7 +568,7 @@
 		      <jsp:include page="../footer.jsp" />
 
 <%--subrightCon --%>
-<form name = "emailDuplicatecheckFrm">
+<form name = "emailDuplicateCheckFrm">
 	<input type="hidden" name="userEmail">
 </form>
 </body>

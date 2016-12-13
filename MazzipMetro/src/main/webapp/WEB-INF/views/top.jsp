@@ -153,28 +153,28 @@ function getLoginUserInfo(){
 			<ul class="menu">
 				<!-- 비회원 로그인시(로그인전) -->
 				<c:if test="${empty sessionScope.loginUser.userSeq}">
-					<li><a href="#">맛집랭킹</a></li>
+					<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
 					<li><a href="javascript:goAsk();">문의하기</a></li>
 					<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
 					&nbsp;&nbsp;&nbsp;&nbsp;
 				</c:if>
 				<!-- 일반사용자 로그인시 -->
 				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 0}">
-					<li><a href="#">맛집랭킹</a></li>
+					<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
 					<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
 					<li><a href="javascript:goAsk();">문의하기</a></li>
 					<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
 				</c:if>
 				<!-- 사업주 로그인시 -->
 				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 1}">
-					<li><a href="#">맛집랭킹</a></li>
+					<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
 					<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
 					<li><a href="javascript:goAsk();">문의하기</a></li>
 					<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
 				</c:if>
 				<!-- 관리자 로그인시 -->
 				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 2}">
-					<li><a href="#">맛집랭킹</a></li>
+					<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
 					<li><a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a></li>
 					<li><a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a></li>
 					<li><a href="<%=request.getContextPath()%>/adminQnaList.eat">고객문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -238,7 +238,7 @@ function getLoginUserInfo(){
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 취소</button>
-        <p><a href="javascript:goRegister();" style="color:#f4511e">회원가입하기</a></p>
+        <p><a data-toggle="modal" data-target="#accountSelectModal" data-dismiss="modal" style="color:#f4511e">회원가입하기</a></p>
         <p>
         <td colspan="2" align="center">
         	<a data-toggle="modal" data-target="#userIdfind" data-dismiss="modal">아이디찾기</a> / 
@@ -293,7 +293,7 @@ function getLoginUserInfo(){
         </div>
         <div class="modal-body" style="height: 300px; width: 100%;">
           <div id="idFind">
-          	<iframe style="border: none; width: 100%; height: 280px;" src="<%= request.getContextPath() %>/idFind.eat">
+          	<iframe style="border: none; width: 100%; height: 280px;" src="<%= request.getContextPath() %>/emailFind.eat">
           	</iframe>
           </div>
         </div>

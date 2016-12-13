@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<jsp:include page="../top.jsp" />
+<jsp:include page="../library.jsp" />  
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,16 +56,20 @@
     
 <div class="container" style="width:1200px;">
     <form enctype="multipart/form-data" action="<%= request.getContextPath() %>/userRegisterForm.eat" method="post"  id="contact_form" onsubmit="return checkForm(this);">
-		<span class="order">서비스이용약관</span>
-		<iframe src="<%= request.getContextPath() %>/resources/htmlfile/agree1.html" width="1170px;" height="200px"></iframe>
+		<span class="order">▣ 서비스이용약관</span>
+		<div class="well" style="margin-top:20px;">
+		<iframe src="<%= request.getContextPath() %>/resources/htmlfile/agree1.html" width="1130px;" height="200px"></iframe>
 		<div align="right">
 			<input type="checkbox" name="check1" id="agree1"><label for="agree1"> (주)맛집메트로 서비스이용약관에 동의합니다 </label><br><br>
 		</div>
-		<br>
-		<span class="order">개인정보 취급방침</span>
-		<iframe src="<%= request.getContextPath() %>/resources/htmlfile/agree2.html" width="1170px;" height="200px"></iframe>
+		</div>
+		
+		<span class="order">▣ 개인정보 취급방침</span>
+		<div class="well" style="margin-top:20px;">
+		<iframe src="<%= request.getContextPath() %>/resources/htmlfile/agree2.html" width="1130px;" height="200px"></iframe>
 		<div align="right">
 			<input type="checkbox" name="check2" id="agree2"><label for="agree2"> (주)맛집메트로 개인정보취급방침에 동의합니다 </label><br><br>
+		</div>
 		</div>
 		<div align="right"><button type="submit" class="btn btn-default btn-lg" >다음단계로</button></div>
 		<input type="hidden" name="userSort" value="${type}" />
