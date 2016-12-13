@@ -168,6 +168,7 @@
 						
 						$("#keyword").catcomplete({
 							delay : 0,
+							minLength: 0,
 							source : data.cat_autoComSource
 						})						
 					} else {// 일반 auto-complete인 경우
