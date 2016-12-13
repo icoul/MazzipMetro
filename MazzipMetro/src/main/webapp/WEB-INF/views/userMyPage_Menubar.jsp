@@ -60,7 +60,7 @@
 	        <a class="dropdown-toggle" data-toggle="dropdown" href="#">사업자메뉴<span class="caret"></span></a>
 	        <ul class="dropdown-menu">
 	          <li><a href="<%= request.getContextPath() %>/bossCoinResi.eat">포인트구매</a></li>
-	          <li><a href="<%= request.getContextPath() %>/bossCoinResi.eat">컨텐츠목록</a></li>
+	          <li><a href="<%= request.getContextPath() %>/bossCoinList.eat">컨텐츠목록</a></li>
 	          <li><a href="<%= request.getContextPath() %>/userEdit.eat">개인정보수정</a></li>
 	          <li><a href="<%= request.getContextPath() %>/secession.eat">회원탈퇴</a></li>
 	        </ul>

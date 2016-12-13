@@ -56,7 +56,7 @@ function goBannBuy(userSeq,restSeq){
 		}// end of ------------------------------
 	}
 	if(cnt==0){ //모두 체크가 안된경우
-		alert("주문하실 제품을 하나 이상 선택하세요!!");
+		alert("주문하실 사업장 하나 이상 선택하세요!!");
 		for(var i=0; i<chkboxArr.length; i++){
 			//활성화 하여라.
 			chkboxArr[i].disabled = false;
@@ -89,7 +89,7 @@ function goLinkBuy(userSeq) {
 		}// end of ------------------------------
 	}
 	if(cnt==0){ //모두 체크가 안된경우
-		alert("주문하실 제품을 하나 이상 선택하세요!!");
+		alert("주문하실 사업장 하나 이상 선택하세요!!");
 		for(var i=0; i<chkboxArr.length; i++){
 			//활성화 하여라.
 			chkboxArr[i].disabled = false;
@@ -126,7 +126,7 @@ function goRecomBuy(userSeq,restSeq) {
 		}// end of ------------------------------
 	}
 	if(cnt==0){ //모두 체크가 안된경우
-		alert("주문하실 제품을 하나 이상 선택하세요!!");
+		alert("주문하실 사업장 하나 이상 선택하세요!!");
 		for(var i=0; i<chkboxArr.length; i++){
 			//활성화 하여라.
 			chkboxArr[i].disabled = false;
@@ -163,13 +163,15 @@ function goRecomBuy(userSeq,restSeq) {
 			</li>
 			<li>
 				<form name="bannFrm" id="bannFrm" method="post" style="margin-top:20px;">
-				<div style="overflow:hidden; margin-bottom:20px;">
-				<!-- 사업장 정보 -->
-					<b>사업장 선택</b> :&nbsp;&nbsp;
-					<c:forEach var="vo" items="${list}" varStatus="status">
-						<input type="radio" name="restSeq" id="restSeq${status.count}" value="${vo.RESTSEQ}" /><label for="restSeq${status.count}">${vo.RESTNAME}</label>&nbsp;
-					</c:forEach>
-				</div>
+				<c:if test="${list != null && not empty list}">
+					<div style="overflow:hidden; margin-bottom:20px;">
+					<!-- 사업장 정보 -->
+						<b>사업장 선택</b> :&nbsp;&nbsp;
+						<c:forEach var="vo" items="${list}" varStatus="status">
+							<input type="radio" name="restSeq" id="restSeq${status.count}" value="${vo.RESTSEQ}" /><label for="restSeq${status.count}">${vo.RESTNAME}</label>&nbsp;
+						</c:forEach>
+					</div>
+				</c:if>
 				<input type="hidden" name="userSeq"  value="${sessionScope.loginUser.userSeq}" />
 				
 					<b>파워배너</b>  : <button class="btnPoint" type="button" name="bannCoin" onClick="goBannBuy('${userSeq}','${restSeq}');">포인트 결제</button>

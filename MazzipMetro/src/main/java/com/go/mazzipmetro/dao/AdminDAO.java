@@ -39,12 +39,12 @@ public class AdminDAO implements IDAO{
 		return sqlSession.selectOne("restaurant.adminRestEditInfo", restSeq);
 	}
 
-
+	//관리자용 - 컨텐츠 리스트
 	public List<HashMap<String, String>> conTentList(HashMap<String, String> map) {
 		List<HashMap<String, String>> list = sqlSession.selectList("admin.conTentList", map); 
 		return list;
 	}
-
+	//관리자용 - 컨텐츠 리스트 -페이징
 	public int getConTotalCount(HashMap<String, String> map) {
 		int count = sqlSession.selectOne("admin.getConTotalCount", map); 
 		return count;
