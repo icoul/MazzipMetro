@@ -8,7 +8,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.go.mazzipmetro.vo.GradeVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
+import com.go.mazzipmetro.vo.UserAliasVO;
 import com.go.mazzipmetro.vo.UserAttendVO;
 import com.go.mazzipmetro.vo.UserVO;
 
@@ -79,8 +81,8 @@ public class UserDAO implements IDAO{
 		return qnaCount;
 	}
 	
-	public List<String> myReviewList(String userSeq) {
-		List<String> myReviewList = sqlSession.selectList("user.myReviewList", userSeq);
+	public List<HashMap<String,String>> myReviewList(HashMap<String, String> map) {
+		List<HashMap<String,String>> myReviewList = sqlSession.selectList("user.myReviewList", map);
 		return myReviewList;
 	}
 
@@ -99,8 +101,8 @@ public class UserDAO implements IDAO{
 
 
 
-	public int updateUserPoint1(String userSeq) {
-		int m =  sqlSession.update("updateUserPoint1", userSeq);
+	public int updateUserPointandExp(String userSeq) {
+		int m =  sqlSession.update("updateUserPointandExp", userSeq);
 		return m;
 	}
 
@@ -143,7 +145,88 @@ public class UserDAO implements IDAO{
 	}
 
 
+	public int updateUserGrade(HashMap<String, String> hashMap) {
+		int n = sqlSession.update("updateUserGrade", hashMap);
+		return n;
+	}
 
+
+
+	public String getUserGradeName(String gradeSeq) {
+		String userGradeName = sqlSession.selectOne("getUserGradeName", gradeSeq);
+		return userGradeName;
+	}
+
+
+
+	public List<GradeVO> getUserGradeList() {
+		List<GradeVO> userGradeList = sqlSession.selectList("getUserGradeList");
+		return userGradeList;
+	}
+
+
+	public int reviewDelete(String reviewSeq) {
+		int del = sqlSession.update("user.reviewDelete", reviewSeq);
+		return del;
+	}
+
+	public int userReviewCount(HashMap<String, String> map) {
+		int count = sqlSession.selectOne("user.userReviewCount", map);
+		return count;
+	}
+
+	public int emailDuplicatecheck(String userEmail) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+
+	// 동현_칭호 동이름, 지하철이름, 구이름을 구하기
+	public String getAliasIdName(HashMap<String, String> map) {
+		return sqlSession.selectOne("user.getAliasIdName", map);
+	}
+
+
+
+	public List<UserAliasVO> getUserGuAliasList(String userSeq) {
+		List<UserAliasVO> userGuAliasList = sqlSession.selectList("getUserGuAliasList", userSeq);
+		return userGuAliasList;
+	}
+
+
+
+	public List<UserAliasVO> getUserDongAliasList(String userSeq) {
+		List<UserAliasVO> userDongAliasList = sqlSession.selectList("getUserDongAliasList", userSeq);
+		return userDongAliasList;
+	}
+
+
+
+	public List<UserAliasVO> getUserMetroAliasList(String userSeq) {
+		List<UserAliasVO> userMetroAliasList = sqlSession.selectList("getUserMetroAliasList", userSeq);
+		return userMetroAliasList;
+	}
+
+
+
+	public List<UserAliasVO> getUserRestTagAliasList(String userSeq) {
+		List<UserAliasVO> userRestTagAliasList = sqlSession.selectList("getUserRestTagAliasList", userSeq);
+		return userRestTagAliasList;
+	}
+
+
+
+	public int getUserAliasCount(HashMap<String,String> hashMap) {
+		int userDongAliasCount = sqlSession.selectOne("getUserAliasCount", hashMap);
+		return userDongAliasCount;
+	}
+
+
+
+	public int updateUserPoint(HashMap<String,String> hashMap) {
+		int n = sqlSession.update("updateUserPoint",hashMap);
+		return n;
+	}
 
 }
 

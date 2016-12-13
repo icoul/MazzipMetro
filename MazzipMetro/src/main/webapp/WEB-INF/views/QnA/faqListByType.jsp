@@ -29,12 +29,16 @@
 			<table class="table" >
 				<c:forEach var="vo" items="${faqList}" varStatus="status">
 				    <tr class="info" id="faqQuestion${status.count }">
-				        <th ><span style="color:red; ">Q.</span><a href="<%=request.getContextPath() %>/openFaqAnswer.eat?faqSeq=${faqSeq }&index=${status.count}">${vo.faqQuestion }</a></th>
+				        <th ><span style="color:red; ">Q.</span><a href="<%=request.getContextPath()%>/faqListByType.eat?faqType=${faqType}&count=${status.count}" >${vo.faqQuestion }</a></th>
+
 				    </tr>
 				    
-				    <tr  id="faqAnswer${status.count }">
-				        
-				    </tr>
+				 <c:if test="${status.count eq count }">
+                    <tr>
+                        <th>&nbsp;&nbsp;<span style='color:red; '>A.</span>${vo.faqAnswer } </th>
+                    </tr>
+                 </c:if>
+
 				 </c:forEach>
 			</table>
 			<hr>

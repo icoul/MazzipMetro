@@ -68,4 +68,6 @@ footer {height:170px; background-color: #eff3f2; padding-top:30px; clear: both; 
 footer .comIntro a {padding:0 5px; font-size:12px; color:#000; font-weight:bold; text-decoarion:none;}
 footer .copyRight {color:#8a8a8a;}
 
-#scroller {  position:relative;  height:400px;  width:270px;    left:50px; }
+#woo_scroller {  position:relative;  height:400px;  width:270px;    left:50px; }
+
+#woo_scroller table {border:0px; position:relative;}

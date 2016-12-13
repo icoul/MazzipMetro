@@ -134,6 +134,21 @@ public class MapDAO  implements IDAO {
 		return sqlSession.selectList("map.userMapMetroNameList", map);
 	}
 
+	// 관리자용 업장관리 페이지 : 동이름 가져오기
+	public List<HashMap<String, String>> adminDongNameList(HashMap<String, String> map) {
+		return sqlSession.selectList("map.adminDongNameList", map);
+	}
+
+	// 관리자용 업장관리 페이지 : 구/지하철이름 가져오기
+	public List<HashMap<String, String>> adminGuNameList() {
+		return sqlSession.selectList("map.adminGuNameList");
+	}
+
+	// 관리자용 업장관리 페이지 : 구/지하철이름 가져오기
+	public List<HashMap<String, String>> adminMetroNameList() {
+		return sqlSession.selectList("map.adminMetroNameList");
+	}
+
 	// 업장 restSeq 가져오기(태그가 있는 행만 가져오기) : tag 테이블 삭제
 	/*public List<String> temp_getRestSeqForTags() {
 		return sqlSession.selectList("restaurant.temp_getRestSeqForTags");

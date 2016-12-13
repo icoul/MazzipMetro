@@ -1,10 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <jsp:include page="library.jsp" />
+
 <jsp:include page="top.jsp" />
+
+
 	<script>
         $(document).ready(function() {
+
+        	// 실시간 리뷰 애니메이트
+            MainReview();
+            scrolling();
+
         	MainReview();
+
         	// tooltipster 중복호출 방지용
         	var metroIdArr = [];
         	
@@ -258,7 +268,6 @@
             });
             
             
-            
         });// $(document).ready()
         
         //등록된 맛집이 없는 경우(지도에러유발) 링크 폐쇄
@@ -266,6 +275,83 @@
         	alert(metroName + '에 등록된 맛집이 없습니다.');
         }
         
+
+        function MainReview(){
+        	
+    	 $.ajax({ 
+    			url: "<%= request.getContextPath()%>/MainReviewAjax.eat",  
+    			method:"get",  	 
+    			dataType: "html",
+    			success: function(data) {
+    				
+    				$("#scroller").html(data);
+    				
+    				}
+    		});//end of $.ajax()
+        	
+        }// end of MainReview
+        
+        <%-- function animate(){
+        	var $wrapper = $("#woo_scroller table");
+        	$wrapper.css({'top':0});
+        	
+        	var animator =	function(imgblock){
+				imgblock.animate({'top':-100}, 5500,
+								   function(){
+									  imgblock.css({'top':0});
+									// $(this).css({'top':550});
+									  animator(imgblock); //재귀함수 호출 -> 반복효과
+									  // animator($(this));
+				                   }
+				                 );	
+            } // 함수정의
+        	animator($wrapper); 
+        }
+         function MainReview(){
+        	
+       	 $.ajax({ 
+       			url: "<%= request.getContextPath()%>/MainReviewAjax.eat",  
+       			method:"get",  	 
+       			dataType: "html",
+       			success: function(data) {
+       				
+       				$("#scroller").html(data);
+       				
+       				}
+       		});//end of $.ajax()
+           	
+           }// end of MainReview --%>
+           
+           function MainReview(){
+               $.ajax({ 
+                   url: "<%= request.getContextPath()%>/MainReviewAjax.eat",  
+                   method:"get",      
+                   dataType: "html",
+                   success: function(data) {
+                      
+                      $("#scroller").html(data);
+                      
+                      }
+                });//end of $.ajax()
+                 
+              }// end of MainReview
+              
+              function scrolling(){
+                 var $wrapper = $("#scroller");
+                 $wrapper.css({'top':0});
+                 
+                 var animator =   function(imgblock){
+                  imgblock.animate({'top':-100}, 5500,
+                                 function(){
+                                   imgblock.css({'top':0});
+                                   animator(imgblock); //재귀함수 호출 -> 반복효과
+                                     }
+                                   );   
+                  } // 함수정의
+                 animator($wrapper); 
+              } 
+        
+
         	
       function MainReview(){
         $.ajax({ 
@@ -281,6 +367,7 @@
           
        }// end of MainReview
        
+
 
 
        
@@ -349,7 +436,8 @@
 		</div>
 		<%-- end of leftCon --%>
 		
-		<div class="rightCon" id="Scroller"></div>
+		<div class="rightCon" id="scroller">
+		</div>
 		<%-- end of rightCon --%>	
 
 <jsp:include page="footer.jsp" />
