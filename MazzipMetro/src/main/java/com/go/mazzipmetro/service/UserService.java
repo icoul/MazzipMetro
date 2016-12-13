@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.go.mazzipmetro.dao.UserDAO;
+import com.go.mazzipmetro.vo.GradeVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
+import com.go.mazzipmetro.vo.UserAliasVO;
 import com.go.mazzipmetro.vo.UserAttendVO;
 import com.go.mazzipmetro.vo.UserVO;
 
@@ -91,7 +93,7 @@ public class UserService implements IService {
 	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
 	public int insertAttend(String userSeq) {
 		int n =  dao.insertAttend(userSeq);
-		int m = dao.updateUserPoint1(userSeq);
+		int m = dao.updateUserPointandExp(userSeq);
 		
 		return (n+m);
 	}
@@ -128,13 +130,165 @@ public class UserService implements IService {
 	}
 
 
-	public List<String> myReviewList(String userSeq) {
-		List<String> myReviewList = dao.myReviewList(userSeq);
+	public List<HashMap<String,String>> myReviewList(HashMap<String, String> map) {
+		List<HashMap<String,String>> myReviewList = dao.myReviewList(map);
 		return myReviewList;
+	}
+
+
+	public int reviewDelete(String reviewSeq) {
+		int del = dao.reviewDelete(reviewSeq);
+		return del;
+	}
+
+
+	public int userReviewCount(HashMap<String, String> map) {
+		int count = dao.userReviewCount(map);
+		return count;
+	}
+
+
+	public int emailDuplicatecheck(String userEmail) {
+		int result = dao.emailDuplicatecheck(userEmail);
+		return result;
 	}
 
 
 	
 
+	public HashMap<String, String> userGradeCheck(String email) {
+		
+		UserVO uservo = dao.getLoginUser(email);
+		
+		HashMap<String, String> hashMap = new HashMap<String,String>();
+		hashMap.put("userSeq", uservo.getUserSeq());
+		
+		List<GradeVO> userGradeList = dao.getUserGradeList();
+		
+		int n = 0;
+		String gradeSeq = "";
+		
+		for(int i = 0; i < userGradeList.size(); ++i){
+			
+			if("UG2".equals(userGradeList.get(i).getGradeSeq()) 
+				&& uservo.getGradeSeq().equals("UG1")
+				&& Integer.parseInt(userGradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
+				
+				gradeSeq = "UG2";
+				hashMap.put("gradeSeq", gradeSeq);
+				n = dao.updateUserGrade(hashMap);
+			}else if("UG3".equals(userGradeList.get(i).getGradeSeq()) 
+				&& uservo.getGradeSeq().equals("UG2")
+				&& Integer.parseInt(userGradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
+				
+				gradeSeq = "UG3";
+				hashMap.put("gradeSeq", gradeSeq);
+				n = dao.updateUserGrade(hashMap);
+			}else if("UG4".equals(userGradeList.get(i).getGradeSeq()) 
+				&& uservo.getGradeSeq().equals("UG3")
+				&& Integer.parseInt(userGradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
+				
+				gradeSeq = "UG4";
+				hashMap.put("gradeSeq", gradeSeq);
+				n = dao.updateUserGrade(hashMap);
+			}else if("UG5".equals(userGradeList.get(i).getGradeSeq()) 
+				&& uservo.getGradeSeq().equals("UG4")
+				&& Integer.parseInt(userGradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
+				
+				gradeSeq = "UG5";
+				hashMap.put("gradeSeq", gradeSeq);
+				n = dao.updateUserGrade(hashMap);
+			}else if("UG6".equals(userGradeList.get(i).getGradeSeq()) 
+				&& uservo.getGradeSeq().equals("UG5")
+				&& Integer.parseInt(userGradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
+				
+				gradeSeq = "UG6";
+				n = 1;
+			}else if("UG7".equals(userGradeList.get(i).getGradeSeq()) 
+				&& uservo.getGradeSeq().equals("UG6")
+				&& Integer.parseInt(userGradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
+				
+				gradeSeq = "UG7";
+				n = 1;
+			}
+		}
+		
+		
+		String userGradeName = dao.getUserGradeName(gradeSeq); //등급이름 가져오기
+		
+		HashMap<String, String> resultHashMap = new HashMap<String, String>();
+		resultHashMap.put("result", String.valueOf(n)); //등급업이 되면 반환되는 결과값 1이 등급업, 0이 실패
+		resultHashMap.put("userGradeName", userGradeName);       //알림창에 어떤 등급으로 업했는지 알려주기
+		resultHashMap.put("gradeSeq", gradeSeq);
+		return resultHashMap;
+	}
+
+
+	public List<UserAliasVO> getUserGuAliasList(String userSeq) {
+		List<UserAliasVO> userGuAliasList = dao.getUserGuAliasList(userSeq);
+		return userGuAliasList;
+	}
+
+
+	public List<UserAliasVO> getUserDongAliasList(String userSeq) {
+		List<UserAliasVO> userDongAliasList = dao.getUserDongAliasList(userSeq);
+		return userDongAliasList;
+	}
+
+
+	public List<UserAliasVO> getUserMetroAliasList(String userSeq) {
+		List<UserAliasVO> userMetroAliasList = dao.getUserMetroAliasList(userSeq);
+		return userMetroAliasList;
+	}
+
+
+	public List<UserAliasVO> getUserRestTagAliasList(String userSeq) {
+		List<UserAliasVO> userRestTagAliasList = dao.getUserRestTagAliasList(userSeq);
+		return userRestTagAliasList;
+	}
+
+
+	public int getUserAliasCount(HashMap<String,String> hashMap) {
+		int userAliasCount = dao.getUserAliasCount(hashMap);
+		return userAliasCount;
+	}
+
+	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
+	public int updateUserGrade(String email) {
+		UserVO uservo = dao.getLoginUser(email);
+
+		HashMap<String, String> hashMap = new HashMap<String, String>();
+		hashMap.put("userSeq", uservo.getUserSeq());
+		
+		List<GradeVO> userGradeList = dao.getUserGradeList();
+
+		int n = 0;
+		int m = 0;
+
+		for (int i = 0; i < userGradeList.size(); ++i) {
+
+			if ("UG6".equals(userGradeList.get(i).getGradeSeq()) && uservo.getGradeSeq().equals("UG5")
+					&& Integer.parseInt(userGradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())) {
+				hashMap.put("gradeSeq", "UG6");
+				
+				n = dao.updateUserPoint(hashMap);
+				m = dao.updateUserGrade(hashMap);
+			} else if ("UG7".equals(userGradeList.get(i).getGradeSeq()) && uservo.getGradeSeq().equals("UG6")
+					&& Integer.parseInt(userGradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())) {
+				hashMap.put("gradeSeq", "UG7");
+				
+				n = dao.updateUserPoint(hashMap);
+				m = dao.updateUserGrade(hashMap);
+			
+			}
+
+		}
+		return (n+m);
+	}
+	
 }
+
+
+	
+
 

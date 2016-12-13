@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.go.mazzipmetro.common.FileManager;
 import com.go.mazzipmetro.service.UserService;
+import com.go.mazzipmetro.vo.UserAliasVO;
 import com.go.mazzipmetro.vo.UserAttendVO;
 import com.go.mazzipmetro.vo.UserVO;
 
@@ -36,22 +37,28 @@ public class UserController {
 	@Autowired
 	private FileManager fileManager;
 	
-//	회원유형선택
-	@RequestMapping(value="/accountSelect.eat", method={RequestMethod.GET})
-	public String accountSelect(){
-		return "user/accountSelect";
-	}
-	
 //	회원동의
-	@RequestMapping(value="/userRegister1.eat", method={RequestMethod.GET})
-	public String userRegister1(HttpServletRequest req){
+	@RequestMapping(value="/userRegisterAgree.eat", method={RequestMethod.GET})
+	public String userRegisterAgree(HttpServletRequest req){
 		String type =  req.getParameter("type");
 		req.setAttribute("type", type);
-		return "user/userRegister1";
+		return "user/userRegister_Agree";
+	}
+	
+//	회원가입 중 이메일 중복체크
+	@RequestMapping(value="/emailDuplicatecheck.eat", method={RequestMethod.POST})
+	public String emailDuplicatecheck(HttpServletRequest req){
+		String userEmail =  req.getParameter("userEmail");
+		System.out.println(userEmail);
+		int result = service.emailDuplicatecheck(userEmail);
+		
+		req.setAttribute("result", result);
+		System.out.println(userEmail);
+		return "user/emailDuplicatecheck";
 	}
 	
 //	회원가입
-	@RequestMapping(value="/userRegister2.eat", method={RequestMethod.POST})
+	@RequestMapping(value="/userRegisterForm.eat", method={RequestMethod.POST})
 	public String userRegister2(HttpServletRequest req){
 		String userSort =  req.getParameter("userSort");
 		
@@ -152,7 +159,7 @@ public class UserController {
 		
 		req.setAttribute("userSort", userSort);
 		
-		return "user/userRegister2";
+		return "user/userRegister_Form";
 	}
 	
 //	회원가입
@@ -514,7 +521,6 @@ public class UserController {
 			
 			if(loginUser.getUserSort().equals("0")){ //userSort가 0인 일반사용자일때만 출석체크를 한다.
 				loc = "attendCheck.eat";
-				
 			}else{
 				loc = "index.eat";
 			}
@@ -562,6 +568,7 @@ public class UserController {
 		return "user/userLogin";
 	}
 	
+	//출석체크
 	@RequestMapping(value="/attendCheck.eat", method={RequestMethod.GET})
 	public String userAttendCheck(HttpServletRequest req, HttpSession session){
 		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
@@ -570,20 +577,23 @@ public class UserController {
 		
 		int result = 0;
 		if(isUserExist == 0){
-			//로그인한 유저가 가입후 처음으로 접속했으면 userAttend테이블에 insert를 시킨다. 그리고 유저에가 3마일리지를 준다.
+			//로그인한 유저가 가입후 처음으로 접속했으면 userAttend테이블에 insert를 시킨다. 그리고 유저에게 3마일리지와 경험치15를 업데이트시킨다..
 			result =  service.insertAttend(loginUser.getUserSeq());
 			
 			UserVO userVO = service.getLoginUser(loginUser.getUserEmail());
 			loginUser.setUserPoint(userVO.getUserPoint());
+			loginUser.setUserExp(userVO.getUserExp());
 			
 			session.setAttribute("loginUser", loginUser);
 			
+			
 			if(result == 2){
 				req.setAttribute("msg", "처음 출석체크가 되었습니다." + "마일리지 : 3점이 지급되었습니다.");
-				req.setAttribute("loc", "index.eat");
+				req.setAttribute("script", "location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
+				
 			}else{
 				req.setAttribute("msg", "처음 출석체크가 실패되었습니다.");
-				req.setAttribute("loc", "index.eat");
+				req.setAttribute("script", "location.href='index.eat'; self.close(); opener.location.reload(true);  ");
 			}
 			
 		}else{//tbl_userAttend에 있는 유저가 접속했으면 tbl_userAttend에 update를 시킨다.
@@ -592,8 +602,10 @@ public class UserController {
 			int isLoginToday = service.userLoginToday(loginUser.getUserSeq()); 
 			
 			if(isLoginToday == 1){//isLoginToday가 1이면 오늘 로그인 했었다.
+				/*req.setAttribute("msg", "오늘 이미 출석체크를 하셨습니다.");
+				req.setAttribute("loc", "index.eat");*/
 				req.setAttribute("msg", "오늘 이미 출석체크를 하셨습니다.");
-				req.setAttribute("loc", "index.eat");
+				req.setAttribute("script", "location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
 			}else{//오늘 처음 로그인
 				/*로그인      -> 출석        ->3mileage
 	            -> 연속출석    ->3일출석    ->10mileage
@@ -628,13 +640,14 @@ public class UserController {
 					hashMap.put("contineuAttendDay", vo.getContinueAttendDay());
 					hashMap.put("userSeq", loginUser.getUserSeq());
 					
-					//로그인한 유저의 포인트와 랜덤박스 업데이트
+					//로그인한 유저의 포인트와 경험치, 랜덤박스 업데이트
 					int result2 = service.updateUserPoint_RandomBox(hashMap);
 					
 					
 					/*디비에서 변경된 값을  세션에 있는 로그인유저에게 변경*/
 					UserVO userVO = service.getLoginUser(loginUser.getUserEmail());
 					loginUser.setUserPoint(userVO.getUserPoint());
+					loginUser.setUserExp(userVO.getUserExp());
 					
 					session.setAttribute("loginUser", loginUser);
 					
@@ -655,50 +668,302 @@ public class UserController {
 						
 						if(Integer.parseInt(vo.getContinueAttendDay()) == 1){
 							req.setAttribute("msg", "출석체크 되었습니다." + "마일리지 :" + point + "점이 지급되었습니다.");
-							req.setAttribute("loc", "index.eat");
+							req.setAttribute("script", "location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
 						}else{
 							
 							if("14".equals(vo.getContinueAttendDay())){
-								req.setAttribute("msg", vo.getContinueAttendDay() + "일 연속 출석입니다. " + "마일리지 :" + point + "점이 지급되었습니다." +  " 랜덤 박스가 지급되었습니다.");
-								req.setAttribute("loc", "index.eat");
+								req.setAttribute("msg", vo.getContinueAttendDay() + "일 연속 출석입니다. " + "마일리지 :" + point + "점이 지급되었습니다.");
+								req.setAttribute("script", "alert('랜덤 박스가 지급되었습니다.'); location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
 							}else if("30".equals(vo.getContinueAttendDay())){
-								req.setAttribute("msg", vo.getContinueAttendDay() + "일 연속 출석입니다. " + "마일리지 :" + point + "점이 지급되었습니다." + " 프리미엄 박스가 지급되었습니다.");
-								req.setAttribute("loc", "index.eat");
+								req.setAttribute("msg", vo.getContinueAttendDay() + "일 연속 출석입니다. " + "마일리지 :" + point + "점이 지급되었습니다.");
+								req.setAttribute("script", "alert('프리미엄 박스가 지급되었습니다.'); location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
 							}else{
 								req.setAttribute("msg", vo.getContinueAttendDay() + "일 연속 출석입니다." + "마일리지 :" + point + "점이 지급되었습니다.");
-								req.setAttribute("loc", "index.eat");
+								req.setAttribute("script", "location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
 							}
 						}
 						
 						
 					}else{
 						req.setAttribute("msg", "m==1일때  result2 == 2가 아닐떄 출석체크 오류입니다.");
-						req.setAttribute("loc", "index.eat");
+						req.setAttribute("script", "location.href='index.eat'; self.close(); opener.location.reload(true);  ");
 					}
 					
 					
 				}else{
 					req.setAttribute("msg", "m==1일이 아닐떄 출석체크 오류입니다.");
-					req.setAttribute("loc", "index.eat");
+					req.setAttribute("script", "location.href='index.eat'; self.close(); opener.location.reload(true);  ");
 				}
 				
 			}
 		}
+		
+		
+		return "/admin/msgEnd";
+		//return "msg";
+	}
 	
-		return "msg";
+	//유저등급체크
+	@RequestMapping(value="/userGradeCheck.eat", method={RequestMethod.GET})
+	public String userGradeCheck(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+		System.out.println("********************************************");
+		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+		HashMap<String, String> resultHashMap = service.userGradeCheck(loginUser.getUserEmail()); //유저의 경험치를 가져온후에 그 경험치가 등급기준에 맞는지 확인해서 등급이름을 업데이트 시킨다.
+		
+		
+		if(resultHashMap.get("result").equals("1")){ //등급업
+			
+			if((resultHashMap.get("gradeSeq").equals("UG6") || resultHashMap.get("gradeSeq").equals("UG7"))){
+				String userGradeName = resultHashMap.get("userGradeName");
+								
+				req.setAttribute("msg", userGradeName + "으로 등급업 하실수 있습니다!!!!");
+				
+				if(resultHashMap.get("gradeSeq").equals("UG6")){
+					req.setAttribute("script", "alert('동,역 마스터 칭호 각각 5개와 1500마일리지로 마이페이지에서 등급업을 해주세요'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+				}else if(resultHashMap.get("gradeSeq").equals("UG7")){
+					req.setAttribute("script", "alert('구 마스터 칭호 1개와 3000마일리지로 마이페이지에서 등급업을 해주세요'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+				}
+
+			}else{
+				String userGradeName = resultHashMap.get("userGradeName");
+				
+				loginUser.setGradeName(userGradeName);
+				session.setAttribute("loginUser", loginUser);
+				
+				req.setAttribute("msg", userGradeName + "로 등급업 하셨습니다!!!!");
+				req.setAttribute("script", "location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+			}
+			
+		}else{ //등급업을 안하고 기존 등급 유지
+			req.setAttribute("msg", "기존등급 유지");
+			req.setAttribute("script", "location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+		}
+		
+		return "/admin/msgEnd";
 	}
 	
 	@RequestMapping(value="/myReviewList.eat", method={RequestMethod.GET})
-	public String myReviewList(UserVO vo, HttpServletRequest req, HttpSession session) {
-		UserVO loginUser =  (UserVO)session.getAttribute("loginUser");
+	public String login_myReviewList(HttpServletRequest req, HttpServletResponse res, HttpSession session) {
+		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
 		String userSeq = loginUser.getUserSeq();
+		HashMap<String,String> map = new HashMap<String,String>();
 		
-		List<String> myReviewList = service.myReviewList(userSeq);
 		
-		System.out.println("######" + myReviewList);
+		
+		String pageNo = req.getParameter("pageNo");
+		int totalCount = 0; // 총게시물 건수
+		int sizePerPage = 5; // 한 페이지당 게시물 수
+		int currentShowPageNo = 1; // 현재 보여주는 페이지 번호로서, 초기치로는 1페이지로 설정한다.
+
+		int totalPage = 0; // 총 페이지수 (웹브라우저상에 보여줄 총 페이지 갯수)
+
+		int start = 0; // 시작 행 번호
+		int end = 0; // 끝 행 번호
+		int startPageNo = 0; // 페이지바에서 시작될 페이지 번호
+		/*
+		 * 페이지바란 이전5페이지 [1][2][3][4][5] 다음5페이지 이전5페이지 [6][7][8][9][10] 다음5페이지
+		 * 와같이 페이지바라고 부른다. statrtPageNo는 1또는 6이 된다.
+		 */
+		int loop = 0; // statrtPageNo이 값이 증가할때마다 1씩 증가하는 용도
+		int blockSize = 5; // 페이지바에 보여줄 페이지 갯수
+
+		if (pageNo == null) {
+			currentShowPageNo = 1;
+		} else {
+			currentShowPageNo = Integer.parseInt(pageNo); // GET방식으로 파라미터
+															// pageNo에 넘어온 값을 현재
+															// 보여주고자 하는 페이지로 한다.
+		}
+
+		// 가져올 게시글의 범위를 구한다.(공식)
+		/*
+		 * currentShowPageNo start end 1page 1 5 2page 6 10 3page 11 15 4page 16
+		 * 20 5page 21 25 6page 26 30 7page 31 35
+		 */
+		start = ((currentShowPageNo - 1) * sizePerPage) + 1;
+		end = start + sizePerPage - 1;
+
+		
+		
+		
+		// 페이징처리를 위해 start end를 map에 추가하여 파라미터로 넘겨서 select되도록 한다.
+		map.put("start", String.valueOf(start));
+		map.put("end", String.valueOf(end));
+		map.put("userSeq", userSeq);
+		
+		List<HashMap<String,String>> myReviewList = service.myReviewList(map);
+		// List<String> myReviewList = service.myReviewList(userSeq);
+
+		
+		// 총 게시물건수를 구한다.
+		totalCount = service.userReviewCount(map);
+		/*System.out.println("게시물 총갯수 : " + totalCount);*/
+		totalPage = (int) Math.ceil((double) totalCount / sizePerPage);
+
+		// 이제부터 페이지바 작업을 한다.
+		String pageBar = "";
+		pageBar += "<ul class='pagination'>";
+
+		/*
+		 * 우리는 위에서 blocksize를 5로 설정했으므로 이전5페이지 [1][2][3][4][5] 다음5페이지 로 나와야 한다.
+		 * 페이지 번호는 1씩 증가하므로 페이지번호를 증가시켜주는 반복변수가 필요하다. 위에서 선언한 loop를 사용한다. 이때
+		 * loop는 blocksize의 크기보다 크면 안된다.
+		 */
+		loop = 1;
+		/*************************
+		 * 페이지바의 시작 페이지 번호(startPageNo)값 만들기
+		 **************************/
+		startPageNo = ((currentShowPageNo - 1) / blockSize) * blockSize + 1;
+		/*
+		 * 현재 우리는 blockSize를 위에서 5로 설정했다. 만약에 조회하고자 하는 currentShowPageNo가
+		 * 3페이지이라면((3 - 1)/5) * 5 + 1 ==>1 만약에 조회하고자 하는 currentShowPageNo가
+		 * 7페이지이라면((7 - 1)/5) * 5 + 1 ==>6
+		 */
+
+		// ***** 이전 5페이지 만들기 *****
+	
+		if(startPageNo == 1) {
+			if(((startPageNo - blockSize) > 0) ) {
+				pageBar += String.format("<li><a href='/mazzipmetro/myReviewList.eat?pageNo=%d'>[이전%d페이지]</a></li>", startPageNo-1, blockSize ) + "&nbsp;";
+			}
+		} else {
+				pageBar += String.format("<li><a href='/mazzipmetro/myReviewList.eat?pageNo=%d'>[이전%d페이지]</a></li>", startPageNo-1, blockSize ) + "&nbsp;";
+			
+		}
+		
+		while (!(loop > blockSize || startPageNo > totalPage)) {
+
+			if (currentShowPageNo == startPageNo) {
+				pageBar += String.format("<li><span style='color:red; font-weight:bold; text-decoration:underline;'>%d</span></li>", startPageNo) + "&nbsp;";
+			} else {
+				pageBar += String.format("<li><a href='/mazzipmetro/myReviewList.eat?pageNo=%d'>%d</a></li>", startPageNo, startPageNo ) + "&nbsp;";
+			}
+			loop ++;
+			startPageNo++;
+		} // end of while
+
+		// ***** 다음 5페이지 만들기 *****
+
+		if(totalPage > startPageNo) {
+			pageBar += String.format("<li><a href='/mazzipmetro/myReviewList.eat?pageNo=%d'>[다음%d페이지]</a></li>", startPageNo, blockSize ) + "&nbsp;";
+		}
+
+		pageBar += "</ul>";
+
+		
+
 		req.setAttribute("myReviewList", myReviewList);
+		req.setAttribute("pageBar", pageBar);
 		
 		return "user/myReviewList";
 	}
 	
+
+	@RequestMapping(value="/userAliasList.eat", method={RequestMethod.GET})
+	public String login_userAliasList(HttpServletRequest req,HttpServletResponse res, HttpSession session) {
+		UserVO loginUser =  (UserVO)session.getAttribute("loginUser");
+		
+	
+		List<UserAliasVO> userGuAliasList = service.getUserGuAliasList(loginUser.getUserSeq());
+		
+
+		List<UserAliasVO> userDongAliasList = service.getUserDongAliasList(loginUser.getUserSeq());
+		
+	
+		List<UserAliasVO> userMetroAliasList = service.getUserMetroAliasList(loginUser.getUserSeq());
+		
+	
+		List<UserAliasVO> userRestTagAliasList = service.getUserRestTagAliasList(loginUser.getUserSeq());
+		
+		
+		
+		req.setAttribute("userGuAliasList", userGuAliasList);
+		req.setAttribute("userDongAliasList", userDongAliasList);
+		req.setAttribute("userMetroAliasList", userMetroAliasList);
+		req.setAttribute("userRestTagAliasList", userRestTagAliasList);
+		
+		
+		return "user/userAliasList";
+	}
+	
+	
+	
+	@RequestMapping(value="/updateUserGrade.eat", method={RequestMethod.GET})
+	public String updateUserGrade(HttpServletRequest req,HttpServletResponse res, HttpSession session) {
+		UserVO loginUser =  (UserVO)session.getAttribute("loginUser");
+		String gradeSeq = req.getParameter("gradeSeq");
+		
+		HashMap<String,String> hashMap = new HashMap<String,String>();
+		hashMap.put("userSeq", loginUser.getUserSeq());
+		
+	
+		int result = 0;
+		if("UG6".equals(gradeSeq)){
+			hashMap.put("aliasType", "dongId");
+			int userDongAliasCount = service.getUserAliasCount(hashMap);
+			
+			hashMap.put("aliasType", "metroId");
+			int userMetroAliasCount = service.getUserAliasCount(hashMap);
+			
+			
+			if(userDongAliasCount >= 5 && userMetroAliasCount >= 5){
+				result = service.updateUserGrade(loginUser.getUserEmail());
+				
+			}
+			
+			if(result >= 2){
+				UserVO userVO = service.getLoginUser(loginUser.getUserEmail());
+				loginUser.setGradeName("달인");
+				loginUser.setUserPoint(userVO.getUserPoint());	
+				session.setAttribute("loginUser", loginUser);
+				
+				req.setAttribute("msg", "달인으로 등급업 성공!!");
+				req.setAttribute("script", "location.href='javascript:history.back()'; self.close(); opener.location.reload(true);");
+			}else{
+				req.setAttribute("msg", "달인 등급업이 실패하였습니다 ㅠㅠ");
+				req.setAttribute("script", "location.href='javascript:history.back()'; self.close(); opener.location.reload(true);");
+			}
+			
+		}else if("UG7".equals(gradeSeq)){
+			hashMap.put("aliasType", "guId");
+			int userGuAliasCount = service.getUserAliasCount(hashMap);
+			
+			if(userGuAliasCount  >= 1){
+				result = service.updateUserGrade(loginUser.getUserEmail());
+			}
+			
+			if(result >= 2){
+				UserVO userVO = service.getLoginUser(loginUser.getUserEmail());
+				loginUser.setGradeName("달인");
+				loginUser.setUserPoint(userVO.getUserPoint());	
+				session.setAttribute("loginUser", loginUser);
+				
+				req.setAttribute("msg", "신으로 등급업 성공!!");
+				req.setAttribute("script", "location.href='javascript:history.back()'; self.close(); opener.location.reload(true);");
+			}else{
+				req.setAttribute("msg", "신 등급업이 실패하였습니다 ㅠㅠ");
+				req.setAttribute("script", "location.href='javascript:history.back()'; self.close(); opener.location.reload(true);");
+			}
+		}
+		
+		
+	
+		
+		
+		
+		return "admin/msgEnd";
+	}
+
+	@RequestMapping(value="/reviewDelete.eat", method={RequestMethod.POST})
+	public String reviewDelete(UserVO vo, HttpServletRequest req, HttpSession session) {
+		String reviewSeq = req.getParameter("reviewSeq");
+		
+		int del = service.reviewDelete(reviewSeq);
+		
+		req.setAttribute("del", del);
+		
+		return "user/reviewDelete";
+	}
+	
+
 }
