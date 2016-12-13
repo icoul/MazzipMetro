@@ -8,13 +8,11 @@
 
 	<script>
         $(document).ready(function() {
-        	
-        	$("#keyword").focus();
-        	
 
         	// 실시간 리뷰 애니메이트
             MainReview();
-            scrolling();
+        	scrolling();
+            
 
         	// tooltipster 중복호출 방지용
         	var metroIdArr = [];
@@ -269,57 +267,6 @@
             });
             
             
-<<<<<<< HEAD
-            $("#keyword").keyup(function(){
-        		
-    			$.ajax({
-    				url:"<%=request.getContextPath()%>/autoComplete.eat",
-    				type :"GET",
-    				data: "srchType=all&keyword="+$("#keyword").val(),
-    				dataType:"json",
-    				success: function(data){
-    					//alert(data.autoComSource);
-    					
-    					$.widget( "custom.catcomplete", $.ui.autocomplete, {
-    						      _create: function() {
-    						        this._super();
-    						        this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
-    						      },
-    						      _renderMenu: function( ul, items ) {
-    						        var that = this,
-    						          currentCategory = "";
-    						        $.each( items, function( index, item ) {
-    						          var li;
-    						          if ( item.category != currentCategory ) {
-    						            ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
-    						            currentCategory = item.category;
-    						          }
-    						          li = that._renderItemData( ul, item );
-    						          if ( item.category ) {
-    						            li.attr( "aria-label", item.category + " : " + item.label );
-    						          }
-    						        });// end of  $.each()
-    						      }
-    						    });// end of $.widget( "custom.catcomplete", $.ui.autocomplete, {})
-    						
-    						$("#keyword").catcomplete({
-    							delay : 0,
-    							minLength: 0,
-    							source : data.cat_autoComSource
-    						})						 
-    					
-    					
-    				}, //end of success: function(data)
-    				error: function(request, status, error){
-    					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-    				} // end of error: function(request,status,error)
-    			}); //end of $.ajax()
-    			
-    			
-    		});// end of $("#keyword").keyup
-            
-=======
->>>>>>> b1fb988f1f201e7caf9d6553a665dc2787ad5a15
         });// $(document).ready()
         
         //등록된 맛집이 없는 경우(지도에러유발) 링크 폐쇄
@@ -335,8 +282,7 @@
     			method:"get",  	 
     			dataType: "html",
     			success: function(data) {
-    				
-    				$("#scroller").html(data);
+    				$("#Scroller").html(data);
     				
     				}
     		});//end of $.ajax()
@@ -374,35 +320,8 @@
            	
            }// end of MainReview --%>
            
-           function MainReview(){
-               $.ajax({ 
-                   url: "<%= request.getContextPath()%>/MainReviewAjax.eat",  
-                   method:"get",      
-                   dataType: "html",
-                   success: function(data) {
-                      
-                      $("#scroller").html(data);
-                      
-                      }
-                });//end of $.ajax()
-                 
-              }// end of MainReview
-              
-              function scrolling(){
-                 var $wrapper = $("#scroller");
-                 $wrapper.css({'top':0});
-                 
-                 var animator =   function(imgblock){
-                  imgblock.animate({'top':-100}, 5500,
-                                 function(){
-                                   imgblock.css({'top':0});
-                                   animator(imgblock); //재귀함수 호출 -> 반복효과
-                                     }
-                                   );   
-                  } // 함수정의
-                 animator($wrapper); 
-              } 
-        
+                        
+             
 
         	
       function MainReview(){
@@ -419,43 +338,12 @@
           
        }// end of MainReview
        
-       function goSearch(){
-    	   if($("#keyword").val().trim().length == 0){
-    		   return;
-    	   }
-    	   
-    	   searchFrm.action = "<%=request.getContextPath()%>/search.eat";
-    	   searchFrm.submit();
-       }
-       
-   	// input 태그 엔터키 refresh 방지
-   	function goButton() {
-   		 if (event.keyCode == 13) {
-   			goSearch();
-   		  	return false;
-   		 }
-   		 return true;
-   	}
-       
 
 
 
        
 </script> 
-		
 		<div id="leftCon">
-			<div  id="search_div" align="center">
-			<br/> 
-			  <form name="searchFrm" id="searchFrm" onsubmit="return false;">
-			    <div class="input-group" style="width: 100%;">
-			      <input type="text" class="form-control" name="keyword" id="keyword" size="50" placeholder="검색어를 입력하세요!" onkeydown="goButton();" required>
-			      <div class="input-group-btn">
-			        <button type="button" class="btn" onclick="goSearch();">검색</button>
-			      </div>
-			    </div>
-			  </form>
-			</div>
-			
 			<div class="mainBann">
 				<img alt="" src="<%=request.getContextPath() %>/resources/images/metroMap.jpg"  usemap="#mazzipMetroImgMap" style="margin-top: 15px;margin-bottom: 15px;">
 				<map id="mazzipMetroImgMap" name="mazzipMetroImgMap">
@@ -519,8 +407,11 @@
 		</div>
 		<%-- end of leftCon --%>
 		
-		<div class="rightCon" id="scroller">
+		<div class="rightCon" id="Scroller">
+		<input type="hidden" name="StartRno" value="1" />
+		<input type="hidden" name="EndRno" value="10" />
 		</div>
+		
 		<%-- end of rightCon --%>	
 
 <jsp:include page="footer.jsp" />

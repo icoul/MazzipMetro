@@ -21,8 +21,6 @@ import com.go.mazzipmetro.service.MazzipMetroService;
 import com.go.mazzipmetro.service.ReviewService;
 import com.go.mazzipmetro.vo.FaqVO;
 import com.go.mazzipmetro.vo.QnaVO;
-import com.go.mazzipmetro.vo.RestaurantVO;
-import com.go.mazzipmetro.vo.ReviewVO;
 import com.go.mazzipmetro.vo.UserVO;
 
 @Controller
@@ -43,78 +41,6 @@ public class MazzipMetroController {
 	public String index(){
 		return "index";
 	}
-	
-	// 검색 페이지 요청
-	@RequestMapping(value="/search.eat", method={RequestMethod.GET})
-	public String search(HttpServletRequest req){
-		String keyword = req.getParameter("keyword");
-		
-		// 특정 문자열은 제거한다. 
-		// 맛집,
-		String keyword2  = keyword.replaceAll("맛집", "").trim();
-		
-		
-		String[] kwArr =  keyword2.trim().split(" ");
-		String srchType = ""; 
-		String locStr = "";
-		String kw = "";
-		
-		List<RestaurantVO> restList =  null;
-		List<ReviewVO> reviewList  = null;
-		HashMap<String, String> map = new HashMap<>();
-		
-		if (kwArr.length > 1) {
-			//위치정보를 가지고 있는 경우
-			for (int i = 0; i < kwArr.length; i++) {
-				
-				String result = service.getLocationInfo(kwArr[i]);
-				if(!"".equals(result)){
-					srchType = result;
-					locStr = kwArr[i];
-					break;
-				}
-			}
-			
-			// 위치정보를 제외한 나머지 문자열을 하나의 문자열로 묶는다.
-			if (!"".equals(srchType)) {
-				for (String str : kwArr) {
-					if (!str.equals(locStr)) {
-						kw += str;
-					}
-				}
-				kw = kw.trim();
-			}
-			
-			map.put("srchType", srchType);
-			map.put("locStr", locStr);
-			map.put("kw", kw);
-			
-			restList = service.getRestSearchResult(map);
-			reviewList  = service.getReviewSearchResult(map);
-			
-		} else {
-			// 단일 검색어인경우
-			
-			// 단일 검색어가 위치정보인 경우
-			String result = service.getLocationInfo(keyword2);
-			if(!"".equals(result)){
-				srchType = result;
-				locStr = keyword2;
-				map.put("srchType", srchType);
-			}
-			
-			map.put("kw", keyword2);
-			restList = service.getRestIntergratedSearch(map);
-			reviewList  = service.getReviewIntergratedSearch(map);
-		}
-		
-		
-		req.setAttribute("keyword", keyword);
-		req.setAttribute("restList", restList);
-		req.setAttribute("reviewList", reviewList);
-		return "search";
-	}
-	
 	
 	
 	// 동현_image crop test중
@@ -1219,7 +1145,7 @@ public class MazzipMetroController {
 				start = "1";
 			}
 			if (len == null) {
-				len = "5";
+				len = "10";
 			}
 					
 			int startRno = Integer.parseInt(start);          // 공식!! 시작 행번호   1               3               5
@@ -1227,10 +1153,6 @@ public class MazzipMetroController {
 			
 			String StartRno = String.valueOf(startRno);
 			String EndRno = String.valueOf(endRno);
-			
-			List<HashMap<String,String>> reviewImageList = reviewService.getReviewImageList();
-			
-			
 			
 			HashMap<String, String> map = new HashMap<String, String>();
 			
@@ -1247,7 +1169,6 @@ public class MazzipMetroController {
 			
 			
 			req.setAttribute("reviewList",  reviewList);
-			req.setAttribute("reviewImageList", reviewImageList);
 			return "review/realTimeReview";
 		}
 

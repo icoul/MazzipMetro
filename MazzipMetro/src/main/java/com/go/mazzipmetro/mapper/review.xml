@@ -152,6 +152,7 @@
 		 <result column="reviewAvgScore"	  	property="reviewAvgScore" 			javaType="String" />
 		 <result column="reviewRegDate"	  	    property="reviewRegDate" 			javaType="String" />
 		 <result column="restSeq"	  	  		property="restSeq" 					javaType="String" />
+		 <result column="reviewImg"	  	  		property="reviewImg" 				javaType="String" />
 	</resultMap>
 	
 	<!-- 페이징 처리된 리뷰 보이기 -->
@@ -169,18 +170,23 @@
 	
 		<!-- 메인페이지 리뷰 보이기 -->
 	<select id="getRealReview" parameterType="java.util.HashMap" resultMap="dataresultmap2" >
-		select T.*
-		from
-		(select V.*
-		from
-		(select row_number() over(order by reviewSeq DESC) AS rno,
-		 	   userName, userProfile, reviewSeq, reviewTitle, reviewHit, reviewContent, reviewAvgScore, reviewRegDate, restSeq
-		from tbl_user A join tbl_review B
-		on A.userseq = B.userSeq
-		where reviewStatus = 0 and userSort = 0
-		)V
-		)T
-		<!-- WHERE V.rno BETWEEN #{StartRno} AND #{EndRno} -->
+		select V.*
+		   from
+		      (select row_number() over(order by A.reviewSeq DESC) AS rno,
+		           B.userName, B.userProfile, A.reviewSeq, A.reviewTitle, A.reviewHit, A.reviewContent, A.reviewAvgScore, A.reviewRegDate, A.restSeq, M.reviewImg
+		       from 
+		           (
+		            select max(reviewSeq) as reviewSeq, max(reviewImg) as reviewImg
+		            from tbl_review_Image
+		            where reviewImageStatus = 0
+		            group by reviewSeq
+		           )M join tbl_review A
+		           on M.reviewSeq = A.reviewSeq
+		              join tbl_user B
+		           on A.userseq = B.userSeq
+		   where reviewStatus = 0 and userSort = 0
+		  )V
+		WHERE V.rno BETWEEN #{StartRno} AND #{EndRno}
 	</select>
 	<!-- 좋아요 수 +1 하기 -->
 	<update id="upReviewHit" parameterType="String">
