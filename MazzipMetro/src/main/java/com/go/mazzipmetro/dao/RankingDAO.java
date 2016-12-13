@@ -14,10 +14,38 @@ public class RankingDAO {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
+	// 지하철 데이터를 받아오는 메서드
+	public List<HashMap<String, String>> getMetro() {
+		List<HashMap<String, String>> metro = sqlSession.selectList("ranking.getMetro");
+		return metro;
+	}
+
+	// 동 데이터를 받아오는 메서드
+	public List<HashMap<String, String>> getDong() {
+		List<HashMap<String, String>> dong = sqlSession.selectList("ranking.getDong");
+		return dong;
+	}
+
+	// 지하철 검색시 자동글완성을 해주는 메서드
+	public List<HashMap<String, String>> searchMetroName(String metroName) {
+		
+		List<HashMap<String, String>> metro = sqlSession.selectList("ranking.searchMetroName", metroName);
+		
+		return metro;
+	}
+	
+	// 동 검색시 자동글완성을 해주는 메서드
+	public List<HashMap<String, String>> searchDongName(String dongName) {
+		
+		List<HashMap<String, String>> dong = sqlSession.selectList("ranking.searchDongName", dongName);
+		
+		return dong;
+	}
+
 	public List<HashMap<String, String>> getRestRanking(HashMap<String, Object> optionMap, String regDate) {
 		List<HashMap<String, String>> mapList = new ArrayList<HashMap<String, String>>();
 		
-		if (regDate == null) { // 기간 상관없이 랭킹
+		if (regDate.equals("0")) { // 기간 상관없이 랭킹
 			mapList = sqlSession.selectList("ranking.getNotDateRestRanking", optionMap);
 		}
 		
@@ -39,4 +67,5 @@ public class RankingDAO {
 		
 		return mapList;
 	}
+	
 }
