@@ -6,7 +6,6 @@
 	table#tblRankingView {
 	     width: 100%;
 	     height : 20px;
-	     border: solid gray 1px;
 	     border-collapse: collapse;
 	     margin-top: 30px;
 	     margin-bottom: 10px;
@@ -17,6 +16,7 @@
 		 border: solid gray 1px;
 		 font-size: 13pt;
 		 text-align: center;
+		 vertical-align: middle;
 	}
 	
 	table#tblRankingView tr {
@@ -25,16 +25,16 @@
 	}
 	
 	table#tblRankingView td {
-		padding-top : 10px;
-		padding-bottom : 10px;
-		border: solid gray 1px;
+		padding-top : 20px;
+		padding-bottom : 20px;
 		text-align: center;
+		font-size: 10pt;
 	}
 </style>
 
 <script type = "text/javascript">
 	$(document).ready(function(){
-		goRestRanking();
+		goRestRanking("1");
 	});
 	
 	function metroSearch(){
@@ -51,22 +51,45 @@
         "left=350px, top=100px, width=370px, height=200px, location=no, menubar=no, status=no, scrollbars=yes");
 	}
 	
-	function goRestRanking(){
+	function goReset(){
+		$("input[name='bgTag']:checked").each(function(){
+			$(this).prop("checked", false);
+		});
+		
+		$("input[name='mdTag']:checked").each(function(){
+			$(this).prop("checked", false);
+		});
+		
+		$("#metroId").val("");
+		$("#metroName").html("<span style = 'text-decoration: underline;'>역 검색</span>");
+		
+		$("#dongId").val("");
+		$("#dongName").html("<span style = 'text-decoration: underline;'>지역 검색</span>");
+		
+		$("#regDate").val("0");
+	}
+	
+	function goRestRanking(pageNum){
 		
 		var bgTagArr = new Array();
-		var length = $("input:checkbox[class=bgTag]").checked();
-		alert("length");
-		for (var i = 0; i < array.length; i++) {
-			
-		}
+		$("input[name='bgTag']:checked").each(function(){
+			bgTagArr.push($(this).val());
+		});
+		
+		var mdTagArr = new Array();
+		$("input[name='mdTag']:checked").each(function(){
+			mdTagArr.push($(this).val());
+		});
 
 		$.ajaxSettings.traditional = true;
 		var form_data = {
+				
+				pageNum : pageNum,
 				metroId : $("#metroId").val(),   // 키값 : 밸류값 
 				dongId  : $("#dongId").val(),     // 키값 : 밸류값
 				regDate : $("#regDate").val(),
-				bgTag	: $(".bgTag").val(),
-				mdTag	: $(".mdTag").val()
+				bgTag	: bgTagArr,
+				mdTag	: mdTagArr
 			}
 		
 		$.ajax({
@@ -92,20 +115,21 @@
 			<th>기간</th>
 			<th colspan="2">태그명</th>
 			<th style = "background-color: white; vertical-align: middle;" rowspan="2">
-				<button type = "button" onClick="goRestRanking();">검색</button>
+				<input type = "button" onClick="goRestRanking('1');" style = "width : 70px; font-size : 11pt; margin-left : 10px; margin-right : 10px; " value = "검색"><br/>
+				<input type = "button" onClick="goReset();" style = "width : 70px; font-size : 11pt; margin-left : 10px; margin-right : 10px; margin-top : 10px;" value = "초기화">
 			</th>
 		</tr>
 		<tr>
-			<td width="10%" style = "table-layout: fixed;">
+			<td width="10%" style = "table-layout: fixed; border: solid gray 1px;">
 				<a id="metroName" href="#" onClick="metroSearch();"><span style = "text-decoration: underline;">역 검색</span></a>
-				<input type="text" name="metroId" id="metroId" value="" />
+				<input type="hidden" name="metroId" id="metroId" value="" />
 			</td>
-			<td width="10%"  style = "table-layout: fixed;">
+			<td width="10%"  style = "table-layout: fixed; border: solid gray 1px;">
 				<a id="dongName" href="#" onClick="dongSearch();"><span style = "text-decoration: underline;">지역 검색</span></a>
-				<input type="text" name="dongId" id="dongId" value="" />
+				<input type="hidden" name="dongId" id="dongId" value="" />
 			</td>
-			<td width="10%"  style = "table-layout: fixed;">
-				<select name = "regDate" id = "regDate">
+			<td width="12%"  style = "table-layout: fixed; border: solid gray 1px;">
+				<select name = "regDate" id = "regDate" >
 					<option value="0">없음</option>
 					<option value="7">최근 일주일</option>
 					<option value="30">최근 한 달</option>
@@ -113,23 +137,34 @@
 					<option value="365">최근 일 년</option>
 				</select>
 			</td>
-			<td>
-			   <input type = "checkbox" class = "bgTag" name = "bgTag" id="korea" value="한식" /><label for="korea">한식</label>&nbsp;&nbsp;
-			   <input type = "checkbox" class = "bgTag" name = "bgTag" id="japan" value="양식" /><label for="japan">양식</label>&nbsp;&nbsp;
-			   <input type = "checkbox" class = "bgTag" name = "bgTag" id="china" value="일식" /><label for="china">일식</label>&nbsp;&nbsp;
-			   <input type = "checkbox" class = "bgTag" name = "bgTag" id="europe" value="중식" /><label for="europe">중식</label>&nbsp;&nbsp;
+			<td width="29%" style = "border: solid gray 1px;">
+			   <input type = "checkbox" class = "bgTag" name = "bgTag" id="korea" value="한식" /><label for="korea">한식</label>&nbsp;
+			   <input type = "checkbox" class = "bgTag" name = "bgTag" id="japan" value="양식" /><label for="japan">양식</label>&nbsp;
+			   <input type = "checkbox" class = "bgTag" name = "bgTag" id="china" value="일식" /><label for="china">일식</label>&nbsp;
+			   <input type = "checkbox" class = "bgTag" name = "bgTag" id="europe" value="중식" /><label for="europe">중식</label>&nbsp;
 			   <input type = "checkbox" class = "bgTag" name = "bgTag" id="india" value="동남아" /><label for="india">동남아</label>
 			</td>
-			<td>
-				<input type = "checkbox" class = "mdTag" name = "mdTag" id="meet" value="고기류" /><label for="meet">고기류</label>&nbsp;&nbsp;
-				<input type = "checkbox" class = "mdTag" name = "mdTag" id="fish" value="어폐류" /><label for="fish">어폐류</label>&nbsp;&nbsp;
-				<input type = "checkbox" class = "mdTag" name = "mdTag" id="vegetable" value="채소류" /><label for="vegetable">채소류</label>&nbsp;&nbsp;
-				<input type = "checkbox" class = "mdTag" name = "mdTag" id="rice" value="밥류" /><label for="rice">밥류</label>&nbsp;&nbsp;
+			<td width="31%" style = "border: solid gray 1px;">
+				<input type = "checkbox" class = "mdTag" name = "mdTag" id="meet" value="고기류" /><label for="meet">고기류</label>&nbsp;
+				<input type = "checkbox" class = "mdTag" name = "mdTag" id="fish" value="어폐류" /><label for="fish">어폐류</label>&nbsp;
+				<input type = "checkbox" class = "mdTag" name = "mdTag" id="vegetable" value="채소류" /><label for="vegetable">채소류</label>&nbsp;
+				<input type = "checkbox" class = "mdTag" name = "mdTag" id="rice" value="밥류" /><label for="rice">밥류</label>&nbsp;
 				<input type = "checkbox" class = "mdTag" name = "mdTag" id="noodle" value="면류" /><label for="noodle">면류</label>
 			</td>
 	</table>
 </div>
 </form>
+<div>
+	<table id = "tblRankingView">
+		<tr>
+			<th width = "10%" height = "30px;">순위</th>
+			<th width = "50%" height = "30px;">음식점명</th>
+			<th width = "20%" height = "30px;">업종</th>
+			<th width = "10%" height = "30px;">역명</th>
+			<th width = "10%" height = "30px;">지역명</th>
+		</tr>
+	</table>
+</div>
 <div id = "rankingview">
 
 </div>
