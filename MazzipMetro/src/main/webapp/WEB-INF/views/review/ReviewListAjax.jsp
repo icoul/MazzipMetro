@@ -31,8 +31,9 @@ function DownHit(reviewSeq, likeId){
 			data: "reviewSeq="+reviewSeq, 
 			dataType: "JSON",
 			success: function(data) {
+				alert(data.reviewHit);
+				$("#"+likeId).val(data.reviewHit+"Hit!");
 				
-				getReviewList();
 				}
 		});//end of $.ajax()
 } // end of DownHit
@@ -45,8 +46,9 @@ function upHit(reviewSeq, likeId){
 			data: "reviewSeq="+reviewSeq, 
 			dataType: "JSON",
 			success: function(data) {
+				alert(data.reviewHit);
+				$("#"+likeId).val(data.reviewHit+"Hit!");
 				
-				getReviewList();
 				}
 		});//end of $.ajax()
 } // end of upHit
@@ -105,7 +107,7 @@ $(document).ready(function(){
 		<c:forEach var="review" items="${reviewList}" varStatus="status">
 				
 			<tr>
-				<td>${review.userName }  <img src="<%= request.getContextPath() %>/files/user/${review.userProfile}" width="100px" height="100px"/></td>
+				<td>${review.userName }  <img src="<%= request.getContextPath() %>/files/${review.userProfile}" width="100px" height="100px"/></td>
 					<td align="right">
 						평점<span style="font-weight:bold; font-size:15pt; color:red;">${review.reviewAvgScore}</span>점
 					</td>

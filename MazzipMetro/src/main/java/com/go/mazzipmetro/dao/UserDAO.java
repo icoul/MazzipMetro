@@ -175,9 +175,9 @@ public class UserDAO implements IDAO{
 		return count;
 	}
 
-	public int emailDuplicateCheck(String userEmail) {
-		int result = sqlSession.selectOne("user.emailDuplicateCheck", userEmail);
-		return result;
+	public int emailDuplicatecheck(String userEmail) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 
@@ -221,6 +221,8 @@ public class UserDAO implements IDAO{
 		return userDongAliasCount;
 	}
 
+
+
 	public int updateUserPoint(HashMap<String,String> hashMap) {
 		int n = sqlSession.update("updateUserPoint",hashMap);
 		return n;
@@ -232,32 +234,12 @@ public class UserDAO implements IDAO{
 		int n = sqlSession.update("updateAlertUpgradeStatus", hashMap);
 		return n;
 	}
-	public int userWithdrawal(String userSeq) {
-		int result = sqlSession.update("user.userWithdrawal", userSeq);
-		return result;
-	}
-
-	public String getUserEmail(HashMap<String, String> map) {
-		String userEmail = sqlSession.selectOne("user.getUserEmail", map);
-		return userEmail;
-	}
-
-
-	public int getUserExists(HashMap<String, String> map) {
-		int pwCount = sqlSession.selectOne("user.getUserExists", map);
-		return pwCount;
-	}
-
 
 
 
 	public int updateAlertRandomBoxStatus(String userSeq) {
 		int n = sqlSession.update("updateAlertRandomBoxStatus", userSeq);
 		return n;
-	}
-	public int updatePwdUser(HashMap<String, String> map) {
-		int pwNewCount = sqlSession.update("user.updatePwdUser", map);
-		return pwNewCount;
 	}
 
 }

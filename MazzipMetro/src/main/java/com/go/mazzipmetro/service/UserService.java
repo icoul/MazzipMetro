@@ -149,7 +149,7 @@ public class UserService implements IService {
 
 
 	public int emailDuplicatecheck(String userEmail) {
-		int result = dao.emailDuplicateCheck(userEmail);
+		int result = dao.emailDuplicatecheck(userEmail);
 		return result;
 	}
 
@@ -357,29 +357,6 @@ public class UserService implements IService {
 		int n = dao.updateAlertRandomBoxStatus(userSeq);
 		return n;
 		
-	}
-
-
-	public int userWithdrawal(String userSeq) {
-		int result = dao.userWithdrawal(userSeq);
-		return result;
-	}
-
-	public String getUserEmail(HashMap<String, String> map) {
-		String userEmail = dao.getUserEmail(map);
-		return userEmail;
-	}
-
-
-	public int getUserExists(HashMap<String, String> map) {
-		int pwCount = dao.getUserExists(map);
-		return pwCount;
-	}
-
-
-	public int updatePwdUser(HashMap<String, String> map) {
-		int pwNewCount = dao.updatePwdUser(map);
-		return pwNewCount;
 	}
 	
 }

@@ -14,7 +14,6 @@ import com.go.mazzipmetro.dao.ReviewDAO;
 import com.go.mazzipmetro.vo.AttachFileVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.ReviewVO;
-import com.go.mazzipmetro.vo.ThemeVO;
 import com.go.mazzipmetro.vo.UserAliasVO;
 
 
@@ -64,19 +63,17 @@ public class ReviewService implements IService{
 
 	// 리뷰 쓰기 및 칭호 업데이트
 	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
-	public List<String> addReview(ReviewVO rvo, ArrayList<String> imageList, String[] themeArr) {
+	public List<String> addReview(ReviewVO rvo, ArrayList<String> imageList) {
 		
 		HashMap<String, String> map = new HashMap<String, String>(); 
-		String restSeq = rvo.getRestSeq();
 		
 		int result = dao.addReview(rvo);
 		if(result == 1)
 		{
 			String reviewSeq = dao.getReviewSeq(rvo);
-						
+			
 			if(reviewSeq != null)
 			{
-				//dao.addTheme(themeArr, reviewSeq, restSeq);
 				map.put("reviewSeq", reviewSeq);
 				
 				for(int i =0; i<imageList.size(); i++)
@@ -387,9 +384,5 @@ public class ReviewService implements IService{
 		int m = dao.delLiker(reviewSeq, userSeq);
 		return (n+m);
 	}
-
-
-
-
 
 }

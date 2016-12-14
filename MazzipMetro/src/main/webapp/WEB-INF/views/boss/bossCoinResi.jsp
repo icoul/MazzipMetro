@@ -3,7 +3,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <jsp:include page="../top.jsp" />
-<jsp:include page="../library.jsp" />
 <style type="text/css">
 * { padding:0; margin:0;}
 .subleftCon {float:left; width:200px; height:500px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;}
