@@ -132,7 +132,7 @@ public class ReviewController {
 				freeScript += list.get(i);
 			}
 			freeScript += "\\n\\n"+(list.size()-1)+"가지 칭호를 획득하셨습니다.');";
-			//freeScript += " location.href='userReviewAddAfter.eat?restSeq=" + rvo.getRestSeq() + "&userSeq=" + rvo.getUserSeq() + "'; "; //리뷰쓰기를 성공한 후 15포인트와 15EXP를 주고 등급체크를 해서 등급업을 시킨다.
+			//freeScript += " location.href='userReviewAddAfter.eat?restSeq=" + rvo.getRestSeq() + "&userSeq=" + rvo.getUserSeq() + "'; "; //리뷰쓰기를 성공한 후 15포인트와 15EXP를 주고 등급체크를 해서 등급업을 시킨다. self.close();를 하면 안된다
 			req.setAttribute("script", "alert('글쓰기 성공');" + freeScript + " location.href='userReviewAddAfter.eat?restSeq=" + rvo.getRestSeq() + "&userSeq=" + rvo.getUserSeq() + "'; opener.location.reload(true); ");
 		}else if (result == 1  && list.size() == 1) {
 			//freeScript += " location.href='userReviewAddAfter.eat';"; //리뷰쓰기를 성공한 후 15포인트와 15EXP를 주고 등급체크를 해서 등급업을 시킨다.
