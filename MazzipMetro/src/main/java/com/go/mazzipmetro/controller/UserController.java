@@ -755,7 +755,7 @@ public class UserController {
 	//유저등급체크
 	@RequestMapping(value="/userGradeCheck.eat", method={RequestMethod.GET})
 	public String userGradeCheck(HttpServletRequest req, HttpServletResponse res, HttpSession session){
-		System.out.println("********************************************");
+		System.out.println("********************************************userGradeCheck");
 		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
 		HashMap<String, String> resultHashMap = service.userGradeCheck(loginUser.getUserEmail()); //유저의 경험치를 가져온후에 그 경험치가 등급기준에 맞는지 확인해서 등급이름을 업데이트 시킨다.
 		
@@ -999,11 +999,6 @@ public class UserController {
 			}
 		}
 		
-		
-	
-		
-		
-		
 		return "admin/msgEnd";
 	}
 
@@ -1018,5 +1013,46 @@ public class UserController {
 		return "user/reviewDelete";
 	}
 	
+	//리뷰쓰기 후 포인트와 exp를 준다. 그리고 등급체크를 한다. userReviewAddAfter
+	@RequestMapping(value="/userReviewAddAfter.eat", method={RequestMethod.GET})
+	public String userReviewAddAfter(HttpServletRequest req, HttpSession session){
+		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+		String restSeq = req.getParameter("restSeq");
+		String userSeq = req.getParameter("userSeq");
+		
+		System.out.println("**********************************"+restSeq);
+		System.out.println("**********************************"+userSeq);
+		
+		HashMap<String,String> hashMap = new HashMap<String,String>();
+		hashMap.put("userSeq", loginUser.getUserSeq());
+		hashMap.put("type", "리뷰쓰기");
+		hashMap.put("restSeq", restSeq);
+		hashMap.put("userSeq", userSeq);
+		
+		int result1 = service.isFirstReview(hashMap);
+		int result2 = 0;
+		
+		if(result1 == 1){ //사용자가 해당 업장의 리뷰에 처음 쓸 경우 
+			result2 = service.updateUserPointAndExp(hashMap);
+			
+			if(result2 == 1){
+				/*디비에서 변경된 값을  세션에 있는 로그인유저에게 변경*/
+				UserVO userVO = service.getLoginUser(loginUser.getUserEmail());
+				loginUser.setUserPoint(userVO.getUserPoint());
+				loginUser.setUserExp(userVO.getUserExp());
+				
+				session.setAttribute("loginUser", loginUser);
+				
+				req.setAttribute("script", " alert('15포인트와 15경험치가 지급되었습니다.'); location.href='userGradeCheck.eat';  ");
+			}else{
+				req.setAttribute("script", "alert('리뷰쓰기 후 포인트,EXP 업데이트 실패');  self.close(); opener.location.reload(true);  ");
+			}
+		}else{
+			req.setAttribute("script", "alert('이미 리뷰를 쓰셨습니다.');  self.close(); opener.location.reload(true);  ");
+		}
+		
+		
+		return "/user/msgEnd";
+	}
 
 }

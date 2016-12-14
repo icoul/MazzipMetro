@@ -178,8 +178,17 @@
 		insert into tbl_user_attend values(#{userSeq}, 1, 1, sysdate, default, default, default, default)
 	</insert>
 	
-	<update id="updateUserPointandExp" parameterType="String">
-		update tbl_user set userPoint =  userPoint + 3, userExp = userExp + 15 where userSeq = #{userSeq}
+	<update id="updateUserPointandExp" parameterType="java.util.HashMap">
+		update tbl_user set userPoint =  userPoint + 
+		<if test="type == '처음출석체크'">
+			3,
+		</if>
+		
+		<if test="type == '리뷰쓰기'">
+			15,
+		</if>
+		 
+		userExp = userExp + 15 where userSeq = #{userSeq}
 	</update>
 	
 	<select id="userLoginToday" parameterType="String" resultType="int">
@@ -456,4 +465,5 @@
 	<update id="updateAlertRandomBoxStatus" parameterType="java.util.HashMap">
 		update tbl_user_attend set alertRandomBoxStatus = 0 where userSeq = #{userSeq}
 	</update>
+	
 </mapper>

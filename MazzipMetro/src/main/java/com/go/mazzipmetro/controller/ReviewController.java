@@ -132,9 +132,17 @@ public class ReviewController {
 				freeScript += list.get(i);
 			}
 			freeScript += "\\n\\n"+(list.size()-1)+"가지 칭호를 획득하셨습니다.');";
+			//freeScript += " location.href='userReviewAddAfter.eat?restSeq=" + rvo.getRestSeq() + "&userSeq=" + rvo.getUserSeq() + "'; "; //리뷰쓰기를 성공한 후 15포인트와 15EXP를 주고 등급체크를 해서 등급업을 시킨다.
+			req.setAttribute("script", "alert('글쓰기 성공');" + freeScript + " location.href='userReviewAddAfter.eat?restSeq=" + rvo.getRestSeq() + "&userSeq=" + rvo.getUserSeq() + "'; opener.location.reload(true); ");
 		}else if (result == 1  && list.size() == 1) {
+			//freeScript += " location.href='userReviewAddAfter.eat';"; //리뷰쓰기를 성공한 후 15포인트와 15EXP를 주고 등급체크를 해서 등급업을 시킨다.
 			System.out.println(">>>>>> 글쓰기 성공 & 갱신할 칭호 없음!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); 
 			result = 1;
+			
+			if(result == 1){
+				req.setAttribute("script", "alert('글쓰기 성공 '); location.href='userReviewAddAfter.eat?restSeq=" + rvo.getRestSeq() + "&userSeq=" + rvo.getUserSeq() + "';   opener.location.reload(true); ");
+			}
+			
 		} else if ("0".equals(list.get(list.size()-1))){
 			System.out.println(">>>>>> 글쓰기 실패!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); 
 			result  = 0;
@@ -144,9 +152,9 @@ public class ReviewController {
 		
 		System.out.println(freeScript); 
 		
-		req.setAttribute("result", result);
-		req.setAttribute("freeScript", freeScript);	
-		return "/review/reviewAddEnd";
+		/*req.setAttribute("result", result);
+		req.setAttribute("freeScript", freeScript);*/	
+		return "/user/msgEnd";
 	}
 	
 	@RequestMapping(value="/plusHit.eat", method={RequestMethod.GET} ) 

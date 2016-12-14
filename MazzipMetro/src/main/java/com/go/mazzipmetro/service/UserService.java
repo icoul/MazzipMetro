@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.go.mazzipmetro.dao.ReviewDAO;
 import com.go.mazzipmetro.dao.UserDAO;
 import com.go.mazzipmetro.vo.GradeVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
@@ -22,6 +23,9 @@ public class UserService implements IService {
 	@Autowired
 	private UserDAO dao;
 
+	@Autowired
+	private ReviewDAO reviewDao;
+	
 	public int userRegister(UserVO vo) {
 		int n = dao.userRegister(vo);
 		return n;
@@ -93,7 +97,12 @@ public class UserService implements IService {
 	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
 	public int insertAttend(String userSeq) {
 		int n =  dao.insertAttend(userSeq);
-		int m = dao.updateUserPointandExp(userSeq);
+		
+		HashMap<String,String> hashMap = new HashMap<String,String>();
+		hashMap.put("userSeq", userSeq);
+		hashMap.put("type", "처음출석체크");
+		
+		int m = dao.updateUserPointandExp(hashMap);
 		
 		return (n+m);
 	}
@@ -357,6 +366,18 @@ public class UserService implements IService {
 		int n = dao.updateAlertRandomBoxStatus(userSeq);
 		return n;
 		
+	}
+
+
+	public int updateUserPointAndExp(HashMap<String, String> hashMap) { //리뷰쓰기 후 유저에게 15포인트와 15EXP를 주는 함수
+		int n = dao.updateUserPointandExp(hashMap);
+		return n;
+	}
+
+
+	public int isFirstReview(HashMap<String, String> hashMap) {
+		int n = reviewDao.isFirstReview(hashMap);
+		return n;
 	}
 	
 }

@@ -101,8 +101,8 @@ public class UserDAO implements IDAO{
 
 
 
-	public int updateUserPointandExp(String userSeq) {
-		int m =  sqlSession.update("updateUserPointandExp", userSeq);
+	public int updateUserPointandExp(HashMap<String, String> hashMap) {
+		int m =  sqlSession.update("updateUserPointandExp", hashMap);
 		return m;
 	}
 
