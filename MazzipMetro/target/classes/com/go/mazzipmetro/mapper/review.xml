@@ -12,6 +12,22 @@
 		where restSeq = #{restSeq} and reviewStatus = 0 and userSort = 1
 	</select> -->
 	
+	<!-- 동현_ search 페이지에 사용할 reviewImageList 구하기 -->
+	<select id="getReviewImageListByReviewSeq_search"  parameterType="java.util.HashMap" resultMap="dataresultmap4">
+		select revImgSeq, reviewSeq, reviewImg
+		from (
+		select V.*
+		     , rank ( ) over ( partition by reviewSeq order by revImgSeq desc) as num
+		from tbl_review_image V
+		where reviewImageStatus = 0)
+		where num = 1 and reviewSeq in 
+		<foreach collection="seqList"  index="i" open="(" close=")" separator=",">
+			${seqList[i]}
+		</foreach>
+		order by reviewSeq desc
+	</select>
+	
+	
 	<resultMap type="java.util.HashMap" id="dataresultmap3">
 	 	 <result column="revImgSeq"	  	        property="revImgSeq" 			    javaType="String" />
 		 <result column="reviewSeq"	  	        property="reviewSeq" 			    javaType="String" />
