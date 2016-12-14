@@ -77,17 +77,28 @@ public class UserController {
 	@RequestMapping(value="/pwdFind.eat")
 	public String pwdFind(HttpServletRequest req){
 		String method = req.getMethod();
-
+		
+		String userEmail = req.getParameter("userEmail");
+		String userPhone = req.getParameter("userPhone");
+		
+		int n = 2;
+		
 		if("POST".equals(method)) {
-			String userEmail = req.getParameter("userEmail");
-			String userPhone = req.getParameter("userPhone");
 			
 			HashMap<String, String> map = new HashMap<>();
 			
 			map.put("userEmail", userEmail);
 			map.put("userPhone", userPhone);
 			
-			int n = service.getUserExists(map);
+			n = service.getUserExists(map);
+			
+			if(n == 0) {
+				n = 0;
+			}
+			
+			System.out.println("잘못된 결과값을 나타낸다" + n);
+			
+			req.setAttribute("n", n);
 			
 			if(n == 1) {
 				GoogleMail mail = new GoogleMail();
@@ -113,11 +124,14 @@ public class UserController {
 					
 					mail.sendmail(userEmail, certificationCode);
 					req.setAttribute("certificationCode", certificationCode);
+					
+					req.setAttribute("n", n);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 					
-					//n = -1;
-					req.setAttribute("n", n);
+					//n = -1;                                                                                                                                                                                                           
+					
 					req.setAttribute("sendFailmsg", "메일발송에 실패했습니다.");
 					
 				} // end of try~catch()----------
@@ -126,17 +140,25 @@ public class UserController {
 			//else {
 			//	n = 0;
 			//}// end of if~else----------------
+			
 		}
+		req.setAttribute("userEmail", userEmail);
+		req.setAttribute("userPhone", userPhone);
 		return "user/pwdFind";
 	}
 	
-	@RequestMapping(value="/pwdConfirm.eat", method={RequestMethod.GET})
+	@RequestMapping(value="/pwdConfirm.eat")
 	public String pwdConfirm(HttpServletRequest req){
-		String userEmail = req.getParameter("userid");
+		String method = req.getMethod();
+		int n = 0;
+		
+		String userEmail = req.getParameter("userEmail");
 		String userPw = req.getParameter("pwd");
 		String pwd2 = req.getParameter("pwd2");
 		
-		int n = 0;
+		if("POST".equals(method)) {
+		
+		
 		
 		HashMap<String, String> map = new HashMap<>();
 		
@@ -147,10 +169,13 @@ public class UserController {
 		   n = service.updatePwdUser(map);
 		}
 		
+		
 		req.setAttribute("n", n);
-		req.setAttribute("userid", userEmail);
+		req.setAttribute("userEmail", userEmail);
 		req.setAttribute("pwd", userPw);
 		req.setAttribute("pwd2", pwd2);
+		}
+		
 		return "user/pwdConfirm";
 	}
 	

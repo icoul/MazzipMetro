@@ -2,11 +2,8 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<jsp:include page="../library.jsp" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/BootStrapStudy/css/bootstrap.css">
-<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-2.0.0.js"></script>
-<script type="text/javascript" src="<%= request.getContextPath() %>/BootStrapStudy/js/bootstrap.js"></script> 
 
 <style>
 	#div_pwd {
@@ -48,13 +45,13 @@
 	$(document).ready(function(){
 		
 		var method = "${method}";
-		var userid = "${userid}";
-		var email = "${email}";
+		var userEmail = "${userEmail}";
+		var userPhone = "${userPhone}";
 		
 		
-		if(method=="POST" && userid != "" && email != "" ) {
-		  $("#userid").val(userid);
-		  $("#email").val(email);
+		if(method=="POST" && userEmail != "" && userPhone != "" ) {
+		  $("#userEmail").val(userEmail);
+		  $("#userPhone").val(userPhone);
 		}
 		
 		
@@ -99,20 +96,20 @@
 <form name="pwdConfirmFrm">
    <div id="div_pwd" align="center">
       <span style="color: blue; font-size: 12pt;">새암호</span><br/> 
-      <input type="password" name="pwd" id="pwd" size="15" placeholder="PASSWORD" required />
+      <input type="password" class="form-control" name="pwd" id="pwd" size="15" placeholder="PASSWORD" required />
    </div>
    
    <div id="div_pwd2" align="center">
    	  <span style="color: blue; font-size: 12pt;">새암호확인</span><br/>
-      <input type="password" name="pwd2" id="pwd2" size="15" placeholder="PASSWORD" required />
+      <input type="password" class="form-control" name="pwd2" id="pwd2" size="15" placeholder="PASSWORD" required />
    </div>
    
-   <input type="hidden" name="userid" value="${userid}" />
+   <input type="hidden" name="userEmail" value="${userEmail}" />
    
    <div id="div_confirmResult" align="center">
    	    <c:if test="${n == 1}">
-   	    	ID : ${userid} 님의 암호가 새로이 변경되었습니다.<br/> 
-   	    </c:if>	   
+   	    	암호가 변경되었습니다.<br/> 
+   	    </c:if>	 	   
    </div>
    
    <c:if test="${n == 0}">

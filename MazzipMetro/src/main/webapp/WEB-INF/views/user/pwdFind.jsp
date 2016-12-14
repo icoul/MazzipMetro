@@ -21,6 +21,14 @@
 		position: relative;
 	}
 	
+	#div_certi {
+		width: 70%;
+		height: 15%;
+		margin-bottom: 5%;
+		margin-left: 10%;
+		position: relative;
+	}
+	
 	#div_findResult {
 			width: 70%;
 			height: 15%;
@@ -32,6 +40,7 @@
 	#div_btnFind {
 			width: 70%;
 			height: 15%;
+			top:50px;
 			margin-bottom: 5%;
 			margin-left: 10%;
 			position: relative;
@@ -45,7 +54,13 @@
 		var method = "${method}";
 	//	alert("method : " + method);
 	
+		if(method == "GET") {
 			$("#div_findResult").hide();
+		}
+		
+		if(method == "POST") {
+			$("#div_findResult").hide();
+		}
 		
 		$("#btnFind").click(function(){
 			var pwdFindFrm = document.pwdFindFrm;
@@ -54,12 +69,12 @@
 			pwdFindFrm.submit();
 		});
 		
-		var userid = "${userid}";
-		var email = "${email}";
+		var userEmail = "${userEmail}";
+		var userPhone = "${userPhone}";
 		
-		if(method == "POST" && userid != "" && email != "" ) {
-			$("#userid").val(userid);
-			$("#email").val(email);
+		if(userEmail != "" && userPhone != "" ) {
+			$("#userEmail").val(userEmail);
+			$("#userPhone").val(userPhone);
 		}
 		
 		
@@ -86,31 +101,31 @@
 <form name="pwdFindFrm">
 	<div id="div_userid" align="center">
 		<span style="color: blue; font-size: 12pt;">이메일</span><br/>
-		<input type="text" name="userEmail" class="form-control" id="email" size="15" placeholder="ID" required />
+		<input type="text" name="userEmail" class="form-control" id="userEmail" size="15" required />
 	</div>
 	
 	<div id="div_email" align="center">
 		<span style="color: blue; font-size: 12pt;">핸드폰번호</span><br/>
-		<input type="text" name="userPhone" class="form-control" id="userid" size="15" placeholder="abc@def.com" required />
+		<input type="text" name="userPhone" class="form-control" id="userPhone" size="15" required />
 	</div>
 	
 	<div id="div_findResult" align="center">
 		<c:if test="${n == 1}">
 			<div>
-				인증코드가 ${email}로 발송되었습니다.<br/>
+				인증코드가 ${userEmail}로 발송되었습니다.<br/>
 				인증코드를 입력해주세요<br/>
 				<input type="text" name="input_confirmCode" id="input_confirmCode" required />
 				<button type="button" class="btn btn-info" id="btnConfirmCode" >인증하기</button>
 			</div>
 		</c:if>	
 		
-		<c:if test="${n != 1}">
+		<c:if test="${n < 1}">
 			<div id = "div_certi">
 				<div class="alert alert-danger" style="width: 100%;">
 		    		<strong>잘못된 정보! 혹은 미입력! </strong> <br>
 			 	 혹시 가입한 정보를 미입력하셨나요?<br>
-				 개인정보를 입력하셨다면 <br> 회원가입시 입력한 개인정보와 다릅니다. <br>
-				 회원가입시 입력한 회원아이디와 이메일로 입력해주세요
+				 평소 사용하던 개인정보를 입력하셨다면 <br> 회원가입시 입력한 개인정보와 다릅니다. <br>
+				 회원가입시 입력한 회원이메일과 핸드폰번호로 입력해주세요
 			  	</div>
 			</div>
 		</c:if>

@@ -77,7 +77,7 @@
 	</div>
 	
 	<div id="div_findResult">
-		ID : <span style="color: red; font-size: 16pt; font-weight: bold;">${userid}</span><br/>
+		<span style="color: red; font-size: 16pt; font-weight: bold;">${userid}</span><br/>
 	</div>
 	
 	<div id="div_btnFind">
