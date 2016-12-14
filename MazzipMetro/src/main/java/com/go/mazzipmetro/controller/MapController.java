@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.go.mazzipmetro.service.MapService;
-import com.go.mazzipmetro.service.ReviewService;
 import com.go.mazzipmetro.vo.RestaurantAdVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.TagVO;
@@ -25,12 +24,6 @@ public class MapController {
 	
 	@Autowired
 	MapService service;
-	
-	@Autowired
-	RankingController rankController;
-	
-	@Autowired
-	ReviewService reviewService;
 
 	// 관리자용 업장관리 페이지 : 동이름 가져오기
 	@RequestMapping(value="/adminDongNameList.eat",method={RequestMethod.GET}) 
@@ -166,43 +159,32 @@ public class MapController {
 		
 		// 업장 리스트 가져오기
 		List<RestaurantVO> list = service.getBest5RestInMetroMap(metroId);
-			
+		
+		// 업장 태그 가져오기
 		List<String> restSeqList = new ArrayList<String>();
 		
 		for (RestaurantVO vo : list) {
 			String restSeq = vo.getRestSeq();
 			restSeqList.add(restSeq);
 		}
-		
-		// 업장 탑 5 가져오기
-		String dongId = "";
-		String regDate = "0";
-		String[] bgTag = null;
-		String[] mdTag = null;
-		List<HashMap<String, String>> reviewList = rankController.reviewRankingMethod(metroId, dongId, regDate, bgTag, mdTag);
+//		
+//		List<TagVO> tagList = service.getRestTag(restSeqList);
 		
 		// 업장 추가 이미지 가져오기(thumbnail이미지와 원래이미지 모두)
 		List<RestaurantAdVO> adImgList = service.getAdImg(restSeqList);
 		
-		// 해당 리뷰어의 베스트 리뷰 가져오기
-		List<String> userSeqList = new ArrayList<String>();
-		for (int i = 0; i < reviewList.size(); i++) {
-			userSeqList.add(reviewList.get(i).get("userSeq"));
-		}
 		
-		List<HashMap<String, String>> bestReview = reviewService.getBestReview(userSeqList, metroId);
-		
-		req.setAttribute("bestReview", bestReview);
+//		JSONObject jObj = new JSONObject();
+//		jObj.put("places", list);
+//		jObj.put("tags", tagList);
+//		req.setAttribute("jObj", jObj);
 		
 		req.setAttribute("metroName", metroName);
-		req.setAttribute("metroId", metroId);
-		req.setAttribute("reviews", reviewList);
+		//req.setAttribute("tags", tagList);
 		req.setAttribute("places", list);
 		req.setAttribute("adImgList", adImgList);
-		
 		return "/maps/ajax/getBest5RestInMetroMap";
 	}
-	
 	
 	
 	//지하철 역명 가져오기(업장 직접 등록시 사용)
@@ -338,7 +320,7 @@ public class MapController {
 		String pageNo = req.getParameter("pageNo");
 		
 		System.out.println("/"+keyword+" &"+pageNo+" /");
-		int totalRest = 0; 			//총 음식 건수
+		int totalRest = 0; 			//총 음식점 건수
 		int totalPage = 0;			// 전체 페이지수
 		int sizePerPage = 15; 	// 한페이지당 보여줄 음식점수
 		int currPage = 0;			// 요청 페이지 req객체 파라미터에 담긴 요청페이지 pageNo 
@@ -401,10 +383,9 @@ public class MapController {
 		end= start+ sizePerPage -1 ;//sRowNum : currPage*sizePerPage
 		
 		
-		
 		//페이징처리를 위해 start , end 를 map에 담는다.
-		map.put("start", String.valueOf(start)); // HashMap 데이터타입에 맞게 int s를 String으로 변경해서 담는다.
-		map.put("end", String.valueOf(end));  // HashMap 데이터타입에 맞게 int e를 String으로 변경해서 담는다.
+		map.put("start", String.valueOf(start)); // HashMap 데이터타입에 맞게 int start를 String으로 변경해서 담는다.
+		map.put("end", String.valueOf(end));  // HashMap 데이터타입에 맞게 int end를 String으로 변경해서 담는다.
 		
 		
 		List<RestaurantVO> list = service.searchByMetro(map);

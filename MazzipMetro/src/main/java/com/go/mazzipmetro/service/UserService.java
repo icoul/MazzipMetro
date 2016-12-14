@@ -286,6 +286,27 @@ public class UserService implements IService {
 		return (n+m);
 	}
 	
+	public int userWithdrawal(String userSeq) {
+		int result = dao.userWithdrawal(userSeq);
+		return result;
+	}
+
+	public String getUserEmail(HashMap<String, String> map) {
+		String userEmail = dao.getUserEmail(map);
+		return userEmail;
+	}
+
+
+	public int getUserExists(HashMap<String, String> map) {
+		int pwCount = dao.getUserExists(map);
+		return pwCount;
+	}
+
+
+	public int updatePwdUser(HashMap<String, String> map) {
+		int pwNewCount = dao.updatePwdUser(map);
+		return pwNewCount;
+	}
 }
 
 

@@ -8,19 +8,18 @@
 
 	<script>
         $(document).ready(function() {
-        	
-        	$("#keyword").focus();
-        	
+
         	// 인덱스 페이지 업장 탑 5 랭킹
         	top5RankView();
-
+        	
         	// 실시간 리뷰 애니메이트
             MainReview();
-            scrolling();
+            //scrolling();
 
         	// tooltipster 중복호출 방지용
         	var metroIdArr = [];
         	
+(function($){
         	// tooltipster 활성화 
             $('.tooltipster_top').tooltipster({
             	animation: 'grow',
@@ -270,7 +269,8 @@
                 }
             });
             
-            $("#keyword").keyup(function(){
+            
+          $("#keyword").keyup(function(){
         		
     			$.ajax({
     				url:"<%=request.getContextPath()%>/autoComplete.eat",
@@ -318,6 +318,7 @@
     			
     		});// end of $("#keyword").keyup
             
+})(jQuery)
         });// $(document).ready()
         
         //등록된 맛집이 없는 경우(지도에러유발) 링크 폐쇄
@@ -341,81 +342,36 @@
         	
         }// end of MainReview
         
-        <%-- function animate(){
-        	var $wrapper = $("#woo_scroller table");
-        	$wrapper.css({'top':0});
-        	
-        	var animator =	function(imgblock){
-				imgblock.animate({'top':-100}, 5500,
-								   function(){
-									  imgblock.css({'top':0});
-									// $(this).css({'top':550});
-									  animator(imgblock); //재귀함수 호출 -> 반복효과
-									  // animator($(this));
-				                   }
-				                 );	
-            } // 함수정의
-        	animator($wrapper); 
-        }
-         function MainReview(){
-        	
-       	 $.ajax({ 
-       			url: "<%= request.getContextPath()%>/MainReviewAjax.eat",  
-       			method:"get",  	 
-       			dataType: "html",
-       			success: function(data) {
-       				
-       				$("#scroller").html(data);
-       				
-       				}
-       		});//end of $.ajax()
-           	
-           }// end of MainReview --%>
-           
-           function MainReview(){
-               $.ajax({ 
-                   url: "<%= request.getContextPath()%>/MainReviewAjax.eat",  
-                   method:"get",      
-                   dataType: "html",
-                   success: function(data) {
-                      
-                      $("#scroller").html(data);
-                      
-                      }
-                });//end of $.ajax()
-                 
-              }// end of MainReview
               
-              function scrolling(){
-                 var $wrapper = $("#scroller");
-                 $wrapper.css({'top':0});
-                 
-                 var animator =   function(imgblock){
-                  imgblock.animate({'top':-100}, 5500,
-                                 function(){
-                                   imgblock.css({'top':0});
-                                   animator(imgblock); //재귀함수 호출 -> 반복효과
-                                     }
-                                   );   
-                  } // 함수정의
-                 animator($wrapper); 
-              } 
-        
-
-        	
-      function MainReview(){
-        $.ajax({ 
-            url: "<%= request.getContextPath()%>/MainReviewAjax.eat",  
-            method:"get",      
-            dataType: "html",
-            success: function(data) {
-               
-               $("#Scroller").html(data);
-               
-               }
-         });//end of $.ajax()
-          
-       }// end of MainReview
+       /* function scrolling(){
+    	   var $wrapper = $("#scroller");
+   		$wrapper.css({'top':0});
+   		
+   		var n = 1;
+   		var animator  = function(imgblock){
+   			imgblock.animate({'top':-84*n}, 3000,
+   							function(){
+   							n++;
+   							if(n == 6){
+   								imgblock.css({'top':0});
+   								n = 1;
+   							}
+   							setTimeout(animator($(this)), 1000);
+   				});
+   			
+   		}
+   		
+   		// 마우스 호버시 애니메이션을 멈추기
+   		$wrapper.hover(function(){
+   			var eventCnt = $wrapper.queue('fx').length;
+   			// .queue('fx').length 를 통해서 현재 적용된 애니메이션 관련 효과가 몇개인지를 알 수 있다.
+   			for(var i=0; i<eventCnt; i++) {
+   				$wrapper.stop(); // 현재 수행중인 애니메이션만 멈추는 stop()메소드
+   			}
+   		},function(){
+   			animator($wrapper); //다시 처음부터 시작되지 않고, 중단된 부분부터 다시 간다.
+   		}); 
+       }// end of scrolling */
        
        function goSearch(){
     	   if($("#keyword").val().trim().length == 0){
@@ -434,31 +390,32 @@
    		 }
    		 return true;
    	}
+
+	 // 인덱스 페이지 탑 5 업장 랭킹 뷰
+	   	function top5RankView(){
+	   			
+			var form_data = {
+					
+					metroId : "",   // 키값 : 밸류값 
+					dongId  : "",     // 키값 : 밸류값
+					regDate : 0,
+				}
+			
+			$.ajax({
+				url : "<%=request.getContextPath()%>/indexTop5RankView.eat",
+				method : "GET",
+				data : form_data,
+				dataType : "html",
+				success : function(data){
+					$(".top5RankView").html(data);
+				}
+			}); // end of ajax
+	   	}
        
-   	
-   	// 인덱스 페이지 탑 5 업장 랭킹 뷰
-   	function top5RankView(){
-   			
-		var form_data = {
-				
-				metroId : "",   // 키값 : 밸류값 
-				dongId  : "",     // 키값 : 밸류값
-				regDate : 0,
-			}
-		
-		$.ajax({
-			url : "<%=request.getContextPath()%>/indexTop5RankView.eat",
-			method : "GET",
-			data : form_data,
-			dataType : "html",
-			success : function(data){
-				$(".top5RankView").html(data);
-			}
-		}); // end of ajax
-   	}
 </script> 
-		
 		<div id="leftCon">
+		
+			<!-- 검색바 -->
 			<div  id="search_div" align="center">
 			<br/> 
 			  <form name="searchFrm" id="searchFrm" onsubmit="return false;">
@@ -523,12 +480,8 @@
 			<div class="promBann">
 				<img src="<%= request.getContextPath() %>/resources/images/imgProBanner01.jpg" border="0" />
 			</div>
-			<div  style="margin-top:30px;">
-				<div style = "height : 20px; background-color: lightgrey;">
-					<span style = "font-size: 15pt; font-weight: bold; padding : 15px;">MazzipMetro의 추천 맛집</span>
-				</div>
-				<div class="top5RankView">
-				</div>
+			<div class="localRankCon" style="margin-top:30px;">
+				<img src="<%= request.getContextPath() %>/resources/images/imgTest03.png" border="0" width="731" />
 			</div>
 			
 			<div class="reconCon">
@@ -539,6 +492,8 @@
 		<%-- end of leftCon --%>
 		
 		<div class="rightCon" id="scroller">
+		<input type="hidden" name="StartRno" value="1">
+		<input type="hidden" name="EndRno" value="10">
 		</div>
 		<%-- end of rightCon --%>	
 

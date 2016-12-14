@@ -97,23 +97,6 @@
 	
 	<!-- 검색시 자동글완성 기능 구현 -->
 	<select id="autoComplete"  parameterType="java.util.HashMap" resultType="String">
-		<if test='srchType.equals("all")'>
-			select A.restName
-			from (
-				select A.*, B.dongName, B.guId
-				from (
-					select A.*, B.metroName
-					from tbl_restaurant A left join tbl_metro B
-					on A.metroId = B.metroId) A 
-				left join tbl_dong B
-				on A.dongId = B.dongId) A
-			left join tbl_gu B
-			on A.guId = B.guId
-			where restName like '%'||#{keyword}||'%' 
-			or A.metroName like '%'||#{keyword}||'%'
-			or A.dongName like '%'||#{keyword}||'%'
-			or B.guName like '%'||#{keyword}||'%'
-		</if>
 		<if test='srchType.equals("restName")'>
 			select distinct(restName)
 			from tbl_restaurant

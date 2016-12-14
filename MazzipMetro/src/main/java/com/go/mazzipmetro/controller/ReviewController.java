@@ -90,9 +90,6 @@ public class ReviewController {
 		
 		String[] reviewBgTagArr = req.getParameterValues("reviewBgTag");
 		String[] reviewMdTagArr = req.getParameterValues("reviewMdTag");
-		System.out.println("ddddddddddddddd"+rvo.getReviewBgTag());
-		System.out.println("ddddddddddddddd"+reviewBgTagArr);
-		System.out.println("ddddddddddddddd"+rvo.getReviewContent());
 		String[] themeArr = req.getParameterValues("theme");
 	
 		/*	String theme = "";
@@ -251,6 +248,7 @@ public class ReviewController {
 		return "/review/plusHit";  
 		
 	}
+	
 	
 }
 

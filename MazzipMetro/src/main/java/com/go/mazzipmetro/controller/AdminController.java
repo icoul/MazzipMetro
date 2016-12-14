@@ -346,17 +346,15 @@ public class AdminController {
 		String userSeq = req.getParameter("userSeq");
 		String userName = req.getParameter("userName");
 		String gradeName = req.getParameter("gradeName");
-		String userEmail = req.getParameter("userEmail");
 		String userPhone = req.getParameter("userPhone");
 		String userPoint = req.getParameter("userPoint");
 		String userRegDate = req.getParameter("userRegDate");
-		//System.out.println(userEmail);
+		//System.out.println(userName);
 		
 		HashMap<String, String> userinfoMap = new HashMap<String, String>();
 		userinfoMap.put("userSeq", userSeq);
 		userinfoMap.put("userName", userName);
 		userinfoMap.put("gradeName", gradeName);
-		userinfoMap.put("userEmail", userEmail);
 		userinfoMap.put("userPoint", userPoint);
 		userinfoMap.put("userPhone", userPhone);
 		userinfoMap.put("userRegDate", userRegDate);

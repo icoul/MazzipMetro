@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.go.mazzipmetro.vo.FaqVO;
-import com.go.mazzipmetro.vo.QnaVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.ReviewVO;
 
@@ -118,7 +117,6 @@ public class MazzipMetroDAO implements IDAO{
 		List<FaqVO> faqList = sqlSession.selectList("getFaqListByType", faqType);
 		return faqList;
 	}
-
 	
 	// 검색어가 어느 종류의 위치정보인지 알아오기
 	public int getLocationInfo(HashMap<String, String> map) {
@@ -141,7 +139,30 @@ public class MazzipMetroDAO implements IDAO{
 	}
 	
 	// 사용자 search : 통합 리뷰
-		public List<ReviewVO> getReviewIntergratedSearch(HashMap<String, String> map) {
-			return sqlSession.selectList("mazzipMetro.getReviewIntergratedSearch", map);
-		}
+	public List<ReviewVO> getReviewIntergratedSearch(HashMap<String, String> map) {
+		return sqlSession.selectList("mazzipMetro.getReviewIntergratedSearch", map);
+	}
+
+	// 리뷰이미지가져오기
+	public List<HashMap<String, String>> getReviewImageListByReviewSeq(HashMap<String, List<String>> map) {
+		return sqlSession.selectList("review.getReviewImageListByReviewSeq_search", map);
+	}
+
+	// 페이징 작업 (총 게시물 수, 총 페이지수)
+	// 먼저 총 음식점 수를 구하기
+	public int getRestSearchResult_totalCnt(HashMap<String, String> map) {
+		return sqlSession.selectOne("mazzipMetro.getRestSearchResult_totalCnt", map);
+	}
+
+	public int getRestIntergratedSearch_totalCnt(HashMap<String, String> map) {
+		return sqlSession.selectOne("mazzipMetro.getRestIntergratedSearch_totalCnt", map);
+	}
+
+	public int getReviewSearchResult_totalCnt(HashMap<String, String> map) {
+		return sqlSession.selectOne("mazzipMetro.getReviewSearchResult_totalCnt", map);
+	}
+
+	public int getReviewIntergratedSearch_totalCnt(HashMap<String, String> map) {
+		return sqlSession.selectOne("mazzipMetro.getReviewIntergratedSearch_totalCnt", map);
+	}
 }

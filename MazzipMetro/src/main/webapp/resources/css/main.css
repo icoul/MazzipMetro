@@ -55,7 +55,8 @@ img {border:0; padding:0; margin:0; vertical-align:top;}
 .header .menu li {float:left; list-style:none; padding:0 10px;}
 .header .menu li a {text-decoration:none; font-size:16px; color:#222;}
 .header .btnLogin {float:right; width:58px; height:25px; background:#fff; font-size:10px; border:1px solid #000; border-radius:2px; color:#000; cursor:pointer;}
-
+.loginWrap {width:100%; z-index:100; position: fixed; top: 0px; left:0; height:25px; background:#fff; border:1px solid #dbdbdb; box-shadow:0 2px 5px #dbdbdb;}
+.loginInfo {width:700px; float:right; padding-top:5px; background:#fff;} 
 
 #content {width:1400px; overflow:hidden; margin:0 auto;}
 #leftCon {float:left; width:730px;}
@@ -68,33 +69,6 @@ footer {height:170px; background-color: #eff3f2; padding-top:30px; clear: both; 
 footer .comIntro a {padding:0 5px; font-size:12px; color:#000; font-weight:bold; text-decoarion:none;}
 footer .copyRight {color:#8a8a8a;}
 
-#scroller {  position:relative;  height:400px;  width:270px;    left:50px; }
-
-
-/* 동현 자동 검색어 완성 관련 css 추가 */
-
-/* 카테고리화된 검색어 자동완성 css */
-.ui-autocomplete-category {
-   font-weight: bold;
-   padding: .2em .4em;
-   margin: .8em 0 .2em;
-   line-height: 1.5;
- }
- 
- .ui-autocomplete {
-   max-height: 300px;
-   min-height: 50px;
-   overflow-y: auto;
-   /* prevent horizontal scrollbar */
-   overflow-x: hidden;
- }
- /* IE 6 doesn't support max-height
-  * we use height instead, but this forces the menu to always be this tall
-  */
- html .ui-autocomplete {
-   height: 300px;
- }
- 
 #woo_scroller {  position:relative;  height:400px;  width:270px;    left:50px; }
 
 #woo_scroller table {border:0px; position:relative;}

@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:include page="library.jsp" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+
+
 
 </head>
 <body>
@@ -62,7 +63,7 @@
 	        <a class="dropdown-toggle" data-toggle="dropdown" href="#">사업자메뉴<span class="caret"></span></a>
 	        <ul class="dropdown-menu">
 	          <li><a href="<%= request.getContextPath() %>/bossCoinResi.eat">포인트구매</a></li>
-	          <li><a href="<%= request.getContextPath() %>/bossCoinResi.eat">컨텐츠목록</a></li>
+	          <li><a href="<%= request.getContextPath() %>/bossCoinList.eat">컨텐츠목록</a></li>
 	          <li><a href="<%= request.getContextPath() %>/userEdit.eat">개인정보수정</a></li>
 	          <li><a href="<%= request.getContextPath() %>/secession.eat">회원탈퇴</a></li>
 	        </ul>
@@ -74,9 +75,6 @@
 	          <li><a href="<%= request.getContextPath() %>/restAdd.eat">매장등록신청</a></li>
 	          <li><a href="<%= request.getContextPath() %>/restList.eat">매장리스트</a></li>
 	        </ul>
-	      </li>
-	      <li class="dropdown">
-	        <a href="<%= request.getContextPath() %>/couponList.eat">쿠폰</a>
 	      </li>
 	      <li class="dropdown">
 	        <a href="<%= request.getContextPath() %>/restListStatistics.eat">통계</a>

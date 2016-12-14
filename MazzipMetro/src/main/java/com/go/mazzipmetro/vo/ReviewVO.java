@@ -20,17 +20,19 @@ public class ReviewVO {
    // 동현 추가 : 사용자가 기입하는 복수개가 가능한 음식점 태그(칭호부여에 사용함)
    private String[] reviewBgTag;
    private String[] reviewMdTag;
+   private String restName; // 업장 이름 추가 (검색시 뿌려줄 용도)
    
    private String reviewBTag;
    private String reviewMTag;
-
+   
    public ReviewVO() {
 	
    }
 
    public ReviewVO(String reviewSeq, String userSeq, String restSeq, String reviewTitle, String reviewContent,
 		String reviewHit, String reviewMood, String reviewTaste, String reviewPrice, String reviewService,
-		String reviewAvgScore, String reviewRegDate, String reviewStatus, String[] reviewBgTag, String[] reviewMdTag, String reviewBTag, String reviewMTag) {
+		String reviewAvgScore, String reviewRegDate, String reviewStatus, String[] reviewBgTag, String[] reviewMdTag, String reviewBTag, String reviewMTag, String restName) {
+
 	
 	this.reviewSeq = reviewSeq;
 	this.userSeq = userSeq;
@@ -49,6 +51,8 @@ public class ReviewVO {
 	this.reviewMdTag = reviewMdTag;
 	this.reviewBTag = reviewBTag;
 	this.reviewMTag = reviewMTag;
+	this.restName = restName;
+	
    }
 
 	public String getReviewSeq() {
@@ -170,7 +174,7 @@ public class ReviewVO {
 	public void setReviewMdTag(String[] reviewMdTag) {
 		this.reviewMdTag = reviewMdTag;
 	}
-
+	
 	public String getReviewBTag() {
 		return reviewBTag;
 	}
@@ -185,6 +189,14 @@ public class ReviewVO {
 
 	public void setReviewMTag(String reviewMTag) {
 		this.reviewMTag = reviewMTag;
+	}
+
+	public String getRestName() {
+		return restName;
+	}
+
+	public void setRestName(String restName) {
+		this.restName = restName;
 	}
    
    

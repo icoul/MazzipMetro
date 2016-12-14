@@ -51,4 +51,50 @@
 		from tbl_restaurant
 		where userSeq = #{userSeq}
 	</select>
+	
+	<!-- 컨텐츠 구매목록 -->
+	 <resultMap type="java.util.HashMap" id="bconList">
+		<result column="restSeq" 		property="restSeq" 		javaType="String"/>
+		<result column="gradeName" 		property="gradeName" 	javaType="String"/> 	
+		<result column="restName" 		property="restName" 	javaType="String"/>
+		<result column="restPhone" 		property="restPhone" 	javaType="String" />
+		<result column="restAddr" 		property="restAddr" 	javaType="String" />  
+		<result column="contentName" 	property="contentName" 	javaType="String" />  
+		<result column="contentLimit" 	property="contentLimit" javaType="String" />    
+	</resultMap>
+	<select id="bossConList" resultMap="bconList" parameterType="java.util.HashMap">
+		select V.rno,v.userSeq, V.restSeq, V.gradeName, V.restName, V.restPhone, V.restAddr, V.contentName, V.contentLimit
+		    from 
+		    (   
+		      select rowNum as rno, T.userSeq,T.restSeq, T.gradeName, T.restName, T.restPhone, T.restAddr, T.contentName, T.contentLimit
+		      from
+		      (
+		        select userSeq,restSeq, gradeName, restName, restPhone, restAddr, contentName, to_char(contentLimit, 'yyyy-mm-dd') as contentLimit
+		        from view_contentList
+		        group by userSeq,contentName,restSeq, gradeName, restName, restPhone, restAddr, contentLimit
+		       )T
+		  ) V
+		  where V.userSeq=#{userSeq}
+		and V.RNO >= #{start} and V.RNO <![CDATA[<=]]> #{end}
+	</select>
+	
+	<!-- 컨텐츠 페이징바 -->
+     <select id="getBossConTotal" parameterType="java.util.HashMap" resultType="int">  
+    	select count(*)
+    		from 
+	      (
+		        select V.rno,v.userSeq, V.restSeq, V.gradeName, V.restName, V.restPhone, V.restAddr, V.contentName, V.contentLimit
+			    from 
+			    (   
+			      select rowNum as rno, T.userSeq,T.restSeq, T.gradeName, T.restName, T.restPhone, T.restAddr, T.contentName, T.contentLimit
+			      from
+			      (
+			        select userSeq,restSeq, gradeName, restName, restPhone, restAddr, contentName, to_char(contentLimit, 'yyyy-mm-dd') as contentLimit
+			        from view_contentList
+			        group by userSeq,contentName,restSeq, gradeName, restName, restPhone, restAddr, contentLimit
+			       )T
+			  ) V
+			  where V.userSeq=#{userSeq}
+	      ) P
+    </select>
 </mapper>
