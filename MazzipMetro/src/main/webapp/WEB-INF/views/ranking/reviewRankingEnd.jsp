@@ -4,6 +4,46 @@
 
 <script>
 	$(document).ready(function(){
+		$('.tooltipster_top').tooltipster({
+        	animation: 'grow',
+        	animationDuration: 200,
+        	distance : 3,
+       	   	delay: 100,
+       	   	side: 'top', // 'top', 'bottom', 'right', 'left'
+       	   	theme: 'tooltipster-noir',
+       	   	trigger: 'hover',
+       	 	interactive: true,
+           	content: 'Loading...',
+           	contentAsHTML: true,// if($origin.data('loaded') !== true)) 이 조건식에 걸리지 않는다. 
+           	
+             // 'instance' is basically the tooltip. More details in the "Object-oriented Tooltipster" section.
+            functionBefore: function(instance, helper) {
+                 
+	                 var $origin = $(helper.origin);
+	              	// metroId 얻어오기
+	                 var str = instance.elementOrigin().toString(); // localhost로 시작하는 href 값이 나오지만, 객체이다.
+	                 
+					 var metroId = str.substring(str.indexOf("=")+1, str.indexOf("=")+5);//시작index, 끝나는 index  : javascript: searchByMetro(1, '2005')
+	              	//alert(metroId);
+	                 
+					 alert(metroId);
+		                 
+	                 // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
+	                 if ($origin.data('loaded') !== true) {
+						 $.get('<%=request.getContextPath()%>/dd.eat', function(data) {
+
+							 //중복 호출을 막기위해 : metroIdArr에 해당 metroId push하
+							 
+			                // call the 'content' method to update the content of our tooltip with the returned data.
+			                // note: this content update will trigger an update animation (see the updateAnimation option)
+			                instance.content(data);
+
+			                // to remember that the data has been loaded
+			                $origin.data('loaded', true);
+				            },'html');
+	                 }
+	             }// end of functionBefore
+        });
 	});
 </script>
 
