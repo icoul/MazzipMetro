@@ -33,7 +33,10 @@
 		    on A.metroId = B.metroId) A left join tbl_dong B
 		  on A.dongId = B.dongId) A left join tbl_gu B
 		on A.guId = B.guId
-		where ${srchType} like '%' ||#{locStr}|| '%'
+		where 1=1
+		<if test="srchType != null">
+			and ${srchType} like '%' ||#{locStr}|| '%'
+		</if>
 		and (
 		restSeq in (select restSeq from tbl_restaurant_menu where menuName like  '%'||#{kw}||'%' or menuContent like  '%'||#{kw}||'%')
 		or restSeq in (select restSeq from tbl_review where reviewTitle like  '%'||#{kw}||'%' or reviewContent like  '%'||#{kw}||'%')
@@ -55,7 +58,10 @@
 		    on A.metroId = B.metroId) A left join tbl_dong B
 		  on A.dongId = B.dongId) A left join tbl_gu B
 		on A.guId = B.guId
-		where ${srchType} like '%' ||#{locStr}|| '%'
+		where  1=1
+		<if test="srchType != null">
+			and ${srchType} like '%' ||#{locStr}|| '%'
+		</if>
 		and (
 		restSeq in (select restSeq from tbl_restaurant_menu where menuName like  '%'||#{kw}||'%' or menuContent like  '%'||#{kw}||'%')
 		or restSeq in (select restSeq from tbl_review where reviewTitle like  '%'||#{kw}||'%' or reviewContent like  '%'||#{kw}||'%')
@@ -140,7 +146,10 @@
 				              or restName like '%'||#{kw}||'%'
 				              or restBgTag like '%'||#{kw}||'%'
 				              or restMdTag like '%'||#{kw}||'%')
-				              and ${srchType}  like '%' ||#{locStr}|| '%')
+				              <if test="srchType != null">
+								and ${srchType} like '%' ||#{locStr}|| '%'
+							  </if>
+		)
 	</select>
 	
 	<!-- 사용자 search : 리뷰 검색 -->
@@ -166,7 +175,9 @@
 				              or restName like '%'||#{kw}||'%'
 				              or restBgTag like '%'||#{kw}||'%'
 				              or restMdTag like '%'||#{kw}||'%')
-				              and ${srchType}  like '%' ||#{locStr}|| '%')
+				              <if test="srchType != null">
+								and ${srchType} like '%' ||#{locStr}|| '%'
+							  </if>)
 		order by reviewSeq desc
 		) where rnum >= #{start} and rnum <![CDATA[<=]]> #{end}
 	</select>

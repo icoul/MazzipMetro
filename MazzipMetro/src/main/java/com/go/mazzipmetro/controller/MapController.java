@@ -179,6 +179,12 @@ public class MapController {
 //		jObj.put("tags", tagList);
 //		req.setAttribute("jObj", jObj);
 		
+		
+		
+		
+		
+		
+		
 		req.setAttribute("metroName", metroName);
 		//req.setAttribute("tags", tagList);
 		req.setAttribute("places", list);
