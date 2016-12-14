@@ -22,6 +22,7 @@ import com.go.mazzipmetro.service.ReviewService;
 import com.go.mazzipmetro.vo.FaqVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.ReviewVO;
+import com.go.mazzipmetro.vo.QnaVO;
 import com.go.mazzipmetro.vo.UserVO;
 
 @Controller
@@ -552,7 +553,6 @@ public class MazzipMetroController {
 		return "/ajax/reviewSearch";
 	}
 	
-
 	// 동현_image crop test중
 	@RequestMapping(value="/imgCropTest.eat", method={RequestMethod.GET})
 	public String imgCropTest(){

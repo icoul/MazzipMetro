@@ -252,7 +252,6 @@
 		) where rnum >= #{start} and rnum <![CDATA[<=]]> #{end}
 	</select>
 	
-	
 	<select id = "mazzipMetro.alignTest" resultType="String">
 		select metroname
 		from tbl_metro

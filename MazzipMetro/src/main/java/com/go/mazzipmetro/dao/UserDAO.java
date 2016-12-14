@@ -228,5 +228,19 @@ public class UserDAO implements IDAO{
 		return n;
 	}
 
+
+
+	public int updateAlertUpgradeStatus(HashMap<String,String> hashMap) {
+		int n = sqlSession.update("updateAlertUpgradeStatus", hashMap);
+		return n;
+	}
+
+
+
+	public int updateAlertRandomBoxStatus(String userSeq) {
+		int n = sqlSession.update("updateAlertRandomBoxStatus", userSeq);
+		return n;
+	}
+
 }
 

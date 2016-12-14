@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import com.go.mazzipmetro.vo.FaqVO;
 import com.go.mazzipmetro.vo.QnaVO;
-import com.go.mazzipmetro.vo.RestaurantVO;
-import com.go.mazzipmetro.vo.ReviewVO;
 
 @Repository
 public class MazzipMetroDAO implements IDAO{
@@ -118,7 +116,6 @@ public class MazzipMetroDAO implements IDAO{
 		List<FaqVO> faqList = sqlSession.selectList("getFaqListByType", faqType);
 		return faqList;
 	}
-
 	
 	// 검색어가 어느 종류의 위치정보인지 알아오기
 	public int getLocationInfo(HashMap<String, String> map) {

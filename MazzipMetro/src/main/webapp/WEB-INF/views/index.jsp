@@ -8,13 +8,12 @@
 
 	<script>
         $(document).ready(function() {
-        	
-        	$("#keyword").focus();
-        	
 
         	// 실시간 리뷰 애니메이트
             MainReview();
             scrolling();
+
+        	MainReview();
 
         	// tooltipster 중복호출 방지용
         	var metroIdArr = [];
@@ -269,7 +268,7 @@
             });
             
             
-            $("#keyword").keyup(function(){
+          $("#keyword").keyup(function(){
         		
     			$.ajax({
     				url:"<%=request.getContextPath()%>/autoComplete.eat",
@@ -317,6 +316,7 @@
     			
     		});// end of $("#keyword").keyup
             
+
         });// $(document).ready()
         
         //등록된 맛집이 없는 경우(지도에러유발) 링크 폐쇄
@@ -416,31 +416,13 @@
           
        }// end of MainReview
        
-       function goSearch(){
-    	   if($("#keyword").val().trim().length == 0){
-    		   return;
-    	   }
-    	   
-    	   searchFrm.action = "<%=request.getContextPath()%>/search.eat";
-    	   searchFrm.submit();
-       }
-       
-   	// input 태그 엔터키 refresh 방지
-   	function goButton() {
-   		 if (event.keyCode == 13) {
-   			goSearch();
-   		  	return false;
-   		 }
-   		 return true;
-   	}
-       
 
 
 
        
 </script> 
-		
 		<div id="leftCon">
+<<<<<<< HEAD
 		
 			<!-- 검색바 -->
 			<div  id="search_div" align="center">
@@ -455,6 +437,8 @@
 			  </form>
 			</div>
 			
+=======
+>>>>>>> 6a1a210140a720fdb8bb841634152d681699eaa2
 			<div class="mainBann">
 				<img alt="" src="<%=request.getContextPath() %>/resources/images/metroMap.jpg"  usemap="#mazzipMetroImgMap" style="margin-top: 15px;margin-bottom: 15px;">
 				<map id="mazzipMetroImgMap" name="mazzipMetroImgMap">
