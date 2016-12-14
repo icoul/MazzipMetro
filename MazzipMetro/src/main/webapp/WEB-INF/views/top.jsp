@@ -126,9 +126,9 @@ function getLoginUserInfo(){
 		location.href = "logOut.eat";
 	}
 	
-	function goRegister(){
-		location.href = "<%=request.getContextPath()%>/accountSelect.eat";
-	}
+	$(".myclose").click(function(){
+			javascript:history.reload();
+	});
 	
 	function goAsk(){
 		<c:if test="${empty sessionScope.loginUser.userSeq}">

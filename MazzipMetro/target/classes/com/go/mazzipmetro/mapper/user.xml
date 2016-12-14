@@ -157,7 +157,7 @@
 	</select>
 	
 	<select id="reviewCount" resultType="int">
-		select count(*)
+		select distinct count(*)
 		from tbl_review
 		where reviewStatus = 0 and userSeq = #{userSeq}
 	</select>

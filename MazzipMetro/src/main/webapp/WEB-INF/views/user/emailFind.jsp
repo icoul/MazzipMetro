@@ -56,7 +56,7 @@
 		var name = "${name}";
 		var mobile = "${mobile}";
 		
-		if(method == "POST") {
+		if(name != "" && mobile != "" ) {
 			$("#name").val(name);
 			$("#mobile").val(mobile);
 			$("#div_findResult").show();
@@ -66,7 +66,40 @@
 </script>
 
 <form name="idFindFrm">
-	<div id="div_name">
+	<table style="width:100%;">
+		<tr>
+			<th style="width:70%;">
+				<table>
+					<tr>
+						<th>성명</th>
+					</tr>
+					<tr>
+						<th><input type="text" name="name" class="form-control" id="name" size="50" required /></th>
+					</tr>
+					<tr><th><br></th></tr>
+					<tr>
+						<th>핸드폰번호</th>
+					</tr>
+					<tr>
+						<th><input type="text" name="mobile" class="form-control" id="mobile" size="50" placeholder="-없이 입력하세요" required /></th>
+					</tr>
+				</table>
+			</th>
+			<th style="width:25%; padding-left:5%; vertical-align: middle;" align="center">
+				<button type="button" class="btn btn-success btn-lg" id="btnFind">찾기</button>
+			</th>
+		</tr>
+		<tr>
+		 <th colspan="2" style="font-size:20px; width:100%; height:150px; padding-left:30%; vertical-align: middle;" align="center">
+		 	${userid}
+		 </th>
+		</tr>
+	</table>
+
+
+	
+
+	<%-- <div id="div_name">
 		<span style="font-size: 12pt;">성명</span><br/>
 		<input type="text" name="name" class="form-control" id="name" size="15" placeholder="홍길동" required />
 	</div>
@@ -82,7 +115,7 @@
 	
 	<div id="div_btnFind">
 		<button type="button" class="btn btn-success" id="btnFind">찾기</button>
-	</div>
+	</div> --%>
 
 </form>
 

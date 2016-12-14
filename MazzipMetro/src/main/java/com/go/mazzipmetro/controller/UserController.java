@@ -96,8 +96,6 @@ public class UserController {
 				n = 0;
 			}
 			
-			System.out.println("잘못된 결과값을 나타낸다" + n);
-			
 			req.setAttribute("n", n);
 			
 			if(n == 1) {
