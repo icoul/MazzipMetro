@@ -56,7 +56,7 @@ function goUserDel(userSeq){
 
 function goUserEdit(userSeq){
 	var url = "adminUserEdit.eat?userSeq="+userSeq;
-	window.open(url, "adminUserEdit", "left=350px, top=100px, width=550px, height=500px, status=no, scrollbars=yes");
+	window.open(url, "adminUserEdit", "left=350px, top=100px, width=350px, height=300px, status=no, scrollbars=yes");
 }
 
 </script>

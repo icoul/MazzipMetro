@@ -12,7 +12,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
     
 
-
 <title>:::Mazzip Metro:::</title>
 
 <script type="text/javascript"> 
@@ -191,15 +190,13 @@ function getLoginUserInfo(){
 			<!-- 메뉴바 : top 우측-->
 			<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
 
-			<div style="float: right;">
+			<div class="loginInfo"> 
 				<span>${sessionScope.loginUser.userName} 님 환영합니다. </span>
-				현재 마일리지: <span style="color:gold; margin-right: 100px;">${sessionScope.loginUser.userPoint }</span>
+				현재 마일리지: <span style="color:gold; margin-right: 30px;">${sessionScope.loginUser.userPoint }</span>
 				등급 : <span style="color: red;">${sessionScope.loginUser.gradeName }</span>
 				Exp: <span style="color: red;">${sessionScope.loginUser.userExp }</span>
-			
-				<button type="button" class="btnLogin" onClick="goLogOut();">로그아웃</button>
 			</div>
-
+				<button type="button" class="btnLogin" onClick="goLogOut();">로그아웃</button>
 			</c:if>
 
 		</div>
@@ -238,11 +235,11 @@ function getLoginUserInfo(){
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 취소</button>
-        <p><a href="javascript:goRegister();" style="color:#f4511e">회원가입하기</a></p>
+        <p><a data-toggle="modal" data-target="#accountSelectModal" data-dismiss="modal" style="color:#f4511e; cursor: pointer;">회원가입하기</a></p>
         <p>
         <td colspan="2" align="center">
-        	<a data-toggle="modal" data-target="#userIdfind" data-dismiss="modal">아이디찾기</a> / 
-			<a data-toggle="modal" data-target="#passwdFind" data-dismiss="modal">비밀번호찾기</a>
+        	<a data-toggle="modal" data-target="#userIdfind" data-dismiss="modal" style="cursor: pointer;">아이디찾기</a> / 
+			<a data-toggle="modal" data-target="#passwdFind" data-dismiss="modal" style="cursor: pointer;">비밀번호찾기</a>
 		</td>	
 		</p>
       </div>
@@ -293,7 +290,7 @@ function getLoginUserInfo(){
         </div>
         <div class="modal-body" style="height: 300px; width: 100%;">
           <div id="idFind">
-          	<iframe style="border: none; width: 100%; height: 280px;" src="<%= request.getContextPath() %>/idFind.eat">
+          	<iframe style="border: none; width: 100%; height: 280px;" src="<%= request.getContextPath() %>/emailFind.eat">
           	</iframe>
           </div>
         </div>

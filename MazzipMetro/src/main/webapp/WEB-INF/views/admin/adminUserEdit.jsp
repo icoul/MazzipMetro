@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,12 +13,12 @@
 <style type="text/css">
 * { padding:0; margin:0;}
 .title {width:250px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; padding-left:20px; font-size:15px;}
-input[type=radio] {vertical-align:-3px;}
+input[type=text] {width:120px;}
 .coinPopWrap {padding:30px 0 0 20px; font-size:11px;}
 .coinPopWrap  li {list-style:none;}
 .coinPopWrap  li.first {margin-bottom:10px;}
 
-.btnCoin {width: 58px;
+.btnCoin {width: 68px;
     height: 25px;
     margin-left:10px;
     background: #000;
@@ -28,6 +28,7 @@ input[type=radio] {vertical-align:-3px;}
     color: #fff;
     cursor:pointer;
     }
+.tblUserList td {height:23px;}
 </style>
 <script type="text/javascript">
 goUserEdit(userSeq){
@@ -45,32 +46,33 @@ goUserEdit(userSeq){
 	<div class="coinPopWrap">
 		<table class="tblUserList">
 			<tr>
-				<th style="width: 70px;" >번호</th>
-				<th style="width: 80px;" >성명</th>
-				<th style="width: 70px;" >등급번호</th>
-				<th style="width: 70px;" >이메일</th>
-				<th style="width: 70px;" >전화번호</th>
-				<th style="width: 70px;" >가입일자</th>
-				<th style="width: 70px;" >포인트</th>
-				<th style="width: 70px;" >수정</th>
-			</tr>
-		
-			<tr>
-			
-				<td><input type="text" name="userSeq" value="${userinfoMap.USERSEQ}" /></td>
-				<td><input type="text" name="userName" value="${userinfoMap.USERNAME}" /></td>
-				<td><input type="text" name="gradeName" value="${userinfoMap.GRADENAME}" /></td>
-				<td><input type="text" name="userEmail" value="${userinfoMap.USEREMAIL}" /></td>
-				<td><input type="text" name="userPhone" value="${userinfoMap.USERPHONE}" /></td>
-				<td><input type="text" name="userRegDate" value="${userinfoMap.USERREGDATE}" /></td>
-				<td><input type="text" name="userPoint" value="${userinfoMap.USERPOINT}" /></td>
+				<td>아이디 :</td>
 				<td>
-					<form name="userEditFrm"  action="<%= request.getContextPath() %>/adminUserEditEnd.eat" method="post">
-					<button class="btnGray" onClick="goUserEdit('${userinfoMap.userSeq}');" style="margin-top:0; width:40px;">수정</button>
-					<%-- <input type="hidden" name="userSeq" value="${userinfoMap.userSeq}" /> --%>
-					</form>
+					${userinfoMap.USEREMAIL}
+					<input type="hidden" name="userSeq" value="${userinfoMap.USERSEQ}" />
 				</td>
 			</tr>
+			<c:if test="${userinfoMap.GRADENAME !=null && not empty userinfoMap.GRADENAME}">
+				<tr>
+					<td>등급 :</td><td>${userinfoMap.GRADENAME}</td>
+				</tr>
+			</c:if>
+			<tr>
+				<td>성명 :</td><td><input type="text" name="userName" value="${userinfoMap.USERNAME}" /></td>
+			</tr>
+			<tr>
+				<td>전화번호 :</td><td><input type="text" name="userPhone" value="${userinfoMap.USERPHONE}" /></td>
+			</tr>
+			<tr>
+				<td>포인트 :</td><td><input type="text" name="userPoint" value="${userinfoMap.USERPOINT}" /></td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center" style="height:50px;">
+					<form name="userEditFrm"  action="<%= request.getContextPath() %>/adminUserEditEnd.eat" method="post">
+						<button class="btnCoin" onClick="goUserEdit('${userinfoMap.userSeq}');" style="margin-top:0;">수정</button>
+					</form>
+				</td>
+			</tr>	
 	</table>
 	</div>
 	</form>

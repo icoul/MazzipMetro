@@ -94,11 +94,11 @@
 	</select>
 
 	<select id="getLoginUser" resultType="com.go.mazzipmetro.vo.UserVO">
-		select a.userSeq, a.gradeSeq, b.gradeName, userName, userEmail, userPw, userGender,
+		select userSeq, a.gradeSeq, b.gradeName, userName, userEmail, userPw, userGender,
 		userBirthday, userPhone, userRegDate
 		,userProfile, userPoint, userExp, userStation, userSort, userStatus
-			from tbl_user a join tbl_grade b
-			on a.gradeSeq = b.gradeSeq
+		from tbl_user a join tbl_grade b
+		on a.gradeSeq = b.gradeSeq
 		where userEmail = #{userEmail}
 	</select>
 	
@@ -175,7 +175,7 @@
 	</select>
 	
 	<insert id="insertAttend" parameterType="String">
-		insert into tbl_user_attend values(#{userSeq}, 1, 1, sysdate, default, default, default, default)
+		insert into tbl_user_attend values(#{userSeq}, 1, 1, sysdate, default, default)
 	</insert>
 	
 	<update id="updateUserPointandExp" parameterType="String">
@@ -194,7 +194,7 @@
 	</select>
 	
 	<select id="getUserAttend" parameterType="String" resultType="com.go.mazzipmetro.vo.UserAttendVO">
-		select userSeq, allAttendDay, continueAttendDay, to_char(attendLastDay + 9/24, 'yyyy-mm-dd hh24:mi:ss') as attendLastDay, userRandomBox, userPremiumRandomBox, alertUpgradeStatus, alertRandomBoxStatus
+		select userSeq, allAttendDay, continueAttendDay, to_char(attendLastDay + 9/24, 'yyyy-mm-dd hh24:mi:ss') as attendLastDay, userRandomBox
 		from tbl_user_attend
 		where userSeq = #{userSeq}
 	</select>
@@ -448,7 +448,28 @@
 		from tbl_review
 		where userSeq = #{userSeq} and reviewStatus = 0
 	</select>
-
+	
+	<update id="userWithdrawal">
+		update tbl_user set userStatus = 1
+		where userSeq = #{userSeq}
+	</update>
+	
+	<select id="getUserEmail" parameterType="java.util.HashMap" resultType="String">
+		select userEmail from tbl_user
+		where userStatus = 0 and userName = #{userName} and userPhone = #{userPhone} 
+	</select>
+	
+	<select id="getUserExists" parameterType="java.util.HashMap" resultType="int">
+		select count(*)
+		from tbl_user
+		where userStatus = 0 and userEmail = #{userEmail} and userPhone = #{userPhone}
+	</select>
+	
+	<update id="updatePwdUser" parameterType="java.util.HashMap">
+		update tbl_user set userPw = #{userPw}
+		where userStatus = 0 and userEmail = #{userEmail} 
+	</update>
+	
 	<update id="updateAlertUpgradeStatus" parameterType="java.util.HashMap">
 		update tbl_user_attend set alertUpgradeStatus = #{alertUpgradeStatus} where userSeq = #{userSeq}
 	</update>

@@ -57,5 +57,15 @@ public class BossDAO implements IDAO{
 		List<HashMap<String, String>> list = sqlSession.selectList("boss.getRestSeq", userSeq);
 		return list;
 	}
+	//컨텐츠 구매목록
+	public List<HashMap<String, String>> bossConList(HashMap<String, String> map) {
+		List<HashMap<String, String>> list = sqlSession.selectList("boss.bossConList", map);
+		return list;
+	}
+	//컨텐츠 구매목록 - 페이징
+	public int getBossConTotal(HashMap<String, String> map) {
+		int count = sqlSession.selectOne("boss.getBossConTotal", map); 
+		return count;
+	}
 }
 

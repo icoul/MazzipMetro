@@ -228,7 +228,29 @@ public class UserDAO implements IDAO{
 		return n;
 	}
 
+	public int userWithdrawal(String userSeq) {
+		int result = sqlSession.update("user.userWithdrawal", userSeq);
+		return result;
+	}
 
+	public String getUserEmail(HashMap<String, String> map) {
+		String userEmail = sqlSession.selectOne("user.getUserEmail", map);
+		return userEmail;
+	}
+
+
+
+	public int getUserExists(HashMap<String, String> map) {
+		int pwCount = sqlSession.selectOne("user.getUserExists", map);
+		return pwCount;
+	}
+
+
+
+	public int updatePwdUser(HashMap<String, String> map) {
+		int pwNewCount = sqlSession.update("user.updatePwdUser", map);
+		return pwNewCount;
+	}
 
 	public int updateAlertUpgradeStatus(HashMap<String,String> hashMap) {
 		int n = sqlSession.update("updateAlertUpgradeStatus", hashMap);
