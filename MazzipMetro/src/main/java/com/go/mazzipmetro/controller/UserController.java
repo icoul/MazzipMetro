@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.go.mazzipmetro.common.FileManager;
+import com.go.mazzipmetro.common.GoogleMail;
 import com.go.mazzipmetro.service.UserService;
 import com.go.mazzipmetro.vo.UserAliasVO;
 import com.go.mazzipmetro.vo.UserAttendVO;
@@ -43,6 +45,138 @@ public class UserController {
 		String type =  req.getParameter("type");
 		req.setAttribute("type", type);
 		return "user/userRegister_Agree";
+	}
+	
+	@RequestMapping(value="/emailFind.eat")
+	public String emailFind(HttpServletRequest req){
+		String method = req.getMethod();
+
+		if("POST".equals(method)) {
+			String userName = req.getParameter("name");
+			String userPhone = req.getParameter("mobile");
+			
+			System.out.println("#####" + userName);
+			
+			HashMap<String, String> map = new HashMap<>();
+			
+			map.put("userName", userName);
+			map.put("userPhone", userPhone);
+			
+			String userEmail = service.getUserEmail(map);
+			System.out.println(">>>>> 확인용 userid : " + userEmail); 
+			
+			req.setAttribute("userid", userEmail);
+			req.setAttribute("name", userName);
+			req.setAttribute("mobile", userPhone);
+		}	
+			
+		return "user/emailFind";
+		
+	}
+	
+	@RequestMapping(value="/pwdFind.eat")
+	public String pwdFind(HttpServletRequest req){
+		String method = req.getMethod();
+		
+		String userEmail = req.getParameter("userEmail");
+		String userPhone = req.getParameter("userPhone");
+		
+		int n = 2;
+		
+		if("POST".equals(method)) {
+			
+			HashMap<String, String> map = new HashMap<>();
+			
+			map.put("userEmail", userEmail);
+			map.put("userPhone", userPhone);
+			
+			n = service.getUserExists(map);
+			
+			if(n == 0) {
+				n = 0;
+			}
+			
+			System.out.println("잘못된 결과값을 나타낸다" + n);
+			
+			req.setAttribute("n", n);
+			
+			if(n == 1) {
+				GoogleMail mail = new GoogleMail();
+				
+				Random rnd = new Random();
+				
+				try {
+					char randchar = ' ';
+					int randnum = 0;
+					String certificationCode = "";
+					
+					for(int i=0; i<5; i++) {
+						// min 부터 max 사이의 값으로 랜덤한 정수를 얻으려면
+					    // int rndnum = rnd.nextInt(max - min + 1) + min;
+						randchar = (char)(rnd.nextInt('z'-'a'+1)+'a');
+						certificationCode += randchar;
+					}
+					
+					for(int i=0; i<7; i++) {
+						randnum = (int)(rnd.nextInt(10-0+1)+0);
+						certificationCode += randnum;
+					}
+					
+					mail.sendmail(userEmail, certificationCode);
+					req.setAttribute("certificationCode", certificationCode);
+					
+					req.setAttribute("n", n);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+					
+					//n = -1;                                                                                                                                                                                                           
+					
+					req.setAttribute("sendFailmsg", "메일발송에 실패했습니다.");
+					
+				} // end of try~catch()----------
+				
+			}
+			//else {
+			//	n = 0;
+			//}// end of if~else----------------
+			
+		}
+		req.setAttribute("userEmail", userEmail);
+		req.setAttribute("userPhone", userPhone);
+		return "user/pwdFind";
+	}
+	
+	@RequestMapping(value="/pwdConfirm.eat")
+	public String pwdConfirm(HttpServletRequest req){
+		String method = req.getMethod();
+		int n = 0;
+		
+		String userEmail = req.getParameter("userEmail");
+		String userPw = req.getParameter("pwd");
+		String pwd2 = req.getParameter("pwd2");
+		
+		if("POST".equals(method)) {
+		
+		
+		
+		HashMap<String, String> map = new HashMap<>();
+		
+		map.put("userEmail", userEmail);
+		map.put("userPw", userPw);
+		
+		if(userEmail != null && userPw != null) {
+		   n = service.updatePwdUser(map);
+		}
+		
+		
+		req.setAttribute("n", n);
+		req.setAttribute("userEmail", userEmail);
+		req.setAttribute("pwd", userPw);
+		req.setAttribute("pwd2", pwd2);
+		}
+		
+		return "user/pwdConfirm";
 	}
 	
 //	회원가입 중 이메일 중복체크
@@ -588,10 +722,12 @@ public class UserController {
 			
 			
 			if(result == 2){
-				req.setAttribute("script", " alert('처음 출석체크가 되었습니다. 마일리지 : 3점이 지급되었습니다.'); location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
+				req.setAttribute("msg", "처음 출석체크가 되었습니다." + "마일리지 : 3점이 지급되었습니다.");
+				req.setAttribute("script", "location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
 				
 			}else{
-				req.setAttribute("script", "alert('처음 출석체크가 실패되었습니다.'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+				req.setAttribute("msg", "처음 출석체크가 실패되었습니다.");
+				req.setAttribute("script", "location.href='index.eat'; self.close(); opener.location.reload(true);  ");
 			}
 			
 		}else{//tbl_userAttend에 있는 유저가 접속했으면 tbl_userAttend에 update를 시킨다.
@@ -602,6 +738,7 @@ public class UserController {
 			if(isLoginToday == 1){//isLoginToday가 1이면 오늘 로그인 했었다.
 				/*req.setAttribute("msg", "오늘 이미 출석체크를 하셨습니다.");
 				req.setAttribute("loc", "index.eat");*/
+				req.setAttribute("msg", "오늘 이미 출석체크를 하셨습니다.");
 				req.setAttribute("script", "location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
 			}else{//오늘 처음 로그인
 				/*로그인      -> 출석        ->3mileage
@@ -610,9 +747,6 @@ public class UserController {
 	                    ->15일출석    ->50mileage
 	                    ->20일 출석    ->70mileage*/
 				UserAttendVO vo2 = service.getUserAttend(loginUser.getUserSeq());
-				String alertRandomBoxStatus = vo2.getAlertRandomBoxStatus(); //한달에 한번 랜덤박스를 지급했을때 알려주기위한 변수
-				
-				System.out.println("-----------------------------------------" + alertRandomBoxStatus);
 				
 				HashMap<String, String> hashMap2 = new HashMap<String, String>();
 				hashMap2.put("attendLastDay", vo2.getAttendLastDay());
@@ -622,19 +756,15 @@ public class UserController {
 				
 				int  m = 0;
 				
-			/*	HashMap<String, String> hashMap3 = new HashMap<String, String>();
-				hashMap3.put("userSeq", loginUser.getUserSeq());*/
+				HashMap<String, String> hashMap3 = new HashMap<String, String>();
+				hashMap3.put("userSeq", loginUser.getUserSeq());
 				
 				if(isLoginContinue == 0){ //0이면 어제 출석을 안한것
-					hashMap2.put("continueCheck", "0");
-					m = service.updateUserAttend(hashMap2);
-					/*hashMap3.put("continueCheck", "0");
-					m = service.updateUserAttend(hashMap3);*/ //로그인한 유저의 
+					hashMap3.put("continueCheck", "0");
+					m = service.updateUserAttend(hashMap3); //로그인한 유저의 
 				}else{ // 1이면 어제 출석을 한것
-					hashMap2.put("continueCheck", "1");
-					m = service.updateUserAttend(hashMap2);
-					/*hashMap3.put("continueCheck", "1");
-					m = service.updateUserAttend(hashMap3);*/ //로그인한 유저의 출석정보를 업데이트한다. allAttendDay = allAttendDay + 1, continueAttendDay = continueAttendDay + 1, attendLastDay = sysdate + 9/24 + 4/24/60
+					hashMap3.put("continueCheck", "1");
+					m = service.updateUserAttend(hashMap3); //로그인한 유저의 출석정보를 업데이트한다. allAttendDay = allAttendDay + 1, continueAttendDay = continueAttendDay + 1, attendLastDay = sysdate + 9/24 + 4/24/60
 				}
 				
 				if(m == 1){ //업데이트를 성공했을 때
@@ -671,84 +801,39 @@ public class UserController {
 					if(result2 == 2){
 						
 						if(Integer.parseInt(vo.getContinueAttendDay()) == 1){
-
-							if(Integer.parseInt(alertRandomBoxStatus) == 1){
-								int n = service.updateAlertRandomBoxStatus(loginUser.getUserSeq());
-								
-								if(n == 1){
-									req.setAttribute("script", " alert('프리미엄 랜덤박스 " + (loginUser.getGradeSeq().equals("UG6") ?  "1" : "3")  +"개 가 지급되었습니다.'); alert('출석체크 되었습니다." + "마일리지 :" + point + "점이 지급되었습니다.'); location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
-								}else{
-									req.setAttribute("script", " alert('userAttendCheck.eat 682줄 에러'); location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
-								}
-								
-								
-							}else{
-								req.setAttribute("script", " alert('출석체크 되었습니다." + "마일리지 :" + point + "점이 지급되었습니다.'); location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
-							}
-							
+							req.setAttribute("msg", "출석체크 되었습니다." + "마일리지 :" + point + "점이 지급되었습니다.");
+							req.setAttribute("script", "location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
 						}else{
 							
 							if("14".equals(vo.getContinueAttendDay())){
-								
-								if(Integer.parseInt(alertRandomBoxStatus) == 1){
-									
-									int n = service.updateAlertRandomBoxStatus(loginUser.getUserSeq());
-									
-									if(n == 1){	
-										req.setAttribute("script", " alert('프리미엄 랜덤박스 " + (loginUser.getGradeSeq().equals("UG6") ?  "1" : "3")  +"개 가 지급되었습니다.'); alert('" + vo.getContinueAttendDay() + " 일 연속 출석입니다. 마일리지 " + point + "점이 지급되었습니다.'); alert('랜덤 박스가 지급되었습니다.'); location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
-									}else{
-										req.setAttribute("script", " alert('userAttendCheck.eat 682줄 에러'); location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
-									}
-									
-								}else{
-									req.setAttribute("script", "alert('" + vo.getContinueAttendDay() + " 일 연속 출석입니다. 마일리지 " + point + "점이 지급되었습니다.'); alert('랜덤 박스가 지급되었습니다.'); location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
-								}
-								
+								req.setAttribute("msg", vo.getContinueAttendDay() + "일 연속 출석입니다. " + "마일리지 :" + point + "점이 지급되었습니다.");
+								req.setAttribute("script", "alert('랜덤 박스가 지급되었습니다.'); location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
 							}else if("30".equals(vo.getContinueAttendDay())){
-								
-								if(Integer.parseInt(alertRandomBoxStatus) == 1){
-									int n = service.updateAlertRandomBoxStatus(loginUser.getUserSeq());
-									
-									if(n == 1){	
-										req.setAttribute("script", " alert('프리미엄 랜덤박스 " + (loginUser.getGradeSeq().equals("UG6") ?  "1" : "3")  +"개 가 지급되었습니다.'); alert('" + vo.getContinueAttendDay() + " 일 연속 출석입니다. 마일리지 " + point + "점이 지급되었습니다.'); alert('프리미엄 박스가 지급되었습니다.'); location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
-									}else{
-										req.setAttribute("script", " alert('userAttendCheck.eat 715줄 에러'); location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
-									}
-									
-								}else{
-									req.setAttribute("script", "alert('" + vo.getContinueAttendDay() + " 일 연속 출석입니다. 마일리지 " + point + "점이 지급되었습니다.'); alert('프리미엄 박스가 지급되었습니다.'); location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
-								}
-								
+								req.setAttribute("msg", vo.getContinueAttendDay() + "일 연속 출석입니다. " + "마일리지 :" + point + "점이 지급되었습니다.");
+								req.setAttribute("script", "alert('프리미엄 박스가 지급되었습니다.'); location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
 							}else{
-								
-								if(Integer.parseInt(alertRandomBoxStatus) == 1){
-									int n = service.updateAlertRandomBoxStatus(loginUser.getUserSeq());
-									
-									if(n == 1){	
-										req.setAttribute("script", " alert('프리미엄 랜덤박스 " + (loginUser.getGradeSeq().equals("UG6") ?  "1" : "3")  +"개 가 지급되었습니다.'); alert('" + vo.getContinueAttendDay() + " 일 연속 출석입니다. 마일리지 " + point + "점이 지급되었습니다.'); location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
-									}else{
-										req.setAttribute("script", " alert('userAttendCheck.eat 730줄 에러'); location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
-									}
-								}else{
-									req.setAttribute("script", "alert('" + vo.getContinueAttendDay() + " 일 연속 출석입니다. 마일리지 " + point + "점이 지급되었습니다.'); location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
-								}
+								req.setAttribute("msg", vo.getContinueAttendDay() + "일 연속 출석입니다." + "마일리지 :" + point + "점이 지급되었습니다.");
+								req.setAttribute("script", "location.href='userGradeCheck.eat'; self.close(); opener.location.reload(true);  ");
 							}
 						}
 						
 						
 					}else{
-						req.setAttribute("script", " alert('m==1일때  result2 == 2가 아닐떄 출석체크 오류입니다.'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+						req.setAttribute("msg", "m==1일때  result2 == 2가 아닐떄 출석체크 오류입니다.");
+						req.setAttribute("script", "location.href='index.eat'; self.close(); opener.location.reload(true);  ");
 					}
 					
 					
 				}else{
-					req.setAttribute("script", " alert('m==1일이 아닐떄 출석체크 오류입니다.'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+					req.setAttribute("msg", "m==1일이 아닐떄 출석체크 오류입니다.");
+					req.setAttribute("script", "location.href='index.eat'; self.close(); opener.location.reload(true);  ");
 				}
 				
 			}
 		}
 		
-		return "/user/msgEnd";
+		
+		return "/admin/msgEnd";
 		//return "msg";
 	}
 	
@@ -759,55 +844,36 @@ public class UserController {
 		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
 		HashMap<String, String> resultHashMap = service.userGradeCheck(loginUser.getUserEmail()); //유저의 경험치를 가져온후에 그 경험치가 등급기준에 맞는지 확인해서 등급이름을 업데이트 시킨다.
 		
-		String alertUpgradeStatus = (service.getUserAttend(loginUser.getUserSeq())).getAlertUpgradeStatus();
 		
-		if(resultHashMap.get("result").equals("1")){ //등급업이 됬을때
+		if(resultHashMap.get("result").equals("1")){ //등급업
 			
-			if(((resultHashMap.get("gradeSeq").equals("UG6") || resultHashMap.get("gradeSeq").equals("UG7")) )){
+			if((resultHashMap.get("gradeSeq").equals("UG6") || resultHashMap.get("gradeSeq").equals("UG7"))){
 				String userGradeName = resultHashMap.get("userGradeName");
 								
-				if(resultHashMap.get("gradeSeq").equals("UG6") && Integer.parseInt(alertUpgradeStatus) == 0 ){//달인으로 등급업이 가능하고 알림횟수가 0일떄만 실행
-					HashMap<String, String> hashMap = new HashMap<String, String>();
-					hashMap.put("userSeq", loginUser.getUserSeq());
-					hashMap.put("alertUpgradeStatus", "1");
-					int n = service.updateAlertUpgradeStatus(hashMap);
-					
-					if(n == 1){
-						req.setAttribute("script", " alert('" + userGradeName + "으로 등급업 하실수 있습니다!!!!'); alert('동,역 마스터 칭호 각각 5개와 1500마일리지로 마이페이지에서 등급업을 해주세요'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
-					}else{
-						req.setAttribute("script", " alert('userGradeCheck.eat 719줄 에러'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
-					}
-					
-				}else if(resultHashMap.get("gradeSeq").equals("UG7") && Integer.parseInt(alertUpgradeStatus) == 0){//신으로 등급업이 가능하고 알림횟수가 0일떄만 실행
-					HashMap<String, String> hashMap = new HashMap<String, String>();
-					hashMap.put("userSeq", loginUser.getUserSeq());
-					hashMap.put("alertUpgradeStatus", "1");
-					int n = service.updateAlertUpgradeStatus(hashMap);
-					
-					if(n == 1){
-						req.setAttribute("script", "alert('" + userGradeName + "으로 등급업 하실수 있습니다!!!!'); alert('구 마스터 칭호 1개와 3000마일리지로 마이페이지에서 등급업을 해주세요'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
-					}else{
-						req.setAttribute("script", " alert('userGradeCheck.eat 732줄 에러'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
-					}
-				}else{
-					req.setAttribute("script", " location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+				req.setAttribute("msg", userGradeName + "으로 등급업 하실수 있습니다!!!!");
+				
+				if(resultHashMap.get("gradeSeq").equals("UG6")){
+					req.setAttribute("script", "alert('동,역 마스터 칭호 각각 5개와 1500마일리지로 마이페이지에서 등급업을 해주세요'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+				}else if(resultHashMap.get("gradeSeq").equals("UG7")){
+					req.setAttribute("script", "alert('구 마스터 칭호 1개와 3000마일리지로 마이페이지에서 등급업을 해주세요'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
 				}
 
-			}else{ //달인, 신을 제외한 나머지 계급들이 등급업이 되었을때 알려주는 것
+			}else{
 				String userGradeName = resultHashMap.get("userGradeName");
 				
 				loginUser.setGradeName(userGradeName);
 				session.setAttribute("loginUser", loginUser);
 				
 				req.setAttribute("msg", userGradeName + "로 등급업 하셨습니다!!!!");
-				req.setAttribute("script", " alert('"+ userGradeName + "로 등급업 하셨습니다!!!!'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+				req.setAttribute("script", "location.href='index.eat'; self.close(); opener.location.reload(true);  ");
 			}
 			
 		}else{ //등급업을 안하고 기존 등급 유지
+			req.setAttribute("msg", "기존등급 유지");
 			req.setAttribute("script", "location.href='index.eat'; self.close(); opener.location.reload(true);  ");
 		}
 		
-		return "/user/msgEnd";
+		return "/admin/msgEnd";
 	}
 	
 	@RequestMapping(value="/myReviewList.eat", method={RequestMethod.GET})
@@ -964,46 +1030,55 @@ public class UserController {
 		HashMap<String,String> hashMap = new HashMap<String,String>();
 		hashMap.put("userSeq", loginUser.getUserSeq());
 		
-		HashMap<String,Object> resultMap = new HashMap<String,Object>();
-		
+	
+		int result = 0;
 		if("UG6".equals(gradeSeq)){
-			resultMap = service.updateUserGrade(loginUser.getUserEmail(), gradeSeq);
-
-			if((int)resultMap.get("result") >= 3){
+			hashMap.put("aliasType", "dongId");
+			int userDongAliasCount = service.getUserAliasCount(hashMap);
+			
+			hashMap.put("aliasType", "metroId");
+			int userMetroAliasCount = service.getUserAliasCount(hashMap);
+			
+			
+			if(userDongAliasCount >= 5 && userMetroAliasCount >= 5){
+				result = service.updateUserGrade(loginUser.getUserEmail());
+				
+			}
+			
+			if(result >= 2){
 				UserVO userVO = service.getLoginUser(loginUser.getUserEmail());
 				loginUser.setGradeName("달인");
 				loginUser.setUserPoint(userVO.getUserPoint());	
 				session.setAttribute("loginUser", loginUser);
 				
 				req.setAttribute("msg", "달인으로 등급업 성공!!");
-				req.setAttribute("script", "location.href='userMyPage.eat'; self.close(); opener.location.reload(true);");
+				req.setAttribute("script", "location.href='javascript:history.back()'; self.close(); opener.location.reload(true);");
 			}else{
-				req.setAttribute("msg", (String)resultMap.get("failReason"));
-				req.setAttribute("script", "location.href='userMyPage.eat'; self.close(); opener.location.reload(true);");
+				req.setAttribute("msg", "달인 등급업이 실패하였습니다 ㅠㅠ");
+				req.setAttribute("script", "location.href='javascript:history.back()'; self.close(); opener.location.reload(true);");
 			}
 			
 		}else if("UG7".equals(gradeSeq)){
-			resultMap = service.updateUserGrade(loginUser.getUserEmail(), gradeSeq);
-
-			if((int)resultMap.get("result") >= 3){
+			hashMap.put("aliasType", "guId");
+			int userGuAliasCount = service.getUserAliasCount(hashMap);
+			
+			if(userGuAliasCount  >= 1){
+				result = service.updateUserGrade(loginUser.getUserEmail());
+			}
+			
+			if(result >= 2){
 				UserVO userVO = service.getLoginUser(loginUser.getUserEmail());
-				loginUser.setGradeName("신");
+				loginUser.setGradeName("달인");
 				loginUser.setUserPoint(userVO.getUserPoint());	
 				session.setAttribute("loginUser", loginUser);
 				
 				req.setAttribute("msg", "신으로 등급업 성공!!");
-				req.setAttribute("script", "location.href='userMyPage.eat'; self.close(); opener.location.reload(true);");
+				req.setAttribute("script", "location.href='javascript:history.back()'; self.close(); opener.location.reload(true);");
 			}else{
-				req.setAttribute("msg", (String)resultMap.get("failReason"));
-				req.setAttribute("script", "location.href='userMyPage.eat'; self.close(); opener.location.reload(true);");
+				req.setAttribute("msg", "신 등급업이 실패하였습니다 ㅠㅠ");
+				req.setAttribute("script", "location.href='javascript:history.back()'; self.close(); opener.location.reload(true);");
 			}
 		}
-		
-		
-	
-		
-		
-		
 		return "admin/msgEnd";
 	}
 
@@ -1017,6 +1092,7 @@ public class UserController {
 		
 		return "user/reviewDelete";
 	}
+	
 	
 
 }
