@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.ReviewVO;
-import com.go.mazzipmetro.vo.ThemeVO;
 import com.go.mazzipmetro.vo.UserAliasVO;
 
 @Repository
@@ -153,21 +152,5 @@ public class ReviewDAO implements IDAO{
 	public int getDongAliasNum(HashMap<String, String> dongMap) {
 		return sqlSession.selectOne("review.getDongAliasNum", dongMap);
 	}
-	
-	//테마 넣기
-	public int addTheme(String[] themeArr, String reviewSeq, String restSeq) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		int result=0;
-		for(int i=0; i<themeArr.length; i++)
-		{
-			map.put("reviewSeq", reviewSeq);
-			map.put("restSeq", restSeq);
-			map.put("theme", themeArr[i]);
-			result = sqlSession.insert("review.insertTheme", map);
-		}
-		return result;
-	}
-	
-	
 
 }

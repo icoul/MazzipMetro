@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import com.go.mazzipmetro.vo.FaqVO;
 import com.go.mazzipmetro.vo.QnaVO;
-import com.go.mazzipmetro.vo.RestaurantVO;
-import com.go.mazzipmetro.vo.ReviewVO;
 
 @Repository
 public class MazzipMetroDAO implements IDAO{
@@ -118,30 +116,4 @@ public class MazzipMetroDAO implements IDAO{
 		List<FaqVO> faqList = sqlSession.selectList("getFaqListByType", faqType);
 		return faqList;
 	}
-
-	
-	// 검색어가 어느 종류의 위치정보인지 알아오기
-	public int getLocationInfo(HashMap<String, String> map) {
-		return sqlSession.selectOne("mazzipMetro.getLocationInfo", map);
-	}
-
-	// 사용자 search 
-	public List<RestaurantVO> getRestSearchResult(HashMap<String, String> map) {
-		return sqlSession.selectList("mazzipMetro.getRestSearchResult", map);
-	}
-
-	// 사용자 search
-	public List<ReviewVO> getReviewSearchResult(HashMap<String, String> map) {
-		return sqlSession.selectList("mazzipMetro.getReviewSearchResult", map);
-	}
-
-	// 사용자 search : 통합 업장
-	public List<RestaurantVO> getRestIntergratedSearch(HashMap<String, String> map) {
-		return sqlSession.selectList("mazzipMetro.getRestIntergratedSearch", map);
-	}
-	
-	// 사용자 search : 통합 리뷰
-		public List<ReviewVO> getReviewIntergratedSearch(HashMap<String, String> map) {
-			return sqlSession.selectList("mazzipMetro.getReviewIntergratedSearch", map);
-		}
 }
