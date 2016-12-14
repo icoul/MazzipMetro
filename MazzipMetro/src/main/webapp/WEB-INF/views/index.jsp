@@ -269,7 +269,6 @@
             });
             
             
-<<<<<<< HEAD
             $("#keyword").keyup(function(){
         		
     			$.ajax({
@@ -318,8 +317,6 @@
     			
     		});// end of $("#keyword").keyup
             
-=======
->>>>>>> b1fb988f1f201e7caf9d6553a665dc2787ad5a15
         });// $(document).ready()
         
         //등록된 맛집이 없는 경우(지도에러유발) 링크 폐쇄
@@ -444,6 +441,8 @@
 </script> 
 		
 		<div id="leftCon">
+		
+			<!-- 검색바 -->
 			<div  id="search_div" align="center">
 			<br/> 
 			  <form name="searchFrm" id="searchFrm" onsubmit="return false;">
