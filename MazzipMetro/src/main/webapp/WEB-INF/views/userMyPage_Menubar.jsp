@@ -77,6 +77,9 @@
 	        </ul>
 	      </li>
 	      <li class="dropdown">
+	        <a href="<%= request.getContextPath() %>/couponList.eat">쿠폰</a>
+	      </li>
+	      <li class="dropdown">
 	        <a href="<%= request.getContextPath() %>/restListStatistics.eat">통계</a>
 	      </li>
 	    </ul>

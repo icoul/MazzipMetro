@@ -480,8 +480,12 @@
 			<div class="promBann">
 				<img src="<%= request.getContextPath() %>/resources/images/imgProBanner01.jpg" border="0" />
 			</div>
-			<div class="localRankCon" style="margin-top:30px;">
-				<img src="<%= request.getContextPath() %>/resources/images/imgTest03.png" border="0" width="731" />
+			<div  style="margin-top:30px;">
+				<div style = "height : 20px; background-color: lightgrey;">
+					<span style = "font-size: 15pt; font-weight: bold; padding : 15px;">MazzipMetro의 추천 맛집</span>
+				</div>
+				<div class="top5RankView">
+				</div>
 			</div>
 			
 			<div class="reconCon">
