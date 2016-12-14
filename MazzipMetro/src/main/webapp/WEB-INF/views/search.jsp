@@ -79,7 +79,7 @@
        }// end of MainReview
        
        function goSearch(){
-    		alert($("#keyword").val());   
+    		//alert($("#keyword").val());   
        	
     	   if($("#keyword").val().trim().length == 0){
     		   return;

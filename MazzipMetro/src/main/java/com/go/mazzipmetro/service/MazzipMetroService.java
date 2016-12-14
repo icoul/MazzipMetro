@@ -11,7 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.go.mazzipmetro.dao.MazzipMetroDAO;
 import com.go.mazzipmetro.vo.FaqVO;
-import com.go.mazzipmetro.vo.QnaVO;
+import com.go.mazzipmetro.vo.RestaurantVO;
+import com.go.mazzipmetro.vo.ReviewVO;
 
 @Service
 public class MazzipMetroService implements IService {

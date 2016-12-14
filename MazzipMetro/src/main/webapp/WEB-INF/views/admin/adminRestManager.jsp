@@ -217,7 +217,7 @@
 	// 업장 검색 함수
 	function getRestaurant(){
 	
-		alert( $("#selMenu_metroName").val()+" , "+$("#selMenu_dongName").val()+" , "+$("#selMenu_guName").val());
+		//alert( $("#selMenu_metroName").val()+" , "+$("#selMenu_dongName").val()+" , "+$("#selMenu_guName").val());
 		//alert($("[name=restTag]:checked").length);
 		
 		
@@ -232,7 +232,7 @@
 	    });
 	    
 	    $("[name=restMdTag]:checked").each(function(i){
-	    	alert($(this).val());
+	    	//alert($(this).val());
 	    	restMdTagArr.push($(this).val());     // 체크된 것만 값을 뽑아서 배열에 push
 	    });
 		//alert( $("[name=restManager]:checked").val());

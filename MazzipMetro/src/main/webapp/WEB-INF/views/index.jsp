@@ -416,13 +416,29 @@
           
        }// end of MainReview
        
+       function goSearch(){
+    	   if($("#keyword").val().trim().length == 0){
+    		   return;
+    	   }
+    	   
+    	   searchFrm.action = "<%=request.getContextPath()%>/search.eat";
+    	   searchFrm.submit();
+       }
+       
+   	// input 태그 엔터키 refresh 방지
+   	function goButton() {
+   		 if (event.keyCode == 13) {
+   			goSearch();
+   		  	return false;
+   		 }
+   		 return true;
+   	}
 
 
 
        
 </script> 
 		<div id="leftCon">
-<<<<<<< HEAD
 		
 			<!-- 검색바 -->
 			<div  id="search_div" align="center">
@@ -437,8 +453,6 @@
 			  </form>
 			</div>
 			
-=======
->>>>>>> 6a1a210140a720fdb8bb841634152d681699eaa2
 			<div class="mainBann">
 				<img alt="" src="<%=request.getContextPath() %>/resources/images/metroMap.jpg"  usemap="#mazzipMetroImgMap" style="margin-top: 15px;margin-bottom: 15px;">
 				<map id="mazzipMetroImgMap" name="mazzipMetroImgMap">

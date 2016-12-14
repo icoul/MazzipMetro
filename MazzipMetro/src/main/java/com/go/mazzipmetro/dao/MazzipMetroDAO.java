@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.go.mazzipmetro.vo.FaqVO;
-import com.go.mazzipmetro.vo.QnaVO;
+import com.go.mazzipmetro.vo.RestaurantVO;
+import com.go.mazzipmetro.vo.ReviewVO;
 
 @Repository
 public class MazzipMetroDAO implements IDAO{

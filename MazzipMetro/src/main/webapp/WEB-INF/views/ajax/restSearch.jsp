@@ -33,9 +33,9 @@ ul.pagination li a:hover:not(.active) {background-color: #ddd;}
 		<table>
 		<c:forEach var="restvo" items="${restList }">
 			<tr >
-				<td style="padding: 10px;">
+				<td style="padding: 10px; height: 120px;">
 					<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${restvo.restSeq}" style="color:black; text-decoration: none;">
-					<img src="<%=request.getContextPath()%>/files/${restvo.restImg}" width="100px;"/>
+					<img src="<%=request.getContextPath()%>/files/${restvo.restImg}" width="100px"/>
 					</a>
 				</td>
 				<td style="vertical-align: middle; padding: 10px;">

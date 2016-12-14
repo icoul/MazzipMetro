@@ -31,11 +31,8 @@ public class ReviewVO {
 
    public ReviewVO(String reviewSeq, String userSeq, String restSeq, String reviewTitle, String reviewContent,
 		String reviewHit, String reviewMood, String reviewTaste, String reviewPrice, String reviewService,
-<<<<<<< HEAD
 		String reviewAvgScore, String reviewRegDate, String reviewStatus, String[] reviewBgTag, String[] reviewMdTag, String reviewBTag, String reviewMTag, String restName) {
-=======
-		String reviewAvgScore, String reviewRegDate, String reviewStatus, String[] reviewBgTag, String[] reviewMdTag) {
->>>>>>> 6a1a210140a720fdb8bb841634152d681699eaa2
+
 	
 	this.reviewSeq = reviewSeq;
 	this.userSeq = userSeq;
@@ -52,12 +49,10 @@ public class ReviewVO {
 	this.reviewStatus = reviewStatus;
 	this.reviewBgTag = reviewBgTag;
 	this.reviewMdTag = reviewMdTag;
-<<<<<<< HEAD
 	this.reviewBTag = reviewBTag;
 	this.reviewMTag = reviewMTag;
 	this.restName = restName;
-=======
->>>>>>> 6a1a210140a720fdb8bb841634152d681699eaa2
+	
    }
 
 	public String getReviewSeq() {
@@ -179,8 +174,7 @@ public class ReviewVO {
 	public void setReviewMdTag(String[] reviewMdTag) {
 		this.reviewMdTag = reviewMdTag;
 	}
-<<<<<<< HEAD
-
+	
 	public String getReviewBTag() {
 		return reviewBTag;
 	}
@@ -204,8 +198,6 @@ public class ReviewVO {
 	public void setRestName(String restName) {
 		this.restName = restName;
 	}
-=======
->>>>>>> 6a1a210140a720fdb8bb841634152d681699eaa2
    
    
    
