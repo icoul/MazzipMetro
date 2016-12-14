@@ -93,7 +93,53 @@ public class UserDAO implements IDAO{
 	}
 
 
+	public int reviewDelete(String reviewSeq) {
+		int del = sqlSession.update("user.reviewDelete", reviewSeq);
+		return del;
+	}
 
+	public int userReviewCount(HashMap<String, String> map) {
+		int count = sqlSession.selectOne("user.userReviewCount", map);
+		return count;
+	}
+
+	public int emailDuplicatecheck(String userEmail) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+
+	// 동현_칭호 동이름, 지하철이름, 구이름을 구하기
+	public String getAliasIdName(HashMap<String, String> map) {
+		return sqlSession.selectOne("user.getAliasIdName", map);
+	}
+
+
+	public int userWithdrawal(String userSeq) {
+		int result = sqlSession.update("user.userWithdrawal", userSeq);
+		return result;
+	}
+
+	public String getUserEmail(HashMap<String, String> map) {
+		String userEmail = sqlSession.selectOne("user.getUserEmail", map);
+		return userEmail;
+	}
+
+
+
+	public int getUserExists(HashMap<String, String> map) {
+		int pwCount = sqlSession.selectOne("user.getUserExists", map);
+		return pwCount;
+	}
+
+
+
+	public int updatePwdUser(HashMap<String, String> map) {
+		int pwNewCount = sqlSession.update("user.updatePwdUser", map);
+		return pwNewCount;
+	}
+
+////////////////////////////////////////////////////////은석 //////////////////////////////////////////////////////////////	
 	public int insertAttend(String userSeq) {
 		int n =  sqlSession.insert("insertAttend", userSeq);
 		return n;
@@ -163,31 +209,7 @@ public class UserDAO implements IDAO{
 		List<GradeVO> userGradeList = sqlSession.selectList("getUserGradeList");
 		return userGradeList;
 	}
-
-
-	public int reviewDelete(String reviewSeq) {
-		int del = sqlSession.update("user.reviewDelete", reviewSeq);
-		return del;
-	}
-
-	public int userReviewCount(HashMap<String, String> map) {
-		int count = sqlSession.selectOne("user.userReviewCount", map);
-		return count;
-	}
-
-	public int emailDuplicatecheck(String userEmail) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 	
-
-	// 동현_칭호 동이름, 지하철이름, 구이름을 구하기
-	public String getAliasIdName(HashMap<String, String> map) {
-		return sqlSession.selectOne("user.getAliasIdName", map);
-	}
-
-
-
 	public List<UserAliasVO> getUserGuAliasList(String userSeq) {
 		List<UserAliasVO> userGuAliasList = sqlSession.selectList("getUserGuAliasList", userSeq);
 		return userGuAliasList;
@@ -228,30 +250,6 @@ public class UserDAO implements IDAO{
 		return n;
 	}
 
-	public int userWithdrawal(String userSeq) {
-		int result = sqlSession.update("user.userWithdrawal", userSeq);
-		return result;
-	}
-
-	public String getUserEmail(HashMap<String, String> map) {
-		String userEmail = sqlSession.selectOne("user.getUserEmail", map);
-		return userEmail;
-	}
-
-
-
-	public int getUserExists(HashMap<String, String> map) {
-		int pwCount = sqlSession.selectOne("user.getUserExists", map);
-		return pwCount;
-	}
-
-
-
-	public int updatePwdUser(HashMap<String, String> map) {
-		int pwNewCount = sqlSession.update("user.updatePwdUser", map);
-		return pwNewCount;
-	}
-
 	public int updateAlertUpgradeStatus(HashMap<String,String> hashMap) {
 		int n = sqlSession.update("updateAlertUpgradeStatus", hashMap);
 		return n;
@@ -264,12 +262,10 @@ public class UserDAO implements IDAO{
 		return n;
 	}
 
-
-
 	public int minusRandomBox(HashMap<String, String> hashMap) {
 		int n = sqlSession.update("minusRandomBox", hashMap);
 		return n;
 	}
-
+////////////////////////////////////////////////////////은석 //////////////////////////////////////////////////////////////	
 }
 
