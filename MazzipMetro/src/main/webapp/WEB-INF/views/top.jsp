@@ -90,6 +90,9 @@ function getLoginUserInfo(){
 		  		} else {//로그인한 상태
 		%>  			
 					getLoginUserInfo();
+					
+					// 사용자의 가고싶다 갱신 함수 호출
+			  		getUserWantToGo();
 		<%  		
 		  		}
 		%>
@@ -112,11 +115,6 @@ function getLoginUserInfo(){
 		
 		
 		//SideMenu 활성화 관련 이벤트 
-  		$("#userName").mouseover(function(){
-  			$("#mySidenav").css('display',"block");
-  			$(this).fadeTo('slow', 0.2);
-  		});
-  		
   		$("#mySidenavTrigger").mouseover(function(){
   			$("#mySidenav").css('display',"block");
   			$(this).fadeTo('slow', 0.2);
@@ -136,6 +134,9 @@ function getLoginUserInfo(){
   			$("#userName").fadeTo('slow',1);
   		});
 		
+  		
+  		
+  		
 	});// end of ready
 	
 	
@@ -175,7 +176,7 @@ function getLoginUserInfo(){
 				url:"<%=request.getContextPath()%>/addWantToGo.eat",
 				type :"GET",
 				data: "restSeq="+restSeq,
-				dataType:"html",
+				dataType:"json",
 				success: function(data){
 							
 					alert(data.msg);
@@ -185,6 +186,25 @@ function getLoginUserInfo(){
 					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 				} // end of error: function(request,status,error)
 			}); //end of $.ajax()
+	}
+	
+	// 사용자 가고싶다 ajax 호출
+	function getUserWantToGo(){
+		$.ajax({
+			url:"<%=request.getContextPath()%>/getUserWantToGo.eat",
+			type :"GET",
+			dataType:"html",
+			success: function(data){
+				
+					$("#myWantToGo").html(data);
+			
+			}, //end of success: function(data)
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			} // end of error: function(request,status,error)
+		
+		}); //end of $.ajax()
+
 	}
 	
 </script>

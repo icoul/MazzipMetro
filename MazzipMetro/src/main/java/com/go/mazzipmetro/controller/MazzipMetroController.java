@@ -44,23 +44,42 @@ public class MazzipMetroController {
 		return "index";
 	}
 	
-	// 오늘뭐먹지?(foodCart)에 담기 요청
+	// 사용자 가고싶다 list 요청
+	@RequestMapping(value="/getUserWantToGo.eat", method={RequestMethod.GET})
+	public String login_getUserWantToGo(HttpServletRequest req, HttpServletResponse res){
+		UserVO loginUser = (UserVO)req.getSession().getAttribute("loginUser");
+		String userSeq = loginUser.getUserSeq();
+		
+		List<RestaurantVO> list = service.getUserWantToGo(userSeq);
+		
+		req.setAttribute("list", list);
+		return "/ajax/userWantToGo";
+	}
+	
+	// 가고싶다에 담기 요청
 	@RequestMapping(value="/addWantToGo.eat", method={RequestMethod.GET})
-	public String addFoodCart(HttpServletRequest req, HttpServletResponse res){
+	public String login_addFoodCart(HttpServletRequest req, HttpServletResponse res){
 		String restSeq = req.getParameter("restSeq");
 		UserVO loginUser = (UserVO)req.getSession().getAttribute("loginUser");
 		String userSeq = loginUser.getUserSeq();
+		String msg = "";
 		
 		HashMap<String, String> map = new HashMap<>();
 		map.put("restSeq", restSeq);
 		map.put("userSeq", userSeq);
 		
-		int result = service.addWantToGo(map);
-		String msg = "[ "+loginUser.getUserName()+" 님의 ";
-		msg += (result > 0)?"가고싶다]에 성공적으로 담았습니다.":"가고싶다]에 담기 실패했습니다. 다시 시도해주세요.";
+		//가고싶다 테이블에 담겨있는지 검사
+		if(service.checkWantToGo(map) > 0){
+			msg = "이미 가고싶다에 담은 음식점입니다.";
+		} else {
+			
+			int result = service.addWantToGo(map);
+			msg = "[ "+loginUser.getUserName()+" 님의 ";
+			msg += (result > 0)?"가고싶다]에 성공적으로 담았습니다.":"가고싶다]에 담기 실패했습니다. 다시 시도해주세요.";
+			
+		}
 		
 		System.out.println(">>>>>>>>>>>>>>>> msg = "+msg); 
-		
 		JSONObject jObj = new JSONObject();
 		jObj.put("msg", msg);
 		

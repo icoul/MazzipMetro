@@ -22,6 +22,21 @@
 		</if>
 	</select>
 	
+	<!-- 사용자 가고싶다 list 요청 -->
+	<select id="getUserWantToGo"  parameterType="String"  resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select *
+		from tbl_restaurant A join tbl_wantToGo B
+		on A.restSeq = B.restSeq
+		where B.userSeq = #{userSeq}
+		and B.wantToGoStatus = 0
+	</select>
+	
+	<!-- 가고싶다 테이블에 담겨있는지 검사 -->
+	<select id="checkWantToGo" parameterType="java.util.HashMap" resultType="int">
+		select count(*) from tbl_wantToGo
+		where userSeq = #{userSeq} and restSeq = #{restSeq} and wantToGoStatus = 0
+	</select>
+	
 	<!-- 가고싶다 에 담기 요청 -->
 	<insert id="addWantToGo" parameterType="java.util.HashMap">
 		insert into tbl_wantToGo values(seq_tbl_wantToGo.nextval, #{userSeq}, #{restSeq}, default, default)

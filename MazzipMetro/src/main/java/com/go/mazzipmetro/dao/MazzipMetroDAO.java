@@ -170,4 +170,14 @@ public class MazzipMetroDAO implements IDAO{
 	public int addWantToGo(HashMap<String, String> map) {
 		return sqlSession.insert("mazzipMetro.addWantToGo", map);
 	}
+
+	//가고싶다 테이블에 담겨있는지 검사
+	public int checkWantToGo(HashMap<String, String> map) {
+		return sqlSession.selectOne("mazzipMetro.checkWantToGo", map);
+	}
+
+	// 사용자 가고싶다 list 요청
+	public List<RestaurantVO> getUserWantToGo(String userSeq) {
+		return sqlSession.selectList("mazzipMetro.getUserWantToGo", userSeq);
+	}
 }
