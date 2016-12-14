@@ -29,12 +29,13 @@
 		padding-bottom : 20px;
 		text-align: center;
 		font-size: 10pt;
+		vertical-align: middle;
 	}
 </style>
 
 <script type = "text/javascript">
 	$(document).ready(function(){
-		goRestRanking("1");
+		goReviewRanking("1");
 	});
 	
 	function metroSearch(){
@@ -69,7 +70,7 @@
 		$("#regDate").val("0");
 	}
 	
-	function goRestRanking(pageNum){
+	function goReviewRanking(pageNum){
 		
 		var bgTagArr = new Array();
 		$("input[name='bgTag']:checked").each(function(){
@@ -80,7 +81,7 @@
 		$("input[name='mdTag']:checked").each(function(){
 			mdTagArr.push($(this).val());
 		});
-
+		
 		$.ajaxSettings.traditional = true;
 		var form_data = {
 				
@@ -93,8 +94,8 @@
 			}
 		
 		$.ajax({
-			url : "<%=request.getContextPath()%>/restRankingEnd.eat",
-			method : "POST",
+			url : "<%=request.getContextPath()%>/reviewRankingEnd.eat",
+			method : "GET",
 			data : form_data,
 			dataType : "html",
 			success : function(data){
@@ -115,7 +116,7 @@
 			<th>기간</th>
 			<th colspan="2">태그명</th>
 			<th style = "background-color: white; vertical-align: middle;" rowspan="2">
-				<input type = "button" onClick="goRestRanking('1');" style = "width : 70px; font-size : 11pt; margin-left : 10px; margin-right : 10px; " value = "검색"><br/>
+				<input type = "button" onClick="goReviewRanking('1');" style = "width : 70px; font-size : 11pt; margin-left : 10px; margin-right : 10px; " value = "검색"><br/>
 				<input type = "button" onClick="goReset();" style = "width : 70px; font-size : 11pt; margin-left : 10px; margin-right : 10px; margin-top : 10px;" value = "초기화">
 			</th>
 		</tr>

@@ -258,4 +258,39 @@ where rnum between #{StartRno} and #{EndRno}
 					values(tbl_themeSeq.nextval, #{reviewSeq}, #{restSeq}, #{theme})	
 	</insert>
 	
+	<resultMap type="java.util.HashMap" id="getReview">
+		 <result column="userSeq"	  	        property="userSeq" 			    javaType="String" />
+		 <result column="userName"	  	        property="userName" 			    javaType="String" />
+		 <result column="userProfile"	  	    property="userProfile" 				javaType="String" />
+		 <result column="reviewSeq"	  	   		property="reviewSeq" 			    javaType="String" />
+		 <result column="reviewTitle"	  	    property="reviewTitle" 				javaType="String" />
+		 <result column="reviewContent"	  	    property="reviewContent" 			javaType="String" />
+		 <result column="reviewHit" 			property="reviewHit"				javaType="String" />
+		 <result column="reviewAvgScore"	  	property="reviewAvgScore" 			javaType="String" />
+		 <result column="reviewRegDate"	  	    property="reviewRegDate" 			javaType="String" />
+		 <result column="restSeq"	  	  		property="restSeq" 					javaType="String" />
+		 <result column="reviewImg"	  	  		property="reviewImg" 				javaType="String" />
+	</resultMap>
+	<!-- 해당 회원의 리뷰 1개를 가져온다(조건 : 지하철 Id) -->
+	<select id = "review.getBestReview" parameterType="java.util.HashMap" resultMap="getReview" >
+		select V.*
+		from
+		    (select row_number() over(order by A.reviewSeq DESC) AS rno,
+		         B.userSeq, B.userName, B.userProfile, A.reviewSeq, A.reviewTitle, A.reviewHit, A.reviewContent, A.reviewAvgScore, A.reviewRegDate, A.restSeq, M.reviewImg
+		     from 
+		         (
+		          select max(reviewSeq) as reviewSeq, max(reviewImg) as reviewImg
+		          from tbl_review_Image
+		          where reviewImageStatus = 0 
+		          group by reviewSeq
+		         )M join tbl_review A
+		         on M.reviewSeq = A.reviewSeq
+		            join tbl_user B
+		         on A.userseq = B.userSeq
+		            join tbl_restaurant R
+		         on A.restSeq = R.restSeq
+		 where reviewStatus = 0 and userSort = 0 and B.userSeq = ${userSeq} and R.metroId = ${metroId}
+		)V
+		where rno = 1
+	</select>
 </mapper>
