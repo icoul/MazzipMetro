@@ -379,6 +379,31 @@ public class UserService implements IService {
 		int n = reviewDao.isFirstReview(hashMap);
 		return n;
 	}
+
+
+	public HashMap<String, String> grantCoupon(HashMap<String, String> hashMap) {
+		
+		HashMap<String, String> resultMap = new HashMap<String, String>();
+		
+		int boxCount = 0;
+		if(hashMap.get("boxType").equals("random")){
+			 boxCount = Integer.parseInt(dao.getUserAttend(hashMap.get("userSeq")).getUserRandomBox());
+		}else if(hashMap.get("boxType").equals("premium")){
+			boxCount = Integer.parseInt(dao.getUserAttend(hashMap.get("userSeq")).getUserPremiumRandomBox());
+		}
+		
+		if(boxCount > 0){
+			int n = dao.minusRandomBox(hashMap);
+			resultMap.put("result", String.valueOf(n+1));
+		}else{
+			resultMap.put("result", String.valueOf(0));
+			resultMap.put("failReason", (hashMap.get("boxType").equals("random") ? "랜덤박스": "프리미엄 랜덤박스") + "가 없습니다.");
+		}
+		
+		
+		//int m = dao.insertCoupon();
+		return resultMap;
+	}
 	
 }
 

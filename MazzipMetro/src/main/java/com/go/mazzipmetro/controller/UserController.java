@@ -1055,4 +1055,35 @@ public class UserController {
 		return "/user/msgEnd";
 	}
 
+	
+	@RequestMapping(value="/userRandomBox.eat", method={RequestMethod.GET})
+	public String userRandomBox(HttpServletRequest req, HttpSession session){
+		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+		
+		UserAttendVO vo = service.getUserAttend(loginUser.getUserSeq());
+		
+		req.setAttribute("randomBoxCount", vo.getUserRandomBox());
+		req.setAttribute("premiumRandomBoxCount", vo.getUserPremiumRandomBox());
+		return "/user/userRandomBox";
+	}
+	
+	@RequestMapping(value="/userCoupon.eat", method={RequestMethod.GET})
+	public String userCoupon(HttpServletRequest req, HttpSession session){
+		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+		String boxType = req.getParameter("boxType");
+		
+		HashMap<String,String> hashMap = new HashMap<String,String>();
+		hashMap.put("userSeq", loginUser.getUserSeq());
+		hashMap.put("boxType", boxType);
+		
+		HashMap<String,String> resultMap = service.grantCoupon(hashMap); //쿠폰테이블에 인서트 시키고, 출석테이블에 박스 갯수를 하나 감소시킨다.
+		
+		if(resultMap.get("result").equals("2")){
+			req.setAttribute("script", "alert(' "+ (boxType.equals("random") ? "랜덤박스": "프리미엄 랜덤박스") +" 지급 완료되었습니다.'); location.href='userMyPage.eat'; opener.location.reload(true);");
+		}else{
+			req.setAttribute("script", "alert('" + resultMap.get("failReason") + "'); location.href='userMyPage.eat'; opener.location.reload(true);  ");
+		}
+		
+		return "/user/msgEnd";
+	}
 }

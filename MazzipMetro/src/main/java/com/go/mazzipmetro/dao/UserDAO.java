@@ -242,5 +242,12 @@ public class UserDAO implements IDAO{
 		return n;
 	}
 
+
+
+	public int minusRandomBox(HashMap<String, String> hashMap) {
+		int n = sqlSession.update("minusRandomBox", hashMap);
+		return n;
+	}
+
 }
 
