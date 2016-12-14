@@ -63,16 +63,16 @@ function searchKeep(){
 	<%-- subleftCon --%>
 	<div class="subrightCon">
 		<div class="searchWrap">
-		<form name="searchFrm" action="<%= request.getContextPath() %>/adminConList.eat" method="get"> 
-			<a href="<%= request.getContextPath() %>/adminConList.eat" class="btnFafa">목록</a>
-			<select name="colName" id="colName">
-				<option value="restName">상호명</option>
-				<option value="contentName">컨텐츠명</option>
-				<option value="restAddr">주소</option>
-			</select>
-			<input type="text" name="search" id="search" size="40px;" style="height:22px; vertical-align:-1px;" />
-			<button class="btnGray" type="button" onClick="goSearch();">검색</button>
-		</form>
+			<form name="searchFrm" action="<%= request.getContextPath() %>/adminConList.eat" method="get"> 
+				<a href="<%= request.getContextPath() %>/adminConList.eat" class="btnFafa">목록</a>
+				<select name="colName" id="colName">
+					<option value="restName">상호명</option>
+					<option value="contentName">컨텐츠명</option>
+					<option value="restAddr">주소</option>
+				</select>
+				<input type="text" name="search" id="search" size="40px;" style="height:22px; vertical-align:-1px;" />
+				<button class="btnGray" type="button" onClick="goSearch();">검색</button>
+			</form>
 		</div>
 		<table class="tblUserList">
 			<tr>

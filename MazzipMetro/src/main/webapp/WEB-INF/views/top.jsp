@@ -190,15 +190,13 @@ function getLoginUserInfo(){
 			<!-- 메뉴바 : top 우측-->
 			<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
 
-			<div style="float: right;">
+			<div class="loginInfo">
 				<span>${sessionScope.loginUser.userName} 님 환영합니다. </span>
-				현재 마일리지: <span style="color:gold; margin-right: 100px;">${sessionScope.loginUser.userPoint }</span>
+				현재 마일리지: <span style="color:gold; margin-right: 30px;">${sessionScope.loginUser.userPoint }</span>
 				등급 : <span style="color: red;">${sessionScope.loginUser.gradeName }</span>
 				Exp: <span style="color: red;">${sessionScope.loginUser.userExp }</span>
-			
-				<button type="button" class="btnLogin" onClick="goLogOut();">로그아웃</button>
 			</div>
-
+				<button type="button" class="btnLogin" onClick="goLogOut();">로그아웃</button>
 			</c:if>
 
 		</div>

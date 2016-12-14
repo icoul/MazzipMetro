@@ -320,7 +320,7 @@ public class MapController {
 		String pageNo = req.getParameter("pageNo");
 		
 		System.out.println("/"+keyword+" &"+pageNo+" /");
-		int totalRest = 0; 			//총 음식 건수
+		int totalRest = 0; 			//총 음식점 건수
 		int totalPage = 0;			// 전체 페이지수
 		int sizePerPage = 15; 	// 한페이지당 보여줄 음식점수
 		int currPage = 0;			// 요청 페이지 req객체 파라미터에 담긴 요청페이지 pageNo 
@@ -383,10 +383,9 @@ public class MapController {
 		end= start+ sizePerPage -1 ;//sRowNum : currPage*sizePerPage
 		
 		
-		
 		//페이징처리를 위해 start , end 를 map에 담는다.
-		map.put("start", String.valueOf(start)); // HashMap 데이터타입에 맞게 int s를 String으로 변경해서 담는다.
-		map.put("end", String.valueOf(end));  // HashMap 데이터타입에 맞게 int e를 String으로 변경해서 담는다.
+		map.put("start", String.valueOf(start)); // HashMap 데이터타입에 맞게 int start를 String으로 변경해서 담는다.
+		map.put("end", String.valueOf(end));  // HashMap 데이터타입에 맞게 int end를 String으로 변경해서 담는다.
 		
 		
 		List<RestaurantVO> list = service.searchByMetro(map);
