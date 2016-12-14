@@ -89,7 +89,7 @@ th, td{padding:5px;}
 	<div style="position:relative; float: left;margin: 10px;" align="center">
 		<h3 style="padding-bottom: 5px;"><span style="font-weight: bold;">${metroName}</span> 맛집 베스트5</h3> 
 		<table>
-		<c:forEach var="vo" items="${places}"  varStatus="status">
+		<c:forEach var="vo" items="${places}"  varStatus="status" begin="0" end="4">
 			<tr>
 				<th style="color: lime">${status.count}</th>
 				<c:if test="${status.count%2 != 0 }">
@@ -99,22 +99,10 @@ th, td{padding:5px;}
 					<td style="background-color: #ccffcc;">
 				</c:if>
 				
-					<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${vo.restSeq}" data-tooltip-content="#tooltip_content${status.index}" class='tooltipster tooltip_group' style="color:black; text-decoration: none;">
+					<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${vo.restSeq}" data-tooltip-content="#tooltip_content_rest${status.index}" class='tooltipster tooltip_group' style="color:black; text-decoration: none;">
 					<span style='font-weight:bold; font-size:18px;'>${vo.restName}</span>
 					<span style="color:#0066ff; font-size:14px;">${vo.restBgTag}</span>
 					<span style="color:#3333ff; font-size:12px;">${vo.restMdTag}</span>
-					
-					<%-- TagsVO의 변수명은 bgCat, mdCat이다. 헷갈림 주의  --%>
-					<%-- <c:forEach var="bgTag" items="${tags[status.index].bgCat}" varStatus="vs">
-						<span style="color:#0066ff; font-size:14px;">${bgTag}</span>
-						<c:if test="${vs.count < tags[status.index].bgCat.size()}">, </c:if> 
-					</c:forEach>--%>
-					
-					<%-- ${tags[status.index].mdCat} List의 size()를 알아내서 , 를 찍는다.--%>
-					<%-- <c:forEach var="mdTag" items="${tags[status.index].mdCat}" varStatus="vs">
-						<span style="color:#3333ff; font-size:12px;">${mdTag}</span>	
-						<c:if test="${vs.count < tags[status.index].mdCat.size()}">, </c:if>
-					</c:forEach> --%>
 					</a>
 				</td>
 			</tr>
@@ -123,28 +111,32 @@ th, td{padding:5px;}
 	</div>
 	
 	<!-- 베스트 유저 정보 -->
-	<div style="position:relative; float: left; margin-left: 20px; margin: 10px;" align="center" >
-	<h3 style="padding-bottom: 5px;"><span style="font-weight: bold;">${metroName}</span> 마스터즈 5</h3>  
-	<table>
-		<c:forEach var="vo" items="${places}"  varStatus="status">
-			<tr>
-				<th style="color: lime">${status.count}</th>
-				<c:if test="${status.count%2 == 0 }">
-					<td style="background-color: lime;">
-				</c:if>
-				<c:if test="${status.count%2 != 0 }">
-					<td style="background-color: #ccffcc;">
-				</c:if>
-					개똥이 ${status.count}
-				</td>
-			</tr>
-		</c:forEach>
-	</table>
-	</div>
+	<c:if test="${reviews != null && not empty reviews}">
+		<div style="position:relative; float: left; margin-left: 20px; margin: 10px;" align="center" >
+		<h3 style="padding-bottom: 5px;"><span style="font-weight: bold;">${metroName}</span> 마스터즈 5</h3>  
+		<table>
+			<c:forEach var="vo" items="${reviews}"  varStatus="status" begin="0" end="4">
+				<tr>
+					<th style="color: lime">${status.count}</th>
+					<c:if test="${status.count%2 == 0 }">
+						<td style="background-color: lime;">
+					</c:if>
+					<c:if test="${status.count%2 != 0 }">
+						<td style="background-color: #ccffcc;">
+					</c:if>
+						<a href="#" data-tooltip-content="#tooltip_content_review${status.index}" class='tooltipster tooltip_group' style="color:black; text-decoration: none;">
+						${vo.userName} / ${vo.gradeName}
+						</a>
+					</td>
+				</tr>
+			</c:forEach>
+		</table>
+		</div>
+	</c:if>
 	
 	<div class="tooltip_templates">
-	<c:forEach var="vo" items="${places}"  varStatus="status">
-	    <div id="tooltip_content${status.index}">
+	<c:forEach var="vo" items="${places}"  varStatus="status" begin="0" end="4">
+	    <div id="tooltip_content_rest${status.index}">
 	    	<div id="div_tooltipImg">
 	        	<img src="<%=request.getContextPath()%>/files/${vo.restImg}" width="500px;"/>
 	        </div>
@@ -157,6 +149,23 @@ th, td{padding:5px;}
 		        	<img src="<%=request.getContextPath()%>/files/thumb${adImg}" name="thumbImg" />&nbsp;
 		        </c:forEach>
 	        </c:if>
+	    </div>
+	</c:forEach>
+	
+	<c:forEach var="vo" items="${bestReview}"  varStatus="status" begin="0" end="4">
+		<div id="tooltip_content_review${status.index}">
+	    	<div id="div_tooltipImg" style="padding: 5px; width: 500px; height : 50px;">
+	    		<table>
+		    		<tr>
+		    			<td rowspan="2"><img src="<%=request.getContextPath()%>/files/${vo.userProfile}" width="50px;"/></td>
+		    			<td><strong>${vo.userName}</strong> / ${vo.reviewTitle} / ${vo.reviewRegDate }</td>
+		    		</tr>
+		    		<tr>
+		    			<td>${vo.reviewContent }</td>
+		    		</tr>
+	    		</table>
+	        </div>
+	        <br/> 
 	    </div>
 	</c:forEach>
 	</div>

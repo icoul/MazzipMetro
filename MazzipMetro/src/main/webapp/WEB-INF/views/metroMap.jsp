@@ -394,16 +394,45 @@
     </div>
 </div>
 
+<!-- 해당 역 업장 랭킹 섹션 -->
+<div id = "rankingview">
+
+</div>
+
 <script type="text/javascript">
 
 	$(document).ready(function(){
 	
 		searchByMetro(1, '${metroId}');
+		goRestRanking(1, '${metroId}');
+		
 		
 	});//end of $(document).ready()
 
 </script>
 <script>
+
+function goRestRanking(pageNum, metroId){
+
+	var form_data = {
+			
+			pageNum : pageNum,
+			metroId : metroId,   // 키값 : 밸류값 
+			dongId  : "",     // 키값 : 밸류값
+			regDate : "0",
+		}
+	
+	$.ajax({
+		url : "<%=request.getContextPath()%>/restRankingEnd.eat",
+		method : "POST",
+		data : form_data,
+		dataType : "html",
+		success : function(data){
+			$("#rankingview").html(data);
+		}
+	}); // end of ajax
+}
+
 
 
 
@@ -424,7 +453,7 @@ function searchByMetro(reqPage, metroId){
 
 	        // 페이지 번호를 표출합니다
 	        $("#pagination").html(data.pageBar);
-			
+	        goRestRanking(1, metroId);
 		}, //end of success: function(data)
 		error: function(request, status, error){
 			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);

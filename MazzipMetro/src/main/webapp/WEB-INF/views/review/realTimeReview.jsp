@@ -66,9 +66,9 @@ function scrolling(){
                 <td>
                     <section style="font-size: 9pt;">${review.reviewContent}</section>                    
                     <section>
-                     <c:if test="${review.reviewSeq == reviewImageList.reviewSeq }">
+                     <%-- <c:if test="${review.reviewSeq == reviewImageList.reviewSeq }">
                             <a href="<%= request.getContextPath() %>/restaurantDetail.eat?restSeq=${review.restSeq}"><img src="<%= request.getContextPath() %>/files/${reviewImageList[status.index].reviewImg}" width="50px" height="50px"/></a> &nbsp;&nbsp;
-                     </c:if>         
+                     </c:if>  --%>        
                     </section>
                 </td>
 

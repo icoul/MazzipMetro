@@ -155,17 +155,6 @@
 	</table>
 </div>
 </form>
-<div>
-	<table id = "tblRankingView">
-		<tr>
-			<th width = "10%" height = "30px;">순위</th>
-			<th width = "20%" height = "30px;">유저이미지</th>
-			<th width = "30%" height = "30px;">유저아이디</th>
-			<th width = "20%" height = "30px;">유저명</th>
-			<th width = "10%" height = "30px;">유저등급</th>
-		</tr>
-	</table>
-</div>
 <div id = "rankingview">
 
 </div>

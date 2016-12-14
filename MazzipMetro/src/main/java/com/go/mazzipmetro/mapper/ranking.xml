@@ -57,10 +57,10 @@
 	</resultMap>
 	<!-- 기간 상관없이 랭킹 -->
 	<select id = "ranking.getNotDateRestRanking" parameterType="java.util.HashMap" resultMap="restRanking" >
-		select V.*
+		select row_number() over(order by  reviewavgscore*count desc) as rank, V.*
 		from
 		(
-		select T.*, M.metroName, D.dongName, row_number() over(order by  reviewavgscore*count desc) as rank, round(F.reviewavgscore, 1), F.count, round(F.reviewavgscore*F.count, 1) as score
+		select T.*, M.metroName, D.dongName, round(F.reviewavgscore, 1) as reviewavgscore, F.count, round(F.reviewavgscore*F.count, 1) as score
 				from TBL_restaurant T join
 		      (
 		      select restseq, avg(reviewavgscore) as reviewavgscore, count(*) as count
@@ -81,10 +81,10 @@
 	
 	<!-- 최근 일주일 랭킹 -->	
 	<select id = "ranking.getOneWeekRestRanking" parameterType="java.util.HashMap" resultMap="restRanking" >
-		select V.*
+		select row_number() over(order by  reviewavgscore*count desc) as rank, V.*
 		from
 		(
-		select T.*, M.metroName, D.dongName, row_number() over(order by  reviewavgscore*count desc) as rank, round(F.reviewavgscore, 1), F.count, round(F.reviewavgscore*F.count, 1) as score
+		select T.*, M.metroName, D.dongName, round(F.reviewavgscore, 1) as reviewavgscore, F.count, round(F.reviewavgscore*F.count, 1) as score
 				from TBL_restaurant T join
 		      (
 		      select restseq, avg(reviewavgscore) as reviewavgscore, count(*) as count
@@ -105,10 +105,10 @@
 
 	<!-- 최근 한 달 랭킹 -->	
 	<select id = "ranking.getOneMonthRestRanking" parameterType="java.util.HashMap" resultMap="restRanking" >
-		select V.*
+		select row_number() over(order by  reviewavgscore*count desc) as rank, V.*
 		from
 		(
-		select T.*, M.metroName, D.dongName, row_number() over(order by  reviewavgscore*count desc) as rank, round(F.reviewavgscore, 1), F.count, round(F.reviewavgscore*F.count, 1) as score
+		select T.*, M.metroName, D.dongName, round(F.reviewavgscore, 1) as reviewavgscore, F.count, round(F.reviewavgscore*F.count, 1) as score
 				from TBL_restaurant T join
 		      (
 		      select restseq, avg(reviewavgscore) as reviewavgscore, count(*) as count
@@ -129,10 +129,10 @@
 
 	<!-- 최근 3달 랭킹 -->	
 	<select id = "ranking.getThreeMonthRestRanking" parameterType="java.util.HashMap" resultMap="restRanking" >
-		select V.*
+		select row_number() over(order by  reviewavgscore*count desc) as rank, V.*
 		from
 		(
-		select T.*, M.metroName, D.dongName, row_number() over(order by  reviewavgscore*count desc) as rank, round(F.reviewavgscore, 1), F.count, round(F.reviewavgscore*F.count, 1) as score
+		select T.*, M.metroName, D.dongName, round(F.reviewavgscore, 1) as reviewavgscore, F.count, round(F.reviewavgscore*F.count, 1) as score
 				from TBL_restaurant T join
 		      (
 		      select restseq, avg(reviewavgscore) as reviewavgscore, count(*) as count
@@ -153,10 +153,10 @@
 
 	<!-- 최근 1년 랭킹 -->	
 	<select id = "ranking.getOneYearRestRanking" parameterType="java.util.HashMap" resultMap="restRanking" >
-		select V.*
+		select row_number() over(order by  reviewavgscore*count desc) as rank, V.*
 		from
 		(
-		select T.*, M.metroName, D.dongName, row_number() over(order by  reviewavgscore*count desc) as rank, round(F.reviewavgscore, 1), F.count, round(F.reviewavgscore*F.count, 1) as score
+		select T.*, M.metroName, D.dongName, round(F.reviewavgscore, 1) as reviewavgscore, F.count, round(F.reviewavgscore*F.count, 1) as score
 				from TBL_restaurant T join
 		      (
 		      select restseq, avg(reviewavgscore) as reviewavgscore, count(*) as count

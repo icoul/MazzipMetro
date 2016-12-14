@@ -387,9 +387,14 @@ public class ReviewService implements IService{
 		int m = dao.delLiker(reviewSeq, userSeq);
 		return (n+m);
 	}
-
-
-
-
+	
+	// 해당 회원의 리뷰 1개를 가져온다(조건 : 지하철 Id)
+	public List<HashMap<String, String>> getBestReview(List<String> userSeqList, String metroId) {
+		
+		List<HashMap<String, String>> bestReview = dao.getBestReview(userSeqList, metroId);
+		
+		return bestReview;
+		
+	}
 
 }

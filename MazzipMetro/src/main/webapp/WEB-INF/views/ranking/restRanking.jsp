@@ -154,17 +154,6 @@
 	</table>
 </div>
 </form>
-<div>
-	<table id = "tblRankingView">
-		<tr>
-			<th width = "10%" height = "30px;">순위</th>
-			<th width = "50%" height = "30px;">음식점명</th>
-			<th width = "20%" height = "30px;">업종</th>
-			<th width = "10%" height = "30px;">역명</th>
-			<th width = "10%" height = "30px;">지역명</th>
-		</tr>
-	</table>
-</div>
 <div id = "rankingview">
 
 </div>

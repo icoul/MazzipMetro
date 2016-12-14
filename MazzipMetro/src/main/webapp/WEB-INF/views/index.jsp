@@ -11,6 +11,8 @@
         	
         	$("#keyword").focus();
         	
+        	// 인덱스 페이지 업장 탑 5 랭킹
+        	top5RankView();
 
         	// 실시간 리뷰 애니메이트
             MainReview();
@@ -41,7 +43,7 @@
 		                 var str = instance.elementOrigin().toString(); // localhost로 시작하는 href 값이 나오지만, 객체이다.
 		                 
 						 var metroId = str.substring(str.indexOf("=")+1, str.indexOf("=")+5);//시작index, 끝나는 index  : javascript: searchByMetro(1, '2005')
-		              	alert(metroId);
+		              	//alert(metroId);
 		                 
 		                 for (var i = 0; i < metroIdArr.length; i++) {
 							if(metroIdArr[i] == metroId)
@@ -433,10 +435,27 @@
    		 return true;
    	}
        
-
-
-
-       
+   	
+   	// 인덱스 페이지 탑 5 업장 랭킹 뷰
+   	function top5RankView(){
+   			
+		var form_data = {
+				
+				metroId : "",   // 키값 : 밸류값 
+				dongId  : "",     // 키값 : 밸류값
+				regDate : 0,
+			}
+		
+		$.ajax({
+			url : "<%=request.getContextPath()%>/indexTop5RankView.eat",
+			method : "GET",
+			data : form_data,
+			dataType : "html",
+			success : function(data){
+				$(".top5RankView").html(data);
+			}
+		}); // end of ajax
+   	}
 </script> 
 		
 		<div id="leftCon">
@@ -504,8 +523,12 @@
 			<div class="promBann">
 				<img src="<%= request.getContextPath() %>/resources/images/imgProBanner01.jpg" border="0" />
 			</div>
-			<div class="localRankCon" style="margin-top:30px;">
-				<img src="<%= request.getContextPath() %>/resources/images/imgTest03.png" border="0" width="731" />
+			<div  style="margin-top:30px;">
+				<div style = "height : 20px; background-color: lightgrey;">
+					<span style = "font-size: 15pt; font-weight: bold; padding : 15px;">MazzipMetro의 추천 맛집</span>
+				</div>
+				<div class="top5RankView">
+				</div>
 			</div>
 			
 			<div class="reconCon">

@@ -1,6 +1,7 @@
 
 package com.go.mazzipmetro.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -168,6 +169,21 @@ public class ReviewDAO implements IDAO{
 		return result;
 	}
 	
-	
+	// 해당 회원의 리뷰 1개를 가져온다(조건 : 지하철 Id)
+	public List<HashMap<String, String>> getBestReview(List<String> userSeqList, String metroId) {
+		
+		List<HashMap<String, String>> bestReview = new ArrayList<HashMap<String, String>>();
+		HashMap<String, String> map = new HashMap<String, String>();
+		
+		for (int i = 0; i < userSeqList.size(); i++) {
+			map.put("userSeq", userSeqList.get(i));
+			map.put("metroId", metroId);
+		
+			HashMap<String, String> resultMap = sqlSession.selectOne("review.getBestReview", map);
+			bestReview.add(resultMap);
+		}
+		
+		return bestReview;
+	}
 
 }
