@@ -18,10 +18,6 @@ public class ReviewDAO implements IDAO{
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
-/*	public List<HashMap<String,String>> getReviewList(String restseq) {
-		List<HashMap<String,String>> reviewList = sqlSession.selectList("review.getReviewList", restseq);
-		return reviewList;
-	}*/
 	// 리뷰 이미지 가져오기
 	public List<HashMap<String,String>> getReviewImageList() {
 		List<HashMap<String,String>> reviewImageList = sqlSession.selectList("review.getReviewImageList");
@@ -152,5 +148,19 @@ public class ReviewDAO implements IDAO{
 	public int getDongAliasNum(HashMap<String, String> dongMap) {
 		return sqlSession.selectOne("review.getDongAliasNum", dongMap);
 	}
+	
+	//테마 넣기
+		public int addTheme(String[] themeArr, String reviewSeq, String restSeq) {
+			HashMap<String, String> map = new HashMap<String, String>();
+			int result=0;
+			for(int i=0; i<themeArr.length; i++)
+			{
+				map.put("reviewSeq", reviewSeq);
+				map.put("restSeq", restSeq);
+				map.put("theme", themeArr[i]);
+				result = sqlSession.insert("review.insertTheme", map);
+			}
+			return result;
+		}
 
 }

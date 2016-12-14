@@ -3,6 +3,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <jsp:include page="../top.jsp" />
+<jsp:include page="../library.jsp" />
 <style type="text/css">
 * { padding:0; margin:0;}
 input[type=radio] {vertical-align:-2px;}

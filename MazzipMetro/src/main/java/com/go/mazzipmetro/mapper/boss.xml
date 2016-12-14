@@ -75,9 +75,6 @@
 		       )T
 		  ) V
 		  where V.userSeq=#{userSeq}
-     <if test="colName != null and search != null">     
-	    and ${colName} like '%'|| #{search} ||'%'
-	 </if>
 		and V.RNO >= #{start} and V.RNO <![CDATA[<=]]> #{end}
 	</select>
 	
@@ -99,8 +96,5 @@
 			  ) V
 			  where V.userSeq=#{userSeq}
 	      ) P
-    	<if test="colName != null and search != null">
-    	 where ${colName} like '%' || #{search} || '%'
-    	</if>
     </select>
 </mapper>

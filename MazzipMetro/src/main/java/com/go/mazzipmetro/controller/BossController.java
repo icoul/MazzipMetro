@@ -287,6 +287,7 @@ public class BossController {
 	@RequestMapping(value="/bossCoinList.eat", method={RequestMethod.GET})
 	public String coinList(HttpServletRequest req, HttpSession session) {
 		String pageNo = req.getParameter("pageNo");
+		
 		UserVO loginUser =  (UserVO)session.getAttribute("loginUser");
 		String userSeq = loginUser.getUserSeq();
 		System.out.println("확인용"+userSeq);
@@ -327,8 +328,6 @@ public class BossController {
 	    String search = req.getParameter("search");
 	    
 	    HashMap<String, String> map = new HashMap<String, String>();
-	    map.put("colName", colName);
-	    map.put("search", search);
 	    map.put("userSeq", userSeq);
 	    
 	    map.put("start", String.valueOf(start) );  // 키값 start, 해쉬맵이 String 타입인데 start 는 int 타입이어서 String 타입으로 변경함.  
@@ -377,11 +376,7 @@ public class BossController {
 	    	
 	    	if(colName == null || search == null) {
 				// 검색어가 없는 경우
-				pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminConList.eat?pageNo=%d'>[이전%d페이지]</a>&nbsp;", startPageNo-1, blocksize); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 블럭크기의값 이다.	
-			}
-			else {
-				// 검색어가 있는 경우
-				pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminConList.eat?pageNo=%d&colname=%s&search=%s'>[이전%d페이지]</a>&nbsp;", startPageNo-1, colName, search, blocksize); // 검색어 있는 경우
+				pagebar += String.format("&nbsp;<a href='/mazzipmetro/bossCoinList.eat?pageNo=%d'>[이전%d페이지]</a>&nbsp;", startPageNo-1, blocksize); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 블럭크기의값 이다.	
 			}
 	    }
 	    
@@ -396,13 +391,8 @@ public class BossController {
 	    	else{
 	    		if(colName == null || search == null) {
 	    			// 검색어가 없는 경우
-	    			pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminConList.eat?pageNo=%d'>%d</a>&nbsp;", startPageNo, startPageNo); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 페이지바에 나타낼 startPageNo값 이다.	
+	    			pagebar += String.format("&nbsp;<a href='/mazzipmetro/bossCoinList.eat?pageNo=%d'>%d</a>&nbsp;", startPageNo, startPageNo); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 페이지바에 나타낼 startPageNo값 이다.	
 	    		}
-	    		else {
-	    			// 검색어가 있는 경우
-	    			pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminConList.eat?pageNo=%d&colName=%s&search=%s'>%d</a>&nbsp;", startPageNo, colName, search, startPageNo); // 검색어 있는 경우
-	    		}
-	    		  
 	    	}
 	    	
 	    	loop++;
@@ -421,11 +411,7 @@ public class BossController {
 	    	
 	    	if(colName == null || search == null) {
 				// 검색어가 없는 경우
-				pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminConList.eat?pageNo=%d'>[다음%d페이지]</a>&nbsp;", startPageNo, blocksize); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 블럭크기의값 이다.	
-			}
-			else {
-				// 검색어가 있는 경우
-				pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminConList.eat?pageNo=%d&colName=%s&search=%s'>[다음%d페이지]</a>&nbsp;", startPageNo, colName, search, blocksize); // 검색어 있는 경우
+				pagebar += String.format("&nbsp;<a href='/mazzipmetro/bossCoinList.eat?pageNo=%d'>[다음%d페이지]</a>&nbsp;", startPageNo, blocksize); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 블럭크기의값 이다.	
 			}
 	    }
 	    
@@ -435,11 +421,9 @@ public class BossController {
 	    
 		
 	    req.setAttribute("list", list);
-		req.setAttribute("colName", colName);
-		req.setAttribute("search", search);
 		req.setAttribute("pagebar", pagebar);
 		
-		
+		System.out.println("확인용"+pageNo);
 		
 		return "boss/bossCoinList";
 		
