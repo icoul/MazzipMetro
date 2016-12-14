@@ -176,7 +176,6 @@ public class UserService implements IService {
 		
 		int n = 0;
 		String gradeSeq = "";
-
 		
 		for(int i = 0; i < userGradeList.size(); ++i){
 			
@@ -212,14 +211,14 @@ public class UserService implements IService {
 				&& uservo.getGradeSeq().equals("UG5")
 				&& Integer.parseInt(userGradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
 				
-				n = 1;
 				gradeSeq = "UG6";
+				n = 1;
 			}else if("UG7".equals(userGradeList.get(i).getGradeSeq()) 
 				&& uservo.getGradeSeq().equals("UG6")
 				&& Integer.parseInt(userGradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())){
 				
-				n = 1;
 				gradeSeq = "UG7";
+				n = 1;
 			}
 		}
 		
@@ -264,108 +263,58 @@ public class UserService implements IService {
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
-	public HashMap<String, Object> updateUserGrade(String email, String gradeSeq) {
+	public int updateUserGrade(String email) {
 		UserVO uservo = dao.getLoginUser(email);
 
 		HashMap<String, String> hashMap = new HashMap<String, String>();
 		hashMap.put("userSeq", uservo.getUserSeq());
-		hashMap.put("alertUpgradeStatus", "0"); //달인, 신으로 등급업을 했기때문에 0으로 초기화 시킨다.
 		
 		List<GradeVO> userGradeList = dao.getUserGradeList();
-		
-		hashMap.put("aliasType", "dongId");
-		int userDongAliasCount = dao.getUserAliasCount(hashMap);
-		
-		hashMap.put("aliasType", "metroId");
-		int userMetroAliasCount = dao.getUserAliasCount(hashMap);
-		
-		hashMap.put("aliasType", "guId");
-		int userGuAliasCount = dao.getUserAliasCount(hashMap);
-		
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 
 		int n = 0;
 		int m = 0;
-		int o = 0;
-		
+
 		for (int i = 0; i < userGradeList.size(); ++i) {
-			
-			
-			if ("UG6".equals(userGradeList.get(i).getGradeSeq()) && userGradeList.get(i).getGradeSeq().equals(gradeSeq)
-					&& uservo.getGradeSeq().equals("UG5")
-					&& Integer.parseInt(userGradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())
-					&& userDongAliasCount >= 5 && userMetroAliasCount >= 5) {
+
+			if ("UG6".equals(userGradeList.get(i).getGradeSeq()) && uservo.getGradeSeq().equals("UG5")
+					&& Integer.parseInt(userGradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())) {
 				hashMap.put("gradeSeq", "UG6");
 				
-				if (Integer.parseInt(uservo.getUserPoint()) >= 1500) {
-					n = dao.updateUserPoint(hashMap);
-					m = dao.updateUserGrade(hashMap);
-					o = dao.updateAlertUpgradeStatus(hashMap);
-				} else {
-					resultMap.put("failReason", "포인트가 부족합니다");
-				}
-
-			} 
-			else if ("UG6".equals(userGradeList.get(i).getGradeSeq())
-					&& userGradeList.get(i).getGradeSeq().equals(gradeSeq) && !uservo.getGradeSeq().equals("UG5")) {
-				resultMap.put("failReason", "다이아수저만 등급업이 가능합니다.");
-			} 
-			else if ("UG6".equals(userGradeList.get(i).getGradeSeq())
-					&& userGradeList.get(i).getGradeSeq().equals(gradeSeq) && uservo.getGradeSeq().equals("UG5")
-					&& Integer.parseInt(userGradeList.get(i).getGradeExp()) > Integer.parseInt(uservo.getUserExp())) {
-				resultMap.put("failReason", "달인 등급업에 필요한 경험치는 5000EXP입니다.");
-			}
-			else if("UG6".equals(userGradeList.get(i).getGradeSeq()) && userGradeList.get(i).getGradeSeq().equals(gradeSeq)
-					&& uservo.getGradeSeq().equals("UG5") && (userDongAliasCount < 5 || userMetroAliasCount < 5)){
-				resultMap.put("failReason", "역과 동의 칭호가 5개씩 있어야합니다.");	
-			}
-			else if ("UG7".equals(userGradeList.get(i).getGradeSeq()) //달인등급이고 신등급하기 버튼은 눌러서 경험치가 10000이상이고 구칭호가 1개이상
-					&& userGradeList.get(i).getGradeSeq().equals(gradeSeq) && uservo.getGradeSeq().equals("UG6")
-					&& Integer.parseInt(userGradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())
-					&& userGuAliasCount  >= 1) {
+				n = dao.updateUserPoint(hashMap);
+				m = dao.updateUserGrade(hashMap);
+			} else if ("UG7".equals(userGradeList.get(i).getGradeSeq()) && uservo.getGradeSeq().equals("UG6")
+					&& Integer.parseInt(userGradeList.get(i).getGradeExp()) <= Integer.parseInt(uservo.getUserExp())) {
 				hashMap.put("gradeSeq", "UG7");
-
-				if (Integer.parseInt(uservo.getUserPoint()) >= 3000) {
-					n = dao.updateUserPoint(hashMap);
-					m = dao.updateUserGrade(hashMap);
-					o = dao.updateAlertUpgradeStatus(hashMap);
-				} else {
-					resultMap.put("failReason", "포인트가 부족합니다");
-				}
-
-			} 
-			else if ("UG7".equals(userGradeList.get(i).getGradeSeq())
-					&& userGradeList.get(i).getGradeSeq().equals(gradeSeq) && !uservo.getGradeSeq().equals("UG6")) {
-				resultMap.put("failReason", "달인만 등급업이 가능합니다.");
-			} 
-			else if ("UG7".equals(userGradeList.get(i).getGradeSeq())
-					&& userGradeList.get(i).getGradeSeq().equals(gradeSeq) && uservo.getGradeSeq().equals("UG6")
-					&& Integer.parseInt(userGradeList.get(i).getGradeExp()) > Integer.parseInt(uservo.getUserExp())) {
-				resultMap.put("failReason", "신 등급업에 필요한 경험치는 10000EXP입니다.");
-			}
-			else if ("UG7".equals(userGradeList.get(i).getGradeSeq())
-					&& userGradeList.get(i).getGradeSeq().equals(gradeSeq) && uservo.getGradeSeq().equals("UG6")
-					&& userGuAliasCount  < 1) {
-				resultMap.put("failReason", "구 칭호가 1개 이상이여야 합니다.");
+				
+				n = dao.updateUserPoint(hashMap);
+				m = dao.updateUserGrade(hashMap);
+			
 			}
 
 		}
+		return (n+m);
+	}
+	
+	public int userWithdrawal(String userSeq) {
+		int result = dao.userWithdrawal(userSeq);
+		return result;
+	}
 
-		resultMap.put("result", n + m + o);
-		return resultMap;
+	public String getUserEmail(HashMap<String, String> map) {
+		String userEmail = dao.getUserEmail(map);
+		return userEmail;
 	}
 
 
-	public int updateAlertUpgradeStatus(HashMap<String, String> hashMap) {
-		int n = dao.updateAlertUpgradeStatus(hashMap);
-		return n;
+	public int getUserExists(HashMap<String, String> map) {
+		int pwCount = dao.getUserExists(map);
+		return pwCount;
 	}
 
 
-	public int updateAlertRandomBoxStatus(String userSeq) {
-		int n = dao.updateAlertRandomBoxStatus(userSeq);
-		return n;
-		
+	public int updatePwdUser(HashMap<String, String> map) {
+		int pwNewCount = dao.updatePwdUser(map);
+		return pwNewCount;
 	}
 
 
@@ -405,6 +354,7 @@ public class UserService implements IService {
 		return resultMap;
 	}
 	
+
 }
 
 

@@ -23,6 +23,7 @@ import com.go.mazzipmetro.vo.FileVO;
 import com.go.mazzipmetro.vo.MenuVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.ReviewVO;
+import com.go.mazzipmetro.vo.ThemeVO;
 import com.go.mazzipmetro.vo.UserAliasVO;
 import com.go.mazzipmetro.vo.UserVO;
 
@@ -76,7 +77,6 @@ public class ReviewController {
 	@RequestMapping(value="/reviewAdd.eat", method={RequestMethod.GET} ) 
 	public String reviewAdd(HttpServletRequest req, HttpSession ses) {
 		String restSeq = req.getParameter("restSeq");
-			
 		
 		
 		req.setAttribute("restSeq", restSeq);
@@ -85,9 +85,34 @@ public class ReviewController {
 	}
 	
 	@RequestMapping(value="/reviewAddEnd.eat", method={RequestMethod.POST})
-	public String addRestaurantInfoEnd(ReviewVO rvo, FileVO fvo, HttpServletRequest req, HttpSession session){
+	public String addRestaurantInfoEnd(ThemeVO tvo, ReviewVO rvo, FileVO fvo, HttpServletRequest req, HttpSession session){
 		
-		System.out.println(">>> score @ reviewController : "+rvo.getReviewAvgScore());
+		
+		String[] reviewBgTagArr = req.getParameterValues("reviewBgTag");
+		String[] reviewMdTagArr = req.getParameterValues("reviewMdTag");
+		String[] themeArr = req.getParameterValues("theme");
+	
+		/*	String theme = "";
+		for(int i=0; i<themeArr.length; i++)
+		{
+			 theme = themeArr[i]; 
+		}
+		System.out.println("dddddddddddddddd"+theme);*/
+		if(reviewBgTagArr!=null)
+		{
+			String reviewBgTag = RestaurantController.arrayToTag(reviewBgTagArr);
+			rvo.setReviewBTag(reviewBgTag);
+		}
+		if(reviewMdTagArr!=null)
+		{
+			String reviewMdTag = RestaurantController.arrayToTag(reviewMdTagArr);
+			rvo.setReviewMTag(reviewMdTag);
+		}
+		
+			
+		
+		
+		
 		// 이미지 파일 업로드 및 파일명 배열에 저장하기
 		ArrayList<String> imageList = new ArrayList<String>();	
 		
@@ -109,20 +134,15 @@ public class ReviewController {
 		}catch (Exception e) {
 			e.printStackTrace();
 		} // 완료
-		
-		// 테스트용 대분류/중분류 삽입!!
-		rvo.setReviewBgTag(new String[]{"한식"});
-		rvo.setReviewMdTag(new String[]{"물고기","채소","고기"});
-		
+				
 		// review insert작업 및 alias관련 작업을 trasactional 처리한다.
-		List<String> list = service.addReview(rvo,imageList);
+		List<String> list = service.addReview(rvo, imageList, themeArr);
 		String freeScript = "";
 		int result = Integer.parseInt(list.get(list.size()-1));
 		
 		System.out.println(">>>>>>>>>>>>>>> list.size() ="+ list.size()); 
 		System.out.println(">>>>>>>>>>>>>>> result ="+ result);
-		
-		
+				
 		if(result == 1 && list.size() > 1){
 			System.out.println(">>>>>> 글쓰기 성공 & 칭호 갱신!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); 
 			result = 1;
@@ -229,7 +249,6 @@ public class ReviewController {
 		}
 		
 		System.out.println("UserSeq"+UserSeq);
-		System.out.println("dddddddddddddddddddddddddd"+likers+"dddddddddddddddddddddddddddd");
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("likers", likers);
 		

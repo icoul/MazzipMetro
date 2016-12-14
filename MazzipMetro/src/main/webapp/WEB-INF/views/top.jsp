@@ -12,7 +12,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
     
 
-
 <title>:::Mazzip Metro:::</title>
 
 <script type="text/javascript"> 
@@ -127,9 +126,9 @@ function getLoginUserInfo(){
 		location.href = "logOut.eat";
 	}
 	
-	function goRegister(){
-		location.href = "<%=request.getContextPath()%>/accountSelect.eat";
-	}
+	$(".myclose").click(function(){
+			javascript:history.reload();
+	});
 	
 	function goAsk(){
 		<c:if test="${empty sessionScope.loginUser.userSeq}">
@@ -147,63 +146,114 @@ function getLoginUserInfo(){
 </head>
 <body>
 <div id="container">
-	<div id="headWrap">	
-		<div class="header">
-			<h1><a href="<%= request.getContextPath() %>/index.eat" style="color: black; text-decoration: none">Mazzip Metro</a></h1>
-			<ul class="menu">
-				<!-- 비회원 로그인시(로그인전) -->
-				<c:if test="${empty sessionScope.loginUser.userSeq}">
-					<li><a href="#">맛집랭킹</a></li>
-					<li><a href="javascript:goAsk();">문의하기</a></li>
-					<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
-					&nbsp;&nbsp;&nbsp;&nbsp;
-				</c:if>
-				<!-- 일반사용자 로그인시 -->
-				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 0}">
-					<li><a href="#">맛집랭킹</a></li>
-					<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
-					<li><a href="javascript:goAsk();">문의하기</a></li>
-					<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
-				</c:if>
-				<!-- 사업주 로그인시 -->
-				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 1}">
-					<li><a href="#">맛집랭킹</a></li>
-					<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
-					<li><a href="javascript:goAsk();">문의하기</a></li>
-					<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
-				</c:if>
-				<!-- 관리자 로그인시 -->
-				<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 2}">
-					<li><a href="#">맛집랭킹</a></li>
-					<li><a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a></li>
-					<li><a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a></li>
-					<li><a href="<%=request.getContextPath()%>/adminQnaList.eat">고객문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
+	<div id="headWrap">
+		<!-- 로그인 정보 : top 맨위 -->
+		<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
+			<div class="loginWrap">
+				<div class="loginInfo">
+					<span>${sessionScope.loginUser.userName} 님 환영합니다. </span>
+					현재 마일리지: <span style="color:gold; margin-right: 30px;">${sessionScope.loginUser.userPoint }</span>
+					등급 : <span style="color: red;">${sessionScope.loginUser.gradeName }</span>
+					Exp: <span style="color: red;">${sessionScope.loginUser.userExp }</span>
+				</div> 
+			</div>
+		</c:if>	
+		<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
+			<div class="header" style="margin-top:20px;">
+				<h1><a href="<%= request.getContextPath() %>/index.eat" style="color: black; text-decoration: none">Mazzip Metro</a></h1>
+				<ul class="menu">
+					<!-- 비회원 로그인시(로그인전) -->
+					<c:if test="${empty sessionScope.loginUser.userSeq}">
+						<li><a href="#">맛집랭킹</a></li>
+						<li><a href="javascript:goAsk();">문의하기</a></li>
+						<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+					</c:if>
+					<!-- 일반사용자 로그인시 -->
+					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 0}">
+						<li><a href="#">맛집랭킹</a></li>
+						<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
+						<li><a href="javascript:goAsk();">문의하기</a></li>
+						<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
+					</c:if>
+					<!-- 사업주 로그인시 -->
+					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 1}">
+						<li><a href="#">맛집랭킹</a></li>
+						<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
+						<li><a href="javascript:goAsk();">문의하기</a></li>
+						<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
+					</c:if>
+					<!-- 관리자 로그인시 -->
+					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 2}">
+						<li><a href="#">맛집랭킹</a></li>
+						<li><a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a></li>
+						<li><a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a></li>
+						<li><a href="<%=request.getContextPath()%>/adminQnaList.eat">고객문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
+					</c:if>
+					
+				</ul>
+	
+				<c:if test="${sessionScope.loginUser.userSeq == null && empty sessionScope.loginUser.userSeq}"> 
+				<button type="button" class="btnLogin" data-target="#loginModal" data-toggle="modal" style="margin-left:10px;">로그인</button>
+				<!-- <button type="button" class="btnLogin" onclick="goRegister();">회원가입</button> -->
+				<button type="button" class="btnLogin" data-toggle="modal" data-target="#accountSelectModal">회원가입</button>
 				</c:if>
 				
-			</ul>
-
-			<c:if test="${sessionScope.loginUser.userSeq == null && empty sessionScope.loginUser.userSeq}"> 
-			<button type="button" class="btnLogin" data-target="#loginModal" data-toggle="modal" style="margin-left:10px;">로그인</button>
-			<!-- <button type="button" class="btnLogin" onclick="goRegister();">회원가입</button> -->
-			<button type="button" class="btnLogin" data-toggle="modal" data-target="#accountSelectModal">회원가입</button>
-			</c:if>
-			
-			<!-- 메뉴바 : top 우측-->
-			<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
-
-			<div style="float: right;">
-				<span>${sessionScope.loginUser.userName} 님 환영합니다. </span>
-				현재 마일리지: <span style="color:gold; margin-right: 100px;">${sessionScope.loginUser.userPoint }</span>
-				등급 : <span style="color: red;">${sessionScope.loginUser.gradeName }</span>
-				Exp: <span style="color: red;">${sessionScope.loginUser.userExp }</span>
-			
-				<button type="button" class="btnLogin" onClick="goLogOut();">로그아웃</button>
+				<!-- 메뉴바 : top 우측-->
+				<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
+					<button type="button" class="btnLogin" onClick="goLogOut();">로그아웃</button>
+				</c:if>
 			</div>
-
-			</c:if>
-
-		</div>
+		</c:if>
+		<c:if test="${sessionScope.loginUser.userSeq == null || empty sessionScope.loginUser.userSeq}">
+			<div class="header">
+				<h1><a href="<%= request.getContextPath() %>/index.eat" style="color: black; text-decoration: none">Mazzip Metro</a></h1>
+				<ul class="menu">
+					<!-- 비회원 로그인시(로그인전) -->
+					<c:if test="${empty sessionScope.loginUser.userSeq}">
+						<li><a href="#">맛집랭킹</a></li>
+						<li><a href="javascript:goAsk();">문의하기</a></li>
+						<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+					</c:if>
+					<!-- 일반사용자 로그인시 -->
+					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 0}">
+						<li><a href="#">맛집랭킹</a></li>
+						<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
+						<li><a href="javascript:goAsk();">문의하기</a></li>
+						<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
+					</c:if>
+					<!-- 사업주 로그인시 -->
+					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 1}">
+						<li><a href="#">맛집랭킹</a></li>
+						<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
+						<li><a href="javascript:goAsk();">문의하기</a></li>
+						<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
+					</c:if>
+					<!-- 관리자 로그인시 -->
+					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 2}">
+						<li><a href="#">맛집랭킹</a></li>
+						<li><a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a></li>
+						<li><a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a></li>
+						<li><a href="<%=request.getContextPath()%>/adminQnaList.eat">고객문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
+					</c:if>
+					
+				</ul>
+	
+				<c:if test="${sessionScope.loginUser.userSeq == null && empty sessionScope.loginUser.userSeq}"> 
+				<button type="button" class="btnLogin" data-target="#loginModal" data-toggle="modal" style="margin-left:10px;">로그인</button>
+				<!-- <button type="button" class="btnLogin" onclick="goRegister();">회원가입</button> -->
+				<button type="button" class="btnLogin" data-toggle="modal" data-target="#accountSelectModal">회원가입</button>
+				</c:if>
+				
+				<!-- 메뉴바 : top 우측-->
+				<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
+					<button type="button" class="btnLogin" onClick="goLogOut();">로그아웃</button>
+				</c:if>
+			</div>
+		</c:if>
 	</div>
+	<!-- headWrap -->
 	
 	<div id="content">
 	
@@ -238,11 +288,11 @@ function getLoginUserInfo(){
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 취소</button>
-        <p><a href="javascript:goRegister();" style="color:#f4511e">회원가입하기</a></p>
+        <p><a data-toggle="modal" data-target="#accountSelectModal" data-dismiss="modal" style="color:#f4511e; cursor: pointer;">회원가입하기</a></p>
         <p>
         <td colspan="2" align="center">
-        	<a data-toggle="modal" data-target="#userIdfind" data-dismiss="modal">아이디찾기</a> / 
-			<a data-toggle="modal" data-target="#passwdFind" data-dismiss="modal">비밀번호찾기</a>
+        	<a data-toggle="modal" data-target="#userIdfind" data-dismiss="modal" style="cursor: pointer;">아이디찾기</a> / 
+			<a data-toggle="modal" data-target="#passwdFind" data-dismiss="modal" style="cursor: pointer;">비밀번호찾기</a>
 		</td>	
 		</p>
       </div>
@@ -293,7 +343,7 @@ function getLoginUserInfo(){
         </div>
         <div class="modal-body" style="height: 300px; width: 100%;">
           <div id="idFind">
-          	<iframe style="border: none; width: 100%; height: 280px;" src="<%= request.getContextPath() %>/idFind.eat">
+          	<iframe style="border: none; width: 100%; height: 280px;" src="<%= request.getContextPath() %>/emailFind.eat">
           	</iframe>
           </div>
         </div>

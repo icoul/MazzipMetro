@@ -14,7 +14,7 @@ public class UserAttendVO {
 	
 	public UserAttendVO(){}
 	public UserAttendVO(String attendSeq, String userSeq, String allAttendDay, String continueAttendDay,
-			String contiueStatus, String attendLastDay, String userRandomBox, String userPremiumRandomBox, String alertUpgradeStatus, String alertRandomBoxStatus) {
+			String contiueStatus, String attendLastDay, String userRandomBox) {
 		this.attendSeq = attendSeq;
 		this.userSeq = userSeq;
 		this.allAttendDay = allAttendDay;
@@ -86,7 +86,6 @@ public class UserAttendVO {
 	public void setAlertRandomBoxStatus(String alertRandomBoxStatus) {
 		this.alertRandomBoxStatus = alertRandomBoxStatus;
 	}
-	
 	
 	
 }

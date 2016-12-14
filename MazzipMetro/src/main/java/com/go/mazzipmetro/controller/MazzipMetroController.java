@@ -3,13 +3,13 @@ package com.go.mazzipmetro.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +20,8 @@ import com.go.mazzipmetro.common.ThumbnailManager;
 import com.go.mazzipmetro.service.MazzipMetroService;
 import com.go.mazzipmetro.service.ReviewService;
 import com.go.mazzipmetro.vo.FaqVO;
+import com.go.mazzipmetro.vo.RestaurantVO;
+import com.go.mazzipmetro.vo.ReviewVO;
 import com.go.mazzipmetro.vo.QnaVO;
 import com.go.mazzipmetro.vo.UserVO;
 
@@ -42,6 +44,514 @@ public class MazzipMetroController {
 		return "index";
 	}
 	
+	// 검색 페이지 요청
+	@RequestMapping(value="/search.eat", method={RequestMethod.GET})
+	public String search(HttpServletRequest req){
+		String keyword = req.getParameter("keyword");
+		req.setAttribute("keyword", keyword);
+		return "search";
+	}
+	
+	// 업장 검색 ajax 요청
+	@RequestMapping(value="/restSearch.eat", method={RequestMethod.GET})
+	public String restSearch(HttpServletRequest req){
+		String keyword = req.getParameter("keyword");
+		String pageNo = req.getParameter("pageNo");
+				
+		int totalRest = 0; 			//총 음식점 건수
+		int totalPage = 0;			// 전체 페이지수
+		int sizePerPage = 5; 	// 한페이지당 보여줄 음식점수
+		int currPage = 0;			// 요청 페이지 req객체 파라미터에 담긴 요청페이지 pageNo 
+		
+		int start = 0; 					// 시작행번호
+		int end = 0; 						// 끝 행번호
+		
+		//페이지바용 변수
+		int sPage = 0; 			// 페이지바에서 시작될 페이지 번호
+		int loop = 0; 			//	sPage값이 증가할 때마다 1씩 증가
+		int blockSize = 5; 		// 페이지바에 표시될 pageNo의 개수
+		
+		
+		// 특정 문자열은 제거한다. 
+		// 맛집,
+		String keyword2  = keyword.replaceAll("맛집", "").trim();
+		
+		
+		String[] kwArr =  keyword2.trim().split(" ");
+		String srchType = ""; 
+		String locStr = "";
+		String kw = "";
+		
+		List<RestaurantVO> restList =  null;
+		
+		HashMap<String, String> map = new HashMap<>();
+		
+		if (kwArr.length > 1) {
+			System.out.println(">>>>>>>>>>>>>>>>>>> 복합검색어");
+			
+			//위치정보를 가지고 있는 경우
+			for (int i = 0; i < kwArr.length; i++) {
+				
+				String result = service.getLocationInfo(kwArr[i]);
+				if(!"".equals(result)){
+					srchType = result;
+					locStr = kwArr[i];
+					break;
+				}
+			}
+			
+			// 위치정보를 제외한 나머지 문자열을 하나의 문자열로 묶는다.
+			if (!"".equals(srchType)) {
+				for (String str : kwArr) {
+					if (!str.equals(locStr)) {
+						kw += str;
+					}
+				}
+				kw = kw.trim();
+			}
+			
+			map.put("srchType", srchType);
+			map.put("locStr", locStr);
+			map.put("kw", kw);
+			
+			// 페이징 작업 (총 게시물 수, 총 페이지수)
+			// 먼저 총 음식점 수를 구하기
+			totalRest = service.getRestSearchResult_totalCnt(map);
+			
+			// 페이지바 작업 시작!
+			totalPage = (int)Math.ceil( (double) totalRest/sizePerPage );
+	       //(double)totalCount/sizePerPage 값이 1.1 이면  Math.ceil()은 2.0   Math.ceil()은 double이라서 형변환을 해야한다.
+	       // 63/5 = 12.xx -> 13.0  이 값이 totalPage 가 된다.
+			
+
+			if (pageNo == null) {
+				// 게시판 최초로딩시 pageNo은 null이다.
+				currPage = 1;
+				// 초기화면은 /list.action?pageNo = 1 과 같다.
+			} else {
+				try {
+					currPage = Integer.parseInt(pageNo);
+					//get방식으로 넘어온 pageNo을 currPage에 int 캐스팅후 대입한다.
+					
+					if(currPage < 1 || currPage > totalPage){
+						currPage = 1;
+					}
+					
+				} catch (NumberFormatException exeption) {
+					currPage = 1;
+				}
+			}
+			
+			
+			start = ((currPage - 1) * sizePerPage) +1; //sRowNum
+			end= start+ sizePerPage -1 ;//sRowNum : currPage*sizePerPage
+			
+			
+			String pageBar = "";
+			
+			if(totalRest > 5){
+				pageBar += "<ul class='pagination'>";
+				loop = 1;
+				
+				// ## 페이지바의 시작 페이지 번호(sPage)값 만들기(공식) 
+				sPage = ( ( currPage - 1 )/blockSize )*blockSize + 1 ;
+				
+				// 이전 5페이지 만들기
+				if(!(sPage == 1)) {
+					pageBar += String.format("<li><a href='javascript:goRestSearch(%d)''>«</a></li>", sPage-blockSize);
+				}
+				
+				while( !(loop >  blockSize || sPage > totalPage ) ) {
+					
+					if(sPage == currPage){	// 시작페이지 중에 현재페이지 하나만 <span>		
+						pageBar += String.format("<li><a class='active' href='#'>%s</a></li>", sPage);
+					} else{
+						
+						pageBar += String.format("<li><a href='javascript:goRestSearch(%d)'>%s</a></li>", sPage, sPage);
+					}
+					loop++;
+					sPage++;
+				}
+				
+				// 다음 5페이지 만들기
+				if(!(sPage > totalPage)) {
+					pageBar += String.format("<li><a href='javascript:goRestSearch(%d)''>»</a></li>", sPage);		
+				}
+				
+				
+				pageBar += ""
+						+ "</ul>";
+				
+				req.setAttribute("pageBar", pageBar);
+			}
+			
+			
+			//페이징처리를 위해 start , end 를 map에 담는다.
+			map.put("start", String.valueOf(start)); // HashMap 데이터타입에 맞게 int start를 String으로 변경해서 담는다.
+			map.put("end", String.valueOf(end));  // HashMap 데이터타입에 맞게 int end를 String으로 변경해서 담는다.
+			
+			restList = service.getRestSearchResult(map);
+			
+		} else {
+			// 단일 검색어인경우
+			System.out.println(">>>>>>>>>>>>>>>>>>> 단일검색어"); 
+			
+			// 단일 검색어가 위치정보인 경우
+			String result = service.getLocationInfo(keyword2);
+			if(!"".equals(result)){
+				srchType = result;
+				map.put("srchType", srchType);
+			}
+			
+			map.put("kw", keyword2);
+			// 페이징 작업 (총 게시물 수, 총 페이지수)
+			// 먼저 총 음식점 수를 구하기
+			totalRest = service.getRestIntergratedSearch_totalCnt(map);
+			
+			// 페이지바 작업 시작!
+			totalPage = (int)Math.ceil( (double) totalRest/sizePerPage );
+	       //(double)totalCount/sizePerPage 값이 1.1 이면  Math.ceil()은 2.0   Math.ceil()은 double이라서 형변환을 해야한다.
+	       // 63/5 = 12.xx -> 13.0  이 값이 totalPage 가 된다.
+			
+
+			if (pageNo == null) {
+				// 게시판 최초로딩시 pageNo은 null이다.
+				currPage = 1;
+				// 초기화면은 /list.action?pageNo = 1 과 같다.
+			} else {
+				try {
+					currPage = Integer.parseInt(pageNo);
+					//get방식으로 넘어온 pageNo을 currPage에 int 캐스팅후 대입한다.
+					
+					if(currPage < 1 || currPage > totalPage){
+						currPage = 1;
+					}
+					
+				} catch (NumberFormatException exeption) {
+					currPage = 1;
+				}
+			}
+			
+			
+			start = ((currPage - 1) * sizePerPage) +1; //sRowNum
+			end= start+ sizePerPage -1 ;//sRowNum : currPage*sizePerPage
+			
+			
+			String pageBar = "";
+			
+			if(totalRest > 5){
+				pageBar += "<ul class='pagination'>";
+				loop = 1;
+				
+				// ## 페이지바의 시작 페이지 번호(sPage)값 만들기(공식) 
+				sPage = ( ( currPage - 1 )/blockSize )*blockSize + 1 ;
+				
+				// 이전 5페이지 만들기
+				if(!(sPage == 1)) {
+					pageBar += String.format("<li><a href='javascript:goRestSearch(%d)''>«</a></li>", sPage-blockSize);
+				}
+				
+				while( !(loop >  blockSize || sPage > totalPage ) ) {
+					
+					if(sPage == currPage){	// 시작페이지 중에 현재페이지 하나만 <span>		
+						pageBar += String.format("<li><a class='active' href='#'>%s</a></li>", sPage);
+					} else{
+						
+						pageBar += String.format("<li><a href='javascript:goRestSearch(%d)'>%s</a></li>", sPage, sPage);
+					}
+					loop++;
+					sPage++;
+				}
+				
+				// 다음 5페이지 만들기
+				if(!(sPage > totalPage)) {
+					pageBar += String.format("<li><a href='javascript:goRestSearch(%d)''>»</a></li>", sPage);		
+				}
+				
+				
+				pageBar += ""
+						+ "</ul>";
+				
+				req.setAttribute("pageBar", pageBar);
+			}
+			
+			
+			//페이징처리를 위해 start , end 를 map에 담는다.
+			map.put("start", String.valueOf(start)); // HashMap 데이터타입에 맞게 int start를 String으로 변경해서 담는다.
+			map.put("end", String.valueOf(end));  // HashMap 데이터타입에 맞게 int end를 String으로 변경해서 담는다.
+			
+			System.out.println(">>>>>>>>>> start="+start); 
+			System.out.println(">>>>>>>>>> end="+end);
+			
+			restList = service.getRestIntergratedSearch(map);
+		}
+		
+		req.setAttribute("keyword", keyword);
+		req.setAttribute("restList", restList);
+		return "/ajax/restSearch";
+	}
+	
+	// 리뷰 검색 ajax 요청
+	@RequestMapping(value="/reviewSearch.eat", method={RequestMethod.GET})
+	public String reviewSearch(HttpServletRequest req){
+		String keyword = req.getParameter("keyword");
+		String pageNo = req.getParameter("pageNo");
+		
+		int totalReview = 0; 			//총 음식점 건수
+		int totalPage = 0;			// 전체 페이지수
+		int sizePerPage = 5; 	// 한페이지당 보여줄 음식점수
+		int currPage = 0;			// 요청 페이지 req객체 파라미터에 담긴 요청페이지 pageNo 
+		
+		int start = 0; 					// 시작행번호
+		int end = 0; 						// 끝 행번호
+		
+		//페이지바용 변수
+		int sPage = 0; 			// 페이지바에서 시작될 페이지 번호
+		int loop = 0; 			//	sPage값이 증가할 때마다 1씩 증가
+		int blockSize = 5; 		// 페이지바에 표시될 pageNo의 개수
+		
+		// 특정 문자열은 제거한다. 
+		// 맛집,
+		String keyword2  = keyword.replaceAll("맛집", "").trim();
+		
+		
+		String[] kwArr =  keyword2.trim().split(" ");
+		String srchType = ""; 
+		String locStr = "";
+		String kw = "";
+		
+		List<ReviewVO> reviewList  = null;
+		List<HashMap<String, String>> reviewImageList = null;
+		
+		HashMap<String, String> map = new HashMap<>();
+		
+		if (kwArr.length > 1) {
+			System.out.println(">>>>>>>>>>>>>>>>>>> 복합검색어");
+			
+			//위치정보를 가지고 있는 경우
+			for (int i = 0; i < kwArr.length; i++) {
+				
+				String result = service.getLocationInfo(kwArr[i]);
+				if(!"".equals(result)){
+					srchType = result;
+					locStr = kwArr[i];
+					break;
+				}
+			}
+			
+			// 위치정보를 제외한 나머지 문자열을 하나의 문자열로 묶는다.
+			if (!"".equals(srchType)) {
+				for (String str : kwArr) {
+					if (!str.equals(locStr)) {
+						kw += str;
+					}
+				}
+				kw = kw.trim();
+			}
+			
+			map.put("srchType", srchType);
+			map.put("locStr", locStr);
+			map.put("kw", kw);
+			
+			// 페이징 작업 (총 게시물 수, 총 페이지수)
+			// 먼저 총 음식점 수를 구하기
+			totalReview = service.getReviewSearchResult_totalCnt(map);
+			
+			// 페이지바 작업 시작!
+			totalPage = (int)Math.ceil( (double) totalReview/sizePerPage );
+	       //(double)totalCount/sizePerPage 값이 1.1 이면  Math.ceil()은 2.0   Math.ceil()은 double이라서 형변환을 해야한다.
+	       // 63/5 = 12.xx -> 13.0  이 값이 totalPage 가 된다.
+			
+
+			if (pageNo == null) {
+				// 게시판 최초로딩시 pageNo은 null이다.
+				currPage = 1;
+				// 초기화면은 /list.action?pageNo = 1 과 같다.
+			} else {
+				try {
+					currPage = Integer.parseInt(pageNo);
+					//get방식으로 넘어온 pageNo을 currPage에 int 캐스팅후 대입한다.
+					
+					if(currPage < 1 || currPage > totalPage){
+						currPage = 1;
+					}
+					
+				} catch (NumberFormatException exeption) {
+					currPage = 1;
+				}
+			}
+			
+			
+			start = ((currPage - 1) * sizePerPage) +1; //sRowNum
+			end= start+ sizePerPage -1 ;//sRowNum : currPage*sizePerPage
+			
+			
+			String pageBar = "";
+			
+			if(totalReview > 5){
+				pageBar += "<ul class='pagination'>";
+				loop = 1;
+				
+				// ## 페이지바의 시작 페이지 번호(sPage)값 만들기(공식) 
+				sPage = ( ( currPage - 1 )/blockSize )*blockSize + 1 ;
+				
+				// 이전 5페이지 만들기
+				if(!(sPage == 1)) {
+					pageBar += String.format("<li><a href='javascript:goReviewSearch(%d)''>«</a></li>", sPage-blockSize);
+				}
+				
+				while( !(loop >  blockSize || sPage > totalPage ) ) {
+					
+					if(sPage == currPage){	// 시작페이지 중에 현재페이지 하나만 <span>		
+						pageBar += String.format("<li><a class='active' href='#'>%s</a></li>", sPage);
+					} else{
+						
+						pageBar += String.format("<li><a href='javascript:goReviewSearch(%d)'>%s</a></li>", sPage, sPage);
+					}
+					loop++;
+					sPage++;
+				}
+				
+				// 다음 5페이지 만들기
+				if(!(sPage > totalPage)) {
+					pageBar += String.format("<li><a href='javascript:goReviewSearch(%d)''>»</a></li>", sPage);		
+				}
+				
+				
+				pageBar += ""
+						+ "</ul>";
+				
+				req.setAttribute("pageBar", pageBar);
+			}
+			
+			
+			//페이징처리를 위해 start , end 를 map에 담는다.
+			map.put("start", String.valueOf(start)); // HashMap 데이터타입에 맞게 int start를 String으로 변경해서 담는다.
+			map.put("end", String.valueOf(end));  // HashMap 데이터타입에 맞게 int end를 String으로 변경해서 담는다.
+			
+
+			reviewList  = service.getReviewSearchResult(map);
+			
+		} else {
+			// 단일 검색어인경우
+			System.out.println(">>>>>>>>>>>>>>>>>>> 단일검색어"); 
+			
+			// 단일 검색어가 위치정보인 경우
+			String result = service.getLocationInfo(keyword2);
+			if(!"".equals(result)){
+				srchType = result;
+				locStr = keyword2;
+				map.put("srchType", srchType);
+			}
+			
+			map.put("kw", keyword2);
+			
+		
+		// 페이징 작업 (총 게시물 수, 총 페이지수)
+		// 먼저 총 음식점 수를 구하기
+		totalReview = service.getReviewIntergratedSearch_totalCnt(map);
+		
+		// 페이지바 작업 시작!
+		totalPage = (int)Math.ceil( (double) totalReview/sizePerPage );
+       //(double)totalCount/sizePerPage 값이 1.1 이면  Math.ceil()은 2.0   Math.ceil()은 double이라서 형변환을 해야한다.
+       // 63/5 = 12.xx -> 13.0  이 값이 totalPage 가 된다.
+		
+
+		if (pageNo == null) {
+			// 게시판 최초로딩시 pageNo은 null이다.
+			currPage = 1;
+			// 초기화면은 /list.action?pageNo = 1 과 같다.
+		} else {
+			try {
+				currPage = Integer.parseInt(pageNo);
+				//get방식으로 넘어온 pageNo을 currPage에 int 캐스팅후 대입한다.
+				
+				if(currPage < 1 || currPage > totalPage){
+					currPage = 1;
+				}
+				
+			} catch (NumberFormatException exeption) {
+				currPage = 1;
+			}
+		}
+		
+		
+		start = ((currPage - 1) * sizePerPage) +1; //sRowNum
+		end= start+ sizePerPage -1 ;//sRowNum : currPage*sizePerPage
+		
+		
+		String pageBar = "";
+		
+		if(totalReview > 5){
+			pageBar += "<ul class='pagination'>";
+			loop = 1;
+			
+			// ## 페이지바의 시작 페이지 번호(sPage)값 만들기(공식) 
+			sPage = ( ( currPage - 1 )/blockSize )*blockSize + 1 ;
+			
+			// 이전 5페이지 만들기
+			if(!(sPage == 1)) {
+				pageBar += String.format("<li><a href='javascript:goReviewSearch(%d)''>«</a></li>", sPage-blockSize);
+			}
+			
+			while( !(loop >  blockSize || sPage > totalPage ) ) {
+				
+				if(sPage == currPage){	// 시작페이지 중에 현재페이지 하나만 <span>		
+					pageBar += String.format("<li><a class='active' href='#'>%s</a></li>", sPage);
+				} else{
+					
+					pageBar += String.format("<li><a href='javascript:goReviewSearch(%d)'>%s</a></li>", sPage, sPage);
+				}
+				loop++;
+				sPage++;
+			}
+			
+			// 다음 5페이지 만들기
+			if(!(sPage > totalPage)) {
+				pageBar += String.format("<li><a href='javascript:goReviewSearch(%d)''>»</a></li>", sPage);		
+			}
+			
+			
+			pageBar += ""
+					+ "</ul>";
+			
+			req.setAttribute("pageBar", pageBar);
+		}
+		
+		
+		
+		//페이징처리를 위해 start , end 를 map에 담는다.
+		map.put("start", String.valueOf(start)); // HashMap 데이터타입에 맞게 int start를 String으로 변경해서 담는다.
+		map.put("end", String.valueOf(end));  // HashMap 데이터타입에 맞게 int end를 String으로 변경해서 담는다.
+		
+		// 맵 키값 확인
+		Iterator<String> iterator = map.keySet().iterator();
+	    while (iterator.hasNext()) {
+	        String key = (String) iterator.next();
+	        System.out.print(">>>>>>>> key="+key);
+	        System.out.println(">>>>>>>>value="+map.get(key));
+	    }
+		
+		reviewList  = service.getReviewIntergratedSearch(map);
+		
+		// 리뷰이미지 가져오기
+		//System.out.println(">>>>>>>>>>>>>>>>>>"+reviewList.size()); 
+		if (reviewList.size() > 0) {
+			List<String> seqList = new ArrayList<>();
+			for (ReviewVO vo : reviewList) {
+				seqList.add(vo.getReviewSeq());
+			}
+			HashMap<String, List<String>> seqMap = new HashMap<>();
+			seqMap.put("seqList", seqList);
+			reviewImageList = service.getReviewImageListByReviewSeq(seqMap);
+		}
+		}
+		
+		req.setAttribute("keyword", keyword);
+		req.setAttribute("reviewList", reviewList);
+		req.setAttribute("reviewImageList", reviewImageList);									
+		return "/ajax/reviewSearch";
+	}
 	
 	// 동현_image crop test중
 	@RequestMapping(value="/imgCropTest.eat", method={RequestMethod.GET})
@@ -1138,25 +1648,15 @@ public class MazzipMetroController {
 		@RequestMapping(value="/MainReviewAjax.eat", method={RequestMethod.GET})
 		public String MainReviewAjax(HttpServletRequest req, HttpServletResponse res, HttpSession session){
 			
-			String start = req.getParameter("StartRno");    // 1, 3, 5....
-			String len = req.getParameter("EndRno");        // 2개씩   더보기.. 클릭에 보여줄 상품의 갯수 단위크기   			
+			String start = "1";
+			String len = "20";   			
 			
-			if (start == null) {
-				start = "1";
-			}
-			if (len == null) {
-				len = "5";
-			}
 					
 			int startRno = Integer.parseInt(start);          // 공식!! 시작 행번호   1               3               5
 			int endRno   = startRno+Integer.parseInt(len)-1; // 공식!! 끝 행번호     1+2-1(==2)      3+2-1(==4)      5+2-1(==6)
 			
 			String StartRno = String.valueOf(startRno);
 			String EndRno = String.valueOf(endRno);
-			
-			List<HashMap<String,String>> reviewImageList = reviewService.getReviewImageList();
-			
-			
 			
 			HashMap<String, String> map = new HashMap<String, String>();
 			
@@ -1166,14 +1666,7 @@ public class MazzipMetroController {
 			List<HashMap<String,String>> reviewList = reviewService.getRealReview(map);
 			//int TotalReviewCount = service.getTotalReview(restSeq);
 			
-			
-			
-			/*System.out.println("dddddddddddddddddddddddddddddddddd"+restSeq);*/
-			
-			
-			
 			req.setAttribute("reviewList",  reviewList);
-			req.setAttribute("reviewImageList", reviewImageList);
 			return "review/realTimeReview";
 		}
 

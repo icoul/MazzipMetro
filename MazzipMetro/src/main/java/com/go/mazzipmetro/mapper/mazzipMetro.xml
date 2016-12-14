@@ -5,14 +5,252 @@
 <!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) --> 
 <mapper namespace="mazzipMetro">
 	
-	<resultMap type="java.util.HashMap" id="dbTestResultMap">
-		<result column="guid" 		property="guId" 		javaType="String"/>
-		<result column="guname" 	property="guName" 	javaType="String"/>
-	</resultMap>
-	<select id="dbTest" resultMap="dbTestResultMap">
-		select  * from tbl_gu
+	<!-- 검색어가 어느 종류의 위치정보인지 알아오기 -->
+	<select id="getLocationInfo" parameterType="java.util.HashMap" resultType="int">
+		select count(*)
+		<if test="srchType == 'dongName'">
+		from tbl_dong
+		where dongName like '%' || #{keyword} || '%'
+		</if>
+		<if test="srchType == 'metroName'">
+		from tbl_metro
+		where metroName like '%' || #{keyword} || '%'
+		</if>
+		<if test="srchType == 'guName'">
+		from tbl_gu
+		where guName like '%' || #{keyword} || '%'
+		</if>
 	</select>
 	
+	<!-- 사용자 search : 업장 검색 totalCount -->
+	<select id="getRestSearchResult_totalCnt"  parameterType="java.util.HashMap"  resultType="int">
+		select count(*)
+		from (
+		  select A.*, B.dongName, B.guId
+		  from (
+		    select A.*, B.metroName
+		    from tbl_restaurant A left join tbl_metro B
+		    on A.metroId = B.metroId) A left join tbl_dong B
+		  on A.dongId = B.dongId) A left join tbl_gu B
+		on A.guId = B.guId
+		where ${srchType} like '%' ||#{locStr}|| '%'
+		and (
+		restSeq in (select restSeq from tbl_restaurant_menu where menuName like  '%'||#{kw}||'%' or menuContent like  '%'||#{kw}||'%')
+		or restSeq in (select restSeq from tbl_review where reviewTitle like  '%'||#{kw}||'%' or reviewContent like  '%'||#{kw}||'%')
+		or restName like '%'||#{kw}||'%'
+		or restBgTag like '%'||#{kw}||'%'
+		or restMdTag like '%'||#{kw}||'%')
+	</select>
+	
+	<!-- 사용자 search : 업장 검색 -->
+	<select id="getRestSearchResult"  parameterType="java.util.HashMap"  resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select *
+		from(
+		select A.*, B.guName, rownum as rnum
+		from (
+		  select A.*, B.dongName, B.guId
+		  from (
+		    select A.*, B.metroName
+		    from tbl_restaurant A left join tbl_metro B
+		    on A.metroId = B.metroId) A left join tbl_dong B
+		  on A.dongId = B.dongId) A left join tbl_gu B
+		on A.guId = B.guId
+		where ${srchType} like '%' ||#{locStr}|| '%'
+		and (
+		restSeq in (select restSeq from tbl_restaurant_menu where menuName like  '%'||#{kw}||'%' or menuContent like  '%'||#{kw}||'%')
+		or restSeq in (select restSeq from tbl_review where reviewTitle like  '%'||#{kw}||'%' or reviewContent like  '%'||#{kw}||'%')
+		or restName like '%'||#{kw}||'%'
+		or restBgTag like '%'||#{kw}||'%'
+		or restMdTag like '%'||#{kw}||'%'))
+		where rnum >= #{start} and rnum <![CDATA[<=]]> #{end}
+	</select>
+	
+	<!-- 통합검색  : 업장 보여주기 totalCount-->
+	<select id="getRestIntergratedSearch_totalCnt"  parameterType="java.util.HashMap"  resultType="int">
+		select count(*)
+		from (
+		  select A.*, B.dongName, B.guId
+		  from (
+		    select A.*, B.metroName
+		    from tbl_restaurant A left join tbl_metro B
+		    on A.metroId = B.metroId) A left join tbl_dong B
+		  on A.dongId = B.dongId) A left join tbl_gu B
+		on A.guId = B.guId
+		<if test="srchType != null">
+			where ${srchType}  like '%' ||#{kw}|| '%'
+		</if>
+		<if test="srchType == null">
+		where restSeq in (select restSeq from tbl_restaurant_menu where menuName like '%'||#{kw}||'%' or menuContent like '%'||#{kw}||'%')
+		or restSeq in (select restSeq from tbl_review where reviewTitle like '%'||#{kw}||'%' or reviewContent like '%'||#{kw}||'%')
+		or restName like'%'||#{kw}||'%'
+		or restBgTag like'%'||#{kw}||'%'
+		or restMdTag like'%'||#{kw}||'%'
+		or dongName like'%'||#{kw}||'%'
+		or metroName like'%'||#{kw}||'%'
+		or guName like'%'||#{kw}||'%'
+		</if>
+	</select>
+	
+	<!-- 통합검색  : 업장 보여주기-->
+	<select id="getRestIntergratedSearch"  parameterType="java.util.HashMap"  resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select *
+		from(
+		select A.*, B.guName, rownum as rnum 
+		from (
+		  select A.*, B.dongName, B.guId
+		  from (
+		    select A.*, B.metroName
+		    from tbl_restaurant A left join tbl_metro B
+		    on A.metroId = B.metroId) A left join tbl_dong B
+		  on A.dongId = B.dongId) A left join tbl_gu B
+		on A.guId = B.guId
+		<if test="srchType != null">
+			where ${srchType}  like '%' ||#{kw}|| '%'
+		</if>
+		<if test="srchType == null">
+		where restSeq in (select restSeq from tbl_restaurant_menu where menuName like '%'||#{kw}||'%' or menuContent like '%'||#{kw}||'%')
+		or restSeq in (select restSeq from tbl_review where reviewTitle like '%'||#{kw}||'%' or reviewContent like '%'||#{kw}||'%')
+		or restName like'%'||#{kw}||'%'
+		or restBgTag like'%'||#{kw}||'%'
+		or restMdTag like'%'||#{kw}||'%'
+		or dongName like'%'||#{kw}||'%'
+		or metroName like'%'||#{kw}||'%'
+		or guName like'%'||#{kw}||'%'
+		</if>
+		) where rnum >= #{start} and rnum <![CDATA[<=]]> #{end}
+	</select>
+	
+	<!-- 사용자 search : 리뷰 검색 totalCount -->
+	<select id="getReviewSearchResult_totalCnt"  parameterType="java.util.HashMap"  resultType="int">
+		select count(*)
+		from tbl_review A join tbl_restaurant B
+		on A.restSeq = B.restSeq
+		where (reviewTitle like  '%'||#{kw}||'%'
+		or reviewContent like  '%'||#{kw}||'%')
+		and A.restSeq in (select A.restSeq
+				              from (
+				                select A.*, B.dongName, B.guId
+				                from (
+				                  select A.*, B.metroName
+				                  from tbl_restaurant A left join tbl_metro B
+				                  on A.metroId = B.metroId) A left join tbl_dong B
+				                on A.dongId = B.dongId) A left join tbl_gu B
+				              on A.guId = B.guId
+				              where (restSeq in (select restSeq from tbl_restaurant_menu where menuName like '%'||#{kw}||'%' or menuContent like  '%'||#{kw}||'%')
+				              or restName like '%'||#{kw}||'%'
+				              or restBgTag like '%'||#{kw}||'%'
+				              or restMdTag like '%'||#{kw}||'%')
+				              and ${srchType}  like '%' ||#{locStr}|| '%')
+	</select>
+	
+	<!-- 사용자 search : 리뷰 검색 -->
+	<select id="getReviewSearchResult"  parameterType="java.util.HashMap"  resultType="com.go.mazzipmetro.vo.ReviewVO">
+		select *
+		from(
+		select A.reviewSeq, A.userSeq, A.restSeq, A.reviewTitle, A.reviewContent, A.reviewHit, A.reviewMood, A.reviewTaste, A.reviewPrice, A.reviewService, A.reviewAvgScore, A.reviewRegDate, A.reviewStatus
+     		    , B.restBgTag as reviewBTag, B.restMdTag as reviewMTag, B.restName, rownum as rnum
+		from tbl_review A join tbl_restaurant B
+		on A.restSeq = B.restSeq
+		where (reviewTitle like  '%'||#{kw}||'%'
+		or reviewContent like  '%'||#{kw}||'%')
+		and A.restSeq in (select A.restSeq
+				              from (
+				                select A.*, B.dongName, B.guId
+				                from (
+				                  select A.*, B.metroName
+				                  from tbl_restaurant A left join tbl_metro B
+				                  on A.metroId = B.metroId) A left join tbl_dong B
+				                on A.dongId = B.dongId) A left join tbl_gu B
+				              on A.guId = B.guId
+				              where (restSeq in (select restSeq from tbl_restaurant_menu where menuName like '%'||#{kw}||'%' or menuContent like  '%'||#{kw}||'%')
+				              or restName like '%'||#{kw}||'%'
+				              or restBgTag like '%'||#{kw}||'%'
+				              or restMdTag like '%'||#{kw}||'%')
+				              and ${srchType}  like '%' ||#{locStr}|| '%')
+		order by reviewSeq desc
+		) where rnum >= #{start} and rnum <![CDATA[<=]]> #{end}
+	</select>
+	
+	<!-- 통합검색  : 리뷰 보여주기 totalCount-->
+	<select id="getReviewIntergratedSearch_totalCnt"  parameterType="java.util.HashMap"  resultType="int">
+		select count(*)
+		from tbl_review A left join (select A.*, B.guName
+			                  from (
+			                    select A.*, B.dongName, B.guId
+			                    from (
+			                      select A.*, B.metroName
+			                      from tbl_restaurant A left join tbl_metro B
+			                      on A.metroId = B.metroId) A left join tbl_dong B
+			                    on A.dongId = B.dongId) A left join tbl_gu B
+			                  on A.guId = B.guId) B 
+			on A.restSeq = B.restSeq
+		<if test="srchType != null">
+			where ${srchType}  like '%' ||#{kw}|| '%'
+		</if>
+		<if test="srchType == null">
+		where reviewTitle like  '%'||#{kw}||'%' 
+		or reviewContent like  '%'||#{kw}||'%'
+		or A.restSeq in (select A.restSeq
+		                  from (
+		                    select A.*, B.dongName, B.guId
+		                    from (
+		                      select A.*, B.metroName
+		                      from tbl_restaurant A left join tbl_metro B
+		                      on A.metroId = B.metroId) A left join tbl_dong B
+		                    on A.dongId = B.dongId) A left join tbl_gu B
+		                  on A.guId = B.guId
+		                  where restSeq in (select restSeq from tbl_restaurant_menu where menuName like '%'||#{kw}||'%' or menuContent like  '%'||#{kw}||'%')
+		                  or restName like '%'||#{kw}||'%'
+		                  or restBgTag like '%'||#{kw}||'%'
+		                  or restMdTag like '%'||#{kw}||'%'
+		                  or dongName like '%'||#{kw}||'%'
+		                  or metroName like '%'||#{kw}||'%'
+		                  or guName like '%'||#{kw}||'%')
+		</if>
+	</select>
+	
+	<!-- 통합검색  : 리뷰 보여주기-->
+	<select id="getReviewIntergratedSearch"  parameterType="java.util.HashMap"  resultType="com.go.mazzipmetro.vo.ReviewVO">
+		select *
+		from(
+		select A.reviewSeq, A.userSeq, A.restSeq, A.reviewTitle, A.reviewContent, A.reviewHit, A.reviewMood, A.reviewTaste, A.reviewPrice, A.reviewService, A.reviewAvgScore, A.reviewRegDate, A.reviewStatus
+      		   , B.restBgTag as reviewBTag, B.restMdTag as reviewMTag, B.restName, rownum as rnum
+		from tbl_review A left join (select A.*, B.guName
+			                  from (
+			                    select A.*, B.dongName, B.guId
+			                    from (
+			                      select A.*, B.metroName
+			                      from tbl_restaurant A left join tbl_metro B
+			                      on A.metroId = B.metroId) A left join tbl_dong B
+			                    on A.dongId = B.dongId) A left join tbl_gu B
+			                  on A.guId = B.guId) B 
+			on A.restSeq = B.restSeq
+		<if test="srchType != null">
+			where ${srchType}  like '%' ||#{kw}|| '%'
+		</if>
+		<if test="srchType == null">
+		where reviewTitle like  '%'||#{kw}||'%' 
+		or reviewContent like  '%'||#{kw}||'%'
+		or A.restSeq in (select A.restSeq
+		                  from (
+		                    select A.*, B.dongName, B.guId
+		                    from (
+		                      select A.*, B.metroName
+		                      from tbl_restaurant A left join tbl_metro B
+		                      on A.metroId = B.metroId) A left join tbl_dong B
+		                    on A.dongId = B.dongId) A left join tbl_gu B
+		                  on A.guId = B.guId
+		                  where restSeq in (select restSeq from tbl_restaurant_menu where menuName like '%'||#{kw}||'%' or menuContent like  '%'||#{kw}||'%')
+		                  or restName like '%'||#{kw}||'%'
+		                  or restBgTag like '%'||#{kw}||'%'
+		                  or restMdTag like '%'||#{kw}||'%'
+		                  or dongName like '%'||#{kw}||'%'
+		                  or metroName like '%'||#{kw}||'%'
+		                  or guName like '%'||#{kw}||'%')
+		</if>
+		order by reviewSeq desc
+		) where rnum >= #{start} and rnum <![CDATA[<=]]> #{end}
+	</select>
 	
 	<select id = "mazzipMetro.alignTest" resultType="String">
 		select metroname
