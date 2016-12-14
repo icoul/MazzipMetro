@@ -103,18 +103,6 @@ th, td{padding:5px;}
 					<span style='font-weight:bold; font-size:18px;'>${vo.restName}</span>
 					<span style="color:#0066ff; font-size:14px;">${vo.restBgTag}</span>
 					<span style="color:#3333ff; font-size:12px;">${vo.restMdTag}</span>
-					
-					<%-- TagsVO의 변수명은 bgCat, mdCat이다. 헷갈림 주의  --%>
-					<%-- <c:forEach var="bgTag" items="${tags[status.index].bgCat}" varStatus="vs">
-						<span style="color:#0066ff; font-size:14px;">${bgTag}</span>
-						<c:if test="${vs.count < tags[status.index].bgCat.size()}">, </c:if> 
-					</c:forEach>--%>
-					
-					<%-- ${tags[status.index].mdCat} List의 size()를 알아내서 , 를 찍는다.--%>
-					<%-- <c:forEach var="mdTag" items="${tags[status.index].mdCat}" varStatus="vs">
-						<span style="color:#3333ff; font-size:12px;">${mdTag}</span>	
-						<c:if test="${vs.count < tags[status.index].mdCat.size()}">, </c:if>
-					</c:forEach> --%>
 					</a>
 				</td>
 			</tr>

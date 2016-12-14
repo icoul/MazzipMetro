@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
@@ -46,7 +47,7 @@ public class AdminController {
 	
 	// 관리자용 업장 수정 페이지 
 	@RequestMapping(value="/adminRestEdit.eat", method={RequestMethod.POST})
-	public String adminRestEdit(HttpServletRequest req) {
+	public String login_adminRestEdit(HttpServletRequest req, HttpServletResponse res) {
 		String restSeq = req.getParameter("restSeq");
 		RestaurantVO vo = service.adminRestEditInfo(restSeq);
 		RestaurantAdVO ravo = service.adminRestAdImgInfo(restSeq);
@@ -61,7 +62,11 @@ public class AdminController {
 	@RequestMapping(value="/adminRestEditEnd.eat", method={RequestMethod.POST})
 	public String  adminRestEditEnd(HttpServletRequest req, RestaurantVO vo, FileVO fvo) {
 		//삭제할 소개 이미지 리스트
-		String[] delAdImgArr = req.getParameter("delAdImgArr").split(",");
+		String[] delAdImgArr = null;
+		
+		if (req.getParameter("delAdImgArr").length() > 0) {
+			delAdImgArr = req.getParameter("delAdImgArr").split(",");
+		}
 		
 		// 업장 대표이미지 및 소개이미지 파일 업로드 및 파일명 배열에 저장하기
 		HttpSession session = req.getSession();
@@ -69,7 +74,6 @@ public class AdminController {
 		String path = root + "files";
 		String newFileName = "";
 		byte[] bytes = null;
-		RestaurantAdVO ravo = new RestaurantAdVO();
 		
 		
 		// 임시로 adImg 이름을 담을 list
@@ -78,6 +82,7 @@ public class AdminController {
 		// 넘어온 데이터 유효성 검사.
 		//System.out.println(">>>> "+(fvo.getAttach()[0].getSize() == 0));
 		
+		System.out.println(">>>>>>>>>>fvo.getAttach().length ="+fvo.getAttach().length); 
 		for (int i = 0; i < fvo.getAttach().length; i++) {
 			// 업장 대표이미지
 			if(i == 0 && fvo.getAttach()[0].getSize() > 0){
@@ -85,6 +90,7 @@ public class AdminController {
 					bytes = fvo.getAttach()[0].getBytes();
 					newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[0].getOriginalFilename(), path);
 					thumbnailManager.doCreateThumbnail(newFileName, path);
+					System.out.println(">>>>>>>>>newFileName ="+newFileName); 
 					
 					vo.setRestImg(newFileName);
 				}catch (Exception e) {
@@ -95,6 +101,7 @@ public class AdminController {
 			
 			// 업장 소개이미지
 			if(i > 0 && fvo.getAttach()[i].getSize() > 0){
+				System.out.println(">>>>>>>>>>>>추가할 업장 소개이미지가 있습니다.."); 
 				try{
 					bytes = fvo.getAttach()[i].getBytes();
 					newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[i].getOriginalFilename(), path);
@@ -108,6 +115,7 @@ public class AdminController {
 			
 		}
 		
+		System.out.println(">>>>>>>>>> delAdImgArr == null : "+(delAdImgArr == null)); 
 		// 업장 테이블 update
 		int result = service.adminRestEdit(delAdImgArr, adImgList, vo);
 		
@@ -122,11 +130,8 @@ public class AdminController {
 		ravo.setRestSeq(vo.getRestSeq());*/
 		
 		
-		
-		
-		
 		String msg = "업장 정보변경 실패!";
-		String script = "self.close();";
+		String script = "self.close(); ";
 		
 		if (result > 0) {
 			msg ="업장 정보변경 성공!";

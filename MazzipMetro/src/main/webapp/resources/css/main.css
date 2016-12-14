@@ -55,7 +55,8 @@ img {border:0; padding:0; margin:0; vertical-align:top;}
 .header .menu li {float:left; list-style:none; padding:0 10px;}
 .header .menu li a {text-decoration:none; font-size:16px; color:#222;}
 .header .btnLogin {float:right; width:58px; height:25px; background:#fff; font-size:10px; border:1px solid #000; border-radius:2px; color:#000; cursor:pointer;}
-
+/* 동현 가고싶다 버튼 추가 */
+.btnLogin {float:right; width:58px; height:25px; background:#fff; font-size:10px; border:1px solid #000; border-radius:2px; color:#000; cursor:pointer;}
 
 #content {width:1400px; overflow:hidden; margin:0 auto;}
 #leftCon {float:left; width:730px;}
@@ -68,6 +69,75 @@ footer {height:170px; background-color: #eff3f2; padding-top:30px; clear: both; 
 footer .comIntro a {padding:0 5px; font-size:12px; color:#000; font-weight:bold; text-decoarion:none;}
 footer .copyRight {color:#8a8a8a;}
 
+/* 동현 자동 검색어 완성 관련 css 추가 */
+/* 카테고리화된 검색어 자동완성 css */
+.ui-autocomplete-category {
+   font-weight: bold;
+   padding: .2em .4em;
+   margin: .8em 0 .2em;
+   line-height: 1.5;
+ }
+ /*기본 검색어 자동완성 css*/
+ .ui-autocomplete {
+   max-height: 300px;
+   min-height: 50px;
+   overflow-y: auto;
+   /* prevent horizontal scrollbar */
+   overflow-x: hidden;
+ }
+ /* IE 6 doesn't support max-height
+  * we use height instead, but this forces the menu to always be this tall
+  */
+ html .ui-autocomplete {
+   height: 300px;
+ }
+
 #woo_scroller {  position:relative;  height:400px;  width:270px;    left:50px; }
 
 #woo_scroller table {border:0px; position:relative;}
+
+  /* mySideNav */
+  .sidenav {
+  		display : none;
+	    height: 100%;
+	    width: 500px;
+	    position: fixed;
+	    z-index: 10000;
+	    top: 0;
+	    left: 0;
+	    background-color: white; /* #111; */
+	    overflow-x: hidden;
+	    transition: 0.5s;
+	    padding-top: 15px;
+	    border-right: solid 1px #e7e7e7;
+	}
+	
+	.sidenav a  {
+	    
+	    text-decoration: none;
+	    font-size: 15px;
+	    color: #f1f1f1;
+	    display: block;
+	    transition: 0.3s
+	}
+	.sidenav li {
+		padding: 8px 8px 8px 8px;
+		list-style-type:none;
+	}
+	
+	.sidenav a:hover, .offcanvas a:focus{
+	    color: #818181;
+	}
+	
+	.sidenav .closebtn {
+	    position: absolute;
+	    top: 0;
+	    right: 25px;
+	    font-size: 36px;
+	    margin-left: 50px;
+	}
+	
+	@media screen and (max-height: 450px) {
+	  .sidenav {padding-top: 15px;}
+	  .sidenav a {font-size: 18px;}
+	}

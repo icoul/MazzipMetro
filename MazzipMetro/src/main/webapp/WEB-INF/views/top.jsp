@@ -110,7 +110,35 @@ function getLoginUserInfo(){
 			loginSubmit();
 		});
 		
-	});// end of ready~~~~~~~~~~~~~~
+		
+		//SideMenu 활성화 관련 이벤트 
+  		$("#userName").mouseover(function(){
+  			$("#mySidenav").css('display',"block");
+  			$(this).fadeTo('slow', 0.2);
+  		});
+  		
+  		$("#mySidenavTrigger").mouseover(function(){
+  			$("#mySidenav").css('display',"block");
+  			$(this).fadeTo('slow', 0.2);
+  		});
+  		
+  		$("html").click(function(){
+  			$("#mySidenav").css('display',"none");
+  			$("#userName").fadeTo('slow',1);
+  		});
+  	
+  		$("#mySidenav").click(function(event){//사이드메뉴를 클릭해도 사라지지 않는다.
+  			event.stopPropagation();
+  		})
+  		
+  		$("#mySidenav").mouseleave(function(){//mouseout과 mouseleave의 차이는 자식엘레먼트에 출입여부를 이벤트에 포함시키는냐 아니냐이다.
+  			$("#mySidenav").css('display',"none");
+  			$("#userName").fadeTo('slow',1);
+  		});
+		
+	});// end of ready
+	
+	
 	function loginSubmit(){
 		$("#dx_loginFrm").submit();
 	}
@@ -142,10 +170,45 @@ function getLoginUserInfo(){
 		window.open(url, "myQna", "left=350px, top=100px, width=500px, height=400px, status=no, scrollbars=yes");		
 	}
 	
+	function addWantToGo(restSeq){
+		$.ajax({
+				url:"<%=request.getContextPath()%>/addWantToGo.eat",
+				type :"GET",
+				data: "restSeq="+restSeq,
+				dataType:"html",
+				success: function(data){
+							
+					alert(data.msg);
+							
+				}, //end of success: function(data)
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				} // end of error: function(request,status,error)
+			}); //end of $.ajax()
+	}
+	
 </script>
 
 </head>
 <body>
+
+<%-- 사이드메뉴 트리거용 div 화면 왼쪽--%>
+<div id="mySidenavTrigger" style="width: 3%; height: 100%; position:fixed; z-index: 9999; border: solid 0px red;"></div>
+
+<%-- 사이드 메뉴 & 장바구니 --%>
+<div id="mySidenav" class="sidenav">
+	<ul>
+		<li><a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a></li>
+	</ul>
+		<div style="padding: 20px;">
+		<br/><br/> 맛집메트로가 제공하는 <span style="color: lime;">가고싶다</span>를 이용해 보세요. <br/><br/> <br/> <br/> 		
+		</div>
+        <span style="color: #818181; font-size: 22px; font-weight: bold; margin-left: 35px;">가고싶다 </span>카트
+  <div id="myWantToGo" style="border: solid 1px #818181;margin: 5px;" align="center">
+  	<br/><br/><span style="color: #818181; text-decoration: underline;">가고 싶은 음식점을 담아보세요.</span><br/><br/> 
+  </div>
+</div>
+
 <div id="container">
 	<div id="headWrap">	
 		<div class="header">

@@ -22,6 +22,11 @@
 		</if>
 	</select>
 	
+	<!-- 가고싶다 에 담기 요청 -->
+	<insert id="addWantToGo" parameterType="java.util.HashMap">
+		insert into tbl_wantToGo values(seq_tbl_wantToGo.nextval, #{userSeq}, #{restSeq}, default, default)
+	</insert>
+	
 	<!-- 사용자 search : 업장 검색 totalCount -->
 	<select id="getRestSearchResult_totalCnt"  parameterType="java.util.HashMap"  resultType="int">
 		select count(*)

@@ -87,10 +87,14 @@
 		 <result column="metroid"	  	        property="metroid" 			    	javaType="String" />
 		 <result column="dongid"	  	    		property="dongid" 			    	javaType="String" />
 		 <result column="restregdate"	  	    property="restregdate" 			javaType="String" />
+		 
+		 <!-- 동현 추가 -->
+		 <result column="restImg"	  	    property="restImg" 			javaType="String" />
 	</resultMap>
 
 	<select id="getRestaurant" parameterType="String" resultMap="dataresultmap1">
 		select restseq, restname, userseq, gradeseq, restaddr, restnewaddr, restphone, restlatitude, restlongitude, restzindex, metroid, dongid, to_char(restregdate, 'yyyy-mm-dd') as restregdate 
+				, restImg
 		from TBL_RESTAURANT
 		where restseq = #{restseq} and reststatus = 0
 	</select>

@@ -165,4 +165,9 @@ public class MazzipMetroDAO implements IDAO{
 	public int getReviewIntergratedSearch_totalCnt(HashMap<String, String> map) {
 		return sqlSession.selectOne("mazzipMetro.getReviewIntergratedSearch_totalCnt", map);
 	}
+
+	// 오늘뭐먹지?(foodCart)에 담기 요청
+	public int addWantToGo(HashMap<String, String> map) {
+		return sqlSession.insert("mazzipMetro.addWantToGo", map);
+	}
 }

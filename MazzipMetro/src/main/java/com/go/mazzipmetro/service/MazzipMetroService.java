@@ -190,4 +190,9 @@ public class MazzipMetroService implements IService {
 	public int getReviewIntergratedSearch_totalCnt(HashMap<String, String> map) {
 		return dao.getReviewIntergratedSearch_totalCnt(map);
 	}
+
+	//오늘뭐먹지?(foodCart)에 담기 요청
+	public int addWantToGo(HashMap<String, String> map) {
+		return dao.addWantToGo(map);
+	}
 }

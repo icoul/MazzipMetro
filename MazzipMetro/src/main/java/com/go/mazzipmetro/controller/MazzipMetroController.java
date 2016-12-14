@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,6 @@ import com.go.mazzipmetro.service.ReviewService;
 import com.go.mazzipmetro.vo.FaqVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.ReviewVO;
-import com.go.mazzipmetro.vo.QnaVO;
 import com.go.mazzipmetro.vo.UserVO;
 
 @Controller
@@ -42,6 +42,30 @@ public class MazzipMetroController {
 	@RequestMapping(value="/index.eat", method={RequestMethod.GET})
 	public String index(){
 		return "index";
+	}
+	
+	// 오늘뭐먹지?(foodCart)에 담기 요청
+	@RequestMapping(value="/addWantToGo.eat", method={RequestMethod.GET})
+	public String addFoodCart(HttpServletRequest req, HttpServletResponse res){
+		String restSeq = req.getParameter("restSeq");
+		UserVO loginUser = (UserVO)req.getSession().getAttribute("loginUser");
+		String userSeq = loginUser.getUserSeq();
+		
+		HashMap<String, String> map = new HashMap<>();
+		map.put("restSeq", restSeq);
+		map.put("userSeq", userSeq);
+		
+		int result = service.addWantToGo(map);
+		String msg = "[ "+loginUser.getUserName()+" 님의 ";
+		msg += (result > 0)?"가고싶다]에 성공적으로 담았습니다.":"가고싶다]에 담기 실패했습니다. 다시 시도해주세요.";
+		
+		System.out.println(">>>>>>>>>>>>>>>> msg = "+msg); 
+		
+		JSONObject jObj = new JSONObject();
+		jObj.put("msg", msg);
+		
+		req.setAttribute("jObj", jObj);
+		return "/ajax/jsonData";
 	}
 	
 	// 검색 페이지 요청

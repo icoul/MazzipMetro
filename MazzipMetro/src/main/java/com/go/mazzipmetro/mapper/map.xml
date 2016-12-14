@@ -274,6 +274,7 @@
 		select adImg
 		from tbl_restaurant_ad
 		where restSeq = #{restSeq} 
+		and adImgStatus = 0
 	</select>
 	
 	<!-- 사용자가 정복한 맛집(리뷰를 쓴 맛집) 리스트 보여주기 -->
@@ -390,6 +391,7 @@
 		)  
 		select guId, guName
 		from tbl_gu
+		order by convert(guName, 'ISO2022-KR')
 	</select>
 	
 	<!-- 관리자 업장관리 지하철 이름 가져오기 -->
@@ -407,6 +409,7 @@
 		)  
 		select metroId, metroName
 		from tbl_metro
+		order by convert(metroName, 'ISO2022-KR')
 	</select>
 	
 	
