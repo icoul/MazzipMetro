@@ -92,12 +92,6 @@
 		END AS loginCheck
 		FROM dual
 	</select>
-	
-	<select id="emailDuplicateCheck" resultType="int" parameterType="String">
-		select count(*)
-		from tbl_user
-		where userEmail = #{userEmail} 
-	</select>
 
 	<select id="getLoginUser" resultType="com.go.mazzipmetro.vo.UserVO">
 		select userSeq, a.gradeSeq, b.gradeName, userName, userEmail, userPw, userGender,
@@ -476,4 +470,11 @@
 		where userStatus = 0 and userEmail = #{userEmail} 
 	</update>
 	
+	<update id="updateAlertUpgradeStatus" parameterType="java.util.HashMap">
+		update tbl_user_attend set alertUpgradeStatus = #{alertUpgradeStatus} where userSeq = #{userSeq}
+	</update>
+	
+	<update id="updateAlertRandomBoxStatus" parameterType="java.util.HashMap">
+		update tbl_user_attend set alertRandomBoxStatus = 0 where userSeq = #{userSeq}
+	</update>
 </mapper>

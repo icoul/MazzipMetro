@@ -237,7 +237,7 @@ function getLoginUserInfo(){
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 취소</button>
-        <p><a data-toggle="modal" data-target="#accountSelectModal" data-dismiss="modal" style="color:#f4511e">회원가입하기</a></p>
+        <p><a href="javascript:goRegister();" style="color:#f4511e">회원가입하기</a></p>
         <p>
         <td colspan="2" align="center">
         	<a data-toggle="modal" data-target="#userIdfind" data-dismiss="modal">아이디찾기</a> / 
@@ -292,7 +292,7 @@ function getLoginUserInfo(){
         </div>
         <div class="modal-body" style="height: 300px; width: 100%;">
           <div id="idFind">
-          	<iframe style="border: none; width: 100%; height: 280px;" src="<%= request.getContextPath() %>/emailFind.eat">
+          	<iframe style="border: none; width: 100%; height: 280px;" src="<%= request.getContextPath() %>/idFind.eat">
           	</iframe>
           </div>
         </div>

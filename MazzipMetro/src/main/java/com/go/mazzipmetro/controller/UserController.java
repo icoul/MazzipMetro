@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.go.mazzipmetro.common.FileManager;
-import com.go.mazzipmetro.common.GoogleMail;
 import com.go.mazzipmetro.service.UserService;
 import com.go.mazzipmetro.vo.UserAliasVO;
 import com.go.mazzipmetro.vo.UserAttendVO;
@@ -47,120 +45,12 @@ public class UserController {
 		return "user/userRegister_Agree";
 	}
 	
-	@RequestMapping(value="/emailFind.eat", method={RequestMethod.GET})
-	public String idFind(HttpServletRequest req){
-		String method = req.getMethod();
-
-		if("POST".equals(method)) {
-			String userName = req.getParameter("name");
-			String userPhone = req.getParameter("mobile");
-			
-			System.out.println("#####" + userName);
-			
-			HashMap<String, String> map = new HashMap<>();
-			
-			map.put("userName", userName);
-			map.put("userPhone", userPhone);
-			
-			String userEmail = service.getUserEmail(map);
-			// System.out.println(">>>>> 확인용 userid : " + userid); 
-			
-			req.setAttribute("userEmail", userEmail);
-			req.setAttribute("name", userName);
-			req.setAttribute("mobile", userPhone);
-		}	
-			
-		return "user/emailFind";
-		
-	}
-	
-	@RequestMapping(value="/pwdFind.eat", method={RequestMethod.GET})
-	public String pwdFind(HttpServletRequest req){
-		String userEmail = req.getParameter("email");
-		String userPhone = req.getParameter("mobile");
-		
-		HashMap<String, String> map = new HashMap<>();
-		
-		map.put("userEmail", userEmail);
-		map.put("userPhone", userPhone);
-		
-		int n = service.getUserExists(map);
-		
-		if(n == 1) {
-			GoogleMail mail = new GoogleMail();
-			
-			Random rnd = new Random();
-			
-			try {
-				char randchar = ' ';
-				int randnum = 0;
-				String certificationCode = "";
-				
-				for(int i=0; i<5; i++) {
-					// min 부터 max 사이의 값으로 랜덤한 정수를 얻으려면
-				    // int rndnum = rnd.nextInt(max - min + 1) + min;
-					randchar = (char)(rnd.nextInt('z'-'a'+1)+'a');
-					certificationCode += randchar;
-				}
-				
-				for(int i=0; i<7; i++) {
-					randnum = (int)(rnd.nextInt(10-0+1)+0);
-					certificationCode += randnum;
-				}
-				
-				mail.sendmail(userEmail, certificationCode);
-				req.setAttribute("certificationCode", certificationCode);
-			} catch (Exception e) {
-				e.printStackTrace();
-				
-				//n = -1;
-				//req.setAttribute("n", n);
-				req.setAttribute("sendFailmsg", "메일발송에 실패했습니다.");
-				
-			} // end of try~catch()----------
-			
-		}
-		//else {
-		//	n = 0;
-		//}// end of if~else----------------
-		return "user/pwdFind";
-	}
-	
-	@RequestMapping(value="/pwdConfirm.eat", method={RequestMethod.GET})
-	public String pwdConfirm(HttpServletRequest req){
-		String userEmail = req.getParameter("userid");
-		String userPw = req.getParameter("pwd");
-		String pwd2 = req.getParameter("pwd2");
-		
-		int n = 0;
-		
-		HashMap<String, String> map = new HashMap<>();
-		
-		map.put("userEmail", userEmail);
-		map.put("userPw", userPw);
-		
-		if(userEmail != null && userPw != null) {
-		   n = service.updatePwdUser(map);
-		}
-		
-		req.setAttribute("n", n);
-		req.setAttribute("userid", userEmail);
-		req.setAttribute("pwd", userPw);
-		req.setAttribute("pwd2", pwd2);
-		return "user/pwdConfirm";
-	}
-	
 //	회원가입 중 이메일 중복체크
-	@RequestMapping(value="/emailDuplicateCheck.eat", method={RequestMethod.GET})
+	@RequestMapping(value="/emailDuplicatecheck.eat", method={RequestMethod.POST})
 	public String emailDuplicatecheck(HttpServletRequest req){
 		String userEmail =  req.getParameter("userEmail");
 		System.out.println(userEmail);
-		
-		int result = 0;
-		
-		if(!userEmail.equals("")) {
-			result = service.emailDuplicatecheck(userEmail);
-		}
+		int result = service.emailDuplicatecheck(userEmail);
 		
 		req.setAttribute("result", result);
 		System.out.println(userEmail);
@@ -1073,19 +963,6 @@ public class UserController {
 		req.setAttribute("del", del);
 		
 		return "user/reviewDelete";
-	}
-	
-	@RequestMapping(value="/userWithdrawal.eat", method={RequestMethod.GET})
-	public String userWithdrawal(HttpServletRequest req, HttpServletResponse res, HttpSession session) {
-		UserVO loginUser =  (UserVO)session.getAttribute("loginUser");
-		String userSeq = loginUser.getUserSeq();
-		
-		int result = service.userWithdrawal(userSeq);
-		
-		session.invalidate();
-		req.setAttribute("result", result);
-		
-		return "user/userWithdrawal";
 	}
 	
 
