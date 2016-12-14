@@ -448,12 +448,12 @@
 		where reviewSeq = #{reviewSeq}
 	</update>
 	
-	<select id="userReviewCount" parameterType="java.util.HashMap" resultType="int" >
+	<select id="userReviewCount" parameterType="java.util.HashMap" resultType="int">
 		select count(*)
 		from tbl_review
 		where userSeq = #{userSeq} and reviewStatus = 0
 	</select>
-
+ 
 
 	<update id="updateAlertUpgradeStatus" parameterType="java.util.HashMap">
 		update tbl_user_attend set alertUpgradeStatus = #{alertUpgradeStatus} where userSeq = #{userSeq}
