@@ -62,13 +62,28 @@ img {border:0; padding:0; margin:0; vertical-align:top;}
 #leftCon {float:left; width:730px;}
 #leftCon .reconCon  {margin-top:30px;}
 #leftCon .reconCon h2 {padding:10px 0; font-size:12px; color:#222;}
-.rightCon {float:left; width:270px; height:1000px;}
+.rightCon {position:relative;  float:left; width:540px; height:1000px;}
 
 
 footer {height:170px; background-color: #eff3f2; padding-top:30px; clear: both; font-size:12px;}
 footer .comIntro a {padding:0 5px; font-size:12px; color:#000; font-weight:bold; text-decoarion:none;}
 footer .copyRight {color:#8a8a8a;}
+#realReview {position:absolute; right:140px; height:20px;}
 
-#woo_scroller {  position:relative;  height:400px;  width:270px;    left:50px; }
+/* 메인 페이지 실시간 리뷰  div 및 table */
+#scroller {position:absolute; height:400px;  width:270px;  margin-top:50px; right:0; } 
+#scroller table {border:0px; position:relative;}
 
-#woo_scroller table {border:0px; position:relative;}
+/* 미현 -- 서브페이지레이아웃,테이블,버튼*/
+.subleftCon {float:left; width:200px; height:800px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;}
+.subleftCon h2 {width:187px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right; font-size:25px;}
+.subrightCon {float:left; width:1200px; height:800px; text-align:center; border-right:1px solid #dbdbdb; padding-bottom:40px;}
+.subrightCon .searchWrap {padding:10px 0 20px 0; }
+
+.tblType01 {border-collapse: collapse; width:1000px;}
+.tblType01 th {height:50px; padding-top:16px; border-top:1px solid #00bad2; border-bottom:1px solid #c2c2c2; background-color:#fafafa; color:#444; text-align:center; font-size:13px; font-weight:normal;}
+.tblType01 td {height:50px; padding-top:20px; border-bottom:1px solid #e0e0e0; font-size:12px; text-align:center;}
+.btnGray {width:63px; height:23px; border:1px solid #6c6c6c; background-color:#777; color:#fff; margin-top: 20px; margin-bottom: 10px; font-size:10px; }
+.btnFafa {width:63px; height:23px; display:inline-block; margin:0 15px 0; line-height:23px; border:1px solid #6c6c6c; background:#fafafa; color:#000; font-size:10px;}
+.txtC {margin:0 auto; width:1000px;}
+/*-- 미현 END--*/
