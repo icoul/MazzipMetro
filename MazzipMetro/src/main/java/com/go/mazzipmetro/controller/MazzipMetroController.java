@@ -44,6 +44,7 @@ public class MazzipMetroController {
 		return "index";
 	}
 	
+
 	// 검색 페이지 요청
 	@RequestMapping(value="/search.eat", method={RequestMethod.GET})
 	public String search(HttpServletRequest req){
@@ -1650,8 +1651,7 @@ public class MazzipMetroController {
 			
 			String start = "1";
 			String len = "20";   			
-			
-					
+								
 			int startRno = Integer.parseInt(start);          // 공식!! 시작 행번호   1               3               5
 			int endRno   = startRno+Integer.parseInt(len)-1; // 공식!! 끝 행번호     1+2-1(==2)      3+2-1(==4)      5+2-1(==6)
 			
