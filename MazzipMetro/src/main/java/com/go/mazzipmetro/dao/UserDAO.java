@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.go.mazzipmetro.vo.CouponVO;
 import com.go.mazzipmetro.vo.GradeVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.UserAliasVO;
@@ -139,133 +140,152 @@ public class UserDAO implements IDAO{
 		return pwNewCount;
 	}
 
-////////////////////////////////////////////////////////은석 //////////////////////////////////////////////////////////////	
+////////////////////////////////////////////////////////은석22 //////////////////////////////////////////////////////////////	
+	//1
 	public int insertAttend(String userSeq) {
 		int n =  sqlSession.insert("insertAttend", userSeq);
 		return n;
 	}
 
 
-
+	//2
 	public int updateUserPointandExp(HashMap<String, String> hashMap) {
 		int m =  sqlSession.update("updateUserPointandExp", hashMap);
 		return m;
 	}
 
-
-
+	//3
 	public int userLoginToday(String userSeq) {
 		int n = sqlSession.selectOne("userLoginToday", userSeq);
 		return n;
 	}
-
+	//4
 	public UserAttendVO getUserAttend(String userSeq) {
 		UserAttendVO vo = sqlSession.selectOne("getUserAttend", userSeq);
 		return vo;
 	}
 
-
+	//5
 	public int updateUserAttend(HashMap<String, String> hashMap) {
 		int n = sqlSession.update("updateUserAttend", hashMap);
 		return n;
 	}
 
-
+	//6
 	public int updateUserPoint2(HashMap<String, String> hashMap) {
 		int n = sqlSession.update("updateUserPoint2", hashMap);
 		return n;
 	}
 
 
-
+	//7
 	public int updateRandomBox(HashMap<String, String> hashMap) {
 		int f = sqlSession.update("updateRandomBox", hashMap);
 		return f;
 	}
 
 
-
+	//8
 	public int userLoginContinueCheck(HashMap<String, String> hashMap) {
 		int isLoginContinue = sqlSession.selectOne("userLoginContinueCheck", hashMap);
 		return isLoginContinue;
 	}
 
-
+	//9
 	public int updateUserGrade(HashMap<String, String> hashMap) {
 		int n = sqlSession.update("updateUserGrade", hashMap);
 		return n;
 	}
 
 
-
+	//10
 	public String getUserGradeName(String gradeSeq) {
 		String userGradeName = sqlSession.selectOne("getUserGradeName", gradeSeq);
 		return userGradeName;
 	}
 
 
-
+	//11
 	public List<GradeVO> getUserGradeList() {
 		List<GradeVO> userGradeList = sqlSession.selectList("getUserGradeList");
 		return userGradeList;
 	}
-	
+	//12
 	public List<UserAliasVO> getUserGuAliasList(String userSeq) {
 		List<UserAliasVO> userGuAliasList = sqlSession.selectList("getUserGuAliasList", userSeq);
 		return userGuAliasList;
 	}
 
 
-
+	//13
 	public List<UserAliasVO> getUserDongAliasList(String userSeq) {
 		List<UserAliasVO> userDongAliasList = sqlSession.selectList("getUserDongAliasList", userSeq);
 		return userDongAliasList;
 	}
 
 
-
+	//14
 	public List<UserAliasVO> getUserMetroAliasList(String userSeq) {
 		List<UserAliasVO> userMetroAliasList = sqlSession.selectList("getUserMetroAliasList", userSeq);
 		return userMetroAliasList;
 	}
 
 
-
+	//15
 	public List<UserAliasVO> getUserRestTagAliasList(String userSeq) {
 		List<UserAliasVO> userRestTagAliasList = sqlSession.selectList("getUserRestTagAliasList", userSeq);
 		return userRestTagAliasList;
 	}
 
 
-
+	//16
 	public int getUserAliasCount(HashMap<String,String> hashMap) {
 		int userDongAliasCount = sqlSession.selectOne("getUserAliasCount", hashMap);
 		return userDongAliasCount;
 	}
 
 
-
+	//17
 	public int updateUserPoint(HashMap<String,String> hashMap) {
 		int n = sqlSession.update("updateUserPoint",hashMap);
 		return n;
 	}
-
+	//18
 	public int updateAlertUpgradeStatus(HashMap<String,String> hashMap) {
 		int n = sqlSession.update("updateAlertUpgradeStatus", hashMap);
 		return n;
 	}
 
 
-
+	//19
 	public int updateAlertRandomBoxStatus(String userSeq) {
 		int n = sqlSession.update("updateAlertRandomBoxStatus", userSeq);
 		return n;
 	}
-
+	//20
 	public int minusRandomBox(HashMap<String, String> hashMap) {
 		int n = sqlSession.update("minusRandomBox", hashMap);
 		return n;
 	}
-////////////////////////////////////////////////////////은석 //////////////////////////////////////////////////////////////	
+	//21
+	public UserVO getLoginUserByUserSeq(String userSeq) {
+		UserVO loginUser = sqlSession.selectOne("getLoginUserByUserSeq", userSeq);
+		return loginUser;
+	}
+	//22
+	public int minusUserPoint(HashMap<String, String> hashMap) {
+		int m = sqlSession.update("minusUserPoint", hashMap);
+		return m;
+	}
+	
+////////////////////////////////////////////////////////은석22//////////////////////////////////////////////////////////////	
+
+
+
+
+
+
+
+	
 }
 

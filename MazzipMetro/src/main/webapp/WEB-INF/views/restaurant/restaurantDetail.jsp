@@ -21,7 +21,6 @@
 	 getReviewList();
 				
 	});
-
  $(function () {
      
      $('#container').highcharts({
@@ -76,8 +75,6 @@
          }]
      });
  }); 
-
-
 $(function () {
     
     /* var dataArr = new Array(); //자바스크립트에서 배열을 선언하는 것
@@ -236,46 +233,35 @@ function goNavigator(){
 	
 	
 }
-
-
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapCenter = new daum.maps.LatLng('${restvo.restlatitude}' , '${restvo.restlongitude}'), // 지도의 중심 좌표
     mapOption = {
         center: mapCenter, // 지도의 중심 좌표
         level: 4 // 지도의 확대 레벨
     };
-
 // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
 var map = new daum.maps.Map(mapContainer, mapOption);
-
 var myPosition = new daum.maps.LatLng('${restvo.restlatitude}' , '${restvo.restlongitude}');
-
 // 지도에 올릴 마커를 생성합니다.
 var mMarker = new daum.maps.Marker({
     position: myPosition, // 지도의 중심좌표에 올립니다.
     map: map // 생성하면서 지도에 올립니다.
 });
-
 // 지도에 올릴 장소명 인포윈도우 입니다.
 var mLabel = new daum.maps.InfoWindow({
     position: myPosition, // 지도의 중심좌표에 올립니다.
     content: '<span  style="text-decoration: none; color: navy; font-size: 12px; padding-left :15px;">${restvo.restname}</span>' // 인포윈도우 크기 조정이 어렵다. 우측 공백이 마구 생긴다.
 });
 mLabel.open(map, mMarker); // 지도에 올리면서, 두번째 인자로 들어간 마커 위에 올라가도록 설정합니다.
-
 var rvContainer = document.getElementById('roadview'); // 로드뷰를 표시할 div
-
 var rv = new daum.maps.Roadview(rvContainer); // 로드뷰 객체 생성
 var rc = new daum.maps.RoadviewClient(); // 좌표를 통한 로드뷰의 panoid를 추출하기 위한 로드뷰 help객체 생성 
 var rvPosition = new daum.maps.LatLng(${restvo.restlatitude} ,${restvo.restlongitude});
-
 rc.getNearestPanoId(rvPosition, 50, function(panoid) {
     rv.setPanoId(panoid, rvPosition);//좌표에 근접한 panoId를 통해 로드뷰를 실행합니다.
 });
-
 // 로드뷰 초기화 이벤트
 daum.maps.event.addListener(rv, 'init', function() {
-
     // 로드뷰에 올릴 마커를 생성합니다.
     var rMarker = new daum.maps.Marker({
         position: myPosition,
@@ -283,7 +269,6 @@ daum.maps.event.addListener(rv, 'init', function() {
     });
     rMarker.setAltitude(2); //마커의 높이를 설정합니다. (단위는 m입니다.)
     rMarker.setRange(50); //마커가 보일 수 있는 범위를 설정합니다. (단위는 m입니다.)
-
     // 로드뷰에 올릴 장소명 인포윈도우를 생성합니다.
     /* var rLabel = new daum.maps.InfoWindow({
         content: '내가 일하는 곳'

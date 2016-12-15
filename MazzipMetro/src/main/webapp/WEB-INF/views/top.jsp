@@ -15,7 +15,6 @@
 <title>:::Mazzip Metro:::</title>
 
 <script type="text/javascript"> 
-
 function getLoginUserInfo(){
 		
 	 	//alert('로그인 정보를 갱신하는 함수를 따로 만들었습니다. 사용자 정보가 바뀌는 경우 이 함수를 호출해 주세요~');
@@ -24,13 +23,11 @@ function getLoginUserInfo(){
 		}); // end of $.getJSON();	
 		
 	}//end of getLoginUserInfo () 
-
 	
 	$(document).ready(function(){
 		//생성된 쿠키를 사용하기 위한 자바코드
 		<%
 		  		UserVO loginUser = (UserVO)session.getAttribute("loginUser");	
-
 		  		// 1.로그인을 하지 않은 경우
 		  		if(loginUser == null){ // Not Logged In
 		  		
@@ -115,11 +112,8 @@ function getLoginUserInfo(){
 	}
 	
 	function goLogin(){
-
-
 		var $modal = $('#loginModal');
     	$modal.modal();
-
 	}
 	
 	function goLogOut(){
@@ -136,7 +130,6 @@ function getLoginUserInfo(){
 			goLogin();
 			return;		
 		</c:if>
-
 		var url = "<%=request.getContextPath()%>/myQna.eat";
 		window.open(url, "myQna", "left=350px, top=100px, width=500px, height=400px, status=no, scrollbars=yes");		
 	}
@@ -188,6 +181,7 @@ function getLoginUserInfo(){
 						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
 						<li><a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a></li>
 						<li><a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a></li>
+						<li><a href="<%=request.getContextPath()%>/adminContentList.eat">컨텐츠관리</a></li>
 						<li><a href="<%=request.getContextPath()%>/adminQnaList.eat">고객문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
 					</c:if>
 					
@@ -235,6 +229,7 @@ function getLoginUserInfo(){
 						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
 						<li><a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a></li>
 						<li><a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a></li>
+						<li><a href="<%=request.getContextPath()%>/adminContentList.eat">컨텐츠관리</a></li>
 						<li><a href="<%=request.getContextPath()%>/adminQnaList.eat">고객문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
 					</c:if>
 					
@@ -246,10 +241,6 @@ function getLoginUserInfo(){
 				<button type="button" class="btnLogin" data-toggle="modal" data-target="#accountSelectModal">회원가입</button>
 				</c:if>
 				
-				<!-- 메뉴바 : top 우측-->
-				<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
-					<button type="button" class="btnLogin" onClick="goLogOut();">로그아웃</button>
-				</c:if>
 			</div>
 		</c:if>
 	</div>
@@ -380,4 +371,3 @@ function getLoginUserInfo(){
       
     </div>
 </div>
-
