@@ -335,7 +335,7 @@
     			dataType: "html",
     			success: function(data) {
     				
-    				$("#scroller").html(data);
+    				$("#Scroller").html(data);
     				
     				}
     		});//end of $.ajax()
@@ -495,9 +495,11 @@
 		</div>
 		<%-- end of leftCon --%>
 		
-		<div class="rightCon" id="scroller">
-		<input type="hidden" name="StartRno" value="1">
-		<input type="hidden" name="EndRno" value="10">
+		<div class="rightCon" >
+			<div style="background-color: yellow" id="realReview">실시간 리뷰</div>
+			<div id="Scroller" class="Scroller">
+			</div>
+
 		</div>
 		<%-- end of rightCon --%>	
 
