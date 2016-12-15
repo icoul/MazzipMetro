@@ -3,17 +3,7 @@
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../library.jsp" />
 <jsp:include page="../top.jsp" />   
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>음식점 상세 페이지</title>
 
-  <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>  
-  <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/BootStrapStudy/css/bootstrap.min.css">
-  <script src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script>
-
- 
  
  <script type="text/javascript">
  $(document).ready(function(){
@@ -62,7 +52,7 @@
              data: [
                  
                  <c:forEach var="map" items="${agelineChartList}" varStatus="status">
-                       ['${map.ageline}대',parseInt(${map.percent})],
+                       ['${map.ageLine}대',parseInt(${map.percent})],
                   </c:forEach>
                  
                  {
@@ -128,16 +118,16 @@ $(function () {
                 <c:if test="${status.count < genderChartList.size()}">
                 {
                      name: '${map.gender}',
-                     y: Number(${map.percent})
+                     y: Number('${map.percent}')
                      <c:if test="${status.count == genderChartList.size() - 1}">
                      ,
                      sliced: true,
                      selected: true
                      </c:if>
                  }
-                <c:if test="${status.count < genderChartList.size()-1}">
-                   ,
-                </c:if>               
+	                <c:if test="${status.count < genderChartList.size()-1}">
+	                   ,
+	                </c:if>               
                 </c:if>
              </c:forEach>
              
@@ -171,11 +161,8 @@ $(function () {
 	
  }
  </script>
-</head>
-<body>
+
 	
-	
-<div class="container">
  <div>
  	 <span style="font-weight:bold; font-size:20px; ">${restvo.restname }</span>
  </div>
@@ -206,8 +193,8 @@ $(function () {
 	<div id="roadview" style="width:100%;height:300px"></div> <!-- 로드뷰를 표시할 div 입니다 -->
 </div>
 
- <div id="container" style="width: 210px; height: 300px;  "></div>
- <div id="container2" style="width: 210px; height: 300px;  "></div>
+ <div id="container" style="width: 450px; height: 300px; left: 100px; "></div>
+ <div id="container2" style="width: 450px; height: 300px; left: 100px; "></div>
 
 	<%-- <h2>${restvo.restname}의 리뷰(${reviewList.size() })</h2> --%>
 	
@@ -216,9 +203,7 @@ $(function () {
 	<input type = "hidden" id = "StartRno" value = "1" />
 	<input type = "hidden" id = "EndRno" value = "5" />
 	
-	
 
-</div>
 <script>
 function goNavigator(){
 	var endPoint = $("#startPoint").val().trim();
@@ -302,8 +287,6 @@ daum.maps.event.addListener(rv, 'init', function() {
 </script>
 
 
-</body>
-</html>
 
  <jsp:include page="../footer.jsp" />
 

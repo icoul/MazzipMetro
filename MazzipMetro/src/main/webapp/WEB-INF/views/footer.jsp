@@ -4,7 +4,7 @@
 	</div>
 	<%-- end of content --%>
 </div>
-<%-- end of container --%>
+<%-- end of top_container --%>
 
 <footer align="center">
 	<div class="comIntro">

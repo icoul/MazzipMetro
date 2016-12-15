@@ -92,13 +92,11 @@ public class ReviewController {
 		String[] reviewBgTagArr = req.getParameterValues("reviewBgTag");
 		String[] reviewMdTagArr = req.getParameterValues("reviewMdTag");
 		String[] themeArr = req.getParameterValues("theme");
+		String restSeq = rvo.getRestSeq();
 	
-		/*	String theme = "";
-		for(int i=0; i<themeArr.length; i++)
-		{
-			 theme = themeArr[i]; 
-		}
-		System.out.println("dddddddddddddddd"+theme);*/
+		List<HashMap<String,String>> agelineChartList = service.getAgeLineChartList(restSeq);
+		List<HashMap<String,String>> genderChartList = service.getGenderChartList(restSeq);
+		
 		if(reviewBgTagArr!=null)
 		{
 			String reviewBgTag = RestaurantController.arrayToTag(reviewBgTagArr);

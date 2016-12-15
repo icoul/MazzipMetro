@@ -145,7 +145,7 @@ function getLoginUserInfo(){
 
 </head>
 <body>
-<div id="container">
+<div id="top_container">
 	<div id="headWrap">
 		<!-- 로그인 정보 : top 맨위 -->
 		<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
@@ -251,6 +251,7 @@ function getLoginUserInfo(){
 			</div>
 		</c:if>
 	</div>
+
 	<!-- headWrap -->
 	
 	<div id="content">
