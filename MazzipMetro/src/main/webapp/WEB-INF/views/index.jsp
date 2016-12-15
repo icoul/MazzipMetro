@@ -14,7 +14,6 @@
         	
         	// 실시간 리뷰 애니메이트
             MainReview();
-            //scrolling();
 
         	// tooltipster 중복호출 방지용
         	var metroIdArr = [];
@@ -268,57 +267,12 @@
                     }
                 }
             });
-            
-            
-          $("#keyword").keyup(function(){
-        		
-    			$.ajax({
-    				url:"<%=request.getContextPath()%>/autoComplete.eat",
-    				type :"GET",
-    				data: "srchType=all&keyword="+$("#keyword").val(),
-    				dataType:"json",
-    				success: function(data){
-    					//alert(data.autoComSource);
-    					
-    					$.widget( "custom.catcomplete", $.ui.autocomplete, {
-    						      _create: function() {
-    						        this._super();
-    						        this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
-    						      },
-    						      _renderMenu: function( ul, items ) {
-    						        var that = this,
-    						          currentCategory = "";
-    						        $.each( items, function( index, item ) {
-    						          var li;
-    						          if ( item.category != currentCategory ) {
-    						            ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
-    						            currentCategory = item.category;
-    						          }
-    						          li = that._renderItemData( ul, item );
-    						          if ( item.category ) {
-    						            li.attr( "aria-label", item.category + " : " + item.label );
-    						          }
-    						        });// end of  $.each()
-    						      }
-    						    });// end of $.widget( "custom.catcomplete", $.ui.autocomplete, {})
-    						
-    						$("#keyword").catcomplete({
-    							delay : 0,
-    							minLength: 0,
-    							source : data.cat_autoComSource
-    						})						 
-    					
-    					
-    				}, //end of success: function(data)
-    				error: function(request, status, error){
-    					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-    				} // end of error: function(request,status,error)
-    			}); //end of $.ajax()
-    			
-    			
-    		});// end of $("#keyword").keyup
-            
+         
 })(jQuery)
+
+		  
+         
+    		
         });// $(document).ready()
         
         //등록된 맛집이 없는 경우(지도에러유발) 링크 폐쇄
@@ -382,14 +336,6 @@
     	   searchFrm.submit();
        }
        
-   	// input 태그 엔터키 refresh 방지
-   	function goButton() {
-   		 if (event.keyCode == 13) {
-   			goSearch();
-   		  	return false;
-   		 }
-   		 return true;
-   	}
 
 	 // 인덱스 페이지 탑 5 업장 랭킹 뷰
 	   	function top5RankView(){
@@ -415,19 +361,6 @@
 </script> 
 		<div id="leftCon">
 		
-			<!-- 검색바 -->
-			<div  id="search_div" align="center">
-			<br/> 
-			  <form name="searchFrm" id="searchFrm" onsubmit="return false;">
-			    <div class="input-group" style="width: 100%;">
-			      <input type="text" class="form-control" name="keyword" id="keyword" size="50" placeholder="검색어를 입력하세요!" onkeydown="goButton();" required>
-			      <div class="input-group-btn">
-			        <button type="button" class="btn" onclick="goSearch();">검색</button>
-			      </div>
-			    </div>
-			  </form>
-			</div>
-			
 			<div class="mainBann">
 				<img alt="" src="<%=request.getContextPath() %>/resources/images/metroMap.jpg"  usemap="#mazzipMetroImgMap" style="margin-top: 15px;margin-bottom: 15px;">
 				<map id="mazzipMetroImgMap" name="mazzipMetroImgMap">

@@ -657,12 +657,15 @@ public class UserController {
 				loc = "index.eat";
 			}
 			
-			/*
-			 	로그인 하지 않은 상태에서 장바구니 담기를 하면, 로그인메세지를 출력한다.
-			 	로그인 후에는 기존에 장바구니에 담고자 했던 제품의 상세페이지로 간다.
-			 	
-			 	제품의 상세페이지는 CartAddAction에서 세션에 "returnPage"로 저장해 두었다.
-			 */
+			// 로그인시 맛집추천을 받아다면, 곧장 리뷰쓰기 창을 띄운다.
+			String restSeq = service.haveMazzipRecom(loginUser.getUserSeq()) ;
+			
+			if(restSeq != null){
+				System.out.println(">>>>>>>>>>>>>>>>>> 추천받은 맛집 : "+ restSeq); 
+				req.getSession().setAttribute("restRecom", restSeq);
+			}
+			
+			
 			//session에 저장된 returnPage가 있다면, 그곳으로 이동한다.
 			if(ses.getAttribute("returnPage") != null){
 				String viewPage = (String)ses.getAttribute("returnPage"); 

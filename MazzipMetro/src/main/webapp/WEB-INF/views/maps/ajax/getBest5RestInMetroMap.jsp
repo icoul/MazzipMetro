@@ -5,12 +5,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery-2.0.0.js"></script>
 <!-- 메트로맵 tooltip을 위한 라이브러리 -->
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/tooltipster/dist/css/tooltipster.bundle.min.css" />
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-noir.min.css" />
-<style>
+
+<style> 
 .tooltip_templates { display: none; }
 table, th, td {border: solid 1px navy;}
 th, td{padding:5px;}

@@ -267,6 +267,10 @@ public class UserDAO implements IDAO{
 		int n = sqlSession.update("minusRandomBox", hashMap);
 		return n;
 	}
+
+////////////////////////////////////////////////////////은석 //////////////////////////////////////////////////////////////	
+
+	
 	//21
 	public UserVO getLoginUserByUserSeq(String userSeq) {
 		UserVO loginUser = sqlSession.selectOne("getLoginUserByUserSeq", userSeq);
@@ -280,12 +284,14 @@ public class UserDAO implements IDAO{
 	
 ////////////////////////////////////////////////////////은석22//////////////////////////////////////////////////////////////	
 
+	// 사용자가 추천 받은 맛집이 있는지 확인해서, 있다면, restSeq를 반환한다.
+	public String haveMazzipRecom(String userSeq) {
+		return sqlSession.selectOne("mazzipMetro.haveMazzipRecom", userSeq);
+	}
 
 
 
 
 
-
-	
 }
 

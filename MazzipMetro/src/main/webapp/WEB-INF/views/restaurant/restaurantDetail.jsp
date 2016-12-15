@@ -2,16 +2,16 @@
     pageEncoding="UTF-8"%>
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../library.jsp" />
-<jsp:include page="../top.jsp" />   
-
- 
+<jsp:include page="../top.jsp" />
  <script type="text/javascript">
  $(document).ready(function(){
 		//alert("${restSeq}");
 	 getReviewList();
 				
 	});
+
  $(function () {
+
      
      $('#container').highcharts({
          chart: {
@@ -64,8 +64,10 @@
              ]
          }]
      });
- }); 
+ }); // end of $(function () {}
+
 $(function () {
+
     
     /* var dataArr = new Array(); //자바스크립트에서 배열을 선언하는 것
     <c:forEach var="rcd" items="${list}">
@@ -131,7 +133,7 @@ $(function () {
              ]
          }]
      });
- });
+ }); // end of $(function () {}
  
  function getReviewList(){
 	 
@@ -158,26 +160,38 @@ $(function () {
  }
  </script>
 
-	
- <div>
- 	 <span style="font-weight:bold; font-size:20px; ">${restvo.restname }</span>
- </div>
- 
-  <table class="table table-condensed">
-      <tr>
-        <th>주소</th>
-        <th>${restvo.restaddr}</th>
-      </tr>
-      <tr>
-        <th>전화번호</th>
-        <td>${restvo.restphone}</td>
-      </tr>
-      <tr></tr>
-  </table>
-  
 
+<div id="restDiv" style="margin: 30px; padding: 10px;">	
+	<!-- 음식점 이름 -->
+	 <div style="padding: 30px; width: 100%;">
+	 	 <span style="font-weight:bold; font-size:30px; ">${restvo.restname }</span>
+	 </div>
+	 
+	 <!-- 음식점 메인 이미지 -->
+	 <div id="restMainImge" style="width: 50%;float: left; margin-bottom: 30px;" align="center">
+	 	<img src="<%=request.getContextPath()%>/files/${restvo.restImg}" width="500px;" >
+	 </div>
+	 
+	 <!-- 음식점 info -->
+	 <div id="restInfo" style="width: 50%; float: left;">
+	 <div style="float: right;">
+	 	<button type="button"  onclick="addWantToGo(${restvo.restseq});" class="btnLogin">가고싶다</button>
+	 </div>
+	  <table class="table table-condensed" style="margin-top: 50px;">
+	      <tr>
+	        <th>주소</th>
+	        <th>${restvo.restaddr}</th>
+	      </tr>
+	      <tr>
+	        <th>전화번호</th>
+	        <td>${restvo.restphone}</td>
+	      </tr>
+	  </table>
+	  </div>
+</div>
+<br/> <br/> 
 <!-- 음식점 지도 및 로드뷰 표시, 출발지 입력 -->
-<div id="mapContainer" style="border:solid 1px gray;padding: 10px;">
+<div id="mapContainer" style="border:solid 1px gray;padding: 10px; clear: both; width: 85%;margin: auto;" >
 	<div id="roadFinder">
 		<form action="" name="roadFinderFrm">
 			출발지를 입력하세요 : <input  type="text" name="startPoint" id="startPoint"/>
@@ -270,8 +284,5 @@ daum.maps.event.addListener(rv, 'init', function() {
 });
 </script>
 
-
-
  <jsp:include page="../footer.jsp" />
 
-<%--werwerwierjweirjwirj --%>
