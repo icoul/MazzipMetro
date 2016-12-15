@@ -1,6 +1,7 @@
 
 package com.go.mazzipmetro.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,10 +19,6 @@ public class ReviewDAO implements IDAO{
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
-/*	public List<HashMap<String,String>> getReviewList(String restseq) {
-		List<HashMap<String,String>> reviewList = sqlSession.selectList("review.getReviewList", restseq);
-		return reviewList;
-	}*/
 	// 리뷰 이미지 가져오기
 	public List<HashMap<String,String>> getReviewImageList() {
 		List<HashMap<String,String>> reviewImageList = sqlSession.selectList("review.getReviewImageList");
@@ -152,5 +149,36 @@ public class ReviewDAO implements IDAO{
 	public int getDongAliasNum(HashMap<String, String> dongMap) {
 		return sqlSession.selectOne("review.getDongAliasNum", dongMap);
 	}
+	
+	//테마 넣기
+		public int addTheme(String[] themeArr, String reviewSeq, String restSeq) {
+			HashMap<String, String> map = new HashMap<String, String>();
+			int result=0;
+			for(int i=0; i<themeArr.length; i++)
+			{
+				map.put("reviewSeq", reviewSeq);
+				map.put("restSeq", restSeq);
+				map.put("theme", themeArr[i]);
+				result = sqlSession.insert("review.insertTheme", map);
+			}
+			return result;
+		}
+		
+	// 해당 회원의 리뷰 1개를 가져온다(조건 : 지하철 Id)
+	public List<HashMap<String, String>> getBestReview(List<String> userSeqList, String metroId) {
+		
+		List<HashMap<String, String>> bestReview = new ArrayList<HashMap<String, String>>();
+		HashMap<String, String> map = new HashMap<String, String>();
+		
+		for (int i = 0; i < userSeqList.size(); i++) {
+			map.put("userSeq", userSeqList.get(i));
+			map.put("metroId", metroId);
+		
+			HashMap<String, String> resultMap = sqlSession.selectOne("review.getBestReview", map);
+			bestReview.add(resultMap);
+		}
+		
+		return bestReview;
+	}	
 
 }

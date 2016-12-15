@@ -7,10 +7,3 @@
 		${script}
 	</c:if>
 </script>
-
-
-
-
-
-
-	

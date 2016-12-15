@@ -64,5 +64,17 @@ public class BossService implements IService{
 		List<HashMap<String, String>>  list = dao.getRestSeq(userSeq);
 		return list;
 	}
+	
+	//컨텐츠 구매목록
+	public List<HashMap<String, String>> bossConList(HashMap<String, String> map) {
+		List<HashMap<String, String>> bossConList = dao.bossConList(map);
+		return bossConList;
+	}
+	
+	//컨텐츠 구매목록 - 페이징
+	public int getBossConTotal(HashMap<String, String> map) {
+		int count = dao.getBossConTotal(map);
+		return count;
+	}
 }
 

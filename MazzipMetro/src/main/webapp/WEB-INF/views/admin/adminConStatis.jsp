@@ -10,7 +10,7 @@
     max-width: 800px;
     margin: 0 auto;
 }
-.table th {text-align:center;}
+.table th {text-align:center; background:#fafafa;}
 </style>
 <script type="text/javascript">
  $(function () {
@@ -83,19 +83,23 @@
 	<tr>
 		<td style="width:30%; vertical-align:middle;">
 			<table class="table">
-				<tr>
-					<th style="width: 70px;" >컨텐츠명</th>
-					<th style="width: 80px;" >판매량</th>
-					<th style="width: 80px;" >판매액</th>
-					
-				</tr>
-			<c:forEach var="list" items="${list_statis}" varStatus="status"> 
-				<tr>
-					<td>${list.CONTENTNAME}</td>
-					<td>${list.CONTENTSEQ}</td>
-					<td><fmt:formatNumber pattern="###,###" value="${list.CONTENTPRICE}" /> \</td>
-				</tr>
-			</c:forEach>
+				<thead>
+					<tr>
+						<th style="width: 70px;" >컨텐츠명</th>
+						<th style="width: 80px;" >판매량</th>
+						<th style="width: 80px;" >판매액</th>
+						
+					</tr>
+				</thead>
+				<c:forEach var="list" items="${list_statis}" varStatus="status"> 
+				<tbody>
+					<tr>
+						<td>${list.CONTENTNAME}</td>
+						<td>${list.CONTENTSEQ}</td>
+						<td><fmt:formatNumber pattern="###,###" value="${list.CONTENTPRICE}" /> \</td>
+					</tr>
+				</tbody>	
+				</c:forEach>
 			</table>
 		</td>
 		<td style="width:70%;" id="mhStatis">
