@@ -572,22 +572,13 @@
 			</div>
 		</div>
 		<%-- end of leftCon --%>
-		
-<<<<<<< HEAD
-		<div class="rightCon" id="scroller" style = "height : 450px; width : 500px;">
-		<input type="hidden" name="StartRno" value="1">
-		<input type="hidden" name="EndRno" value="10">
-		</div>
-		<div class="rightCon" id="rightContent" style = "margin-top : 88px; margin-left : 60px;"></div>
-=======
-		<div class="rightCon" >
+		<div class="rightCon" style = "height : 450px; width : 500px;">
 			<div style="background-color: yellow" id="realReview">실시간 리뷰</div>
 			<div id="Scroller" class="Scroller">
 			</div>
 
 		</div>
-		
->>>>>>> e5ca3d6850e2c5ac42506eb0290a7ff2f053b9d4
+		<div class="rightCon" id="rightContent" style = "margin-top : 88px; margin-left : 60px;"></div>
 		<%-- end of rightCon --%>	
 
 <jsp:include page="footer.jsp" />
