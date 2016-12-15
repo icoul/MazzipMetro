@@ -92,6 +92,9 @@ function getLoginUserInfo(){
 					
 					// 사용자의 가고싶다 갱신 함수 호출
 			  		getUserWantToGo();
+					
+					// 로그인시 맛집추천을 받았는지 여부 체크해서 업무진행
+			  		userRestRecomCheck();
 		<%  		
 		  		}
 		%>
@@ -131,10 +134,9 @@ function getLoginUserInfo(){
   			$("#mySidenav").css('display',"none");
   		});
 		
-  		// 로그인시 맛집추천을 받아다면, 곧장 리뷰쓰기 창을 띄운다.
-  		if(${not empty sessionScope.restRecom}){
-  			goReviewAdd('${sessionScope.restRecom}');
-  		}
+  		<c:if test="${sessionScope.loginUser == null}">
+  			$(".header").css ("margin-top", 0);
+  		</c:if>
   		
   		
 	});// end of ready
@@ -181,6 +183,7 @@ function getLoginUserInfo(){
 				success: function(data){
 							
 					alert(data.msg);
+					getUserWantToGo();
 							
 				}, //end of success: function(data)
 				error: function(request, status, error){
@@ -236,13 +239,19 @@ function getLoginUserInfo(){
 			traditional: true,		 // 배열 데이터 전송용
 			dataType: "JSON",        // 위의 URL 페이지로 사용자가 보내는 ajax 요청 데이터.
 			success: function(data) {// 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
-
 					alert(data.msg);
 					getUserWantToGo();
 				}
 		});//end of $.ajax()
   	}
   	
+	function userRestRecomCheck(){
+		// 로그인시 맛집추천을 받아다면, 곧장 리뷰쓰기 창을 띄운다.
+  		if(${not empty sessionScope.restRecom}){
+  			goReviewAdd('${sessionScope.restRecom}');
+  		}
+	}
+	
 	// 로그인시 맛집추천을 받아다면, 곧장 리뷰쓰기 창을 띄운다.
 	function goReviewAdd(restSeq){
 		
@@ -254,7 +263,18 @@ function getLoginUserInfo(){
 			var status = "left=500px, top=100px, width=600px, height=915px, menubar=no, status=no, scrollbars=yes ";
 			var popup = window.open(url, title, status); 			
 		} else {
-			alert('추천맛집 삭제 코드 ajax 작성');
+			$.ajax({
+				url: "<%=request.getContextPath()%>/delWantToGo.eat", 
+				method:"POST",  		 // method
+				data: "wantToGoChk="+restSeq,
+				traditional: true,		 // 배열 데이터 전송용
+				dataType: "JSON",        // 위의 URL 페이지로 사용자가 보내는 ajax 요청 데이터.
+				success: function(data) {// 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
+
+						alert(data.msg);
+						getUserWantToGo();
+					}
+			});//end of $.ajax()
 		} 
 	
 	
@@ -293,7 +313,6 @@ function getLoginUserInfo(){
 				</div> 
 			</div>
 		</c:if>	
-		<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
 			<div class="header" style="margin-top:20px;">
 				<h1><a href="<%= request.getContextPath() %>/index.eat" style="color: black; text-decoration: none">Mazzip Metro</a></h1>
 				<ul class="menu">
@@ -326,8 +345,19 @@ function getLoginUserInfo(){
 						<li><a href="<%=request.getContextPath()%>/adminContentList.eat">컨텐츠관리</a></li>
 						<li><a href="<%=request.getContextPath()%>/adminQnaList.eat">고객문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
 					</c:if>
-					
 				</ul>
+				
+				<!-- 검색바 -->
+				<div  id="search_div" align="center" style="position: absolute; top: 18px; left: 700px; width: 35%;">
+				  <form name="searchFrm" id="searchFrm" onsubmit="return false;">
+				    <div class="input-group" style="width: 100%;">
+				      <input type="text" class="form-control" name="keyword" id="keyword" size="50" placeholder="검색어를 입력하세요!" onkeydown="goButton();" required>
+				      <div class="input-group-btn">
+				        <button type="button" class="btn btn-default" onclick="goSearch();" >검색</button>
+				      </div>
+				    </div>
+				  </form>
+				</div>
 	
 				<c:if test="${sessionScope.loginUser.userSeq == null && empty sessionScope.loginUser.userSeq}"> 
 				<button type="button" class="btnLogin" data-target="#loginModal" data-toggle="modal" style="margin-left:10px;">로그인</button>
@@ -340,51 +370,6 @@ function getLoginUserInfo(){
 					<button type="button" class="btnLogin" onClick="goLogOut();">로그아웃</button>
 				</c:if>
 			</div>
-		</c:if>
-		<c:if test="${sessionScope.loginUser.userSeq == null || empty sessionScope.loginUser.userSeq}">
-			<div class="header">
-				<h1><a href="<%= request.getContextPath() %>/index.eat" style="color: black; text-decoration: none">Mazzip Metro</a></h1>
-				<ul class="menu">
-					<!-- 비회원 로그인시(로그인전) -->
-					<c:if test="${empty sessionScope.loginUser.userSeq}">
-						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
-						<li><a href="javascript:goAsk();">문의하기</a></li>
-						<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
-						&nbsp;&nbsp;&nbsp;&nbsp;
-					</c:if>
-					<!-- 일반사용자 로그인시 -->
-					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 0}">
-						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
-						<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
-						<li><a href="javascript:goAsk();">문의하기</a></li>
-						<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
-					</c:if>
-					<!-- 사업주 로그인시 -->
-					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 1}">
-						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
-						<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
-						<li><a href="javascript:goAsk();">문의하기</a></li>
-						<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
-					</c:if>
-					<!-- 관리자 로그인시 -->
-					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 2}">
-						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
-						<li><a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a></li>
-						<li><a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a></li>
-						<li><a href="<%=request.getContextPath()%>/adminContentList.eat">컨텐츠관리</a></li>
-						<li><a href="<%=request.getContextPath()%>/adminQnaList.eat">고객문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
-					</c:if>
-					
-				</ul>
-	
-				<c:if test="${sessionScope.loginUser.userSeq == null && empty sessionScope.loginUser.userSeq}"> 
-				<button type="button" class="btnLogin" data-target="#loginModal" data-toggle="modal" style="margin-left:10px;">로그인</button>
-				<!-- <button type="button" class="btnLogin" onclick="goRegister();">회원가입</button> -->
-				<button type="button" class="btnLogin" data-toggle="modal" data-target="#accountSelectModal">회원가입</button>
-				</c:if>
-				
-			</div>
-		</c:if>
 	</div>
 	<!-- headWrap -->
 	

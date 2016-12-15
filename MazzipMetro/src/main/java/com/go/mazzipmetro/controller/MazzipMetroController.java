@@ -99,6 +99,11 @@ public class MazzipMetroController {
 		
 		int result = service.delWantToGo(userSeq, wantToGoChkArr);
 		
+		// 추천맛집 (wantToGoStatus = 2)인 경우 대비 세션의 restRecom값 삭제.
+				if (result > 0) {
+					req.getSession().removeAttribute("restRecom");
+				}
+				
 		msg += (result > 0)?"성공적으로 삭제했습니다.":"삭제되지 않았습니다. 다시 시도해주세요.";
 		
 		JSONObject jObj = new JSONObject();
@@ -122,7 +127,7 @@ public class MazzipMetroController {
 		
 		int result = service.mazzipMetroPick(map);
 		
-		msg += (result > 0)?"맛있게 드시고 오세요.":"추천맛집 선택이 올바르게 진행되지 않았습니다. 다시 선택해주세요.";
+		msg += (result > 0)?"맛있게 드시고 맛집정복 후기를 작성해 보세요.":"추천맛집 선택이 올바르게 진행되지 않았습니다. 다시 선택해주세요.";
 		
 		System.out.println(">>>>>>>>>>>>>>>> msg = "+msg);
 		JSONObject jObj = new JSONObject();

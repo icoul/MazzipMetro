@@ -14,7 +14,7 @@
         	
         	// 실시간 리뷰 애니메이트
             MainReview();
-        	scrolling();
+        	//scrolling();
             
 
 
@@ -464,19 +464,6 @@
 </script> 
 		<div id="leftCon">
 		
-			<!-- 검색바 -->
-			<div  id="search_div" align="center">
-			<br/> 
-			  <form name="searchFrm" id="searchFrm" onsubmit="return false;">
-			    <div class="input-group" style="width: 100%;">
-			      <input type="text" class="form-control" name="keyword" id="keyword" size="50" placeholder="검색어를 입력하세요!" onkeydown="goButton();" required>
-			      <div class="input-group-btn">
-			        <button type="button" class="btn" onclick="goSearch();">검색</button>
-			      </div>
-			    </div>
-			  </form>
-			</div>
-			
 			<div class="mainBann">
 				<img alt="" src="<%=request.getContextPath() %>/resources/images/metroMap.jpg"  usemap="#mazzipMetroImgMap" style="margin-top: 15px;margin-bottom: 15px;">
 				<map id="mazzipMetroImgMap" name="mazzipMetroImgMap">

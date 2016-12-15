@@ -215,6 +215,11 @@ public class MapService  implements IService {
 			return dao.adminMetroNameList();
 		}
 
+		// 로그인 한 경우 사용자의 해당역사내 정복 음식점 restSeq를 가져온다.
+		public List<String> getUserRest(HashMap<String, String> map) {
+			return dao.getUserRest(map);
+		}
+
 		// 업장 태그 가져오기(태그가 있는 행만 가져오기)	: 테그 테이블 삭제
 /*		public List<TagVO> temp_getRestTag() {
 			List<String> seqList = dao.temp_getRestSeqForTags();

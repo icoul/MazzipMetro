@@ -19,13 +19,9 @@
 	    .info .link {color: #5085BB;}
 	 </style>
 	 
-	 <style>
-	 table, th, td { border: solid 1px black;}
-	 th, td {padding: 10px;}
-	 </style>
 	 
 	 <!-- 카테고리화된 검색어 자동완성 css -->
-	 <style>
+	<style>
 	  .ui-autocomplete-category {
 	    font-weight: bold;
 	    padding: .2em .4em;
@@ -50,60 +46,68 @@
 
 
 <div id="searchFrmContainer" style="padding-top: 20px;">
-	<span style="font-weight: bold; color: gray; text-decoration: underline;">관리자님, 검색조건을 입력후에 검색버튼을 눌러주세요.</span>
-	<form id="searchFrm" onsubmit="return false;">
-		<br/>
-		<select name="srchType" id="srchType">
-			<option value="all">통합검색</option>
-			<option value="restName">음식점명 검색</option>
-			<option value="metroName">지하철역사 검색</option>
-			<option value="dongName">동 검색</option>
-			<option value="guName">구 검색</option>
-		</select>
-		<input type="text" name="keyword" id="keyword" onkeydown="goButton();">
-		<button type="button" onclick="getRestaurant();">검색</button> 
-		<br/>
+	<div style="float:left; width:200px; height:814px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;">
+		<h2 style="width:187px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right; font-size:25px;">관리자 <br/> 업장 검색</h2>
+	</div>
+	<%-- subleftCon --%>
+	<div style="float:left; width:1200px;  text-align:center; border-right:1px solid #dbdbdb; padding-bottom:40px;">
+		<span style="font-weight: bold; color: gray; text-decoration: underline;">관리자님, 검색조건을 입력후에 검색버튼을 눌러주세요.</span>
+		<form id="searchFrm" onsubmit="return false;">
+			<br/>
+			<select name="srchType" id="srchType">
+				<option value="all">통합검색</option>
+				<option value="restName">음식점명 검색</option>
+				<option value="metroName">지하철역사 검색</option>
+				<option value="dongName">동 검색</option>
+				<option value="guName">구 검색</option>
+			</select>
+			<input type="text" name="keyword" id="keyword" onkeydown="goButton();">
+			<button type="button" onclick="getRestaurant();">검색</button> 
+			<br/>
+			<br/> 
+			<!-- 지하철 역명 선택 -->
+			<select name="selMenu_metroName" id="selMenu_metroName"></select>&nbsp;&nbsp;
+			<!-- 구 이름 선택 -->
+			<select name="selMenu_guName" id="selMenu_guName"></select>&nbsp;&nbsp;
+			<!-- 동이름 선택 -->
+			<select name="selMenu_dongName" id="selMenu_dongName"><option value="dongId">구를 먼저 선택하세요!</option></select>
+			<br/>
+			<br/> 
+			<div align="center">
+				<table style="border: solid 1px black;">
+				<tr><th style="border: solid 1px black; padding: 10px;">대분류</th><td style="border: solid 1px black; padding: 10px;">
+				<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="한식">한식</label>
+				<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="일식">일식</label>
+				<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="중식">중식</label>
+				<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="양식">양식</label>
+				<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="동남아">동남아</label>
+				</td></tr>
+				<tr><th style="border: solid 1px black; padding: 10px;">중분류</th><td style="border: solid 1px black; padding: 10px;">
+				<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="고기류">고기류</label>
+				<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="어폐류">어폐류</label>
+				<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="채소류">채소류</label>
+				<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="면류">면류</label>
+				<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="밥류">밥류</label>
+				</td></tr>
+				<tr><th style="border: solid 1px black; padding: 10px;">관리여부</th><td style="border: solid 1px black; padding: 10px;">
+				<label class="radio-inline"><input type="radio" name="restManager" value="all" checked>전체</label>
+				<label class="radio-inline"><input type="radio" name="restManager" value="admin">관리자 관할 음식점</label>
+				<label class="radio-inline"><input type="radio" name="restManager" value="notAdmin">업주관리 음식점</label><!-- userSeq가 관리자가 아닌 매장 -->
+				</td></tr>
+				<tr><th style="border: solid 1px black; padding: 10px;">삭제여부</th><td style="border: solid 1px black; padding: 10px;"> 
+				<label class="radio-inline"><input type="radio" name="restStatus" value="all" checked>전체</label>
+				<label class="radio-inline"><input type="radio" name="restStatus" value="0">이용 가능 음식점</label>
+				<label class="radio-inline"><input type="radio" name="restStatus" value="1">삭제된 음식점</label>
+				</td></tr>
+				</table>
+			</div>
+		</form>
 		<br/> 
-		<!-- 지하철 역명 선택 -->
-		<select name="selMenu_metroName" id="selMenu_metroName"></select>&nbsp;&nbsp;
-		<!-- 구 이름 선택 -->
-		<select name="selMenu_guName" id="selMenu_guName"></select>&nbsp;&nbsp;
-		<!-- 동이름 선택 -->
-		<select name="selMenu_dongName" id="selMenu_dongName"><option value="dongId">구를 먼저 선택하세요!</option></select>
-		<br/>
-		<br/> 
-		<table>
-		<tr><th>대분류</th><td>
-		<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="한식">한식</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="일식">일식</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="중식">중식</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="양식">양식</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="동남아">동남아</label>
-		</td></tr>
-		<tr><th>중분류</th><td>
-		<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="고기류">고기류</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="어폐류">어폐류</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="채소류">채소류</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="면류">면류</label>
-		<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="밥류">밥류</label>
-		</td></tr>
-		<tr><th>관리여부</th><td>
-		<label class="radio-inline"><input type="radio" name="restManager" value="all" checked>전체</label>
-		<label class="radio-inline"><input type="radio" name="restManager" value="admin">관리자 관할 음식점</label>
-		<label class="radio-inline"><input type="radio" name="restManager" value="notAdmin">업주관리 음식점</label><!-- userSeq가 관리자가 아닌 매장 -->
-		</td></tr>
-		<tr><th>삭제여부</th><td> 
-		<label class="radio-inline"><input type="radio" name="restStatus" value="all" checked>전체</label>
-		<label class="radio-inline"><input type="radio" name="restStatus" value="0">이용 가능 음식점</label>
-		<label class="radio-inline"><input type="radio" name="restStatus" value="1">삭제된 음식점</label>
-		</td></tr>
-		</table>
-		
-	</form>
+		<div id="map" style="width:100%;height:500px;"></div>
+	</div>
+	
 </div>
-
-<br/> 
-<div id="map" style="width:100%;height:500px;"></div>
+	<%-- subrightCon --%>
 
 <!-- 업장수정차을 post방식으로 열기위한 form --> 
 <div id="editFrmDiv">

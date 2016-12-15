@@ -149,6 +149,11 @@ public class MapDAO  implements IDAO {
 		return sqlSession.selectList("map.adminMetroNameList");
 	}
 
+	// 로그인 한 경우 사용자의 해당역사내 정복 음식점 restSeq를 가져온다.
+	public List<String> getUserRest(HashMap<String, String> map) {
+		return sqlSession.selectList("map.getUserRest", map);
+	}
+
 	// 업장 restSeq 가져오기(태그가 있는 행만 가져오기) : tag 테이블 삭제
 	/*public List<String> temp_getRestSeqForTags() {
 		return sqlSession.selectList("restaurant.temp_getRestSeqForTags");

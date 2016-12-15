@@ -43,10 +43,10 @@
 		insert into tbl_wantToGo values(seq_tbl_wantToGo.nextval, #{userSeq}, #{restSeq}, default, default)
 	</insert>
 	
-	<!-- 가고싶다 삭제 요청 -->
+	<!-- 가고싶다 삭제 요청 (추천 받은 맛집 삭제도 이 쿼리를 사용한다.)-->
 	<update id="delWantToGo" parameterType="java.util.HashMap">
 		update tbl_wantToGo set wantToGoStatus = 1
-		where userSeq = #{userSeq} and restSeq = #{restSeq} and wantToGoStatus = 0
+		where userSeq = #{userSeq} and restSeq = #{restSeq} and wantToGoStatus in (0,2)
 	</update>
 	
 	<!-- 사용자의 가고싶다 에 담은 개수 확인 -->

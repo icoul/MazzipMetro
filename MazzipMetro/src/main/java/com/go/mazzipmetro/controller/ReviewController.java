@@ -109,9 +109,6 @@ public class ReviewController {
 			rvo.setReviewMTag(reviewMdTag);
 		}
 		
-			
-		
-		
 		
 		// 이미지 파일 업로드 및 파일명 배열에 저장하기
 		ArrayList<String> imageList = new ArrayList<String>();	
@@ -171,6 +168,11 @@ public class ReviewController {
 		}
 		
 		System.out.println(freeScript); 
+		
+		// 동현 추가_추천맛집 (wantToGoStatus = 2)인 경우 대비 세션의 restRecom값 삭제.
+		if (result > 0) {
+			req.getSession().removeAttribute("restRecom");
+		}
 		
 		/*req.setAttribute("result", result);
 		req.setAttribute("freeScript", freeScript);*/	

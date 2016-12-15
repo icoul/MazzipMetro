@@ -111,8 +111,7 @@ function mazzipMetroPick () {
 		bool = confirm(mazzipMetroRecom+"에 가서 한번 드셔보시겠습니까?");
 		
 		if(bool){
-		alert(mazzipMetroPickArr[result]);
-			
+		//alert(mazzipMetroPickArr[result]);
 			$.ajax({
 				url: "<%=request.getContextPath()%>/mazzipMetroPick.eat", 
 				method:"POST",  		 // method
@@ -139,12 +138,12 @@ function mazzipMetroPick () {
 </c:if>
 
 <c:if test="${not empty list}">
-<table style="width: 450px;position: relative;">
+<table style="width: 450px;position: relative; border: solid gray 0px;">
 <tr>
 	<td style="padding: 30px; width: 70%;">
 		<button type="button" onclick="mazzipMetroPick();" class="btn btn-default btn-sm">못고르겠어요ㅠㅜ 맛집 메트로가 골라주세요!</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	</td>
-	<td align="center" style="width: 30%;">
+	<td align="center" style="width: 25%;">
 		<button type="button" onclick="goDel();" class="btn btn-danger btn-xs">선택삭제</button>
 	</td>
 </tr>

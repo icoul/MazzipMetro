@@ -234,20 +234,13 @@
 		where rnum between 1 and 5
 	</select>
 	
-	<!-- 지하철역별 등록된 음식점 보여주기(bgCat얻어오기) -->
-	<!-- <select id="getRestBgTag" parameterType="String" resultType="String">
-		select tagName
-		from tbl_restaurant_tag
-		where tagStatus = 0 and restSeq = #{restSeq} and tagSort='bgCat'
-	</select> -->
-	
-	<!-- 지하철역별 등록된 음식점 보여주기(mdCat얻어오기) -->
-	<!-- <select id="getRestMdTag" parameterType="String" resultType="String">
-		select tagName
-		from tbl_restaurant_tag
-		where tagStatus = 0 and restSeq = #{restSeq} and tagSort='mdCat'
-	</select> -->
-	
+	<!-- 로그인 한 경우 사용자의 해당역사내 정복 음식점 restSeq를 가져온다. -->
+	<select id="getUserRest" parameterType="java.util.HashMap" resultType="String">
+		select A.restSeq 
+		from tbl_review A join tbl_restaurant B
+		on A.restSeq = B.restSeq
+		where A.userSeq = #{userSeq} and B.metroId = #{metroId}
+	</select>
 	
 	<!-- 지하철역별 등록된 음식점 보여주기(총 음시점 수 구하기) -->
 	<select id="getTotalCount" parameterType="java.util.HashMap" resultType="int">

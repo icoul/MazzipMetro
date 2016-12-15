@@ -49,19 +49,18 @@ img {border:0; padding:0; margin:0; vertical-align:top;}
 
 
 #headWrap {border-bottom:1px solid #dbdbdb;}
-.header {overflow:hidden; width:1400px; margin:0 auto;  height:70px; padding:20px 0 0;}
+.header {overflow:hidden; width:1400px; margin:0 auto;  height:70px; padding:20px 0 0; position: relative;}
 .header  h1 {float:left; padding:0 20px 0 0; margin:0; font-size:23px; font-weight:bold;} 
 .header .menu {overflow:hidden; float:left; padding:4px 0 0 0; margin:0; }
 .header .menu li {float:left; list-style:none; padding:0 10px;}
 .header .menu li a {text-decoration:none; font-size:16px; color:#222;}
 .header .btnLogin {float:right; width:58px; height:25px; background:#fff; font-size:10px; border:1px solid #000; border-radius:2px; color:#000; cursor:pointer;}
-<<<<<<< HEAD
+
 /* 동현 가고싶다 버튼 추가 */
 .btnLogin {float:right; width:58px; height:25px; background:#fff; font-size:10px; border:1px solid #000; border-radius:2px; color:#000; cursor:pointer;}
-=======
+
 .loginWrap {width:100%; z-index:100; position: fixed; top: 0px; left:0; height:25px; background:#fff; border:1px solid #dbdbdb; box-shadow:0 2px 5px #dbdbdb;}
 .loginInfo {width:700px; float:right; padding-top:5px; background:#fff;} 
->>>>>>> 27cf15fb59be2623d0ade4633083c269e2a5eb80
 
 #content {width:1400px; overflow:hidden; margin:0 auto;}
 #leftCon {float:left; width:730px;}
@@ -76,7 +75,6 @@ footer .copyRight {color:#8a8a8a;}
 #realReview {position:absolute; right:140px; }
 #scroller {position:absolute; height:400px;  width:270px;   right:0; }
 
-<<<<<<< HEAD
 /* 동현 자동 검색어 완성 관련 css 추가 */
 /* 카테고리화된 검색어 자동완성 css */
 .ui-autocomplete-category {
