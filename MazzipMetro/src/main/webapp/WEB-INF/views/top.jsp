@@ -131,10 +131,62 @@ function getLoginUserInfo(){
   			$("#mySidenav").css('display',"none");
   		});
 		
+  		// 로그아웃시 헤더 margin 제거
   		<c:if test="${sessionScope.loginUser == null}">
   			$(".header").css ("margin-top", 0);
   		</c:if>
   		
+  		(function($){
+  		// 자동 완성 keyup 이벤트
+  		 $("#keyword").keyup(function(){
+     		
+ 			$.ajax({
+ 				url:"<%=request.getContextPath()%>/autoComplete.eat",
+ 				type :"GET",
+ 				data: "srchType=all&keyword="+$("#keyword").val(),
+ 				dataType:"json",
+ 				success: function(data){
+ 					//alert(data.autoComSource);
+ 					
+ 					$.widget( "custom.catcomplete", $.ui.autocomplete, {
+ 						      _create: function() {
+ 						        this._super();
+ 						        this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
+ 						      },
+ 						      _renderMenu: function( ul, items ) {
+ 						        var that = this,
+ 						          currentCategory = "";
+ 						        $.each( items, function( index, item ) {
+ 						          var li;
+ 						          if ( item.category != currentCategory ) {
+ 						            ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+ 						            currentCategory = item.category;
+ 						          }
+ 						          li = that._renderItemData( ul, item );
+ 						          if ( item.category ) {
+ 						            li.attr( "aria-label", item.category + " : " + item.label );
+ 						          }
+ 						        });// end of  $.each()
+ 						      }
+ 						    });// end of $.widget( "custom.catcomplete", $.ui.autocomplete, {})
+ 						
+ 						$("#keyword").catcomplete({
+ 							delay : 0,
+ 							minLength: 0,
+ 							source : data.cat_autoComSource
+ 						})						 
+ 					
+ 					
+ 				}, //end of success: function(data)
+ 				error: function(request, status, error){
+ 					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+ 				} // end of error: function(request,status,error)
+ 			}); //end of $.ajax()
+ 			
+ 			
+ 		});// end of $("#keyword").keyup
+ 		
+  		})(jQuery)	
   		
 	});// end of ready
 	
@@ -269,10 +321,16 @@ function getLoginUserInfo(){
 					}
 			});//end of $.ajax()
 		} 
-	
-	
 	}
-	
+		
+		// input 태그 엔터키 refresh 방지
+	   	function goButton() {
+	   		 if (event.keyCode == 13) {
+	   			goSearch();
+	   		  	return false;
+	   		 }
+	   		 return true;
+	   	}
 </script>
 
 </head>

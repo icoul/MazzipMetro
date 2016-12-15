@@ -11,7 +11,6 @@
         	
         	goSearch();
         	
-        	MainReview();
         	
         	$("#keyword").keyup(function(){
     		
@@ -63,21 +62,7 @@
         	
         });// $(document).ready()
       
-        	
-      function MainReview(){
-        $.ajax({ 
-            url: "<%= request.getContextPath()%>/MainReviewAjax.eat",  
-            method:"get",      
-            dataType: "html",
-            success: function(data) {
-               
-               $("#Scroller").html(data);
-               
-               }
-         });//end of $.ajax()
-          
-       }// end of MainReview
-       
+    
        function goSearch(){
     		//alert($("#keyword").val());   
        	
@@ -169,7 +154,7 @@
 		</div>
 		<%-- end of leftCon --%>
 		
-		<div class="rightCon" id="Scroller"></div>
+		
 		<%-- end of rightCon --%>	
 
 
