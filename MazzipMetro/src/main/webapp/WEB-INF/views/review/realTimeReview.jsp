@@ -68,9 +68,9 @@ function scrolling(){
 
 	})(jQuery)
 		
-	});// end of ready
+	}; // end of scrolling
 
- }
+
 
 
 </script>
@@ -93,11 +93,6 @@ function scrolling(){
                     ${review.reviewContent}<br/>
                     ${review.restName}&nbsp;<br/>
                     ${review.restAddr}
-                <td>
-                    <section style="font-size: 9pt;">${review.reviewContent}</section>                    
-                    <section>
-                    		<a href="<%= request.getContextPath() %>/restaurantDetail.eat?restSeq=${review.restSeq}"><img src="<%= request.getContextPath() %>/files/${review.reviewImg}" width="50px" height="50px"/></a> &nbsp;&nbsp;
-                    </section>
                 </td>
 
         

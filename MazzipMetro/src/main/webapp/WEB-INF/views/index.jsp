@@ -14,7 +14,7 @@
         	
         	// 실시간 리뷰 애니메이트
             MainReview();
-        	scrolling();
+        	
             
 
 
@@ -546,7 +546,7 @@
 		
 		<div class="rightCon" >
 			<div style="background-color: yellow" id="realReview">실시간 리뷰</div>
-			<div id="scroller" class="scroller">
+			<div id="Scroller" class="Scroller">
 			</div>
 
 		</div>
