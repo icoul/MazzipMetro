@@ -21,16 +21,16 @@ public class CouponService {
 	private CouponDAO dao;
 
 	// 유저가 보유한 쿠폰 목록
-	public List<HashMap<String,String>> getUserCoupon(String userSeq) {
+	public List<CouponVO> getUserCoupon(String userSeq) {
 		
-		List<HashMap<String,String>> couponList = dao.getUserCoupon(userSeq);
+		List<CouponVO> couponList = dao.getUserCoupon(userSeq);
 		
 		return couponList;
 	}
 
 	// 사업자가 발행한 쿠폰 목록
-	public List<HashMap<String,String>> getBossCoupon(String userSeq) {
-		List<HashMap<String,String>> couponList = dao.getBossCoupon(userSeq);
+	public List<CouponVO> getBossCoupon(String userSeq) {
+		List<CouponVO> couponList = dao.getBossCoupon(userSeq);
 		
 		return couponList;
 	}
@@ -50,13 +50,6 @@ public class CouponService {
 		
 		int result = dao.couponBuy(map);
 		
-		return result;
-	}
-
-	// 쿠폰 사용
-	public int couponConfirm(String couponSeq) {
-		
-		int result = dao.couponConfirm(couponSeq);
 		return result;
 	}
 }

@@ -34,7 +34,31 @@ public class BossService implements IService{
 		return result;
 	}
 	
+	//파워링크
+	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
+	public int linkBuyUpdate(HashMap<String, String> map) throws Throwable {
+		int result = dao.linkBuyUpdate(map);
+		return result;
+	}
 	
+	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
+	public int linkInsert(HashMap<String, String> map) throws Throwable {
+		int result = dao.linkInsert(map);
+		return result;
+	}
+	
+	//추천광고
+	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
+	public int recomBuyUpdate(HashMap<String, String> map) throws Throwable {
+		int result = dao.recomBuyUpdate(map);
+		return result;
+	}
+	
+	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
+	public int recomInsert(HashMap<String, String> map) throws Throwable {
+		int result = dao.recomInsert(map);
+		return result;
+	}
 	//컨텐츠테이블 등록하기위해 restSeq 구해오기
 	public List<HashMap<String, String>>  getRestSeq(String userSeq) {
 		List<HashMap<String, String>>  list = dao.getRestSeq(userSeq);

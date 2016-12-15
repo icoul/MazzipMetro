@@ -85,7 +85,7 @@ $(document).ready(function(){
 	<tr>
 		<td>마일리지</td>
 		<td><fmt:formatNumber pattern="###,###" value="${userPoint}" /> POINT</td>
-		<td><a href="<%= request.getContextPath()%>/couponList.eat">쿠폰</a></td>
+		<td>쿠폰</td>
 		<td>${coupon}</td>
 	</tr>
 	
@@ -107,7 +107,7 @@ $(document).ready(function(){
 	<tr>
 		<td>유효한 컨텐츠 수</td>
 		<td>${effectContent}</td>
-		<td><a href="<%= request.getContextPath()%>/couponList.eat">쿠폰</a></td>
+		<td>쿠폰</td>
 		<td>${coupon}</td>
 	</tr>
 </table>

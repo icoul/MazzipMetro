@@ -45,8 +45,6 @@ public class BossController {
 		HttpSession ses = req.getSession();
 		UserVO loginUser = (UserVO)ses.getAttribute("loginUser");
 		
-		System.out.println(">>>> 확인용 : loginUser.getUserSeq() ==> " + loginUser.getUserSeq());
-		
 		List<HashMap<String, String>> list = service.getRestSeq(loginUser.getUserSeq());
 		
 		req.setAttribute("list", list);
@@ -94,9 +92,8 @@ public class BossController {
 		else if (result > 0) {
 			msg ="충전되셨습니다.";
 			loc ="javascript:history.back();";
-			//loginUser = (UserVO)ses.getAttribute("loginUser");
+			loginUser = (UserVO)ses.getAttribute("loginUser");
 			loginUser = userService.getLoginUser(loginUser.getUserEmail());
-			loginUser.setUserPoint(loginUser.getUserPoint());
 			ses.setAttribute("loginUser", loginUser);
 		}
 		
@@ -115,57 +112,28 @@ public class BossController {
 		String userSeq = req.getParameter("userSeq");
 		String restSeq = req.getParameter("restSeq");
 		String str_userPoint = req.getParameter("userPoint");
-		String contentType1 = req.getParameter("contentType1");
-		String contentType2 = req.getParameter("contentType2");
-		String contentType3 = req.getParameter("contentType3");
-		String selectContentType = req.getParameter("selectContentType");
-		String contentType = "";
-		
-		System.out.println("===================="+contentType1);
-		System.out.println("===================="+contentType2);
-		System.out.println("===================="+contentType3);
+
 		
 		map.put("userSeq", userSeq);
 		map.put("restSeq", restSeq);
 		map.put("userPoint", str_userPoint);
-		
-		if(contentType1.equals(selectContentType)){
-			contentType = contentType1;
-			map.put("contentType", contentType);
-		}else if(contentType2.equals(selectContentType)){
-			contentType = contentType2;
-			map.put("contentType", contentType);
-		}else if(contentType3.equals(selectContentType)){
-			contentType = contentType3;
-			map.put("contentType", contentType);
-		}
-		System.out.println("===================="+contentType);
 	
+		
 		
 		int result=0;
 		int userPoint = Integer.parseInt(str_userPoint); 
-		int contentPrice = 0;
 		
 		String msg = "없음";
 		String loc ="javascript:history.back();";
 		
-			if	(contentType.equals("banner")){
-				contentPrice=1000000;
-			}
-			else if (contentType.equals("link")) {
-				contentPrice=500000;
-			} 
-			else if (contentType.equals("rcom"))  {
-				contentPrice=300000;
-			} 
-			
+				
 		//포인트잔액이 부족했을시
-		if (userPoint < contentPrice) {
+		if (userPoint < 1000000) {
 			msg ="포인트 잔액이 부족합니다. 코인을 충전하세요.";
 			loc ="javascript:history.back();";
 		}
 		
-		else if (userPoint >= contentPrice) {
+		else if (userPoint >= 1000000) {
 			result = service.bannBuyUpdate(map);
 			result = service.bannInsert(map);
 		}
@@ -180,10 +148,9 @@ public class BossController {
 			msg ="결제 되셨습니다.";
 			loc ="javascript:location.href='bossCoinResi.eat';";
 			
-			//ses = req.getSession();
-			//loginUser = (UserVO)ses.getAttribute("loginUser");
+			ses = req.getSession();
+			loginUser = (UserVO)ses.getAttribute("loginUser");
 			loginUser = userService.getLoginUser(loginUser.getUserEmail());
-			loginUser.setUserPoint(loginUser.getUserPoint());
 			ses.setAttribute("loginUser", loginUser);
 		}
 		
@@ -198,7 +165,122 @@ public class BossController {
 	
 	
 	
+	//파워링크 결제
+	@RequestMapping(value="/bossLinknBuy.eat", method={RequestMethod.POST})
+	public String bossLinknBuy(HttpServletRequest req, HttpSession ses) throws Throwable{
+		UserVO loginUser = (UserVO)ses.getAttribute("loginUser");
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		
+		
+		String userSeq = req.getParameter("userSeq");
+		String restSeq = req.getParameter("linkRestSeq");
+		String str_userPoint = req.getParameter("userPoint");
+		//System.out.println("확인용" + restSeq);
+		
+		map.put("userSeq", userSeq);
+		map.put("restSeq", restSeq);
 	
+		int result=0;
+		int userPoint = Integer.parseInt(str_userPoint); 
+		
+		String msg = "없음";
+		String loc ="javascript:history.back();";
+		
+		//임의의 포인트 넣어줬음
+		//int userPoint = 500000;
+				
+		//포인트잔액이 부족했을시
+		if (userPoint < 500000) {
+			msg ="포인트 잔액이 부족합니다. 코인을 충전하세요.";
+			loc ="javascript:history.back();";
+		}
+		
+		else if (userPoint >= 500000) {
+			result = service.linkBuyUpdate(map); 
+			result = service.linkInsert(map);
+		}
+		
+		
+		if (result < 0) {
+			msg ="결제되지 않았습니다.";
+			loc ="javascript:history.back();";
+		}
+		
+		else if (result > 0) {
+			msg ="결제 되셨습니다.";
+			loc ="javascript:location.href='bossCoinResi.eat';";
+			ses = req.getSession();
+			loginUser = (UserVO)ses.getAttribute("loginUser");
+			loginUser = userService.getLoginUser(loginUser.getUserEmail());
+			ses.setAttribute("loginUser", loginUser);
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
+		
+		return "boss/bossContentBuy";
+		
+	}
+	
+	
+	//추천광고 결제
+	@RequestMapping(value="/bossRecomBuy.eat", method={RequestMethod.POST})
+	public String bossRecomBuy(HttpServletRequest req, HttpSession ses) throws Throwable{
+		UserVO loginUser = (UserVO)ses.getAttribute("loginUser");
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		
+		
+		String userSeq = req.getParameter("userSeq");
+		String restSeq = req.getParameter("recomRestSeq");
+		String str_userPoint = req.getParameter("userPoint");
+		//** 나중에 session 에서 vo를 가져와서 get(userPoint)해서 가져와야함.
+		//System.out.println("확인용"+restSeq);
+		
+		
+		map.put("userSeq", userSeq);
+		map.put("restSeq", restSeq);
+	
+		int result=0;
+		int userPoint = Integer.parseInt(str_userPoint); 
+		
+		String msg = "없음";
+		String loc ="javascript:history.back();";
+		
+				
+		//포인트잔액이 부족했을시
+		if (userPoint < 300000) {
+			msg ="포인트 잔액이 부족합니다. 코인을 충전하세요.";
+			loc ="javascript:history.back();";
+		}
+		
+		else if (userPoint >= 300000) {
+			result = service.recomBuyUpdate(map); 
+			result = service.recomInsert(map);
+		}
+		
+		
+		if (result < 0) {
+			msg ="결제되지 않았습니다.";
+			loc ="javascript:history.back();";
+		}
+		
+		else if (result > 0) {
+			msg ="결제 되셨습니다.";
+			loc ="javascript:location.href='bossCoinResi.eat';";
+			ses = req.getSession();
+			loginUser = (UserVO)ses.getAttribute("loginUser");
+			loginUser = userService.getLoginUser(loginUser.getUserEmail());
+			ses.setAttribute("loginUser", loginUser);
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
+		
+		return "boss/bossContentBuy";
+		
+	}
 	
 	
 	//컨텐츠 구매목록

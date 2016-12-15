@@ -539,10 +539,7 @@ public class RestaurantController {
 	public String ReviewListAjax(HttpServletRequest req, HttpServletResponse res, HttpSession session){
 		
 		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
-		String UserSeq = null;
-		if(loginUser != null){
-		   UserSeq = loginUser.getUserSeq();
-		}
+		String UserSeq = loginUser.getUserSeq();
 		String restSeq = req.getParameter("restSeq");
 		String start = req.getParameter("StartRno");    // 1, 3, 5....
 		String len = req.getParameter("EndRno");        // 2개씩   더보기.. 클릭에 보여줄 상품의 갯수 단위크기   
@@ -562,13 +559,8 @@ public class RestaurantController {
 		String StartRno = String.valueOf(startRno);
 		String EndRno = String.valueOf(endRno);
 		
-		if(UserSeq != null){
-			likers = service.getLikers(UserSeq);
-		}
-		else{
-			req.setAttribute("msg", "로그인 후 이용해주세요");
-			req.setAttribute("loc", "javascript:history.back();");
-		}
+		likers = service.getLikers(UserSeq);
+		
 		
 		
 		HashMap<String,String> restvo = service.getRestaurant(restSeq);
@@ -583,18 +575,11 @@ public class RestaurantController {
 		List<HashMap<String,String>> reviewList = service.getReviewList(map);
 		int TotalReviewCount = service.getTotalReview(restSeq);
 		
-		if(UserSeq != null){
+		int reviewCount = reviewService.getMyReviewCount(restSeq, UserSeq);
 		
-			int reviewCount = reviewService.getMyReviewCount(restSeq, UserSeq);
-			req.setAttribute("reviewCount", reviewCount);
-		}
-		else{
-			req.setAttribute("msg", "로그인 후 이용해주세요");
-			req.setAttribute("loc", "index.eat");
-		}
 		/*System.out.println("dddddddddddddddddddddddddddddddddd"+restSeq);*/
 		
-		req.setAttribute("UserSeq", UserSeq);
+		req.setAttribute("reviewCount", reviewCount);
 		req.setAttribute("likers", likers);
 		req.setAttribute("TotalReviewCount", TotalReviewCount);
 		req.setAttribute("reviewList",  reviewList);

@@ -11,7 +11,6 @@
         	
         	goSearch();
         	
-        	rightContentView();
         	MainReview();
         	
         	$("#keyword").keyup(function(){
@@ -65,7 +64,7 @@
         });// $(document).ready()
       
         	
-      <%-- function MainReview(){
+      function MainReview(){
         $.ajax({ 
             url: "<%= request.getContextPath()%>/MainReviewAjax.eat",  
             method:"get",      
@@ -77,7 +76,7 @@
                }
          });//end of $.ajax()
           
-       }// end of MainReview --%>
+       }// end of MainReview
        
        function goSearch(){
     		//alert($("#keyword").val());   
@@ -141,18 +140,7 @@
    		 return true;
    	}
        
-    
-   	//측면에 들어가는 배너 컨텐츠 뷰
-   	function rightContentView(){
-   		$.ajax({
-			url : "<%=request.getContextPath()%>/rightContentView.eat",
-			method : "GET",
-			dataType : "html",
-			success : function(data){
-				$("#rightContent").html(data);
-			}
-		}); // end of ajax
-   	}
+       
 
 
        
@@ -193,8 +181,7 @@
 		</div>
 		<%-- end of leftCon --%>
 		
-		<div class="rightCon" id="rightContent" style = "margin-left : 30px;"></div>
-		
+		<div class="rightCon" id="Scroller"></div>
 		<%-- end of rightCon --%>	
 
 

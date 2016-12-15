@@ -9,20 +9,12 @@
 	<script>
         $(document).ready(function() {
 
-        	// 인덱스 페이지 메인 컨텐츠 뷰
-        	mainContentsView();
-        	
-        	// 인덱스 페이지 측면 컨텐츠 뷰
-        	rightContentView();
-        	
         	// 인덱스 페이지 업장 탑 5 랭킹
         	top5RankView();
         	
         	// 실시간 리뷰 애니메이트
             MainReview();
-        	
-            
-
+            //scrolling();
 
         	// tooltipster 중복호출 방지용
         	var metroIdArr = [];
@@ -277,6 +269,7 @@
                 }
             });
             
+            
           $("#keyword").keyup(function(){
         		
     			$.ajax({
@@ -326,7 +319,6 @@
     		});// end of $("#keyword").keyup
             
 })(jQuery)
-
         });// $(document).ready()
         
         //등록된 맛집이 없는 경우(지도에러유발) 링크 폐쇄
@@ -342,7 +334,8 @@
     			method:"get",  	 
     			dataType: "html",
     			success: function(data) {
-    				$("#Scroller").html(data);
+    				
+    				$("#scroller").html(data);
     				
     				}
     		});//end of $.ajax()
@@ -397,99 +390,27 @@
    		 }
    		 return true;
    	}
- 	// 인덱스 페이지 메인 컨텐츠 뷰
-   	function mainContentsView(){
-   			
-		$.ajax({
-			url : "<%=request.getContextPath()%>/mainContentsView.eat",
-			method : "GET",
-			dataType : "html",
-			success : function(data){
-				$(".mainContentsView").html(data);
-			}
-		}); // end of ajax
-   	}
- 	
-  //측면에 들어가는 배너 컨텐츠 뷰
-   	function rightContentView(){
-   		$.ajax({
-			url : "<%=request.getContextPath()%>/rightContentView.eat",
-			method : "GET",
-			dataType : "html",
-			success : function(data){
-				$("#rightContent").html(data);
-			}
-		}); // end of ajax
-   	}
-        <%-- function animate(){
-        	var $wrapper = $("#woo_scroller table");
-        	$wrapper.css({'top':0});
-        	
-        	var animator =	function(imgblock){
-				imgblock.animate({'top':-100}, 5500,
-								   function(){
-									  imgblock.css({'top':0});
-									// $(this).css({'top':550});
-									  animator(imgblock); //재귀함수 호출 -> 반복효과
-									  // animator($(this));
-				                   }
-				                 );	
-            } // 함수정의
-        	animator($wrapper); 
-        }
-         function MainReview(){
-        	
-       	 $.ajax({ 
-       			url: "<%= request.getContextPath()%>/MainReviewAjax.eat",  
-       			method:"get",  	 
-       			dataType: "html",
-       			success: function(data) {
-       				
-       				$("#scroller").html(data);
-       				
-       				}
-       		});//end of $.ajax()
-           	
-           }// end of MainReview --%>
-           
-                        
-             
-
-        	
-      function MainReview(){
-        $.ajax({ 
-            url: "<%= request.getContextPath()%>/MainReviewAjax.eat",  
-            method:"get",      
-            dataType: "html",
-            success: function(data) {
-               
-               $("#Scroller").html(data);
-               
-               }
-         });//end of $.ajax()
-          
-       }// end of MainReview
 
 	 // 인덱스 페이지 탑 5 업장 랭킹 뷰
-   	function top5RankView(){
-   			
-		var form_data = {
-				
-				metroId : "",   // 키값 : 밸류값 
-				dongId  : "",     // 키값 : 밸류값
-				regDate : 0,
-			}
-		
-		$.ajax({
-			url : "<%=request.getContextPath()%>/indexTop5RankView.eat",
-			method : "GET",
-			data : form_data,
-			dataType : "html",
-			success : function(data){
-				$(".top5RankView").html(data);
-			}
-		}); // end of ajax
-   	}
+	   	function top5RankView(){
+	   			
+			var form_data = {
+					
+					metroId : "",   // 키값 : 밸류값 
+					dongId  : "",     // 키값 : 밸류값
+					regDate : 0,
+				}
+			
+			$.ajax({
+				url : "<%=request.getContextPath()%>/indexTop5RankView.eat",
+				method : "GET",
+				data : form_data,
+				dataType : "html",
+				success : function(data){
+					$(".top5RankView").html(data);
+				}
+			}); // end of ajax
+	   	}
        
 </script> 
 		<div id="leftCon">
@@ -556,7 +477,8 @@
 				</map>
 			</div>
 			
-			<div class="mainContentsView">
+			<div class="promBann">
+				<img src="<%= request.getContextPath() %>/resources/images/imgProBanner01.jpg" border="0" />
 			</div>
 			<div  style="margin-top:30px;">
 				<div style = "height : 20px; background-color: lightgrey;">
@@ -572,13 +494,11 @@
 			</div>
 		</div>
 		<%-- end of leftCon --%>
-		<div class="rightCon" style = "height : 450px; width : 500px;">
-			<div style="background-color: yellow" id="realReview">실시간 리뷰</div>
-			<div id="Scroller" class="Scroller">
-			</div>
-
+		
+		<div class="rightCon" id="scroller">
+		<input type="hidden" name="StartRno" value="1">
+		<input type="hidden" name="EndRno" value="10">
 		</div>
-		<div class="rightCon" id="rightContent" style = "margin-top : 88px; margin-left : 60px;"></div>
 		<%-- end of rightCon --%>	
 
 <jsp:include page="footer.jsp" />

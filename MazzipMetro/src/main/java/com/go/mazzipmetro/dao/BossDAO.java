@@ -30,7 +30,28 @@ public class BossDAO implements IDAO{
 		return n;
 	}// end of  int bannInsert(HashMap<String, String> map) ---------
 	
+	//파워링크 결제 
+	public int linkBuyUpdate(HashMap<String, String> map) {
+		int n = sqlSession.update("boss.linkBuyUpdate", map);
+		return n;
+	}//end of int linkBuyUpdate(HashMap<String, String> map)-----
 	
+	//결제시 파워링크 등록
+	public int linkInsert(HashMap<String, String> map) {
+		int n = sqlSession.insert("boss.linkInsert", map);
+		return n;
+	}//end of int linkInsert(HashMap<String, String> map)-------
+	
+	//추천광고 결제 
+	public int recomBuyUpdate(HashMap<String, String> map) {
+		int n = sqlSession.update("boss.recomBuyUpdate", map);
+		return n;
+	}
+	//결제시 추천광고 등록
+	public int recomInsert(HashMap<String, String> map) {
+		int n = sqlSession.insert("boss.recomInsert", map);
+		return n;
+	}
 	//RestSeq 구하기
 	public List<HashMap<String, String>> getRestSeq(String userSeq) {
 		List<HashMap<String, String>> list = sqlSession.selectList("boss.getRestSeq", userSeq);

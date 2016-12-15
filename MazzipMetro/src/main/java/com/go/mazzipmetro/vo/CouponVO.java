@@ -7,15 +7,14 @@ public class CouponVO {
 	private String userSeq;             //유저번호  
 	private String metroId;           	//지하철ID
 	private String couponRegDate;       //쿠폰발행일       
-	private String couponUserDate;      //쿠폰 유저 등록일 
-	private String couponUseDate;		//쿠폰 사용일
+	private String couponUserDate;      //쿠폰 유저 등록일     
 	private String couponExpiryDate;    //쿠폰 유효기간         
 	private String couponStatus;     	//쿠폰 상태 0:발행했습니다 // 1:유저가 획득했습니다 // 2:사용하여 소진되었습니다
 	
 	public CouponVO(){}
-
+	
 	public CouponVO(String couponSeq, String restSeq, String userSeq, String metroId, String couponRegDate,
-			String couponUserDate, String couponUseDate, String couponExpiryDate, String couponStatus) {
+			String couponUserDate, String couponExpiryDate, String couponStatus) {
 		super();
 		this.couponSeq = couponSeq;
 		this.restSeq = restSeq;
@@ -23,7 +22,6 @@ public class CouponVO {
 		this.metroId = metroId;
 		this.couponRegDate = couponRegDate;
 		this.couponUserDate = couponUserDate;
-		this.couponUseDate = couponUseDate;
 		this.couponExpiryDate = couponExpiryDate;
 		this.couponStatus = couponStatus;
 	}
@@ -74,14 +72,6 @@ public class CouponVO {
 
 	public void setCouponUserDate(String couponUserDate) {
 		this.couponUserDate = couponUserDate;
-	}
-
-	public String getCouponUseDate() {
-		return couponUseDate;
-	}
-
-	public void setCouponUseDate(String couponUseDate) {
-		this.couponUseDate = couponUseDate;
 	}
 
 	public String getCouponExpiryDate() {

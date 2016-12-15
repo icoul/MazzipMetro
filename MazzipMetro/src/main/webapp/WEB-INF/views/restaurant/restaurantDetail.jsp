@@ -142,7 +142,6 @@ $(function () {
          }]
      });
  });
-
  
  function getReviewList(){
 	 
