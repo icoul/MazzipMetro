@@ -215,7 +215,10 @@
       where userSeq = #{userSeq} and aliasId = #{aliasId}
    </select>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 876f47a971b8754e3b959c1fdcaf4ff0cc35a8ac
    <resultMap type="java.util.HashMap" id="mapMyReviewList">
       <result column="reviewSeq" property="reviewSeq" javaType="String" />
       <result column="restName"  property="restName"  javaType="String" />
