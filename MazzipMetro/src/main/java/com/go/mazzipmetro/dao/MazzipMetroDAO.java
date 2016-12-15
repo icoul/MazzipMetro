@@ -180,4 +180,25 @@ public class MazzipMetroDAO implements IDAO{
 	public List<RestaurantVO> getUserWantToGo(String userSeq) {
 		return sqlSession.selectList("mazzipMetro.getUserWantToGo", userSeq);
 	}
+
+	// 가고싶다 삭제 요청
+	public int delWantToGo(HashMap<String, String> map) {
+		return sqlSession.update("mazzipMetro.delWantToGo", map);
+	}
+
+	// 사용자의 가고싶다 에 담은 개수 확인
+	public int checkNumWantToGo(HashMap<String, String> map) {
+		return sqlSession.selectOne("mazzipMetro.checkNumWantToGo", map);
+	}
+
+	// 맛집메트로 추천을 사용자가 선택한다.
+	public int mazzipMetroPick(HashMap<String, String> map) {
+		return sqlSession.update("mazzipMetro.mazzipMetroPick", map);
+	}
+
+	// 사용자가 맛집추천을 받은 적이 있는지 체크해서 이전 맛집 추천은 가고싶다 삭제 상태로 update한다.
+	public void deletePreviouseMazzipMetroPick(HashMap<String, String> map) {
+		sqlSession.update("mazzipMetro.deletePreviouseMazzipMetroPick", map);
+		
+	}
 }

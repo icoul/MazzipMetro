@@ -24,11 +24,12 @@
 	
 	<!-- 사용자 가고싶다 list 요청 -->
 	<select id="getUserWantToGo"  parameterType="String"  resultType="com.go.mazzipmetro.vo.RestaurantVO">
-		select *
+		select A.*
 		from tbl_restaurant A join tbl_wantToGo B
 		on A.restSeq = B.restSeq
 		where B.userSeq = #{userSeq}
 		and B.wantToGoStatus = 0
+		order by B.wantToGoSeq desc
 	</select>
 	
 	<!-- 가고싶다 테이블에 담겨있는지 검사 -->
@@ -41,6 +42,34 @@
 	<insert id="addWantToGo" parameterType="java.util.HashMap">
 		insert into tbl_wantToGo values(seq_tbl_wantToGo.nextval, #{userSeq}, #{restSeq}, default, default)
 	</insert>
+	
+	<!-- 가고싶다 삭제 요청 -->
+	<update id="delWantToGo" parameterType="java.util.HashMap">
+		update tbl_wantToGo set wantToGoStatus = 1
+		where userSeq = #{userSeq} and restSeq = #{restSeq} and wantToGoStatus = 0
+	</update>
+	
+	<!-- 사용자의 가고싶다 에 담은 개수 확인 -->
+	<select id="checkNumWantToGo" parameterType="java.util.HashMap" resultType="int">
+		select count(*) from tbl_wantToGo where userSeq = #{userSeq} and wantToGoStatus = 0
+	</select>
+	
+	<!-- 사용자가 맛집추천을 받은 적이 있는지 체크해서 이전 맛집 추천은 가고싶다 삭제 상태로 update한다. -->
+	<update id="deletePreviouseMazzipMetroPick" parameterType="java.util.HashMap">
+		update tbl_wantToGo set wantToGoStatus = 1
+		where userSeq = #{userSeq} and wantToGoStatus = 2
+	</update>
+	
+	<!-- 맛집메트로 추천을 사용자가 선택한다. -->
+	<update id="mazzipMetroPick" parameterType="java.util.HashMap">
+		update tbl_wantToGo set wantToGoStatus = 2
+		where userSeq = #{userSeq} and restSeq = #{restSeq} and wantToGoStatus = 0
+	</update>
+	
+	<!-- 로그인시, 사용자가 추천 받은 맛집이 있는지 확인해서, 있다면, restSeq를 반환한다. -->
+	<select id="haveMazzipRecom" parameterType="String" resultType="String">
+		select restSeq from tbl_wantToGo where userSeq = #{userSeq} and wantToGoStatus = 2
+	</select>
 	
 	<!-- 사용자 search : 업장 검색 totalCount -->
 	<select id="getRestSearchResult_totalCnt"  parameterType="java.util.HashMap"  resultType="int">

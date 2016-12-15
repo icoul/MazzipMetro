@@ -20,9 +20,9 @@
 function getLoginUserInfo(){
 		
 	 	//alert('로그인 정보를 갱신하는 함수를 따로 만들었습니다. 사용자 정보가 바뀌는 경우 이 함수를 호출해 주세요~');
-		$.getJSON("loginUserInfo.do", function(data){
+		/* $.getJSON("loginUserInfo.do", function(data){
 		
-		}); // end of $.getJSON();	
+		}); // end of $.getJSON();	 */
 		
 	}//end of getLoginUserInfo () 
 
@@ -122,7 +122,6 @@ function getLoginUserInfo(){
   		
   		$("html").click(function(){
   			$("#mySidenav").css('display',"none");
-  			$("#userName").fadeTo('slow',1);
   		});
   	
   		$("#mySidenav").click(function(event){//사이드메뉴를 클릭해도 사라지지 않는다.
@@ -131,10 +130,12 @@ function getLoginUserInfo(){
   		
   		$("#mySidenav").mouseleave(function(){//mouseout과 mouseleave의 차이는 자식엘레먼트에 출입여부를 이벤트에 포함시키는냐 아니냐이다.
   			$("#mySidenav").css('display',"none");
-  			$("#userName").fadeTo('slow',1);
   		});
 		
-  		
+  		// 로그인시 맛집추천을 받아다면, 곧장 리뷰쓰기 창을 띄운다.
+  		if(${not empty sessionScope.restRecom}){
+  			goReviewAdd('${sessionScope.restRecom}');
+  		}
   		
   		
 	});// end of ready
@@ -171,10 +172,11 @@ function getLoginUserInfo(){
 		window.open(url, "myQna", "left=350px, top=100px, width=500px, height=400px, status=no, scrollbars=yes");		
 	}
 	
+	// 가고싶다 추가 함수
 	function addWantToGo(restSeq){
 		$.ajax({
 				url:"<%=request.getContextPath()%>/addWantToGo.eat",
-				type :"GET",
+				type :"POST",
 				data: "restSeq="+restSeq,
 				dataType:"json",
 				success: function(data){
@@ -207,6 +209,58 @@ function getLoginUserInfo(){
 
 	}
 	
+	// 가고싶다 삭제 함수
+	function goDel(){
+  		if($("[name=wantToGoChk]:checked").length == 0){
+			alert('삭제할 음식점을 먼저 선택해주세요!');
+			return;
+		}
+		
+		//폼전송 : ajax로 대여진행한 후에, 가고싶다 정보 갱신...
+		//배열은 변수에 담기
+		var wantToGoChkArr = [];
+		
+		$("[name=wantToGoChk]:checked").each(function(){
+			wantToGoChkArr.push($(this).val());
+		});
+		
+		//alert(wantToGoChkArr);
+		
+		var delWantToGoFrmData = {
+				wantToGoChk: wantToGoChkArr 
+		}
+		
+		$.ajax({
+			url: "<%=request.getContextPath()%>/delWantToGo.eat", 
+			method:"POST",  		 // method
+			data: delWantToGoFrmData,
+			traditional: true,		 // 배열 데이터 전송용
+			dataType: "JSON",        // 위의 URL 페이지로 사용자가 보내는 ajax 요청 데이터.
+			success: function(data) {// 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
+
+					alert(data.msg);
+					getUserWantToGo();
+				}
+		});//end of $.ajax()
+  	}
+  	
+	// 로그인시 맛집추천을 받아다면, 곧장 리뷰쓰기 창을 띄운다.
+	function goReviewAdd(restSeq){
+		
+		var bool = confirm('추천받은 맛집에 다녀오셨나요? 리뷰를 쓰시겠습니까?');
+		
+		if(bool){
+			var url = "<%=request.getContextPath()%>/reviewAdd.eat?restSeq="+restSeq;
+			var title = "리뷰 작성";
+			var status = "left=500px, top=100px, width=600px, height=915px, menubar=no, status=no, scrollbars=yes ";
+			var popup = window.open(url, title, status); 			
+		} else {
+			alert('추천맛집 삭제 코드 ajax 작성');
+		} 
+	
+	
+	}
+	
 </script>
 
 </head>
@@ -217,14 +271,12 @@ function getLoginUserInfo(){
 
 <%-- 사이드 메뉴 & 장바구니 --%>
 <div id="mySidenav" class="sidenav">
-	<ul>
-		<li><a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a></li>
-	</ul>
+	<div style="height: 100px;"></div>
 		<div style="padding: 20px;">
 		<br/><br/> 맛집메트로가 제공하는 <span style="color: lime;">가고싶다</span>를 이용해 보세요. <br/><br/> <br/> <br/> 		
 		</div>
         <span style="color: #818181; font-size: 22px; font-weight: bold; margin-left: 35px;">가고싶다 </span>카트
-  <div id="myWantToGo" style="border: solid 1px #818181;margin: 5px;" align="center">
+  <div id="myWantToGo" style="border: solid 1px #818181;margin: 5px; padding: 5px;" align="center">
   	<br/><br/><span style="color: #818181; text-decoration: underline;">가고 싶은 음식점을 담아보세요.</span><br/><br/> 
   </div>
 </div>

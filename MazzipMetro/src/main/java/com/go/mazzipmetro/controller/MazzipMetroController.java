@@ -57,7 +57,7 @@ public class MazzipMetroController {
 	}
 	
 	// 가고싶다에 담기 요청
-	@RequestMapping(value="/addWantToGo.eat", method={RequestMethod.GET})
+	@RequestMapping(value="/addWantToGo.eat", method={RequestMethod.POST})
 	public String login_addFoodCart(HttpServletRequest req, HttpServletResponse res){
 		String restSeq = req.getParameter("restSeq");
 		UserVO loginUser = (UserVO)req.getSession().getAttribute("loginUser");
@@ -71,6 +71,8 @@ public class MazzipMetroController {
 		//가고싶다 테이블에 담겨있는지 검사
 		if(service.checkWantToGo(map) > 0){
 			msg = "이미 가고싶다에 담은 음식점입니다.";
+		} else if (service.checkNumWantToGo(map) >= 15 ) {// 가고 싶다 테이블에는 사용자가 최고 15개까지 담을 수 있다.
+			msg = "가고싶다에 15개까지만 담을 수 있습니다. (현재15개)";
 		} else {
 			
 			int result = service.addWantToGo(map);
@@ -83,6 +85,48 @@ public class MazzipMetroController {
 		JSONObject jObj = new JSONObject();
 		jObj.put("msg", msg);
 		
+		req.setAttribute("jObj", jObj);
+		return "/ajax/jsonData";
+	}
+	
+	// 가고싶다 삭제 요청
+	@RequestMapping(value="/delWantToGo.eat", method={RequestMethod.POST})
+	public String lonin_delWantToGo(HttpServletRequest req, HttpServletResponse res){
+		String[] wantToGoChkArr = req.getParameterValues("wantToGoChk");// 가고싶다 restSeq를 담은 배열
+		UserVO loginUser = (UserVO)req.getSession().getAttribute("loginUser");
+		String userSeq = loginUser.getUserSeq();
+		String msg = "";
+		
+		int result = service.delWantToGo(userSeq, wantToGoChkArr);
+		
+		msg += (result > 0)?"성공적으로 삭제했습니다.":"삭제되지 않았습니다. 다시 시도해주세요.";
+		
+		JSONObject jObj = new JSONObject();
+		jObj.put("msg", msg);
+		req.setAttribute("jObj", jObj);
+		return "/ajax/jsonData";
+	}
+	
+	// 맛집메트로 추천을 사용자가 선택한다.
+	@RequestMapping(value="/mazzipMetroPick.eat", method={RequestMethod.POST})
+	public String lonin_mazzipMetroPick (HttpServletRequest req, HttpServletResponse res){
+		String restSeq = req.getParameter ("restSeq");
+		UserVO loginUser = (UserVO)req.getSession().getAttribute("loginUser");
+		String userSeq = loginUser.getUserSeq();
+		String msg = "";
+		
+		
+		HashMap<String, String> map = new HashMap<>();
+		map.put("restSeq", restSeq);
+		map.put("userSeq", userSeq);
+		
+		int result = service.mazzipMetroPick(map);
+		
+		msg += (result > 0)?"맛있게 드시고 오세요.":"추천맛집 선택이 올바르게 진행되지 않았습니다. 다시 선택해주세요.";
+		
+		System.out.println(">>>>>>>>>>>>>>>> msg = "+msg);
+		JSONObject jObj = new JSONObject();
+		jObj.put("msg", msg);
 		req.setAttribute("jObj", jObj);
 		return "/ajax/jsonData";
 	}
