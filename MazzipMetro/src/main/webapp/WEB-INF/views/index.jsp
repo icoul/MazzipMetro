@@ -472,9 +472,10 @@
 		</div>
 		<%-- end of leftCon --%>
 		
-		<div class="rightCon" id="scroller">
-		<input type="hidden" name="StartRno" value="1">
-		<input type="hidden" name="EndRno" value="10">
+		<div class="rightCon" >
+			<div style="background-color: yellow" id="realReview">실시간 리뷰</div>
+			<div id="scroller" class="scroller">
+			</div>
 		</div>
 		<%-- end of rightCon --%>	
 
