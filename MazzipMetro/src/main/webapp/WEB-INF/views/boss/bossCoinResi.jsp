@@ -38,10 +38,8 @@ input[type=radio] {vertical-align:-2px;}
 <script type="text/javascript">
 
 $(document).ready(function(){
-	$("#restSeq4").click(function(){
-		var val = $("#restSeq4").val();
-		$("#recomRestSeq").val(val);
-	});
+	var restSeqArr = document.getElementsByName("restSeq");
+	alert($("#restSeq").checked.value());
 });
 
 function goCoinBuy(userSeq){
@@ -50,13 +48,17 @@ function goCoinBuy(userSeq){
 	window.open(url, "bossCoinChar", "left=350px, top=100px, width=350px, height=300px, status=no, scrollbars=yes");		
 }
 
-function goBannBuy(userSeq,restSeq){
-	var chkboxArr = document.getElementsByName("restSeq");
+function goBannBuy(userSeq,restSeq,contentType){
 	var cnt =0;
+	var chkboxArr = document.getElementsByName("restSeq");
+	
+	 var selectContentType = document.getElementById("selectContentType");
+	 selectContentType.value = contentType;
 	
 	for(var i=0; i<chkboxArr.length; i++) {
 		if(chkboxArr[i].checked == true) { //체크되었습니까.?
 			cnt++;
+			alert(cnt);
 		}
 		else {//장바구니에서 체크가 안된 제품은 주문하기를 해주면 안된다.
 			  //서브밋 대상에서 제외시키면 된다.
@@ -83,7 +85,7 @@ function goBannBuy(userSeq,restSeq){
 	}
 }
 
-function goLinkBuy(userSeq) {
+/* function goLinkBuy(userSeq,restSeq) {
 	var chkboxArr = document.getElementsByName("restSeq");
 	var cnt =0;
 	
@@ -150,13 +152,13 @@ function goRecomBuy(userSeq,restSeq) {
 		
 		var bool = confirm("추천광고 결제하시겠습니까 ?");
 		if(bool) {
-			rcomFrm.recomRestSeq.value = $("#bannFrm [name=restSeq]").val();
-			//alert("rcomFrm.recomRestSeq.value ="+rcomFrm.recomRestSeq.value);
+			rcomFrm.recomRestSeq.value = $("#bossInfo [name=restSeq]").val();
+			alert("rcomFrm.recomRestSeq.value ="+rcomFrm.recomRestSeq.value);
 			rcomFrm.submit();
 			
 		}
-	}
-}
+	} */
+
 
 </script>
 
@@ -172,28 +174,27 @@ function goRecomBuy(userSeq,restSeq) {
 			</li>
 			<li>
 				<form name="bannFrm" id="bannFrm" method="post" style="margin-top:20px;">
-				<c:if test="${list != null && not empty list}">
-					<div style="overflow:hidden; margin-bottom:20px;">
+					<div id="bossInfo" style="overflow:hidden; margin-bottom:20px;">
 					<!-- 사업장 정보 -->
 						<b>사업장 선택</b> :&nbsp;&nbsp;
 						<c:forEach var="vo" items="${list}" varStatus="status">
 							<input type="radio" name="restSeq" id="restSeq${status.count}" value="${vo.RESTSEQ}" /><label for="restSeq${status.count}">${vo.RESTNAME}</label>&nbsp;
 						</c:forEach>
 					</div>
-				</c:if>
 				<input type="hidden" name="userSeq"  value="${sessionScope.loginUser.userSeq}" />
 				
-					<b>파워배너</b>  : <button class="btnPoint" type="button" name="bannCoin" onClick="goBannBuy('${userSeq}','${restSeq}');">포인트 결제</button>
+					<b>파워배너</b>  : <button class="btnPoint" type="button" name="bannCoin" onClick="goBannBuy('${userSeq}','${restSeq}', 'banner');">포인트 결제</button>
 					<p class="desc"><span style="font-size:12px;">※</span> 메인페이지에 광고 입니다. (100만 포인트)</p>
 					<input type="hidden" name="userSeq"  value="${sessionScope.loginUser.userSeq}" /> 
-					<input type="hidden" name="userPoint" value="${sessionScope.loginUser.userPoint}" /> 
-				</form>
-				<form name="linkFrm" id="linkFrm" method="post">
+					<input type="hidden" name="userPoint" value="${sessionScope.loginUser.userPoint}" />
+					<input type="hidden" name="contentType1" id="linkRestSeq" value="banner" />  
 				
-					<b>파워링크</b>  : <button class="btnPoint" type="button" name="linkCoin"  onClick="goLinkBuy('${userSeq}');">포인트 결제</button>
+				
+					<b>파워링크</b>  : <button class="btnPoint" type="button" name="linkCoin"  onClick="goBannBuy('${userSeq}','${restSeq}', 'link');">포인트 결제</button>
 					<p class="desc"><span style="font-size:12px;">※</span> 검색시 최상위에 따로 보여주는 컨텐츠 입니다.(50만 포인트)</p>
 					<input type="hidden" name="userSeq"  value="${sessionScope.loginUser.userSeq}" /> 
 					<input type="hidden" name="userPoint" value="${sessionScope.loginUser.userPoint}" /> 
+<<<<<<< HEAD
 					<input type="text" name="linkRestSeq" id="linkRestSeq" value="" /> 				
 				</form>
 				<form name="rcomFrm" id="rcomFrm" method="post">
@@ -202,6 +203,18 @@ function goRecomBuy(userSeq,restSeq) {
 					<input type="hidden" name="userSeq"  value="${sessionScope.loginUser.userSeq}" /> 
 					<input type="hidden" name="userPoint" value="${sessionScope.loginUser.userPoint}" /> 
 					<input type="text" name="recomRestSeq"  id="recomRestSeq" value="" /> 	
+=======
+					<input type="hidden" name="contentType2" id="linkRestSeq" value="link" /> 				
+				
+				
+					<b>추천광고</b> : <button class="btnPoint" type="button" name="recomCoin" onClick="goBannBuy('${userSeq}','${restSeq}','rcom');">포인트 결제</button>
+					<p class="desc"><span style="font-size:12px;">※</span> 추천메뉴로 보여주는 컨텐츠입니다. (30만 포인트)</p>
+					<input type="hidden" name="userSeq"  value="${sessionScope.loginUser.userSeq}" /> 
+					<input type="hidden" name="userPoint" value="${sessionScope.loginUser.userPoint}" /> 
+					<input type="hidden" name="contentType3"  id="recomRestSeq" value="rcom" /> 
+					
+					<input type="hidden" name="selectContentType"  id="selectContentType" value="" />	
+>>>>>>> e5ca3d6850e2c5ac42506eb0290a7ff2f053b9d4
 				</form>
 			</li>
 		</ul>

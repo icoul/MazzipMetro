@@ -62,13 +62,14 @@ img {border:0; padding:0; margin:0; vertical-align:top;}
 #leftCon {float:left; width:730px;}
 #leftCon .reconCon  {margin-top:30px;}
 #leftCon .reconCon h2 {padding:10px 0; font-size:12px; color:#222;}
-.rightCon {float:left; width:270px; height:1000px;}
+.rightCon {position:relative;  float:left; width:540px; height:1000px;}
 
 
 footer {height:170px; background-color: #eff3f2; padding-top:30px; clear: both; font-size:12px;}
 footer .comIntro a {padding:0 5px; font-size:12px; color:#000; font-weight:bold; text-decoarion:none;}
 footer .copyRight {color:#8a8a8a;}
+#realReview {position:absolute; right:140px; height:20px;}
 
-#woo_scroller {  position:relative;  height:400px;  width:270px;    left:50px; }
-
-#woo_scroller table {border:0px; position:relative;}
+/* 메인 페이지 실시간 리뷰  div 및 table */
+#scroller {position:absolute; height:400px;  width:270px;   right:0; } 
+#scroller table {border:0px; position:relative;}

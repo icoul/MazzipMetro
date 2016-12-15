@@ -44,6 +44,7 @@ public class MazzipMetroController {
 		return "index";
 	}
 	
+
 	// 검색 페이지 요청
 	@RequestMapping(value="/search.eat", method={RequestMethod.GET})
 	public String search(HttpServletRequest req){
@@ -1573,7 +1574,7 @@ public class MazzipMetroController {
 	//관리자가 회원의 답변을 등록하는 컨트롤러
 	@RequestMapping(value = "/adminAnswerRegister.eat", method = {RequestMethod.POST})
 	public String adminAnswerRegister(HttpServletRequest req) {
-		
+
 		String qnaSeq = req.getParameter("qnaSeq");
 		String qnaSubject = req.getParameter("qnaSubject");   
 		String qnaContent = req.getParameter("qnaComment");  
@@ -1593,7 +1594,6 @@ public class MazzipMetroController {
 			req.setAttribute("msg", "답변등록이 성공하였습니다.");
 			req.setAttribute("loc", "adminQnaList.eat");
 		}
-	
 		return "QnA/msg";
 	}
 	//14

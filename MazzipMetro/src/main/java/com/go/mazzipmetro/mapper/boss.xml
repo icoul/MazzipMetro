@@ -5,54 +5,58 @@
 <!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) --> 
 <mapper namespace="boss">
 	<!-- 코인 충전시 -->
-	<update id="coinUpdate" parameterType="java.util.HashMap">
+	 <update id="coinUpdate" parameterType="java.util.HashMap">
 		update tbl_User set userPoint = userPoint + #{userPoint}
 		where userStatus = 0 and userSort = 1 and userSeq = #{userSeq}
 	</update>
-	<!-- 파워배너 결제시 -->
+	
+	<!--파워배너 결제시-->
 	<update id="bannBuyUpdate" parameterType="java.util.HashMap">
-		update tbl_User set userPoint = userPoint - 1000000
+		
+		update tbl_User set userPoint = userPoint 
+		<if test="contentType == 'banner'">
+			- 1000000
+		</if>
+		<if test="contentType == 'link'">
+			- 500000
+		</if>
+		<if test="contentType == 'rcom'">
+			- 300000
+		</if>
 		where userSeq = #{userSeq}
 	</update>
+	
 	<!-- 파워배너 컨텐츠테이블 등록 -->
 	<insert id="bannInsert" parameterType="java.util.HashMap">
 		insert into tbl_restaurant_content(restSeq, userSeq, contentSeq, contentBuyDate, contentLimit, contentStatus) 
-		values(#{restSeq}, #{userSeq},'1', default , sysdate+30, default)
-	</insert>
-	<!-- 파워링크 결제시 -->
-	<update id="linkBuyUpdate" parameterType="java.util.HashMap">
-		update tbl_User set userPoint = userPoint - 500000
-		where userSeq = #{userSeq}
-	</update>
-	<!-- 파워링크 컨텐츠테이블 등록 -->
-	<insert id="linkInsert" parameterType="java.util.HashMap">
-		insert into tbl_restaurant_content(restSeq, userSeq, contentSeq, contentBuyDate, contentLimit, contentStatus) 
-		values(#{restSeq}, #{userSeq},'2', default , sysdate+30, default)
-	</insert>
-	<!-- 추천광고 결제시 -->
-	<update id="recomBuyUpdate" parameterType="java.util.HashMap">
-		update tbl_User set userPoint = userPoint - 300000
-		where userStatus = 0 and userSort = 1 and userSeq = #{userSeq}
-	</update>
-	<!-- 추천광고  컨텐츠테이블 등록 -->
-	<insert id="recomInsert" parameterType="java.util.HashMap">
-		insert into tbl_restaurant_content(restSeq, userSeq, contentSeq, contentBuyDate, contentLimit, contentStatus) 
-		values(#{restSeq}, #{userSeq},'3', default , sysdate + 30, default)
+		values(#{restSeq}, #{userSeq},
+		<if test="contentType == 'banner'">
+		'1',
+		</if>
+		<if test="contentType == 'link'">
+		'2',
+		</if>
+		<if test="contentType == 'rcom'">
+		'3',
+		</if>
+		 default , sysdate+30, default)
 	</insert>
 	
-	<resultMap type="java.util.HashMap" id="userInfo">
-		<result column="restSeq" 		property="RESTSEQ" 		javaType="String"/>
-		<result column="restName" 		property="RESTNAME" 		javaType="String"/>
-	</resultMap>
+	<!--컨텐츠테이블 등록하기위해 restSeq 구해오기
+	<resultMap type="java.util.HashMap" id="restInfo">
+		<result column="restSeq" 		property="RESTSEQ" 			javaType="String" />
+		<result column="restName" 		property="RESTNAME" 		javaType="String "/>
+	</resultMap>-->
 	
-	<!-- 컨텐츠테이블 등록하기위해 restSeq 구해오기 -->
+	
 	<select id="getRestSeq" parameterType="String" resultType="java.util.HashMap">
 		select restSeq,restName
 		from tbl_restaurant
 		where userSeq = #{userSeq}
 	</select>
+	 
 	
-	<!-- 컨텐츠 구매목록 -->
+	<!-- 컨텐츠 구매목록-->
 	 <resultMap type="java.util.HashMap" id="bconList">
 		<result column="restSeq" 		property="restSeq" 		javaType="String"/>
 		<result column="gradeName" 		property="gradeName" 	javaType="String"/> 	
