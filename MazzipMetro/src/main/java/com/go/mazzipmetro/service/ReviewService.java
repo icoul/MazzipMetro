@@ -75,9 +75,11 @@ public class ReviewService implements IService{
 							
 				if(reviewSeq != null)
 				{
-					dao.addTheme(themeArr, reviewSeq, restSeq);
+					if(themeArr != null)
+					{
+						dao.addTheme(themeArr, reviewSeq, restSeq);
+					}
 					map.put("reviewSeq", reviewSeq);
-					
 					for(int i =0; i<imageList.size(); i++)
 					{
 						System.out.println(imageList.get(i));
