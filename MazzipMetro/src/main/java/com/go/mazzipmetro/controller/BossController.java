@@ -202,7 +202,7 @@ public class BossController {
 	
 	
 	//컨텐츠 구매목록
-	@RequestMapping(value="/bossCoinList.eat", method={RequestMethod.GET})
+	@RequestMapping(value="/bossContentList.eat", method={RequestMethod.GET})
 	public String coinList(HttpServletRequest req, HttpSession session) {
 		String pageNo = req.getParameter("pageNo");
 		
@@ -294,7 +294,7 @@ public class BossController {
 	    	
 	    	if(colName == null || search == null) {
 				// 검색어가 없는 경우
-				pagebar += String.format("&nbsp;<a href='/mazzipmetro/bossCoinList.eat?pageNo=%d'>[이전%d페이지]</a>&nbsp;", startPageNo-1, blocksize); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 블럭크기의값 이다.	
+				pagebar += String.format("&nbsp;<a href='/mazzipmetro/bossContentList.eat?pageNo=%d'>[이전%d페이지]</a>&nbsp;", startPageNo-1, blocksize); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 블럭크기의값 이다.	
 			}
 	    }
 	    
@@ -309,7 +309,7 @@ public class BossController {
 	    	else{
 	    		if(colName == null || search == null) {
 	    			// 검색어가 없는 경우
-	    			pagebar += String.format("&nbsp;<a href='/mazzipmetro/bossCoinList.eat?pageNo=%d'>%d</a>&nbsp;", startPageNo, startPageNo); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 페이지바에 나타낼 startPageNo값 이다.	
+	    			pagebar += String.format("&nbsp;<a href='/mazzipmetro/bossContentList.eat?pageNo=%d'>%d</a>&nbsp;", startPageNo, startPageNo); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 페이지바에 나타낼 startPageNo값 이다.	
 	    		}
 	    	}
 	    	
@@ -329,7 +329,7 @@ public class BossController {
 	    	
 	    	if(colName == null || search == null) {
 				// 검색어가 없는 경우
-				pagebar += String.format("&nbsp;<a href='/mazzipmetro/bossCoinList.eat?pageNo=%d'>[다음%d페이지]</a>&nbsp;", startPageNo, blocksize); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 블럭크기의값 이다.	
+				pagebar += String.format("&nbsp;<a href='/mazzipmetro/bossContentList.eat?pageNo=%d'>[다음%d페이지]</a>&nbsp;", startPageNo, blocksize); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 블럭크기의값 이다.	
 			}
 	    }
 	    
@@ -343,7 +343,7 @@ public class BossController {
 		
 		System.out.println("확인용"+pageNo);
 		
-		return "boss/bossCoinList";
+		return "boss/bossContentList";
 		
 	}
 }
