@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 
@@ -28,8 +29,15 @@
     
 
 $(document).ready(function(){
-	(function($){	
-	   	var $wrapper = $("#Scroll");
+		
+	scrolling();
+      
+});// end of ready
+ 
+function scrolling(){    
+
+	(function($){
+    	var $wrapper = $("#Scroll");
 		$wrapper.css({'top':0});
 		
 		var n = 1;
@@ -47,7 +55,8 @@ $(document).ready(function(){
 		}
 		
 		// 마우스 호버시 애니메이션을 멈추기
-		 $wrapper.hover(function(){
+		$wrapper.hover(function(){
+
 			var eventCnt = $wrapper.queue('fx').length;
 			// .queue('fx').length 를 통해서 현재 적용된 애니메이션 관련 효과가 몇개인지를 알 수 있다.
 			for(var i=0; i<eventCnt; i++) {
@@ -56,9 +65,13 @@ $(document).ready(function(){
 		},function(){
 			animator($wrapper); //다시 처음부터 시작되지 않고, 중단된 부분부터 다시 간다.
 		});
+
 	})(jQuery)
 		
-	});// end of ready
+	}; // end of scrolling
+
+
+
 
 </script>
 </html>
@@ -80,7 +93,6 @@ $(document).ready(function(){
                     ${review.reviewContent}<br/>
                     ${review.restName}&nbsp;<br/>
                     ${review.restAddr}
-                    </section>
                 </td>
 
         

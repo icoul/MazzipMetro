@@ -188,6 +188,7 @@ function getLoginUserInfo(){
 						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
 						<li><a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a></li>
 						<li><a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a></li>
+						<li><a href="<%=request.getContextPath()%>/adminContentList.eat">컨텐츠관리</a></li>
 						<li><a href="<%=request.getContextPath()%>/adminQnaList.eat">고객문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
 					</c:if>
 					
@@ -235,6 +236,7 @@ function getLoginUserInfo(){
 						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
 						<li><a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a></li>
 						<li><a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a></li>
+						<li><a href="<%=request.getContextPath()%>/adminContentList.eat">컨텐츠관리</a></li>
 						<li><a href="<%=request.getContextPath()%>/adminQnaList.eat">고객문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
 					</c:if>
 					
@@ -246,10 +248,6 @@ function getLoginUserInfo(){
 				<button type="button" class="btnLogin" data-toggle="modal" data-target="#accountSelectModal">회원가입</button>
 				</c:if>
 				
-				<!-- 메뉴바 : top 우측-->
-				<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
-					<button type="button" class="btnLogin" onClick="goLogOut();">로그아웃</button>
-				</c:if>
 			</div>
 		</c:if>
 	</div>
