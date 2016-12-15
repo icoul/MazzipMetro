@@ -1217,13 +1217,19 @@ public class UserController {
 		
 		HashMap<String,String> resultMap = service.grantCoupon(hashMap); //쿠폰테이블에 인서트 시키고, 출석테이블에 박스 갯수를 하나 감소시킨다.
 		
-		if(resultMap.get("result").equals("2")){
-			req.setAttribute("script", "alert(' "+ (boxType.equals("random") ? "랜덤박스": "프리미엄 랜덤박스") +" 지급 완료되었습니다.'); location.href='userMyPage.eat'; opener.location.reload(true);");
+		UserVO userVO = service.getLoginUser(loginUser.getUserEmail());
+		loginUser.setUserPoint(userVO.getUserPoint());
+		session.setAttribute("loginUser", loginUser);
+		
+		if(resultMap.get("result").equals("3")){
+			req.setAttribute("script", "alert(' "+ (boxType.equals("random") ? "랜덤박스에서": "프리미엄 랜덤박스에서") +" 쿠폰 지급이 완료되었습니다.'); location.href='userMyPage.eat'; opener.location.reload(true);");
 		}else{
 			req.setAttribute("script", "alert('" + resultMap.get("failReason") + "'); location.href='userMyPage.eat'; opener.location.reload(true);  ");
 		}
 		
 		return "/user/msgEnd";
 	}
+	
+	
 ////////////////////////////////////////////////////////은석7 //////////////////////////////////////////////////////////////
 }

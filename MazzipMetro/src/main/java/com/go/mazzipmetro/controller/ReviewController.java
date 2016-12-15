@@ -77,9 +77,8 @@ public class ReviewController {
 	@RequestMapping(value="/reviewAdd.eat", method={RequestMethod.GET} ) 
 	public String reviewAdd(HttpServletRequest req, HttpSession ses) {
 		String restSeq = req.getParameter("restSeq");
-		HashMap<String, String> rest= service.getRestaurant(restSeq);
 		
-		req.setAttribute("rest", rest);
+		
 		req.setAttribute("restSeq", restSeq);
 		return "/review/reviewAdd";  
 		
@@ -177,7 +176,7 @@ public class ReviewController {
 	}
 	
 	@RequestMapping(value="/plusHit.eat", method={RequestMethod.GET} ) 
-	public String plusHit(HttpServletRequest req, HttpServletResponse res) {
+	public String plusHit(HttpServletRequest req) {
 		String reviewSeq = req.getParameter("reviewSeq");
 		
 		int reviewHit = service.plusHit(reviewSeq);
@@ -227,7 +226,7 @@ public class ReviewController {
 	}
 	
 	@RequestMapping(value="/insertLiker.eat", method={RequestMethod.GET} ) 
-	public String insertLiker(HttpServletRequest req,HttpServletResponse res, HttpSession ses) {
+	public String insertLiker(HttpServletRequest req, HttpSession ses) {
 		
 		UserVO loginUser = (UserVO)ses.getAttribute("loginUser");
 		String UserSeq = loginUser.getUserSeq();

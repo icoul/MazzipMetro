@@ -2,6 +2,7 @@ package com.go.mazzipmetro.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,8 +10,10 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.go.mazzipmetro.dao.CouponDAO;
 import com.go.mazzipmetro.dao.ReviewDAO;
 import com.go.mazzipmetro.dao.UserDAO;
+import com.go.mazzipmetro.vo.CouponVO;
 import com.go.mazzipmetro.vo.GradeVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.UserAliasVO;
@@ -25,6 +28,9 @@ public class UserService implements IService {
 
 	@Autowired
 	private ReviewDAO reviewDao;
+	
+	@Autowired
+	private CouponDAO couponDao;
 	
 	public int userRegister(UserVO vo) {
 		int n = dao.userRegister(vo);
@@ -402,6 +408,7 @@ public class UserService implements IService {
 	}
 	
 	//18
+	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
 	public HashMap<String, String> grantCoupon(HashMap<String, String> hashMap) {
 		
 		HashMap<String, String> resultMap = new HashMap<String, String>();
@@ -414,15 +421,46 @@ public class UserService implements IService {
 		}
 		
 		if(boxCount > 0){
+			
+			int m = 0;
+			UserVO uservo = dao.getLoginUserByUserSeq(hashMap.get("userSeq"));
+			if(hashMap.get("boxType").equals("random") && Integer.parseInt(uservo.getUserPoint()) >= 20){
+				m = dao.minusUserPoint(hashMap);
+			}else if(hashMap.get("boxType").equals("premium") && Integer.parseInt(uservo.getUserPoint()) >= 50){
+				m = dao.minusUserPoint(hashMap);
+			}else if(hashMap.get("boxType").equals("random") && Integer.parseInt(uservo.getUserPoint()) < 20){
+				resultMap.put("result", String.valueOf(m));
+				resultMap.put("failReason", "랜덤박스 개봉에는 20 포인트가 필요합니다.");
+				return resultMap;
+			}else if(hashMap.get("boxType").equals("premium") && Integer.parseInt(uservo.getUserPoint()) < 50){
+				resultMap.put("result", String.valueOf(m));
+				resultMap.put("failReason", "프리미엄 랜덤박스 개봉에는 50 포인트가 필요합니다.");
+				return resultMap;
+			}
+
+			int random =  (int)(Math.random() * 5) + 1;
+			
 			int n = dao.minusRandomBox(hashMap);
-			resultMap.put("result", String.valueOf(n+1));
+			if(random == 1 || random == 3 || random == 5){
+				List<CouponVO> couponList = couponDao.getCouponList();
+				
+				int random2 = (int)(Math.random() * couponList.size());
+				CouponVO couponVO =  couponList.get(random2);
+				hashMap.put("couponSeq", couponVO.getCouponSeq());
+				
+				int o = couponDao.updateCoupon(hashMap);
+				resultMap.put("result", String.valueOf(n+m+o));
+			}else{
+				resultMap.put("result", String.valueOf(n+m));
+				resultMap.put("failReason", "꽝");
+			}
+					
 		}else{
 			resultMap.put("result", String.valueOf(0));
-			resultMap.put("failReason", (hashMap.get("boxType").equals("random") ? "랜덤박스": "프리미엄 랜덤박스") + "가 없습니다.");
+			resultMap.put("failReason", "보유하신 " + (hashMap.get("boxType").equals("random") ? "랜덤박스": "프리미엄 랜덤박스") + "가 없습니다.");
 		}
 		
 		
-		//int m = dao.insertCoupon();
 		return resultMap;
 	}
 	

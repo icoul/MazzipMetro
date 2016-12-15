@@ -46,7 +46,7 @@
 	</resultMap>
 	
 	<!-- 컨텐츠테이블 등록하기위해 restSeq 구해오기 -->
-	<select id="getRestSeq" parameterType="String" resultType="java.util.HashMap" resultMap="userInfo">
+	<select id="getRestSeq" parameterType="String" resultType="java.util.HashMap">
 		select restSeq,restName
 		from tbl_restaurant
 		where userSeq = #{userSeq}

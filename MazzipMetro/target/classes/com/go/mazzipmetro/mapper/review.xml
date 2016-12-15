@@ -140,7 +140,6 @@
 		 <result column="reviewAvgScore"	  	property="reviewAvgScore" 			javaType="String" />
 		 <result column="reviewRegDate"	  	    property="reviewRegDate" 			javaType="String" />
 		 <result column="restSeq"	  	  		property="restSeq" 					javaType="String" />
-		 <result column="reviewImg"	  	  		property="reviewImg" 				javaType="String" />
 	</resultMap>
 	
 	<!-- 페이징 처리된 리뷰 보이기 -->
@@ -171,31 +170,29 @@
 		 <result column="restName"	  	  		property="restName" 				javaType="String" />	 
 	</resultMap>
 		<!-- 메인페이지 리뷰 보이기 -->
-
 	<select id="getRealReview" parameterType="java.util.HashMap" resultMap="dataresultmap0" >
 		  select *
-			from(
-			select A.*, B.restName, B.restBgTag, B.restMdTag, substr(B.restAddr,4,7) as restAddr, rownum as rnum
-			from(
-			select A.*, B.userName, B.userProfile
-			from(
-			select A.reviewImg, B.reviewSeq, B.userSeq, B.restSeq, B.reviewTitle, substr(B.reviewContent,1,10)||'..' as reviewContent, B.reviewAvgScore
-			from (
-			select max(reviewSeq) as reviewSeq, reviewImg
-			from tbl_review_Image
-			where reviewImageStatus = 0
-			group by reviewSeq,reviewImg
-			           )A join tbl_review B
-			           on A.reviewSeq = B.reviewSeq
-			           where B.reviewStatus = 0
-			           order by A.reviewSeq desc) A join tbl_user B
-			           on A.userSeq = B.userSeq
-			           where userSort = 0)A join tbl_restaurant B
-			           on A.restSeq = B.restSeq
-			           )
-			where rnum between #{StartRno} and #{EndRno}
+from(
+select A.*, B.restName, B.restBgTag, B.restMdTag, substr(B.restAddr,4,7) as restAddr, rownum as rnum
+from(
+select A.*, B.userName, B.userProfile
+from(
+select A.reviewImg, B.reviewSeq, B.userSeq, B.restSeq, B.reviewTitle, substr(B.reviewContent,1,10)||'..' as reviewContent, B.reviewAvgScore
+from (
+select max(reviewSeq) as reviewSeq, reviewImg
+from tbl_review_Image
+where reviewImageStatus = 0
+group by reviewSeq,reviewImg
+           )A join tbl_review B
+           on A.reviewSeq = B.reviewSeq
+           where B.reviewStatus = 0
+           order by A.reviewSeq desc) A join tbl_user B
+           on A.userSeq = B.userSeq
+           where userSort = 0)A join tbl_restaurant B
+           on A.restSeq = B.restSeq
+           )
+where rnum between #{StartRno} and #{EndRno}
 	</select>
-
 	<!-- 좋아요 수 +1 하기 -->
 	<update id="upReviewHit" parameterType="String">
 		update tbl_review set reviewHit = reviewHit + 1

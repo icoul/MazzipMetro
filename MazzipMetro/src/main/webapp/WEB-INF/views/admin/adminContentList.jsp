@@ -1,23 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<jsp:include page="../library.jsp" />    
 <jsp:include page="../top.jsp" />
-<jsp:include page="../library.jsp" />
 <style type="text/css">
-* { padding:0; margin:0;}
-a:hover {color:#000; text-decoration:none;}
-#colName {height:23px; font-size:13px;}
-.subleftCon {float:left; width:200px; height:1000px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;}
-.subleftCon h2 {width:187px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right; font-size:18px;}
-.subrightCon {float:left; width:1200px; text-align:center; height:1000px; border-right:1px solid #dbdbdb; padding-bottom:40px;}
-.subrightCon .searchWrap {padding:10px 0 20px 0; }
-
-.tblUserList {border-collapse: collapse; width:100%; text-aign:center;}
-.tblUserList th {height:50px; padding-top:16px; border-top:1px solid #00bad2; border-bottom:1px solid #c2c2c2; background-color:#fafafa; color:#444; text-align:center; font-size:13px; font-weight:normal;}
-.tblUserList td {height:50px; padding-top:16px; border-bottom:1px solid #e0e0e0; font-size:12px; text-align:center;}
-.btnGray {width:63px; height:23px; border:1px solid #6c6c6c; background-color:#777; color:#fff; margin-top: 16px; margin-bottom: 10px; font-size:10px; }
-.btnFafa {width:63px; height:23px; display:inline-block; margin:0 15px 0; line-height:23px; border:1px solid #6c6c6c; background:#fafafa; color:#000; font-size:10px;}
-#adminConStatis {margin-top:50px;}
+	#colName {height:23px; font-size:13px;}
+	#adminConStatis {margin-top:50px;}
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -75,7 +63,7 @@ function searchKeep(){
 				<button class="btnGray" type="button" onClick="goSearch();">검색</button>
 			</form>
 		</div>
-		<table class="tblUserList">
+		<table class="tblType01" style="width:100%;">
 			<tr>
 				<th style="width: 70px;" >번호</th>
 				<th style="width: 80px;" >등급</th>

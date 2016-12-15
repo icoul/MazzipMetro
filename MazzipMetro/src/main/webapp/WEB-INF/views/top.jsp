@@ -15,7 +15,6 @@
 <title>:::Mazzip Metro:::</title>
 
 <script type="text/javascript"> 
-
 function getLoginUserInfo(){
 		
 	 	//alert('로그인 정보를 갱신하는 함수를 따로 만들었습니다. 사용자 정보가 바뀌는 경우 이 함수를 호출해 주세요~');
@@ -24,13 +23,11 @@ function getLoginUserInfo(){
 		}); // end of $.getJSON();	
 		
 	}//end of getLoginUserInfo () 
-
 	
 	$(document).ready(function(){
 		//생성된 쿠키를 사용하기 위한 자바코드
 		<%
 		  		UserVO loginUser = (UserVO)session.getAttribute("loginUser");	
-
 		  		// 1.로그인을 하지 않은 경우
 		  		if(loginUser == null){ // Not Logged In
 		  		
@@ -115,11 +112,8 @@ function getLoginUserInfo(){
 	}
 	
 	function goLogin(){
-
-
 		var $modal = $('#loginModal');
     	$modal.modal();
-
 	}
 	
 	function goLogOut(){
@@ -136,7 +130,6 @@ function getLoginUserInfo(){
 			goLogin();
 			return;		
 		</c:if>
-
 		var url = "<%=request.getContextPath()%>/myQna.eat";
 		window.open(url, "myQna", "left=350px, top=100px, width=500px, height=400px, status=no, scrollbars=yes");		
 	}
@@ -379,4 +372,3 @@ function getLoginUserInfo(){
       
     </div>
 </div>
-

@@ -55,5 +55,19 @@ public class CouponDAO {
 		return result;
 	}
 	
+////////////////////////////////////////////////////////은석2 //////////////////////////////////////////////////////////////
+	//1
+	public List<CouponVO> getCouponList() {
+		List<CouponVO> couponList = sqlSession.selectList("getCouponList");
+		return couponList;
+	}
+	
+	//2
+	public int updateCoupon(HashMap<String, String> hashMap) {
+		int n = sqlSession.update("updateCoupon", hashMap);
+		return n;
+	}
+////////////////////////////////////////////////////////은석2 //////////////////////////////////////////////////////////////	
+
 	
 }

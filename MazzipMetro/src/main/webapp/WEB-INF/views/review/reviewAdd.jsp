@@ -69,49 +69,9 @@
 		
 	}
 
-	function goWrite(event) {
+	function goWrite() {
 		
-		var reviewTitle = $('#reviewTitle').val();
-		var reviewContent = $('#reviewContent').val();
-		var attach = $('#attach').val();
-		var inputAvgScore = $('#inputAvgScore').val();
-		
-		 if(attach == null){
-			alert("사진은 1장 이상 필수입니다.");
-			event.preventDefault();
-			} 
-		 if(reviewTitle == ""){
-			alert("제목은 필수입니다.");
-			event.preventDefault();
-			}
-		 if(inputAvgScore == ""){
-			alert("평점은 전부 입력하셔야 합니다.");
-			event.preventDefault();
-			}
-		 if(reviewContent == ""){
-			alert("리뷰 내용은 필수입니다.");
-			event.preventDefault();
-			}
-		/* <c:if test="$('#attach').val() == null">
-		alert("사진은 1장 이상 필수입니다.");
-		event.preventDefault();
-		</c:if>
-		
-		<c:if test="reviewTitle == null">
-			alert("제목은 필수입니다.");
-			event.preventDefault();
-		</c:if>
-		
-		<c:if test="$('#reviewContent').val() == null">
-			alert("리뷰 내용은 필수입니다.");
-			event.preventDefault();
-		</c:if>
-		
-		<c:if test="$('#total-result').val() == null">
-			alert("평점은 전부 입력하셔야 합니다.");
-			event.preventDefault();
-		</c:if>	 */
-		
+									
 		var writeFrm = document.writeFrm;
 		writeFrm.submit();
 	}
@@ -204,7 +164,7 @@
 			{
 				for(var i=0; i<parseInt(attachNumVal); i++) {
 					html += "<br/>";
-					html += "<input type='file' name='attach' id='attach' class='btn btn-default' />";
+					html += "<input type='file' name='attach' class='btn btn-default' />";
 				}
 				
 				$("#result").empty();
@@ -220,28 +180,19 @@
 <body>
 
 	<div class="container" style="margin-bottom: 50px;">
+	<h3 style="width: 60%; padding-top: 20px;">리뷰 작성</h3>
 	
-	
-	<h1>음식점:${rest.restname}</h1><br/>
-		<img src="<%= request.getContextPath() %>/files/${rest.restimg}" width="200px" height="100px"/><br/>	
-		주소:${rest.shortaddr}<br/>
-		<span style="color:blue">${rest.restbgtag}</span><br/>
-		<span style="color:skyblue">${rest.restmdtag}</span><br/>
-		
-	
-		
 	 <%-- >>>> 파일첨부하기
 	 	  enctype="multipart/form-data" 을 해주어야만 파일첨부가 된다. --%>
 	
 	<form name="writeFrm" action="<%= request.getContextPath() %>/reviewAddEnd.eat" method="post" enctype="multipart/form-data" >
-		<h3 style="width: 60%; padding-top: 20px;">리뷰 작성</h3>	
 		<table id="table" class="table table-bordered" style="width: 60%; margin-top: 50px; border: gray 1px solid">
 			<tr>
 				<th>제목</th>
 			</tr>
 			<tr>
 				<td align="center">
-					<input type="text" name="reviewTitle" id="reviewTitle" value=""/>
+					<input type="text" name="reviewTitle" />
 					<input type="hidden" id="reviewHit" name="reviewHit" value="like!"/>
 				</td>
 			</tr>			
@@ -347,7 +298,7 @@
 				<th>리뷰 작성</th>
 			</tr>
 			<tr>
-            	<td><textarea name="reviewContent" id="reviewContent" class="form-control mylong" rows="5" placeholder="리뷰 내용" value=""></textarea></td>
+            	<td><textarea name="reviewContent" class="form-control mylong" rows="5" placeholder="리뷰 내용"></textarea></td>
          	</tr>
          	
          	<%-- 파일첨부 타입 추가하기  --%>
@@ -358,7 +309,7 @@
          		<td>
          		사진갯수 :
          		<select name="attachNum" id="attachNum" class="form-control" style="width: 13%; display: inline;">
-         			<option value="0">사진을 선택해주세요</option>
+         			<option value="0">0</option>
          			<option value="1">1</option>
          			<option value="2">2</option>
          			<option value="3">3</option>
@@ -378,10 +329,10 @@
          		<input type="checkbox"  class="theme" name="theme"   id="single" value="혼밥"   	 	/><label for="single">	혼밥		</label>&nbsp;&nbsp;
          		<input type="checkbox"  class="theme" name="theme"   id="family" value="가족"   	 	/><label for="family">	가족		</label>&nbsp;&nbsp;
          		<input type="checkbox"  class="theme" name="theme"   id="cost"   value="가성비"   	/><label for="cost">	가성비	</label>&nbsp;&nbsp;
-         		<input type="checkbox"  class="theme" name="theme"   id="luxury" value="고급스러움"    /><label for="luxury">	고급스러움 </label><br/>
+         		<input type="checkbox"  class="theme" name="theme"   id="luxury" value="고급스러움"   /><label for="luxury">	고급스러움 </label><br/>
          		<input type="checkbox"  class="theme" name="theme"   id="drink"  value="술 안주"   	/><label for="drink">	술 안주	</label>&nbsp;&nbsp;
          		<input type="checkbox"  class="theme" name="theme"   id="night"  value="야식"   	 	/><label for="night">	야식		</label>&nbsp;&nbsp;
-         		<input type="checkbox"  class="theme" name="theme"   id="feel"   value="분위기 좋음"   /><label for="feel">	분위기 좋음		</label>&nbsp;&nbsp;
+         		<input type="checkbox"  class="theme" name="theme"   id="feel"   value="분위기 좋음"  /><label for="feel">	분위기 좋음		</label>&nbsp;&nbsp;
          		<input type="checkbox"  class="theme" name="theme"   id="party"  value="회식"   	 	/><label for="party">	회식		</label>&nbsp;
          		</td>
          	</tr>	
@@ -411,13 +362,13 @@
          	
 		</table>
 		
-		<input type="hidden" name ="userSeq" value="${sessionScope.loginUser.userSeq}" />
-		<input type="hidden" name ="restSeq" value="${restSeq}" />
+		<input type="text" name ="userSeq" value="${sessionScope.loginUser.userSeq}" />
+		<input type="text" name ="restSeq" value="${restSeq}" />
 		<br/>
 		
 		<button type="button" class="btn btn-primary" style="margin-right: 10px;" onClick="goWrite();">쓰기</button>
 		<button type="button" class="btn btn-primary" style="margin-right: 10px;" onClick="goReset();">취소</button>
-		
+		<button type="button" class="btn btn-primary" style="margin-right: 10px;" onClick="goList();">글목록</button>
 	
 	</form>
 	</div>
