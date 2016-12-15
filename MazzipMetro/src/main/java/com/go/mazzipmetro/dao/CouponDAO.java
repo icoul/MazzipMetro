@@ -18,17 +18,17 @@ public class CouponDAO {
 	private SqlSessionTemplate sqlSession;
 
 	// 유저가 보유한 쿠폰 목록
-	public List<CouponVO> getUserCoupon(String userSeq) {
+	public List<HashMap<String,String>> getUserCoupon(String userSeq) {
 		
-		List<CouponVO> couponList = sqlSession.selectList("coupon.getUserCoupon", userSeq);
+		List<HashMap<String,String>> couponList = sqlSession.selectList("coupon.getUserCoupon", userSeq);
 		
 		return couponList;
 	}
 
 	// 사업자가 발행한 쿠폰 목록
-	public List<CouponVO> getBossCoupon(String userSeq) {
+	public List<HashMap<String,String>> getBossCoupon(String userSeq) {
 		
-		List<CouponVO> couponList = sqlSession.selectList("coupon.getBossCoupon", userSeq);
+		List<HashMap<String,String>> couponList = sqlSession.selectList("coupon.getBossCoupon", userSeq);
 		
 		return couponList;
 	}
@@ -54,6 +54,12 @@ public class CouponDAO {
 		
 		return result;
 	}
-	
+
+	// 쿠폰 사용
+	public int couponConfirm(String couponSeq) {
+		
+		int result = sqlSession.update("coupon.couponConfirm",couponSeq);
+		return result;
+	}
 	
 }

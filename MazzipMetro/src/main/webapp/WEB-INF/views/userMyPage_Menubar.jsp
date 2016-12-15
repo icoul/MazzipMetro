@@ -36,7 +36,7 @@
 	        <ul class="dropdown-menu">
 	          <li><a href="#">계급표시</a></li>
 	          <li><a href="#">마일리지현황</a></li>
-	          <li><a href="#">쿠폰현황</a></li>
+	          <li><a href="<%= request.getContextPath() %>/couponList.eat">쿠폰현황</a></li>
 	          <li><a href="#">사용로그</a></li> 
 	          <li><a href="<%= request.getContextPath() %>/userEdit.eat">개인정보수정 </a></li> 
 	          <li id="userAlias"><a href="#">칭호관리</a></li>
