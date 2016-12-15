@@ -70,11 +70,11 @@
 	<select id="getAgeLineChartList" parameterType="String" resultMap="dataresultmap5">
 		select decode(grouping(ageLine), 0, to_char(ageLine), '전체') as ageLine
 		  , count(ageLine) as cnt
-		  , round(count(ageLine) / (select count(*) from tbl_reviewData) * 100) as percent
+		  , round(count(ageLine) / (select count(*) from tbl_reviewVisitor) * 100) as percent
 		from
 		( 
 		select trunc(extract(year from sysdate) - (to_number(substr(B.birthday,1,2)) + case when substr(B.birthday,1,1) in('0','1','2') then 2000 else 1900 end ) + 1,-1) as ageline   
-		from tbl_review A join tbl_reviewData B
+		from tbl_review A join tbl_reviewVisitor B
 		on A.reviewseq = B.reviewseq
 		where A.restseq = #{restSeq}
 		)V
@@ -94,7 +94,7 @@
 		from
 		( 
 		select B.gender   
-		from tbl_review A join tbl_reviewData B
+		from tbl_review A join tbl_reviewVisitor B
 		on A.reviewseq = B.reviewseq
 		where A.restseq = #{restseq}
 		)V
@@ -140,7 +140,6 @@
 		 <result column="reviewAvgScore"	  	property="reviewAvgScore" 			javaType="String" />
 		 <result column="reviewRegDate"	  	    property="reviewRegDate" 			javaType="String" />
 		 <result column="restSeq"	  	  		property="restSeq" 					javaType="String" />
-		 <result column="reviewImg"	  	  		property="reviewImg" 				javaType="String" />
 	</resultMap>
 	
 	<!-- 페이징 처리된 리뷰 보이기 -->
@@ -171,11 +170,10 @@
 		 <result column="restName"	  	  		property="restName" 				javaType="String" />	 
 	</resultMap>
 		<!-- 메인페이지 리뷰 보이기 -->
-
 	<select id="getRealReview" parameterType="java.util.HashMap" resultMap="dataresultmap0" >
 		  select *
 			from(
-			select A.*, B.restName, B.restBgTag, B.restMdTag, substr(B.restAddr,4,7) as restAddr, rownum as rnum
+			select A.*, B.restName, B.restBgTag, B.restMdTag, substr(B.restAddr,4,7) as restAddr, row_number () over (order by reviewSeq desc) as rnum
 			from(
 			select A.*, B.userName, B.userProfile
 			from(
@@ -193,9 +191,8 @@
 			           where userSort = 0)A join tbl_restaurant B
 			           on A.restSeq = B.restSeq
 			           )
-			where rnum between #{StartRno} and #{EndRno}
+          where rnum between #{StartRno} and #{EndRno}
 	</select>
-
 	<!-- 좋아요 수 +1 하기 -->
 	<update id="upReviewHit" parameterType="String">
 		update tbl_review set reviewHit = reviewHit + 1
@@ -296,4 +293,9 @@
 		)V
 		where rno = 1
 	</select>
+	
+	<insert id="insertVisitor" parameterType="java.util.HashMap">
+		insert into tbl_reviewVisitor(reviewSeq, Gender, Birthday)
+		values(#{reviewSeq}, #{UserGender}, #{UserBirthday})
+	</insert>
 </mapper>

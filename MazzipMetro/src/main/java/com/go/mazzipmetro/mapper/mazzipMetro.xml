@@ -316,8 +316,9 @@
 		select metroname
 		from tbl_metro
 	</select>
-	
-	  <!-- 문의 등록하기 -->
+
+	<!-- ////////////////////////////////////////////////////////은석18 ////////////////////////////////////////////////////////////// -->	
+	  <!-- 1문의 등록하기 -->
     <insert id="qnaRegister" parameterType="java.util.HashMap">
     	insert into tbl_qna values(tbl_qnaSeq.nextval, #{userSeq}, #{qnaQuiry}, #{qnaSubject}, #{qnaComment}, default, null, default, default, default)
     </insert>
@@ -338,7 +339,7 @@
 		 <result column="qnaStatus"	  	    property="qnaStatus" 			    javaType="String" />
 		 <result column="userStatus"	  	    property="userStatus" 			    javaType="String" />
 	</resultMap>
-    
+    <!-- 2 -->
     <select id="qnaList" parameterType="java.util.HashMap" resultMap="qnaListResultMap">
 		 select T.rno, T.userName, T.qnaSeq, T.userSeq, T.qnaInquiry, T.qnaSubject
 		 ,T.qnaContent, T.qnaRegDate,T.qnaAnswerDate, T.qnaProgress, T.fk_seq, T.qnaStatus, T.userStatus
@@ -377,7 +378,7 @@
 		where #{start} <![CDATA[<=]]> rno and rno <![CDATA[<=]]> #{end}
     </select>
     
-    
+    <!-- 3 -->
     <select id="getTotalQnaCount" parameterType="java.util.HashMap" resultType="int">
     	select count(*)
 		from tbl_qna a join tbl_user b
@@ -404,7 +405,7 @@
 			and qnaProgress = #{qnaProgress}
 		</if>
     </select>
- 
+ <!-- 4 -->
     <select id="getQnaProgressCount" parameterType="java.util.HashMap" resultType="int">
     	select count(*)
 		from tbl_qna a join tbl_user b
@@ -430,7 +431,7 @@
 			and qnaInquiry like '%' || #{qnaInquiry} || '%'
 		</if>
     </select>
-    
+    <!-- 5 -->
     <select id="getToday" resultType="int" parameterType="java.util.HashMap">
     	<if test="str.equals('year')">
     		select to_number(to_char(sysdate, 'yyyy')) as year 
@@ -447,17 +448,17 @@
     		from dual
     	</if>
     </select>
-    
+    <!-- 6 -->
     <insert id="adminAnswerRegister" parameterType="java.util.HashMap">
     	insert into tbl_qna values(tbl_qnaSeq.nextval, 0, '답변', #{qnaSubject}, #{qnaComment}, default, null, '답변완료', #{qnaSeq}, default)
     </insert>
-    
+    <!-- 7 -->
     <select id="getAnswerDate" resultType="String" parameterType="java.util.HashMap">
     	select qnaRegDate
     	from tbl_qna
     	where fk_seq = #{qnaSeq}
     </select>
-    
+    <!-- 8 -->
     <update id="updateUserQna" parameterType="java.util.HashMap">
     	update tbl_qna set qnaAnswerDate = to_date(#{answerDate}, 'YYYY-MM-DD hh24:mi:ss') , qnaProgress = '답변완료'
     	where qnaSeq = #{qnaSeq}
@@ -471,7 +472,7 @@
 		 <result column="qnaRegDate"	  	    property="qnaRegDate" 				javaType="String" />
 		 <result column="qnaProgress"	  	    property="qnaProgress" 				javaType="String" />
 	</resultMap>
-    
+    <!-- 9 -->
     <select id="getAdminAnswer" parameterType="String" resultMap="getAdminAnswerMap">
     	select qnaInquiry, qnaSubject, qnaContent, qnaRegDate, qnaProgress
 		from tbl_qna
@@ -486,54 +487,54 @@
 		 <result column="qnaRegDate"	  	    property="qnaRegDate" 				javaType="String" />
 		 <result column="qnaProgress"	  	    property="qnaProgress" 				javaType="String" />
 	</resultMap>
-	  
+	  <!-- 10 -->
      <select id="getUserQuestion" parameterType="String" resultMap="getUserQuestionMap">
     	select qnaInquiry, qnaSubject, qnaContent, qnaRegDate, qnaProgress
 		from tbl_qna
 		where qnaSeq = #{qnaSeq} and qnaStatus = 0
     </select>
-    
+    <!-- 11 -->
     <update id="deleteAnswer">
     	update tbl_qna set qnaStatus = 1 where fk_seq = #{qnaSeq}
     </update>
-    
+    <!-- 12 -->
     <update id="deleteQuestion">
     	update tbl_qna set qnaStatus = 1 where qnaSeq = #{qnaSeq}
     </update>
-    
+    <!-- 13 -->
     <select id="countAnswer" resultType="int">
     	select count(*)
     	from tbl_qna
     	where fk_seq = #{qnaSeq}
     </select>
-    
+    <!-- 14 -->
     <update id="editAdminAnswer" parameterType="java.util.HashMap">
     	update tbl_qna set qnaSubject = #{qnaSubject}, qnaContent = #{qnaComment}
     	where fk_seq = ${qnaSeq} and qnaStatus = 0
     </update>
-    
+    <!-- 15 -->
      <update id="editUserQuestion" parameterType="java.util.HashMap">
     	update tbl_qna set qnaSubject = #{qnaSubject}, qnaContent = #{qnaComment}, qnaInquiry = #{qnaInquiry}
     	where qnaSeq = #{qnaSeq} and qnaStatus = 0
     </update>
-    
+    <!-- 16 -->
     <select id="getFaqList" resultType="com.go.mazzipmetro.vo.FaqVO">
     	select faqSeq, faqType, faqQuestion, faqAnswer
 		from tbl_faq
 		where faqStatus = 0
     </select>
-    
+    <!-- 17 -->
     <select id="selectOneFaq" parameterType="String" resultType="com.go.mazzipmetro.vo.FaqVO">
     	select faqSeq, faqType, faqQuestion, faqAnswer
 		from tbl_faq
 		where faqStatus = 0 and faqSeq = #{faqSeq}
     </select>
-    
+    <!-- 18 -->
     <select id="getFaqListByType" parameterType="String" resultType="com.go.mazzipmetro.vo.FaqVO">
     	select faqSeq, faqType, faqQuestion, faqAnswer
 		from tbl_faq
 		where faqStatus = 0 and faqType = #{faqType}
     </select>
     
-    
+    <!-- ////////////////////////////////////////////////////////은석18 ////////////////////////////////////////////////////////////// -->	
 </mapper>

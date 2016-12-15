@@ -77,8 +77,9 @@ public class ReviewController {
 	@RequestMapping(value="/reviewAdd.eat", method={RequestMethod.GET} ) 
 	public String reviewAdd(HttpServletRequest req, HttpSession ses) {
 		String restSeq = req.getParameter("restSeq");
+		HashMap<String, String> rest= service.getRestaurant(restSeq);
 		
-		
+		req.setAttribute("rest", rest);
 		req.setAttribute("restSeq", restSeq);
 		return "/review/reviewAdd";  
 		
@@ -87,17 +88,22 @@ public class ReviewController {
 	@RequestMapping(value="/reviewAddEnd.eat", method={RequestMethod.POST})
 	public String addRestaurantInfoEnd(ThemeVO tvo, ReviewVO rvo, FileVO fvo, HttpServletRequest req, HttpSession session){
 		
-		
+		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
 		String[] reviewBgTagArr = req.getParameterValues("reviewBgTag");
 		String[] reviewMdTagArr = req.getParameterValues("reviewMdTag");
 		String[] themeArr = req.getParameterValues("theme");
-	
-		/*	String theme = "";
-		for(int i=0; i<themeArr.length; i++)
+		String restSeq = rvo.getRestSeq();
+		HashMap<String, String> visitor = new HashMap<String, String>();
+		
+		if(loginUser != null)
 		{
-			 theme = themeArr[i]; 
+			String UserGender = loginUser.getUserGender();
+			String UserBirthday = loginUser.getUserBirthDay();
+			
+			visitor.put("UserGender", UserGender);
+			visitor.put("UserBirthday", UserBirthday);					
 		}
-		System.out.println("dddddddddddddddd"+theme);*/
+		
 		if(reviewBgTagArr!=null)
 		{
 			String reviewBgTag = RestaurantController.arrayToTag(reviewBgTagArr);
@@ -133,7 +139,7 @@ public class ReviewController {
 		} // 완료
 				
 		// review insert작업 및 alias관련 작업을 trasactional 처리한다.
-		List<String> list = service.addReview(rvo, imageList, themeArr);
+		List<String> list = service.addReview(rvo, imageList, themeArr, visitor);
 		String freeScript = "";
 		int result = Integer.parseInt(list.get(list.size()-1));
 		

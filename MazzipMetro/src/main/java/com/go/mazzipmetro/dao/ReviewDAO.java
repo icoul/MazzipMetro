@@ -179,6 +179,18 @@ public class ReviewDAO implements IDAO{
 		}
 		
 		return bestReview;
+	}
+	// tbl_reivewVisitor에 데이터 삽입
+	public void insetVisitor(HashMap<String, String> visitor) {
+		sqlSession.insert("review.insertVisitor", visitor);
+		
+	}
+	
+	// 리뷰 폼에 담아줄 업장 정보 가져오기
+	public HashMap<String, String> getRest(String restSeq) {
+		HashMap<String, String> getRest = sqlSession.selectOne("restaurant.getRestaurant", restSeq);
+		return getRest;
 	}	
+
 
 }

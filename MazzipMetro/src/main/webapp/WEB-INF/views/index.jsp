@@ -14,9 +14,6 @@
         	
         	// 실시간 리뷰 애니메이트
             MainReview();
-        	//scrolling();
-            
-
 
         	// tooltipster 중복호출 방지용
         	var metroIdArr = [];
@@ -271,6 +268,7 @@
                 }
             });
             
+            
           $("#keyword").keyup(function(){
         		
     			$.ajax({
@@ -320,7 +318,6 @@
     		});// end of $("#keyword").keyup
             
 })(jQuery)
-
         });// $(document).ready()
         
         //등록된 맛집이 없는 경우(지도에러유발) 링크 폐쇄
@@ -336,6 +333,7 @@
     			method:"get",  	 
     			dataType: "html",
     			success: function(data) {
+    				
     				$("#Scroller").html(data);
     				
     				}
@@ -391,54 +389,6 @@
    		 }
    		 return true;
    	}
-        <%-- function animate(){
-        	var $wrapper = $("#woo_scroller table");
-        	$wrapper.css({'top':0});
-        	
-        	var animator =	function(imgblock){
-				imgblock.animate({'top':-100}, 5500,
-								   function(){
-									  imgblock.css({'top':0});
-									// $(this).css({'top':550});
-									  animator(imgblock); //재귀함수 호출 -> 반복효과
-									  // animator($(this));
-				                   }
-				                 );	
-            } // 함수정의
-        	animator($wrapper); 
-        }
-         function MainReview(){
-        	
-       	 $.ajax({ 
-       			url: "<%= request.getContextPath()%>/MainReviewAjax.eat",  
-       			method:"get",  	 
-       			dataType: "html",
-       			success: function(data) {
-       				
-       				$("#scroller").html(data);
-       				
-       				}
-       		});//end of $.ajax()
-           	
-           }// end of MainReview --%>
-           
-                        
-             
-
-        	
-      function MainReview(){
-        $.ajax({ 
-            url: "<%= request.getContextPath()%>/MainReviewAjax.eat",  
-            method:"get",      
-            dataType: "html",
-            success: function(data) {
-               
-               $("#Scroller").html(data);
-               
-               }
-         });//end of $.ajax()
-          
-       }// end of MainReview
 
 	 // 인덱스 페이지 탑 5 업장 랭킹 뷰
 	   	function top5RankView(){
@@ -533,11 +483,10 @@
 		
 		<div class="rightCon" >
 			<div style="background-color: yellow" id="realReview">실시간 리뷰</div>
-			<div id="scroller" class="scroller">
+			<div id="Scroller" class="Scroller">
 			</div>
 
 		</div>
-		
 		<%-- end of rightCon --%>	
 
 <jsp:include page="footer.jsp" />

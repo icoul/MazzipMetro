@@ -387,7 +387,7 @@ public class AdminController {
 	}
 	
 	//컨텐츠관리
-	@RequestMapping(value="/adminConList.eat", method={RequestMethod.GET})
+	@RequestMapping(value="/adminContentList.eat", method={RequestMethod.GET})
 	public String adminConList(HttpServletRequest req, HttpSession session) {
 		
 		String pageNo = req.getParameter("pageNo");
@@ -482,11 +482,11 @@ public class AdminController {
 	    	
 	    	if(colName == null || search == null) {
 				// 검색어가 없는 경우
-				pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminConList.eat?pageNo=%d'>[이전%d페이지]</a>&nbsp;", startPageNo-1, blocksize); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 블럭크기의값 이다.	
+				pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminContentList.eat?pageNo=%d'>[이전%d페이지]</a>&nbsp;", startPageNo-1, blocksize); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 블럭크기의값 이다.	
 			}
 			else {
 				// 검색어가 있는 경우
-				pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminConList.eat?pageNo=%d&colname=%s&search=%s'>[이전%d페이지]</a>&nbsp;", startPageNo-1, colName, search, blocksize); // 검색어 있는 경우
+				pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminContentList.eat?pageNo=%d&colname=%s&search=%s'>[이전%d페이지]</a>&nbsp;", startPageNo-1, colName, search, blocksize); // 검색어 있는 경우
 			}
 	    }
 	    
@@ -501,11 +501,11 @@ public class AdminController {
 	    	else{
 	    		if(colName == null || search == null) {
 	    			// 검색어가 없는 경우
-	    			pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminConList.eat?pageNo=%d'>%d</a>&nbsp;", startPageNo, startPageNo); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 페이지바에 나타낼 startPageNo값 이다.	
+	    			pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminContentList.eat?pageNo=%d'>%d</a>&nbsp;", startPageNo, startPageNo); // 처음 %d 에는 startPageNo값 , 두번째 %d 에는 페이지바에 나타낼 startPageNo값 이다.	
 	    		}
 	    		else {
 	    			// 검색어가 있는 경우
-	    			pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminConList.eat?pageNo=%d&colName=%s&search=%s'>%d</a>&nbsp;", startPageNo, colName, search, startPageNo); // 검색어 있는 경우
+	    			pagebar += String.format("&nbsp;<a href='/mazzipmetro/adminContentList.eat?pageNo=%d&colName=%s&search=%s'>%d</a>&nbsp;", startPageNo, colName, search, startPageNo); // 검색어 있는 경우
 	    		}
 	    		  
 	    	}
@@ -545,7 +545,7 @@ public class AdminController {
 		req.setAttribute("pagebar", pagebar);
 		
 		
-		return "/admin/adminConList";
+		return "/admin/adminContentList";
 		
 	}
 	
