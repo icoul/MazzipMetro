@@ -115,9 +115,11 @@
 			</div>
 		</div>
 		
-		<div class="row" class="col-md-12">
+		<div class="row" >
+			<div class="col-md-12">
 				<button type="button" name="updateUG6" id="updateUG6" onClick="javascript:location.href='<%=request.getContextPath() %>/updateUserGrade.eat?gradeSeq=UG6'">달인 등급업</button>
 				<button type="button" name="updateUG7" id="updateUG7" onClick="javascript:location.href='<%=request.getContextPath() %>/updateUserGrade.eat?gradeSeq=UG7'">신 등급업</button>
+			</div>
 		</div>
 	</div>
 </body>

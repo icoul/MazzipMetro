@@ -7,11 +7,14 @@ public class UserAttendVO {
 	private String continueAttendDay;
 	private String contiueStatus; //연속출석중인지 체크 0이 연속출석중, 1이 연속출석X
 	private String attendLastDay;
-	private String userRandomBox ;
+	private String userRandomBox;
+	private String userPremiumRandomBox;
+	private String alertUpgradeStatus; //등급업이 가능하다고 몇번 알려줬는지
+	private String alertRandomBoxStatus;
 	
 	public UserAttendVO(){}
 	public UserAttendVO(String attendSeq, String userSeq, String allAttendDay, String continueAttendDay,
-			String contiueStatus, String attendLastDay, String userRandomBox) {
+			String contiueStatus, String attendLastDay, String userRandomBox, String userPremiumRandomBox, String alertUpgradeStatus, String alertRandomBoxStatus) {
 		this.attendSeq = attendSeq;
 		this.userSeq = userSeq;
 		this.allAttendDay = allAttendDay;
@@ -19,6 +22,9 @@ public class UserAttendVO {
 		this.contiueStatus = contiueStatus;
 		this.attendLastDay = attendLastDay;
 		this.userRandomBox = userRandomBox;
+		this.userPremiumRandomBox = userPremiumRandomBox;
+		this.alertUpgradeStatus = alertUpgradeStatus;
+		this.alertRandomBoxStatus = alertRandomBoxStatus;
 	}
 	public String getAttendSeq() {
 		return attendSeq;
@@ -61,6 +67,24 @@ public class UserAttendVO {
 	}
 	public void setUserRandomBox(String userRandomBox) {
 		this.userRandomBox = userRandomBox;
+	}
+	public String getUserPremiumRandomBox() {
+		return userPremiumRandomBox;
+	}
+	public void setUserPremiumRandomBox(String userPremiumRandomBox) {
+		this.userPremiumRandomBox = userPremiumRandomBox;
+	}
+	public String getAlertUpgradeStatus() {
+		return alertUpgradeStatus;
+	}
+	public void setAlertUpgradeStatus(String alertUpgradeStatus) {
+		this.alertUpgradeStatus = alertUpgradeStatus;
+	}
+	public String getAlertRandomBoxStatus() {
+		return alertRandomBoxStatus;
+	}
+	public void setAlertRandomBoxStatus(String alertRandomBoxStatus) {
+		this.alertRandomBoxStatus = alertRandomBoxStatus;
 	}
 	
 	

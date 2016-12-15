@@ -12,6 +12,11 @@
 	<script type="text/javascript">
 		<c:if test="${result == 1}">
 			alert("글쓰기 성공!!");
+			
+			<c:if test="${freeScript != null}">
+			${freeScript}
+			</c:if>
+			
 			window.opener.location.reload();
 			self.window.close();
 			// 글목록을 보여주는 페이지로 이동
@@ -24,9 +29,7 @@
 			// 글목록을 보여주는 페이지로 이동
 		</c:if>
 		
-		<c:if test="${freeScript != null}">
-		${freeScript}
-		</c:if>
+		
 			
 	</script>
 </body>
