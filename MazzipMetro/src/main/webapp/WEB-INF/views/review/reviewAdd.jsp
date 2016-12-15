@@ -402,8 +402,8 @@
          	
 		</table>
 		
-		<input type="text" name ="userSeq" value="${sessionScope.loginUser.userSeq}" />
-		<input type="text" name ="restSeq" value="${restSeq}" />
+		<input type="hidden" name ="userSeq" value="${sessionScope.loginUser.userSeq}" />
+		<input type="hidden" name ="restSeq" value="${restSeq}" />
 		<br/>
 		
 		<button type="button" class="btn btn-primary" style="margin-right: 10px;" onClick="goWrite();">쓰기</button>
