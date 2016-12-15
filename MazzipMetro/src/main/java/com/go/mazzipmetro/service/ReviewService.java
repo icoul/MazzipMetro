@@ -397,5 +397,10 @@ public class ReviewService implements IService{
 		return bestReview;
 		
 	}
+	// 리뷰쓰기 폼에 해당 업체의 정보를 담아주기 위한 데이터
+	public HashMap<String, String> getRestaurant(String restSeq) {
+		HashMap<String, String> getRest = dao.getRest(restSeq);
+		return getRest;
+	}
 
 }

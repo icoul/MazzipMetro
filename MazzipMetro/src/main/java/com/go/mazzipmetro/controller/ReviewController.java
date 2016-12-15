@@ -77,8 +77,9 @@ public class ReviewController {
 	@RequestMapping(value="/reviewAdd.eat", method={RequestMethod.GET} ) 
 	public String reviewAdd(HttpServletRequest req, HttpSession ses) {
 		String restSeq = req.getParameter("restSeq");
+		HashMap<String, String> rest= service.getRestaurant(restSeq);
 		
-		
+		req.setAttribute("rest", rest);
 		req.setAttribute("restSeq", restSeq);
 		return "/review/reviewAdd";  
 		

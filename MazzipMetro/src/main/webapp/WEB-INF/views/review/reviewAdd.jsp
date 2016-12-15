@@ -220,12 +220,21 @@
 <body>
 
 	<div class="container" style="margin-bottom: 50px;">
-	<h3 style="width: 60%; padding-top: 20px;">리뷰 작성</h3>
 	
+	
+	<h1>음식점:${rest.restname}</h1><br/>
+		<img src="<%= request.getContextPath() %>/files/${rest.restimg}" width="200px" height="100px"/><br/>	
+		주소:${rest.shortaddr}<br/>
+		<span style="color:blue">${rest.restbgtag}</span><br/>
+		<span style="color:skyblue">${rest.restmdtag}</span><br/>
+		
+	
+		
 	 <%-- >>>> 파일첨부하기
 	 	  enctype="multipart/form-data" 을 해주어야만 파일첨부가 된다. --%>
 	
 	<form name="writeFrm" action="<%= request.getContextPath() %>/reviewAddEnd.eat" method="post" enctype="multipart/form-data" >
+		<h3 style="width: 60%; padding-top: 20px;">리뷰 작성</h3>	
 		<table id="table" class="table table-bordered" style="width: 60%; margin-top: 50px; border: gray 1px solid">
 			<tr>
 				<th>제목</th>
