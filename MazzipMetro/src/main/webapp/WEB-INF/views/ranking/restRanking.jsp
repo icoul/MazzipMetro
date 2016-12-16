@@ -94,7 +94,7 @@
 		
 		$.ajax({
 			url : "<%=request.getContextPath()%>/restRankingEnd.eat",
-			method : "POST",
+			method : "GET",
 			data : form_data,
 			dataType : "html",
 			success : function(data){

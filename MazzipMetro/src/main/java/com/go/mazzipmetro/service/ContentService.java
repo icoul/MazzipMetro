@@ -34,4 +34,10 @@ public class ContentService {
 		List<RestaurantVO> rvoList = dao.getRightContents();
 		return rvoList;
 	}
+
+	// 검색 파워링크 컨텐츠에 들어갈 데이터
+	public List<RestaurantVO> getPowerLinkContents() {
+		List<RestaurantVO> rvoList = dao.getPowerLinkContents();
+		return rvoList;
+	}
 }

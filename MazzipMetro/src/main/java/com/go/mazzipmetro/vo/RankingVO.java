@@ -1,14 +1,14 @@
 package com.go.mazzipmetro.vo;
 
-public class RankingRestVO {
+public class RankingVO {
 	
 	private String parameter;
 	private String value;
 	
 	
-	public RankingRestVO(){}
+	public RankingVO(){}
 	
-	public RankingRestVO(String parameter, String value) {
+	public RankingVO(String parameter, String value) {
 		this.parameter = parameter;
 		this.value = value;
 	}

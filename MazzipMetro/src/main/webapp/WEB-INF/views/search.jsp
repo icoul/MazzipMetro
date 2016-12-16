@@ -9,6 +9,7 @@
         	$("#keyword").focus();
         	$("#keyword").val('${keyword}');
         	
+        	powerLinkContent();
         	rightContentView();
         	goSearch();
         	
@@ -125,7 +126,19 @@
    		 }
    		 return true;
    	}
-       
+      
+  	//검색에 들어가는 배너 컨텐츠 뷰
+   	function powerLinkContent(){
+   		$.ajax({
+			url : "<%=request.getContextPath()%>/powerLinkContent.eat",
+			method : "GET",
+			dataType : "html",
+			success : function(data){
+				$("#powerLinkContent").html(data);
+			}
+		}); // end of ajax
+   	}
+   	
     //측면에 들어가는 배너 컨텐츠 뷰
    	function rightContentView(){
    		$.ajax({
@@ -142,6 +155,9 @@
 		
 		<div id="leftCon">
 		<br/> <br/> 
+			<!-- 파워링크 컨텐츠 -->
+			<div  id="powerLinkContent"></div>
+			<br/> <br/>
 			<!-- 업장 검색 결과 -->
 			<div  id="restSearchResult"></div>
 			<br/><br/> 

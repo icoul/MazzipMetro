@@ -44,6 +44,17 @@ public class ContentController {
 		
 		return "content/rightContentView";
 	}
-
+	
+	
+	// 측면 배너 컨텐츠
+	@RequestMapping(value="/powerLinkContent.eat",method={RequestMethod.GET})
+	public String powerLinkContent(HttpServletRequest req, HttpServletResponse res){
+		
+		List<RestaurantVO> rvoList = service.getPowerLinkContents();
+		
+		req.setAttribute("rvoList", rvoList);
+		
+		return "content/powerLinkContent";
+	}
 	
 }

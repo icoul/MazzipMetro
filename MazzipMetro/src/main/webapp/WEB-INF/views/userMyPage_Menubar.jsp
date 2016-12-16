@@ -2,6 +2,19 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<script type="text/javascript">
+
+	function userDelete(){
+		var result = confirm("정말 회원을 탈퇴하시겠어요?");
+		
+		if (result) {
+			location.href = "<%=request.getContextPath()%>/userDelete.eat";
+		}
+	}
+
+</script>
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -36,12 +49,12 @@
 	        <ul class="dropdown-menu">
 	          <li><a href="#">계급표시</a></li>
 	          <li><a href="#">마일리지현황</a></li>
-	          <li><a href="<%= request.getContextPath() %>/couponList.eat">쿠폰현황</a></li>
+	          <li id="userCoupon"><a href="#">쿠폰현황</a></li>
 	          <li><a href="#">사용로그</a></li> 
 	          <li><a href="<%= request.getContextPath() %>/userEdit.eat">개인정보수정 </a></li> 
 	          <li id="userAlias"><a href="#">칭호관리</a></li>
 	          <li id="userRandomBox"><a href="#">랜덤박스</a></li>
-	          <li><a href="#">회원탈퇴</a></li>  
+	          <li><a href="#" onClick = "userDelete();">회원탈퇴</a></li>  
 	        </ul>
 	      </li>
 	      <li class="dropdown">
@@ -66,7 +79,7 @@
 	          <li><a href="<%= request.getContextPath() %>/bossCoinResi.eat">포인트구매</a></li>
 	          <li><a href="<%= request.getContextPath() %>/bossContentList.eat">컨텐츠목록</a></li>
 	          <li><a href="<%= request.getContextPath() %>/userEdit.eat">개인정보수정</a></li>
-	          <li><a href="<%= request.getContextPath() %>/secession.eat">회원탈퇴</a></li>
+	          <li><a href="#" onClick = "userDelete();">회원탈퇴</a></li>
 	        </ul>
 	      </li>
 	      <li class="dropdown">

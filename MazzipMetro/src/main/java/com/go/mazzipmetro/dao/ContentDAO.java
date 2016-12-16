@@ -41,8 +41,8 @@ public class ContentDAO {
 
 	// 측면배너 컨텐츠에 들어갈 데이터	
 	public List<RestaurantVO> getRightContents() {
-		
-		List<String> countList = sqlSession.selectList("content.rightContentCount");
+		String seq = "3";
+		List<String> countList = sqlSession.selectList("content.contentListCount", seq);
 		List<RestaurantVO> rvoList = new ArrayList<RestaurantVO>();
 		
 		Collections.shuffle(countList);
@@ -52,6 +52,26 @@ public class ContentDAO {
 			rvoList.add(vo);
 			
 			if (i == 4) {
+				break;
+			}
+		}
+		
+		return rvoList;
+	}
+
+	// 검색 파워링크 컨텐츠에 들어갈 데이터
+	public List<RestaurantVO> getPowerLinkContents() {
+		String seq = "2";
+		List<String> countList = sqlSession.selectList("content.contentListCount", seq);
+		List<RestaurantVO> rvoList = new ArrayList<RestaurantVO>();
+		
+		Collections.shuffle(countList);
+		
+		for (int i = 0; i < countList.size(); i++) {
+			RestaurantVO vo = sqlSession.selectOne("content.getRightRestaurant", countList.get(i));
+			rvoList.add(vo);
+			
+			if (i == 1) {
 				break;
 			}
 		}

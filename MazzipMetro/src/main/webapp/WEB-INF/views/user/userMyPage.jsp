@@ -13,6 +13,7 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
+	
 	$("#btn_Mazzip").click(function(){
 		$.ajax({	
 			url:"<%= request.getContextPath() %>/userRestMap.eat",
@@ -35,6 +36,16 @@ $(document).ready(function(){
 		});
 	});
 	
+	$("#userCoupon").click(function(){
+		$.ajax({	
+			url:"<%= request.getContextPath() %>/couponList.eat",
+		    type:"GET",
+			datatype:"html", 
+			success:function(data){ 
+				$("#userInfo").html(data);
+			}
+		});
+	});
 
 	$("#userAlias").click(function(){
 		$.ajax({	
@@ -58,6 +69,7 @@ $(document).ready(function(){
 		});
 	});
 });
+
 </script>
 
 
@@ -88,6 +100,8 @@ $(document).ready(function(){
 		<td><a href="<%= request.getContextPath()%>/couponList.eat">쿠폰</a></td>
 		<td>${coupon}</td>
 	</tr>
+</table>
+<table class = "table">
 	
 </table>
 </c:if>

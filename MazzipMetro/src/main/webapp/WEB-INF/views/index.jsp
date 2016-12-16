@@ -345,17 +345,9 @@
 	   	// 인덱스 페이지 탑 5 업장 랭킹 뷰
 	   	function top5RankView(){
 	   			
-	 		var form_data = {
-	 				
-	 				metroId : "",   // 키값 : 밸류값 
-	 				dongId  : "",     // 키값 : 밸류값
-	 				regDate : 0,
-	 			}
-	 		
 	 		$.ajax({
 	 			url : "<%=request.getContextPath()%>/indexTop5RankView.eat",
 	 			method : "GET",
-	 			data : form_data,
 	 			dataType : "html",
 	 			success : function(data){
 	 				$(".top5RankView").html(data);
@@ -440,8 +432,7 @@
 				</map>
 			</div>
 			
-			<div class="promBann">
-				<img src="<%= request.getContextPath() %>/resources/images/imgProBanner01.jpg" border="0" />
+			<div class="mainContentsView">
 			</div>
 			<div  style="margin-top:30px;">
 				<div style = "height : 20px; background-color: lightgrey;">
@@ -464,7 +455,7 @@
 			</div>
 
 		</div>
-		<div class="rightCon" id="rightContent" style = "margin-top : 88px; margin-left : 60px;"></div>
+		<div class="rightCon" id="rightContent" style = "margin-top : 88px;"></div>
 		<%-- end of rightCon --%>	
 
 <jsp:include page="footer.jsp" />
