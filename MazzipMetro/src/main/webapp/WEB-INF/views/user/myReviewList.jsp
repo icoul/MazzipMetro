@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<jsp:include page="../top.jsp" />
-<jsp:include page="../library.jsp" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -35,11 +33,8 @@
 
 </head>
 <body>
-<div class="subleftCon">
-		<h2>${sessionScope.loginUser.userName}님의<br> 리뷰목록</h2>
-</div>
+		<h4>${sessionScope.loginUser.userName}님의 리뷰목록</h4>
 <div class="subrightCon" align="center" >
-<jsp:include page="../userMyPage_Menubar.jsp" />
 	<table class="myReviewList" style="margin-top:30px;">
 		<tr >
 			<th style="text-align: center;">가게명</th>
