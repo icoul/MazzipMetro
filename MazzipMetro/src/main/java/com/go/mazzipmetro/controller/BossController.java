@@ -200,7 +200,6 @@ public class BossController {
 	
 	
 	
-	
 	//컨텐츠 구매목록
 	@RequestMapping(value="/bossContentList.eat", method={RequestMethod.GET})
 	public String coinList(HttpServletRequest req, HttpSession session) {
