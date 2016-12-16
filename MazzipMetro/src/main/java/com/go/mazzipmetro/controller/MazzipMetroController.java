@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,6 @@ import com.go.mazzipmetro.service.ReviewService;
 import com.go.mazzipmetro.vo.FaqVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.ReviewVO;
-import com.go.mazzipmetro.vo.QnaVO;
 import com.go.mazzipmetro.vo.UserVO;
 
 @Controller
@@ -44,6 +44,98 @@ public class MazzipMetroController {
 		return "index";
 	}
 	
+	// 사용자 가고싶다 list 요청
+	@RequestMapping(value="/getUserWantToGo.eat", method={RequestMethod.GET})
+	public String login_getUserWantToGo(HttpServletRequest req, HttpServletResponse res){
+		UserVO loginUser = (UserVO)req.getSession().getAttribute("loginUser");
+		String userSeq = loginUser.getUserSeq();
+		
+		List<RestaurantVO> list = service.getUserWantToGo(userSeq);
+		
+		req.setAttribute("list", list);
+		return "/ajax/userWantToGo";
+	}
+	
+	// 가고싶다에 담기 요청
+	@RequestMapping(value="/addWantToGo.eat", method={RequestMethod.POST})
+	public String login_addFoodCart(HttpServletRequest req, HttpServletResponse res){
+		String restSeq = req.getParameter("restSeq");
+		UserVO loginUser = (UserVO)req.getSession().getAttribute("loginUser");
+		String userSeq = loginUser.getUserSeq();
+		String msg = "";
+		
+		HashMap<String, String> map = new HashMap<>();
+		map.put("restSeq", restSeq);
+		map.put("userSeq", userSeq);
+		
+		//가고싶다 테이블에 담겨있는지 검사
+		if(service.checkWantToGo(map) > 0){
+			msg = "이미 가고싶다에 담은 음식점입니다.";
+		} else if (service.checkNumWantToGo(map) >= 15 ) {// 가고 싶다 테이블에는 사용자가 최고 15개까지 담을 수 있다.
+			msg = "가고싶다에 15개까지만 담을 수 있습니다. (현재15개)";
+		} else {
+			
+			int result = service.addWantToGo(map);
+			msg = "[ "+loginUser.getUserName()+" 님의 ";
+			msg += (result > 0)?"가고싶다]에 성공적으로 담았습니다.":"가고싶다]에 담기 실패했습니다. 다시 시도해주세요.";
+			
+		}
+		
+		System.out.println(">>>>>>>>>>>>>>>> msg = "+msg); 
+		JSONObject jObj = new JSONObject();
+		jObj.put("msg", msg);
+		
+		req.setAttribute("jObj", jObj);
+		return "/ajax/jsonData";
+	}
+	
+	// 가고싶다 삭제 요청
+	@RequestMapping(value="/delWantToGo.eat", method={RequestMethod.POST})
+	public String lonin_delWantToGo(HttpServletRequest req, HttpServletResponse res){
+		String[] wantToGoChkArr = req.getParameterValues("wantToGoChk");// 가고싶다 restSeq를 담은 배열
+		UserVO loginUser = (UserVO)req.getSession().getAttribute("loginUser");
+		String userSeq = loginUser.getUserSeq();
+		String msg = "";
+		
+		int result = service.delWantToGo(userSeq, wantToGoChkArr);
+		
+		// 추천맛집 (wantToGoStatus = 2)인 경우 대비 세션의 restRecom값 삭제.
+				if (result > 0) {
+					req.getSession().removeAttribute("restRecom");
+				}
+				
+		msg += (result > 0)?"성공적으로 삭제했습니다.":"삭제되지 않았습니다. 다시 시도해주세요.";
+		
+		JSONObject jObj = new JSONObject();
+		jObj.put("msg", msg);
+		req.setAttribute("jObj", jObj);
+		return "/ajax/jsonData";
+	}
+	
+	// 맛집메트로 추천을 사용자가 선택한다.
+	@RequestMapping(value="/mazzipMetroPick.eat", method={RequestMethod.POST})
+	public String lonin_mazzipMetroPick (HttpServletRequest req, HttpServletResponse res){
+		String restSeq = req.getParameter ("restSeq");
+		UserVO loginUser = (UserVO)req.getSession().getAttribute("loginUser");
+		String userSeq = loginUser.getUserSeq();
+		String msg = "";
+		
+		
+		HashMap<String, String> map = new HashMap<>();
+		map.put("restSeq", restSeq);
+		map.put("userSeq", userSeq);
+		
+		int result = service.mazzipMetroPick(map);
+		
+		msg += (result > 0)?"맛있게 드시고 맛집정복 후기를 작성해 보세요.":"추천맛집 선택이 올바르게 진행되지 않았습니다. 다시 선택해주세요.";
+		
+		System.out.println(">>>>>>>>>>>>>>>> msg = "+msg);
+		JSONObject jObj = new JSONObject();
+		jObj.put("msg", msg);
+		req.setAttribute("jObj", jObj);
+		return "/ajax/jsonData";
+	}
+
 	// 검색 페이지 요청
 	@RequestMapping(value="/search.eat", method={RequestMethod.GET})
 	public String search(HttpServletRequest req){
@@ -87,15 +179,19 @@ public class MazzipMetroController {
 		HashMap<String, String> map = new HashMap<>();
 		
 		if (kwArr.length > 1) {
-			System.out.println(">>>>>>>>>>>>>>>>>>> 복합검색어");
+			System.out.println(">>>>>>>>>>>>>>>>>>> restSearch.eat 복합검색어");
 			
 			//위치정보를 가지고 있는 경우
 			for (int i = 0; i < kwArr.length; i++) {
 				
 				String result = service.getLocationInfo(kwArr[i]);
+				System.out.println(">>>>>>>>>>>>>> result = "+result); 
+				
 				if(!"".equals(result)){
 					srchType = result;
 					locStr = kwArr[i];
+					map.put("srchType", srchType);
+					map.put("locStr", locStr);
 					break;
 				}
 			}
@@ -108,93 +204,112 @@ public class MazzipMetroController {
 					}
 				}
 				kw = kw.trim();
+			} else {
+				System.out.println(">>>>>>>>>> kw = "+ keyword2); 
+				kw = keyword2;
 			}
 			
-			map.put("srchType", srchType);
-			map.put("locStr", locStr);
+			
 			map.put("kw", kw);
 			
-			// 페이징 작업 (총 게시물 수, 총 페이지수)
-			// 먼저 총 음식점 수를 구하기
-			totalRest = service.getRestSearchResult_totalCnt(map);
+			// 검색횟수 제안
+			int n = 0;
 			
-			// 페이지바 작업 시작!
-			totalPage = (int)Math.ceil( (double) totalRest/sizePerPage );
-	       //(double)totalCount/sizePerPage 값이 1.1 이면  Math.ceil()은 2.0   Math.ceil()은 double이라서 형변환을 해야한다.
-	       // 63/5 = 12.xx -> 13.0  이 값이 totalPage 가 된다.
-			
-
-			if (pageNo == null) {
-				// 게시판 최초로딩시 pageNo은 null이다.
-				currPage = 1;
-				// 초기화면은 /list.action?pageNo = 1 과 같다.
-			} else {
-				try {
-					currPage = Integer.parseInt(pageNo);
-					//get방식으로 넘어온 pageNo을 currPage에 int 캐스팅후 대입한다.
+			do {
+				
+					if(n == 1){
+						map.remove("srchType");
+						map.remove("locStr");
+						map.put("kw", keyword2);
+					}
 					
-					if(currPage < 1 || currPage > totalPage){
+				// 페이징 작업 (총 게시물 수, 총 페이지수)
+				// 먼저 총 음식점 수를 구하기
+				totalRest = service.getRestSearchResult_totalCnt(map);
+				
+				// 페이지바 작업 시작!
+				totalPage = (int)Math.ceil( (double) totalRest/sizePerPage );
+		       //(double)totalCount/sizePerPage 값이 1.1 이면  Math.ceil()은 2.0   Math.ceil()은 double이라서 형변환을 해야한다.
+		       // 63/5 = 12.xx -> 13.0  이 값이 totalPage 가 된다.
+				
+	
+				if (pageNo == null) {
+					// 게시판 최초로딩시 pageNo은 null이다.
+					currPage = 1;
+					// 초기화면은 /list.action?pageNo = 1 과 같다.
+				} else {
+					try {
+						currPage = Integer.parseInt(pageNo);
+						//get방식으로 넘어온 pageNo을 currPage에 int 캐스팅후 대입한다.
+						
+						if(currPage < 1 || currPage > totalPage){
+							currPage = 1;
+						}
+						
+					} catch (NumberFormatException exeption) {
 						currPage = 1;
 					}
-					
-				} catch (NumberFormatException exeption) {
-					currPage = 1;
-				}
-			}
-			
-			
-			start = ((currPage - 1) * sizePerPage) +1; //sRowNum
-			end= start+ sizePerPage -1 ;//sRowNum : currPage*sizePerPage
-			
-			
-			String pageBar = "";
-			
-			if(totalRest > 5){
-				pageBar += "<ul class='pagination'>";
-				loop = 1;
-				
-				// ## 페이지바의 시작 페이지 번호(sPage)값 만들기(공식) 
-				sPage = ( ( currPage - 1 )/blockSize )*blockSize + 1 ;
-				
-				// 이전 5페이지 만들기
-				if(!(sPage == 1)) {
-					pageBar += String.format("<li><a href='javascript:goRestSearch(%d)''>«</a></li>", sPage-blockSize);
 				}
 				
-				while( !(loop >  blockSize || sPage > totalPage ) ) {
+				
+				start = ((currPage - 1) * sizePerPage) +1; //sRowNum
+				end= start+ sizePerPage -1 ;//sRowNum : currPage*sizePerPage
+				
+				
+				String pageBar = "";
+				
+				if(totalRest > 5){
+					pageBar += "<ul class='pagination'>";
+					loop = 1;
 					
-					if(sPage == currPage){	// 시작페이지 중에 현재페이지 하나만 <span>		
-						pageBar += String.format("<li><a class='active' href='#'>%s</a></li>", sPage);
-					} else{
-						
-						pageBar += String.format("<li><a href='javascript:goRestSearch(%d)'>%s</a></li>", sPage, sPage);
+					// ## 페이지바의 시작 페이지 번호(sPage)값 만들기(공식) 
+					sPage = ( ( currPage - 1 )/blockSize )*blockSize + 1 ;
+					
+					// 이전 5페이지 만들기
+					if(!(sPage == 1)) {
+						pageBar += String.format("<li><a href='javascript:goRestSearch(%d)''>«</a></li>", sPage-blockSize);
 					}
-					loop++;
-					sPage++;
+					
+					while( !(loop >  blockSize || sPage > totalPage ) ) {
+						
+						if(sPage == currPage){	// 시작페이지 중에 현재페이지 하나만 <span>		
+							pageBar += String.format("<li><a class='active' href='#'>%s</a></li>", sPage);
+						} else{
+							
+							pageBar += String.format("<li><a href='javascript:goRestSearch(%d)'>%s</a></li>", sPage, sPage);
+						}
+						loop++;
+						sPage++;
+					}
+					
+					// 다음 5페이지 만들기
+					if(!(sPage > totalPage)) {
+						pageBar += String.format("<li><a href='javascript:goRestSearch(%d)''>»</a></li>", sPage);		
+					}
+					
+					
+					pageBar += ""
+							+ "</ul>";
+					
+					req.setAttribute("pageBar", pageBar);
 				}
 				
-				// 다음 5페이지 만들기
-				if(!(sPage > totalPage)) {
-					pageBar += String.format("<li><a href='javascript:goRestSearch(%d)''>»</a></li>", sPage);		
+				
+				//페이징처리를 위해 start , end 를 map에 담는다.
+				map.put("start", String.valueOf(start)); // HashMap 데이터타입에 맞게 int start를 String으로 변경해서 담는다.
+				map.put("end", String.valueOf(end));  // HashMap 데이터타입에 맞게 int end를 String으로 변경해서 담는다.
+				
+				restList = service.getRestSearchResult(map);
+				
+				if(totalRest>0){
+					break;
 				}
+				n++;
+			} while( n < 2);
 				
-				
-				pageBar += ""
-						+ "</ul>";
-				
-				req.setAttribute("pageBar", pageBar);
-			}
-			
-			
-			//페이징처리를 위해 start , end 를 map에 담는다.
-			map.put("start", String.valueOf(start)); // HashMap 데이터타입에 맞게 int start를 String으로 변경해서 담는다.
-			map.put("end", String.valueOf(end));  // HashMap 데이터타입에 맞게 int end를 String으로 변경해서 담는다.
-			
-			restList = service.getRestSearchResult(map);
-			
 		} else {
 			// 단일 검색어인경우
-			System.out.println(">>>>>>>>>>>>>>>>>>> 단일검색어"); 
+			System.out.println(">>>>>>>>>>>>>>>>>>> restSearch.eat  단일검색어"); 
 			
 			// 단일 검색어가 위치정보인 경우
 			String result = service.getLocationInfo(keyword2);
@@ -326,7 +441,7 @@ public class MazzipMetroController {
 		HashMap<String, String> map = new HashMap<>();
 		
 		if (kwArr.length > 1) {
-			System.out.println(">>>>>>>>>>>>>>>>>>> 복합검색어");
+			System.out.println(">>>>>>>>>>>>>>>>>>> reviewSearch.eat 복합검색어");
 			
 			//위치정보를 가지고 있는 경우
 			for (int i = 0; i < kwArr.length; i++) {
@@ -335,6 +450,8 @@ public class MazzipMetroController {
 				if(!"".equals(result)){
 					srchType = result;
 					locStr = kwArr[i];
+					map.put("srchType", srchType);
+					map.put("locStr", locStr);
 					break;
 				}
 			}
@@ -347,10 +464,12 @@ public class MazzipMetroController {
 					}
 				}
 				kw = kw.trim();
+			} else {
+				System.out.println(">>>>>>>>>> kw = "+ keyword2); 
+				kw = keyword2;
 			}
 			
-			map.put("srchType", srchType);
-			map.put("locStr", locStr);
+			
 			map.put("kw", kw);
 			
 			// 페이징 작업 (총 게시물 수, 총 페이지수)
@@ -434,7 +553,7 @@ public class MazzipMetroController {
 			
 		} else {
 			// 단일 검색어인경우
-			System.out.println(">>>>>>>>>>>>>>>>>>> 단일검색어"); 
+			System.out.println(">>>>>>>>>>>>>>>>>>> reviewSearch.eat 단일검색어"); 
 			
 			// 단일 검색어가 위치정보인 경우
 			String result = service.getLocationInfo(keyword2);

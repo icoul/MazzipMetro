@@ -31,9 +31,7 @@ function DownHit(reviewSeq, likeId){
 			data: "reviewSeq="+reviewSeq, 
 			dataType: "JSON",
 			success: function(data) {
-				alert(data.reviewHit);
-				$("#"+likeId).val(data.reviewHit+"Hit!");
-				
+				getReviewList();				
 				}
 		});//end of $.ajax()
 } // end of DownHit
@@ -46,9 +44,7 @@ function upHit(reviewSeq, likeId){
 			data: "reviewSeq="+reviewSeq, 
 			dataType: "JSON",
 			success: function(data) {
-				alert(data.reviewHit);
-				$("#"+likeId).val(data.reviewHit+"Hit!");
-				
+				getReviewList();
 				}
 		});//end of $.ajax()
 } // end of upHit
@@ -68,9 +64,16 @@ function insert_Liker(reviewSeq, likeId){
 
 function insertAndUpHit(reviewSeq, likeId){
 	
+	<c:if test="${UserSeq == null}">
+	alert("로그인 후에 이용해주세요.");
+	goLogin();
+	return;
+	</c:if>
+	
+	<c:if test="${UserSeq != null}">
 	insert_Liker(reviewSeq, likeId);
 	upHit(reviewSeq, likeId);
-
+	</c:if>
 		
 } // end of upAndDownHit
 
@@ -90,8 +93,11 @@ $(document).ready(function(){
 
 </script>
 
-<h2>${restvo.restname}의 리뷰(${TotalReviewCount }) <input type="button" id="reviewAdd" name="reviewAdd" value="리뷰쓰기 (내가 쓴 리뷰수 :${reviewCount})" onClick="goReviewAdd('${restSeq}');"/></h2> 
-  	
+<h2>${restvo.restname}의 리뷰(${TotalReviewCount })
+ <c:if test="${UserSeq != null}">
+ <input type="button" id="reviewAdd" name="reviewAdd" value="리뷰쓰기 " onClick="goReviewAdd('${restSeq}');" />
+ </c:if>
+ </h2> 	
   	<p align="right">
 		<button type="button" id="goBottom" onClick="goTopAndBottom();" >아래로</button>
 	</p>
@@ -107,14 +113,13 @@ $(document).ready(function(){
 		<c:forEach var="review" items="${reviewList}" varStatus="status">
 				
 			<tr>
-				<td>${review.userName }  <img src="<%= request.getContextPath() %>/files/${review.userProfile}" width="100px" height="100px"/></td>
+				<td>${review.userName }  <img src="<%= request.getContextPath() %>/files/user/${review.userProfile}" width="100px" height="100px"/></td>
 					<td align="right">
 						평점<span style="font-weight:bold; font-size:15pt; color:red;">${review.reviewAvgScore}</span>점
 					</td>
 				<td>
 					<section>${review.reviewContent}</section>
 					<c:set value = "0" var="flag" />
-					
 					<c:forEach var="likers" items="${likers}">
 						<c:if test="${likers == review.reviewSeq }">
 							<p align="right">

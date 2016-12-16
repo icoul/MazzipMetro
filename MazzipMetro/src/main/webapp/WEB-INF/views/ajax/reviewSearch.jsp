@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div>
-	<h4>리뷰 검색 결과</h4>
+	<h4>"<span style="color: gray">${keyword}</span>" 에 대한 리뷰 검색 결과</h4>
 	<hr/> 
 	<c:if test="${empty reviewList}">리뷰 검색 결과가 없습니다.</c:if>
 	<c:if test="${not empty reviewList}">

@@ -190,4 +190,59 @@ public class MazzipMetroService implements IService {
 	public int getReviewIntergratedSearch_totalCnt(HashMap<String, String> map) {
 		return dao.getReviewIntergratedSearch_totalCnt(map);
 	}
+
+	//오늘뭐먹지?(foodCart)에 담기 요청
+	public int addWantToGo(HashMap<String, String> map) {
+		return dao.addWantToGo(map);
+	}
+
+	//가고싶다 테이블에 담겨있는지 검사
+	public int checkWantToGo(HashMap<String, String> map) {
+		return dao.checkWantToGo(map);
+	}
+
+	// 사용자 가고싶다 list 요청
+	public List<RestaurantVO> getUserWantToGo(String userSeq) {
+		return dao.getUserWantToGo(userSeq);
+	}
+
+	// 가고싶다 삭제 요청
+	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
+	public int delWantToGo(String userSeq, String[] wantToGoChkArr) {
+		int result = 0;
+		
+		HashMap<String, String> map = new HashMap<>();
+		map.put("userSeq", userSeq);
+		
+		for (String restSeq : wantToGoChkArr) {
+			map.put("restSeq", restSeq);
+			result += dao.delWantToGo(map);
+		}
+		
+		if (result == wantToGoChkArr.length) {
+			result = 1;
+		} else {
+			result = 0;
+		}
+		
+		return result;
+	}
+
+	// 사용자의 가고싶다 에 담은 개수 확인
+	public int checkNumWantToGo(HashMap<String, String> map) {
+		return dao.checkNumWantToGo(map);
+	}
+
+	// 맛집메트로 추천을 사용자가 선택한다.
+	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
+	public int mazzipMetroPick(HashMap<String, String> map) {
+		int result = 0;
+		// 사용자가 맛집추천을 받은 적이 있는지 체크해서 이전 맛집 추천은 가고싶다 삭제 상태로 update한다.
+		// 사용자의 맛집추천(wantToGoStatus  = 2 는 하나의 행에서만 가질 수 있다.)
+		// 없을 수도 있으므로, 결과값에 상관없이 다음 진행한다.
+		dao.deletePreviouseMazzipMetroPick(map);
+		result = dao.mazzipMetroPick(map);
+		
+		return result;
+	}
 }

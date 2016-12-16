@@ -194,6 +194,12 @@ public class MapController {
 		
 		req.setAttribute("bestReview", bestReview);
 		
+		
+		
+		
+		
+		
+		
 		req.setAttribute("metroName", metroName);
 		req.setAttribute("metroId", metroId);
 		req.setAttribute("reviews", reviewList);
@@ -336,6 +342,17 @@ public class MapController {
 		String keyword = req.getParameter("keyword");// deprecated : metroMap에서는 지하철역이름으로 검색하지 않는다.
 		String pageNo = req.getParameter("pageNo");
 		
+		UserVO loginUser =  (UserVO)req.getSession().getAttribute("loginUser");
+		JSONObject jObj = new JSONObject();
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("keyword", keyword); // 지하철역명으로 검색
+		map.put("metroId", metroId); // 지하철역 id로 직접 검색
+		
+		if (loginUser != null) {
+			map.put("userSeq", loginUser.getUserSeq()); // 로그인 한 경우 사용자의 해당역사내 정복 음식점 restSeq를 가져온다.			
+		}
+		
 		System.out.println("/"+keyword+" &"+pageNo+" /");
 		int totalRest = 0; 			//총 음식점 건수
 		int totalPage = 0;			// 전체 페이지수
@@ -351,13 +368,18 @@ public class MapController {
 		int blockSize = 5; 		// 페이지바에 표시될 pageNo의 개수
 		
 
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("keyword", keyword); // 지하철역명으로 검색
-		map.put("metroId", metroId); // 지하철역 id로 직접 검색
 		
 		// 페이징 작업 (총 게시물 수, 총 페이지수)
 		// 먼저 총 음식점 수를 구하기
 		totalRest = service.getTotalCount(map);
+		
+		// 로그인 한 경우 사용자의 해당역사내 정복 음식점 restSeq를 가져온다.
+		if (loginUser != null) {
+			List<String> userRestList= service.getUserRest(map);
+			jObj.put("userPlaces", userRestList);
+			System.out.println(">>>>>>>>>>>>>>>>>>> userRestList = "+userRestList); 
+			
+		}
 		
 		// 페이지바 작업 시작!
 		totalPage = (int)Math.ceil( (double) totalRest/sizePerPage );
@@ -481,7 +503,7 @@ public class MapController {
 		pageBar += ""
 				+ "</ul>";
 		
-		JSONObject jObj = new JSONObject();
+		// JSONObject 에 담
 		jObj.put("places", list);
 		//jObj.put("tagList", tagList);
 		jObj.put("pageBar", pageBar);

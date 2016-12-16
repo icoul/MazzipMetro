@@ -2,26 +2,16 @@
     pageEncoding="UTF-8"%>
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../library.jsp" />
-<jsp:include page="../top.jsp" />   
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>음식점 상세 페이지</title>
-
-  <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>  
-  <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/BootStrapStudy/css/bootstrap.min.css">
-  <script src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script>
-
- 
- 
+<jsp:include page="../top.jsp" />
  <script type="text/javascript">
  $(document).ready(function(){
 		//alert("${restSeq}");
 	 getReviewList();
 				
 	});
+
  $(function () {
+
      
      $('#container').highcharts({
          chart: {
@@ -61,7 +51,7 @@
              data: [
                  
                  <c:forEach var="map" items="${agelineChartList}" varStatus="status">
-                       ['${map.ageline}대',parseInt(${map.percent})],
+                       ['${map.ageLine}대',parseInt(${map.percent})],
                   </c:forEach>
                  
                  {
@@ -74,8 +64,10 @@
              ]
          }]
      });
- }); 
+ }); // end of $(function () {}
+
 $(function () {
+
     
     /* var dataArr = new Array(); //자바스크립트에서 배열을 선언하는 것
     <c:forEach var="rcd" items="${list}">
@@ -125,23 +117,23 @@ $(function () {
                 <c:if test="${status.count < genderChartList.size()}">
                 {
                      name: '${map.gender}',
-                     y: Number(${map.percent})
+                     y: Number('${map.percent}')
                      <c:if test="${status.count == genderChartList.size() - 1}">
                      ,
                      sliced: true,
                      selected: true
                      </c:if>
                  }
-                <c:if test="${status.count < genderChartList.size()-1}">
-                   ,
-                </c:if>               
+	                <c:if test="${status.count < genderChartList.size()-1}">
+	                   ,
+	                </c:if>               
                 </c:if>
              </c:forEach>
              
              ]
          }]
      });
- });
+ }); // end of $(function () {}
  
  function getReviewList(){
 	 
@@ -167,30 +159,39 @@ $(function () {
 	
  }
  </script>
-</head>
-<body>
-	
-	
-<div class="container">
- <div>
- 	 <span style="font-weight:bold; font-size:20px; ">${restvo.restname }</span>
- </div>
- 
-  <table class="table table-condensed">
-      <tr>
-        <th>주소</th>
-        <th>${restvo.restaddr}</th>
-      </tr>
-      <tr>
-        <th>전화번호</th>
-        <td>${restvo.restphone}</td>
-      </tr>
-      <tr></tr>
-  </table>
-  
 
+
+<div id="restDiv" style="margin: 30px; padding: 10px;">	
+	<!-- 음식점 이름 -->
+	 <div style="padding: 30px; width: 100%;">
+	 	 <span style="font-weight:bold; font-size:30px; ">${restvo.restname }</span>
+	 </div>
+	 
+	 <!-- 음식점 메인 이미지 -->
+	 <div id="restMainImge" style="width: 50%;float: left; margin-bottom: 30px;" align="center">
+	 	<img src="<%=request.getContextPath()%>/files/${restvo.restImg}" width="500px;" >
+	 </div>
+	 
+	 <!-- 음식점 info -->
+	 <div id="restInfo" style="width: 50%; float: left;">
+	 <div style="float: right;">
+	 	<button type="button"  onclick="addWantToGo(${restvo.restseq});" class="btnLogin">가고싶다</button>
+	 </div>
+	  <table class="table table-condensed" style="margin-top: 50px;">
+	      <tr>
+	        <th>주소</th>
+	        <th>${restvo.restaddr}</th>
+	      </tr>
+	      <tr>
+	        <th>전화번호</th>
+	        <td>${restvo.restphone}</td>
+	      </tr>
+	  </table>
+	  </div>
+</div>
+<br/> <br/> 
 <!-- 음식점 지도 및 로드뷰 표시, 출발지 입력 -->
-<div id="mapContainer" style="border:solid 1px gray;padding: 10px;">
+<div id="mapContainer" style="border:solid 1px gray;padding: 10px; clear: both; width: 85%;margin: auto;" >
 	<div id="roadFinder">
 		<form action="" name="roadFinderFrm">
 			출발지를 입력하세요 : <input  type="text" name="startPoint" id="startPoint"/>
@@ -202,8 +203,8 @@ $(function () {
 	<div id="roadview" style="width:100%;height:300px"></div> <!-- 로드뷰를 표시할 div 입니다 -->
 </div>
 
- <div id="container" style="width: 210px; height: 300px;  "></div>
- <div id="container2" style="width: 210px; height: 300px;  "></div>
+ <div id="container" style="width: 450px; height: 300px; left: 100px; "></div>
+ <div id="container2" style="width: 450px; height: 300px; left: 100px; "></div>
 
 	<%-- <h2>${restvo.restname}의 리뷰(${reviewList.size() })</h2> --%>
 	
@@ -212,9 +213,7 @@ $(function () {
 	<input type = "hidden" id = "StartRno" value = "1" />
 	<input type = "hidden" id = "EndRno" value = "5" />
 	
-	
 
-</div>
 <script>
 function goNavigator(){
 	var endPoint = $("#startPoint").val().trim();
@@ -285,10 +284,5 @@ daum.maps.event.addListener(rv, 'init', function() {
 });
 </script>
 
-
-</body>
-</html>
-
  <jsp:include page="../footer.jsp" />
 
-<%--werwerwierjweirjwirj --%>

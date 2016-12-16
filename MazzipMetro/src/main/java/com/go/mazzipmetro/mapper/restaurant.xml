@@ -78,19 +78,27 @@
 		 <result column="restname"	  	    	property="restname" 			    javaType="String" />
 		 <result column="userseq"	  	        property="userseq" 			    	javaType="String" />
 		 <result column="gradeseq"	  	    	property="gradeseq" 			    javaType="String" />
-		 <result column="restaddr"	  	        property="restaddr" 			    	javaType="String" />
-		 <result column="restnewaddr"	  	property="restnewaddr" 			javaType="String" />
-		 <result column="restphone"	  	    property="restphone" 			    javaType="String" />
+		 <result column="restaddr"	  	        property="restaddr" 			    javaType="String" />
+		 <result column="restnewaddr"	  		property="restnewaddr" 				javaType="String" />
+		 <result column="restphone"	  	   	 	property="restphone" 			    javaType="String" />
 		 <result column="restlatitude"	  	    property="restlatitude" 			javaType="String" />
-		 <result column="restlongitude"	  	property="restlongitude" 			javaType="String" />
+		 <result column="restlongitude"	  		property="restlongitude" 			javaType="String" />
 		 <result column="restzindex"	  	    property="restzindex" 			    javaType="String" />
 		 <result column="metroid"	  	        property="metroid" 			    	javaType="String" />
-		 <result column="dongid"	  	    		property="dongid" 			    	javaType="String" />
-		 <result column="restregdate"	  	    property="restregdate" 			javaType="String" />
+		 <result column="dongid"	  	    	property="dongid" 			    	javaType="String" />
+		 <result column="restregdate"	  	    property="restregdate" 				javaType="String" />
+		 <result column="restbgtag"	  	    	property="restbgtag" 				javaType="String" />
+		 <result column="restmdtag"	  	    	property="restmdtag" 				javaType="String" />
+		 <result column="restimg"	  	    	property="restimg" 					javaType="String" />
+		 <result column="shortaddr"	  	    	property="shortaddr" 				javaType="String" />
+
+		 <!-- 동현 추가 -->
+		 <result column="restimg"	  	    property="restImg" 			javaType="String" />
 	</resultMap>
 
 	<select id="getRestaurant" parameterType="String" resultMap="dataresultmap1">
-		select restseq, restname, userseq, gradeseq, restaddr, restnewaddr, restphone, restlatitude, restlongitude, restzindex, metroid, dongid, to_char(restregdate, 'yyyy-mm-dd') as restregdate 
+		select restseq, restname, userseq, gradeseq, restaddr, substr(restaddr, 4, 7) as shortaddr, restnewaddr, restphone, restlatitude, restlongitude, 
+			   restzindex, metroid, dongid, to_char(restregdate, 'yyyy-mm-dd') as restregdate, restbgtag, restmdtag, restimg 
 		from TBL_RESTAURANT
 		where restseq = #{restseq} and reststatus = 0
 	</select>

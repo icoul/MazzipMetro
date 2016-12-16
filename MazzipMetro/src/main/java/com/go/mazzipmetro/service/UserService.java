@@ -463,6 +463,12 @@ public class UserService implements IService {
 		
 		return resultMap;
 	}
+
+
+	// 사용자가 추천 받은 맛집이 있는지 확인해서, 있다면, restSeq를 반환한다.
+	public String haveMazzipRecom(String userSeq) {
+		return dao.haveMazzipRecom(userSeq);
+	}
 	
 	////////////////////////////////////////////////////////은석18 //////////////////////////////////////////////////////////////
 }

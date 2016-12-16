@@ -52,7 +52,7 @@
         		
         		searchByMetro(1, $(this).attr("id"));
         		
-        		var title = "<h1 style='font-size:25px;'>"+$(this).attr('alt')+" 맛집리스트 </h1>";
+        		var title = "<h2 style='font-size:25px;'><span style='color:lime;'>\""+$(this).attr('alt')+"\"</span>  맛집리스트 </h2>";
         		 $("#title_metroName").html(title);
         	});
         	
@@ -61,7 +61,7 @@
    		 	var areaIdArr = $("[name=metroMapArea]");
    		 	areaIdArr.each(function(){
    		 		if(${metroId} == $(this).attr('id')){
-   		 			var title = "<h1 style='font-size:25px;'> "+$(this).attr('alt')+"맛집리스트 </h1>";
+   		 			var title = "<h2 style='font-size:25px;'><span style='color:lime;'>\""+$(this).attr('alt')+"\"</span>  맛집리스트 </h2>";
    	   		 		$("#title_metroName").html(title);		
    		 		}
    		 	});
@@ -384,7 +384,29 @@
 
 <br/> 
 <div id="title_metroName" style="width:100%; padding-left: 50px; clear: both;"></div>
+<hr/> 
+<!-- 사용자 마커 안내 -->
+<div style="width:100%; padding-left: 50px;">
+<table >
+	<tr>
+		<td>
+		<div style="width: 36px; height:45px; background-image: url('<%=request.getContextPath()%>/resources/images/img_marker_user.png'); background-position: initial;">
+		</div>
+		</td>
+		<td>사용자가 정복한 맛집</td>
+		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td>
+		<div style="width: 36px; height:45px; background-image: url('http://i1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png'); background-position: left top;">
+		</div>
+		</td>
+		<td>사용자가 정복해야할  맛집</td>
+	</tr>
+</table>
+</div>
+
 <br/> 
+
+
 <!-- 지도 섹션 -->
 <div class="map_wrap" >
     <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
@@ -421,10 +443,12 @@ function searchByMetro(reqPage, metroId){
 			
 			// 정상적으로 검색이 완료됐으면
 	        // 검색 목록과 마커를 표출합니다
-	        displayPlaces(data.places, data.tagList);
+	        displayPlaces(data.places, data.tagList, data.userPlaces);
 
 	        // 페이지 번호를 표출합니다
 	        $("#pagination").html(data.pageBar);
+	        
+	        //alert(data.userPlaces);
 			
 		}, //end of success: function(data)
 		error: function(request, status, error){
@@ -454,7 +478,7 @@ var ps = new daum.maps.services.Places();
 var infowindow = new daum.maps.InfoWindow({zIndex:1});
 
 // 검색 결과 목록과 마커를 표출하는 함수입니다
-function displayPlaces(places, tags) {
+function displayPlaces(places, tags, userPlaces) {
 
     var listEl = document.getElementById('placesList'), 
     menuEl = document.getElementById('menu_wrap'),
@@ -472,8 +496,22 @@ function displayPlaces(places, tags) {
 
         // 마커를 생성하고 지도에 표시합니다
         var placePosition = new daum.maps.LatLng(places[i].restLatitude, places[i].restLongitude),
-            marker = addMarker(placePosition, i), 
-            itemEl = getListItem(i, places[i], marker); // 검색 결과 항목 Element를 생성합니다
+            itemEl = getListItem(i, places[i], marker), // 검색 결과 항목 Element를 생성합니다
+        	marker;
+        
+        var userConquest = false;
+        
+        for (var j = 0; j< userPlaces.length; j++) {
+			if (places[i].restSeq == userPlaces[j] ) {
+				userConquest = true;
+			}
+		}
+        
+        if (userConquest) {
+        	marker = addUserMarker(placePosition, i);
+		} else {
+            marker = addMarker(placePosition, i);
+		}
 
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
         // LatLngBounds 객체에 좌표를 추가합니다
@@ -543,29 +581,6 @@ function getListItem(index, places) {
     if (places.restMdTag) {
     	itemStr += '<span style="color:orange; display: inline; font-size: 12px;">'+places.restMdTag+'</span>';
     }
-   
-    //태그 클릭시 해당역주변, 분류되면 좋겠네~~!!            
-    /* if (tags.bgCat) {
-    	for (var i = 0; i < tags.bgCat.length; i++) {
-    		if(i != 0 && i <= (tags.bgCat.length-1)){
-    			itemStr += ', ';
-    		}
-    		itemStr += '<span style="color:blue; display: inline;">'+tags.bgCat[i]+'</span>';
-    	}
-	}
-    
-    if(tags.mdCat){
-    	for (var i = 0; i < tags.mdCat.length; i++) {
-    		 if( i == 0 ){
-     			itemStr += '/  ';
-     		}else if(i != 0 && i <= (tags.mdCat.length-1)){
-    			itemStr += ', ';
-    		}
-    			
-    		itemStr += '<span style="color:orange; display: inline;">'+tags.mdCat[i]+'</span>';
-    		
-		}
-    } */
     
     if (places.restNewAddr) {
         itemStr += '    <span>' + places.restNewAddr + '</span>' +
@@ -587,6 +602,28 @@ function getListItem(index, places) {
 // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 function addMarker(position, idx, title) {
     var imageSrc = 'http://i1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        imageSize = new daum.maps.Size(36, 37),  // 마커 이미지의 크기
+        imgOptions =  {
+            spriteSize : new daum.maps.Size(36, 691), // 스프라이트 이미지의 크기
+            spriteOrigin : new daum.maps.Point(0, (idx*46)+10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+            offset: new daum.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+        },
+        markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, imgOptions),
+            marker = new daum.maps.Marker({
+            position: position, // 마커의 위치
+            image: markerImage 
+        });
+
+    marker.setMap(map); // 지도 위에 마커를 표출합니다
+    markers.push(marker);  // 배열에 생성된 마커를 추가합니다
+
+    return marker;
+}
+
+//사용자 마커를 생성하고 지도 위에 사용자 마커를 표시하는 함수입니다
+function addUserMarker(position, idx, title) {
+	//alert('addUserMarker');
+    var imageSrc = '<%=request.getContextPath()%>/resources/images/img_marker_user.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
         imageSize = new daum.maps.Size(36, 37),  // 마커 이미지의 크기
         imgOptions =  {
             spriteSize : new daum.maps.Size(36, 691), // 스프라이트 이미지의 크기
@@ -629,14 +666,5 @@ function removeAllChildNods(el) {
     }
 }
 </script>
-
-
-
-
-
-
-
-
-
 
 <jsp:include page="footer.jsp" />
