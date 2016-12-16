@@ -94,7 +94,6 @@ public class BossController {
 		else if (result > 0) {
 			msg ="충전되셨습니다.";
 			loc ="javascript:history.back();";
-			//loginUser = (UserVO)ses.getAttribute("loginUser");
 			loginUser = userService.getLoginUser(loginUser.getUserEmail());
 			loginUser.setUserPoint(loginUser.getUserPoint());
 			ses.setAttribute("loginUser", loginUser);
@@ -106,7 +105,7 @@ public class BossController {
 		return "/boss/bossCoinResiEnd";
 	}
 	
-	//파워배너 결제 
+	// 컨텐츠 결제 
 	@RequestMapping(value="/bossBannBuy.eat", method={RequestMethod.POST})
 	public String bossBannBuy(HttpServletRequest req, HttpSession ses) throws Throwable{
 		UserVO loginUser = (UserVO)ses.getAttribute("loginUser");
@@ -180,8 +179,6 @@ public class BossController {
 			msg ="결제 되셨습니다.";
 			loc ="javascript:location.href='bossCoinResi.eat';";
 			
-			//ses = req.getSession();
-			//loginUser = (UserVO)ses.getAttribute("loginUser");
 			loginUser = userService.getLoginUser(loginUser.getUserEmail());
 			loginUser.setUserPoint(loginUser.getUserPoint());
 			ses.setAttribute("loginUser", loginUser);
@@ -195,7 +192,6 @@ public class BossController {
 		return "boss/bossContentBuy";
 		
 	}//end of bossBannBuy(HttpServletRequest req) throws Throwable-------------------
-	
 	
 	
 	

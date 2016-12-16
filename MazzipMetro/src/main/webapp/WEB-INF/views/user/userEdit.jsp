@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:include page="../top.jsp" />
+<jsp:include page="../library.jsp" />
 <!DOCTYPE html>
 
 <html>
@@ -180,11 +180,7 @@
 </head>
 <body>
 
-<div class="subleftCon">
 		<h2>${sessionScope.loginUser.userName}님의<br> 정보수정</h2>
-</div>
-<div class="subrightCon">
-<jsp:include page="../userMyPage_Menubar.jsp" />
 <form name="contact_form" id="contact_form" class="well form-horizontal" action="<%= request.getContextPath() %>/userEditEnd.eat" method="post" enctype="multipart/form-data" style="background:none;">
 		<fieldset>
 		

@@ -26,7 +26,7 @@
 	        <a class="dropdown-toggle" data-toggle="dropdown" href="#">리뷰
 	        <span class="caret"></span></a>
 	        <ul class="dropdown-menu">
-	          <li><a href="<%= request.getContextPath() %>/myReviewList.eat">작성리뷰목록</a></li>
+	          <li id="myReviewList"><a href="#">작성리뷰목록</a></li>
 	          <li><a href="#">새 댓글</a></li>
 	        </ul>
 	      </li>
@@ -38,10 +38,10 @@
 	          <li><a href="#">마일리지현황</a></li>
 	          <li><a href="#">쿠폰현황</a></li>
 	          <li><a href="#">사용로그</a></li> 
-	          <li><a href="<%= request.getContextPath() %>/userEdit.eat">개인정보수정 </a></li> 
+	          <li id="userEdit"><a href="#">개인정보수정 </a></li> 
 	          <li id="userAlias"><a href="#">칭호관리</a></li>
 	          <li id="userRandomBox"><a href="#">랜덤박스</a></li>
-	          <li><a href="#">회원탈퇴</a></li>  
+	          <li><a href="<%= request.getContextPath() %>/secession.eat">회원탈퇴</a></li>  
 	        </ul>
 	      </li>
 	      <li class="dropdown">
