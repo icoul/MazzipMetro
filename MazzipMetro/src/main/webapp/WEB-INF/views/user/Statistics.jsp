@@ -4,7 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-
 <style type="text/css">
 	table  th {background: #FAFAFA; text-align:center;}
 	table  td {text-align:center;}
@@ -49,19 +48,17 @@ $(function () {
  						{
  							name: '${val.GENDER}',
  							y: Number(${val.PERCENT})
- 							<c:if test="${status.count == genderList.size() - 1}">
+ 							<c:if test="${status.count == genderList.size()}">
  								,
  								sliced: true,
  				                selected: true
  							</c:if>
  						} 
- 							<c:if test="${status.count < genderList.size() - 1}">
+ 							<c:if test="${status.count < genderList.size()}">
  								,
  							</c:if>
              		</c:if>
                  </c:forEach>
-             
-             
              ]
          }]
      });

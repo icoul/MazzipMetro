@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../top.jsp" />
 <jsp:include page="../library.jsp" />
+
 <style type="text/css">
 * { padding:0; margin:0;}
 #colName {height:23px; font-size:13px;}
@@ -38,11 +39,11 @@
 	<jsp:include page="../userMyPage_Menubar.jsp" />
 		<table class="tblRestList">
 		<tr>
-			<th style="width: 80px;">가게명</th>
-			<th style="width: 70px;">업장대표이미지</th>
-			<th style="width: 70px;">지번주소</th>
-			<th style="width: 70px;">소속지하철</th>
-			<th style="width: 70px;" >업장등록일자</th>
+			<th style="width: 20%;">가게명</th>
+			<th style="width: 20%;">업장대표이미지</th>
+			<th style="width: 20%;">지번주소</th>
+			<th style="width: 20%;">소속지하철</th>
+			<th style="width: 20%;" >업장등록일자</th>
 		</tr>
 		
 		<c:forEach var="vo" items="${restList}" varStatus="status"> 

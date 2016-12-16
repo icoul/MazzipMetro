@@ -346,7 +346,6 @@ $('div.setup-panel div a.btn-primary').trigger('click');
 		<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
 		<input type="password" class="form-control input-lg requiredCheck" placeholder="최소 : 8글자이상 / 영문 및 특수문자를 포함하여 입력해주세요" name="userPw" id="userPw">
 		<span class="error" align="right">비밀번호를 입력해주세요</span>
-		<span class="pwError" align="right">최소 : 8글자이상 / 영문 및 특수문자를 포함하여 입력해주세요</span>
 		</div>
 		<a class="show-password" href="">비밀번호 보기</a>
 		<span class="strength"></span>
