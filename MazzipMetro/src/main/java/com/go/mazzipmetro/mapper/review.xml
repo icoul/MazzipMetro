@@ -247,9 +247,14 @@
 		select dongId from tbl_dong where guId = #{guId}
 	</select>
 	
+	<!-- 동칭호의 aliasNum을 구한다.(존재하는지)-->
+	<select id="checkDongAliasNum" parameterType="java.util.HashMap" resultType="int">
+		select count(*) from tbl_user_alias where userSeq = #{userSeq} and aliasId = #{dongId}
+	</select>
+	
 	<!-- 동칭호의 aliasNum을 구한다. -->
 	<select id="getDongAliasNum" parameterType="java.util.HashMap" resultType="int">
-		select aliasNum from tbl_user_alias where userSeq = #{userSeq} and aliasId = #{aliasId}
+		select aliasNum from tbl_user_alias where userSeq = #{userSeq} and aliasId = #{dongId}
 	</select>
 	
 	<!-- 테마 넣기 -->
@@ -293,7 +298,7 @@
 		)V
 		where rno = 1
 	</select>
-	
+	<!-- tbl_reviewVisitor에 넣기 -->
 	<insert id="insertVisitor" parameterType="java.util.HashMap">
 		insert into tbl_reviewVisitor(reviewSeq, Gender, Birthday)
 		values(#{reviewSeq}, #{UserGender}, #{UserBirthday})

@@ -47,6 +47,7 @@ public class UserController {
 		return "user/userRegister_Agree";
 	}
 	
+//	이메일찾기 (구)아이디찾기
 	@RequestMapping(value="/emailFind.eat")
 	public String emailFind(HttpServletRequest req){
 		String method = req.getMethod();
@@ -55,15 +56,12 @@ public class UserController {
 			String userName = req.getParameter("name");
 			String userPhone = req.getParameter("mobile");
 			
-			System.out.println("#####" + userName);
-			
 			HashMap<String, String> map = new HashMap<>();
 			
 			map.put("userName", userName);
 			map.put("userPhone", userPhone);
 			
 			String userEmail = service.getUserEmail(map);
-			System.out.println(">>>>> 확인용 userid : " + userEmail); 
 			
 			req.setAttribute("userid", userEmail);
 			req.setAttribute("name", userName);
@@ -74,6 +72,7 @@ public class UserController {
 		
 	}
 	
+//	비밀번호찾기
 	@RequestMapping(value="/pwdFind.eat")
 	public String pwdFind(HttpServletRequest req){
 		String method = req.getMethod();
@@ -145,6 +144,7 @@ public class UserController {
 		return "user/pwdFind";
 	}
 	
+//	새로운 비밀번호 수정
 	@RequestMapping(value="/pwdConfirm.eat")
 	public String pwdConfirm(HttpServletRequest req){
 		String method = req.getMethod();
@@ -178,11 +178,11 @@ public class UserController {
 	}
 	
 //	회원가입 중 이메일 중복체크
-	@RequestMapping(value="/emailDuplicatecheck.eat", method={RequestMethod.POST})
+	@RequestMapping(value="/emailDuplicateCheck.eat", method={RequestMethod.GET})
 	public String emailDuplicatecheck(HttpServletRequest req){
 		String userEmail =  req.getParameter("userEmail");
 		System.out.println(userEmail);
-		int result = service.emailDuplicatecheck(userEmail);
+		int result = service.emailDuplicateCheck(userEmail);
 		
 		req.setAttribute("result", result);
 		System.out.println(userEmail);
@@ -512,29 +512,32 @@ public class UserController {
 
 //	로그인 시 개인회원 마이페이지
 	@RequestMapping(value="/userMyPage.eat", method={RequestMethod.GET})
-	public String userMyPage(UserVO vo, HttpServletRequest req, HttpServletResponse res, HttpSession session){
+	public String login_userMyPage(HttpServletRequest req, HttpServletResponse res, HttpSession session){
 		
 		UserVO loginUser =  (UserVO)session.getAttribute("loginUser");
 		String userSeq = loginUser.getUserSeq();
-		
+		int coupon = service.userCoupon(userSeq);
 		int userPoint = service.userPoint(userSeq);
 		
 		if(loginUser.getUserSort().equals("1")) {
 			int restCount = service.restCount(userSeq);
 			int effectContent = service.userContent(userSeq);
-			int coupon = service.userCoupon(userSeq);
+			
 			
 			req.setAttribute("restCount", restCount);
-			req.setAttribute("coupon", coupon);
+			
 			req.setAttribute("effectContent", effectContent);
 		} else if (loginUser.getUserSort().equals("0")) {
 			int reviewCount = service.userReviewCount(userSeq);
 			int qnaCount = service.userQnaCount(userSeq);
 			
+			
+			
 			req.setAttribute("reviewCount", reviewCount);
 			req.setAttribute("qnaCount", qnaCount);
 		}
 		
+		req.setAttribute("coupon", coupon);
 		req.setAttribute("userPoint", userPoint);
 		
 		return "user/userMyPage";

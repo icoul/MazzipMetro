@@ -211,16 +211,19 @@ public class ReviewService implements IService{
 							dongMap.put("dongId", dongId);
 							
 							// 동칭호의 aliasNum을 구한다.
-							// 해당 칭호가 없다면 null 이 대입되고, 에러가 날까?? 
-							int dongAliasNum = dao.getDongAliasNum(dongMap);
-							System.out.println(">>>>>>>>>>>>>>>>>"+dongAliasNum); 
-							
-							// 기준이 될 숫자를 선언한다. 숙련자는 5, 마스터는 10이다.
-							int barNum = (expert_dongUpdateFlag)?5:10;
-							
-							// 모든 동의 aliasNum 이 barNum 이상인 경우만 리스트에 담는다.
-							if (dongAliasNum >= barNum) {
-								dongAliasNumList.add(dongAliasNum);
+							// 해당 칭호가 없다면 null 이 대입되고, nullPointer 에러가 난다. 
+							int dongAliasNum = 0;
+							if (dao.checkDongAliasNum(dongMap) > 0) {
+								dongAliasNum = dao.getDongAliasNum(dongMap);								
+								System.out.println(">>>>>>>>>>>>>>>>>"+dongAliasNum); 
+								
+								// 기준이 될 숫자를 선언한다. 숙련자는 5, 마스터는 10이다.
+								int barNum = (expert_dongUpdateFlag)?5:10;
+								
+								// 모든 동의 aliasNum 이 barNum 이상인 경우만 리스트에 담는다.
+								if (dongAliasNum >= barNum) {
+									dongAliasNumList.add(dongAliasNum);
+								}
 							}
 						}
 						

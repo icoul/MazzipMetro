@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="com.go.mazzipmetro.vo.UserVO"%> 
 <%@ page import="java.net.URLDecoder"%>
-
+<jsp:include page="library.jsp" /> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -137,54 +138,54 @@ function getLoginUserInfo(){
   		</c:if>
   		
   		(function($){
-  		// 자동 완성 keyup 이벤트
-  		 $("#keyword").keyup(function(){
-     		
- 			$.ajax({
- 				url:"<%=request.getContextPath()%>/autoComplete.eat",
- 				type :"GET",
- 				data: "srchType=all&keyword="+$("#keyword").val(),
- 				dataType:"json",
- 				success: function(data){
- 					//alert(data.autoComSource);
- 					
- 					$.widget( "custom.catcomplete", $.ui.autocomplete, {
- 						      _create: function() {
- 						        this._super();
- 						        this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
- 						      },
- 						      _renderMenu: function( ul, items ) {
- 						        var that = this,
- 						          currentCategory = "";
- 						        $.each( items, function( index, item ) {
- 						          var li;
- 						          if ( item.category != currentCategory ) {
- 						            ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
- 						            currentCategory = item.category;
- 						          }
- 						          li = that._renderItemData( ul, item );
- 						          if ( item.category ) {
- 						            li.attr( "aria-label", item.category + " : " + item.label );
- 						          }
- 						        });// end of  $.each()
- 						      }
- 						    });// end of $.widget( "custom.catcomplete", $.ui.autocomplete, {})
- 						
- 						$("#keyword").catcomplete({
- 							delay : 0,
- 							minLength: 0,
- 							source : data.cat_autoComSource
- 						})						 
- 					
- 					
- 				}, //end of success: function(data)
- 				error: function(request, status, error){
- 					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
- 				} // end of error: function(request,status,error)
- 			}); //end of $.ajax()
- 			
- 			
- 		});// end of $("#keyword").keyup
+	 		 // 자동 완성 keyup 이벤트
+	 		 $("#keyword").keyup(function(){
+	    		
+				$.ajax({
+					url:"<%=request.getContextPath()%>/autoComplete.eat",
+					type :"GET",
+					data: "srchType=all&keyword="+$("#keyword").val(),
+					dataType:"json",
+					success: function(data){
+						//alert(data.autoComSource);
+						
+						$.widget( "custom.catcomplete", $.ui.autocomplete, {
+							      _create: function() {
+							        this._super();
+							        this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
+							      },
+							      _renderMenu: function( ul, items ) {
+							        var that = this,
+							          currentCategory = "";
+							        $.each( items, function( index, item ) {
+							          var li;
+							          if ( item.category != currentCategory ) {
+							            ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+							            currentCategory = item.category;
+							          }
+							          li = that._renderItemData( ul, item );
+							          if ( item.category ) {
+							            li.attr( "aria-label", item.category + " : " + item.label );
+							          }
+							        });// end of  $.each()
+							      }
+							    });// end of $.widget( "custom.catcomplete", $.ui.autocomplete, {})
+							
+							$("#keyword").catcomplete({
+								delay : 0,
+								minLength: 0,
+								source : data.cat_autoComSource
+							})						 
+						
+						
+					}, //end of success: function(data)
+					error: function(request, status, error){
+						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					} // end of error: function(request,status,error)
+				}); //end of $.ajax()
+				
+				
+			});// end of $("#keyword").keyup
  		
   		})(jQuery)	
   		
@@ -331,6 +332,20 @@ function getLoginUserInfo(){
 	   		 }
 	   		 return true;
 	   	}
+		
+	    function goSearch(){
+	    	   if($("#keyword").val().trim().length == 0){
+	    		   return;
+	    	   }
+	    	   
+	    	   searchFrm.action = "<%=request.getContextPath()%>/search.eat";
+	    	   searchFrm.submit();
+	       }
+	    
+	    function openWinFaq(src, width, height){
+			window.open(src,"팝업창이름(의미없음)", "width=" + width + ", height=" + height + ", left=100px, top=100px, menubar=no, status=no, scrollbars=no");
+		}
+	       
 </script>
 
 </head>
@@ -359,10 +374,10 @@ function getLoginUserInfo(){
 		<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
 			<div class="loginWrap">
 				<div class="loginInfo">
-					<span>${sessionScope.loginUser.userName} 님 환영합니다. </span>
-					현재 마일리지: <span style="color:gold; margin-right: 30px;">${sessionScope.loginUser.userPoint }</span>
+					<span>${sessionScope.loginUser.userName} 님 환영합니다. </span>                        
+					현재 마일리지: <span style="color:gold; margin-right: 30px;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userPoint }</fmt:formatNumber></span>
 					등급 : <span style="color: red;">${sessionScope.loginUser.gradeName }</span>
-					Exp: <span style="color: red;">${sessionScope.loginUser.userExp }</span>
+					Exp: <span style="color: red;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userExp }</fmt:formatNumber></span>
 				</div> 
 			</div>
 		</c:if>	

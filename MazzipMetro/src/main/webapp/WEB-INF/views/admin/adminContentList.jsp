@@ -52,8 +52,8 @@ function searchKeep(){
 	<%-- subleftCon --%>
 	<div class="subrightCon">
 		<div class="searchWrap">
-			<form name="searchFrm" action="<%= request.getContextPath() %>/adminConList.eat" method="get"> 
-				<a href="<%= request.getContextPath() %>/adminConList.eat" class="btnFafa">목록</a>
+			<form name="searchFrm" action="<%= request.getContextPath() %>/adminContentList.eat" method="get"> 
+				<a href="<%= request.getContextPath() %>/adminContentList.eat" class="btnFafa">목록</a>
 				<select name="colName" id="colName">
 					<option value="restName">상호명</option>
 					<option value="contentName">컨텐츠명</option>
