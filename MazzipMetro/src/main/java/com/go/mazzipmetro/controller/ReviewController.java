@@ -77,8 +77,9 @@ public class ReviewController {
 	@RequestMapping(value="/reviewAdd.eat", method={RequestMethod.GET} ) 
 	public String reviewAdd(HttpServletRequest req, HttpSession ses) {
 		String restSeq = req.getParameter("restSeq");
+		HashMap<String, String> rest= service.getRestaurant(restSeq);
 		
-		
+		req.setAttribute("rest", rest);
 		req.setAttribute("restSeq", restSeq);
 		return "/review/reviewAdd";  
 		
@@ -87,17 +88,22 @@ public class ReviewController {
 	@RequestMapping(value="/reviewAddEnd.eat", method={RequestMethod.POST})
 	public String addRestaurantInfoEnd(ThemeVO tvo, ReviewVO rvo, FileVO fvo, HttpServletRequest req, HttpSession session){
 		
-		
+		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
 		String[] reviewBgTagArr = req.getParameterValues("reviewBgTag");
 		String[] reviewMdTagArr = req.getParameterValues("reviewMdTag");
 		String[] themeArr = req.getParameterValues("theme");
-	
-		/*	String theme = "";
-		for(int i=0; i<themeArr.length; i++)
+		String restSeq = rvo.getRestSeq();
+		HashMap<String, String> visitor = new HashMap<String, String>();
+		
+		if(loginUser != null)
 		{
-			 theme = themeArr[i]; 
+			String UserGender = loginUser.getUserGender();
+			String UserBirthday = (loginUser.getUserBirthDay()).substring(2);
+			
+			visitor.put("UserGender", UserGender);
+			visitor.put("UserBirthday", UserBirthday);					
 		}
-		System.out.println("dddddddddddddddd"+theme);*/
+		
 		if(reviewBgTagArr!=null)
 		{
 			String reviewBgTag = RestaurantController.arrayToTag(reviewBgTagArr);
@@ -108,9 +114,6 @@ public class ReviewController {
 			String reviewMdTag = RestaurantController.arrayToTag(reviewMdTagArr);
 			rvo.setReviewMTag(reviewMdTag);
 		}
-		
-			
-		
 		
 		
 		// 이미지 파일 업로드 및 파일명 배열에 저장하기
@@ -136,7 +139,7 @@ public class ReviewController {
 		} // 완료
 				
 		// review insert작업 및 alias관련 작업을 trasactional 처리한다.
-		List<String> list = service.addReview(rvo, imageList, themeArr);
+		List<String> list = service.addReview(rvo, imageList, themeArr, visitor);
 		String freeScript = "";
 		int result = Integer.parseInt(list.get(list.size()-1));
 		
@@ -171,6 +174,11 @@ public class ReviewController {
 		}
 		
 		System.out.println(freeScript); 
+		
+		// 동현 추가_추천맛집 (wantToGoStatus = 2)인 경우 대비 세션의 restRecom값 삭제.
+		if (result > 0) {
+			req.getSession().removeAttribute("restRecom");
+		}
 		
 		/*req.setAttribute("result", result);
 		req.setAttribute("freeScript", freeScript);*/	

@@ -37,6 +37,12 @@ input[type=radio] {vertical-align:-2px;}
 
 <script type="text/javascript">
 
+$(document).ready(function(){
+	$("#restSeq4").click(function(){
+		var val = $("#restSeq4").val();
+		$("#recomRestSeq").val(val);
+	});
+});
 
 function goCoinBuy(userSeq){
 	//코인 결제하기 팝업창 띄우기
@@ -121,6 +127,7 @@ function goRecomBuy(userSeq,restSeq) {
 	for(var i=0; i<chkboxArr.length; i++) {
 		if(chkboxArr[i].checked == true) { //체크되었습니까.?
 			cnt++;
+			
 			//alert(cnt);
 		} else {//체크가 안된 것은 구매하기를 해주면 안된다.
 			  //서브밋 대상에서 제외시키면 된다.
@@ -187,14 +194,14 @@ function goRecomBuy(userSeq,restSeq) {
 					<p class="desc"><span style="font-size:12px;">※</span> 검색시 최상위에 따로 보여주는 컨텐츠 입니다.(50만 포인트)</p>
 					<input type="hidden" name="userSeq"  value="${sessionScope.loginUser.userSeq}" /> 
 					<input type="hidden" name="userPoint" value="${sessionScope.loginUser.userPoint}" /> 
-					<input type="hidden" name="linkRestSeq" id="linkRestSeq" value="" /> 				
+					<input type="text" name="linkRestSeq" id="linkRestSeq" value="" /> 				
 				</form>
 				<form name="rcomFrm" id="rcomFrm" method="post">
 					<b>추천광고</b> : <button class="btnPoint" type="button" name="recomCoin" onClick="goRecomBuy('${userSeq}','${restSeq}');">포인트 결제</button>
 					<p class="desc"><span style="font-size:12px;">※</span> 추천메뉴로 보여주는 컨텐츠입니다. (30만 포인트)</p>
 					<input type="hidden" name="userSeq"  value="${sessionScope.loginUser.userSeq}" /> 
 					<input type="hidden" name="userPoint" value="${sessionScope.loginUser.userPoint}" /> 
-					<input type="hidden" name="recomRestSeq"  id="recomRestSeq" value="" /> 	
+					<input type="text" name="recomRestSeq"  id="recomRestSeq" value="" /> 	
 				</form>
 			</li>
 		</ul>

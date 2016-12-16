@@ -283,6 +283,7 @@
 				editFrm.method="post";
 				editFrm.action="<%=request.getContextPath()%>/adminRestEditEnd.eat";
 				
+				//alert(delAdImgArr.length);
 				//alert(delAdImgArr[0]+", "+delAdImgArr[1]);
 				editFrm.submit();
 				

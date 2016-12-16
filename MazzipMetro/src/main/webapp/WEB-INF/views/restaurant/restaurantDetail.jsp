@@ -2,19 +2,7 @@
     pageEncoding="UTF-8"%>
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../library.jsp" />
-<jsp:include page="../top.jsp" />   
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>음식점 상세 페이지</title>
-
-  <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>  
-  <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/BootStrapStudy/css/bootstrap.min.css">
-  <script src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script>
-
- 
- 
+<jsp:include page="../top.jsp" />
  <script type="text/javascript">
  $(document).ready(function(){
 		//alert("${restSeq}");
@@ -23,6 +11,7 @@
 	});
 
  $(function () {
+
      
      $('#container').highcharts({
          chart: {
@@ -62,7 +51,7 @@
              data: [
                  
                  <c:forEach var="map" items="${agelineChartList}" varStatus="status">
-                       ['${map.ageline}대',parseInt(${map.percent})],
+                       ['${map.ageLine}대',parseInt(${map.percent})],
                   </c:forEach>
                  
                  {
@@ -75,10 +64,10 @@
              ]
          }]
      });
- }); 
-
+ }); // end of $(function () {}
 
 $(function () {
+
     
     /* var dataArr = new Array(); //자바스크립트에서 배열을 선언하는 것
     <c:forEach var="rcd" items="${list}">
@@ -128,23 +117,23 @@ $(function () {
                 <c:if test="${status.count < genderChartList.size()}">
                 {
                      name: '${map.gender}',
-                     y: Number(${map.percent})
+                     y: Number('${map.percent}')
                      <c:if test="${status.count == genderChartList.size() - 1}">
                      ,
                      sliced: true,
                      selected: true
                      </c:if>
                  }
-                <c:if test="${status.count < genderChartList.size()-1}">
-                   ,
-                </c:if>               
+	                <c:if test="${status.count < genderChartList.size()-1}">
+	                   ,
+	                </c:if>               
                 </c:if>
              </c:forEach>
              
              ]
          }]
      });
- });
+ }); // end of $(function () {}
  
  function getReviewList(){
 	 
@@ -170,30 +159,39 @@ $(function () {
 	
  }
  </script>
-</head>
-<body>
-	
-	
-<div class="container">
- <div>
- 	 <span style="font-weight:bold; font-size:20px; ">${restvo.restname }</span>
- </div>
- 
-  <table class="table table-condensed">
-      <tr>
-        <th>주소</th>
-        <th>${restvo.restaddr}</th>
-      </tr>
-      <tr>
-        <th>전화번호</th>
-        <td>${restvo.restphone}</td>
-      </tr>
-      <tr></tr>
-  </table>
-  
 
+
+<div id="restDiv" style="margin: 30px; padding: 10px;">	
+	<!-- 음식점 이름 -->
+	 <div style="padding: 30px; width: 100%;">
+	 	 <span style="font-weight:bold; font-size:30px; ">${restvo.restname }</span>
+	 </div>
+	 
+	 <!-- 음식점 메인 이미지 -->
+	 <div id="restMainImge" style="width: 50%;float: left; margin-bottom: 30px;" align="center">
+	 	<img src="<%=request.getContextPath()%>/files/${restvo.restImg}" width="500px;" >
+	 </div>
+	 
+	 <!-- 음식점 info -->
+	 <div id="restInfo" style="width: 50%; float: left;">
+	 <div style="float: right;">
+	 	<button type="button"  onclick="addWantToGo(${restvo.restseq});" class="btnLogin">가고싶다</button>
+	 </div>
+	  <table class="table table-condensed" style="margin-top: 50px;">
+	      <tr>
+	        <th>주소</th>
+	        <th>${restvo.restaddr}</th>
+	      </tr>
+	      <tr>
+	        <th>전화번호</th>
+	        <td>${restvo.restphone}</td>
+	      </tr>
+	  </table>
+	  </div>
+</div>
+<br/> <br/> 
 <!-- 음식점 지도 및 로드뷰 표시, 출발지 입력 -->
-<div id="mapContainer" style="border:solid 1px gray;padding: 10px;">
+<div id="mapContainer" style="border:solid 1px gray;padding: 10px; clear: both; width: 85%;margin: auto;" >
 	<div id="roadFinder">
 		<form action="" name="roadFinderFrm">
 			출발지를 입력하세요 : <input  type="text" name="startPoint" id="startPoint"/>
@@ -205,8 +203,8 @@ $(function () {
 	<div id="roadview" style="width:100%;height:300px"></div> <!-- 로드뷰를 표시할 div 입니다 -->
 </div>
 
- <div id="container" style="width: 210px; height: 300px;  "></div>
- <div id="container2" style="width: 210px; height: 300px;  "></div>
+ <div id="container" style="width: 450px; height: 300px; left: 100px; "></div>
+ <div id="container2" style="width: 450px; height: 300px; left: 100px; "></div>
 
 	<%-- <h2>${restvo.restname}의 리뷰(${reviewList.size() })</h2> --%>
 	
@@ -215,9 +213,7 @@ $(function () {
 	<input type = "hidden" id = "StartRno" value = "1" />
 	<input type = "hidden" id = "EndRno" value = "5" />
 	
-	
 
-</div>
 <script>
 function goNavigator(){
 	var endPoint = $("#startPoint").val().trim();
@@ -236,46 +232,35 @@ function goNavigator(){
 	
 	
 }
-
-
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapCenter = new daum.maps.LatLng('${restvo.restlatitude}' , '${restvo.restlongitude}'), // 지도의 중심 좌표
     mapOption = {
         center: mapCenter, // 지도의 중심 좌표
         level: 4 // 지도의 확대 레벨
     };
-
 // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
 var map = new daum.maps.Map(mapContainer, mapOption);
-
 var myPosition = new daum.maps.LatLng('${restvo.restlatitude}' , '${restvo.restlongitude}');
-
 // 지도에 올릴 마커를 생성합니다.
 var mMarker = new daum.maps.Marker({
     position: myPosition, // 지도의 중심좌표에 올립니다.
     map: map // 생성하면서 지도에 올립니다.
 });
-
 // 지도에 올릴 장소명 인포윈도우 입니다.
 var mLabel = new daum.maps.InfoWindow({
     position: myPosition, // 지도의 중심좌표에 올립니다.
     content: '<span  style="text-decoration: none; color: navy; font-size: 12px; padding-left :15px;">${restvo.restname}</span>' // 인포윈도우 크기 조정이 어렵다. 우측 공백이 마구 생긴다.
 });
 mLabel.open(map, mMarker); // 지도에 올리면서, 두번째 인자로 들어간 마커 위에 올라가도록 설정합니다.
-
 var rvContainer = document.getElementById('roadview'); // 로드뷰를 표시할 div
-
 var rv = new daum.maps.Roadview(rvContainer); // 로드뷰 객체 생성
 var rc = new daum.maps.RoadviewClient(); // 좌표를 통한 로드뷰의 panoid를 추출하기 위한 로드뷰 help객체 생성 
 var rvPosition = new daum.maps.LatLng(${restvo.restlatitude} ,${restvo.restlongitude});
-
 rc.getNearestPanoId(rvPosition, 50, function(panoid) {
     rv.setPanoId(panoid, rvPosition);//좌표에 근접한 panoId를 통해 로드뷰를 실행합니다.
 });
-
 // 로드뷰 초기화 이벤트
 daum.maps.event.addListener(rv, 'init', function() {
-
     // 로드뷰에 올릴 마커를 생성합니다.
     var rMarker = new daum.maps.Marker({
         position: myPosition,
@@ -283,7 +268,6 @@ daum.maps.event.addListener(rv, 'init', function() {
     });
     rMarker.setAltitude(2); //마커의 높이를 설정합니다. (단위는 m입니다.)
     rMarker.setRange(50); //마커가 보일 수 있는 범위를 설정합니다. (단위는 m입니다.)
-
     // 로드뷰에 올릴 장소명 인포윈도우를 생성합니다.
     /* var rLabel = new daum.maps.InfoWindow({
         content: '내가 일하는 곳'
@@ -300,10 +284,5 @@ daum.maps.event.addListener(rv, 'init', function() {
 });
 </script>
 
-
-</body>
-</html>
-
  <jsp:include page="../footer.jsp" />
 
-<%--werwerwierjweirjwirj --%>

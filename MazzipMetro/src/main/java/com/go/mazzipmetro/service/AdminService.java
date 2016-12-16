@@ -69,7 +69,7 @@ public class AdminService implements IService {
 		HashMap<String, String> map = new HashMap<String, String>();
 		
 		// 삭제할 소개 이미지가 존재하면, 삭제 실행!
-		if (delAdImgArr.length > 0) {
+		if (delAdImgArr != null) {
 			for (String adImg : delAdImgArr) {
 				map.put("restSeq", vo.getRestSeq());
 				map.put("adImg", adImg);
@@ -92,10 +92,13 @@ public class AdminService implements IService {
 		
 		cnt += dao.adminRestEdit(vo);
 		
-		System.out.println(">>>>>>>>>> cnt = "+cnt+", 데이터 실행 개수 = "+(delAdImgArr.length + adImgList.size()+1)); 
-		System.out.println(">>>>>>>>>> delAdImgArr.length="+delAdImgArr.length+", adImgList.size()= "+adImgList.size()); 
+		System.out.println(">>>>>>>>>> cnt = "+cnt+", 데이터 실행 개수 = "+((delAdImgArr == null)?0:delAdImgArr.length) + adImgList.size()+1); 
+		System.out.println(">>>>>>>>>> delAdImgArr.length="+((delAdImgArr == null)?0:delAdImgArr.length)+", adImgList.size()= "+adImgList.size()); 
+		
 		// cnt 총합과 작업할 데이터의 크기비교후 성공, 실패 여부를 리턴한다.
-		if(cnt == (delAdImgArr.length + adImgList.size()+1)){
+		
+		
+		if(cnt == ((delAdImgArr == null)?0:delAdImgArr.length) + adImgList.size()+1){
 			result = 1;
 		} else {
 			result = 0;

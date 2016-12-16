@@ -63,7 +63,7 @@ public class ReviewService implements IService{
 
 	// 리뷰 쓰기 및 칭호 업데이트
 		@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
-		public List<String> addReview(ReviewVO rvo, ArrayList<String> imageList, String[] themeArr) {
+		public List<String> addReview(ReviewVO rvo, ArrayList<String> imageList, String[] themeArr, HashMap<String, String> visitor) {
 			
 			HashMap<String, String> map = new HashMap<String, String>(); 
 			String restSeq = rvo.getRestSeq();
@@ -71,18 +71,26 @@ public class ReviewService implements IService{
 			int result = dao.addReview(rvo);
 			if(result == 1)
 			{
+				// 리뷰 시퀀스 얻어오기
 				String reviewSeq = dao.getReviewSeq(rvo);
 							
 				if(reviewSeq != null)
 				{
-					dao.addTheme(themeArr, reviewSeq, restSeq);
+					visitor.put("reviewSeq", reviewSeq);
+					// 방문자 테이블에 추가하기
+					dao.insetVisitor(visitor);
+					if(themeArr != null)
+					{
+						// 리뷰 시퀀스로 테마 넣기
+						dao.addTheme(themeArr, reviewSeq, restSeq);
+					}
 					map.put("reviewSeq", reviewSeq);
-					
 					for(int i =0; i<imageList.size(); i++)
 					{
 						System.out.println(imageList.get(i));
 						map.put("reviewImg", imageList.get(i));
 						
+						//이미지 넣기
 						result = dao.addReviewImg(map); 
 					}
 				}
@@ -203,16 +211,19 @@ public class ReviewService implements IService{
 							dongMap.put("dongId", dongId);
 							
 							// 동칭호의 aliasNum을 구한다.
-							// 해당 칭호가 없다면 null 이 대입되고, 에러가 날까?? 
-							int dongAliasNum = dao.getDongAliasNum(dongMap);
-							System.out.println(">>>>>>>>>>>>>>>>>"+dongAliasNum); 
-							
-							// 기준이 될 숫자를 선언한다. 숙련자는 5, 마스터는 10이다.
-							int barNum = (expert_dongUpdateFlag)?5:10;
-							
-							// 모든 동의 aliasNum 이 barNum 이상인 경우만 리스트에 담는다.
-							if (dongAliasNum >= barNum) {
-								dongAliasNumList.add(dongAliasNum);
+							// 해당 칭호가 없다면 null 이 대입되고, nullPointer 에러가 난다. 
+							int dongAliasNum = 0;
+							if (dao.checkDongAliasNum(dongMap) > 0) {
+								dongAliasNum = dao.getDongAliasNum(dongMap);								
+								System.out.println(">>>>>>>>>>>>>>>>>"+dongAliasNum); 
+								
+								// 기준이 될 숫자를 선언한다. 숙련자는 5, 마스터는 10이다.
+								int barNum = (expert_dongUpdateFlag)?5:10;
+								
+								// 모든 동의 aliasNum 이 barNum 이상인 경우만 리스트에 담는다.
+								if (dongAliasNum >= barNum) {
+									dongAliasNumList.add(dongAliasNum);
+								}
 							}
 						}
 						
@@ -246,77 +257,86 @@ public class ReviewService implements IService{
 				// 대분류 칭호 
 				String[] bgTagArr = rvo.getReviewBgTag();
 				
-				for (String bgTag : bgTagArr) {
-					map.put("aliasType", "restBgTag");
-					map.put("aliasId", bgTag);
-					map.remove("aliasName");
+				if (bgTagArr != null) {
 					
-					if (dao.isAliasExist(map)) {
-						UserAliasVO uavo = dao.getUserAlias(map);
+					for (String bgTag : bgTagArr) {
+						map.put("aliasType", "restBgTag");
+						map.put("aliasId", bgTag);
+						map.remove("aliasName");
 						
-						if (uavo.getAliasNum() == 4) {				
-							// aliasNum이 4인경우(숙련자로 레벨업)
-							map.put("aliasName", "숙련자");
+						if (dao.isAliasExist(map)) {
+							UserAliasVO uavo = dao.getUserAlias(map);
 							
-						} else if (uavo.getAliasNum() == 9) {
-							// aliasNum이 9인경우(마스터로 레벨업)
-							map.put("aliasName", "마스터");
+							if (uavo.getAliasNum() == 4) {				
+								// aliasNum이 4인경우(숙련자로 레벨업)
+								map.put("aliasName", "숙련자");
+								
+							} else if (uavo.getAliasNum() == 9) {
+								// aliasNum이 9인경우(마스터로 레벨업)
+								map.put("aliasName", "마스터");
+								
+							} 
+							// update
+							result += dao.userAliasUpdate(map);
 							
-						} 
-						// update
-						result += dao.userAliasUpdate(map);
-
-						// 업데이트 된 내용이 있을 경우에 msgList 에 담는다.
-						if(map.containsKey("aliasName")){
-							msgList.add(bgTag+" "+map.get("aliasName"));
+							// 업데이트 된 내용이 있을 경우에 msgList 에 담는다.
+							if(map.containsKey("aliasName")){
+								msgList.add(bgTag+" "+map.get("aliasName"));
+							}
+							
+						} else {
+							// 입문자칭호 부여
+							result += dao.userAliasInsert(map);
+							// insert 된 경우에 해당 alias Name을 담는다.
+							msgList.add(bgTag+" 입문자");
 						}
 						
-					} else {
-						// 입문자칭호 부여
-						result += dao.userAliasInsert(map);
-						// insert 된 경우에 해당 alias Name을 담는다.
-						msgList.add(bgTag+" 입문자");
-					}
-				
-				}// end of for (String bgTag : bgTagArr)
+					}// end of for (String bgTag : bgTagArr)
+				}
 				
 				// 중분류 칭호
 				String[] mdTagArr = rvo.getReviewMdTag();
-				for (String mdTag : mdTagArr) {
-					map.put("aliasType", "restMdTag");
-					map.put("aliasId", mdTag);
-					map.remove("aliasName");
+				
+				if (mdTagArr != null) {
 					
-					if (dao.isAliasExist(map)) {
-						UserAliasVO uavo = dao.getUserAlias(map);
+					for (String mdTag : mdTagArr) {
+						map.put("aliasType", "restMdTag");
+						map.put("aliasId", mdTag);
+						map.remove("aliasName");
 						
-						if (uavo.getAliasNum() == 4) {				
-							// aliasNum이 4인경우(숙련자로 레벨업)
-							map.put("aliasName", "숙련자");
+						if (dao.isAliasExist(map)) {
+							UserAliasVO uavo = dao.getUserAlias(map);
 							
-						} else if (uavo.getAliasNum() == 9) {
-							// aliasNum이 9인경우(마스터로 레벨업)
-							map.put("aliasName", "마스터");
+							if (uavo.getAliasNum() == 4) {				
+								// aliasNum이 4인경우(숙련자로 레벨업)
+								map.put("aliasName", "숙련자");
+								
+							} else if (uavo.getAliasNum() == 9) {
+								// aliasNum이 9인경우(마스터로 레벨업)
+								map.put("aliasName", "마스터");
+								
+							} 
+							// update
+							result += dao.userAliasUpdate(map);
 							
-						} 
-						// update
-						result += dao.userAliasUpdate(map);
-
-						// 업데이트 된 내용이 있을 경우에 msgList 에 담는다.
-						if(map.containsKey("aliasName")){
-							msgList.add(mdTag+" "+map.get("aliasName"));
+							// 업데이트 된 내용이 있을 경우에 msgList 에 담는다.
+							if(map.containsKey("aliasName")){
+								msgList.add(mdTag+" "+map.get("aliasName"));
+							}
+							
+						} else {
+							// 입문자칭호 부여
+							result += dao.userAliasInsert(map);
+							// insert 된 경우에 해당 alias Name을 담는다.
+							msgList.add(mdTag+" 입문자");
 						}
-						
-					} else {
-						// 입문자칭호 부여
-						result += dao.userAliasInsert(map);
-						// insert 된 경우에 해당 alias Name을 담는다.
-						msgList.add(mdTag+" 입문자");
-					}
-				} //end of  for (String mdTag : mdTagArr) 
+					} //end of  for (String mdTag : mdTagArr) 
+				}
 				
 				// 총 결과값의 합을 구해서 성공여부를 피드백한다.
-				if(result == (3+bgTagArr.length+mdTagArr.length)){
+				int totalNum = 3 + ((bgTagArr == null)?0:bgTagArr.length)+((mdTagArr == null)?0:mdTagArr.length);
+				
+				if(result == totalNum){
 					result = 1;// 업무 실행 성공!
 				} else {
 					result = 0;// 업무 실패!
@@ -395,5 +415,12 @@ public class ReviewService implements IService{
 		return bestReview;
 		
 	}
+	
+	// 리뷰쓰기 폼에 해당 업체의 정보를 담아주기 위한 데이터
+	public HashMap<String, String> getRestaurant(String restSeq) {
+		HashMap<String, String> getRest = dao.getRest(restSeq);
+		return getRest;
+	}
+
 
 }

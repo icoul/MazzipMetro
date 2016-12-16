@@ -660,12 +660,15 @@ public class UserController {
 				loc = "index.eat";
 			}
 			
-			/*
-			 	로그인 하지 않은 상태에서 장바구니 담기를 하면, 로그인메세지를 출력한다.
-			 	로그인 후에는 기존에 장바구니에 담고자 했던 제품의 상세페이지로 간다.
-			 	
-			 	제품의 상세페이지는 CartAddAction에서 세션에 "returnPage"로 저장해 두었다.
-			 */
+			// 로그인시 맛집추천을 받아다면, 곧장 리뷰쓰기 창을 띄운다.
+			String restSeq = service.haveMazzipRecom(loginUser.getUserSeq()) ;
+			
+			if(restSeq != null){
+				System.out.println(">>>>>>>>>>>>>>>>>> 추천받은 맛집 : "+ restSeq); 
+				req.getSession().setAttribute("restRecom", restSeq);
+			}
+			
+			
 			//session에 저장된 returnPage가 있다면, 그곳으로 이동한다.
 			if(ses.getAttribute("returnPage") != null){
 				String viewPage = (String)ses.getAttribute("returnPage"); 
@@ -1220,13 +1223,19 @@ public class UserController {
 		
 		HashMap<String,String> resultMap = service.grantCoupon(hashMap); //쿠폰테이블에 인서트 시키고, 출석테이블에 박스 갯수를 하나 감소시킨다.
 		
-		if(resultMap.get("result").equals("2")){
-			req.setAttribute("script", "alert(' "+ (boxType.equals("random") ? "랜덤박스": "프리미엄 랜덤박스") +" 지급 완료되었습니다.'); location.href='userMyPage.eat'; opener.location.reload(true);");
+		UserVO userVO = service.getLoginUser(loginUser.getUserEmail());
+		loginUser.setUserPoint(userVO.getUserPoint());
+		session.setAttribute("loginUser", loginUser);
+		
+		if(resultMap.get("result").equals("3")){
+			req.setAttribute("script", "alert(' "+ (boxType.equals("random") ? "랜덤박스에서": "프리미엄 랜덤박스에서") +" 쿠폰 지급이 완료되었습니다.'); location.href='userMyPage.eat'; opener.location.reload(true);");
 		}else{
 			req.setAttribute("script", "alert('" + resultMap.get("failReason") + "'); location.href='userMyPage.eat'; opener.location.reload(true);  ");
 		}
 		
 		return "/user/msgEnd";
 	}
+	
+	
 ////////////////////////////////////////////////////////은석7 //////////////////////////////////////////////////////////////
 }

@@ -278,7 +278,7 @@
 		where userStatus = 0 and userEmail = #{userEmail} 
 	</update>
 	
-	<!-- *************************************************은석20************************************************************ -->
+	<!-- *************************************************은석22************************************************************ -->
 	<!-- 1 -->
 	<insert id="insertAttend" parameterType="String">
 		insert into tbl_user_attend values(#{userSeq}, 1, 1, sysdate, default, default, default, default)
@@ -521,5 +521,27 @@
 			order by aliasSeq
 	</select>
 	
-	<!-- *************************************************은석20************************************************************ -->
+	<!-- 21 -->
+	<select id="getLoginUserByUserSeq" resultType="com.go.mazzipmetro.vo.UserVO">
+		select userSeq, a.gradeSeq, b.gradeName, userName, userEmail, userPw, userGender,
+		userBirthday, userPhone, userRegDate
+		,userProfile, userPoint, userExp, userStation, userSort, userStatus
+		from tbl_user a join tbl_grade b
+		on a.gradeSeq = b.gradeSeq
+		where userSeq = #{userSeq}
+	</select>
+	
+	<!-- 22 -->
+	<update id="minusUserPoint" parameterType="java.util.HashMap">
+		update tbl_user set userPoint = userPoint 
+		<if test="boxType == 'random'">
+			- 20
+		</if>
+		
+		<if test="boxType == 'premium'">
+			- 50
+		</if>
+		where userSeq = #{userSeq} 
+	</update>
+	<!-- *************************************************은석22************************************************************ -->
 </mapper>
