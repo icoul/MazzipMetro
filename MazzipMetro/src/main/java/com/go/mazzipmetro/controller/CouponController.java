@@ -32,7 +32,7 @@ public class CouponController {
 		String userSeq = loginUser.getUserSeq();
 		String userSort = loginUser.getUserSort();
 		
-		List<CouponVO> couponList = new ArrayList<CouponVO>();
+		List<HashMap<String,String>> couponList = new ArrayList<HashMap<String,String>>();
 		
 		if (userSort.equals("0") || userSort.equals("2")) {
 			couponList = service.getUserCoupon(userSeq);
@@ -48,7 +48,7 @@ public class CouponController {
 		req.setAttribute("loginUser", loginUser);
 		req.setAttribute("userSort", userSort);
 		req.setAttribute("couponList", couponList);
-		
+		System.out.println("Ddd = " + couponList.size());
 		
 		// 페이징 처리
 		String pageNum_str = req.getParameter("pageNum");
@@ -75,11 +75,11 @@ public class CouponController {
 		for (int i = startNum; i <= endNum; i++) {
 			if (i == pageNum) {
 				html += "<span style = 'color : red; font-weight : bold;'>"+i+"</span>";
-				html += ((i)*10 < totalNum)?"&nbsp;|&nbsp;":"";
+				html += (i*pageBar < totalNum)?"&nbsp;|&nbsp;":"";
 			}
-			else if (i != pageNum && ((i-1)*10) < totalNum) {
+			else if (i != pageNum && ((i-1)*pageBar) < totalNum) {
 				html += "<a href='#' onClick = goNextPage('" + i + "');><span style = 'color : black;'>"+i+"</span></a>";
-				html += ((i)*10 < totalNum)?"&nbsp;|&nbsp;":"";
+				html += (i*pageBar < totalNum)?"&nbsp;|&nbsp;":"";
 			}
 			else {
 				break;
@@ -127,6 +127,28 @@ public class CouponController {
 		
 		if (result == check) {
 			msg = "쿠폰 발행에 성공했습니다.";
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
+		
+		return "msg";
+	}
+	
+	
+	// 사업자가 쿠폰을 확인하는 메서드
+	@RequestMapping(value="/couponConfirm.eat", method={RequestMethod.POST})
+	public String couponConfirm(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+		
+		String couponSeq = req.getParameter("couponSeqConfirm");
+		
+		int result = service.couponConfirm(couponSeq);
+		
+		String msg = "올바른 쿠폰이 아닙니다.";
+		String loc = "couponList.eat";
+		
+		if (result == 1) {
+			msg = "쿠폰을 정상적으로 사용했습니다.";
 		}
 		
 		req.setAttribute("msg", msg);

@@ -9,6 +9,7 @@
         	$("#keyword").focus();
         	$("#keyword").val('${keyword}');
         	
+        	rightContentView();
         	goSearch();
         	
         	
@@ -125,9 +126,17 @@
    		 return true;
    	}
        
-       
-
-
+    //측면에 들어가는 배너 컨텐츠 뷰
+   	function rightContentView(){
+   		$.ajax({
+			url : "<%=request.getContextPath()%>/rightContentView.eat",
+			method : "GET",
+			dataType : "html",
+			success : function(data){
+				$("#rightContent").html(data);
+			}
+		}); // end of ajax
+   	}
        
 </script> 
 		
@@ -154,6 +163,7 @@
 		</div>
 		<%-- end of leftCon --%>
 		
+		<div class="rightCon" id="rightContent" style = "margin-left : 30px;"></div>
 		
 		<%-- end of rightCon --%>	
 

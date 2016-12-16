@@ -140,11 +140,11 @@ public class RankingController {
 		for (int i = startNum; i <= endNum; i++) {
 			if (i == pageNum) {
 				html += "<span style = 'color : red; font-weight : bold;'>"+i+"</span>";
-				html += ((i)*10 < totalNum)?"&nbsp;|&nbsp;":"";
+				html += (i*pageBar < totalNum)?"&nbsp;|&nbsp;":"";
 			}
-			else if (i != pageNum && ((i-1)*10) < totalNum) {
+			else if (i != pageNum && ((i-1)*pageBar) < totalNum) {
 				html += "<a href='#' onClick = goRestRanking('" + i + "');><span style = 'color : black;'>"+i+"</span></a>";
-				html += ((i)*10 < totalNum)?"&nbsp;|&nbsp;":"";
+				html += (i*pageBar < totalNum)?"&nbsp;|&nbsp;":"";
 			}
 			else {
 				break;
@@ -209,11 +209,11 @@ public class RankingController {
 		for (int i = startNum; i <= endNum; i++) {
 			if (i == pageNum) {
 				html += "<span style = 'color : red; font-weight : bold;'>"+i+"</span>";
-				html += ((i)*10 < totalNum)?"&nbsp;|&nbsp;":"";
+				html += (i*10 < totalNum)?"&nbsp;|&nbsp;":"";
 			}
-			else if (i != pageNum && ((i-1)*10) < totalNum) {
+			else if (i != pageNum && ((i-1)*pageBar) < totalNum) {
 				html += "<a href='#' onClick = goReviewRanking('" + i + "');><span style = 'color : black;'>"+i+"</span></a>";
-				html += ((i)*10 < totalNum)?"&nbsp;|&nbsp;":"";
+				html += (i*10 < totalNum)?"&nbsp;|&nbsp;":"";
 			}
 			else {
 				break;
