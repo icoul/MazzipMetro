@@ -11,7 +11,7 @@
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script>
 
 <!-- 동현_다음지도 api를 사용하기 위한 라이브러리 -->
-<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=07a6ce4a014b94664ec5968dee2fb0d2&libraries=services,clusterer,drawing"></script>
+<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=4fee53b7de3bea2949e43b9bafc300a3&libraries=services,clusterer,drawing"></script>
 
 <!-- 동현_메트로맵 tooltip을 위한 라이브러리 -->
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
@@ -27,6 +27,7 @@
 
 <!-- 은석_레스토랑 디테일.jsp에서 차트를 이용하기 위한 라이브러리 추가 -->
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/highcharts.js"></script>
+<script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/highcharts-more.js"></script>
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/modules/exporting.js"></script> 
 
 <!-- 한별_회원가입 css -->

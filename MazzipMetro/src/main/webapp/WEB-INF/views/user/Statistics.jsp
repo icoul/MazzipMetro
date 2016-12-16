@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
@@ -9,8 +8,9 @@
 	table  td {text-align:center;}
 	.btnClass {height:40px; background:#fff; font-size:15px; border:1px solid #000; border-radius:2px; color:#000; cursor:pointer; padding:5px;}
 </style>
-
+	
 <script type="text/javascript">
+jQuery.noConflict();
 
 $(function () {	
     $('#hb_statistics_Gender').highcharts({
@@ -63,9 +63,6 @@ $(function () {
          }]
      });
  });
- 
- 
- 
  
  
 $(function () {
@@ -131,28 +128,7 @@ $(function () {
     });
 });
  
- 
- 
- 
- 
- 
- 
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
  
 $(function () {
     $('#hb_statistics_ReviewCount').highcharts({

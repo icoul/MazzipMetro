@@ -42,6 +42,18 @@ public class RankingService {
 		return dong;
 	}
 	
+	// 총 업장 갯수를 구하는 메서드
+	public int getTotalRestNum(HashMap<String, Object> optionMap, String regDate) {
+		int totalNum = dao.getTotalRestNum(optionMap, regDate); // 총 갯수
+		return totalNum;
+	}
+	
+	// 총 리뷰 갯수를 구하는 메서드
+	public int getTotalReviewNum(HashMap<String, Object> optionMap, String regDate) {
+		int totalNum = dao.getTotalReviewNum(optionMap, regDate); // 총 갯수
+		return totalNum;
+	}
+	
 	// 업장 랭킹을 검색하여 받아오는 메서드
 	public List<HashMap<String, String>> getRestRanking(HashMap<String, Object> optionMap, String regDate) {
 
@@ -56,5 +68,9 @@ public class RankingService {
 		
 		return mapList;
 	}
+
+	
+
+	
 	
 }

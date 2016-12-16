@@ -49,7 +49,10 @@ public class UserDAO implements IDAO{
 		return n;
 	}
 
-
+	public int userDelete(String userSeq) {
+		int result = sqlSession.update("user.userDelete", userSeq);
+		return result;
+	}
 
 	public int userPoint(String userSeq) {
 		int userPoint = sqlSession.selectOne("user.userPoint", userSeq);
@@ -287,6 +290,8 @@ public class UserDAO implements IDAO{
 	public String haveMazzipRecom(String userSeq) {
 		return sqlSession.selectOne("mazzipMetro.haveMazzipRecom", userSeq);
 	}
+
+
 
 
 

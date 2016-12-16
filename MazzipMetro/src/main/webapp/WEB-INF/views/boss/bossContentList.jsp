@@ -16,12 +16,12 @@
 	<form name="userOnefrm" action="bossCotentList.eat" method="GET">
 	<table class="tblType01" style="width:100%;">
 			<tr>
-				<th style="width: 80px;" >등급</th>
-				<th style="width: 70px;" >상호명</th>
-				<th style="width: 70px;" >전화번호</th>
-				<th style="width: 70px;" >주소</th>
-				<th style="width: 70px;" >컨텐츠명</th>
-				<th style="width: 70px;" >컨텐츠사용기한</th>
+				<th style="width:20%;" >등급</th>
+				<th style="width:20%;" >상호명</th>
+				<th style="width:20%;" >전화번호</th>
+				<th style="width:20%;" >주소</th>
+				<th style="width:20%;" >컨텐츠명</th>
+				<th style="width:20%;" >컨텐츠사용기한</th>
 			</tr>
 			<c:if test="${list != null && not empty list}">
 				<c:forEach var="vo" items="${list}" varStatus="status"> 

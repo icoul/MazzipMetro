@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- #11. mapper 기본 설정 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) --> 
+<mapper namespace="content">
+	
+	<!-- 메인배너 컨텐츠에 해당하는 것의 갯수를 가져오는 SQL -->
+	<select id = "content.contentCount" resultType="int">
+		select count(*)
+		from VIEW_CONTENTLIST
+		where contentSeq = 1
+	</select>
+	
+	<!-- 선택된 메인배너 컨텐츠의 업장 정보 SQL -->
+	<select id = "content.getMainRestaurant" parameterType="int" resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select R.*
+		from
+		(
+			select row_number() over(order by restname DESC) AS rno, restseq
+			from VIEW_CONTENTLIST
+			where contentseq = 1
+		)T join tbl_restaurant R
+		on T.restSeq = R.restSeq
+		where rno = #{result}
+	</select>
+	
+	<!-- 메인배너 컨텐츠에 쓰일 업장소개 이미지를 가져오는 SQL -->
+	<select id = "content.getMainContentsAdImage" parameterType="String" resultType="String">
+		select adimg
+		from TBL_RESTAURANT_AD
+		where restSeq = #{restSeq}
+	</select>
+	
+	<!-- 추천광고 컨텐츠에 쓰일 업장번호를 가져오는 SQL -->
+	<select id = "content.contentListCount" resultType="String">
+		select T.restseq
+		from
+		(
+			select row_number() over(order by restname DESC) AS rno, restseq
+			from VIEW_CONTENTLIST
+			where contentseq = #{seq}
+			order by rno
+		)T
+	</select>
+	
+	<!-- 해당되는 업장번호의 업장정보를 가져오는 SQL -->
+	<select id = "content.getRightRestaurant" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select *
+		from tbl_restaurant
+		where restSeq = #{restSeq}
+	</select>
+	
+</mapper>
