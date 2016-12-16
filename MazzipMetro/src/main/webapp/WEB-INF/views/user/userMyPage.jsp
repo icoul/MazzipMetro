@@ -46,10 +46,10 @@ $(document).ready(function(){
 			}
 		});
 	});
-
-	$("#userRandomBox").click(function(){
+	
+	$("#myReviewList").click(function(){
 		$.ajax({	
-			url:"<%= request.getContextPath() %>/userRandomBox.eat",
+			url:"<%= request.getContextPath() %>/myReviewList.eat",
 		    type:"GET",
 			datatype:"html", 
 			success:function(data){ 

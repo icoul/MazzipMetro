@@ -105,8 +105,8 @@ public class UserService implements IService {
 		return count;
 	}
 
-	public int emailDuplicatecheck(String userEmail) {
-		int result = dao.emailDuplicatecheck(userEmail);
+	public int emailDuplicateCheck(String userEmail) {
+		int result = dao.emailDuplicateCheck(userEmail);
 		return result;
 	}
 
