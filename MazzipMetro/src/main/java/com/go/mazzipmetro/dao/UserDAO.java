@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import com.go.mazzipmetro.vo.CouponVO;
 import com.go.mazzipmetro.vo.GradeVO;
-import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.UserAliasVO;
 import com.go.mazzipmetro.vo.UserAttendVO;
 import com.go.mazzipmetro.vo.UserVO;
@@ -104,9 +103,9 @@ public class UserDAO implements IDAO{
 		return count;
 	}
 
-	public int emailDuplicatecheck(String userEmail) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int emailDuplicateCheck(String userEmail) {
+		int result = sqlSession.selectOne("user.emailDuplicateCheck", userEmail);
+		return result;
 	}
 	
 
