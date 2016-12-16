@@ -79,28 +79,48 @@ body{
 	
 	<script type="text/javascript" >
 	
-	 function goSubmit(){
+	 function goSubmit(event){
+		var check = false; 
 		
-		var registerFrm = document.registerFrm;
-		var chkboxArr = document.getElementsByName("userStation");
-		var bool = false;
-		var count = 0;
+		$(".requiredCheck").each(function(){
+			var data = $(this).val().trim();
+			if(data.length < 1) {
+				check = true;
+				return false;
+			}
+		});
 		
-		for(var i=0; i<chkboxArr.length; i++) {
-			bool = chkboxArr[i].checked;
-			if(bool == true) {
-				count++;
+		if(check) {
+			alert("필수입력란에 입력하셔야 합니다.");
+			event.preventDefault();
+		} else { 
+		
+			var registerFrm = document.registerFrm;
+			var rbool = $('input:radio[name=userGender]').is(':checked');
+			
+			if(!(rbool)) {
+				alert("성별을 선택해주세요. 필수입력사항입니다.");
+			} else if(rbool){
+				
+					var chkboxArr = document.getElementsByName("userStation");
+					var bool = false;
+					var count = 0;
+				   
+					for(var i=0; i<chkboxArr.length; i++) {
+						bool = chkboxArr[i].checked;
+						if(bool == true) {
+							count++;
+						}
+					}
+					if (count > 3) {
+						alert("최대3개만 선택가능합니다.");
+					} else {
+						registerFrm.submit();
+					}
 			}
 		}
-		
-		if (count > 3) {
-			alert("최대3개만 선택가능합니다.");
-		}
-		else {
-			registerFrm.submit();
-		}
-		
-	} 
+	}
+}
 	 
 	 function emailDuplicateCheck() {
 			var registerFrm = document.registerFrm;
@@ -137,54 +157,6 @@ body{
      }
 	
 	$(document).ready(function() {
-		var navListItems = $('div.setup-panel div a'),
-        allWells = $('.setup-content'),
-        allNextBtn = $('.nextBtn');
-
-		allWells.hide();
-		
-		navListItems.click(function (e) {
-		    e.preventDefault();
-		    var $target = $($(this).attr('href')),
-		        $item = $(this);
-		    if (!$item.hasClass('disabled')) {        
-		        //navListItems.removeClass('btn-primary').addClass('btn-default');
-		        if($item.attr('id')!=$(navListItems[1]).attr('id'))
-		        {
-		            $(navListItems[1]).removeClass('btn-primary').addClass('btn-success');
-		        }
-		        //$('#item3').addClass('btn-success');
-		        $item.addClass('btn-primary');
-		        allWells.hide();
-		        $target.show();
-		        $target.find('input:eq(0)').focus();
-		    }
-		});
-
-allNextBtn.click(function(){
-    var curStep = $(this).closest(".setup-content"),
-        curStepBtn = curStep.attr("id"),
-        nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-        curInputs = curStep.find("input[type='text'],input[type='url'], input[type='password'], input[type='email']"),
-        isValid = true;
-
-    $(".form-group").removeClass("has-error");
-    for(var i=0; i<curInputs.length; i++){
-        if (!curInputs[i].validity.valid){
-            isValid = false;
-            $(curInputs[i]).closest(".form-group").addClass("has-error");
-        }
-    }
-
-    if (isValid)
-        nextStepWizard.removeAttr('disabled').trigger('click');
-});
-
-$('div.setup-panel div a.btn-primary').trigger('click');
-		
-		
-		$(".error").hide();
-		
 		$(".requiredCheck").each(function(){
 			$(this).blur(function(){
 				var data = $(this).val().trim();
@@ -231,12 +203,18 @@ $('div.setup-panel div a.btn-primary').trigger('click');
 			    $(".form-group").addClass('has-error has-feedback');
 			    $("#userPw").attr('disabled', false);
 			    $("#btnRegister").attr('disabled', true);
+			    $("#pwmatch").removeClass("glyphicon-ok");
+    			$("#pwmatch").addClass("glyphicon-remove");
+    			$("#pwmatch").css("color","#FF0004");
     		}
     		else{
                 $(":input").attr('disabled', false);
                 $(".form-group").removeClass('has-error has-feedback'); 
 				$(".form-group").addClass('has-success has-feedback'); 
 			    $("#btnRegister").attr('disabled', false);
+			    $("#pwmatch").removeClass("glyphicon-remove");
+    			$("#pwmatch").addClass("glyphicon-ok");
+    			$("#pwmatch").css("color","#00A41E");
     		}
     		
     	});// end of $("#passwdCheck").blur();
@@ -277,6 +255,40 @@ $('div.setup-panel div a.btn-primary').trigger('click');
 			    $("#btnRegister").attr('disabled', false);
     		}
     	});// end : userPhone
+    	
+    	$("#userYear").blur(function(){
+    		var str_userYear = $("#userYear").val();
+    		var userYear = Number(str_userYear);
+
+    		if(userYear > 2006) {
+    			var bool = confirm("본인의 출생년도가 맞으신가요?");
+    			
+    			if(bool) {
+    				$(this).next().focus();
+        			$(":input").attr('disabled', false); 
+        			$(".form-group").removeClass('has-error has-feedback'); 
+    				$(".form-group").addClass('has-success has-feedback'); 
+    			    $("#btnRegister").attr('disabled', false);
+    			} else {
+    				$(":input").attr('disabled', true); 
+    			    $(this).attr('disabled', false);
+    			    $(".form-group").addClass('has-error has-feedback'); 
+    			    $("#btnRegister").attr('disabled', true);
+    			}
+    		}
+    	});// end : userPhone
+    	
+    	$('.show-password').click(function(event) {
+	        event.preventDefault();
+	        if ($('#userPw').attr('type') === 'password') {
+	          $('#userPw').attr('type', 'text');
+	          $('.show-password').text('비밀번호 감추기');
+	        } else {
+	          $('#userPw').attr('type', 'password');
+	          $('.show-password').text('비밀번호 보기');
+	        }
+	      });
+
 	}); // end : ready
 		  
 		    	
@@ -306,7 +318,7 @@ $('div.setup-panel div a.btn-primary').trigger('click');
 	</div> -->
 	
 <div class="container">
-    <form name="registerFrm" class="form-horizontal" action="<%= request.getContextPath() %>/userRegisterEnd.eat" method="post"  id="contact_form" enctype="multipart/form-data" style="background:none;">
+    <form name="registerFrm" class="form-horizontal" action="<%= request.getContextPath() %>/userRegisterEnd.eat" method="post"  enctype="multipart/form-data">
 		<fieldset>
 		<!-- Form Name -->
 		<legend style="margin-bottom:20px;">::: 필수입력사항</legend>
@@ -321,7 +333,6 @@ $('div.setup-panel div a.btn-primary').trigger('click');
 				<input  name="userName" class="form-control requiredCheck input-lg" placeholder="사용자 이름을 입력해주세요"  type="text">
    				<span></span>
 		    </div>
-			  <span class="error" style="align:right;">사용자이름을 입력해주세요. 필수입력사항입니다.</span>
 		  </div>
 		</div>
 		
@@ -333,9 +344,9 @@ $('div.setup-panel div a.btn-primary').trigger('click');
 		  <input name="userEmail" id="userEmail" class="form-control input-lg" placeholder="실제 사용하고 계신 이메일을 입력해주세요" type="text">
 		  	<span class="input-group-btn">
         		<button class="btn btn-warning btn-lg" type="button" onClick="emailDuplicateCheck();">중복검사</button>
+        		<input type="hidden" name="checkEmail" value="${checkEmail}">
       		</span>
 		</div>
-			<span class="error" align="right"></span>
 		  </div>
 		</div>
 		
@@ -344,8 +355,7 @@ $('div.setup-panel div a.btn-primary').trigger('click');
 		<div class="col-md-7 inputGroupContainer">
 		<div class="input-group">
 		<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-		<input type="password" class="form-control input-lg requiredCheck" placeholder="최소 : 8글자이상 / 영문 및 특수문자를 포함하여 입력해주세요" name="userPw" id="userPw">
-		<span class="error" align="right">비밀번호를 입력해주세요</span>
+		<input type="password" class="form-control input-lg requiredCheck" placeholder="최소 8글자이상 / 영문 및 특수문자를 포함하여 입력해주세요" name="userPw" id="userPw">
 		</div>
 		<a class="show-password" href="">비밀번호 보기</a>
 		<span class="strength"></span>
@@ -384,10 +394,6 @@ $('div.setup-panel div a.btn-primary').trigger('click');
 								  document.write('<option value="'+i+'">'+i+'</option>');
 							  }
 							
-							  /* if(i >= 2009) {
-								 var bool = confirm("본인 생년월일이 맞으신가요?");
-							  } */
-							  
 						  </script>
 					</select>
 			  		<select id="userMonth" name="userMonth" style="width:30%;" class="form-control input-lg requiredCheck">
@@ -438,12 +444,12 @@ $('div.setup-panel div a.btn-primary').trigger('click');
            <div class="col-md-8 inputGroupContainer btn-group" data-toggle="buttons" style="width:400px;">
                <div class="btn btn-primary btn-lg col-md-5">
                    <label>
-                       <input type="radio" name="userGender" class="requiredCheck" value="M" /> 남
+                       <input type="radio" name="userGender" value="M" /> 남
                    </label>
                </div>
                <div class="btn btn-danger btn-lg col-md-5">
                    <label>
-                       <input type="radio" name="userGender" class="requiredCheck" value="F" /> 여
+                       <input type="radio" name="userGender" value="F" /> 여
                    </label>
                </div>
            </div>
