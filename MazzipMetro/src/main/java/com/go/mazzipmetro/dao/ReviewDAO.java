@@ -190,6 +190,11 @@ public class ReviewDAO implements IDAO{
 	public HashMap<String, String> getRest(String restSeq) {
 		HashMap<String, String> getRest = sqlSession.selectOne("restaurant.getRestaurant", restSeq);
 		return getRest;
+	}
+	
+	// 동칭호의 aliasNum을 구한다.
+	public int checkDongAliasNum(HashMap<String, String> dongMap) {
+		return sqlSession.selectOne("review.checkDongAliasNum", dongMap);
 	}	
 
 
