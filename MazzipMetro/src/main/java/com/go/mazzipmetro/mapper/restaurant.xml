@@ -12,7 +12,8 @@
 			restName = #{restName}, userSeq = #{userSeq}, gradeSeq = #{gradeSeq}
 		  , restAddr = #{restAddr}, restNewAddr = #{restNewAddr}, restPhone = #{restPhone}
 		  , restLatitude = #{restLatitude}, restLongitude = #{ restLongitude}
-		  , restContent = #{restContent}, dongId = #{dongId}, metroId = #{metroId} 
+		  , restContent = #{restContent}, dongId = #{dongId}, metroId = #{metroId}
+		  , restBgTag = #{restBgTag}, restMdTag=#{restMdTag}
 		  <if test="restImg != null">
 		  	, restImg = #{restImg}
 		  </if>
@@ -94,11 +95,12 @@
 
 		 <!-- 동현 추가 -->
 		 <result column="restimg"	  	    property="restImg" 			javaType="String" />
+		 <result column="restvisitor"	  	property="restVisitor" 				javaType="String" />
 	</resultMap>
 
 	<select id="getRestaurant" parameterType="String" resultMap="dataresultmap1">
 		select restseq, restname, userseq, gradeseq, restaddr, substr(restaddr, 4, 7) as shortaddr, restnewaddr, restphone, restlatitude, restlongitude, 
-			   restzindex, metroid, dongid, to_char(restregdate, 'yyyy-mm-dd') as restregdate, restbgtag, restmdtag, restimg 
+			   restzindex, metroid, dongid, to_char(restregdate, 'yyyy-mm-dd') as restregdate, restbgtag, restmdtag, restimg, restvisitor
 		from TBL_RESTAURANT
 		where restseq = #{restseq} and reststatus = 0
 	</select>
@@ -404,6 +406,11 @@
 									 	 #{menuEvent}
 									 </if>
 		where menuSeq = #{menuSeq} and restSeq = #{restSeq}
+	</update>
+	
+	<!-- 조회수 증가 요청 -->
+	<update id="updateRestVisitor">
+		update tbl_restaurant set restVisitor = restVisitor +1 where restSeq = #{restSeq}
 	</update>
 	
 </mapper>

@@ -326,16 +326,6 @@
    			animator($wrapper); //다시 처음부터 시작되지 않고, 중단된 부분부터 다시 간다.
    		}); 
        }// end of scrolling */
-       
-       function goSearch(){
-    	   if($("#keyword").val().trim().length == 0){
-    		   return;
-    	   }
-    	   
-    	   searchFrm.action = "<%=request.getContextPath()%>/search.eat";
-    	   searchFrm.submit();
-       }
-       
 
 	 // 인덱스 페이지 탑 5 업장 랭킹 뷰
 	   	function top5RankView(){

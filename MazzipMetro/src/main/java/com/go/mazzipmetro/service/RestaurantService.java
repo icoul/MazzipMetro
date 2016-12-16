@@ -170,6 +170,11 @@ public class RestaurantService implements IService{
 		return reviewGrade;
 	}
 
+	// 조회수 증가 요청
+	public int updateRestVisitor(String restSeq) {
+		return dao.updateRestVisitor(restSeq);
+	}
+
 
 
 	

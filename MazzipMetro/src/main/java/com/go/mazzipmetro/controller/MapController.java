@@ -426,6 +426,8 @@ public class MapController {
 		map.put("start", String.valueOf(start)); // HashMap 데이터타입에 맞게 int start를 String으로 변경해서 담는다.
 		map.put("end", String.valueOf(end));  // HashMap 데이터타입에 맞게 int end를 String으로 변경해서 담는다.
 		
+//		System.out.println(">>>>>>>>>>>>>>>>>>>start = "+start); 
+//		System.out.println(">>>>>>>>>>>>>>>>>>>end = "+end);
 		
 		List<RestaurantVO> list = service.searchByMetro(map);
 		

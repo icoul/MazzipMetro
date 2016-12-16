@@ -52,6 +52,7 @@ public class MazzipMetroController {
 		
 		List<RestaurantVO> list = service.getUserWantToGo(userSeq);
 		
+		System.out.println(">>>>>>>>>>>>>>>>"+(list == null)); 
 		req.setAttribute("list", list);
 		return "/ajax/userWantToGo";
 	}

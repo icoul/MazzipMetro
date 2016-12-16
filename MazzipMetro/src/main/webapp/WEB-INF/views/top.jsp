@@ -130,6 +130,11 @@ function getLoginUserInfo(){
   		$("#mySidenav").mouseleave(function(){//mouseout과 mouseleave의 차이는 자식엘레먼트에 출입여부를 이벤트에 포함시키는냐 아니냐이다.
   			$("#mySidenav").css('display',"none");
   		});
+  		
+		$("#dx_wantToGo").mouseover(function(){
+			$("#mySidenav").css('display',"block");
+  		});
+  		
 		
   		// 로그아웃시 헤더 margin 제거
   		<c:if test="${sessionScope.loginUser == null}">
@@ -137,59 +142,59 @@ function getLoginUserInfo(){
   		</c:if>
   		
   		(function($){
-  		// 자동 완성 keyup 이벤트
-  		 $("#keyword").keyup(function(){
-     		
- 			$.ajax({
- 				url:"<%=request.getContextPath()%>/autoComplete.eat",
- 				type :"GET",
- 				data: "srchType=all&keyword="+$("#keyword").val(),
- 				dataType:"json",
- 				success: function(data){
- 					//alert(data.autoComSource);
- 					
- 					$.widget( "custom.catcomplete", $.ui.autocomplete, {
- 						      _create: function() {
- 						        this._super();
- 						        this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
- 						      },
- 						      _renderMenu: function( ul, items ) {
- 						        var that = this,
- 						          currentCategory = "";
- 						        $.each( items, function( index, item ) {
- 						          var li;
- 						          if ( item.category != currentCategory ) {
- 						            ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
- 						            currentCategory = item.category;
- 						          }
- 						          li = that._renderItemData( ul, item );
- 						          if ( item.category ) {
- 						            li.attr( "aria-label", item.category + " : " + item.label );
- 						          }
- 						        });// end of  $.each()
- 						      }
- 						    });// end of $.widget( "custom.catcomplete", $.ui.autocomplete, {})
- 						
- 						$("#keyword").catcomplete({
- 							delay : 0,
- 							minLength: 0,
- 							source : data.cat_autoComSource
- 						})						 
- 					
- 					
- 				}, //end of success: function(data)
- 				error: function(request, status, error){
- 					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
- 				} // end of error: function(request,status,error)
- 			}); //end of $.ajax()
- 			
- 			
- 		});// end of $("#keyword").keyup
+	 		 // 자동 완성 keyup 이벤트
+	 		 $("#keyword").keyup(function(){
+	    		
+				$.ajax({
+					url:"<%=request.getContextPath()%>/autoComplete.eat",
+					type :"GET",
+					data: "srchType=all&keyword="+$("#keyword").val(),
+					dataType:"json",
+					success: function(data){
+						//alert(data.autoComSource);
+						
+						$.widget( "custom.catcomplete", $.ui.autocomplete, {
+							      _create: function() {
+							        this._super();
+							        this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
+							      },
+							      _renderMenu: function( ul, items ) {
+							        var that = this,
+							          currentCategory = "";
+							        $.each( items, function( index, item ) {
+							          var li;
+							          if ( item.category != currentCategory ) {
+							            ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+							            currentCategory = item.category;
+							          }
+							          li = that._renderItemData( ul, item );
+							          if ( item.category ) {
+							            li.attr( "aria-label", item.category + " : " + item.label );
+							          }
+							        });// end of  $.each()
+							      }
+							    });// end of $.widget( "custom.catcomplete", $.ui.autocomplete, {})
+							
+							$("#keyword").catcomplete({
+								delay : 0,
+								minLength: 0,
+								source : data.cat_autoComSource
+							})						 
+						
+						
+					}, //end of success: function(data)
+					error: function(request, status, error){
+						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					} // end of error: function(request,status,error)
+				}); //end of $.ajax()
+				
+				
+			});// end of $("#keyword").keyup
  		
   		})(jQuery)	
   		
-	});// end of ready
-	
+  		
+	});
 	
 	function loginSubmit(){
 		$("#dx_loginFrm").submit();
@@ -331,13 +336,23 @@ function getLoginUserInfo(){
 	   		 }
 	   		 return true;
 	   	}
+		
+	    function goSearch(){
+	    	   if($("#keyword").val().trim().length == 0){
+	    		   return;
+	    	   }
+	    	   
+	    	   searchFrm.action = "<%=request.getContextPath()%>/search.eat";
+	    	   searchFrm.submit();
+	       }
+	       
 </script>
 
 </head>
 <body>
 
 <%-- 사이드메뉴 트리거용 div 화면 왼쪽--%>
-<div id="mySidenavTrigger" style="width: 3%; height: 100%; position:fixed; z-index: 9999; border: solid 0px red;"></div>
+<div id="mySidenavTrigger" style="width: 1px; height: 100%; position:fixed; z-index: 9999; border: solid 0px red;"></div>
 
 <%-- 사이드 메뉴 & 장바구니 --%>
 <div id="mySidenav" class="sidenav">
@@ -368,9 +383,11 @@ function getLoginUserInfo(){
 		</c:if>	
 			<div class="header" style="margin-top:20px;">
 				<h1><a href="<%= request.getContextPath() %>/index.eat" style="color: black; text-decoration: none">Mazzip Metro</a></h1>
+				<div style="padding-top: 5px;">
 				<ul class="menu">
 					<!-- 비회원 로그인시(로그인전) -->
 					<c:if test="${empty sessionScope.loginUser.userSeq}">
+						<li><a><span id="dx_wantToGo">가고싶다</span></a></li>
 						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
 						<li><a href="javascript:goAsk();">문의하기</a></li>
 						<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
@@ -378,6 +395,7 @@ function getLoginUserInfo(){
 					</c:if>
 					<!-- 일반사용자 로그인시 -->
 					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 0}">
+						<li><a><span id="dx_wantToGo">가고싶다</span></a></li>
 						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
 						<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
 						<li><a href="javascript:goAsk();">문의하기</a></li>
@@ -385,6 +403,7 @@ function getLoginUserInfo(){
 					</c:if>
 					<!-- 사업주 로그인시 -->
 					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 1}">
+						<li><a><span id="dx_wantToGo">가고싶다</span></a></li>
 						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
 						<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
 						<li><a href="javascript:goAsk();">문의하기</a></li>
@@ -392,6 +411,7 @@ function getLoginUserInfo(){
 					</c:if>
 					<!-- 관리자 로그인시 -->
 					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 2}">
+						<li><a><span id="dx_wantToGo">가고싶다</span></a></li>
 						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
 						<li><a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a></li>
 						<li><a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a></li>
@@ -399,9 +419,10 @@ function getLoginUserInfo(){
 						<li><a href="<%=request.getContextPath()%>/adminQnaList.eat">고객문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
 					</c:if>
 				</ul>
+				</div>
 				
 				<!-- 검색바 -->
-				<div  id="search_div" align="center" style="position: absolute; top: 18px; left: 700px; width: 35%;">
+				<div  id="search_div" align="center" style="position: absolute; top: 21px; left: 700px; width: 35%;">
 				  <form name="searchFrm" id="searchFrm" onsubmit="return false;">
 				    <div class="input-group" style="width: 100%;">
 				      <input type="text" class="form-control" name="keyword" id="keyword" size="50" placeholder="검색어를 입력하세요!" onkeydown="goButton();" required>

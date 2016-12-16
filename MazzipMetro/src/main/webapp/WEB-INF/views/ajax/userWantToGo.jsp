@@ -133,7 +133,7 @@ function mazzipMetroPick () {
 
 </script>
 
-<c:if test="${empty list}]">
+<c:if test="${empty list}">
 <br/><br/><span style="color: #818181; text-decoration: underline;">가고 싶은 음식점을 담아보세요.</span><br/><br/> 
 </c:if>
 
