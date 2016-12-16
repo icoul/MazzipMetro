@@ -1,70 +1,77 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:include page="../top.jsp" /> 
 <jsp:include page="../library.jsp" />   
+<jsp:include page="../top.jsp" /> 
 <!DOCTYPE html>
 <html>
 <head>
 <style type="text/css">
-.subleftCon {float:left; width:200px; height:500px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;}
-.subleftCon h2 {width:187px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right;}
-.subrightCon {float:left; width:1200px; border-right:1px solid #dbdbdb; height:500px;}
 .line {border-width:7px; border-style:double; margin-bottom: 40px;}
 .control-label {font-size: 14pt;}
 .order {font-size:2em;}
 
-
-#star-five {
-   margin: 0px 0;
-   position: relative;
-   display: block;
-   color: black;
-   width: 0px;
-   height: 0px;
-   border-right:  100px solid transparent;
-   border-bottom: 70px  solid black;
-   border-left:   100px solid transparent;
-   -moz-transform:    rotate(35deg);
-   -webkit-transform: rotate(35deg);
-   -ms-transform:     rotate(35deg);
-   -o-transform:      rotate(35deg);
+body{ 
+    margin-top:40px; 
 }
-#star-five:before {
-   border-bottom: 80px solid black;
-   border-left: 30px solid transparent;
-   border-right: 30px solid transparent;
-   position: absolute;
-   height: 0;
-   width: 0;
-   top: -45px;
-   left: -65px;
-   display: block;
-   content: '';
-   -webkit-transform: rotate(-35deg);
-   -moz-transform:    rotate(-35deg);
-   -ms-transform:     rotate(-35deg);
-   -o-transform:      rotate(-35deg);
-
-}
-#star-five:after {
-   position: absolute;
-   display: block;
-   color: black;
-   top: 3px;
-   left: -105px;
-   width: 0px;
-   height: 0px;
-   border-right: 100px solid transparent;
-   border-bottom: 70px solid red;
-   border-left: 100px solid transparent;
-   -webkit-transform: rotate(-70deg);
-   -moz-transform:    rotate(-70deg);
-   -ms-transform:     rotate(-70deg);
-   -o-transform:      rotate(-70deg);
-   content: '';
+.stepwizard-step p {
+    margin-top: 10px;
 }
 
+.stepwizard-row {
+    display: table-row;
+}
+
+.stepwizard {
+    display: table;
+    width: 100%;
+    position: relative;
+}
+
+.stepwizard-step button[disabled] {
+    opacity: 1 !important;
+    filter: alpha(opacity=100) !important;
+}
+
+.stepwizard-row:before {
+    top: 14px;
+    bottom: 0;
+    position: absolute;
+    content: " ";
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+    z-order: 0;
+
+}
+
+.stepwizard-step {
+    display: table-cell;
+    text-align: center;
+    position: relative;
+}
+.btn
+{
+        border-radius: 0px;
+}
+.btn-circle {
+       width: 56px;
+    height: 56px;
+    text-align: center;
+    padding: 12px 0;
+    font-size: 20px;
+    line-height: 1.428571429;
+    border-radius: 35px;
+    margin-top: -14px;
+    border: solid 3px #ccc !important;
+    opacity:1 !important;
+     -webkit-box-shadow:inset 0px 0px 0px 3px #fff !important; 
+     -moz-box-shadow:inset 0px 0px 0px 3px #fff !important;
+    -o-box-shadow:inset 0px 0px 0px 3px #fff !important;
+   -ms-box-shadow:inset 0px 0px 0px 3px #fff !important; 
+   box-shadow:inset 0px 0px 0px 3px #fff !important;
+      backgournd-color:#428bca;
+}
 
 </style>
     <meta charset="utf-8">
@@ -130,6 +137,52 @@
      }
 	
 	$(document).ready(function() {
+		var navListItems = $('div.setup-panel div a'),
+        allWells = $('.setup-content'),
+        allNextBtn = $('.nextBtn');
+
+		allWells.hide();
+		
+		navListItems.click(function (e) {
+		    e.preventDefault();
+		    var $target = $($(this).attr('href')),
+		        $item = $(this);
+		    if (!$item.hasClass('disabled')) {        
+		        //navListItems.removeClass('btn-primary').addClass('btn-default');
+		        if($item.attr('id')!=$(navListItems[1]).attr('id'))
+		        {
+		            $(navListItems[1]).removeClass('btn-primary').addClass('btn-success');
+		        }
+		        //$('#item3').addClass('btn-success');
+		        $item.addClass('btn-primary');
+		        allWells.hide();
+		        $target.show();
+		        $target.find('input:eq(0)').focus();
+		    }
+		});
+
+allNextBtn.click(function(){
+    var curStep = $(this).closest(".setup-content"),
+        curStepBtn = curStep.attr("id"),
+        nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+        curInputs = curStep.find("input[type='text'],input[type='url'], input[type='password'], input[type='email']"),
+        isValid = true;
+
+    $(".form-group").removeClass("has-error");
+    for(var i=0; i<curInputs.length; i++){
+        if (!curInputs[i].validity.valid){
+            isValid = false;
+            $(curInputs[i]).closest(".form-group").addClass("has-error");
+        }
+    }
+
+    if (isValid)
+        nextStepWizard.removeAttr('disabled').trigger('click');
+});
+
+$('div.setup-panel div a.btn-primary').trigger('click');
+		
+		
 		$(".error").hide();
 		
 		$(".requiredCheck").each(function(){
@@ -251,7 +304,7 @@
 			<span class="glyphicon glyphicon-home order"> 가입완료 </span>
 		</div>
 	</div> -->
-	<div id="star-five"></div>
+	
 <div class="container">
     <form name="registerFrm" class="form-horizontal" action="<%= request.getContextPath() %>/userRegisterEnd.eat" method="post"  id="contact_form" enctype="multipart/form-data" style="background:none;">
 		<fieldset>

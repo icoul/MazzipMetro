@@ -47,6 +47,17 @@ $(document).ready(function(){
 		});
 	});
 	
+	$("#userEdit").click(function(){
+		$.ajax({	
+			url:"<%= request.getContextPath() %>/userEdit.eat",
+		    type:"GET",
+			datatype:"html", 
+			success:function(data){ 
+				$("#userInfo").html(data);
+			}
+		});
+	});
+	
 	$("#myReviewList").click(function(){
 		$.ajax({	
 			url:"<%= request.getContextPath() %>/myReviewList.eat",
