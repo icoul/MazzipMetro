@@ -50,6 +50,10 @@
 	        <ul class="dropdown-menu">
 	          <li><a href="javascript:goAsk();">문의하기</a></li>
 	          <li id="btn_userQna"><a href="#">나의문의내역</a></li>
+	            <li ><a href="" onClick="javascript:openWinFaq('<%=request.getContextPath() %>/faqListByType.eat?faqType=회원', '680', '630');">회원 관련문의</a></li><!-- 선택된 페이지 -->
+				<li ><a href="" onClick="javascript:openWinFaq('<%=request.getContextPath() %>/faqListByType.eat?faqType=사업주', '680', '580');">사업주 관련문의</a></li>
+				<li ><a href="" onClick="javascript:openWinFaq('<%=request.getContextPath() %>/faqListByType.eat?faqType=음식점', '680', '310');">음식점 관련문의</a></li>
+				<li ><a href="" onClick="javascript:openWinFaq('<%=request.getContextPath() %>/faqListByType.eat?faqType=기타', '680', '350');">기타 관련문의</a></li>
 	        </ul>
 	      </li>
 	    </ul>
