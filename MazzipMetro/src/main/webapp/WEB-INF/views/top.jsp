@@ -340,6 +340,10 @@ function getLoginUserInfo(){
 	    	   searchFrm.action = "<%=request.getContextPath()%>/search.eat";
 	    	   searchFrm.submit();
 	       }
+	    
+	    function openWinFaq(src, width, height){
+			window.open(src,"팝업창이름(의미없음)", "width=" + width + ", height=" + height + ", left=100px, top=100px, menubar=no, status=no, scrollbars=no");
+		}
 	       
 </script>
 
