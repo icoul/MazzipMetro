@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="com.go.mazzipmetro.vo.UserVO"%> 
 <%@ page import="java.net.URLDecoder"%>
 
@@ -373,10 +374,10 @@ function getLoginUserInfo(){
 		<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
 			<div class="loginWrap">
 				<div class="loginInfo">
-					<span>${sessionScope.loginUser.userName} 님 환영합니다. </span>
-					현재 마일리지: <span style="color:gold; margin-right: 30px;">${sessionScope.loginUser.userPoint }</span>
+					<span>${sessionScope.loginUser.userName} 님 환영합니다. </span>                        
+					현재 마일리지: <span style="color:gold; margin-right: 30px;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userPoint }</fmt:formatNumber></span>
 					등급 : <span style="color: red;">${sessionScope.loginUser.gradeName }</span>
-					Exp: <span style="color: red;">${sessionScope.loginUser.userExp }</span>
+					Exp: <span style="color: red;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userExp }</fmt:formatNumber></span>
 				</div> 
 			</div>
 		</c:if>	
