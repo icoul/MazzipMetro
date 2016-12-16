@@ -98,7 +98,7 @@ public class ReviewController {
 		if(loginUser != null)
 		{
 			String UserGender = loginUser.getUserGender();
-			String UserBirthday = loginUser.getUserBirthDay();
+			String UserBirthday = (loginUser.getUserBirthDay()).substring(2);
 			
 			visitor.put("UserGender", UserGender);
 			visitor.put("UserBirthday", UserBirthday);					

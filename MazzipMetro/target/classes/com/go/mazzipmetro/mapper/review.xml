@@ -293,7 +293,7 @@
 		)V
 		where rno = 1
 	</select>
-	
+	<!-- tbl_reviewVisitor에 넣기 -->
 	<insert id="insertVisitor" parameterType="java.util.HashMap">
 		insert into tbl_reviewVisitor(reviewSeq, Gender, Birthday)
 		values(#{reviewSeq}, #{UserGender}, #{UserBirthday})
