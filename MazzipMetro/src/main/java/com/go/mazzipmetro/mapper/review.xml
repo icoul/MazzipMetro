@@ -179,10 +179,10 @@
 			from(
 			select A.reviewImg, B.reviewSeq, B.userSeq, B.restSeq, B.reviewTitle, substr(B.reviewContent,1,10)||'..' as reviewContent, B.reviewAvgScore
 			from (
-			select max(reviewSeq) as reviewSeq, reviewImg
+			select max(reviewSeq) as reviewSeq, max(reviewImg) as reviewImg
 			from tbl_review_Image
 			where reviewImageStatus = 0
-			group by reviewSeq,reviewImg
+			group by reviewSeq
 			           )A join tbl_review B
 			           on A.reviewSeq = B.reviewSeq
 			           where B.reviewStatus = 0
@@ -298,7 +298,7 @@
 		)V
 		where rno = 1
 	</select>
-	
+	<!-- tbl_reviewVisitor에 넣기 -->
 	<insert id="insertVisitor" parameterType="java.util.HashMap">
 		insert into tbl_reviewVisitor(reviewSeq, Gender, Birthday)
 		values(#{reviewSeq}, #{UserGender}, #{UserBirthday})
