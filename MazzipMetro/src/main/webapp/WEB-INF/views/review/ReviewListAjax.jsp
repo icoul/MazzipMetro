@@ -44,6 +44,11 @@ function upHit(reviewSeq, likeId){
 			data: "reviewSeq="+reviewSeq, 
 			dataType: "JSON",
 			success: function(data) {
+				 swal({
+					  title: "Sweet!",
+					  text: "Here's a custom image.",
+					  imageUrl: "<%= request.getContextPath()%>/resources/images/thumbs-up.jpg"
+					});
 				getReviewList();
 				}
 		});//end of $.ajax()

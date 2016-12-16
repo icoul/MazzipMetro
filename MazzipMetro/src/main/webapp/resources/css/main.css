@@ -72,7 +72,7 @@ img {border:0; padding:0; margin:0; vertical-align:top;}
 footer {height:170px; background-color: #eff3f2; padding-top:30px; clear: both; font-size:12px;}
 footer .comIntro a {padding:0 5px; font-size:12px; color:#000; font-weight:bold; text-decoarion:none;}
 footer .copyRight {color:#8a8a8a;}
-#realReview {position:absolute; right:140px; height:20px;}
+#realReview {position:absolute; right:280px; height:40px;}
 
 /* 동현 자동 검색어 완성 관련 css 추가 */
 /* 카테고리화된 검색어 자동완성 css */
@@ -149,8 +149,8 @@ footer .copyRight {color:#8a8a8a;}
 	
 
 /* 메인 페이지 실시간 리뷰  div 및 table */
-#scroller {position:absolute; height:400px;  width:270px;  margin-top:50px; right:0; } 
-#scroller table {border:0px; position:relative;}
+#Scroller {position:absolute; height:400px;  width:270px;  margin-top:50px; right:320px; } 
+#Scroller table {border:0px; position:relative;}
 
 /* 미현 -- 서브페이지레이아웃,테이블,버튼*/
 .subleftCon {float:left; width:200px; height:800px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;}

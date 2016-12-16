@@ -40,10 +40,16 @@
 	#pagination {margin:10px auto;text-align: center;}
 	#pagination a {display:inline-block;margin-right:0px;}
 	#pagination .on {font-weight: bold; cursor: default;color:#777;}
+	#d_Scroller {position:absolute; height:400px;  width:270px;  margin-top:50px; right:510px; } 
+	#d_Scroller table {border:0px; position:relative;}
+	#realReview {position:absolute; right:462px; height:40px;}
 </style>
   
 <script>
         $(document).ready(function() {
+        	
+        	// 실시간 리뷰 
+        	MainReview();
         	
         	// metroMap area 클릭시 이벤트 생성
         	$("[name=metroMapArea]").click(function(){
@@ -318,8 +324,25 @@
             });
             
             
-        });// $(document).ready()
+        });//  $(document).ready()
         
+        
+//////////////////////////////////우철 실시간 리뷰 추가 ////////////////////////////////////////////////        
+        function MainReview(){
+        	
+       	 $.ajax({ 
+       			url: "<%= request.getContextPath()%>/MainReviewAjax.eat",  
+       			method:"get",  	 
+       			dataType: "html",
+       			success: function(data) {
+       				
+       				$("#d_Scroller").html(data);
+       				
+       				}
+       		});//end of $.ajax()
+           	
+           }// end of MainReview
+//////////////////////////////////////////////////////////////////////////////////////////////////        
 </script>  
 <div id="leftCon">
 	<div class="mainBann">
@@ -377,7 +400,8 @@
 		
 <div id="rightCon">
 	<div class="realTimeAppra" style="margin-top:20px;">
-		<img src="<%= request.getContextPath() %>/resources/images/imgTest01.png" border="0" />
+		<div style="background-color: yellow; font-size: 25pt; font-weight: bold;" id="realReview" >실시간 리뷰</div>
+		<div id="d_Scroller" class="Scroller"></div>
 	</div>
 </div>
 <%-- end of rightCon --%>	

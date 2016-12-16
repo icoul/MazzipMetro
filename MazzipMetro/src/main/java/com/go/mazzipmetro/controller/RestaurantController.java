@@ -572,7 +572,7 @@ public class RestaurantController {
 			
 			
 			HashMap<String,String> restvo = service.getRestaurant(restSeq);
-			List<HashMap<String,String>> reviewImageList = reviewService.getReviewImageList();
+			
 			
 			HashMap<String, String> map = new HashMap<String, String>();
 			
@@ -582,6 +582,8 @@ public class RestaurantController {
 					
 			List<HashMap<String,String>> reviewList = service.getReviewList(map);
 			int TotalReviewCount = service.getTotalReview(restSeq);
+			List<HashMap<String,String>> reviewImageList = reviewService.getReviewImageList();
+			
 			
 			if(UserSeq != null){
 			

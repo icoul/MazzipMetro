@@ -11,7 +11,7 @@
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script>
 
 <!-- 동현_다음지도 api를 사용하기 위한 라이브러리 -->
-<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=07a6ce4a014b94664ec5968dee2fb0d2&libraries=services,clusterer,drawing"></script>
+<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=0d211626a8ca667e54b95403a7ae692f&libraries=services,clusterer,drawing"></script>
 
 <!-- 동현_메트로맵 tooltip을 위한 라이브러리 -->
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
@@ -26,8 +26,6 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/main.css" />
 
 <!-- 은석_레스토랑 디테일.jsp에서 차트를 이용하기 위한 라이브러리 추가 -->
-<link  rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/js/highcharts.js">
-<link  rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/js/modules/exporting.js">
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/highcharts.js"></script>
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/modules/exporting.js"></script> 
 
@@ -40,3 +38,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/1.0/zxcvbn-async.min.js"></script>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>
+
+<!-- 우철_sweet alert 라이브러리  -->
+<script src="<%= request.getContextPath() %>/resources/sweetalert-master/dist/sweetalert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/sweetalert-master/dist/sweetalert.css">
