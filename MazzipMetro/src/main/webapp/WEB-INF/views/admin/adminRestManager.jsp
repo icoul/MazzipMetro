@@ -19,33 +19,10 @@
 	    .info .link {color: #5085BB;}
 	 </style>
 	 
-	 
-	 <!-- 카테고리화된 검색어 자동완성 css -->
-	<style>
-	  .ui-autocomplete-category {
-	    font-weight: bold;
-	    padding: .2em .4em;
-	    margin: .8em 0 .2em;
-	    line-height: 1.5;
-	  }
-	  
-	  .ui-autocomplete {
-	    max-height: 300px;
-	    overflow-y: auto;
-	    /* prevent horizontal scrollbar */
-	    overflow-x: hidden;
-	  }
-	  /* IE 6 doesn't support max-height
-	   * we use height instead, but this forces the menu to always be this tall
-	   */
-	  html .ui-autocomplete {
-	    height: 300px;
-	  }
-	  </style>
 </head>
 
 
-<div id="searchFrmContainer" style="">
+<div id="searchFrmContainer" style="position: relative;">
 	<div style="float:left; width:200px; height:814px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;">
 		<h2 style="width:187px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right; font-size:25px;">관리자 <br/> 업장 검색</h2>
 	</div>
@@ -67,7 +44,7 @@
 				</div>
 				<div class="col-sm-7">
 					<div class="input-group" >
-				      	<input type="text" class="form-control" name="keyword" id="keyword" size="10" placeholder="검색어를 입력하세요!" onkeydown="goButton();">
+				      	<input type="text" class="form-control" name="adminKeyword" id="adminKeyword" size="10" placeholder="검색어를 입력하세요!" onkeydown="goButton();">
 				      	<div class="input-group-btn">
 				        	<button type="button" class="btn btn-default" onclick="getRestaurant();" >검색</button>
 				      	</div>
@@ -127,7 +104,7 @@
 	</div>
 	
 </div>
-	<%-- subrightCon --%>
+<%-- subrightCon --%>
 
 <!-- 업장수정차을 post방식으로 열기위한 form --> 
 <div id="editFrmDiv">
@@ -137,6 +114,7 @@
 </div>
 
 <script>
+	
 	$(document).ready(function(){
 		//페이지 최초로딩시 등록된 음식점 모두 띄우기
 		//getRestaurant();
@@ -147,6 +125,36 @@
 			getDongNameList();
 		});
 		
+		// 체크박스 및 라디오 박스의 값이 변할 때 마다 함수 getRestaurant() 호출한다. 사용자 경험을 위해 데이터를 희생하자. 
+		$("[name=restBgTag]").change(function(){
+			getRestaurant();
+		});
+		
+		$("[name=restMdTag]").change(function(){
+			getRestaurant();
+		});
+		
+		$("[name=restManager]").change(function(){
+			getRestaurant();
+		});
+		
+		$("[name=restStatus]").change(function(){
+			getRestaurant();
+		});
+
+		$("#selMenu_metroName").change(function(){
+			getRestaurant();
+		});
+		
+		$("#selMenu_guName").change(function(){
+			getRestaurant();
+		});
+		
+		$("#selMenu_dongName").change(function(){
+			getRestaurant();
+		});
+		
+		
 		
 		
 		var map = new daum.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
@@ -154,16 +162,19 @@
 	        level : 8// 지도의 확대 레벨 
 	    });
 		
-		$("#keyword").keyup(function(){
+		(function($){
+		$("#adminKeyword").keyup(function(){
+			
+			//alert($("#adminKeyword").val());
 			var srchType = $("[name=srchType]").val();
 		
 			$.ajax({
 				url:"<%=request.getContextPath()%>/autoComplete.eat",
 				type :"GET",
-				data: "srchType="+srchType+"&keyword="+$("#keyword").val(),
+				data: "srchType="+srchType+"&keyword="+$("#adminKeyword").val(),
 				dataType:"json",
 				success: function(data){
-					//alert(data.autoComSource);
+					//alert(data.cat_autoComSource);
 					
 					// 카테고리 auto-complete 인경우
 					if(data.autoComSource == null){
@@ -190,13 +201,13 @@
 						      }
 						    });// end of $.widget( "custom.catcomplete", $.ui.autocomplete, {})
 						
-						$("#keyword").catcomplete({
+						$("#adminKeyword").catcomplete({
 							delay : 0,
 							source : data.cat_autoComSource
 						})						
 					} else {// 일반 auto-complete인 경우
 						//alert(2);
-						$("#keyword").autocomplete({
+						$("#adminKeyword").autocomplete({
 							source : data.autoComSource
 						})	
 					}
@@ -208,7 +219,8 @@
 			}); //end of $.ajax()
 			
 			
-		});// end of $("#keyword").keyup
+		});// end of $("#adminKeyword").keyup
+	})(jQuery)
 			
 	});
 	
@@ -240,6 +252,7 @@
 	
 	// 업장 검색 함수
 	function getRestaurant(){
+	(function($){
 	
 		//alert( $("#selMenu_metroName").val()+" , "+$("#selMenu_dongName").val()+" , "+$("#selMenu_guName").val());
 		//alert($("[name=restTag]:checked").length);
@@ -263,7 +276,7 @@
 		
 		var srchFrmData = {
 			srchType : $("#srchType").val()
-		  , keyword : $("#keyword").val()
+		  , keyword : $("#adminKeyword").val()
 		  , dongId : dongId
 		  , metroId : metroId
 		  , guId : guId
@@ -279,9 +292,18 @@
 	    $.ajaxSettings.traditional = true;
 	    $.ajax({
 			url: "<%=request.getContextPath()%>/getRestaurantList.eat",  
-			async: false, 
+			//async: false, 
 			data: srchFrmData,
 			dataType: "json",
+			beforeSend:function(){
+			   	 //alert('start');
+		    	wrapWindowByMask();
+		    },
+		    complete:function(){
+		    	//alert('complete');
+		    	closeWindowByMask();
+		 
+		    }, 
 			success: function(data) {
 				//alert(data.positions[0].restName);
 				
@@ -404,15 +426,8 @@
 		        clusterer.addMarkers(markers);
 				
 		        setBounds(bounds);
-				},
-			    beforeSend:function(){
-			       
-			    	wrapWindowByMask();
-			    },
-			    complete:function(){
-			    	closeWindowByMask();
-			 
-			    }
+				}
+			    
 		});//end of $.ajax()
 	    
 
@@ -428,8 +443,11 @@
 	        map.setLevel(level, {anchor: cluster.getCenter()});  
 	    });
 		
+	})(jQuery);
 	}//end of getRestaurant()
 	
+	
+	//ajax 로딩 이미지 관련
 	function wrapWindowByMask() {
 		//alert("wrapWindowByMask()");
         //화면의 높이와 너비를 구한다.
@@ -440,12 +458,12 @@
         var mask = "<div id='mask' style='position:absolute; z-index:9000; background-color:#000000; display:none; left:0; top:0;'></div>";
         var loadingImg = '';
          
-        loadingImg += "<div id='loadingImg' style='position:absolute; left:50%; top:40%; display:none; z-index:10000;'>";
-        loadingImg += " <img src='<%=request.getContextPath()%>/resources/images/loading.gif'/>"; 
+        loadingImg += "<div id='loadingImg' style='position:absolute; left:50%; top:220px; display:none; z-index:10000;'>";
+        loadingImg += "<img src='<%=request.getContextPath()%>/resources/images/squares.gif'/>"; 
         loadingImg += "</div>";   
      
         //화면에 레이어 추가 
-        $('body')
+        $('#map')
             .append(mask)
             .append(loadingImg)
            
@@ -456,10 +474,8 @@
                 , 'opacity' : '0.3'
         });  
      
-        //마스크 표시
+        //마스크 표시, 로딩중 이미지 표시
         $('#mask').show();    
-     
-        //로딩중 이미지 표시
         $('#loadingImg').show();
     }
 	
@@ -467,7 +483,7 @@
 		//alert('closeWindowByMask()');
         $('#mask, #loadingImg').hide();
         $('#mask, #loadingImg').remove();   
-    }
+    } 
 	
 	function setBounds(bounds) {
 	    // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
