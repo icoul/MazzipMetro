@@ -1756,7 +1756,7 @@ public class MazzipMetroController {
 	
 	//15
 	@RequestMapping(value = "/faq.eat", method = {RequestMethod.GET})
-	public String faq(HttpServletRequest req) {
+	public String faq(HttpServletRequest req, HttpServletResponse res) {
 		
 		List<FaqVO> faqList = service.getFaqList();
 		req.setAttribute("faqList", faqList);

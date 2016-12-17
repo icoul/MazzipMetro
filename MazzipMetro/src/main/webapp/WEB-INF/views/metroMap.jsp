@@ -64,6 +64,8 @@
 <script>
         $(document).ready(function() {
         	
+        	goRestRanking("1");
+        	
         	// metroMap area 클릭시 이벤트 생성
         	$("[name=metroMapArea]").click(function(){
         		//종합운동장역은 map 에러가 나므로 지도를 호출하지 않는다.
@@ -438,6 +440,10 @@
 	    </div>
 	</div>
 
+<div class="rankingView">
+
+</div>
+
 <script type="text/javascript">
 
 	$(document).ready(function(){
@@ -448,7 +454,26 @@
 
 </script>
 <script>
-
+function goRestRanking(pageNum){
+	
+	var form_data = {
+			
+			pageNum : pageNum,
+			metroId : "${metroId}",   // 키값 : 밸류값 
+			dongId  : "",     // 키값 : 밸류값
+			regDate : "0",
+		}
+	
+	$.ajax({
+		url : "<%=request.getContextPath()%>/restRankingEnd.eat",
+		method : "GET",
+		data : form_data,
+		dataType : "html",
+		success : function(data){
+			$(".rankingView").html(data);
+		}
+	}); // end of ajax
+}
 
 
 function searchByMetro(reqPage, metroId){

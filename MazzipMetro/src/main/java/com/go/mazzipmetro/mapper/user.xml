@@ -21,7 +21,13 @@
 			 null,
 			</if>
 			#{userName}, #{userEmail}, #{userPw}, #{userGender},
-			#{userBirthDay}, #{userPhone}, default, #{userProfile}, default ,
+			#{userBirthDay}, #{userPhone}, default, #{userProfile},
+			<if test = "userSort == 0">
+			 '200',
+			</if>
+			<if test = "userSort == 1">
+			 default ,
+			 </if>
 			#{userStation}, #{userSort}, default)
 		</if>
 
@@ -38,7 +44,14 @@
 			null,
 			</if>
 			 #{userName}, #{userEmail}, #{userPw}, #{userGender},
-			#{userBirthDay}, #{userPhone}, default, default , #{userStation},
+			#{userBirthDay}, #{userPhone}, default,
+			 <if test = "userSort == 0">
+			 '200',
+			</if>
+			<if test = "userSort == 1">
+			 default ,
+			 </if>
+			  #{userStation},
 			#{userSort}, default)
 		</if>
 
@@ -55,10 +68,14 @@
 			null,
 			</if>
 			#{userName}, #{userEmail}, #{userPw}, #{userGender},
-			#{userBirthDay}, #{userPhone}, default, #{userProfile}, default ,
+			#{userBirthDay}, #{userPhone}, default, #{userProfile},
+			<if test = "userSort == 0">
+			 '200',
+			</if>
+			<if test = "userSort == 1">
+			 default ,
+			 </if>
 			#{userSort}, default)
-			
-			
 		</if>
 
 		<!-- 프로필사진과 선호지역을 모두 선택하지 않은 경우 -->
@@ -74,10 +91,23 @@
 			 null,
 			</if>
 			#{userName}, #{userEmail}, #{userPw}, #{userGender},
-			#{userBirthDay}, #{userPhone}, default, default , default, #{userSort},
+			#{userBirthDay}, #{userPhone}, default,
+			 <if test = "userSort == 0">
+			 '200',
+			</if>
+			<if test = "userSort == 1">
+			 default ,
+			 </if>
+			 default, #{userSort},
 			default)
 		</if>
 	</insert>
+	
+	<select id="emailDuplicateCheck" resultType="int" parameterType="String">
+		select count(*)
+		from tbl_user
+		where userEmail = #{userEmail} 
+	</select>
 
 	<!-- 로그인 체크 1:정상 로그인, 0:아이디 없음, -1: 계정자체가 없음 -->
 	<select id="logincheck" resultType="int" parameterType="java.util.HashMap">
@@ -132,6 +162,11 @@
 		</if>
 	</update>
 	
+	<update id = "user.userDelete" parameterType="String">
+		update TBL_User set userStatus = 1
+		where userSeq = #{userSeq}
+	</update>
+	
 	<select id="userPoint" resultType="int">
 		select userPoint
 		from tbl_User
@@ -153,11 +188,11 @@
 	<select id="userCoupon" resultType="int">
 		select count(*)
 		from tbl_coupon
-		where couponStatus = 0 and userSeq = #{userSeq}
+		where couponStatus = 1 and userSeq = #{userSeq}
 	</select>
 	
 	<select id="reviewCount" resultType="int">
-		select distinct count(*)
+		select count(distinct(restSeq))
 		from tbl_review
 		where reviewStatus = 0 and userSeq = #{userSeq}
 	</select>

@@ -9,6 +9,12 @@
 	<script>
         $(document).ready(function() {
 
+        	// 인덱스 페이지 메인 컨텐츠 뷰
+        	mainContentsView();
+        	
+        	// 인덱스 페이지 측면 컨텐츠 뷰
+        	rightContentView();
+        	
         	// 인덱스 페이지 업장 탑 5 랭킹
         	top5RankView();
         	
@@ -326,24 +332,50 @@
    			animator($wrapper); //다시 처음부터 시작되지 않고, 중단된 부분부터 다시 간다.
    		}); 
        }// end of scrolling */
+       
+       function goSearch(){
+    	   if($("#keyword").val().trim().length == 0){
+    		   return;
+    	   }
+    	   
+    	   searchFrm.action = "<%=request.getContextPath()%>/search.eat";
+    	   searchFrm.submit();
+       }
 
-	 // 인덱스 페이지 탑 5 업장 랭킹 뷰
+	   	// 인덱스 페이지 탑 5 업장 랭킹 뷰
 	   	function top5RankView(){
 	   			
-			var form_data = {
-					
-					metroId : "",   // 키값 : 밸류값 
-					dongId  : "",     // 키값 : 밸류값
-					regDate : 0,
-				}
-			
+	 		$.ajax({
+	 			url : "<%=request.getContextPath()%>/indexTop5RankView.eat",
+	 			method : "GET",
+	 			dataType : "html",
+	 			success : function(data){
+	 				$(".top5RankView").html(data);
+	 			}
+	 		}); // end of ajax
+	   	}
+	   	
+		// 인덱스 페이지 메인 컨텐츠 뷰
+	   	function mainContentsView(){
+	   			
 			$.ajax({
-				url : "<%=request.getContextPath()%>/indexTop5RankView.eat",
+				url : "<%=request.getContextPath()%>/mainContentsView.eat",
 				method : "GET",
-				data : form_data,
 				dataType : "html",
 				success : function(data){
-					$(".top5RankView").html(data);
+					$(".mainContentsView").html(data);
+				}
+			}); // end of ajax
+	   	}
+	 	
+	    //측면에 들어가는 배너 컨텐츠 뷰
+	   	function rightContentView(){
+	   		$.ajax({
+				url : "<%=request.getContextPath()%>/rightContentView.eat",
+				method : "GET",
+				dataType : "html",
+				success : function(data){
+					$("#rightContent").html(data);
 				}
 			}); // end of ajax
 	   	}
@@ -400,8 +432,7 @@
 				</map>
 			</div>
 			
-			<div class="promBann">
-				<img src="<%= request.getContextPath() %>/resources/images/imgProBanner01.jpg" border="0" />
+			<div class="mainContentsView">
 			</div>
 			<div  style="margin-top:30px;">
 				<div style = "height : 20px; background-color: lightgrey;">
@@ -424,6 +455,7 @@
 			</div>
 
 		</div>
+		<div class="rightCon" id="rightContent" style = "margin-top : 88px;"></div>
 		<%-- end of rightCon --%>	
 
 <jsp:include page="footer.jsp" />

@@ -13,6 +13,7 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
+	
 	$("#btn_Mazzip").click(function(){
 		$.ajax({	
 			url:"<%= request.getContextPath() %>/userRestMap.eat",
@@ -35,6 +36,16 @@ $(document).ready(function(){
 		});
 	});
 	
+	$("#userCoupon").click(function(){
+		$.ajax({	
+			url:"<%= request.getContextPath() %>/couponList.eat",
+		    type:"GET",
+			datatype:"html", 
+			success:function(data){ 
+				$("#userInfo").html(data);
+			}
+		});
+	});
 
 	$("#userAlias").click(function(){
 		$.ajax({	
@@ -46,10 +57,21 @@ $(document).ready(function(){
 			}
 		});
 	});
-
-	$("#userRandomBox").click(function(){
+	
+	$("#userEdit").click(function(){
 		$.ajax({	
-			url:"<%= request.getContextPath() %>/userRandomBox.eat",
+			url:"<%= request.getContextPath() %>/userEdit.eat",
+		    type:"GET",
+			datatype:"html", 
+			success:function(data){ 
+				$("#userInfo").html(data);
+			}
+		});
+	});
+	
+	$("#myReviewList").click(function(){
+		$.ajax({	
+			url:"<%= request.getContextPath() %>/myReviewList.eat",
 		    type:"GET",
 			datatype:"html", 
 			success:function(data){ 
@@ -58,6 +80,7 @@ $(document).ready(function(){
 		});
 	});
 });
+
 </script>
 
 
@@ -85,9 +108,11 @@ $(document).ready(function(){
 	<tr>
 		<td>마일리지</td>
 		<td><fmt:formatNumber pattern="###,###" value="${userPoint}" /> POINT</td>
-		<td>쿠폰</td>
+		<td><a href="<%= request.getContextPath()%>/couponList.eat">쿠폰</a></td>
 		<td>${coupon}</td>
 	</tr>
+</table>
+<table class = "table">
 	
 </table>
 </c:if>
@@ -107,7 +132,7 @@ $(document).ready(function(){
 	<tr>
 		<td>유효한 컨텐츠 수</td>
 		<td>${effectContent}</td>
-		<td>쿠폰</td>
+		<td><a href="<%= request.getContextPath()%>/couponList.eat">쿠폰</a></td>
 		<td>${coupon}</td>
 	</tr>
 </table>

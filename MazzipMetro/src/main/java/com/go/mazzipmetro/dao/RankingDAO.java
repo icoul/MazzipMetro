@@ -41,6 +41,59 @@ public class RankingDAO {
 		
 		return dong;
 	}
+	
+	// 업장 총 갯수를 구하는 메서드
+	public int getTotalRestNum(HashMap<String, Object> optionMap, String regDate) {
+		
+		int totalNum = 0; // 총 갯수
+		if (regDate.equals("0")) { // 기간 상관없이 랭킹
+			totalNum = sqlSession.selectOne("ranking.getNotDateTotalNum", optionMap);
+		}
+		
+		else if (regDate.equals("7")) {// 최근 일주일 랭킹
+			totalNum = sqlSession.selectOne("ranking.getOneWeekTotalNum", optionMap);
+		}
+		
+		else if (regDate.equals("30")) {// 최근 한 달 랭킹
+			totalNum = sqlSession.selectOne("ranking.getOneMonthTotalNum", optionMap);
+		}
+		
+		else if (regDate.equals("90")) {// 최근 3달 랭킹
+			totalNum = sqlSession.selectOne("ranking.getThreeMonthTotalNum", optionMap);
+		}
+		
+		else if (regDate.equals("365")) {// 최근 1년 랭킹
+			totalNum = sqlSession.selectOne("ranking.getOneYearTotalNum", optionMap);
+		}
+		
+		return totalNum;
+	}
+	
+	// 리뷰 총 갯수를 구하는 메서드
+	public int getTotalReviewNum(HashMap<String, Object> optionMap, String regDate) {
+		int totalNum = 0; // 총 갯수
+		if (regDate.equals("0")) { // 기간 상관없이 랭킹
+			totalNum = sqlSession.selectOne("ranking.getNotDateTotalReviewNum", optionMap);
+		}
+		
+		else if (regDate.equals("7")) {// 최근 일주일 랭킹
+			totalNum = sqlSession.selectOne("ranking.getOneWeekTotalReviewNum", optionMap);
+		}
+		
+		else if (regDate.equals("30")) {// 최근 한 달 랭킹
+			totalNum = sqlSession.selectOne("ranking.getOneMonthTotalReviewNum", optionMap);
+		}
+		
+		else if (regDate.equals("90")) {// 최근 3달 랭킹
+			totalNum = sqlSession.selectOne("ranking.getThreeMonthTotalReviewNum", optionMap);
+		}
+		
+		else if (regDate.equals("365")) {// 최근 1년 랭킹
+			totalNum = sqlSession.selectOne("ranking.getOneYearTotalReviewNum", optionMap);
+		}
+		
+		return totalNum;
+	}
 
 	public List<HashMap<String, String>> getRestRanking(HashMap<String, Object> optionMap, String regDate) {
 		List<HashMap<String, String>> mapList = new ArrayList<HashMap<String, String>>();
@@ -93,5 +146,6 @@ public class RankingDAO {
 		
 		return mapList;
 	}
+
 	
 }

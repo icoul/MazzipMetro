@@ -179,7 +179,12 @@ public class MapController {
 		String regDate = "0";
 		String[] bgTag = null;
 		String[] mdTag = null;
-		List<HashMap<String, String>> reviewList = rankController.reviewRankingMethod(metroId, dongId, regDate, bgTag, mdTag);
+		
+		HashMap<String, Object> optionMap = rankController.reviewRankingOptionMethod(metroId, dongId, bgTag, mdTag);
+		optionMap.put("rankStartNum", 1);
+		optionMap.put("rankEndNum", 5);
+		
+		List<HashMap<String, String>> reviewList = rankController.reviewRankingMethod(regDate, optionMap);
 		
 		// 업장 추가 이미지 가져오기(thumbnail이미지와 원래이미지 모두)
 		List<RestaurantAdVO> adImgList = service.getAdImg(restSeqList);
@@ -193,12 +198,6 @@ public class MapController {
 		List<HashMap<String, String>> bestReview = reviewService.getBestReview(userSeqList, metroId);
 		
 		req.setAttribute("bestReview", bestReview);
-		
-		
-		
-		
-		
-		
 		
 		req.setAttribute("metroName", metroName);
 		req.setAttribute("metroId", metroId);
