@@ -68,6 +68,17 @@ $(document).ready(function(){
 			}
 		});
 	});
+	
+	$("#userRandomBox").click(function(){
+		$.ajax({	
+			url:"<%= request.getContextPath() %>/userRandomBox.eat",
+		    type:"GET",
+			datatype:"html", 
+			success:function(data){ 
+				$("#userInfo").html(data);
+			}
+		});
+	});
 });
 </script>
 
@@ -77,7 +88,7 @@ $(document).ready(function(){
 <div class="subleftCon" style="height:auto; font-size:25px;">
 	<h2>My Zone</h2>
 </div>
-<div align="center" class="subrightCon" style="height:2500px;">
+<div align="center" class="subrightCon" style="height:auto;">
 <jsp:include page="../userMyPage_Menubar.jsp" />
 
 <c:if test = "${sessionScope.loginUser.userSort == 0}">
@@ -87,13 +98,36 @@ $(document).ready(function(){
 		${(sessionScope.loginUser).userName} 님의 정보</th>
 	</tr>
 	<tr>
-		<td rowspan="2">등급</td>
+		<td >등급 : ${sessionScope.loginUser.gradeName} </td>
+		
 		<td>정복한 맛집</td>
 		<td>${reviewCount}</td>
 		<td>문의건수(답변완료)</td>
 		<td>${qnaCount}</td>
 	</tr>
 	<tr>
+		<td>	Exp: <span style="color: red;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userExp }</fmt:formatNumber>  
+					
+					<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG1'}">
+						/ 200
+					</c:if>
+					<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG2'}">
+						/ 750
+					</c:if>
+					<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG3'}">
+						/ 1200
+					</c:if>
+					<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG4'}">
+						/ 3500
+					</c:if>
+					<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG5'}">
+						/ 5000
+					</c:if>
+					<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG6'}">
+						/ 10000
+					</c:if>
+					</span>
+		</td>
 		<td>마일리지</td>
 		<td><fmt:formatNumber pattern="###,###" value="${userPoint}" /> POINT</td>
 		<td>쿠폰</td>
@@ -123,12 +157,17 @@ $(document).ready(function(){
 	</tr>
 </table>
 </c:if>
-<div id="userInfo" style="margin-top:60px; position: relative;">
+<div id="userInfo" style="margin-top:60px; position: relative; ">
 </div>
 
 <div id="statistics">
 
 </div>
+
+<div style="height:160px;">
+</div>
+
 </div>
 </body>
 </html>
+<jsp:include page="../footer.jsp" />

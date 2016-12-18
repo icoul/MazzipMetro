@@ -1,10 +1,11 @@
+<%@page import="org.springframework.web.context.request.SessionScope"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="com.go.mazzipmetro.vo.UserVO"%> 
 <%@ page import="java.net.URLDecoder"%>
-<jsp:include page="library.jsp" /> 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -221,6 +222,17 @@ function getLoginUserInfo(){
 	
 	// 가고싶다 추가 함수
 	function addWantToGo(restSeq){
+			
+		<c:if test="${empty sessionScope.loginUser}">
+		<%  if(request.getParameter("restSeq") != null){
+			 session.setAttribute("returnPage", "restaurantDetail.eat?restSeq=" + request.getParameter("restSeq").trim());
+		}
+		%>
+			alert("로그인후 이용해주세요~~");
+			return;
+		</c:if>
+		
+		<c:if test="${not empty sessionScope.loginUser}">
 		$.ajax({
 				url:"<%=request.getContextPath()%>/addWantToGo.eat",
 				type :"POST",
@@ -236,6 +248,7 @@ function getLoginUserInfo(){
 					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 				} // end of error: function(request,status,error)
 			}); //end of $.ajax()
+		</c:if>	
 	}
 	
 	// 사용자 가고싶다 ajax 호출
@@ -377,7 +390,27 @@ function getLoginUserInfo(){
 					<span>${sessionScope.loginUser.userName} 님 환영합니다. </span>                        
 					현재 마일리지: <span style="color:gold; margin-right: 30px;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userPoint }</fmt:formatNumber></span>
 					등급 : <span style="color: red;">${sessionScope.loginUser.gradeName }</span>
-					Exp: <span style="color: red;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userExp }</fmt:formatNumber></span>
+					Exp: <span style="color: red;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userExp }</fmt:formatNumber>  
+					
+					<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG1'}">
+						/ 200
+					</c:if>
+					<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG2'}">
+						/ 750
+					</c:if>
+					<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG3'}">
+						/ 1200
+					</c:if>
+					<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG4'}">
+						/ 3500
+					</c:if>
+					<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG5'}">
+						/ 5000
+					</c:if>
+					<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG6'}">
+						/ 10000
+					</c:if>
+					</span>
 				</div> 
 			</div>
 		</c:if>	
