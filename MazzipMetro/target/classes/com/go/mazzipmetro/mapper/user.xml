@@ -309,6 +309,20 @@
 		where userStatus = 0 and userEmail = #{userEmail} 
 	</update>
 	
+	<!-- 한별_정복한맛집_태그별통계 -->
+	<resultMap type="java.util.HashMap" id="mapTag">
+		<result column="aliasid"  property="ALIASID"  javaType="String" />
+		<result column="aliasnum"     property="ALIASNUM"     javaType="String" />
+	</resultMap>
+	
+	<select id="tagStatistics" resultMap="mapTag" parameterType="String">
+		select ALIASID, ALIASNUM 
+		from TBL_USER_ALIAS
+		where userSeq = #{userSeq}
+		and aliasType in ('restBgTag','restMdTag')
+	</select>
+	
+	
 	<!-- *************************************************은석22************************************************************ -->
 	<!-- 1 -->
 	<insert id="insertAttend" parameterType="String">

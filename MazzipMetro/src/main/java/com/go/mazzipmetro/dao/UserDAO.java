@@ -293,6 +293,13 @@ public class UserDAO implements IDAO{
 
 
 
+	public List<String> tagStatistics(String userSeq) {
+		List<String> tagList = sqlSession.selectList("user.tagStatistics", userSeq);
+		return tagList;
+	}
+
+
+
 
 
 

@@ -36,6 +36,17 @@ $(document).ready(function(){
 		});
 	});
 	
+	$("#btn_tagStatistics").click(function(){
+		$.ajax({
+			url:"<%= request.getContextPath() %>/tagStatistics.eat",
+		    type:"GET",
+			datatype:"html", 
+			success:function(data){ 
+				$("#statistics").html(data);
+			}
+		});
+	});
+	
 	$("#userCoupon").click(function(){
 		$.ajax({	
 			url:"<%= request.getContextPath() %>/couponList.eat",
@@ -100,25 +111,28 @@ $(document).ready(function(){
 <div class="subleftCon" style="height:auto; font-size:25px;">
 	<h2>My Zone</h2>
 </div>
-<div align="center" class="subrightCon" style="height:auto;">
+<div  class="subrightCon" style="height:auto;">
 <jsp:include page="../userMyPage_Menubar.jsp" />
 
 <c:if test = "${sessionScope.loginUser.userSort == 0}">
 <table class="table">
 	<tr>
-		<th colspan="6">
+		<th colspan="8">
 		${(sessionScope.loginUser).userName} 님의 정보</th>
 	</tr>
 	<tr>
-		<td >등급 : ${sessionScope.loginUser.gradeName} </td>
+		<td rowspan="2" colspan="2" align="center" width="22%"><img src="<%= request.getContextPath() %>/resources/images/img.png" width="50px" height="50px"></td>
+		<td width="13%">등급 </td>
+		<td width="13%"> ${sessionScope.loginUser.gradeName} </td>
 		
-		<td>정복한 맛집</td>
-		<td>${reviewCount}</td>
-		<td>문의건수(답변완료)</td>
-		<td>${qnaCount}</td>
+		<td width="13%">정복한 맛집</td>
+		<td width="13%">${reviewCount}</td>
+		<td width="13%">문의건수(답변완료)</td>
+		<td width="13%">${qnaCount}</td>
 	</tr>
 	<tr>
-		<td>	Exp: <span style="color: red;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userExp }</fmt:formatNumber>  
+		<td width="13%">Exp </td>
+		<td> <span style="color: red;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userExp }</fmt:formatNumber>  
 					
 					<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG1'}">
 						/ 200
@@ -140,14 +154,28 @@ $(document).ready(function(){
 					</c:if>
 					</span>
 		</td>
-		<td>마일리지</td>
-		<td><fmt:formatNumber pattern="###,###" value="${userPoint}" /> POINT</td>
+		<td width="">마일리지</td>
+		<td><fmt:formatNumber pattern="###,###" value="${userPoint}" /></td>
 		<td><a href="<%= request.getContextPath()%>/couponList.eat">쿠폰</a></td>
 		<td>${coupon}</td>
 	</tr>
-</table>
-<table class = "table">
-	
+	<tr>
+		<td rowspan="4" width="11%">획득한 칭호</td>
+		<td width="11%">구별</td>
+		<td colspan="6"><img src="<%= request.getContextPath() %>/resources/images/img.png" width="50px" height="50px"></td>
+	</tr>
+	<tr>
+	<td>동별</td>
+	<td colspan="6"><img src="<%= request.getContextPath() %>/resources/images/img.png" width="50px" height="50px"></td>
+	</tr>
+	<tr>
+	<td>역별</td>
+	<td colspan="6"><img src="<%= request.getContextPath() %>/resources/images/img.png" width="50px" height="50px"></td>
+	</tr>
+	<tr>
+	<td>태그별</td>
+	<td colspan="6"><img src="<%= request.getContextPath() %>/resources/images/img.png" width="50px" height="50px"></td>
+	</tr>
 </table>
 </c:if>
 
@@ -159,7 +187,7 @@ $(document).ready(function(){
 	</tr>
 	<tr>
 		<td>포인트</td>
-		<td><fmt:formatNumber pattern="###,###" value="${userPoint}" /> POINT </td>
+		<td><fmt:formatNumber pattern="###,###" value="${userPoint}" /></td>
 		<td>매장수</td>
 		<td>${restCount}</td>
 	</tr>
@@ -169,9 +197,10 @@ $(document).ready(function(){
 		<td><a href="<%= request.getContextPath()%>/couponList.eat">쿠폰</a></td>
 		<td>${coupon}</td>
 	</tr>
+	
 </table>
 </c:if>
-<div id="userInfo" style="margin-top:60px; position: relative; ">
+<div id="userInfo" style="margin-top:60px; position: relative; height:auto;">
 </div>
 
 <div id="statistics">

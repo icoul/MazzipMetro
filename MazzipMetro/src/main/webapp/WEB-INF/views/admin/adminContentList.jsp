@@ -65,13 +65,13 @@ function searchKeep(){
 		</div>
 		<table class="tblType01" style="width:100%;">
 			<tr>
-				<th style="width: 70px;" >번호</th>
-				<th style="width: 80px;" >등급</th>
-				<th style="width: 70px;" >상호명</th>
-				<th style="width: 70px;" >전화번호</th>
-				<th style="width: 70px;" >주소</th>
-				<th style="width: 70px;" >컨텐츠명</th>
-				<th style="width: 70px;" >컨텐츠사용기한</th>
+				<th style="width:14%;" >번호</th>
+				<th style="width:10%;" >등급</th>
+				<th style="width:14%;" >상호명</th>
+				<th style="width:14%;" >전화번호</th>
+				<th style="width:18%;" >주소</th>
+				<th style="width:14%;" >컨텐츠명</th>
+				<th style="width:14%;" >컨텐츠사용기한</th>
 			</tr>
 		<c:forEach var="vo" items="${list}" varStatus="status"> 
 			<tr>

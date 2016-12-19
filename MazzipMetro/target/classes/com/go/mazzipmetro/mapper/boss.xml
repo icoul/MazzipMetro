@@ -60,15 +60,26 @@
 		<result column="contentLimit" 	property="contentLimit" javaType="String" />    
 	</resultMap>
 	<select id="bossConList" resultMap="bconList" parameterType="java.util.HashMap">
-		select V.rno,v.userSeq, V.restSeq, V.gradeName, V.restName, V.restPhone, V.restAddr, V.contentName, V.contentLimit
+<<<<<<< HEAD
+		select V.rno, V.restSeq, V.userSeq,V.gradeName, V.restName, V.restPhone, V.restAddr, V.contentName, V.contentLimit
 		    from 
 		    (   
-		      select rowNum as rno, T.userSeq,T.restSeq, T.gradeName, T.restName, T.restPhone, T.restAddr, T.contentName, T.contentLimit
+		      select rowNum as rno, T.restSeq, T.userSeq,T.gradeName, T.restName, T.restPhone, T.restAddr, T.contentName, T.contentLimit
+=======
+		select V.rno, V.restSeq, V.gradeName, V.restName, V.restPhone, V.restAddr, V.contentName, V.contentLimit
+		    from 
+		    (   
+		      select rowNum as rno, T.restSeq, T.gradeName, T.restName, T.restPhone, T.restAddr, T.contentName, T.contentLimit
+>>>>>>> 90a958d12399fee758a5e0a661d655c1dbe9f898
 		      from
 		      (
-		        select userSeq,restSeq, gradeName, restName, restPhone, restAddr, contentName, to_char(contentLimit, 'yyyy-mm-dd') as contentLimit
+		        select restSeq, gradeName, restName, restPhone, restAddr, contentName, to_char(contentLimit, 'yyyy-mm-dd') as contentLimit
 		        from view_contentList
-		        group by userSeq,contentName,restSeq, gradeName, restName, restPhone, restAddr, contentLimit
+<<<<<<< HEAD
+		        group by contentName,restSeq,userSeq, gradeName, restName, restPhone, restAddr, contentLimit
+=======
+		        group by contentName,restSeq, gradeName, restName, restPhone, restAddr, contentLimit
+>>>>>>> 90a958d12399fee758a5e0a661d655c1dbe9f898
 		       )T
 		  ) V
 		  where V.userSeq=#{userSeq}
@@ -80,15 +91,15 @@
     	select count(*)
     		from 
 	      (
-		        select V.rno,v.userSeq, V.restSeq, V.gradeName, V.restName, V.restPhone, V.restAddr, V.contentName, V.contentLimit
+		      select V.rno, V.restSeq, V.userSeq,V.gradeName, V.restName, V.restPhone, V.restAddr, V.contentName, V.contentLimit
 			    from 
 			    (   
-			      select rowNum as rno, T.userSeq,T.restSeq, T.gradeName, T.restName, T.restPhone, T.restAddr, T.contentName, T.contentLimit
+			      select rowNum as rno, T.restSeq, T.userSeq,T.gradeName, T.restName, T.restPhone, T.restAddr, T.contentName, T.contentLimit
 			      from
 			      (
 			        select userSeq,restSeq, gradeName, restName, restPhone, restAddr, contentName, to_char(contentLimit, 'yyyy-mm-dd') as contentLimit
 			        from view_contentList
-			        group by userSeq,contentName,restSeq, gradeName, restName, restPhone, restAddr, contentLimit
+			        group by contentName,restSeq,userSeq, gradeName, restName, restPhone, restAddr, contentLimit
 			       )T
 			  ) V
 			  where V.userSeq=#{userSeq}
