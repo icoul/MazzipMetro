@@ -475,8 +475,13 @@ public class UserService implements IService {
 		return dao.haveMazzipRecom(userSeq);
 	}
 
-
 	////////////////////////////////////////////////////////은석18 //////////////////////////////////////////////////////////////
+	
+//	한별_정복한맛집_태그별통계
+	public List<String> tagStatistics(String userSeq) {
+		List<String> tagList = dao.tagStatistics(userSeq);
+		return tagList;
+	}
 }
 
 
