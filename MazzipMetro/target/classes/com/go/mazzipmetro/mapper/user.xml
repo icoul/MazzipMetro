@@ -309,6 +309,32 @@
 		where userStatus = 0 and userEmail = #{userEmail} 
 	</update>
 	
+	<!-- 한별_정복한맛집_태그별통계 -->
+	<resultMap type="java.util.HashMap" id="mapTag_Bg">
+		<result column="aliasid"  property="ALIASID"  javaType="String" />
+		<result column="aliasnum"     property="ALIASNUM"     javaType="String" />
+	</resultMap>
+	
+	<select id="tagStatistics_Bg" resultMap="mapTag_Bg" parameterType="String">
+		select aliasid, aliasnum 
+		from TBL_USER_ALIAS
+		where userSeq = #{userSeq}
+		and aliasType = 'restBgTag'
+	</select>
+	
+	<resultMap type="java.util.HashMap" id="mapTag_Md">
+		<result column="aliasid"  property="ALIASID"  javaType="String" />
+		<result column="aliasnum"     property="ALIASNUM"     javaType="String" />
+	</resultMap>
+	
+	<select id="tagStatistics_Md" resultMap="mapTag_Md" parameterType="String">
+		select aliasid, aliasnum 
+		from TBL_USER_ALIAS
+		where userSeq = #{userSeq}
+		and aliasType = 'restMdTag'
+	</select>
+	
+	
 	<!-- *************************************************은석22************************************************************ -->
 	<!-- 1 -->
 	<insert id="insertAttend" parameterType="String">

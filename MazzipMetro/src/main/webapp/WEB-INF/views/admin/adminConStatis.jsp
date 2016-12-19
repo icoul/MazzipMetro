@@ -96,7 +96,7 @@
 					<tr>
 						<td>${list.CONTENTNAME}</td>
 						<td>${list.CONTENTSEQ}</td>
-						<td><fmt:formatNumber pattern="###,###" value="${list.CONTENTPRICE}" /> \</td>
+						<td><fmt:formatNumber pattern="###,###" value="${list.CONTENTPRICE}" /></td>
 					</tr>
 				</tbody>	
 				</c:forEach>
