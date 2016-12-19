@@ -174,18 +174,58 @@ $(function () {
 	 
 	 <!-- 음식점 info -->
 	 <div id="restInfo" style="width: 50%; float: left;">
-	 <div style="float: right;">
+	 <div style="float:right;">
 	 	<button type="button"  onclick="addWantToGo(${restvo.restseq});" class="btnLogin">가고싶다</button>
 	 </div>
+	 
 	  <table class="table table-condensed" style="margin-top: 50px;">
+	      
 	      <tr>
-	        <th>주소</th>
-	        <th>${restvo.restaddr}</th>
+	      	<th>업체명</th>
+	      	<td>${restvo.restname }</td>
+	      </tr>
+	      <tr>
+	      	<th>대분류/중분류</th>
+	      	<td>${restvo.restbgtag} / ${restvo.restmdtag} </td>
 	      </tr>
 	      <tr>
 	        <th>전화번호</th>
 	        <td>${restvo.restphone}</td>
 	      </tr>
+	      <tr>
+	        <th>주소</th>
+	        <td>${restvo.restaddr}</td>
+	      </tr>
+	      
+	      <tr>
+	      	<th>분위기 평점</th>
+	      	<td></td>
+	      </tr>	
+	      
+	      <tr>
+	        <th>맛 평점</th>
+	      	<td></td>
+	      </tr>
+	    
+	      <tr>
+	      	<th>가격평점</th>
+	      	<td></td>
+	      </tr>
+	      	
+	     <tr>
+	      	<th>서비스 평점</th>
+	      	<td></td>
+	     </tr>
+	      
+	      <tr>
+	      	<th>테마</th>
+	      	<td>
+	      		<c:if test="${empty restThemeList}">
+	      		 	1
+	      		 </c:if>
+	      	</td>
+	      </tr>
+	      
 	  </table>
 	  </div>
 </div>

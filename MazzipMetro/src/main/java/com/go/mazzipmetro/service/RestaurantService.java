@@ -170,6 +170,12 @@ public class RestaurantService implements IService{
 		return reviewGrade;
 	}
 
+	public List<String> getRestThemeList(String restSeq) {
+		List<String> restThemeList = dao.getRestThemeList(restSeq);
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>service check"+restThemeList);
+		return restThemeList;
+	}
+
 
 
 	

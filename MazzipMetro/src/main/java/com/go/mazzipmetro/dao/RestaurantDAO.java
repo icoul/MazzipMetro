@@ -234,5 +234,10 @@ public class RestaurantDAO implements IDAO{
 		return reviewGrade;
 	}
 
+	public List<String> getRestThemeList(String restSeq) {
+		List<String> restThemeList = sqlSession.selectList("restaurant.getRestThemeList", restSeq);
+		return restThemeList;
+	}
+
 
 }

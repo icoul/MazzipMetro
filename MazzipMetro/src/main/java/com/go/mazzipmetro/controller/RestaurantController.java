@@ -174,17 +174,20 @@ public class RestaurantController {
 		
 		HashMap<String,String> restvo = service.getRestaurant(restSeq);
 		
-			
+		System.out.println("**************************************************");	
 //		List<HashMap<String,String>> reviewList = reviewService.getReviewList(restvo.get("restseq"));
 		
 		List<HashMap<String,String>> agelineChartList = reviewService.getAgeLineChartList(restSeq);
 		List<HashMap<String,String>> genderChartList = reviewService.getGenderChartList(restSeq);
-		
-				
+		System.out.println("**************************************************");	
+		List<String> restThemeList = service.getRestThemeList(restSeq);
+		System.out.println("**************************************************");	
 		req.setAttribute("restSeq", restSeq);
 		req.setAttribute("restvo", restvo);
 		req.setAttribute("agelineChartList", agelineChartList);
 		req.setAttribute("genderChartList", genderChartList);
+		req.setAttribute("restThemeList", restThemeList);
+		System.out.println("**************************************************");	
 		return "restaurant/restaurantDetail";
 	}
 	
