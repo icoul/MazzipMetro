@@ -9,6 +9,8 @@
 	 getReviewList();
 				
 	});
+ 
+ (function($){ 
 
  $(function () {
 
@@ -65,6 +67,11 @@
          }]
      });
  }); // end of $(function () {}
+ 
+ })(jQuery);
+ 
+(function($){ 
+
 
 $(function () {
 
@@ -135,6 +142,8 @@ $(function () {
      });
  }); // end of $(function () {}
  
+})(jQuery)
+ 
  function getReviewList(){
 	 
 	 var form_data = {
@@ -164,11 +173,16 @@ $(function () {
 <div id="restDiv" style="margin: 30px; padding: 10px;">	
 	<!-- 음식점 이름 -->
 	 <div style="padding: 30px; width: 100%;">
-	 	 <span style="font-weight:bold; font-size:30px; ">${restvo.restname }</span>
+	 	<div style="float: left;">
+		 	 <span style="font-weight:bold; font-size:30px; ">${restvo.restname }</span>
+	 	</div>
+	 	 <div style="float: right;">
+		 	 <span style="font-weight:italic; font-size:13px;">방문자수  <span style="color : orange;">${restvo.restVisitor }</span></span>	 	 
+	 	 </div>
 	 </div>
 	 
 	 <!-- 음식점 메인 이미지 -->
-	 <div id="restMainImge" style="width: 50%;float: left; margin-bottom: 30px;" align="center">
+	 <div id="restMainImge" style="width: 50%;clear:both; float: left; margin-bottom: 30px;" align="center">
 	 	<img src="<%=request.getContextPath()%>/files/${restvo.restImg}" width="500px;" >
 	 </div>
 	 
@@ -202,13 +216,17 @@ $(function () {
 	<div id="map" style="width:100%;height:300px"></div> <!-- 지도를 표시할 div 입니다 -->
 	<div id="roadview" style="width:100%;height:300px"></div> <!-- 로드뷰를 표시할 div 입니다 -->
 </div>
+<br/> <br/> 
 
- <div id="container" style="width: 450px; height: 300px; left: 100px; "></div>
- <div id="container2" style="width: 450px; height: 300px; left: 100px; "></div>
-
+<!-- 차트 div입니다. -->
+<div style="width: 85%;">
+	<div id="container" style="width: 50%; height: 300px; float: left"></div>
+	<div id="container2" style="width: 50%; height: 300px; left: 100px;float: left "></div>
+</div>
 	<%-- <h2>${restvo.restname}의 리뷰(${reviewList.size() })</h2> --%>
 	
-	<div id="ReviewListAjax"></div>
+	
+	<div id="ReviewListAjax" style="clear:both;padding-top: 50px;"></div>
 	
 	<input type = "hidden" id = "StartRno" value = "1" />
 	<input type = "hidden" id = "EndRno" value = "5" />
@@ -240,6 +258,7 @@ var mapContainer = document.getElementById('map'), // 지도를 표시할 div
     };
 // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
 var map = new daum.maps.Map(mapContainer, mapOption);
+map.setZoomable(false);
 var myPosition = new daum.maps.LatLng('${restvo.restlatitude}' , '${restvo.restlongitude}');
 // 지도에 올릴 마커를 생성합니다.
 var mMarker = new daum.maps.Marker({
@@ -285,4 +304,3 @@ daum.maps.event.addListener(rv, 'init', function() {
 </script>
 
  <jsp:include page="../footer.jsp" />
-

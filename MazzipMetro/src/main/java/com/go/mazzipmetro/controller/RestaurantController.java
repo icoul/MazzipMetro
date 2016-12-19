@@ -547,6 +547,7 @@ public class RestaurantController {
 			String start = req.getParameter("StartRno");    // 1, 3, 5....
 			String len = req.getParameter("EndRno");        // 2개씩   더보기.. 클릭에 보여줄 상품의 갯수 단위크기   
 			List<String> likers = new ArrayList<String>();
+			List<String> reviewSeq = new ArrayList<String>();
 			
 			
 			if (start == null) {
@@ -582,7 +583,16 @@ public class RestaurantController {
 					
 			List<HashMap<String,String>> reviewList = service.getReviewList(map);
 			int TotalReviewCount = service.getTotalReview(restSeq);
-			List<HashMap<String,String>> reviewImageList = reviewService.getReviewImageList();
+			
+			for(int i=0; i<reviewList.size(); i++)
+			{
+				reviewSeq.add(reviewList.get(i).get("reviewSeq"));
+			}
+			
+			// 리뷰 이미지배열을 담은 배열 가져오기
+			List<List<String>> reviewImageList = reviewService.getReviewImageList(reviewSeq);
+			
+			
 			
 			
 			if(UserSeq != null){

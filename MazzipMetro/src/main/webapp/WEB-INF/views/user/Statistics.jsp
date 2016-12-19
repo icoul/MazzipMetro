@@ -12,7 +12,7 @@
 </style>
 
 <script type="text/javascript">
-
+(function($){
 $(function () {	
     $('#hb_statistics_Gender').highcharts({
     	 chart: {
@@ -267,6 +267,7 @@ $(function () {
          }]
      });
  });
+})(jQuery)
 
 $(document).ready(function(){
 	$("#table_Gender").hide();

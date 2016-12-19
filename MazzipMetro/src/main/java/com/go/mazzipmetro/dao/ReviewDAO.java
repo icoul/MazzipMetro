@@ -19,10 +19,22 @@ public class ReviewDAO implements IDAO{
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
-	// 리뷰 이미지 가져오기
-	public List<HashMap<String,String>> getReviewImageList() {
-		List<HashMap<String,String>> reviewImageList = sqlSession.selectList("review.getReviewImageList");
-		return reviewImageList;
+	// 리뷰 이미지배열을 담은 배열 가져오기
+	public List<List<String>> getReviewImageList(List<String> reviewSeq) {
+				
+		List<List<String>> MapList = new ArrayList<>();
+		
+		for(int i=0; i<reviewSeq.size(); i++)
+		{	
+			String revSeq  = reviewSeq.get(i);
+			
+			List<String> imgList = sqlSession.selectList("review.getReviewImageList",revSeq);
+			
+			MapList.add(imgList);
+		}
+		System.out.println("ddddddddddddddddd"+MapList);
+		
+		return MapList;
 	}
 	// 리뷰시퀀스로 리뷰 이미지 가져오기
 	public List<HashMap<String, String>> getReviewImageList(String reviewseq) {

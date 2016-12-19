@@ -92,7 +92,7 @@ function goReviewAdd(restSeq){
 	}
 
 $(document).ready(function(){
-	
+	alert('${reviewImageList}');
 	
 });// end of ready
 
@@ -139,11 +139,10 @@ $(document).ready(function(){
 							</p>
 						</c:if>
 					
+					
 					<section>
-						<c:forEach var="reviewImage" items="${reviewImageList}">
-							<c:if test="${review.reviewSeq == reviewImage.reviewSeq}">
-								<a data-toggle="modal" data-target="#reviewImageDiv${status.index}"  data-dismiss="modal"><img src="<%= request.getContextPath() %>/files/${reviewImage.reviewImg}" width="100px" height="100px"/></a> &nbsp;&nbsp;
-							</c:if>
+						<c:forEach var="reviewImg" items="${reviewImageList[status.index]}">
+							<a data-toggle="modal" data-target="#reviewImageDiv${status.index}"  data-dismiss="modal"><img src="<%= request.getContextPath() %>/files/${reviewImg}" width="100px" height="100px"/></a> &nbsp;&nbsp;						
 						</c:forEach>
 					</section>
 				</td>
