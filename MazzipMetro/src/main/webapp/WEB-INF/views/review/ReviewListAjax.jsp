@@ -92,7 +92,7 @@ function goReviewAdd(restSeq){
 	}
 
 $(document).ready(function(){
-	alert('${reviewImageList}');
+	
 	
 });// end of ready
 

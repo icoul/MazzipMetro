@@ -22,7 +22,7 @@ public class ReviewDAO implements IDAO{
 	// 리뷰 이미지배열을 담은 배열 가져오기
 	public List<List<String>> getReviewImageList(List<String> reviewSeq) {
 				
-		List<List<String>> MapList = new ArrayList<>();
+		List<List<String>> ReviewImageListList = new ArrayList<>();
 		
 		for(int i=0; i<reviewSeq.size(); i++)
 		{	
@@ -30,11 +30,11 @@ public class ReviewDAO implements IDAO{
 			
 			List<String> imgList = sqlSession.selectList("review.getReviewImageList",revSeq);
 			
-			MapList.add(imgList);
+			ReviewImageListList.add(imgList);
 		}
-		System.out.println("ddddddddddddddddd"+MapList);
+		System.out.println("ddddddddddddddddd"+ReviewImageListList);
 		
-		return MapList;
+		return ReviewImageListList;
 	}
 	// 리뷰시퀀스로 리뷰 이미지 가져오기
 	public List<HashMap<String, String>> getReviewImageList(String reviewseq) {
