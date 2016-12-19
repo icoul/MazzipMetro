@@ -478,9 +478,14 @@ public class UserService implements IService {
 	////////////////////////////////////////////////////////은석18 //////////////////////////////////////////////////////////////
 	
 //	한별_정복한맛집_태그별통계
-	public List<String> tagStatistics(String userSeq) {
-		List<String> tagList = dao.tagStatistics(userSeq);
-		return tagList;
+	public List<String> tagStatistics_Bg(String userSeq) {
+		List<String> tagList_Bg = dao.tagStatistics_Bg(userSeq);
+		return tagList_Bg;
+	}
+	
+	public List<String> tagStatistics_Md(String userSeq) {
+		List<String> tagList_Md = dao.tagStatistics_Md(userSeq);
+		return tagList_Md;
 	}
 }
 
