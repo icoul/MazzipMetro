@@ -316,7 +316,7 @@
 	</resultMap>
 	
 	<select id="tagStatistics" resultMap="mapTag" parameterType="String">
-		select ALIASID, ALIASNUM 
+		select aliasid, aliasnum 
 		from TBL_USER_ALIAS
 		where userSeq = #{userSeq}
 		and aliasType in ('restBgTag','restMdTag')
