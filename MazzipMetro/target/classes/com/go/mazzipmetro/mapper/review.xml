@@ -129,7 +129,7 @@
 		 <result column="reviewTatse"			property="reviewTatse"				javaType="String" />
 		 <result column="reviewPrice"			property="reviewPrice"				javaType="String" />
 		 <result column="reviewService"			property="reviewService"			javaType="String" />
-		 <result column="reviewAvgScore"	  	property="reviewAvgScore" 			javaType="String" />
+		 <result column="reviewAvgScore"	  	property="reviewAvgScore" 			javaType="Double" />
 		 <result column="reviewRegDate"	  	    property="reviewRegDate" 			javaType="String" />
 		 <result column="restSeq"	  	  		property="restSeq" 					javaType="String" />
 	</resultMap>
