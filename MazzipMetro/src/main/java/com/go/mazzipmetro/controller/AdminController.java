@@ -36,7 +36,7 @@ public class AdminController {
 	
 	// 관리자용 업장 수정 페이지 (업장 등급 리스트)
 	@RequestMapping(value="/restGradeList.eat", method={RequestMethod.POST})
-	public String  restGradeList(HttpServletRequest req) {
+	public String  admin_restGradeList(HttpServletRequest req, HttpServletResponse res) {
 		List<HashMap<String, String>> restGradeList = service.restGradeList();
 		JSONObject jObj = new JSONObject();
 		jObj.put("restGradeList", restGradeList);
@@ -47,7 +47,7 @@ public class AdminController {
 	
 	// 관리자용 업장 수정 페이지 
 	@RequestMapping(value="/adminRestEdit.eat", method={RequestMethod.POST})
-	public String login_adminRestEdit(HttpServletRequest req, HttpServletResponse res) {
+	public String admin_RestEdit(HttpServletRequest req, HttpServletResponse res) {
 		String restSeq = req.getParameter("restSeq");
 		RestaurantVO vo = service.adminRestEditInfo(restSeq);
 		RestaurantAdVO ravo = service.adminRestAdImgInfo(restSeq);
@@ -60,7 +60,7 @@ public class AdminController {
 	
 	// 관리자용 업장 수정 요청 
 	@RequestMapping(value="/adminRestEditEnd.eat", method={RequestMethod.POST})
-	public String  adminRestEditEnd(HttpServletRequest req, RestaurantVO vo, FileVO fvo) {
+	public String  admin_RestEditEnd(HttpServletRequest req, HttpServletResponse res, RestaurantVO vo, FileVO fvo) {
 		//삭제할 소개 이미지 리스트
 		String[] delAdImgArr = null;
 		
@@ -143,14 +143,14 @@ public class AdminController {
 	
 	// 등록된 업장관리
 	@RequestMapping(value="/adminRestManager.eat", method={RequestMethod.GET})
-	public String adminRestManager() {
+	public String admin_RestManager(HttpServletRequest req, HttpServletResponse res) {
 		
 		return "/admin/adminRestManager";
 	}
 	
 	//회원리스트
 	@RequestMapping(value="/adminUserList.eat", method={RequestMethod.GET})
-	public String adminUserList(HttpServletRequest req, HttpSession session) {
+	public String admin_UserList(HttpServletRequest req, HttpServletResponse res, HttpSession session) {
 		
 		String pageNo = req.getParameter("pageNo");
 		
@@ -294,7 +294,7 @@ public class AdminController {
 	
 	//회원삭제
 	@RequestMapping(value = "/adminUserDel.eat", method = RequestMethod.POST)
-	public String userDel(HttpServletRequest req) {
+	public String admin_userDel(HttpServletRequest req, HttpServletResponse res) {
 		
 		String userSeq = req.getParameter("userSeq");
 		System.out.println(userSeq);
@@ -329,7 +329,7 @@ public class AdminController {
 	
 	//회원 수정 팝업창 열기
 	@RequestMapping(value = "/adminUserEdit.eat", method = RequestMethod.GET)
-	public String userEdit(HttpServletRequest req) {
+	public String admin_userEdit(HttpServletRequest req, HttpServletResponse res) {
 		String userSeq = req.getParameter("userSeq");
 		
 	//	map.put("userSeq", userSeq);
@@ -347,7 +347,7 @@ public class AdminController {
 	
 	//회원 수정 완료시
 	@RequestMapping(value = "/adminUserEditEnd.eat", method = RequestMethod.POST)
-	public String userEditEnd(HttpServletRequest req, HttpSession ses) {
+	public String admin_userEditEnd(HttpServletRequest req, HttpServletResponse res, HttpSession ses) {
 		String userSeq = req.getParameter("userSeq");
 		String userName = req.getParameter("userName");
 		String gradeName = req.getParameter("gradeName");
@@ -388,7 +388,7 @@ public class AdminController {
 	
 	//컨텐츠관리
 	@RequestMapping(value="/adminContentList.eat", method={RequestMethod.GET})
-	public String adminConList(HttpServletRequest req, HttpSession session) {
+	public String admin_ConList(HttpServletRequest req, HttpServletResponse res, HttpSession session) {
 		
 		String pageNo = req.getParameter("pageNo");
 		
@@ -552,7 +552,7 @@ public class AdminController {
 	
 	//컨텐츠 통계
 	@RequestMapping(value = "/adminConStatis.eat", method = RequestMethod.GET)
-	public String adminConStatis(HttpServletRequest req) {
+	public String admin_ConStatis(HttpServletRequest req, HttpServletResponse res) {
 		
 		List<HashMap<String,String>> list_statis = service.adminConStatis();
 		

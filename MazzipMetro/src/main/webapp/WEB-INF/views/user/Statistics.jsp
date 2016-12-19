@@ -241,6 +241,7 @@ $(function () {
      });
  });
 
+
 $(document).ready(function(){
 	$("#table_Gender").hide();
 	$("#table_AgeLine").hide();

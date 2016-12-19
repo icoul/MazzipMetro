@@ -241,7 +241,7 @@
 			</tr>
 			<tr>
 				<td align="center">
-					<input type="text" name="reviewTitle" id="reviewTitle" value=""/>
+					<input type="text" name="reviewTitle" id="reviewTitle" value="" placeholder="최대 18자"/>
 					<input type="hidden" id="reviewHit" name="reviewHit" value="like!"/>
 				</td>
 			</tr>			

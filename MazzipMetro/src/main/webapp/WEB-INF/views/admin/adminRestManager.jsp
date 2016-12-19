@@ -19,82 +19,79 @@
 	    .info .link {color: #5085BB;}
 	 </style>
 	 
-	 
-	 <!-- 카테고리화된 검색어 자동완성 css -->
-	<style>
-	  .ui-autocomplete-category {
-	    font-weight: bold;
-	    padding: .2em .4em;
-	    margin: .8em 0 .2em;
-	    line-height: 1.5;
-	  }
-	  
-	  .ui-autocomplete {
-	    max-height: 300px;
-	    overflow-y: auto;
-	    /* prevent horizontal scrollbar */
-	    overflow-x: hidden;
-	  }
-	  /* IE 6 doesn't support max-height
-	   * we use height instead, but this forces the menu to always be this tall
-	   */
-	  html .ui-autocomplete {
-	    height: 300px;
-	  }
-	  </style>
 </head>
 
 
-<div id="searchFrmContainer" style="padding-top: 20px;">
+<div id="searchFrmContainer" style="position: relative;">
 	<div style="float:left; width:200px; height:814px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;">
 		<h2 style="width:187px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right; font-size:25px;">관리자 <br/> 업장 검색</h2>
 	</div>
 	<%-- subleftCon --%>
-	<div style="float:left; width:1200px;  text-align:center; border-right:1px solid #dbdbdb; padding-bottom:40px;">
-		<span style="font-weight: bold; color: gray; text-decoration: underline;">관리자님, 검색조건을 입력후에 검색버튼을 눌러주세요.</span>
+	<div style="float:left; width:1200px;  text-align:center; border-right:1px solid #dbdbdb; padding-bottom:40px; padding-top: 20px;">
+		<span style="font-weight: bold; color: orange; text-decoration: underline;">관리자님, 검색조건을 입력후에 검색버튼을 눌러주세요.</span>
 		<form id="searchFrm" onsubmit="return false;">
 			<br/>
-			<select name="srchType" id="srchType">
-				<option value="all">통합검색</option>
-				<option value="restName">음식점명 검색</option>
-				<option value="metroName">지하철역사 검색</option>
-				<option value="dongName">동 검색</option>
-				<option value="guName">구 검색</option>
-			</select>
-			<input type="text" name="keyword" id="keyword" onkeydown="goButton();">
-			<button type="button" onclick="getRestaurant();">검색</button> 
+			
+			<div class="container" style="width: 80%; margin: auto;" >
+				<div class="col-sm-2 col-sm-offset-2">
+					<select name="srchType" id="srchType" class="form-control">
+						<option value="all">통합검색</option>
+						<option value="restName">음식점명 검색</option>
+						<option value="metroName">지하철역사 검색</option>
+						<option value="dongName">동 검색</option>
+						<option value="guName">구 검색</option>
+					</select>
+				</div>
+				<div class="col-sm-7">
+					<div class="input-group" >
+				      	<input type="text" class="form-control" name="adminKeyword" id="adminKeyword" size="10" placeholder="검색어를 입력하세요!" onkeydown="goButton();">
+				      	<div class="input-group-btn">
+				        	<button type="button" class="btn btn-default" onclick="getRestaurant();" >검색</button>
+				      	</div>
+			      	</div>
+			    </div>
+		    </div> 
 			<br/>
+			<div class="row" style="width: 80%; margin: auto;" >
+				<!-- 지하철 역명 선택 -->
+				<div class="col-sm-3 col-sm-offset-2">
+				<select name="selMenu_metroName" id="selMenu_metroName" class="form-control" ></select>
+				</div>
+				
+				<!-- 구 이름 선택 -->
+				<div class="col-sm-3">
+				<select name="selMenu_guName" id="selMenu_guName" class="form-control"></select>
+				</div>
+				
+				<!-- 동이름 선택 -->
+				<div class="col-sm-3">
+				<select name="selMenu_dongName" id="selMenu_dongName" class="form-control"><option value="dongId">구를 먼저 선택하세요!</option></select>
+				</div>
+			</div>
 			<br/> 
-			<!-- 지하철 역명 선택 -->
-			<select name="selMenu_metroName" id="selMenu_metroName"></select>&nbsp;&nbsp;
-			<!-- 구 이름 선택 -->
-			<select name="selMenu_guName" id="selMenu_guName"></select>&nbsp;&nbsp;
-			<!-- 동이름 선택 -->
-			<select name="selMenu_dongName" id="selMenu_dongName"><option value="dongId">구를 먼저 선택하세요!</option></select>
-			<br/>
-			<br/> 
+			
 			<div align="center">
-				<table style="border: solid 1px black;">
-				<tr><th style="border: solid 1px black; padding: 10px;">대분류</th><td style="border: solid 1px black; padding: 10px;">
+				<table>
+				<tr><th style="border: solid 1px gray; padding: 10px;">대분류</th><td style="border: solid 1px gray; padding: 10px;">
 				<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="한식">한식</label>
 				<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="일식">일식</label>
 				<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="중식">중식</label>
 				<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="양식">양식</label>
 				<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="동남아">동남아</label>
 				</td></tr>
-				<tr><th style="border: solid 1px black; padding: 10px;">중분류</th><td style="border: solid 1px black; padding: 10px;">
+				<tr><th style="border: solid 1px gray; padding: 10px;">중분류</th><td style="border: solid 1px gray; padding: 10px;">
 				<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="고기류">고기류</label>
 				<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="어폐류">어폐류</label>
 				<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="채소류">채소류</label>
 				<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="면류">면류</label>
 				<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="밥류">밥류</label>
 				</td></tr>
-				<tr><th style="border: solid 1px black; padding: 10px;">관리여부</th><td style="border: solid 1px black; padding: 10px;">
+				<tr><th style="border: solid 1px gray; padding: 10px;">관리여부</th><td style="border: solid 1px gray; padding: 10px;">
 				<label class="radio-inline"><input type="radio" name="restManager" value="all" checked>전체</label>
 				<label class="radio-inline"><input type="radio" name="restManager" value="admin">관리자 관할 음식점</label>
 				<label class="radio-inline"><input type="radio" name="restManager" value="notAdmin">업주관리 음식점</label><!-- userSeq가 관리자가 아닌 매장 -->
 				</td></tr>
-				<tr><th style="border: solid 1px black; padding: 10px;">삭제여부</th><td style="border: solid 1px black; padding: 10px;"> 
+				<tr><th style="border: solid 1px gray; padding: 10px;">삭제여부</th><td style="border: solid 1px gray; padding: 10px;"> 
 				<label class="radio-inline"><input type="radio" name="restStatus" value="all" checked>전체</label>
 				<label class="radio-inline"><input type="radio" name="restStatus" value="0">이용 가능 음식점</label>
 				<label class="radio-inline"><input type="radio" name="restStatus" value="1">삭제된 음식점</label>
@@ -107,7 +104,7 @@
 	</div>
 	
 </div>
-	<%-- subrightCon --%>
+<%-- subrightCon --%>
 
 <!-- 업장수정차을 post방식으로 열기위한 form --> 
 <div id="editFrmDiv">
@@ -117,6 +114,7 @@
 </div>
 
 <script>
+	
 	$(document).ready(function(){
 		//페이지 최초로딩시 등록된 음식점 모두 띄우기
 		//getRestaurant();
@@ -127,6 +125,36 @@
 			getDongNameList();
 		});
 		
+		// 체크박스 및 라디오 박스의 값이 변할 때 마다 함수 getRestaurant() 호출한다. 사용자 경험을 위해 데이터를 희생하자. 
+		$("[name=restBgTag]").change(function(){
+			getRestaurant();
+		});
+		
+		$("[name=restMdTag]").change(function(){
+			getRestaurant();
+		});
+		
+		$("[name=restManager]").change(function(){
+			getRestaurant();
+		});
+		
+		$("[name=restStatus]").change(function(){
+			getRestaurant();
+		});
+
+		$("#selMenu_metroName").change(function(){
+			getRestaurant();
+		});
+		
+		$("#selMenu_guName").change(function(){
+			getRestaurant();
+		});
+		
+		$("#selMenu_dongName").change(function(){
+			getRestaurant();
+		});
+		
+		
 		
 		
 		var map = new daum.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
@@ -134,16 +162,19 @@
 	        level : 8// 지도의 확대 레벨 
 	    });
 		
-		$("#keyword").keyup(function(){
+		(function($){
+		$("#adminKeyword").keyup(function(){
+			
+			//alert($("#adminKeyword").val());
 			var srchType = $("[name=srchType]").val();
 		
 			$.ajax({
 				url:"<%=request.getContextPath()%>/autoComplete.eat",
 				type :"GET",
-				data: "srchType="+srchType+"&keyword="+$("#keyword").val(),
+				data: "srchType="+srchType+"&keyword="+$("#adminKeyword").val(),
 				dataType:"json",
 				success: function(data){
-					//alert(data.autoComSource);
+					//alert(data.cat_autoComSource);
 					
 					// 카테고리 auto-complete 인경우
 					if(data.autoComSource == null){
@@ -170,13 +201,13 @@
 						      }
 						    });// end of $.widget( "custom.catcomplete", $.ui.autocomplete, {})
 						
-						$("#keyword").catcomplete({
+						$("#adminKeyword").catcomplete({
 							delay : 0,
 							source : data.cat_autoComSource
 						})						
 					} else {// 일반 auto-complete인 경우
 						//alert(2);
-						$("#keyword").autocomplete({
+						$("#adminKeyword").autocomplete({
 							source : data.autoComSource
 						})	
 					}
@@ -188,7 +219,8 @@
 			}); //end of $.ajax()
 			
 			
-		});// end of $("#keyword").keyup
+		});// end of $("#adminKeyword").keyup
+	})(jQuery)
 			
 	});
 	
@@ -243,7 +275,7 @@
 		
 		var srchFrmData = {
 			srchType : $("#srchType").val()
-		  , keyword : $("#keyword").val()
+		  , keyword : $("#adminKeyword").val()
 		  , dongId : dongId
 		  , metroId : metroId
 		  , guId : guId
@@ -259,9 +291,18 @@
 	    $.ajaxSettings.traditional = true;
 	    $.ajax({
 			url: "<%=request.getContextPath()%>/getRestaurantList.eat",  
-			async: false, 
+			//async: false, 
 			data: srchFrmData,
 			dataType: "json",
+			beforeSend:function(){
+			   	 //alert('start');
+		    	wrapWindowByMask();
+		    },
+		    complete:function(){
+		    	//alert('complete');
+		    	closeWindowByMask();
+		 
+		    }, 
 			success: function(data) {
 				//alert(data.positions[0].restName);
 				
@@ -385,6 +426,7 @@
 				
 		        setBounds(bounds);
 				}
+			    
 		});//end of $.ajax()
 	    
 
@@ -401,6 +443,45 @@
 	    });
 		
 	}//end of getRestaurant()
+	
+	
+	//ajax 로딩 이미지 관련
+	function wrapWindowByMask() {
+		//alert("wrapWindowByMask()");
+        //화면의 높이와 너비를 구한다.
+        var maskHeight = $(document).height();  
+		//var maskWidth = $(document).width();
+        var maskWidth = window.document.body.clientWidth;
+         
+        var mask = "<div id='mask' style='position:absolute; z-index:9000; background-color:#000000; display:none; left:0; top:0;'></div>";
+        var loadingImg = '';
+         
+        loadingImg += "<div id='loadingImg' style='position:absolute; left:50%; top:220px; display:none; z-index:10000;'>";
+        loadingImg += "<img src='<%=request.getContextPath()%>/resources/images/squares.gif'/>"; 
+        loadingImg += "</div>";   
+     
+        //화면에 레이어 추가 
+        $('#map')
+            .append(mask)
+            .append(loadingImg)
+           
+        //마스크의 높이와 너비를 화면 것으로 만들어 전체 화면을 채운다.
+        $('#mask').css({
+                'width' : maskWidth
+                , 'height': maskHeight
+                , 'opacity' : '0.3'
+        });  
+     
+        //마스크 표시, 로딩중 이미지 표시
+        $('#mask').show();    
+        $('#loadingImg').show();
+    }
+	
+	function closeWindowByMask() {
+		//alert('closeWindowByMask()');
+        $('#mask, #loadingImg').hide();
+        $('#mask, #loadingImg').remove();   
+    } 
 	
 	function setBounds(bounds) {
 	    // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다

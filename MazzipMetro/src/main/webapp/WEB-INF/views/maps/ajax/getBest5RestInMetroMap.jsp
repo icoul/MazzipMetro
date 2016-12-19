@@ -14,8 +14,8 @@
 
 <style> 
 .tooltip_templates { display: none; }
-table, th, td {border: solid 1px navy;}
-th, td{padding:5px;}
+table#tbl_best5, table#tbl_best5 th, table#tbl_best5 td {border: solid 1px navy; border-collapse: collapse;}
+table#tbl_best5 th, table#tbl_best5 td{padding:5px;}
 
 </style>
 <script>
@@ -90,7 +90,7 @@ th, td{padding:5px;}
 	<!-- 베스트 음식점 정보 -->
 	<div style="position:relative; float: left;margin: 10px;" align="center">
 		<h3 style="padding-bottom: 5px;"><span style="font-weight: bold;">${metroName}</span> 맛집 베스트5</h3> 
-		<table>
+		<table id="tbl_best5">
 		<c:forEach var="vo" items="${places}"  varStatus="status" begin="0" end="4">
 			<tr>
 				<th style="color: lime">${status.count}</th>
@@ -100,7 +100,6 @@ th, td{padding:5px;}
 				<c:if test="${status.count%2 == 0 }">
 					<td style="background-color: #ccffcc;">
 				</c:if>
-				
 					<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${vo.restSeq}" data-tooltip-content="#tooltip_content_rest${status.index}" class='tooltipster tooltip_group' style="color:black; text-decoration: none;">
 					<span style='font-weight:bold; font-size:18px;'>${vo.restName}</span>
 					<span style="color:#0066ff; font-size:14px;">${vo.restBgTag}</span>
@@ -116,10 +115,10 @@ th, td{padding:5px;}
 	<c:if test="${reviews != null && not empty reviews}">
 		<div style="position:relative; float: left; margin-left: 20px; margin: 10px;" align="center" >
 		<h3 style="padding-bottom: 5px;"><span style="font-weight: bold;">${metroName}</span> 마스터즈 5</h3>  
-		<table>
+		<table id="tbl_best5">
 			<c:forEach var="vo" items="${reviews}"  varStatus="status" begin="0" end="4">
 				<tr>
-					<th style="color: lime">${status.count}</th>
+					<th style="color: lime;">${status.count}</th>
 					<c:if test="${status.count%2 == 0 }">
 						<td style="background-color: lime;">
 					</c:if>

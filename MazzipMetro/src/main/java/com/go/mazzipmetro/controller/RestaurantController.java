@@ -1,8 +1,8 @@
 package com.go.mazzipmetro.controller;
 
 
+import java.net.InetAddress;
 import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,14 +18,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.go.mazzipmetro.common.FileManager;
 import com.go.mazzipmetro.common.ThumbnailManager;
 import com.go.mazzipmetro.service.RestaurantService;
-
 import com.go.mazzipmetro.service.ReviewService;
-
+import com.go.mazzipmetro.vo.FileVO;
 import com.go.mazzipmetro.vo.MenuVO;
-
 import com.go.mazzipmetro.vo.RestaurantVO;
 import com.go.mazzipmetro.vo.UserVO;
-import com.go.mazzipmetro.vo.FileVO;
 
 @Controller
 public class RestaurantController {
@@ -167,9 +164,70 @@ public class RestaurantController {
 	
 
 	//음식점의 상세페이지 보여주기 no
+	@SuppressWarnings("unchecked")// unchecked cast대비 annotation
 	@RequestMapping(value = "/restaurantDetail.eat", method = RequestMethod.GET)
 	public String resDetail(HttpServletRequest req, HttpServletResponse res, HttpSession ses) {
 		String restSeq = req.getParameter("restSeq");
+		InetAddress ip = null;
+		List<String> newRestSeqList = null;
+		
+		// ip 주소 얻어오기
+		try {           
+			ip = InetAddress.getLocalHost();  
+			System.out.println("Host Name = [" + ip.getHostName() + "]");
+			System.out.println("Host Address = [" + ip.getHostAddress() + "]");
+			System.out.println(" RemoteAddr = [" + req.getRemoteAddr() + "]");
+			System.out.println(" RemoteHost = [" + req.getRemoteHost() + "]");
+			System.out.println(" X-Forwarded-For: " + req.getHeader("x-forwarded-for") + "]");
+			/*
+			 	Host Name = [nobodjs-MacBook-Pro.local]
+				Host Address = [218.38.137.28]
+				 RemoteAddr = [0:0:0:0:0:0:0:1]
+				 RemoteHost = [0:0:0:0:0:0:0:1]
+				 X-Forwarded-For: null]
+			 */
+		}      
+		catch (Exception e) {    
+			System.out.println(e);     
+		}   
+		
+		List<String> restSeqList = (List<String>)ses.getAttribute(ip.getHostAddress());
+		boolean flag = false;
+		
+		// 처음 restaurantDetail 페이지 접속시
+		if(restSeqList == null){
+			
+			System.out.println(">>>>>>처음 restaurantDetail 페이지 접속시 : 세션 생성 요청"); 
+			newRestSeqList = new ArrayList<>();
+			newRestSeqList.add(restSeq);
+			ses.setAttribute( ip.getHostAddress(), newRestSeqList);
+			
+			int result = service.updateRestVisitor(restSeq);		
+			System.out.println(">>>>>>>>>>>>>>> 조회수 증가 "+((result > 0 )?"성공":"실패")); 
+			
+		} else {// restaurantDetail 페이지에 다수번 접속시
+			
+			System.out.println(">>>>>>>>>>>>>>>>>restSeqList = "+restSeqList); 
+			for (String str : restSeqList) {
+				if (str.equals(restSeq)) {
+					flag = true;
+				} 
+			}// end of for (String str : restSeqList)
+			
+			// 해당 restSeq가 없다면.
+			if (!flag) {
+				// 조회수 증가 요청
+				System.out.println(">>>>>>조회수 증가 요청"); 
+				int result = service.updateRestVisitor(restSeq);	
+				
+				restSeqList.add(restSeq);
+				// 참조형이라, 새로 set할 필요없음.
+				//ses.setAttribute( ip.getHostAddress(), newRestSeqList);
+				
+				System.out.println(">>>>>>>>>>>>>>> 조회수 증가 "+((result > 0 )?"성공":"실패")); 
+			}
+			
+		} // end of if(restSeqList == null) ~ else
 		
 		
 		HashMap<String,String> restvo = service.getRestaurant(restSeq);
@@ -547,6 +605,7 @@ public class RestaurantController {
 			String start = req.getParameter("StartRno");    // 1, 3, 5....
 			String len = req.getParameter("EndRno");        // 2개씩   더보기.. 클릭에 보여줄 상품의 갯수 단위크기   
 			List<String> likers = new ArrayList<String>();
+			List<String> reviewSeq = new ArrayList<String>();
 			
 			
 			if (start == null) {
@@ -572,7 +631,7 @@ public class RestaurantController {
 			
 			
 			HashMap<String,String> restvo = service.getRestaurant(restSeq);
-			List<HashMap<String,String>> reviewImageList = reviewService.getReviewImageList();
+			
 			
 			HashMap<String, String> map = new HashMap<String, String>();
 			
@@ -582,6 +641,17 @@ public class RestaurantController {
 					
 			List<HashMap<String,String>> reviewList = service.getReviewList(map);
 			int TotalReviewCount = service.getTotalReview(restSeq);
+			
+			for(int i=0; i<reviewList.size(); i++)
+			{
+				reviewSeq.add(reviewList.get(i).get("reviewSeq"));
+			}
+			
+			// 리뷰 이미지배열을 담은 배열 가져오기
+			List<List<String>> reviewImageList = reviewService.getReviewImageList(reviewSeq);
+			
+			
+			
 			
 			if(UserSeq != null){
 			
