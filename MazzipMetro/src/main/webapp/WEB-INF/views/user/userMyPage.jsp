@@ -14,6 +14,7 @@
 
 $(document).ready(function(){
 	
+	
 	$("#btn_Mazzip").click(function(){
 		$.ajax({	
 			url:"<%= request.getContextPath() %>/userRestMap.eat",
@@ -28,6 +29,17 @@ $(document).ready(function(){
 	$("#btn_userQna").click(function(){
 		$.ajax({	
 			url:"<%= request.getContextPath() %>/myQnaList.eat",
+		    type:"GET",
+			datatype:"html", 
+			success:function(data){ 
+				$("#userInfo").html(data);
+			}
+		});
+	});
+	
+	$("#btn_tagStatistics").click(function(){
+		$.ajax({
+			url:"<%= request.getContextPath() %>/tagStatistics.eat",
 		    type:"GET",
 			datatype:"html", 
 			success:function(data){ 
@@ -93,32 +105,45 @@ $(document).ready(function(){
 });
 
 </script>
-
+<style type="text/css">
+	.gradeDetail {overflow:hidden;}
+	.gradeDetail li {float:left; position:relative; height:70px; font-weight:bold;}
+	.gradeDetail li span {display:block; padding-left:7px; font-size:8px;} 
+	.gradeDetail li.icoMaster {width:57px;  padding-top:25px; background:url(http://localhost:9090/mazzipmetro/resources/images/icoMaster.png) no-repeat;}
+	.gradeDetail li.icoNovice {width:57px; padding-top:18px; background:url(http://localhost:9090/mazzipmetro/resources/images/icoNovice.png) no-repeat;}
+	.gradeDetail li.icoNovice span.twist {-ms-transform: rotate(-10deg); /* IE 9 */-webkit-transform: rotate(-10deg); /* Chrome, Safari, Opera */  transform: rotate(-10deg);}
+	.gradeDetail li.icoSkill {width:65px; padding-top:21px; font-size:7px; font-weight:bold; background:url(http://localhost:9090/mazzipmetro/resources/images/icoSkilled.png) no-repeat;}
+	.gradeDetail li.icoSkill span {padding-left:14px;}
+	.gradeDetail li span.detail {position:absolute; width:50px; left:8px; bottom:0; padding-left:0; font-size:9px;}
+</style>
 
 </head>
 <body>
-<div class="subleftCon" style="height:auto; font-size:25px;">
+<div class="subleftCon" style="height:1500px; font-size:25px;">
 	<h2>My Zone</h2>
 </div>
-<div align="center" class="subrightCon" style="height:auto;">
+<div  class="subrightCon" style="height:auto;">
 <jsp:include page="../userMyPage_Menubar.jsp" />
 
 <c:if test = "${sessionScope.loginUser.userSort == 0}">
 <table class="table">
 	<tr>
-		<th colspan="6">
+		<th colspan="8">
 		${(sessionScope.loginUser).userName} 님의 정보</th>
 	</tr>
 	<tr>
-		<td >등급 : ${sessionScope.loginUser.gradeName} </td>
+		<td rowspan="2" colspan="2" align="center" width="22%"><img src="<%= request.getContextPath() %>/resources/images/img.png" width="50px" height="50px"></td>
+		<td width="13%">등급 </td>
+		<td width="13%"> ${sessionScope.loginUser.gradeName} </td>
 		
-		<td>정복한 맛집</td>
-		<td>${reviewCount}</td>
-		<td>문의건수(답변완료)</td>
-		<td>${qnaCount}</td>
+		<td width="13%">정복한 맛집</td>
+		<td width="13%">${reviewCount}</td>
+		<td width="13%">문의건수(답변완료)</td>
+		<td width="13%">${qnaCount}</td>
 	</tr>
 	<tr>
-		<td>	Exp: <span style="color: red;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userExp }</fmt:formatNumber>  
+		<td width="13%">Exp </td>
+		<td> <span style="color: red;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userExp }</fmt:formatNumber>  
 					
 					<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG1'}">
 						/ 200
@@ -140,14 +165,64 @@ $(document).ready(function(){
 					</c:if>
 					</span>
 		</td>
-		<td>마일리지</td>
-		<td><fmt:formatNumber pattern="###,###" value="${userPoint}" /> POINT</td>
+		<td width="">마일리지</td>
+		<td><fmt:formatNumber pattern="###,###" value="${userPoint}" /></td>
 		<td><a href="<%= request.getContextPath()%>/couponList.eat">쿠폰</a></td>
 		<td>${coupon}</td>
 	</tr>
-</table>
-<table class = "table">
-	
+	<tr>
+		<td rowspan="4" width="11%">획득한 칭호</td>
+		<td width="11%">구별</td>
+		<td colspan="6">
+			<ul class="gradeDetail">
+				<li class="icoMaster"><span>강남구</span><span class="detail">마스터</span></li>
+				<li class="icoNovice"><span class="twist">서초구</span><span class="detail">초보자</span></li>
+				<li class="icoSkill"><span>성동구</span><span class="detail">숙련자</span></li>
+				<li class="icoMaster"><span>영등포구</span><span class="detail">마스터</span></li>
+				<li class="icoNovice"><span class="twist">강북구</span><span class="detail">초보자</span></li>
+				<li class="icoSkill"><span>동작구</span><span class="detail">숙련자</span></li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>동별</td>
+		<td colspan="6">
+			<ul class="gradeDetail">
+				<li class="icoMaster"><span>역삼동</span><span class="detail">마스터</span></li>
+				<li class="icoNovice"><span class="twist">일원동</span><span class="detail">초보자</span></li>
+				<li class="icoSkill"><span>삼성동</span><span class="detail">숙련자</span></li>
+				<li class="icoMaster"><span>서초동</span><span class="detail">마스터</span></li>
+				<li class="icoNovice"><span class="twist">대치동</span><span class="detail">초보자</span></li>
+				<li class="icoSkill"><span>압구정동</span><span class="detail">숙련자</span></li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>역별</td>
+		<td colspan="6">
+			<ul class="gradeDetail">
+				<li class="icoMaster"><span>강남역</span><span class="detail">마스터</span></li>
+				<li class="icoNovice"><span class="twist">서울역</span><span class="detail">초보자</span></li>
+				<li class="icoSkill"><span>교대역</span><span class="detail">숙련자</span></li>
+				<li class="icoMaster"><span>서초역</span><span class="detail">마스터</span></li>
+				<li class="icoNovice"><span class="twist">선릉역</span><span class="detail">초보자</span></li>
+				<li class="icoSkill"><span>성수역</span><span class="detail">숙련자</span></li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>태그별</td>
+		<td colspan="6">
+			<ul class="gradeDetail">
+				<li class="icoMaster"><span>고기</span><span class="detail">마스터</span></li>
+				<li class="icoNovice"><span class="twist">물고기</span><span class="detail">초보자</span></li>
+				<li class="icoSkill"><span>야채</span><span class="detail">숙련자</span></li>
+				<li class="icoMaster"><span>동남아</span><span class="detail">마스터</span></li>
+				<li class="icoNovice"><span class="twist">양식</span><span class="detail">초보자</span></li>
+				<li class="icoSkill"><span>중식</span><span class="detail">숙련자</span></li>
+			</ul>
+		</td>
+	</tr>
 </table>
 </c:if>
 
@@ -159,7 +234,7 @@ $(document).ready(function(){
 	</tr>
 	<tr>
 		<td>포인트</td>
-		<td><fmt:formatNumber pattern="###,###" value="${userPoint}" /> POINT </td>
+		<td><fmt:formatNumber pattern="###,###" value="${userPoint}" /></td>
 		<td>매장수</td>
 		<td>${restCount}</td>
 	</tr>
@@ -169,9 +244,10 @@ $(document).ready(function(){
 		<td><a href="<%= request.getContextPath()%>/couponList.eat">쿠폰</a></td>
 		<td>${coupon}</td>
 	</tr>
+	
 </table>
 </c:if>
-<div id="userInfo" style="margin-top:60px; position: relative; ">
+<div id="userInfo" style="margin-top:60px; position: relative; height:auto;">
 </div>
 
 <div id="statistics">

@@ -180,7 +180,7 @@
 </head>
 <body>
 
-		<h2>${sessionScope.loginUser.userName}님의<br> 정보수정</h2>
+		<h2>${sessionScope.loginUser.userName}님의 정보수정</h2>
 <form name="contact_form" id="contact_form" class="well form-horizontal" action="<%= request.getContextPath() %>/userEditEnd.eat" method="post" enctype="multipart/form-data" style="background:none;">
 		<fieldset>
 		

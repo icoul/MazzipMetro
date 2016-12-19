@@ -10,6 +10,43 @@
 </style>
 	
 <script type="text/javascript">
+$(document).ready(function(){
+	$("#table_Gender").hide();
+	$("#table_AgeLine").hide();
+	$("#table_ReviewCount").hide();
+	$("#table_ReviewGrade").hide();
+	 
+	$("#btn_Gender").click(function(){
+		 $("#table_Gender").show();
+		 $("#table_AgeLine").hide();
+		 $("#table_ReviewCount").hide();
+		 $("#table_ReviewGrade").hide();
+	});
+	
+	$("#btn_AgeLine").click(function(){
+		 $("#table_AgeLine").show();
+		 $("#table_Gender").hide();
+		 $("#table_ReviewCount").hide();
+		 $("#table_ReviewGrade").hide();
+	});
+	
+	$("#btn_ReviewCount").click(function(){
+		 $("#table_ReviewCount").show();
+		 $("#table_Gender").hide();
+		 $("#table_AgeLine").hide();
+		 $("#table_ReviewGrade").hide();
+	});
+	
+	$("#btn_ReviewGrade").click(function(){
+		 $("#table_ReviewGrade").show();
+		 $("#table_Gender").hide();
+		 $("#table_AgeLine").hide();
+		 $("#table_ReviewCount").hide();
+		 
+	});
+	
+});// end of ready
+
 jQuery.noConflict();
 
 $(function () {	
@@ -241,42 +278,7 @@ $(function () {
      });
  });
 
-$(document).ready(function(){
-	$("#table_Gender").hide();
-	$("#table_AgeLine").hide();
-	$("#table_ReviewCount").hide();
-	$("#table_ReviewGrade").hide();
-	 
-	$("#btn_Gender").click(function(){
-		 $("#table_Gender").show();
-		 $("#table_AgeLine").hide();
-		 $("#table_ReviewCount").hide();
-		 $("#table_ReviewGrade").hide();
-	});
-	
-	$("#btn_AgeLine").click(function(){
-		 $("#table_AgeLine").show();
-		 $("#table_Gender").hide();
-		 $("#table_ReviewCount").hide();
-		 $("#table_ReviewGrade").hide();
-	});
-	
-	$("#btn_ReviewCount").click(function(){
-		 $("#table_ReviewCount").show();
-		 $("#table_Gender").hide();
-		 $("#table_AgeLine").hide();
-		 $("#table_ReviewGrade").hide();
-	});
-	
-	$("#btn_ReviewGrade").click(function(){
-		 $("#table_ReviewGrade").show();
-		 $("#table_Gender").hide();
-		 $("#table_AgeLine").hide();
-		 $("#table_ReviewCount").hide();
-		 
-	});
-	
-});
+
  
 
 </script>

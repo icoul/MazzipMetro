@@ -19,10 +19,22 @@ public class ReviewDAO implements IDAO{
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
-	// 리뷰 이미지 가져오기
-	public List<HashMap<String,String>> getReviewImageList() {
-		List<HashMap<String,String>> reviewImageList = sqlSession.selectList("review.getReviewImageList");
-		return reviewImageList;
+	// 리뷰 이미지배열을 담은 배열 가져오기
+	public List<List<String>> getReviewImageList(List<String> reviewSeq) {
+				
+		List<List<String>> ReviewImageListList = new ArrayList<>();
+		
+		for(int i=0; i<reviewSeq.size(); i++)
+		{	
+			String revSeq  = reviewSeq.get(i);
+			
+			List<String> imgList = sqlSession.selectList("review.getReviewImageList",revSeq);
+			
+			ReviewImageListList.add(imgList);
+		}
+		System.out.println("ddddddddddddddddd"+ReviewImageListList);
+		
+		return ReviewImageListList;
 	}
 	// 리뷰시퀀스로 리뷰 이미지 가져오기
 	public List<HashMap<String, String>> getReviewImageList(String reviewseq) {
@@ -104,6 +116,7 @@ public class ReviewDAO implements IDAO{
 		int reviewCount = sqlSession.selectOne("review.MyReviewCount", map);
 		return reviewCount;
 	}
+	// 실시간 리뷰 가져오기
 	public List<HashMap<String, String>> getRealReview(HashMap<String, String> map) {
 		List<HashMap<String, String>> list = sqlSession.selectList("review.getRealReview",map);
 		return list;
@@ -195,6 +208,12 @@ public class ReviewDAO implements IDAO{
 	// 동칭호의 aliasNum을 구한다.
 	public int checkDongAliasNum(HashMap<String, String> dongMap) {
 		return sqlSession.selectOne("review.checkDongAliasNum", dongMap);
+	}
+	
+	//한 업장의 분위기, 가격, 서비스, 맛 , 총 평점의 평점을 가져온다.
+	public HashMap<String, String> getReviewAvgScore(String restSeq) {
+		HashMap<String, String> reviewAvgScore = sqlSession.selectOne("getReviewAvgScore" , restSeq);
+		return reviewAvgScore;
 	}	
 
 

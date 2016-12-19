@@ -3,12 +3,32 @@
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../library.jsp" />
 <jsp:include page="../top.jsp" />
+
+
  <script type="text/javascript">
  $(document).ready(function(){
 		//alert("${restSeq}");
-	 getReviewList();
-				
+	 <c:if test="${not empty restImageList}">
+			var adImg =  "${restImageList.get(0)}"; 
+			goLargeImgView(adImg);
+			
+			$(".my_thumbnail").hover(
+					function(){
+						$(this).addClass("myborder");
+					},
+					function(){
+						$(this).removeClass("myborder");
+					}
+			);
+	</c:if>
+		
+		getReviewList();
+	 
+
+	
 	});
+ 
+ (function($){ 
 
  $(function () {
 
@@ -65,6 +85,11 @@
          }]
      });
  }); // end of $(function () {}
+ 
+ })(jQuery);
+ 
+(function($){ 
+
 
 $(function () {
 
@@ -135,6 +160,8 @@ $(function () {
      });
  }); // end of $(function () {}
  
+})(jQuery)
+ 
  function getReviewList(){
 	 
 	 var form_data = {
@@ -158,6 +185,53 @@ $(function () {
 		
 	
  }
+ 
+ 
+function goLargeImgView(adImg) {
+	$.ajax({ 
+		url : "getLargeAdImgFilename.eat", 	
+		method : "GET",
+		data : "adImg=" + adImg,  
+				/*
+				   전송방식이 get 이든 post 이든 
+				   getLargeImgFilename.action?seqfileno=11 처럼 보내게 된다.
+				   !! 그리고 중요한 것은 !!!
+				   ajax 를 이용한 전송방식에는 
+				   url페이지명과  data가 구분되어져 있으므로
+				   구분자인 ? 가 필요없다는 것이다.
+				   GET 방식에서 ? 의 기능은
+				   WAS(톰캣서버)가 어디까지가 응용프로그램 주소이고,
+				   어디부터가 데이터인지 구분하기 위한 구분자로 사용되는 것이다.
+				   그러므로 ajax 에서는 키1=값1&키2=값2&키3=값3 으로 반복된다.
+			   */
+		dataType : "JSON",  // 응답은 JSON 타입으로 받아라.
+		success: function(data) { // 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
+				// data 는 ajax 요청에 의해 url 페이지 getLargeImgFilename.action 으로 부터 리턴받은 데이터
+		   			   
+		   $("#largeImg").empty();
+		   // <div id="largeImg"> 엘리먼트를 모두 비워서 새로운 데이터를 받을수 있게 해라
+		   
+		   var html = "";
+		   
+		   $.each(data, function(key, val){
+				html += "<img src='<%=request.getContextPath() %>/resources/images/"+val+"' "+"width='460' height='345' />";    
+		   });
+				
+	   	   /*
+	   	    	$.each() 함수는 $(selector).each()와는 다르다.
+	   	    	$.each(순회해야할 1개의 객체 또는 배열, function(indexInArray, valueOfElement){ } );
+	   	    	배열을 다루는 경우, 콜백함수는 배열의 인덱스와 값을 인자로 갖는다
+	   	   */
+	   	   $("#largeImg").html(html);   // html을  largeImg 넣어주어라
+		
+		}, // end of success: function(data) ---------------------
+		
+		error: function(request, status, error){
+	        alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	    } // end of error: function(request,status,error)
+		
+	}); // end of $.ajax --------------------
+}
  </script>
 
 
@@ -173,24 +247,125 @@ $(function () {
 	 </div>
 	 
 	 <!-- 음식점 메인 이미지 -->
-	 <div id="restMainImge" style="width: 50%;clear:both; float: left; margin-bottom: 30px;" align="center">
+	 <%-- <div id="restMainImge" style="width: 50%;clear:both; float: left; margin-bottom: 30px;" align="center">
 	 	<img src="<%=request.getContextPath()%>/files/${restvo.restImg}" width="500px;" >
+	 </div> --%>
+	 
+	 <div id="restMainImge" style="width: 50%; clear:both; float: left; margin-top: 50px; margin-bottom: 30px;" align="center">
+	 
+	 <div id="largeImg" style="float: left;  border: green solid 0px; width: 100%;">
+	</div>  
+		
+	<div  style="border: red solid 0px; clear:both; float:left; width: 100%;  padding: 20px;">
+			<c:forEach var="img" items="${restImageList}" varStatus="status">
+				<img src="<%= request.getContextPath() %>/resources/images/${img}" width="70px" height="70px" class="my_thumbnail" style="margin-right: 10px;" onmouseover="goLargeImgView('${img}')" />
+			</c:forEach>
+	</div>
+	 
 	 </div>
 	 
 	 <!-- 음식점 info -->
 	 <div id="restInfo" style="width: 50%; float: left;">
-	 <div style="float: right;">
+	 <div style="float:right;">
 	 	<button type="button"  onclick="addWantToGo(${restvo.restseq});" class="btnLogin">가고싶다</button>
 	 </div>
-	  <table class="table table-condensed" style="margin-top: 50px;">
+	 
+	  <table class="table table-condensed" style="margin-top: 50px; width:80%; ">
+	      
 	      <tr>
-	        <th>주소</th>
-	        <th>${restvo.restaddr}</th>
+	      	<th>업체명</th>
+	      	<td>${restvo.restname }</td>
+	      </tr>
+	      <tr>
+	      	<th>대분류/중분류</th>
+	      	<td>${restvo.restbgtag} / ${restvo.restmdtag} </td>
 	      </tr>
 	      <tr>
 	        <th>전화번호</th>
 	        <td>${restvo.restphone}</td>
 	      </tr>
+	      <tr>
+	        <th>주소</th>
+	        <td>${restvo.restaddr}</td>
+	      </tr>
+	      
+	      <tr>
+	      	<th>분위기 평점</th>
+	      	<td>
+	      	
+	      	<div style="CLEAR: both;	PADDING-RIGHT: 0px;	PADDING-LEFT: 0px;	BACKGROUND: url(<%= request.getContextPath() %>/resources/images/icon_star2.gif) 0px 0px;	FLOAT: left;	PADDING-BOTTOM: 0px;	MARGIN: 0px;	WIDTH: 90px;	PADDING-TOP: 0px;	HEIGHT: 18px;">
+				<p style="WIDTH: ${reviewAvgScore.avgReviewMood * 20}%; PADDING-RIGHT:0px;	PADDING-LEFT:0px;	BACKGROUND: url(<%= request.getContextPath() %>/resources/images/icon_star.gif) 0px 0px;	PADDING-BOTTOM: 0px;	MARGIN: 0px;	PADDING-TOP: 0px;	HEIGHT: 18px;">
+				</p>
+			</div>	
+			 &nbsp; ${reviewAvgScore.avgReviewMood }점</td>
+	      </tr>	
+	      
+	      <tr>
+	        <th>맛 평점</th>
+	        
+	       <td>
+	        <div style="CLEAR: both;	PADDING-RIGHT: 0px;	PADDING-LEFT: 0px;	BACKGROUND: url(<%= request.getContextPath() %>/resources/images/icon_star2.gif) 0px 0px;	FLOAT: left;	PADDING-BOTTOM: 0px;	MARGIN: 0px;	WIDTH: 90px;	PADDING-TOP: 0px;	HEIGHT: 18px;">
+				<p style="WIDTH: ${reviewAvgScore.avgReviewTaste * 20}%; PADDING-RIGHT:0px;	PADDING-LEFT:0px;	BACKGROUND: url(<%= request.getContextPath() %>/resources/images/icon_star.gif) 0px 0px;	PADDING-BOTTOM: 0px;	MARGIN: 0px;	PADDING-TOP: 0px;	HEIGHT: 18px;">
+				</p>
+			</div>	
+			
+	      	&nbsp;
+	      	${reviewAvgScore.avgReviewTaste }점</td>
+	      </tr>
+	    
+	      <tr>
+	      	<th>가격평점</th>
+	      	<td>
+	      	 <div style="CLEAR: both;	PADDING-RIGHT: 0px;	PADDING-LEFT: 0px;	BACKGROUND: url(<%= request.getContextPath() %>/resources/images/icon_star2.gif) 0px 0px;	FLOAT: left;	PADDING-BOTTOM: 0px;	MARGIN: 0px;	WIDTH: 90px;	PADDING-TOP: 0px;	HEIGHT: 18px;">
+				<p style="WIDTH: ${reviewAvgScore.avgReviewPrice * 20}%; PADDING-RIGHT:0px;	PADDING-LEFT:0px;	BACKGROUND: url(<%= request.getContextPath() %>/resources/images/icon_star.gif) 0px 0px;	PADDING-BOTTOM: 0px;	MARGIN: 0px;	PADDING-TOP: 0px;	HEIGHT: 18px;">
+				</p>
+			</div>	
+			
+	      	&nbsp;
+	      	${reviewAvgScore.avgReviewPrice }점</td>
+	      </tr>
+	      	
+	     <tr>
+	      	<th>서비스 평점</th>
+	      	<td>
+	      	 <div style="CLEAR: both;	PADDING-RIGHT: 0px;	PADDING-LEFT: 0px;	BACKGROUND: url(<%= request.getContextPath() %>/resources/images/icon_star2.gif) 0px 0px;	FLOAT: left;	PADDING-BOTTOM: 0px;	MARGIN: 0px;	WIDTH: 90px;	PADDING-TOP: 0px;	HEIGHT: 18px;">
+				<p style="WIDTH: ${reviewAvgScore.avgReviewService * 20}%; PADDING-RIGHT:0px;	PADDING-LEFT:0px;	BACKGROUND: url(<%= request.getContextPath() %>/resources/images/icon_star.gif) 0px 0px;	PADDING-BOTTOM: 0px;	MARGIN: 0px;	PADDING-TOP: 0px;	HEIGHT: 18px;">
+				</p>
+			</div>	
+			
+	      	&nbsp;
+	      	${reviewAvgScore.avgReviewService }점</td>
+	     </tr>
+	      
+	        <tr>
+	      	<th>총 평점</th>
+	      	<td>
+	      	 <div style="CLEAR: both;	PADDING-RIGHT: 0px;	PADDING-LEFT: 0px;	BACKGROUND: url(<%= request.getContextPath() %>/resources/images/icon_star2.gif) 0px 0px;	FLOAT: left;	PADDING-BOTTOM: 0px;	MARGIN: 0px;	WIDTH: 90px;	PADDING-TOP: 0px;	HEIGHT: 18px;">
+				<p style="WIDTH: ${reviewAvgScore.avgReviewAvgScore * 20}%; PADDING-RIGHT:0px;	PADDING-LEFT:0px;	BACKGROUND: url(<%= request.getContextPath() %>/resources/images/icon_star.gif) 0px 0px;	PADDING-BOTTOM: 0px;	MARGIN: 0px;	PADDING-TOP: 0px;	HEIGHT: 18px;">
+				</p>
+			</div>	
+			
+	      	&nbsp;
+	      	${reviewAvgScore.avgReviewAvgScore }점  | ${reviewAvgScore.personCount}명 참여</td>
+	     </tr>
+	      
+	      <tr>
+	      	<th>테마</th>
+	      	<td>
+	      		<c:forEach var="theme" items="${restThemeList}" varStatus="status">
+	      			
+	      			<c:if test="${status.count <  restThemeList.size() }">
+	      				<a href="">${theme} </a>,
+	      			</c:if>
+	      			
+	      			<c:if test="${status.count ==  restThemeList.size() }">
+	      				<a href="">${theme}</a>
+	      			</c:if>
+	      			
+	      		</c:forEach>
+	      	</td>
+	      </tr>
+	      
 	  </table>
 	  </div>
 </div>
@@ -297,4 +472,3 @@ daum.maps.event.addListener(rv, 'init', function() {
 </script>
 
  <jsp:include page="../footer.jsp" />
-

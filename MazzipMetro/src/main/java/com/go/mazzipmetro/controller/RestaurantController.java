@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -232,17 +233,25 @@ public class RestaurantController {
 		
 		HashMap<String,String> restvo = service.getRestaurant(restSeq);
 		
-			
 //		List<HashMap<String,String>> reviewList = reviewService.getReviewList(restvo.get("restseq"));
 		
 		List<HashMap<String,String>> agelineChartList = reviewService.getAgeLineChartList(restSeq);
 		List<HashMap<String,String>> genderChartList = reviewService.getGenderChartList(restSeq);
 		
-				
+
+		List<String> restThemeList = service.getRestThemeList(restSeq); //한 음식점의 테마를 restSeq를 통해 가져온다.
+		HashMap<String,String> reviewAvgScore =  reviewService.getReviewAvgScore(restSeq); //한 업장의 분위기, 가격, 서비스, 맛 , 총 평점의 평점을 가져온다.
+		
+		//은석 음식점상세페이지에서 음식점 사진들 
+		List<String> restImageList = service.getRestImageList(restSeq);
+		
 		req.setAttribute("restSeq", restSeq);
 		req.setAttribute("restvo", restvo);
 		req.setAttribute("agelineChartList", agelineChartList);
 		req.setAttribute("genderChartList", genderChartList);
+		req.setAttribute("restThemeList", restThemeList);
+		req.setAttribute("reviewAvgScore", reviewAvgScore);
+		req.setAttribute("restImageList", restImageList);
 		return "restaurant/restaurantDetail";
 	}
 	
@@ -605,6 +614,7 @@ public class RestaurantController {
 			String start = req.getParameter("StartRno");    // 1, 3, 5....
 			String len = req.getParameter("EndRno");        // 2개씩   더보기.. 클릭에 보여줄 상품의 갯수 단위크기   
 			List<String> likers = new ArrayList<String>();
+			List<String> reviewSeq = new ArrayList<String>();
 			
 			
 			if (start == null) {
@@ -630,7 +640,7 @@ public class RestaurantController {
 			
 			
 			HashMap<String,String> restvo = service.getRestaurant(restSeq);
-			List<HashMap<String,String>> reviewImageList = reviewService.getReviewImageList();
+			
 			
 			HashMap<String, String> map = new HashMap<String, String>();
 			
@@ -640,6 +650,17 @@ public class RestaurantController {
 					
 			List<HashMap<String,String>> reviewList = service.getReviewList(map);
 			int TotalReviewCount = service.getTotalReview(restSeq);
+			
+			for(int i=0; i<reviewList.size(); i++)
+			{
+				reviewSeq.add(reviewList.get(i).get("reviewSeq"));
+			}
+			
+			// 리뷰 이미지배열을 담은 배열 가져오기
+			List<List<String>> reviewImageList = reviewService.getReviewImageList(reviewSeq);
+			
+			
+			
 			
 			if(UserSeq != null){
 			
@@ -681,8 +702,6 @@ public class RestaurantController {
 		
 		@RequestMapping(value="/Statistics.eat", method={RequestMethod.GET})
 		public String Statistics(HttpServletRequest req, HttpServletResponse res, HttpSession session){
-			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
-			String userSeq = loginUser.getUserSeq();
 
 			String restSeq = req.getParameter("restSeq");
 			
@@ -698,19 +717,29 @@ public class RestaurantController {
 //			리뷰평점 차트 DB
 			List<HashMap<String, String>> reviewGrade = service.restStati_ReviewGrade(restSeq);
 			
-			
-//			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
-//			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
-			
 			req.setAttribute("genderList", genderList);
 			req.setAttribute("ageList", ageList);
 			req.setAttribute("reviewCount", reviewCount);
 			req.setAttribute("reviewGrade", reviewGrade);
-//			req.setAttribute("Agelist", Agelist);
-//			req.setAttribute("Agelist", Agelist);
 			
 			
 			return "user/Statistics";
+		}
+		
+		//은석 음식점상세페이지에서 음식점 사진 크게보여주는 메서드
+		@RequestMapping(value="/getLargeAdImgFilename.eat", method={RequestMethod.GET})
+		public String getLargeAdImgFilename(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+			String adImg = req.getParameter("adImg");
+
+			System.out.println("*****************************" + adImg);
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("adImg", adImg);
+			
+			System.out.println("##### JSON 확인용 : " + adImg);
+			
+			req.setAttribute("jsonObj", jsonObj);
+			
+			return "restaurant/largeAdImgNameJSON";
 		}
 }
 
