@@ -5,7 +5,10 @@
 
 <style>
 input.btn_like {
-	width:50px; height:50px;  background: url('http://localhost:9090/mazzipmetro/resources/images/like.jpg') no-repeat;
+	width:50px; height:50px;  border:0; background: url('http://localhost:9090/mazzipmetro/resources/images/like.jpg') no-repeat;
+}
+input.btn_dislike {
+	width:50px; height:50px;  border:0; background: url('http://localhost:9090/mazzipmetro/resources/images/dislike.png') no-repeat;
 }
 </style>
 <script type="text/javascript">
@@ -155,14 +158,14 @@ $(document).ready(function(){
 					<c:forEach var="likers" items="${likers}">
 						<c:if test="${likers == review.reviewSeq }">
 							<p align="right">
-								<input type="button" class="btn_like" id="like${status.index}" name="like" value="${review.reviewHit}" onClick="DownHit('${review.reviewSeq}','like${status.index}');" /><!-- style="background-color: white; color: black" --> 
+								<input type="button" class="btn_dislike" id="like${status.index}" name="like" value="" onClick="DownHit('${review.reviewSeq}','like${status.index}');" /><!-- style="background-color: white; color: black" --> 
 							</p>
 							<c:set value = "1" var="flag" />
 						</c:if>
 					</c:forEach>
 						<c:if test="${flag eq 0}">
 							<p align="right">
-								<input type="button" class="btn_like" id="like${status.index}" name="like" value="${review.reviewHit}" onClick="insertAndUpHit('${review.reviewSeq}','like${status.index}');" />
+								<input type="button" class="btn_like" id="like${status.index}" name="like" value="" onClick="insertAndUpHit('${review.reviewSeq}','like${status.index}');" />
 							</p>
 						</c:if>
 					

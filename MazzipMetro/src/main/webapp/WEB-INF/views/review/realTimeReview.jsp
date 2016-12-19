@@ -21,7 +21,11 @@
 #woo_scroller table {border:0px; position:relative;  height:400px;
   width:350px; }
 
-
+#content:first-letter {
+display: inline-block;
+font-size: 12pt;
+font-weight: bold;
+}
 </style>
 
 <script type="text/javascript">
@@ -69,17 +73,32 @@ $(document).ready(function(){
     
         <c:forEach var="review" items="${reviewList}" varStatus="status">
             <tr>
-                <td align="right">
-                    	평점<span style="font-weight:bold; font-size:15pt; color:red;">${review.reviewAvgScore}</span>점
-                </td>
-                <td style="border-right:0px;">
+            	<td style="border-right:0px;">
                     <a href="<%= request.getContextPath() %>/restaurantDetail.eat?restSeq=${review.restSeq}"><img src="<%= request.getContextPath() %>/files/${review.reviewImg}" width="50px" height="50px"/></a> &nbsp;&nbsp;
+                </td>
+                <td> 
+                     <c:if test="${review.reviewAvgScore < 1}">
+					 <img width="35px;" height="15px;" src="<%= request.getContextPath() %>/resources/starability-images/star.png">
+					 </c:if> 
+					 <c:if test="${((2 == review.reviewAvgScore) or (2 < review.reviewAvgScore)) and (review.reviewAvgScore < 3)}">
+					 <img width="35px;" height="15px;" src="<%= request.getContextPath() %>/resources/starability-images/icoStar2.png">
+					 </c:if>
+					 <c:if test="${((3 == review.reviewAvgScore) or (3 < review.reviewAvgScore)) and (review.reviewAvgScore < 4)}">
+					 <img width="35px;" height="15px;" src="<%= request.getContextPath() %>/resources/starability-images/icoStar3.png">
+					 </c:if>
+					 <c:if test="${((4 == review.reviewAvgScore) or (4 < review.reviewAvgScore)) and (review.reviewAvgScore < 5)}">
+					 <img width="35px;" height="15px;" src="<%= request.getContextPath() %>/resources/starability-images/icoStar4.png">
+					 </c:if>
+					 <c:if test="${5 == review.reviewAvgScore}">
+					 <img width="35px;" height="15px;" src="<%= request.getContextPath() %>/resources/starability-images/icoStar5.png">
+					 </c:if>
+					 <br/><br/><span style="font-weight:bold; font-size:10pt; color:red;">${review.reviewAvgScore}</span>
                 </td>
                 <td>    
                     <section style="font-size: 9pt;">
-                    ${review.reviewContent}<br/>
-                    ${review.restName}&nbsp;<br/>
-                    ${review.restAddr}
+                    <p id="content">${review.reviewContent}</p><br/>
+                    <span style="color:#FA5858">${review.restName}</span>&nbsp;<br/>
+                    <span style="color:skyblue">${review.restBgTag}</span>&nbsp;<span style="color: #31B404;">${review.restAddr}</span>
                     </section>
                 </td>
 
