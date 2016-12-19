@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <script type="text/javascript">
+jQuery.noConflict();
 
 jQuery.noConflict();
 
@@ -49,4 +50,12 @@ jQuery(document).ready(function($) {
 });
 
 </script>
+<<<<<<< HEAD
 <div style="width:70%; height:400px;  vertical-align:top;"  id="hb_tagStatistics"> lll시험용시험용</div>
+=======
+
+
+	
+<div style="width:70%; height:400px;  vertical-align:top;"  id="hb_tagStatistics"></div>
+
+>>>>>>> 30d8baae44b2037cd3023ddf8fa8631eb59dbac9
