@@ -44,6 +44,135 @@ public class MazzipMetroController {
 		return "index";
 	}
 	
+	// 테마페이지 요청
+	@RequestMapping(value="/theme.eat", method={RequestMethod.GET})
+	public String theme (HttpServletRequest req){
+		String theme = req.getParameter("theme");
+		
+		req.setAttribute("theme", theme);
+		return "theme";
+	}
+	
+	// 동현_테마 선택 페이지 ajax 요청
+	@RequestMapping(value="/themeSearch.eat", method={RequestMethod.GET})
+	public String themeSearch (HttpServletRequest req){
+		String[] themeChkArr = req.getParameterValues("themeChk");
+		String dongId = req.getParameter("selMenu_dongName");
+		String guId = req.getParameter("selMenu_guName");
+		String metroId = req.getParameter("selMenu_metroName");
+		
+		String pageNo = req.getParameter("pageNo");
+		
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>"+pageNo); 
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>"+themeChkArr);
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>"+dongId);
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>"+guId);
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>"+metroId);
+		
+		List<RestaurantVO> restList = null;
+		
+		int totalRest = 0; 			//총 음식점 건수
+		int totalPage = 0;			// 전체 페이지수
+		int sizePerPage = 5; 	// 한페이지당 보여줄 음식점수
+		int currPage = 0;			// 요청 페이지 req객체 파라미터에 담긴 요청페이지 pageNo 
+		
+		int start = 0; 					// 시작행번호
+		int end = 0; 						// 끝 행번호
+		
+		//페이지바용 변수
+		int sPage = 0; 			// 페이지바에서 시작될 페이지 번호
+		int loop = 0; 			//	sPage값이 증가할 때마다 1씩 증가
+		int blockSize = 5; 		// 페이지바에 표시될 pageNo의 개수
+		
+		// value값이 다르므로, 두번째 인자값은 Object로 한다.
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("themeChkArr", themeChkArr);
+		map.put("guId", guId);
+		map.put("dongId", dongId);
+		map.put("metroId", metroId);
+		
+		// 페이징 작업 (총 게시물 수, 총 페이지수)
+		// 테마별  총 음식점 수를 구하기
+		totalRest = service.getThemeSearch_totalCnt(map);
+		
+		// 페이지바 작업 시작!
+		totalPage = (int)Math.ceil( (double) totalRest/sizePerPage );
+       //(double)totalCount/sizePerPage 값이 1.1 이면  Math.ceil()은 2.0   Math.ceil()은 double이라서 형변환을 해야한다.
+       // 63/5 = 12.xx -> 13.0  이 값이 totalPage 가 된다.
+		
+
+		if (pageNo == null) {
+			// 게시판 최초로딩시 pageNo은 null이다.
+			currPage = 1;
+			// 초기화면은 /list.action?pageNo = 1 과 같다.
+		} else {
+			try {
+				currPage = Integer.parseInt(pageNo);
+				//get방식으로 넘어온 pageNo을 currPage에 int 캐스팅후 대입한다.
+				
+				if(currPage < 1 || currPage > totalPage){
+					currPage = 1;
+				}
+				
+			} catch (NumberFormatException exeption) {
+				currPage = 1;
+			}
+		}
+		
+		
+		start = ((currPage - 1) * sizePerPage) +1; //sRowNum
+		end= start+ sizePerPage -1 ;//sRowNum : currPage*sizePerPage
+
+		//페이징처리를 위해 start , end 를 map에 담는다.
+		map.put("start", String.valueOf(start)); // HashMap 데이터타입에 맞게 int start를 String으로 변경해서 담는다.
+		map.put("end", String.valueOf(end));  // HashMap 데이터타입에 맞게 int end를 String으로 변경해서 담는다.
+		
+		// 테마 검색 시작
+		restList = service.getThemeSearch(map);
+		
+		String pageBar = "";
+		
+		if(totalRest > 5){
+			pageBar += "<ul class='pagination'>";
+			loop = 1;
+			
+			// ## 페이지바의 시작 페이지 번호(sPage)값 만들기(공식) 
+			sPage = ( ( currPage - 1 )/blockSize )*blockSize + 1 ;
+			
+			// 이전 5페이지 만들기
+			if(!(sPage == 1)) {
+				pageBar += String.format("<li><a href='javascript:goThemeSearch(%d)''>«</a></li>", sPage-blockSize);
+			}
+			
+			while( !(loop >  blockSize || sPage > totalPage ) ) {
+				
+				if(sPage == currPage){	// 시작페이지 중에 현재페이지 하나만 <span>		
+					pageBar += String.format("<li><a class='active' href='#'>%s</a></li>", sPage);
+				} else{
+					
+					pageBar += String.format("<li><a href='javascript:goThemeSearch(%d)'>%s</a></li>", sPage, sPage);
+				}
+				loop++;
+				sPage++;
+			}
+			
+			// 다음 5페이지 만들기
+			if(!(sPage > totalPage)) {
+				pageBar += String.format("<li><a href='javascript:goThemeSearch(%d)''>»</a></li>", sPage);		
+			}
+			
+			
+			pageBar += ""
+					+ "</ul>";
+			
+			req.setAttribute("pageBar", pageBar);
+		}
+	
+		
+		req.setAttribute("restList", restList);
+		return "/ajax/themeSearch";
+	}
+	
 	// 사용자 가고싶다 list 요청
 	@RequestMapping(value="/getUserWantToGo.eat", method={RequestMethod.GET})
 	public String login_getUserWantToGo(HttpServletRequest req, HttpServletResponse res){
@@ -280,7 +409,7 @@ public class MazzipMetroController {
 							pageBar += String.format("<li><a class='active' href='#'>%s</a></li>", sPage);
 						} else{
 							
-							pageBar += String.format("<li><a href='javascript:goRestSearch(%d)'>%s</a></li>", sPage, sPage);
+							pageBar += String.format("<li><a href='javascript:goRgoThemeSearch)'>%s</a></li>", sPage, sPage);
 						}
 						loop++;
 						sPage++;
@@ -384,7 +513,7 @@ public class MazzipMetroController {
 				
 				// 다음 5페이지 만들기
 				if(!(sPage > totalPage)) {
-					pageBar += String.format("<li><a href='javascript:goRestSearch(%d)''>»</a></li>", sPage);		
+					pageBar += String.format("<li><a href='javascript:goThemeSearch(%d)''>»</a></li>", sPage);		
 				}
 				
 				

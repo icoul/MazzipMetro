@@ -4,6 +4,73 @@
 
 <!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) --> 
 <mapper namespace="mazzipMetro">
+
+	<!-- 동현_테마별  총 음식점 수를 구하기 -->
+	<select id="getThemeSearch_totalCnt" parameterType="java.util.HashMap" resultType="int">
+		select count(*)
+				from (
+					select A.*, B.dongName, B.guId
+					from (
+						select A.*, B.metroName
+						from tbl_restaurant A left join tbl_metro B
+						on A.metroId = B.metroId) A 
+					left join tbl_dong B
+					on A.dongId = B.dongId) A
+				left join tbl_gu B
+				on A.guId = B.guId
+		where 1 = 1
+		and restSeq in (select distinct(restSeq) from tbl_theme where theme in 
+		<foreach collection="themeChkArr"  index="i" open="(" close=")" separator=",">
+			'${themeChkArr[i]}'
+		</foreach>
+		)
+		<if test="metroId != 'metroId' and metroId != null" >
+			and A.metroId = #{metroId}
+		</if>
+		<if test="dongId != 'dongId' and dongId != null">
+			and A.dongId = #{dongId}
+		</if>
+		<if test="guId != 'guId' and guId != null">
+			and A.guId = #{guId}
+		</if>
+		order by restVisitor desc
+	</select>
+	
+	<!-- 동현_테마 선택 페이지 ajax 요청 -->
+	<select id="getThemeSearch" parameterType="java.util.HashMap" resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select *
+		from (
+		select A.*, B.guName, rownum as rnum
+				from (
+					select A.*, B.dongName, B.guId
+					from (
+						select A.*, B.metroName
+						from tbl_restaurant A left join tbl_metro B
+						on A.metroId = B.metroId) A 
+					left join tbl_dong B
+					on A.dongId = B.dongId) A
+				left join tbl_gu B
+				on A.guId = B.guId
+		where 1 = 1
+		and restSeq in (select distinct(restSeq) from tbl_theme where theme in 
+		<foreach collection="themeChkArr"  index="i" open="(" close=")" separator=",">
+			'${themeChkArr[i]}'
+		</foreach>
+		)
+		<if test="metroId != 'metroId' and metroId != null" >
+			and A.metroId = #{metroId}
+		</if>
+		<if test="dongId != 'dongId' and dongId != null">
+			and A.dongId = #{dongId}
+		</if>
+		<if test="guId != 'guId' and guId != null">
+			and A.guId = #{guId}
+		</if>
+		order by restVisitor desc)
+		where rnum between #{start} and #{end}
+	</select>
+	
+	
 	
 	<!-- 검색어가 어느 종류의 위치정보인지 알아오기 -->
 	<select id="getLocationInfo" parameterType="java.util.HashMap" resultType="int">

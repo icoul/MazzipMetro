@@ -428,6 +428,7 @@ function getLoginUserInfo(){
 					<c:if test="${empty sessionScope.loginUser.userSeq}">
 						<li><a><span id="dx_wantToGo">가고싶다</span></a></li>
 						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
+						<li><a href="<%=request.getContextPath()%>/theme.eat">테마검색</a></li>
 						<li><a href="javascript:goAsk();">문의하기</a></li>
 						<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
 						&nbsp;&nbsp;&nbsp;&nbsp;
@@ -436,6 +437,7 @@ function getLoginUserInfo(){
 					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 0}">
 						<li><a><span id="dx_wantToGo">가고싶다</span></a></li>
 						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
+						<li><a href="<%=request.getContextPath()%>/theme.eat">테마검색</a></li>
 						<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
 						<li><a href="javascript:goAsk();">문의하기</a></li>
 						<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
@@ -444,6 +446,7 @@ function getLoginUserInfo(){
 					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 1}">
 						<li><a><span id="dx_wantToGo">가고싶다</span></a></li>
 						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
+						<li><a href="<%=request.getContextPath()%>/theme.eat">테마검색</a></li>
 						<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
 						<li><a href="javascript:goAsk();">문의하기</a></li>
 						<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
@@ -452,6 +455,7 @@ function getLoginUserInfo(){
 					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 2}">
 						<li><a><span id="dx_wantToGo">가고싶다</span></a></li>
 						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
+						<li><a href="<%=request.getContextPath()%>/theme.eat">테마검색</a></li>
 						<li><a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a></li>
 						<li><a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a></li>
 						<li><a href="<%=request.getContextPath()%>/adminContentList.eat">컨텐츠관리</a></li>

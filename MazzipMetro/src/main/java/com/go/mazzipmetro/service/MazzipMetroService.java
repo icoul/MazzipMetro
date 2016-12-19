@@ -245,4 +245,14 @@ public class MazzipMetroService implements IService {
 		
 		return result;
 	}
+
+	// 동현_테마 선택 페이지 ajax 요청
+	public List<RestaurantVO> getThemeSearch(HashMap<String, Object> map) {
+		return dao.getThemeSearch(map);
+	}
+
+	// 테마별  총 음식점 수를 구하기
+	public int getThemeSearch_totalCnt(HashMap<String, Object> map) {
+		return dao.getThemeSearch_totalCnt(map);
+	}
 }
