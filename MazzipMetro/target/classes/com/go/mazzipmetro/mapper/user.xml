@@ -21,7 +21,13 @@
 			 null,
 			</if>
 			#{userName}, #{userEmail}, #{userPw}, #{userGender},
-			#{userBirthDay}, #{userPhone}, default, #{userProfile}, default ,
+			#{userBirthDay}, #{userPhone}, default, #{userProfile},
+			<if test = "userSort == 0">
+			 '200',
+			</if>
+			<if test = "userSort == 1">
+			 default ,
+			 </if>
 			#{userStation}, #{userSort}, default)
 		</if>
 
@@ -38,7 +44,14 @@
 			null,
 			</if>
 			 #{userName}, #{userEmail}, #{userPw}, #{userGender},
-			#{userBirthDay}, #{userPhone}, default, default , #{userStation},
+			#{userBirthDay}, #{userPhone}, default,
+			 <if test = "userSort == 0">
+			 '200',
+			</if>
+			<if test = "userSort == 1">
+			 default ,
+			 </if>
+			  #{userStation},
 			#{userSort}, default)
 		</if>
 
@@ -55,7 +68,13 @@
 			null,
 			</if>
 			#{userName}, #{userEmail}, #{userPw}, #{userGender},
-			#{userBirthDay}, #{userPhone}, default, #{userProfile}, default ,
+			#{userBirthDay}, #{userPhone}, default, #{userProfile},
+			<if test = "userSort == 0">
+			 '200',
+			</if>
+			<if test = "userSort == 1">
+			 default ,
+			 </if>
 			#{userSort}, default)
 		</if>
 
@@ -72,7 +91,14 @@
 			 null,
 			</if>
 			#{userName}, #{userEmail}, #{userPw}, #{userGender},
-			#{userBirthDay}, #{userPhone}, default, default , default, #{userSort},
+			#{userBirthDay}, #{userPhone}, default,
+			 <if test = "userSort == 0">
+			 '200',
+			</if>
+			<if test = "userSort == 1">
+			 default ,
+			 </if>
+			 default, #{userSort},
 			default)
 		</if>
 	</insert>
