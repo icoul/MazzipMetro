@@ -5,8 +5,8 @@
 <style>
 	.map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
 	.map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
-	.map_wrap {position:relative;width:100%;height:500px;}
-	#menu_wrap {position:absolute;top:0;left:0;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
+	.map_wrap {position:relative;width: 1000px;height:500px;}
+	#menu_wrap {position: absolute;top:30;left:725;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
 	.bg_white {background:#fff;}
 	#menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
 	#menu_wrap .option{text-align: center;}
@@ -36,6 +36,25 @@
 	#placesList .item .marker_13 {background-position: 0 -562px;}
 	#placesList .item .marker_14 {background-position: 0 -608px;}
 	#placesList .item .marker_15 {background-position: 0 -654px;}
+	
+	/* 동현 사용자 마커 */ 
+	#placesList .item .usermarkerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(<%=request.getContextPath()%>/resources/images/img_marker_user.png) no-repeat;}
+	#placesList .item .usermarker_1 {background-position: 0 -10px;}
+	#placesList .item .usermarker_2 {background-position: 0 -56px;}
+	#placesList .item .usermarker_3 {background-position: 0 -102px}
+	#placesList .item .usermarker_4 {background-position: 0 -148px;}
+	#placesList .item .usermarker_5 {background-position: 0 -194px;}
+	#placesList .item .usermarker_6 {background-position: 0 -240px;}
+	#placesList .item .usermarker_7 {background-position: 0 -286px;}
+	#placesList .item .usermarker_8 {background-position: 0 -332px;}
+	#placesList .item .usermarker_9 {background-position: 0 -378px;}
+	#placesList .item .usermarker_10 {background-position: 0 -423px;}
+	#placesList .item .usermarker_11 {background-position: 0 -470px;}
+	#placesList .item .usermarker_12 {background-position: 0 -516px;}
+	#placesList .item .usermarker_13 {background-position: 0 -562px;}
+	#placesList .item .usermarker_14 {background-position: 0 -608px;}
+	#placesList .item .usermarker_15 {background-position: 0 -654px;}
+	
 	#placesList .bgc {background-color: lime;}
 	#pagination {margin:10px auto;text-align: center;}
 	#pagination a {display:inline-block;margin-right:0px;}
@@ -62,7 +81,7 @@
         		
         		searchByMetro(1, $(this).attr("id"));
         		
-        		var title = "<h2 style='font-size:25px;'><span style='color:lime;'>\""+$(this).attr('alt')+"\"</span>  맛집리스트 </h2>";
+        		var title = "<h2 style='width:187px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right; font-size:25px;'>"+$(this).attr('alt')+"<br/>맛집리스트 </h2>";
         		 $("#title_metroName").html(title);
         	});
         	
@@ -71,7 +90,7 @@
    		 	var areaIdArr = $("[name=metroMapArea]");
    		 	areaIdArr.each(function(){
    		 		if(${metroId} == $(this).attr('id')){
-   		 			var title = "<h2 style='font-size:25px;'><span style='color:lime;'>\""+$(this).attr('alt')+"\"</span>  맛집리스트 </h2>";
+   		 			var title = "<h2 style='width:187px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right; font-size:25px;''>"+$(this).attr('alt')+"<br/>맛집리스트 </h2>";
    	   		 		$("#title_metroName").html(title);		
    		 		}
    		 	});
@@ -411,39 +430,41 @@
 <%-- end of rightCon --%>	
 
 <br/> 
-<div id="title_metroName" style="width:100%; padding-left: 50px; clear: both;"></div>
-<hr/> 
-<!-- 사용자 마커 안내 -->
-<div style="width:100%; padding-left: 50px;">
-<table >
-	<tr>
-		<td>
-		<div style="width: 36px; height:45px; background-image: url('<%=request.getContextPath()%>/resources/images/img_marker_user.png'); background-position: initial;">
-		</div>
-		</td>
-		<td>사용자가 정복한 맛집</td>
-		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-		<td>
-		<div style="width: 36px; height:45px; background-image: url('http://i1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png'); background-position: left top;">
-		</div>
-		</td>
-		<td>사용자가 정복해야할  맛집</td>
-	</tr>
-</table>
-</div>
 
-<br/> 
-
-
-<!-- 지도 섹션 -->
-<div class="map_wrap" >
-    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
-
-    <div id="menu_wrap" class="bg_white">
-        <ul id="placesList"></ul>
-        <div id="pagination"></div>
-    </div>
-</div>
+	<!-- 해당역사 안내 -->
+	<br/> 
+	<div id="title_metroName" style="clear: both; float:left;"></div>
+	
+	
+	<!-- 사용자 마커 안내 -->
+	<div style="float:left; padding-left: 550px;padding-top: 90px;padding-bottom: 10px;" >
+	<table >
+		<tr>
+			<td >
+			<div style="width: 36px; height:45px; background-image: url('<%=request.getContextPath()%>/resources/images/img_marker_user.png'); background-position: initial;">
+			</div>
+			</td >
+			<td style="vertical-align: bottom;"><span style="font-size: 12px;">사용자가 <br/> 정복한 맛집</span></td>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>
+			<div style="width: 36px; height:45px; background-image: url('http://i1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png'); background-position: left top;" >
+			</div>
+			</td>
+			<td style="vertical-align: bottom;"><span style="font-size: 12px;">사용자가 <br/> 정복해야할  맛집</span></td>
+		</tr>
+	</table>
+	</div>
+	<br/> <br/> <br/> 
+	
+	<!-- 지도 섹션 -->
+	<div class="map_wrap"  style="clear:both;">
+	    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+	
+		<div id="menu_wrap" class="bg_white">
+	        <ul id="placesList"></ul>
+	        <div id="pagination"></div>
+	    </div>
+	</div>
 
 <div class="rankingView">
 
@@ -521,6 +542,7 @@ var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 
 // 지도를 생성합니다    
 var map = new daum.maps.Map(mapContainer, mapOption); 
+map.setZoomable(false);
 
 // 장소 검색 객체를 생성합니다
 var ps = new daum.maps.services.Places();  
@@ -547,21 +569,24 @@ function displayPlaces(places, tags, userPlaces) {
 
         // 마커를 생성하고 지도에 표시합니다
         var placePosition = new daum.maps.LatLng(places[i].restLatitude, places[i].restLongitude),
-            itemEl = getListItem(i, places[i], marker), // 검색 결과 항목 Element를 생성합니다
-        	marker;
+        	marker, itemEl;
         
         var userConquest = false;
         
-        for (var j = 0; j< userPlaces.length; j++) {
-			if (places[i].restSeq == userPlaces[j] ) {
-				userConquest = true;
-			}
-		}
+        if (userPlaces != null) {
+	        for (var j = 0; j< userPlaces.length; j++) {
+				if (places[i].restSeq == userPlaces[j] ) {
+					userConquest = true;
+				}
+			}			
+		} // end of  if (userPlaces != null)
         
         if (userConquest) {
         	marker = addUserMarker(placePosition, i);
+        	 itemEl = getUserListItem(i, places[i], marker); // 검색 결과 항목 Element를 생성합니다(사용자 정복)
 		} else {
             marker = addMarker(placePosition, i);
+            itemEl = getListItem(i, places[i], marker); // 검색 결과 항목 Element를 생성합니다
 		}
 
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
@@ -623,6 +648,38 @@ function getListItem(index, places) {
 
     var el = document.createElement('li'),
     itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
+                '<div class="info" id="div'+places.restSeq+'">' +
+                '   <h5>' + places.restName + '</h5>';
+    if (places.restBgTag) {
+    	itemStr += '<span style="color:blue; display: inline;">'+places.restBgTag+'</span>&nbsp;';
+
+	}
+    if (places.restMdTag) {
+    	itemStr += '<span style="color:orange; display: inline; font-size: 12px;">'+places.restMdTag+'</span>';
+    }
+    
+    if (places.restNewAddr) {
+        itemStr += '    <span>' + places.restNewAddr + '</span>' +
+                    '   <span class="jibun gray">' +  places.restAddr  + '</span>';
+    } else {
+        itemStr += '    <span>' +  places.restAddr + '</span>'; 
+    }
+           
+    if(places.restPhone){
+      itemStr += '  <a href="tel:'+places.restPhone+'"><span class="tel">' + places.restPhone  + '</span></a>' + '</div>';               	
+    }
+
+    el.innerHTML = itemStr;
+    el.className = 'item';
+
+    return el;
+}
+
+//검색결과 항목을 Element로 반환하는 함수입니다(사용자 정복)
+function getUserListItem(index, places) {
+
+    var el = document.createElement('li'),
+    itemStr = '<span class="usermarkerbg usermarker_' + (index+1) + '"></span>' +
                 '<div class="info" id="div'+places.restSeq+'">' +
                 '   <h5>' + places.restName + '</h5>';
     if (places.restBgTag) {

@@ -234,17 +234,19 @@ $(function () {
 
 <script>
 function goNavigator(){
-	var endPoint = $("#startPoint").val().trim();
+	var startPoint = $("#startPoint").val().trim();
+	//alert(startPoint);
 	
-	if(endPoint.length == 0){
+	if(startPoint.length == 0){
 		alert('어디서 오실거에요?');
 		$("#startPoint").focus();
 		return;
 	}
 	
-	var url = "http://map.daum.net/?sName="+$('#startPoint').val()+"&eName=${restvo.restname}"; 
+	var url = "http://map.daum.net/?sName="+startPoint+"&eName=${restvo.restname}"; 
 	//url  += "&eX=${restvo.restLatitude}&eY=${restvo.restLongitude}";
 	
+	//alert(url);
 	var popup = window.open(url,"roadFinder",
     "left=500px, top=100px, width=1000px, height=1000px, menubar=no, status=no, scrollbars=yes ");
 	

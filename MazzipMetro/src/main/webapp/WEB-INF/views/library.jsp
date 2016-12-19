@@ -11,7 +11,6 @@
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script>
 
 <!-- 동현_다음지도 api를 사용하기 위한 라이브러리 -->
-
 <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=0d211626a8ca667e54b95403a7ae692f&libraries=services,clusterer,drawing"></script>
 
 <!-- 동현_메트로맵 tooltip을 위한 라이브러리 -->
@@ -27,8 +26,9 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/main.css" />
 
 <!-- 은석_레스토랑 디테일.jsp에서 차트를 이용하기 위한 라이브러리 추가 -->
+<link  rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/js/highcharts.js">
+<link  rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/js/modules/exporting.js">
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/highcharts.js"></script>
-<script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/highcharts-more.js"></script>
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/modules/exporting.js"></script> 
 <%-- <link  rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/js/highcharts.js">
 <link  rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/js/modules/exporting.js">
