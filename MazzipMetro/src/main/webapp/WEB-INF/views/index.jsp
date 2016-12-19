@@ -450,7 +450,7 @@
 		<%-- end of leftCon --%>
 		
 		<div class="rightCon" >
-			<div style="background-color: yellow" id="realReview">실시간 리뷰</div>
+			<div style="background-color: yellow; font-size: 25pt; font-weight: bold;" id="realReview" >실시간 리뷰</div>
 			<div id="Scroller" class="Scroller">
 			</div>
 

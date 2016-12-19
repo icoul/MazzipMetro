@@ -28,8 +28,9 @@ public class ReviewService implements IService{
 		return reviewList;
 	}*/
 
-	public List<HashMap<String,String>> getReviewImageList() {
-		List<HashMap<String,String>> reviewImageList = dao.getReviewImageList();
+	// 리뷰 이미지배열을 담은 배열 가져오기
+	public List<List<String>> getReviewImageList(List<String> reviewSeq) {
+		List<List<String>> reviewImageList = dao.getReviewImageList(reviewSeq);
 		return reviewImageList;
 	}
 

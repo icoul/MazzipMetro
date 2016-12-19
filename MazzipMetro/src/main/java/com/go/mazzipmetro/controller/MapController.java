@@ -103,43 +103,43 @@ public class MapController {
 	}
 	
 	// ajax  요청 : 사용자가 정복한 맛집(리뷰를 쓴 맛집) 리스트 보여주기
-		@RequestMapping(value="/getRestaurantVOList.eat",method={RequestMethod.GET}) 
-		public String getRestaurantVOList (HttpServletRequest req){
-			String conq = req.getParameter("conq");
-			String dongId = req.getParameter("dongId");
-			String metroId = req.getParameter("metroId");
-			
-			System.out.println(dongId == null); 
-			System.out.println(">>>>>>>>>>>>>>> dongId =" + dongId+", metroId = "+ metroId); 
-			
-			UserVO loginUser =  (UserVO)req.getSession().getAttribute("loginUser");
-			
-			// aop처리할 것!
-			String userSeq = "";
-			if (loginUser == null) {
-				userSeq = "139";
-			} else {
-				userSeq = loginUser.getUserSeq();
-			}
-			
-			System.out.println(">>>>>>>>>"+conq); 
-			
-			HashMap<String, String> map = new HashMap<String, String>();
-			map.put("userSeq", userSeq);
-			map.put("conq", conq);
-			
-			map.put("dongId", dongId);
-			map.put("metroId", metroId);
-			
-			List<RestaurantVO> voList = service.getUserRestConquest(map);				
+	@RequestMapping(value="/getRestaurantVOList.eat",method={RequestMethod.GET}) 
+	public String getRestaurantVOList (HttpServletRequest req){
+		String conq = req.getParameter("conq");
+		String dongId = req.getParameter("dongId");
+		String metroId = req.getParameter("metroId");
 		
-			
-			JSONObject jObj = new JSONObject();
-			jObj.put("positions", voList);
-			
-			req.setAttribute("jObj", jObj);
-			return "/maps/ajax/jsonData";
+		System.out.println(dongId == null); 
+		System.out.println(">>>>>>>>>>>>>>> dongId =" + dongId+", metroId = "+ metroId); 
+		
+		UserVO loginUser =  (UserVO)req.getSession().getAttribute("loginUser");
+		
+		// aop처리할 것!
+		String userSeq = "";
+		if (loginUser == null) {
+			userSeq = "139";
+		} else {
+			userSeq = loginUser.getUserSeq();
 		}
+		
+		System.out.println(">>>>>>>>>"+conq); 
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("userSeq", userSeq);
+		map.put("conq", conq);
+		
+		map.put("dongId", dongId);
+		map.put("metroId", metroId);
+		
+		List<RestaurantVO> voList = service.getUserRestConquest(map);				
+	
+		
+		JSONObject jObj = new JSONObject();
+		jObj.put("positions", voList);
+		
+		req.setAttribute("jObj", jObj);
+		return "/maps/ajax/jsonData";
+	}
 	
 	//metroMap 페이지 접근
 	@RequestMapping(value="/metroMap.eat",method={RequestMethod.GET}) 
@@ -425,6 +425,8 @@ public class MapController {
 		map.put("start", String.valueOf(start)); // HashMap 데이터타입에 맞게 int start를 String으로 변경해서 담는다.
 		map.put("end", String.valueOf(end));  // HashMap 데이터타입에 맞게 int end를 String으로 변경해서 담는다.
 		
+//		System.out.println(">>>>>>>>>>>>>>>>>>>start = "+start); 
+//		System.out.println(">>>>>>>>>>>>>>>>>>>end = "+end);
 		
 		List<RestaurantVO> list = service.searchByMetro(map);
 		

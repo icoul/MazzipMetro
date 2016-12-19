@@ -238,6 +238,10 @@ public class RestaurantDAO implements IDAO{
 		List<String> restThemeList = sqlSession.selectList("restaurant.getRestThemeList", restSeq);
 		return restThemeList;
 	}
+	// 조회수 증가 요청
+	public int updateRestVisitor(String restSeq) {
+		return sqlSession.update("restaurant.updateRestVisitor", restSeq);
+	}
 
 
 }
