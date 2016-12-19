@@ -46,7 +46,6 @@
 	        <ul class="dropdown-menu">
 	          <li id="userEdit"><a href="#">개인정보수정 </a></li> 
 	          <li id="userAlias"><a href="#">칭호관리</a></li>
-	          <li><a href="#">마일리지현황</a></li>
 	          <li id="userCoupon"><a href="#">쿠폰현황</a></li>
 	          <li id="userRandomBox"><a href="#">랜덤박스</a></li>
 	          <li><a href="#" onClick = "userDelete();">회원탈퇴</a></li>  

@@ -14,6 +14,7 @@
 
 $(document).ready(function(){
 	
+	
 	$("#btn_Mazzip").click(function(){
 		$.ajax({	
 			url:"<%= request.getContextPath() %>/userRestMap.eat",
@@ -42,7 +43,7 @@ $(document).ready(function(){
 		    type:"GET",
 			datatype:"html", 
 			success:function(data){ 
-				$("#statistics").html(data);
+				$("#userInfo").html(data);
 			}
 		});
 	});

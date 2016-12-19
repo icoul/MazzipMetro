@@ -108,7 +108,7 @@
 		
 		<tr>
 			<td>
-				<p> <img  class="img-circle" src="<%= request.getContextPath() %>/files/${reviewProfile }" width="50px" height="50px"/>${userName}</p>
+				<p> <img  class="img-circle" src="<%= request.getContextPath() %>/files/user/${reviewProfile}" width="50px" height="50px"/>${userName}</p>
 				<p>${reviewContent }</p>
 				<p>${reviewRegDate }</p>
 			</td>

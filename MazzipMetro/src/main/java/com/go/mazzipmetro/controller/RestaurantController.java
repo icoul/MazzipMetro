@@ -238,6 +238,7 @@ public class RestaurantController {
 		List<HashMap<String,String>> agelineChartList = reviewService.getAgeLineChartList(restSeq);
 		List<HashMap<String,String>> genderChartList = reviewService.getGenderChartList(restSeq);
 		
+		
 				
 		req.setAttribute("restSeq", restSeq);
 		req.setAttribute("restvo", restvo);
