@@ -19,9 +19,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-
-
-
 </head>
 <body>
 <c:if test = "${sessionScope.loginUser.userSort == 0}">
@@ -47,6 +44,8 @@
 	        <a class="dropdown-toggle" data-toggle="dropdown" href="#">개인데이터
 	        <span class="caret"></span></a>
 	        <ul class="dropdown-menu">
+
+	          <li><a href="#">쿠폰현황</a></li>
 	          <li><a href="#">계급표시</a></li>
 	          <li><a href="#">마일리지현황</a></li>
 	          <li id="userCoupon"><a href="#">쿠폰현황</a></li>
@@ -64,10 +63,10 @@
 	        <ul class="dropdown-menu">
 	          <li><a href="javascript:goAsk();">문의하기</a></li>
 	          <li id="btn_userQna"><a href="#">나의문의내역</a></li>
-	            <li ><a href="" onClick="javascript:openWinFaq('<%=request.getContextPath() %>/faqListByType.eat?faqType=회원', '680', '630');">회원 관련문의</a></li><!-- 선택된 페이지 -->
+	          <%--   <li ><a href="" onClick="javascript:openWinFaq('<%=request.getContextPath() %>/faqListByType.eat?faqType=회원', '680', '630');">회원 관련문의</a></li><!-- 선택된 페이지 -->
 				<li ><a href="" onClick="javascript:openWinFaq('<%=request.getContextPath() %>/faqListByType.eat?faqType=사업주', '680', '580');">사업주 관련문의</a></li>
 				<li ><a href="" onClick="javascript:openWinFaq('<%=request.getContextPath() %>/faqListByType.eat?faqType=음식점', '680', '310');">음식점 관련문의</a></li>
-				<li ><a href="" onClick="javascript:openWinFaq('<%=request.getContextPath() %>/faqListByType.eat?faqType=기타', '680', '350');">기타 관련문의</a></li>
+				<li ><a href="" onClick="javascript:openWinFaq('<%=request.getContextPath() %>/faqListByType.eat?faqType=기타', '680', '350');">기타 관련문의</a></li> --%>
 	        </ul>
 	      </li>
 	    </ul>
@@ -83,7 +82,7 @@
 	        <ul class="dropdown-menu">
 	          <li><a href="<%= request.getContextPath() %>/bossCoinResi.eat">포인트구매</a></li>
 	          <li><a href="<%= request.getContextPath() %>/bossContentList.eat">컨텐츠목록</a></li>
-	          <li><a href="<%= request.getContextPath() %>/userEdit.eat">개인정보수정</a></li>
+	          <li id="userEdit"><a href="#">개인정보수정 </a></li> 
 	          <li><a href="#" onClick = "userDelete();">회원탈퇴</a></li>
 	        </ul>
 	      </li>

@@ -252,7 +252,6 @@
 	
 	// 업장 검색 함수
 	function getRestaurant(){
-	(function($){
 	
 		//alert( $("#selMenu_metroName").val()+" , "+$("#selMenu_dongName").val()+" , "+$("#selMenu_guName").val());
 		//alert($("[name=restTag]:checked").length);
@@ -443,7 +442,6 @@
 	        map.setLevel(level, {anchor: cluster.getCenter()});  
 	    });
 		
-	})(jQuery);
 	}//end of getRestaurant()
 	
 	

@@ -243,38 +243,32 @@ $(function () {
 
 $(document).ready(function(){
 	$("#table_Gender").hide();
-//	$("#table_Gender").hide();
 	$("#table_AgeLine").hide();
 	$("#table_ReviewCount").hide();
 	$("#table_ReviewGrade").hide();
-//	$("#table_Gender").hide();
-	
-//	$("#btn_restGrade").mouseover(function(){
-//		 $("#table_Gender").show();
-//	});
 	 
-	$("#btn_Gender").mouseover(function(){
+	$("#btn_Gender").click(function(){
 		 $("#table_Gender").show();
 		 $("#table_AgeLine").hide();
 		 $("#table_ReviewCount").hide();
 		 $("#table_ReviewGrade").hide();
 	});
 	
-	$("#btn_AgeLine").mouseover(function(){
+	$("#btn_AgeLine").click(function(){
 		 $("#table_AgeLine").show();
 		 $("#table_Gender").hide();
 		 $("#table_ReviewCount").hide();
 		 $("#table_ReviewGrade").hide();
 	});
 	
-	$("#btn_ReviewCount").mouseover(function(){
+	$("#btn_ReviewCount").click(function(){
 		 $("#table_ReviewCount").show();
 		 $("#table_Gender").hide();
 		 $("#table_AgeLine").hide();
 		 $("#table_ReviewGrade").hide();
 	});
 	
-	$("#btn_ReviewGrade").mouseover(function(){
+	$("#btn_ReviewGrade").click(function(){
 		 $("#table_ReviewGrade").show();
 		 $("#table_Gender").hide();
 		 $("#table_AgeLine").hide();
@@ -282,9 +276,6 @@ $(document).ready(function(){
 		 
 	});
 	
-//	$("#btn_ViewsCount").mouseover(function(){
-//		 $("#table_Gender").show();
-//	});
 });
  
 
@@ -294,12 +285,10 @@ $(document).ready(function(){
 <table style="width:100%; height:100px; margin-top:30px;">
 	<tr>
 		<td>
-			<button type="button" class="btnClass" id="btn_restGrade">매장등급</button> &nbsp;
 			<button type="button" class="btnClass" id="btn_Gender">남녀비율</button> &nbsp;
 			<button type="button" class="btnClass" id="btn_AgeLine">성별비율</button> &nbsp;
 			<button type="button" class="btnClass" id="btn_ReviewCount">날짜별리뷰수</button> &nbsp;
 			<button type="button" class="btnClass" id="btn_ReviewGrade">리뷰점수에따른평점</button> &nbsp;
-			<button type="button" class="btnClass" id="btn_ViewsCount">조회수</button>
 		</td>
 	</tr>
 </table>

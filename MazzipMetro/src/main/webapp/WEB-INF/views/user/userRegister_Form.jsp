@@ -120,7 +120,7 @@ body{
 			}
 		}
 	}
-}
+
 	 
 	 function emailDuplicateCheck() {
 			var registerFrm = document.registerFrm;
