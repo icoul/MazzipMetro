@@ -66,7 +66,7 @@
 		      select rowNum as rno, T.restSeq, T.userSeq,T.gradeName, T.restName, T.restPhone, T.restAddr, T.contentName, T.contentLimit
 		      from
 		      (
-		        select userSeq,restSeq, gradeName, restName, restPhone, restAddr, contentName, to_char(contentLimit, 'yyyy-mm-dd') as contentLimit
+		        select userSeq, restSeq, gradeName, restName, restPhone, restAddr, contentName, to_char(contentLimit, 'yyyy-mm-dd') as contentLimit
 		        from view_contentList
 		        group by contentName,restSeq,userSeq, gradeName, restName, restPhone, restAddr, contentLimit
 		       )T
@@ -86,7 +86,7 @@
 			      select rowNum as rno, T.restSeq, T.userSeq,T.gradeName, T.restName, T.restPhone, T.restAddr, T.contentName, T.contentLimit
 			      from
 			      (
-			        select userSeq,restSeq, gradeName, restName, restPhone, restAddr, contentName, to_char(contentLimit, 'yyyy-mm-dd') as contentLimit
+			        select userSeq, restSeq, gradeName, restName, restPhone, restAddr, contentName, to_char(contentLimit, 'yyyy-mm-dd') as contentLimit
 			        from view_contentList
 			        group by contentName,restSeq,userSeq, gradeName, restName, restPhone, restAddr, contentLimit
 			       )T

@@ -104,7 +104,17 @@ $(document).ready(function(){
 });
 
 </script>
-
+<style type="text/css">
+	.gradeDetail {overflow:hidden;}
+	.gradeDetail li {float:left; height:130px; padding-right:5px;}
+	.gradeDetail li span.icoMaster {display:block; height:87px; width:83px; padding:45px 0 0 13px; font-size:11px; font-weight:bold; background:url(http://localhost:9090/mazzipmetro/resources/images/icoMaster.png) no-repeat;}
+	.gradeDetail li span.icoNovice {display:block; height:87px; width:83px;  font-weight:bold; background:url(http://localhost:9090/mazzipmetro/resources/images/icoNovice.png) no-repeat;}
+	.gradeDetail li .icoNovice span.title {display:block; width:200px;  padding:24px 0 0 22px; -ms-transform: rotate(-10deg); /* IE 9 */-webkit-transform: rotate(-10deg); /* Chrome, Safari, Opera */  transform: rotate(-10deg); font-size:10px;}
+	.gradeDetail li span.icoSkill {display:block; height:87px; width:83px; padding:35px 0 0 28px; font-size:11px; font-weight:bold; background:url(http://localhost:9090/mazzipmetro/resources/images/icoSkilled.png) no-repeat;}
+	.gradeDetail li span.detail {display:block; padding-top:10px; font-size:13px; font-weight:bold;}
+	.icoSkill {}
+	.icoNovice {}
+</style>
 
 </head>
 <body>
@@ -162,19 +172,28 @@ $(document).ready(function(){
 	<tr>
 		<td rowspan="4" width="11%">획득한 칭호</td>
 		<td width="11%">구별</td>
-		<td colspan="6"><img src="<%= request.getContextPath() %>/resources/images/img.png" width="50px" height="50px"></td>
+		<td colspan="6" style="height:130px;">
+			<ul class="gradeDetail">
+				<li><span class="icoMaster">강남구</span><span class="detail">강남구마스터</span></li>
+				<li><span class="icoNovice"><span class="title">강남구</span></span><span class="detail">강남구마스터</span></li>
+				<li><span class="icoSkill">강남구</span><span class="detail">강남구마스터</span></li>
+				<li><span class="icoMaster">강남구</span><span class="detail">강남구마스터</span></li>
+				<li><span class="icoNovice"><span class="title">강남구</span></span><span class="detail">강남구마스터</span></li>
+				<li><span class="icoSkill">강남구</span><span class="detail">강남구마스터</span></li>
+			</ul>
+		</td>
 	</tr>
 	<tr>
 	<td>동별</td>
-	<td colspan="6"><img src="<%= request.getContextPath() %>/resources/images/img.png" width="50px" height="50px"></td>
+	<td colspan="6"><img src="<%= request.getContextPath() %>/resources/images/icoMaster.png" width="61px" height="73px"><img src="<%= request.getContextPath() %>/resources/images/icoSkilled.png" width="61px" height="73px"><img src="<%= request.getContextPath() %>/resources/images/icoNovice.png" width="61px" height="73px"><img src="<%= request.getContextPath() %>/resources/images/icoMaster.png" width="61px" height="73px"><img src="<%= request.getContextPath() %>/resources/images/icoSkilled.png" width="61px" height="73px"><img src="<%= request.getContextPath() %>/resources/images/icoNovice.png" width="61px" height="73px"></td>
 	</tr>
 	<tr>
 	<td>역별</td>
-	<td colspan="6"><img src="<%= request.getContextPath() %>/resources/images/img.png" width="50px" height="50px"></td>
+	<td colspan="6"><img src="<%= request.getContextPath() %>/resources/images/icoNovice.png" width="61px" height="73px"></td>
 	</tr>
 	<tr>
 	<td>태그별</td>
-	<td colspan="6"><img src="<%= request.getContextPath() %>/resources/images/img.png" width="50px" height="50px"></td>
+	<td colspan="6"><img src="<%= request.getContextPath() %>/resources/images/img.png" width="61px" height="83px"></td>
 	</tr>
 </table>
 </c:if>
