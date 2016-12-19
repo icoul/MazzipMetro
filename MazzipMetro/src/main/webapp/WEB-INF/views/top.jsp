@@ -415,7 +415,7 @@ function getLoginUserInfo(){
 			</div>
 		</c:if>	
 			<div class="header" style="margin-top:20px;">
-				<h1><a href="<%= request.getContextPath() %>/index.eat" style="color: black; text-decoration: none">Mazzip Metro</a></h1>
+				<h1><a href="<%= request.getContextPath() %>/index.eat" style="text-decoration: none"><img src="<%=request.getContextPath()%>/resources/images/logoMazzipMetro.png" /></a></h1>
 				<ul class="menu">
 					<!-- 비회원 로그인시(로그인전) -->
 					<c:if test="${empty sessionScope.loginUser.userSeq}">
