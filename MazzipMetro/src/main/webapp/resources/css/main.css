@@ -50,8 +50,8 @@ img {border:0; padding:0; margin:0; vertical-align:top;}
 
 #headWrap {border-bottom:1px solid #dbdbdb;}
 .header {overflow:hidden; width:1400px; margin:0 auto;  height:70px; padding:20px 0 0; position: relative;}
-.header  h1 {float:left; padding:0 20px 0 0; margin:0; font-size:23px; font-weight:bold;} 
-.header .menu {overflow:hidden; float:left; padding:4px 0 0 0; margin:0; }
+.header  h1 {float:left; padding:0 20px 0 50px; margin:0; font-size:23px; font-weight:bold;} 
+.header .menu {overflow:hidden; float:left; padding:4px 0 0 7px; margin:0; }
 .header .menu li {float:left; list-style:none; padding:0 10px;}
 .header .menu li a {text-decoration:none; font-size:16px; color:#222;}
 .header .btnLogin {float:right; width:58px; height:25px; background:#fff; font-size:10px; border:1px solid #000; border-radius:2px; color:#000; cursor:pointer;}
@@ -63,16 +63,16 @@ img {border:0; padding:0; margin:0; vertical-align:top;}
 .loginInfo {width:700px; float:right; padding-top:5px;} 
 
 #content {width:1400px; overflow:hidden; margin:0 auto;}
-#leftCon {float:left; width:730px;}
+#leftCon {float:left; width:856px;}
 #leftCon .reconCon  {margin-top:30px;}
 #leftCon .reconCon h2 {padding:10px 0; font-size:12px; color:#222;}
-.rightCon {position:relative;  float:left; width:540px; height:1000px;}
+.rightCon {position:relative;  float:left; width:544px; height:1000px;}
 
 
 footer {height:170px; background-color: #eff3f2; padding-top:30px; clear: both; font-size:12px;}
 footer .comIntro a {padding:0 5px; font-size:12px; color:#000; font-weight:bold; text-decoarion:none;}
 footer .copyRight {color:#8a8a8a;}
-#realReview {position:absolute; right:140px; height:20px;}
+#realReview {position:absolute; left:0; height:20px;}
 
 /* 동현 자동 검색어 완성 관련 css 추가 */
 /* 카테고리화된 검색어 자동완성 css */
@@ -97,7 +97,7 @@ footer .copyRight {color:#8a8a8a;}
    height: 300px;
  }
 
-#woo_scroller {  position:relative;  height:400px;  width:270px;    left:50px; }
+#woo_scroller {  position:relative;  height:400px;  width:270px;    left:0; }
 
 #woo_scroller table {border:0px; position:relative;}
 
@@ -149,13 +149,13 @@ footer .copyRight {color:#8a8a8a;}
 	
 
 /* 메인 페이지 실시간 리뷰  div 및 table */
-#scroller {position:absolute; height:400px;  width:270px;  margin-top:50px; right:0; } 
+#scroller {position:absolute; height:400px;  width:270px;  margin-top:50px; left:0; } 
 #scroller table {border:0px; position:relative;}
 
 /* 미현 -- 서브페이지레이아웃,검색바,테이블,버튼*/
-.subleftCon {float:left; width:200px; height:800px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;}
-.subleftCon h2 {width:187px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right; font-size:25px; letter-spacing:-1px;}
-.subrightCon {float:left; width:1200px; height:800px; border-right:1px solid #dbdbdb; padding-bottom:40px;}
+.subleftCon {float:left; width:230px; height:800px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;}
+.subleftCon h2 {width:210px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right; font-size:25px; letter-spacing:-1px;}
+.subrightCon {float:left; width:1170px; height:800px; border-right:1px solid #dbdbdb; padding-bottom:40px;}
 .searchWrap {padding:10px 0 20px 0; text-align:center;}
 .tblType01 {border-collapse: collapse; width:1000px;}
 .tblType01 th {height:50px; padding-top:16px; border-top:1px solid #00bad2; border-bottom:1px solid #c2c2c2; background-color:#fafafa; color:#444; text-align:center; font-size:13px; font-weight:normal;}
