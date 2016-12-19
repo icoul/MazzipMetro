@@ -107,19 +107,19 @@ $(document).ready(function(){
 </script>
 <style type="text/css">
 	.gradeDetail {overflow:hidden;}
-	.gradeDetail li {float:left; height:130px; padding-right:5px;}
-	.gradeDetail li span.icoMaster {display:block; height:87px; width:83px; padding:45px 0 0 13px; font-size:11px; font-weight:bold; background:url(http://localhost:9090/mazzipmetro/resources/images/icoMaster.png) no-repeat;}
-	.gradeDetail li span.icoNovice {display:block; height:87px; width:83px;  font-weight:bold; background:url(http://localhost:9090/mazzipmetro/resources/images/icoNovice.png) no-repeat;}
-	.gradeDetail li .icoNovice span.title {display:block; width:200px;  padding:24px 0 0 22px; -ms-transform: rotate(-10deg); /* IE 9 */-webkit-transform: rotate(-10deg); /* Chrome, Safari, Opera */  transform: rotate(-10deg); font-size:10px;}
-	.gradeDetail li span.icoSkill {display:block; height:87px; width:83px; padding:35px 0 0 28px; font-size:11px; font-weight:bold; background:url(http://localhost:9090/mazzipmetro/resources/images/icoSkilled.png) no-repeat;}
-	.gradeDetail li span.detail {display:block; padding-top:10px; font-size:13px; font-weight:bold;}
-	.icoSkill {}
-	.icoNovice {}
+	.gradeDetail li {float:left; position:relative; height:70px; font-weight:bold;}
+	.gradeDetail li span {display:block; padding-left:7px; font-size:8px;} 
+	.gradeDetail li.icoMaster {width:57px;  padding-top:25px; background:url(http://localhost:9090/mazzipmetro/resources/images/icoMaster.png) no-repeat;}
+	.gradeDetail li.icoNovice {width:57px; padding-top:18px; background:url(http://localhost:9090/mazzipmetro/resources/images/icoNovice.png) no-repeat;}
+	.gradeDetail li.icoNovice span.twist {-ms-transform: rotate(-10deg); /* IE 9 */-webkit-transform: rotate(-10deg); /* Chrome, Safari, Opera */  transform: rotate(-10deg);}
+	.gradeDetail li.icoSkill {width:65px; padding-top:21px; font-size:7px; font-weight:bold; background:url(http://localhost:9090/mazzipmetro/resources/images/icoSkilled.png) no-repeat;}
+	.gradeDetail li.icoSkill span {padding-left:14px;}
+	.gradeDetail li span.detail {position:absolute; width:50px; left:8px; bottom:0; padding-left:0; font-size:9px;}
 </style>
 
 </head>
 <body>
-<div class="subleftCon" style="height:auto; font-size:25px;">
+<div class="subleftCon" style="height:1500px; font-size:25px;">
 	<h2>My Zone</h2>
 </div>
 <div  class="subrightCon" style="height:auto;">
@@ -173,28 +173,55 @@ $(document).ready(function(){
 	<tr>
 		<td rowspan="4" width="11%">획득한 칭호</td>
 		<td width="11%">구별</td>
-		<td colspan="6" style="height:130px;">
+		<td colspan="6">
 			<ul class="gradeDetail">
-				<li><span class="icoMaster">강남구</span><span class="detail">강남구마스터</span></li>
-				<li><span class="icoNovice"><span class="title">강남구</span></span><span class="detail">강남구마스터</span></li>
-				<li><span class="icoSkill">강남구</span><span class="detail">강남구마스터</span></li>
-				<li><span class="icoMaster">강남구</span><span class="detail">강남구마스터</span></li>
-				<li><span class="icoNovice"><span class="title">강남구</span></span><span class="detail">강남구마스터</span></li>
-				<li><span class="icoSkill">강남구</span><span class="detail">강남구마스터</span></li>
+				<li class="icoMaster"><span>강남구</span><span class="detail">마스터</span></li>
+				<li class="icoNovice"><span class="twist">서초구</span><span class="detail">초보자</span></li>
+				<li class="icoSkill"><span>성동구</span><span class="detail">숙련자</span></li>
+				<li class="icoMaster"><span>영등포구</span><span class="detail">마스터</span></li>
+				<li class="icoNovice"><span class="twist">강북구</span><span class="detail">초보자</span></li>
+				<li class="icoSkill"><span>동작구</span><span class="detail">숙련자</span></li>
 			</ul>
 		</td>
 	</tr>
 	<tr>
-	<td>동별</td>
-	<td colspan="6"><img src="<%= request.getContextPath() %>/resources/images/icoMaster.png" width="61px" height="73px"><img src="<%= request.getContextPath() %>/resources/images/icoSkilled.png" width="61px" height="73px"><img src="<%= request.getContextPath() %>/resources/images/icoNovice.png" width="61px" height="73px"><img src="<%= request.getContextPath() %>/resources/images/icoMaster.png" width="61px" height="73px"><img src="<%= request.getContextPath() %>/resources/images/icoSkilled.png" width="61px" height="73px"><img src="<%= request.getContextPath() %>/resources/images/icoNovice.png" width="61px" height="73px"></td>
+		<td>동별</td>
+		<td colspan="6">
+			<ul class="gradeDetail">
+				<li class="icoMaster"><span>역삼동</span><span class="detail">마스터</span></li>
+				<li class="icoNovice"><span class="twist">일원동</span><span class="detail">초보자</span></li>
+				<li class="icoSkill"><span>삼성동</span><span class="detail">숙련자</span></li>
+				<li class="icoMaster"><span>서초동</span><span class="detail">마스터</span></li>
+				<li class="icoNovice"><span class="twist">대치동</span><span class="detail">초보자</span></li>
+				<li class="icoSkill"><span>압구정동</span><span class="detail">숙련자</span></li>
+			</ul>
+		</td>
 	</tr>
 	<tr>
-	<td>역별</td>
-	<td colspan="6"><img src="<%= request.getContextPath() %>/resources/images/icoNovice.png" width="61px" height="73px"></td>
+		<td>역별</td>
+		<td colspan="6">
+			<ul class="gradeDetail">
+				<li class="icoMaster"><span>강남역</span><span class="detail">마스터</span></li>
+				<li class="icoNovice"><span class="twist">서울역</span><span class="detail">초보자</span></li>
+				<li class="icoSkill"><span>교대역</span><span class="detail">숙련자</span></li>
+				<li class="icoMaster"><span>서초역</span><span class="detail">마스터</span></li>
+				<li class="icoNovice"><span class="twist">선릉역</span><span class="detail">초보자</span></li>
+				<li class="icoSkill"><span>성수역</span><span class="detail">숙련자</span></li>
+			</ul>
+		</td>
 	</tr>
 	<tr>
-	<td>태그별</td>
-	<td colspan="6"><img src="<%= request.getContextPath() %>/resources/images/img.png" width="61px" height="83px"></td>
+		<td>태그별</td>
+		<td colspan="6">
+			<ul class="gradeDetail">
+				<li class="icoMaster"><span>고기</span><span class="detail">마스터</span></li>
+				<li class="icoNovice"><span class="twist">물고기</span><span class="detail">초보자</span></li>
+				<li class="icoSkill"><span>야채</span><span class="detail">숙련자</span></li>
+				<li class="icoMaster"><span>동남아</span><span class="detail">마스터</span></li>
+				<li class="icoNovice"><span class="twist">양식</span><span class="detail">초보자</span></li>
+				<li class="icoSkill"><span>중식</span><span class="detail">숙련자</span></li>
+			</ul>
+		</td>
 	</tr>
 </table>
 </c:if>
