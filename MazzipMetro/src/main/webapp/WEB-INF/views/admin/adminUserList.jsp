@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>   
 <jsp:include page="../library.jsp" />
 <jsp:include page="../top.jsp" />
 <style type="text/css">
@@ -88,7 +89,7 @@ function goUserEdit(userSeq){
 				<td>${vo.userEmail}</td>
 				<td>${vo.userPhone}</td>
 				<td>${vo.userRegDate}</td>
-				<td>${vo.userPoint}</td>
+				<td><fmt:formatNumber pattern="###,###" value="${vo.userPoint}" /></td>
 				<td>
 					<button class="btnGray" onClick="goUserEdit('${vo.userSeq}');" style="margin-top:0; width:40px;">수정</button>
 					<input type="hidden" name="userSeq" value="${vo.userSeq}" />
