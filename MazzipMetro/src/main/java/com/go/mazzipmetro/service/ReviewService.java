@@ -423,5 +423,11 @@ public class ReviewService implements IService{
 		return getRest;
 	}
 
+	//한 업장의 분위기, 가격, 서비스, 맛 , 총 평점의 평점을 가져온다.
+	public HashMap<String, String> getReviewAvgScore(String restSeq) {
+		HashMap<String, String> reviewAvgScore = dao.getReviewAvgScore(restSeq);
+		return reviewAvgScore;
+	}
+
 
 }

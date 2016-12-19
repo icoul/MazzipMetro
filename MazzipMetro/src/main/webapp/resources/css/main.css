@@ -172,3 +172,7 @@ footer .copyRight {color:#8a8a8a;}
 .desc {margin-top:10px; margin-bottom:20px; font-size: 11px;}   
 /*-- 미현 END--*/
 
+/* 은석 레스토랑 디테일.jsp 썸네일 호버했을때 쓰는 용도*/
+ .myborder {
+	border: red solid 3px;
+  }

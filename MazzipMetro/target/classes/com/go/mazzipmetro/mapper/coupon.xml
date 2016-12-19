@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- #11. mapper 기본 설정 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="coupon">
+
+	<resultMap type="java.util.HashMap" id="couponInfo">
+		 <result column="couponSeq"	  	        property="couponSeq" 			    javaType="String" />
+		 <result column="restSeq"	  	    	property="restSeq" 			    	javaType="String" />
+		 <result column="restName"	  	    	property="restName" 			    javaType="String" />
+		 <result column="userSeq"	  	        property="userSeq" 			    	javaType="String" />
+		 <result column="metroId"	  	    	property="metroId" 			   		javaType="String" />
+		 <result column="couponRegDate"	  	    property="couponRegDate" 			javaType="String" />
+		 <result column="couponUserDate"	  	property="couponUserDate" 			javaType="String" />
+		 <result column="couponUseDate"	  		property="couponUseDate" 	 		javaType="String" />
+		 <result column="couponExpiryDate"	  	property="couponExpiryDate" 	 	javaType="String" />
+		 <result column="couponStatus"	  	    property="couponStatus" 			javaType="String" />
+	</resultMap>
+
+	<!-- 유저가 보유한 쿠폰 리스트 -->
+	<select id = "coupon.getUserCoupon" parameterType="String" resultMap="couponInfo">
+		select C.couponSeq, C.restSeq, C.userSeq, C.metroId, to_char(C.couponRegDate, 'yyyy-mm-dd') as couponRegDate, to_char(C.couponUserDate, 'yyyy-mm-dd') as couponUserDate, to_char(C.couponExpiryDate, 'yyyy-mm-dd') as couponExpiryDate, C.couponStatus, to_char(C.couponUseDate, 'yyyy-mm-dd') as couponUseDate, R.restName
+		from tbl_coupon C join tbl_restaurant R
+     		 on C.restSeq = R.restSeq
+		where C.userSeq = #{userSeq}
+	</select>
+	
+	<!-- 사업자가 발행한 쿠폰 리스트 -->
+	<select id = "coupon.getBossCoupon" parameterType="String" resultMap="couponInfo">
+		select C.couponSeq, C.restSeq, C.userSeq, C.metroId, to_char(C.couponRegDate, 'yyyy-mm-dd') as couponRegDate, to_char(C.couponUserDate, 'yyyy-mm-dd') as couponUserDate, to_char(C.couponExpiryDate, 'yyyy-mm-dd') as couponExpiryDate, C.couponStatus, to_char(C.couponUseDate, 'yyyy-mm-dd') as couponUseDate, R.restName
+		from tbl_coupon C join tbl_restaurant R
+     		 on C.restSeq = R.restSeq
+		where R.userSeq = #{userSeq}
+	</select>
+	
+	<!-- 쿠폰 발행 -->
+	<insert id = "coupon.couponBuy" parameterType="java.util.HashMap">
+		insert into tbl_coupon values(extract(year from sysdate)||extract(month from sysdate)||extract(day from sysdate)||#{restSeq}||#{userSeq}||tbl_coupon_SEQ.nextval
+									, #{restSeq}, null, #{metroId},sysdate, null, null, 0, null)
+	</insert>
+	
+	<!-- 쿠폰 발행 시 포인트 차감 -->
+	<update id = "coupon.userPointUpdate" parameterType="java.util.HashMap">
+		update tbl_user set userpoint = userpoint-#{couponNum}*1000
+		where userSeq = #{userSeq}
+	</update>
+	
+	<!-- 쿠폰 사용 -->
+	<update id = "coupon.couponConfirm" parameterType="String">
+		update tbl_coupon set couponStatus = 2, couponUseDate = sysdate
+		where couponSeq = #{couponSeq} and couponStatus = 1
+	</update>
+</mapper>

@@ -207,6 +207,12 @@ public class ReviewDAO implements IDAO{
 	// 동칭호의 aliasNum을 구한다.
 	public int checkDongAliasNum(HashMap<String, String> dongMap) {
 		return sqlSession.selectOne("review.checkDongAliasNum", dongMap);
+	}
+	
+	//한 업장의 분위기, 가격, 서비스, 맛 , 총 평점의 평점을 가져온다.
+	public HashMap<String, String> getReviewAvgScore(String restSeq) {
+		HashMap<String, String> reviewAvgScore = sqlSession.selectOne("getReviewAvgScore" , restSeq);
+		return reviewAvgScore;
 	}	
 
 

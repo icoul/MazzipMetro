@@ -243,5 +243,11 @@ public class RestaurantDAO implements IDAO{
 		return sqlSession.update("restaurant.updateRestVisitor", restSeq);
 	}
 
+	//은석 음식점상세페이지에서 음식점 사진들 
+	public List<String> getRestImageList(String restSeq) {
+		List<String> restImageList = sqlSession.selectList("restaurant.getRestImageList", restSeq);
+		return restImageList;
+	}
+
 
 }

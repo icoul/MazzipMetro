@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- #11. mapper 기본 설정 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<!-- #12. 루트 엘리먼트 및 네임스페이스 설정하기(이 네임스페이스의 이름은 프로젝트 전체 내에서 반드시 고유해야만 한다.) --> 
+<mapper namespace="mazzipMetro">
+	
+	<!-- 검색어가 어느 종류의 위치정보인지 알아오기 -->
+	<select id="getLocationInfo" parameterType="java.util.HashMap" resultType="int">
+		select count(*)
+		<if test="srchType == 'dongName'">
+		from tbl_dong
+		where dongName like '%' || #{keyword} || '%'
+		</if>
+		<if test="srchType == 'metroName'">
+		from tbl_metro
+		where metroName like '%' || #{keyword} || '%'
+		</if>
+		<if test="srchType == 'guName'">
+		from tbl_gu
+		where guName like '%' || #{keyword} || '%'
+		</if>
+	</select>
+	
+	<!-- 사용자 가고싶다 list 요청 -->
+	<select id="getUserWantToGo"  parameterType="String"  resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select A.*
+		from tbl_restaurant A join tbl_wantToGo B
+		on A.restSeq = B.restSeq
+		where B.userSeq = #{userSeq}
+		and B.wantToGoStatus = 0
+		order by B.wantToGoSeq desc
+	</select>
+	
+	<!-- 가고싶다 테이블에 담겨있는지 검사 -->
+	<select id="checkWantToGo" parameterType="java.util.HashMap" resultType="int">
+		select count(*) from tbl_wantToGo
+		where userSeq = #{userSeq} and restSeq = #{restSeq} and wantToGoStatus = 0
+	</select>
+	
+	<!-- 가고싶다 에 담기 요청 -->
+	<insert id="addWantToGo" parameterType="java.util.HashMap">
+		insert into tbl_wantToGo values(seq_tbl_wantToGo.nextval, #{userSeq}, #{restSeq}, default, default)
+	</insert>
+	
+	<!-- 가고싶다 삭제 요청 (추천 받은 맛집 삭제도 이 쿼리를 사용한다.)-->
+	<update id="delWantToGo" parameterType="java.util.HashMap">
+		update tbl_wantToGo set wantToGoStatus = 1
+		where userSeq = #{userSeq} and restSeq = #{restSeq} and wantToGoStatus in (0,2)
+	</update>
+	
+	<!-- 사용자의 가고싶다 에 담은 개수 확인 -->
+	<select id="checkNumWantToGo" parameterType="java.util.HashMap" resultType="int">
+		select count(*) from tbl_wantToGo where userSeq = #{userSeq} and wantToGoStatus = 0
+	</select>
+	
+	<!-- 사용자가 맛집추천을 받은 적이 있는지 체크해서 이전 맛집 추천은 가고싶다 삭제 상태로 update한다. -->
+	<update id="deletePreviouseMazzipMetroPick" parameterType="java.util.HashMap">
+		update tbl_wantToGo set wantToGoStatus = 1
+		where userSeq = #{userSeq} and wantToGoStatus = 2
+	</update>
+	
+	<!-- 맛집메트로 추천을 사용자가 선택한다. -->
+	<update id="mazzipMetroPick" parameterType="java.util.HashMap">
+		update tbl_wantToGo set wantToGoStatus = 2
+		where userSeq = #{userSeq} and restSeq = #{restSeq} and wantToGoStatus = 0
+	</update>
+	
+	<!-- 로그인시, 사용자가 추천 받은 맛집이 있는지 확인해서, 있다면, restSeq를 반환한다. -->
+	<select id="haveMazzipRecom" parameterType="String" resultType="String">
+		select restSeq from tbl_wantToGo where userSeq = #{userSeq} and wantToGoStatus = 2
+	</select>
+	
+	<!-- 사용자 search : 업장 검색 totalCount -->
+	<select id="getRestSearchResult_totalCnt"  parameterType="java.util.HashMap"  resultType="int">
+		select count(*)
+		from (
+		  select A.*, B.dongName, B.guId
+		  from (
+		    select A.*, B.metroName
+		    from tbl_restaurant A left join tbl_metro B
+		    on A.metroId = B.metroId) A left join tbl_dong B
+		  on A.dongId = B.dongId) A left join tbl_gu B
+		on A.guId = B.guId
+		where 1=1
+		<if test="srchType != null">
+			and ${srchType} like '%' ||#{locStr}|| '%'
+		</if>
+		and (
+		restSeq in (select restSeq from tbl_restaurant_menu where menuName like  '%'||#{kw}||'%' or menuContent like  '%'||#{kw}||'%')
+		or restSeq in (select restSeq from tbl_review where reviewTitle like  '%'||#{kw}||'%' or reviewContent like  '%'||#{kw}||'%')
+		or restName like '%'||#{kw}||'%'
+		or restBgTag like '%'||#{kw}||'%'
+		or restMdTag like '%'||#{kw}||'%')
+	</select>
+	
+	<!-- 사용자 search : 업장 검색 -->
+	<select id="getRestSearchResult"  parameterType="java.util.HashMap"  resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select *
+		from(
+		select A.*, B.guName, rownum as rnum
+		from (
+		  select A.*, B.dongName, B.guId
+		  from (
+		    select A.*, B.metroName
+		    from tbl_restaurant A left join tbl_metro B
+		    on A.metroId = B.metroId) A left join tbl_dong B
+		  on A.dongId = B.dongId) A left join tbl_gu B
+		on A.guId = B.guId
+		where  1=1
+		<if test="srchType != null">
+			and ${srchType} like '%' ||#{locStr}|| '%'
+		</if>
+		and (
+		restSeq in (select restSeq from tbl_restaurant_menu where menuName like  '%'||#{kw}||'%' or menuContent like  '%'||#{kw}||'%')
+		or restSeq in (select restSeq from tbl_review where reviewTitle like  '%'||#{kw}||'%' or reviewContent like  '%'||#{kw}||'%')
+		or restName like '%'||#{kw}||'%'
+		or restBgTag like '%'||#{kw}||'%'
+		or restMdTag like '%'||#{kw}||'%'))
+		where rnum >= #{start} and rnum <![CDATA[<=]]> #{end}
+	</select>
+	
+	<!-- 통합검색  : 업장 보여주기 totalCount-->
+	<select id="getRestIntergratedSearch_totalCnt"  parameterType="java.util.HashMap"  resultType="int">
+		select count(*)
+		from (
+		  select A.*, B.dongName, B.guId
+		  from (
+		    select A.*, B.metroName
+		    from tbl_restaurant A left join tbl_metro B
+		    on A.metroId = B.metroId) A left join tbl_dong B
+		  on A.dongId = B.dongId) A left join tbl_gu B
+		on A.guId = B.guId
+		<if test="srchType != null">
+			where ${srchType}  like '%' ||#{kw}|| '%'
+		</if>
+		<if test="srchType == null">
+		where restSeq in (select restSeq from tbl_restaurant_menu where menuName like '%'||#{kw}||'%' or menuContent like '%'||#{kw}||'%')
+		or restSeq in (select restSeq from tbl_review where reviewTitle like '%'||#{kw}||'%' or reviewContent like '%'||#{kw}||'%')
+		or restName like'%'||#{kw}||'%'
+		or restBgTag like'%'||#{kw}||'%'
+		or restMdTag like'%'||#{kw}||'%'
+		or dongName like'%'||#{kw}||'%'
+		or metroName like'%'||#{kw}||'%'
+		or guName like'%'||#{kw}||'%'
+		</if>
+	</select>
+	
+	<!-- 통합검색  : 업장 보여주기-->
+	<select id="getRestIntergratedSearch"  parameterType="java.util.HashMap"  resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select *
+		from(
+		select A.*, B.guName, rownum as rnum 
+		from (
+		  select A.*, B.dongName, B.guId
+		  from (
+		    select A.*, B.metroName
+		    from tbl_restaurant A left join tbl_metro B
+		    on A.metroId = B.metroId) A left join tbl_dong B
+		  on A.dongId = B.dongId) A left join tbl_gu B
+		on A.guId = B.guId
+		<if test="srchType != null">
+			where ${srchType}  like '%' ||#{kw}|| '%'
+		</if>
+		<if test="srchType == null">
+		where restSeq in (select restSeq from tbl_restaurant_menu where menuName like '%'||#{kw}||'%' or menuContent like '%'||#{kw}||'%')
+		or restSeq in (select restSeq from tbl_review where reviewTitle like '%'||#{kw}||'%' or reviewContent like '%'||#{kw}||'%')
+		or restName like'%'||#{kw}||'%'
+		or restBgTag like'%'||#{kw}||'%'
+		or restMdTag like'%'||#{kw}||'%'
+		or dongName like'%'||#{kw}||'%'
+		or metroName like'%'||#{kw}||'%'
+		or guName like'%'||#{kw}||'%'
+		</if>
+		) where rnum >= #{start} and rnum <![CDATA[<=]]> #{end}
+	</select>
+	
+	<!-- 사용자 search : 리뷰 검색 totalCount -->
+	<select id="getReviewSearchResult_totalCnt"  parameterType="java.util.HashMap"  resultType="int">
+		select count(*)
+		from tbl_review A join tbl_restaurant B
+		on A.restSeq = B.restSeq
+		where (reviewTitle like  '%'||#{kw}||'%'
+		or reviewContent like  '%'||#{kw}||'%')
+		and A.restSeq in (select A.restSeq
+				              from (
+				                select A.*, B.dongName, B.guId
+				                from (
+				                  select A.*, B.metroName
+				                  from tbl_restaurant A left join tbl_metro B
+				                  on A.metroId = B.metroId) A left join tbl_dong B
+				                on A.dongId = B.dongId) A left join tbl_gu B
+				              on A.guId = B.guId
+				              where (restSeq in (select restSeq from tbl_restaurant_menu where menuName like '%'||#{kw}||'%' or menuContent like  '%'||#{kw}||'%')
+				              or restName like '%'||#{kw}||'%'
+				              or restBgTag like '%'||#{kw}||'%'
+				              or restMdTag like '%'||#{kw}||'%')
+				              <if test="srchType != null">
+								and ${srchType} like '%' ||#{locStr}|| '%'
+							  </if>
+		)
+	</select>
+	
+	<!-- 사용자 search : 리뷰 검색 -->
+	<select id="getReviewSearchResult"  parameterType="java.util.HashMap"  resultType="com.go.mazzipmetro.vo.ReviewVO">
+		select *
+		from(
+		select A.reviewSeq, A.userSeq, A.restSeq, A.reviewTitle, A.reviewContent, A.reviewHit, A.reviewMood, A.reviewTaste, A.reviewPrice, A.reviewService, A.reviewAvgScore, A.reviewRegDate, A.reviewStatus
+     		    , B.restBgTag as reviewBTag, B.restMdTag as reviewMTag, B.restName, rownum as rnum
+		from tbl_review A join tbl_restaurant B
+		on A.restSeq = B.restSeq
+		where (reviewTitle like  '%'||#{kw}||'%'
+		or reviewContent like  '%'||#{kw}||'%')
+		and A.restSeq in (select A.restSeq
+				              from (
+				                select A.*, B.dongName, B.guId
+				                from (
+				                  select A.*, B.metroName
+				                  from tbl_restaurant A left join tbl_metro B
+				                  on A.metroId = B.metroId) A left join tbl_dong B
+				                on A.dongId = B.dongId) A left join tbl_gu B
+				              on A.guId = B.guId
+				              where (restSeq in (select restSeq from tbl_restaurant_menu where menuName like '%'||#{kw}||'%' or menuContent like  '%'||#{kw}||'%')
+				              or restName like '%'||#{kw}||'%'
+				              or restBgTag like '%'||#{kw}||'%'
+				              or restMdTag like '%'||#{kw}||'%')
+				              <if test="srchType != null">
+								and ${srchType} like '%' ||#{locStr}|| '%'
+							  </if>)
+		order by reviewSeq desc
+		) where rnum >= #{start} and rnum <![CDATA[<=]]> #{end}
+	</select>
+	
+	<!-- 통합검색  : 리뷰 보여주기 totalCount-->
+	<select id="getReviewIntergratedSearch_totalCnt"  parameterType="java.util.HashMap"  resultType="int">
+		select count(*)
+		from tbl_review A left join (select A.*, B.guName
+			                  from (
+			                    select A.*, B.dongName, B.guId
+			                    from (
+			                      select A.*, B.metroName
+			                      from tbl_restaurant A left join tbl_metro B
+			                      on A.metroId = B.metroId) A left join tbl_dong B
+			                    on A.dongId = B.dongId) A left join tbl_gu B
+			                  on A.guId = B.guId) B 
+			on A.restSeq = B.restSeq
+		<if test="srchType != null">
+			where ${srchType}  like '%' ||#{kw}|| '%'
+		</if>
+		<if test="srchType == null">
+		where reviewTitle like  '%'||#{kw}||'%' 
+		or reviewContent like  '%'||#{kw}||'%'
+		or A.restSeq in (select A.restSeq
+		                  from (
+		                    select A.*, B.dongName, B.guId
+		                    from (
+		                      select A.*, B.metroName
+		                      from tbl_restaurant A left join tbl_metro B
+		                      on A.metroId = B.metroId) A left join tbl_dong B
+		                    on A.dongId = B.dongId) A left join tbl_gu B
+		                  on A.guId = B.guId
+		                  where restSeq in (select restSeq from tbl_restaurant_menu where menuName like '%'||#{kw}||'%' or menuContent like  '%'||#{kw}||'%')
+		                  or restName like '%'||#{kw}||'%'
+		                  or restBgTag like '%'||#{kw}||'%'
+		                  or restMdTag like '%'||#{kw}||'%'
+		                  or dongName like '%'||#{kw}||'%'
+		                  or metroName like '%'||#{kw}||'%'
+		                  or guName like '%'||#{kw}||'%')
+		</if>
+	</select>
+	
+	<!-- 통합검색  : 리뷰 보여주기-->
+	<select id="getReviewIntergratedSearch"  parameterType="java.util.HashMap"  resultType="com.go.mazzipmetro.vo.ReviewVO">
+		select *
+		from(
+		select A.reviewSeq, A.userSeq, A.restSeq, A.reviewTitle, A.reviewContent, A.reviewHit, A.reviewMood, A.reviewTaste, A.reviewPrice, A.reviewService, A.reviewAvgScore, A.reviewRegDate, A.reviewStatus
+      		   , B.restBgTag as reviewBTag, B.restMdTag as reviewMTag, B.restName, rownum as rnum
+		from tbl_review A left join (select A.*, B.guName
+			                  from (
+			                    select A.*, B.dongName, B.guId
+			                    from (
+			                      select A.*, B.metroName
+			                      from tbl_restaurant A left join tbl_metro B
+			                      on A.metroId = B.metroId) A left join tbl_dong B
+			                    on A.dongId = B.dongId) A left join tbl_gu B
+			                  on A.guId = B.guId) B 
+			on A.restSeq = B.restSeq
+		<if test="srchType != null">
+			where ${srchType}  like '%' ||#{kw}|| '%'
+		</if>
+		<if test="srchType == null">
+		where reviewTitle like  '%'||#{kw}||'%' 
+		or reviewContent like  '%'||#{kw}||'%'
+		or A.restSeq in (select A.restSeq
+		                  from (
+		                    select A.*, B.dongName, B.guId
+		                    from (
+		                      select A.*, B.metroName
+		                      from tbl_restaurant A left join tbl_metro B
+		                      on A.metroId = B.metroId) A left join tbl_dong B
+		                    on A.dongId = B.dongId) A left join tbl_gu B
+		                  on A.guId = B.guId
+		                  where restSeq in (select restSeq from tbl_restaurant_menu where menuName like '%'||#{kw}||'%' or menuContent like  '%'||#{kw}||'%')
+		                  or restName like '%'||#{kw}||'%'
+		                  or restBgTag like '%'||#{kw}||'%'
+		                  or restMdTag like '%'||#{kw}||'%'
+		                  or dongName like '%'||#{kw}||'%'
+		                  or metroName like '%'||#{kw}||'%'
+		                  or guName like '%'||#{kw}||'%')
+		</if>
+		order by reviewSeq desc
+		) where rnum >= #{start} and rnum <![CDATA[<=]]> #{end}
+	</select>
+	
+	<select id = "mazzipMetro.alignTest" resultType="String">
+		select metroname
+		from tbl_metro
+	</select>
+
+	<!-- ////////////////////////////////////////////////////////은석18 ////////////////////////////////////////////////////////////// -->	
+	  <!-- 1문의 등록하기 -->
+    <insert id="qnaRegister" parameterType="java.util.HashMap">
+    	insert into tbl_qna values(tbl_qnaSeq.nextval, #{userSeq}, #{qnaQuiry}, #{qnaSubject}, #{qnaComment}, default, null, default, default, default)
+    </insert>
+    
+    
+   <resultMap type="java.util.HashMap" id="qnaListResultMap">
+   		<result column="rno"	  	    property="rno" 			    javaType="String" />
+		 <result column="userName"	  	    property="userName" 			    javaType="String" />
+		 <result column="qnaSeq"	  	        property="qnaSeq" 			    	javaType="String" />
+		 <result column="userSeq"	  	    	property="userSeq" 			    	javaType="String" />
+		 <result column="qnaInquiry"	  	    property="qnaInquiry" 			    javaType="String" />
+		 <result column="qnaSubject"	  	    property="qnaSubject" 			    javaType="String" />
+		 <result column="qnaContent"	  	    property="qnaContent" 			    javaType="String" />
+		 <result column="qnaRegDate"	  	    property="qnaRegDate" 				javaType="String" />
+		 <result column="qnaAnswerDate"	  	    property="qnaAnswerDate" 				javaType="String" />
+		 <result column="qnaProgress"	  	    property="qnaProgress" 				javaType="String" />
+		 <result column="fk_seq"	  	    	property="fk_seq" 			    	javaType="String" />
+		 <result column="qnaStatus"	  	    property="qnaStatus" 			    javaType="String" />
+		 <result column="userStatus"	  	    property="userStatus" 			    javaType="String" />
+	</resultMap>
+    <!-- 2 -->
+    <select id="qnaList" parameterType="java.util.HashMap" resultMap="qnaListResultMap">
+		 select T.rno, T.userName, T.qnaSeq, T.userSeq, T.qnaInquiry, T.qnaSubject
+		 ,T.qnaContent, T.qnaRegDate,T.qnaAnswerDate, T.qnaProgress, T.fk_seq, T.qnaStatus, T.userStatus
+		from
+		(
+		select rownum as rno, V.userName, V.qnaSeq, V.userSeq, V.qnaInquiry, V.qnaSubject
+		, V.qnaContent, V.qnaRegDate,V.qnaAnswerDate, V.qnaProgress, V.fk_seq, V.qnaStatus, V.userStatus
+		from
+		(
+		select b.userName, a.qnaSeq, b.userSeq, a.qnaInquiry, a.qnaSubject
+		, a.qnaContent, a.qnaRegDate,a.qnaAnswerDate, a.qnaProgress, a.fk_seq, a.qnaStatus, b.userStatus
+		from tbl_qna a join tbl_user b
+		on a.userSeq = b.userSeq
+		where a.qnaStatus = 0 and  b.userStatus = 0 
+		<if test="userType.equals('회원')">
+		and a.userSeq = #{userSeq} 
+		</if>
+		<if test="userType.equals('관리자')">
+		and a.userSeq != 0 
+		</if>
+		and to_char(a.qnaRegDate,'YYYY-MM-DD hh24:mi:ss') 
+		between to_char(to_date(#{searchStartDay} || '00:00:00', 'YYYY-MM-DD hh24:mi:ss'),'YYYY-MM-DD hh24:mi:ss') 
+		and to_char(to_date(#{searchEndDay} || '23:59:59', 'YYYY-MM-DD hh24:mi:ss'),'YYYY-MM-DD hh24:mi:ss')
+		<if test="qnaSearch != null">
+		 and ${qnaColName} like '%' || #{qnaSearch} || '%'
+		</if>
+		<if test="qnaInquiry != null and !qnaInquiry.equals('전체')">
+			and qnaInquiry like '%' || #{qnaInquiry} || '%'
+		</if>
+		<if test="qnaProgress != null and !qnaProgress.equals('전체')">
+			and qnaProgress = #{qnaProgress}
+		</if>
+		order by a.qnaRegDate asc
+		)V
+		)T
+		where #{start} <![CDATA[<=]]> rno and rno <![CDATA[<=]]> #{end}
+    </select>
+    
+    <!-- 3 -->
+    <select id="getTotalQnaCount" parameterType="java.util.HashMap" resultType="int">
+    	select count(*)
+		from tbl_qna a join tbl_user b
+		on a.userSeq = b.userSeq
+		where a.qnaStatus = 0 and b.userStatus = 0
+		<if test="userType.equals('회원')">
+		and a.userSeq = #{userSeq} 
+		</if>
+		<if test="userType.equals('관리자')">
+		and a.userSeq != 0 
+		</if>
+		and to_char(qnaRegDate,'YYYY-MM-DD hh24:mi:ss')
+		between to_char(to_date(#{searchStartDay} || '00:00:00', 'YYYY-MM-DD
+		hh24:mi:ss'),'YYYY-MM-DD hh24:mi:ss')
+		and to_char(to_date(#{searchEndDay} || '23:59:59', 'YYYY-MM-DD
+		hh24:mi:ss'),'YYYY-MM-DD hh24:mi:ss')
+		<if test="qnaSearch != null">
+		and ${qnaColName} like '%' || #{qnaSearch} || '%'
+		</if>
+		<if test="qnaInquiry != null and !qnaInquiry.equals('전체')">
+			and qnaInquiry like '%' || #{qnaInquiry} || '%'
+		</if>
+		<if test="qnaProgress != null and !qnaProgress.equals('전체')">
+			and qnaProgress = #{qnaProgress}
+		</if>
+    </select>
+ <!-- 4 -->
+    <select id="getQnaProgressCount" parameterType="java.util.HashMap" resultType="int">
+    	select count(*)
+		from tbl_qna a join tbl_user b
+		on a.userSeq = b.userSeq
+		where a.qnaStatus = 0 and b.userStatus = 0 
+		and a.qnaProgress = #{qnaProgress}
+		
+		<if test="userType.equals('회원')">
+		and a.userSeq = #{userSeq} 
+		</if>
+		<if test="userType.equals('관리자')">
+		and a.userSeq != 0 
+		</if>
+		and to_char(qnaRegDate,'YYYY-MM-DD hh24:mi:ss')
+		between to_char(to_date(#{searchStartDay} || '00:00:00', 'YYYY-MM-DD
+		hh24:mi:ss'),'YYYY-MM-DD hh24:mi:ss')
+		and to_char(to_date(#{searchEndDay} || '23:59:59', 'YYYY-MM-DD
+		hh24:mi:ss'),'YYYY-MM-DD hh24:mi:ss')
+		<if test="qnaSearch != null">
+		and ${qnaColName} like '%' || #{qnaSearch} || '%'
+		</if>
+		<if test="qnaInquiry != null and !qnaInquiry.equals('전체')">
+			and qnaInquiry like '%' || #{qnaInquiry} || '%'
+		</if>
+    </select>
+    <!-- 5 -->
+    <select id="getToday" resultType="int" parameterType="java.util.HashMap">
+    	<if test="str.equals('year')">
+    		select to_number(to_char(sysdate, 'yyyy')) as year 
+    		from dual
+    	</if>
+    	
+    	<if test="str.equals('month')">
+    		select to_number(to_char(sysdate, 'mm')) as month
+    		from dual
+    	</if>
+    	
+    	<if test="str.equals('day')">
+    		select to_number(to_char(sysdate, 'dd')) as day
+    		from dual
+    	</if>
+    </select>
+    <!-- 6 -->
+    <insert id="adminAnswerRegister" parameterType="java.util.HashMap">
+    	insert into tbl_qna values(tbl_qnaSeq.nextval, 0, '답변', #{qnaSubject}, #{qnaComment}, default, null, '답변완료', #{qnaSeq}, default)
+    </insert>
+    <!-- 7 -->
+    <select id="getAnswerDate" resultType="String" parameterType="java.util.HashMap">
+    	select qnaRegDate
+    	from tbl_qna
+    	where fk_seq = #{qnaSeq}
+    </select>
+    <!-- 8 -->
+    <update id="updateUserQna" parameterType="java.util.HashMap">
+    	update tbl_qna set qnaAnswerDate = to_date(#{answerDate}, 'YYYY-MM-DD hh24:mi:ss') , qnaProgress = '답변완료'
+    	where qnaSeq = #{qnaSeq}
+    </update>
+    
+    
+     <resultMap type="java.util.HashMap" id="getAdminAnswerMap">
+		 <result column="qnaInquiry"	  	    property="qnaInquiry" 			    javaType="String" />
+		 <result column="qnaSubject"	  	    property="qnaSubject" 			    javaType="String" />
+		 <result column="qnaContent"	  	    property="qnaContent" 			    javaType="String" />
+		 <result column="qnaRegDate"	  	    property="qnaRegDate" 				javaType="String" />
+		 <result column="qnaProgress"	  	    property="qnaProgress" 				javaType="String" />
+	</resultMap>
+    <!-- 9 -->
+    <select id="getAdminAnswer" parameterType="String" resultMap="getAdminAnswerMap">
+    	select qnaInquiry, qnaSubject, qnaContent, qnaRegDate, qnaProgress
+		from tbl_qna
+		where fk_seq = #{qnaSeq} and qnaStatus = 0
+    </select>
+    
+    
+     <resultMap type="java.util.HashMap" id="getUserQuestionMap">
+		 <result column="qnaInquiry"	  	    property="qnaInquiry" 			    javaType="String" />
+		 <result column="qnaSubject"	  	    property="qnaSubject" 			    javaType="String" />
+		 <result column="qnaContent"	  	    property="qnaContent" 			    javaType="String" />
+		 <result column="qnaRegDate"	  	    property="qnaRegDate" 				javaType="String" />
+		 <result column="qnaProgress"	  	    property="qnaProgress" 				javaType="String" />
+	</resultMap>
+	  <!-- 10 -->
+     <select id="getUserQuestion" parameterType="String" resultMap="getUserQuestionMap">
+    	select qnaInquiry, qnaSubject, qnaContent, qnaRegDate, qnaProgress
+		from tbl_qna
+		where qnaSeq = #{qnaSeq} and qnaStatus = 0
+    </select>
+    <!-- 11 -->
+    <update id="deleteAnswer">
+    	update tbl_qna set qnaStatus = 1 where fk_seq = #{qnaSeq}
+    </update>
+    <!-- 12 -->
+    <update id="deleteQuestion">
+    	update tbl_qna set qnaStatus = 1 where qnaSeq = #{qnaSeq}
+    </update>
+    <!-- 13 -->
+    <select id="countAnswer" resultType="int">
+    	select count(*)
+    	from tbl_qna
+    	where fk_seq = #{qnaSeq}
+    </select>
+    <!-- 14 -->
+    <update id="editAdminAnswer" parameterType="java.util.HashMap">
+    	update tbl_qna set qnaSubject = #{qnaSubject}, qnaContent = #{qnaComment}
+    	where fk_seq = ${qnaSeq} and qnaStatus = 0
+    </update>
+    <!-- 15 -->
+     <update id="editUserQuestion" parameterType="java.util.HashMap">
+    	update tbl_qna set qnaSubject = #{qnaSubject}, qnaContent = #{qnaComment}, qnaInquiry = #{qnaInquiry}
+    	where qnaSeq = #{qnaSeq} and qnaStatus = 0
+    </update>
+    <!-- 16 -->
+    <select id="getFaqList" resultType="com.go.mazzipmetro.vo.FaqVO">
+    	select faqSeq, faqType, faqQuestion, faqAnswer
+		from tbl_faq
+		where faqStatus = 0
+    </select>
+    <!-- 17 -->
+    <select id="selectOneFaq" parameterType="String" resultType="com.go.mazzipmetro.vo.FaqVO">
+    	select faqSeq, faqType, faqQuestion, faqAnswer
+		from tbl_faq
+		where faqStatus = 0 and faqSeq = #{faqSeq}
+    </select>
+    <!-- 18 -->
+    <select id="getFaqListByType" parameterType="String" resultType="com.go.mazzipmetro.vo.FaqVO">
+    	select faqSeq, faqType, faqQuestion, faqAnswer
+		from tbl_faq
+		where faqStatus = 0 and faqType = #{faqType}
+    </select>
+    
+    <!-- ////////////////////////////////////////////////////////은석18 ////////////////////////////////////////////////////////////// -->	
+</mapper>
