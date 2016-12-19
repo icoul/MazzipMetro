@@ -92,8 +92,14 @@
 </script>
 </head>
 <body>
-<div class="container">
-	<div class="row">
+
+<div class="subleftCon" style="height:auto; font-size:25px;">
+	<h2>고객 문의내역</h2>
+</div>
+
+<div align="center" class="subrightCon" style="height:auto;">
+<jsp:include page="../userMyPage_Menubar.jsp" />
+	<div style="width:90%;">
 		<h2> <span class="title-label">고객 문의내역</span>  </h2>
 		<span>총 문의건 : ${totalCount}건 | 접수완료 : ${registerQnaCount}건 | 답변완료 : ${answerQnaCount}건</span>
         <nav class="navbar navbar-default query" role="query">

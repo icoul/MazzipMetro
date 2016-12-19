@@ -28,8 +28,9 @@ public class ReviewService implements IService{
 		return reviewList;
 	}*/
 
-	public List<HashMap<String,String>> getReviewImageList() {
-		List<HashMap<String,String>> reviewImageList = dao.getReviewImageList();
+	// 리뷰 이미지배열을 담은 배열 가져오기
+	public List<List<String>> getReviewImageList(List<String> reviewSeq) {
+		List<List<String>> reviewImageList = dao.getReviewImageList(reviewSeq);
 		return reviewImageList;
 	}
 
@@ -420,6 +421,12 @@ public class ReviewService implements IService{
 	public HashMap<String, String> getRestaurant(String restSeq) {
 		HashMap<String, String> getRest = dao.getRest(restSeq);
 		return getRest;
+	}
+
+	//한 업장의 분위기, 가격, 서비스, 맛 , 총 평점의 평점을 가져온다.
+	public HashMap<String, String> getReviewAvgScore(String restSeq) {
+		HashMap<String, String> reviewAvgScore = dao.getReviewAvgScore(restSeq);
+		return reviewAvgScore;
 	}
 
 

@@ -52,6 +52,10 @@ public class MazzipMetroController {
 		
 		List<RestaurantVO> list = service.getUserWantToGo(userSeq);
 		
+		System.out.println(">>>>>>>>>>>>>>>>"+(list == null)); 
+		// false
+		// 로그인 하지 않으면 실행되지  않는 메소드이다. 가고싶다 행이 없다면, 껍데기뿐인 list가 담긴다. 
+		
 		req.setAttribute("list", list);
 		return "/ajax/userWantToGo";
 	}

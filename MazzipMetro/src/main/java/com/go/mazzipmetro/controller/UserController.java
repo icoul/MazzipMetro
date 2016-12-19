@@ -548,7 +548,9 @@ public class UserController {
 	public String UserLogOut(HttpServletRequest req, HttpServletResponse res){
 		
 		HttpSession session = req.getSession();
-		session.invalidate();
+		session.setAttribute("loginUser", null);
+		
+		//session.invalidate();
 		
 		String msg = "로그아웃되었습니다";
 		String loc = "index.eat";
@@ -861,6 +863,24 @@ public class UserController {
 		req.setAttribute("del", del);
 		
 		return "user/reviewDelete";
+	}
+	
+//	한별_정복한맛집_태그별통계
+	@RequestMapping(value="/tagStatistics.eat", method={RequestMethod.GET})
+	public String tagStatistics(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+		String userSeq = loginUser.getUserSeq();
+		
+		List<String> tagList_Bg = service.tagStatistics_Bg(userSeq); 
+		List<String> tagList_Md = service.tagStatistics_Md(userSeq); 
+		
+		System.out.println(tagList_Bg);
+		System.out.println(tagList_Md);
+		
+		req.setAttribute("tagList_Bg", tagList_Bg);
+		req.setAttribute("tagList_Md", tagList_Md);
+		
+		return "user/tagStatistics";
 	}
 	
 
@@ -1263,6 +1283,7 @@ public class UserController {
 		
 		return "/user/msgEnd";
 	}
+	
 	
 	
 ////////////////////////////////////////////////////////은석7 //////////////////////////////////////////////////////////////

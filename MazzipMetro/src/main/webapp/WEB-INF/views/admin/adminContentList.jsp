@@ -6,6 +6,7 @@
 <style type="text/css">
 	#colName {height:23px; font-size:13px;}
 	#adminConStatis {margin-top:50px;}
+	/* input.btnLike {height:100px; width:200px; border:0; background:url(http://localhost:9090/mazzipmetro/resources/images/logoMazzipMetro.png) no-repeat;} */
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -65,13 +66,13 @@ function searchKeep(){
 		</div>
 		<table class="tblType01" style="width:100%;">
 			<tr>
-				<th style="width: 70px;" >번호</th>
-				<th style="width: 80px;" >등급</th>
-				<th style="width: 70px;" >상호명</th>
-				<th style="width: 70px;" >전화번호</th>
-				<th style="width: 70px;" >주소</th>
-				<th style="width: 70px;" >컨텐츠명</th>
-				<th style="width: 70px;" >컨텐츠사용기한</th>
+				<th style="width:14%;" >번호</th>
+				<th style="width:10%;" >등급</th>
+				<th style="width:14%;" >상호명</th>
+				<th style="width:14%;" >전화번호</th>
+				<th style="width:18%;" >주소</th>
+				<th style="width:14%;" >컨텐츠명</th>
+				<th style="width:14%;" >컨텐츠사용기한</th>
 			</tr>
 		<c:forEach var="vo" items="${list}" varStatus="status"> 
 			<tr>
