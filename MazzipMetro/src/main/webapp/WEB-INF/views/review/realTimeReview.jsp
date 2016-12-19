@@ -70,7 +70,7 @@ $(document).ready(function(){
         <c:forEach var="review" items="${reviewList}" varStatus="status">
             <tr>
                 <td align="right">
-                    	평점<span style="font-weight:bold; font-size:15pt; color:red;">${review.reviewAvgScore}</span>점${review.reviewSeq }
+                    	평점<span style="font-weight:bold; font-size:15pt; color:red;">${review.reviewAvgScore}</span>점
                 </td>
                 <td style="border-right:0px;">
                     <a href="<%= request.getContextPath() %>/restaurantDetail.eat?restSeq=${review.restSeq}"><img src="<%= request.getContextPath() %>/files/${review.reviewImg}" width="50px" height="50px"/></a> &nbsp;&nbsp;

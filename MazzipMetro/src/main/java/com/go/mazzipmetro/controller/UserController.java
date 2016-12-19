@@ -548,7 +548,9 @@ public class UserController {
 	public String UserLogOut(HttpServletRequest req, HttpServletResponse res){
 		
 		HttpSession session = req.getSession();
-		session.invalidate();
+		session.setAttribute("loginUser", null);
+		
+		//session.invalidate();
 		
 		String msg = "로그아웃되었습니다";
 		String loc = "index.eat";

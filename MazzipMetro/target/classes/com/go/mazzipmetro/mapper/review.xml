@@ -27,18 +27,10 @@
 		order by reviewSeq desc
 	</select>
 	
-	
-	<resultMap type="java.util.HashMap" id="dataresultmap3">
-	 	 <result column="revImgSeq"	  	        property="revImgSeq" 			    javaType="String" />
-		 <result column="reviewSeq"	  	        property="reviewSeq" 			    javaType="String" />
-		 <result column="reviewImg"	  	    	property="reviewImg" 			    javaType="String" />
-		 
-	</resultMap>
-	
-	<select id="getReviewImageList" resultMap="dataresultmap3">
-		select revImgSeq, reviewSeq, reviewImg
+	<select id="getReviewImageList" resultType="String">
+		select reviewImg
 		from tbl_review_Image
-		where reviewImageStatus = 0
+		where reviewImageStatus = 0 and reviewSeq = #{revSeq}
 	</select>
 	
 	<resultMap type="java.util.HashMap" id="dataresultmap4">
