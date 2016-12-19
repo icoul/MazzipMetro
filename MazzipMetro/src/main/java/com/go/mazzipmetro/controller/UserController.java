@@ -863,6 +863,21 @@ public class UserController {
 		return "user/reviewDelete";
 	}
 	
+//	한별_정복한맛집_태그별통계
+	@RequestMapping(value="/tagStatistics.eat", method={RequestMethod.GET})
+	public String tagStatistics(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+		String userSeq = loginUser.getUserSeq();
+		
+		List<String> tagList = service.tagStatistics(userSeq); 
+		
+		System.out.println("#####" + tagList);
+		
+		req.setAttribute("tagList", tagList);
+		
+		return "user/tagStatistics";
+	}
+	
 
 ////////////////////////////////////////////////////////은석7 //////////////////////////////////////////////////////////////
 		
@@ -1263,6 +1278,7 @@ public class UserController {
 		
 		return "/user/msgEnd";
 	}
+	
 	
 	
 ////////////////////////////////////////////////////////은석7 //////////////////////////////////////////////////////////////

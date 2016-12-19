@@ -31,10 +31,10 @@
 		});
 	}
 </script>
-<div class="subleftCon">
+<div class="subleftCon"  style="height:1000px;">
 <h2>매장별 통계</h2>
 </div>
-	<div class="subrightCon">
+	<div class="subrightCon" style="height:1000px;">
 	<jsp:include page="../userMyPage_Menubar.jsp" />
 		<table class="tblRestList">
 		<tr>
@@ -55,7 +55,7 @@
 			</tr>
 		</c:forEach>
 	</table>
-	 <div id="hb_container" style="width: 100%; "></div>
+	 <div id="hb_container" style="width: 100%;"></div>
 	</div>
 	<%-- subrightCon --%>
 <jsp:include page="../footer.jsp" />

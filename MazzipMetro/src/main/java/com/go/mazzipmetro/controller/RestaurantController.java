@@ -623,8 +623,6 @@ public class RestaurantController {
 		
 		@RequestMapping(value="/Statistics.eat", method={RequestMethod.GET})
 		public String Statistics(HttpServletRequest req, HttpServletResponse res, HttpSession session){
-			UserVO loginUser = (UserVO)session.getAttribute("loginUser");
-			String userSeq = loginUser.getUserSeq();
 
 			String restSeq = req.getParameter("restSeq");
 			
@@ -640,16 +638,10 @@ public class RestaurantController {
 //			리뷰평점 차트 DB
 			List<HashMap<String, String>> reviewGrade = service.restStati_ReviewGrade(restSeq);
 			
-			
-//			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
-//			List<HashMap<String, String>> Agelist = service.restStati_Gender(restSeq);
-			
 			req.setAttribute("genderList", genderList);
 			req.setAttribute("ageList", ageList);
 			req.setAttribute("reviewCount", reviewCount);
 			req.setAttribute("reviewGrade", reviewGrade);
-//			req.setAttribute("Agelist", Agelist);
-//			req.setAttribute("Agelist", Agelist);
 			
 			
 			return "user/Statistics";
