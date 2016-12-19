@@ -58,6 +58,11 @@ public class UserService implements IService {
 		int n = dao.userEdit(vo);
 		return n;
 	}
+	
+	public int userDelete(String userSeq) {
+		int result = dao.userDelete(userSeq);
+		return result;
+	}
 
 
 	public int userPoint(String userSeq) {
@@ -469,7 +474,8 @@ public class UserService implements IService {
 	public String haveMazzipRecom(String userSeq) {
 		return dao.haveMazzipRecom(userSeq);
 	}
-	
+
+
 	////////////////////////////////////////////////////////은석18 //////////////////////////////////////////////////////////////
 }
 

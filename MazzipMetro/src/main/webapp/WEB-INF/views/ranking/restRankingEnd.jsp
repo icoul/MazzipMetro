@@ -52,7 +52,7 @@
 
 <c:if test="${mapList != null && not empty mapList}">
 	<table class = "tblRankingView">
-		<c:forEach var = "list" items = "${mapList}" begin="${pageNum*pageBar-10}" end="${pageNum*pageBar-1}">
+		<c:forEach var = "list" items = "${mapList}">
 			<tr style = "border-left-width: 0px; border-right-width: 0px;">
 				<td width = "10%" ><span style = "font-size: 15pt; font-weight: bold;">${list.rank}</span></td>
 				<td width = "15%" style = "border-left-width: 0px;"><img src="<%= request.getContextPath() %>/thumb${list.restImg}" /></td>

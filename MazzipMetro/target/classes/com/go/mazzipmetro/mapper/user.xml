@@ -136,6 +136,11 @@
 		</if>
 	</update>
 	
+	<update id = "user.userDelete" parameterType="String">
+		update TBL_User set userStatus = 1
+		where userSeq = #{userSeq}
+	</update>
+	
 	<select id="userPoint" resultType="int">
 		select userPoint
 		from tbl_User
@@ -157,7 +162,7 @@
 	<select id="userCoupon" resultType="int">
 		select count(*)
 		from tbl_coupon
-		where couponStatus = 0 and userSeq = #{userSeq}
+		where couponStatus = 1 and userSeq = #{userSeq}
 	</select>
 	
 	<select id="reviewCount" resultType="int">

@@ -28,6 +28,7 @@
 
 <!-- 은석_레스토랑 디테일.jsp에서 차트를 이용하기 위한 라이브러리 추가 -->
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/highcharts.js"></script>
+<script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/highcharts-more.js"></script>
 <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/modules/exporting.js"></script> 
 <%-- <link  rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/js/highcharts.js">
 <link  rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/js/modules/exporting.js">

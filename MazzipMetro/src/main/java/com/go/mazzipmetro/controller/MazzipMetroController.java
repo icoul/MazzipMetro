@@ -58,7 +58,7 @@ public class MazzipMetroController {
 	
 	// 가고싶다에 담기 요청
 	@RequestMapping(value="/addWantToGo.eat", method={RequestMethod.POST})
-	public String login_addFoodCart(HttpServletRequest req, HttpServletResponse res){
+	public String addFoodCart(HttpServletRequest req, HttpServletResponse res){
 		String restSeq = req.getParameter("restSeq");
 		UserVO loginUser = (UserVO)req.getSession().getAttribute("loginUser");
 		String userSeq = loginUser.getUserSeq();

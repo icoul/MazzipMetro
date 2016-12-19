@@ -481,6 +481,34 @@ public class UserController {
 		
 		
 	}
+	
+//  로그인 후 회원탈퇴
+	@RequestMapping(value="/userDelete.eat", method=RequestMethod.GET)
+	public String userDelete(HttpServletRequest req, HttpSession session) {
+		
+		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+		
+		String userSeq = loginUser.getUserSeq();
+		
+		int result = service.userDelete(userSeq);
+		
+		String msg = "회원탈퇴에 실패했습니다.";
+		String loc = "userMyPage.eat";
+		
+		if (result == 1) {
+			msg = "회원탈퇴가 성공적으로 이루어졌습니다.";
+			loc = "index.eat";
+			
+			loginUser = null;
+			session.setAttribute("loginUser", loginUser);
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("loc", loc);
+		
+		return "msg";
+		
+	}
 
 //	로그인 시 개인회원 마이페이지
 	@RequestMapping(value="/userMyPage.eat", method={RequestMethod.GET})

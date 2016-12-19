@@ -20,7 +20,7 @@
              plotBackgroundColor: null,
              plotBorderWidth: 0,
              plotShadow: false
-         },
+         },	
          title: {
              text: '',
              align: 'center',
