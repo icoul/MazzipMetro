@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -232,18 +233,25 @@ public class RestaurantController {
 		
 		HashMap<String,String> restvo = service.getRestaurant(restSeq);
 		
-			
 //		List<HashMap<String,String>> reviewList = reviewService.getReviewList(restvo.get("restseq"));
 		
 		List<HashMap<String,String>> agelineChartList = reviewService.getAgeLineChartList(restSeq);
 		List<HashMap<String,String>> genderChartList = reviewService.getGenderChartList(restSeq);
 		
+
+		List<String> restThemeList = service.getRestThemeList(restSeq); //한 음식점의 테마를 restSeq를 통해 가져온다.
+		HashMap<String,String> reviewAvgScore =  reviewService.getReviewAvgScore(restSeq); //한 업장의 분위기, 가격, 서비스, 맛 , 총 평점의 평점을 가져온다.
 		
-				
+		//은석 음식점상세페이지에서 음식점 사진들 
+		List<String> restImageList = service.getRestImageList(restSeq);
+		
 		req.setAttribute("restSeq", restSeq);
 		req.setAttribute("restvo", restvo);
 		req.setAttribute("agelineChartList", agelineChartList);
 		req.setAttribute("genderChartList", genderChartList);
+		req.setAttribute("restThemeList", restThemeList);
+		req.setAttribute("reviewAvgScore", reviewAvgScore);
+		req.setAttribute("restImageList", restImageList);
 		return "restaurant/restaurantDetail";
 	}
 	
@@ -716,6 +724,22 @@ public class RestaurantController {
 			
 			
 			return "user/Statistics";
+		}
+		
+		//은석 음식점상세페이지에서 음식점 사진 크게보여주는 메서드
+		@RequestMapping(value="/getLargeAdImgFilename.eat", method={RequestMethod.GET})
+		public String getLargeAdImgFilename(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+			String adImg = req.getParameter("adImg");
+
+			System.out.println("*****************************" + adImg);
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("adImg", adImg);
+			
+			System.out.println("##### JSON 확인용 : " + adImg);
+			
+			req.setAttribute("jsonObj", jsonObj);
+			
+			return "restaurant/largeAdImgNameJSON";
 		}
 }
 

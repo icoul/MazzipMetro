@@ -295,4 +295,25 @@
 		insert into tbl_reviewVisitor(reviewSeq, Gender, Birthday)
 		values(#{reviewSeq}, #{UserGender}, #{UserBirthday})
 	</insert>
+	
+	<!-- 한 업장의 분위기, 가격, 서비스, 맛 , 총 평점의 평점을 가져온다. -->
+	<resultMap type="java.util.HashMap" id="getReviewAvgScoreMap">
+		 <result column="avgReviewMood"	  	        property="avgReviewMood" 			    javaType="String" />
+		 <result column="avgReviewTaste"	  	        property="avgReviewTaste" 			    javaType="String" />
+		 <result column="avgReviewPrice"	  	    property="avgReviewPrice" 				javaType="String" />
+		 <result column="avgReviewService"	  	   		property="avgReviewService" 			    javaType="String" />
+		 <result column="avgReviewAvgScore"	  	    property="avgReviewAvgScore" 				javaType="String" />
+		  <result column="personCount"	  	    property="personCount" 				javaType="String" />
+	</resultMap>
+	
+	<select id="getReviewAvgScore" parameterType="String" resultMap="getReviewAvgScoreMap">
+		select trunc(avg(reviewMood),1) as avgReviewMood
+		, trunc(avg(reviewTaste),1) as avgReviewTaste
+		, trunc(avg(reviewPrice),1) as avgReviewPrice
+		, trunc(avg(reviewService),1) as avgReviewService
+		, trunc(avg(reviewAvgScore),1) as avgReviewAvgScore
+		, count(*) as personCount
+		from tbl_review
+		where restSeq = #{restSeq}
+	</select>
 </mapper>

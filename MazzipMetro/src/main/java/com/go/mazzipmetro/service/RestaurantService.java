@@ -170,9 +170,20 @@ public class RestaurantService implements IService{
 		return reviewGrade;
 	}
 
+
+	public List<String> getRestThemeList(String restSeq) {
+		List<String> restThemeList = dao.getRestThemeList(restSeq);
+		return restThemeList;
+	}
 	// 조회수 증가 요청
 	public int updateRestVisitor(String restSeq) {
 		return dao.updateRestVisitor(restSeq);
+	}
+
+	//은석 음식점상세페이지에서 음식점 사진들 
+	public List<String> getRestImageList(String restSeq) {
+		List<String> restImageList = dao.getRestImageList(restSeq);
+		return restImageList;
 	}
 
 

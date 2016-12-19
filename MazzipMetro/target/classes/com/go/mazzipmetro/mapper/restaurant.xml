@@ -408,9 +408,23 @@
 		where menuSeq = #{menuSeq} and restSeq = #{restSeq}
 	</update>
 	
+	<!-- 은석 한 음식점의 테마가져오기 -->
+	<select id="restaurant.getRestThemeList" parameterType="String" resultType="String">
+		select distinct(theme)
+		from TBL_THEME
+		where restSeq = #{restSeq}
+	</select>
+
 	<!-- 조회수 증가 요청 -->
 	<update id="updateRestVisitor">
 		update tbl_restaurant set restVisitor = restVisitor +1 where restSeq = #{restSeq}
 	</update>
+	
+	<!-- 은석 한 음식점의 이미지들 가져오기 -->
+	<select id="getRestImageList" parameterType="String" resultType="String">
+		select adImg
+		from TBL_RESTAURANT_AD
+		where adImgStatus = 0 and restSeq = #{restSeq}
+	</select>
 	
 </mapper>
