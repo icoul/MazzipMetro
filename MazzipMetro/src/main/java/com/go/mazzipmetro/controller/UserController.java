@@ -871,11 +871,14 @@ public class UserController {
 		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
 		String userSeq = loginUser.getUserSeq();
 		
-		List<String> tagList = service.tagStatistics(userSeq); 
+		List<String> tagList_Bg = service.tagStatistics_Bg(userSeq); 
+		List<String> tagList_Md = service.tagStatistics_Md(userSeq); 
 		
-		System.out.println("#####" + tagList);
+		System.out.println(tagList_Bg);
+		System.out.println(tagList_Md);
 		
-		req.setAttribute("tagList", tagList);
+		req.setAttribute("tagList_Bg", tagList_Bg);
+		req.setAttribute("tagList_Md", tagList_Md);
 		
 		return "user/tagStatistics";
 	}
