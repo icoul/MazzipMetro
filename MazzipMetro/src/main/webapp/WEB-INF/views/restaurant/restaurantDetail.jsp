@@ -254,6 +254,9 @@ function goLargeImgView(adImg) {
 	 <div id="restMainImge" style="width: 50%; clear:both; float: left; margin-top: 50px; margin-bottom: 30px;" align="center">
 	 
 	 <div id="largeImg" style="float: left;  border: green solid 0px; width: 100%;">
+	 	<c:if test="${empty restImageList}">
+	 		<img src='<%=request.getContextPath() %>/resources/images/no_image.jpg' width='460' height='345' />
+	 	</c:if>
 	</div>  
 		
 	<div  style="border: red solid 0px; clear:both; float:left; width: 100%;  padding: 20px;">
@@ -355,11 +358,11 @@ function goLargeImgView(adImg) {
 	      		<c:forEach var="theme" items="${restThemeList}" varStatus="status">
 	      			
 	      			<c:if test="${status.count <  restThemeList.size() }">
-	      				<a href="">${theme} </a>,
+	      				<a href="<%=request.getContextPath()%>/theme.eat?theme=${theme}">${theme} </a>,
 	      			</c:if>
 	      			
 	      			<c:if test="${status.count ==  restThemeList.size() }">
-	      				<a href="">${theme}</a>
+	      				<a href="<%=request.getContextPath()%>/theme.eat?theme=${theme}">${theme}</a>
 	      			</c:if>
 	      			
 	      		</c:forEach>
