@@ -46,7 +46,7 @@ public class ContentController {
 	}
 	
 	
-	// 측면 배너 컨텐츠
+	// 검색 상단 컨텐츠
 	@RequestMapping(value="/powerLinkContent.eat",method={RequestMethod.GET})
 	public String powerLinkContent(HttpServletRequest req, HttpServletResponse res){
 		
@@ -57,4 +57,14 @@ public class ContentController {
 		return "content/powerLinkContent";
 	}
 	
+	// 가고싶다 배너 컨텐츠
+	@RequestMapping(value="/wantGoContentView.eat",method={RequestMethod.GET})
+	public String wantGoContentView(HttpServletRequest req, HttpServletResponse res){
+		
+		RestaurantVO vo = service.getWantGoContents();
+		
+		req.setAttribute("vo", vo);
+		
+		return "content/wantGoContentView";
+	}
 }

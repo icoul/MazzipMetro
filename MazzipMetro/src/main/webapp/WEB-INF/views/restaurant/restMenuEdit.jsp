@@ -41,6 +41,11 @@
 		var num = $("#addMenuNum").val();
 		var regexp = /[^[0-9]/gi;
 		
+		if (num == 0) {
+			alert("최소 1개 이상의 메뉴를 작성해야 등록이 가능합니다.");
+			return;
+		}
+		
 		for (var i = 0; i < num; i++) {
 			var menuName = $(".menuName"+i).val();
 			var menuContent = $(".menuContent"+i).val();
@@ -165,9 +170,9 @@
 			html += "<td class = 'lcontent' align='left' style = 'vertical-align: middle;'>"
 			html += "<input type='text' class=\"menuPrice"+num+"\" name=\"menuPrice\" id=\"menuPrice"+num+"\" value=\"\" /></td>"
 			html += "<td style = 'font-size : 11pt;' rowspan='2'><b>메뉴이미지</b></td>"
-			html += "<td class = 'rcontent' id='addImg' rowspan='2' style = 'padding-left : 40px; border-right-width: 0px; position : relative; font-size: 10pt; text-align: left;'><img src=\"<%=request.getContextPath() %>/files/noimage.jpg\" class=\"currImg"+num+"\" width='100px;' /></td>"	
+			html += "<td class = 'rcontent' id='addImg' rowspan='2' style = 'padding-left : 40px; border-right-width: 0px; position : relative; font-size: 10pt; text-align: left;'><img src=\"<%=request.getContextPath() %>/files/menu/noImage.jpg\" class=\"currImg"+num+"\" width='100px;' /></td>"	
 			html += "<td class = 'lcontent' style = 'border-left-width: 0px; vertical-align: middle;' rowspan='2'><input type='file' name='attach' id = \"menuImgFile"+num+"\" onchange = \"showCurrImg('"+num+"');\" /></td>"
-			html += "<td class = 'lcontent' style = 'border-left-width: 0px; vertical-align: middle;' rowspan='2'><button type = 'button' onClick = \"imageHide("+i+");\">이미지 삭제</button></td>"
+			html += "<td class = 'lcontent' style = 'border-left-width: 0px; vertical-align: middle;' rowspan='2'><button type = 'button' onClick = \"imageHide("+num+");\">이미지 삭제</button></td>"
 			html += "</tr>"
 			html += "<tr class = 'tr'>"
 			html += "<td style = 'font-size : 11pt;'><b>세일가격</b></td>"
@@ -246,7 +251,7 @@
 			<td class = "lcontent" align='left' style = "vertical-align: middle;">
 			<input type='text' class="menuPrice${status.index} " name="menuPrice" id="menuPrice" value = "${list.menuPrice}" /></td>
 			<td style = 'font-size : 11pt;' rowspan="2"><b>메뉴이미지</b></td>
-			<td class = "rcontent" id="addImg" rowspan="2" style = "padding-left : 40px; border-right-width: 0px; position : relative; font-size: 10pt; text-align: left;"><img src="<%=request.getContextPath() %>/files/thumb${list.menuImg}" class="currImg${status.index}" width="100px;" /></td>	
+			<td class = "rcontent" id="addImg" rowspan="2" style = "padding-left : 40px; border-right-width: 0px; position : relative; font-size: 10pt; text-align: left;"><img src="<%=request.getContextPath() %>/files/menu/thumb/thumb${list.menuImg}" class="currImg${status.index}" width="100px;" /></td>	
 				<td class = "lcontent" style = "border-left-width: 0px; vertical-align: middle;" rowspan="2"><input type="file" name="attach" id = "menuImgFile${status.index}" value = "" onchange = "showCurrImg(${status.index});" /></td>
 		</tr>
 		<tr class = "tr">

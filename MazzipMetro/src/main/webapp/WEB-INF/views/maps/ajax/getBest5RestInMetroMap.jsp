@@ -158,11 +158,11 @@ table#tbl_best5 th, table#tbl_best5 td{padding:5px;}
 	    	<div id="div_tooltipImg" style="padding: 5px; width: 500px; height : 50px;">
 	    		<table>
 		    		<tr>
-		    			<td rowspan="2"><img src="<%=request.getContextPath()%>/files/${vo.userProfile}" width="50px;"/></td>
-		    			<td><strong>${vo.userName}</strong> / ${vo.reviewTitle} / ${vo.reviewRegDate }</td>
+		    			<td rowspan="2"><img src="<%=request.getContextPath()%>/files/review/thumb/thumb${vo.userProfile}" width="50px;"/></td>
+		    			<td style = "padding-left : 15px;"><strong>${vo.userName}</strong> / ${vo.reviewTitle} / ${vo.reviewRegDate }</td>
 		    		</tr>
 		    		<tr>
-		    			<td>${vo.reviewContent }</td>
+		    			<td style = "padding-left : 15px;">${vo.reviewContent }</td>
 		    		</tr>
 	    		</table>
 	        </div>

@@ -2,10 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
-		.subleftCon {float:left; width:200px; height:500px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;}
-		.subleftCon h2 {width:187px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right;}
-		.subrightCon {float:left; width:70%; height:auto; border-right:1px solid #dbdbdb; padding-bottom:40px;}
-		.subrightCon .searchWrap {padding-top:10px; text-align:center;}
 		
 		.table {
 		     width: 100%;
@@ -174,7 +170,7 @@
 		</table>
 	</c:if>
 	
-	<c:if test="${couponList != null && not empty couponList && userSort == 1}">
+	<c:if test="${userSort == 1}">
 	
 		<jsp:include page="../library.jsp" />
 		<jsp:include page="../top.jsp" />
@@ -186,37 +182,49 @@
 		<div class="subrightCon" style="height:2500px;">
 		<jsp:include page="../userMyPage_Menubar.jsp" />
 			<table class = "table" style = "border-bottom-width: 0px;">
-				<c:set var="couponNum" value="${couponList.size()}" />
-				<tr style = "border-left-width: 0px; border-right-width: 0px;">
-					<td colspan = "7" align="left">
-						보유중인 쿠폰 갯수 : ${couponNum}개
-					</td>
-				</tr>
-				<tr>
-					<th width="20%" style = "text-align : center; font-size : 14pt;"><b>쿠폰번호</b></th>
-					<th width="20%" style = "text-align : center; font-size : 14pt;"><b>발행 맛집명</b></th>
-					<th width="20%" style = "text-align : center; font-size : 14pt;"><b>쿠폰 발행일</b></th>
-					<th width="20%" style = "text-align : center; font-size : 14pt;"><b>유효기간</b></th>
-					<th width="20%" style = "text-align : center; font-size : 14pt;"><b>쿠폰상태</b></th>
-				</tr>
-				
-				<c:forEach var="list" items="${couponList}" begin="${pageNum*pageBar-pageBar}" end="${pageNum*pageBar-1}">
-					<tr>
-						<td width="20%" align="center">${list.couponSeq}</td>
-						<td width="20%" align="center"><a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${list.restSeq}">${list.restName}</a></td>
-						<td width="20%" align="center">${list.couponRegDate}</td>
-						<td width="20%" align="center">${list.couponExpiryDate}</td>
-						<td width="20%" align="center">
-							<c:if test="${list.couponStatus == 0}" >발매완료</c:if>	
-							<c:if test="${list.couponStatus == 1}" ><span style = "color : blue; font-weight: bold;">유저획득완료</span></c:if>
-							<c:if test="${list.couponStatus == 2}" ><span style = "color : red; font-weight: bold;">사용완료</span></c:if>
-							<c:if test="${list.couponStatus == 3}" ><span style = "color : red; font-weight: bold;">기한초과</span></c:if>
+				<c:if test="${couponList != null && not empty couponList}">
+					<c:set var="couponNum" value="${couponList.size()}" />
+					<tr style = "border-left-width: 0px; border-right-width: 0px;">
+						<td colspan = "7" align="left">
+							보유중인 쿠폰 갯수 : ${couponNum}개
 						</td>
 					</tr>
-				</c:forEach>
-				<tr style = "border-bottom-width: 0px;">
-					<td colspan = "5" align="center" style = "border-bottom-width: 0px;">${html}</td>
-				</tr>
+					<tr>
+						<th width="20%" style = "text-align : center; font-size : 14pt;"><b>쿠폰번호</b></th>
+						<th width="20%" style = "text-align : center; font-size : 14pt;"><b>발행 맛집명</b></th>
+						<th width="20%" style = "text-align : center; font-size : 14pt;"><b>쿠폰 발행일</b></th>
+						<th width="20%" style = "text-align : center; font-size : 14pt;"><b>유효기간</b></th>
+						<th width="20%" style = "text-align : center; font-size : 14pt;"><b>쿠폰상태</b></th>
+					</tr>
+					
+					<c:forEach var="list" items="${couponList}" begin="${pageNum*pageBar-pageBar}" end="${pageNum*pageBar-1}">
+						<tr>
+							<td width="20%" align="center">${list.couponSeq}</td>
+							<td width="20%" align="center"><a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${list.restSeq}">${list.restName}</a></td>
+							<td width="20%" align="center">${list.couponRegDate}</td>
+							<td width="20%" align="center">${list.couponExpiryDate}</td>
+							<td width="20%" align="center">
+								<c:if test="${list.couponStatus == 0}" >발매완료</c:if>	
+								<c:if test="${list.couponStatus == 1}" ><span style = "color : blue; font-weight: bold;">유저획득완료</span></c:if>
+								<c:if test="${list.couponStatus == 2}" ><span style = "color : red; font-weight: bold;">사용완료</span></c:if>
+								<c:if test="${list.couponStatus == 3}" ><span style = "color : red; font-weight: bold;">기한초과</span></c:if>
+							</td>
+						</tr>
+					</c:forEach>
+					<tr style = "border-bottom-width: 0px;">
+						<td colspan = "5" align="center" style = "border-bottom-width: 0px;">${html}</td>
+					</tr>
+				</c:if>
+				<c:if test="${couponList == null || empty couponList}">
+					<tr style = "border-left-width: 0px; border-right-width: 0px; background-color: lightgrey;">
+						<td class="couponBuy" colspan = "5" align="left" style = "font-size : 15pt;">쿠폰 리스트</td>
+					</tr>
+					<tr>
+						<td width="80%" colspan="4" align="center">
+							쿠폰이 존재하지 않습니다
+						</td>
+					</tr>
+				</c:if>	
 			</table>
 		
 			<form name="couponBuyFrm" action="couponBuy.eat" method="post">	
@@ -291,28 +299,3 @@
 		</div>
 		<jsp:include page="../footer.jsp" />
 	</c:if>
-
-	<c:if test="${couponList == null || empty couponList && userSort == 1}">
-		<jsp:include page="../library.jsp" />
-		<jsp:include page="../top.jsp" />
-		
-		<div class="subleftCon" style="height:auto; font-size:25px;">
-		<h2>쿠폰</h2>
-		</div>
-		
-		<div class="subrightCon" style="height:2500px;">
-		<jsp:include page="../userMyPage_Menubar.jsp" />
-			<table class = "table">
-				<tr style = "border-left-width: 0px; border-right-width: 0px; background-color: lightgrey;">
-					<td class="couponBuy" colspan = "5" align="left" style = "font-size : 15pt;">쿠폰 리스트</td>
-				</tr>
-				<tr>
-					<td width="80%" colspan="4" align="center">
-						쿠폰이 존재하지 않습니다
-					</td>
-				</tr>
-			</table>
-		</div>
-		<jsp:include page="../footer.jsp" />
-	</c:if>
-
