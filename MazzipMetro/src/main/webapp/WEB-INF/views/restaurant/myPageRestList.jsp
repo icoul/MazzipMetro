@@ -1,18 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<jsp:include page="../library.jsp" />
-<jsp:include page="../top.jsp" />
-
 <style type="text/css">
 * { padding:0; margin:0;}
 #colName {height:23px; font-size:13px;}
-.subleftCon {float:left; width:200px; height:500px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;}
-.subleftCon h2 {width:187px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right;}
-.subrightCon {float:left; width:70%; height:auto; border-right:1px solid #dbdbdb; padding-bottom:40px;}
-.subrightCon .searchWrap {padding-top:10px; text-align:center;}
 
-.tblRestList {margin:50px 0 0 50px; border-collapse: collapse; width:90%;}
+.tblRestList {border-collapse: collapse; width:100%;}
 .tblRestList th {height:50px; padding-top:16px; border-top:1px solid #00bad2; border-bottom:1px solid #c2c2c2; background-color:#fafafa; color:#444; text-align:center; font-size:13px; font-weight:normal;}
 .tblRestList td {height:10px; padding-top:16px; padding-bottom:16px; border-bottom:1px solid #e0e0e0; font-size:12px; text-align:center; vertical-align: middle;}
 .btnGray {width:63px; height:23px; border:1px solid #6c6c6c; background-color:#777; color:#fff; margin-top: 20px; margin-bottom: 10px; font-size:10px; }
@@ -82,24 +75,16 @@
 	
 
 </script>
-
-	<div class="subleftCon" style="height:auto; font-size:25px;">
-	<h2>업장 리스트</h2>
-	</div>
-	
 	<%-- subleftCon --%>
-	<div class="subrightCon" id = "demobtn" style="height:2500px;">
-		<jsp:include page="../userMyPage_Menubar.jsp" />
 		<table class="tblRestList" >
-		<span style = "position : absolute; margin-left: 50px; top: 175px; " >*클릭하시면 메뉴를 확인할 수 있습니다</span>
 		<c:forEach var="vo" items="${restList}" varStatus="status">
 			
 			<tr>
-				<th style="width: 150px;" >가게명</th>
+				<th style="width: 250px;" >가게명</th>
 				<th style="width: 70px;" >등급</th>
-				<th style="width: 200px;" >업장대표이미지</th>
-				<th style="width: 120px;" >업장등록일자</th>
-				<th style="width: 120px;" >업장방문수</th>
+				<th style="width: 300px;" >업장대표이미지</th>
+				<th style="width: 180px;" >업장등록일자</th>
+				<th style="width: 180px;" >업장방문수</th>
 				<th style="width: 70px;" >수정하기</th>
 			</tr>
 			<tr class = "rest" >
@@ -125,7 +110,4 @@
 		<input type = "hidden" name = "restSeq" value="${vo.restSeq}" />
 	</form>	
 	<br/>
-	</div>
 	<%-- subrightCon --%>
-	
-<jsp:include page="../footer.jsp" />

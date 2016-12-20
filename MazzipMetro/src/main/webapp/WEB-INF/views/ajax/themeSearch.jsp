@@ -26,8 +26,8 @@ ul.pagination li a.active {
 
 ul.pagination li a:hover:not(.active) {background-color: #ddd;}
 </style>
+
 <div>
-<h4>"<span style="color: gray">${keyword}</span>" 에 대한 업장 검색 결과</h4>
 	<hr/> 
 	<c:if test="${empty restList}">업장 검색 결과가 없습니다.</c:if>
 	<c:if test="${not empty restList}">
