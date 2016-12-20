@@ -435,7 +435,7 @@
 			<div class="mainContentsView">
 			</div>
 			<div  style="margin-top:30px;">
-				<div style = "height : 20px; background-color: lightgrey;">
+				<div style = "height : 20px; width : 96%; background-color: lightgrey;">
 					<span style = "font-size: 15pt; font-weight: bold; padding : 15px;">MazzipMetro의 추천 맛집</span>
 				</div>
 				<div class="top5RankView">
@@ -449,13 +449,13 @@
 		</div>
 		<%-- end of leftCon --%>
 		
-		<div class="rightCon" >
+		<div class="rightCon" style = "height : 730px;">
 			<div style="background-color: yellow; font-size: 25pt; font-weight: bold;" id="realReview" >실시간 리뷰</div>
 			<div id="Scroller" class="Scroller">
 			</div>
 
 		</div>
-		<div class="rightCon" id="rightContent" style = "margin-top : 88px;"></div>
+		<div class="rightCon" id="rightContent"></div>
 		<%-- end of rightCon --%>	
 
 <jsp:include page="footer.jsp" />

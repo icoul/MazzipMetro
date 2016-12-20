@@ -106,7 +106,7 @@ public class RestaurantController {
 		// 업장 소개이미지 파일 업로드 및 파일명 배열에 저장하기
 		
 		String root = session.getServletContext().getRealPath("/");
-		String path = root + "files";
+		String path = root + "files/restaurant";
 		
 		String newFileName = "";
 		byte[] bytes = null;
@@ -115,6 +115,7 @@ public class RestaurantController {
 				
 			bytes = fvo.getAttach()[0].getBytes();
 			newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[0].getOriginalFilename(), path);
+			path += "/thumb";
 			thumbnailManager.doCreateThumbnail(newFileName, path);
 				
 		}catch (Exception e) {
@@ -274,7 +275,7 @@ public class RestaurantController {
 			ArrayList<String> imageList = new ArrayList<String>();	
 			
 			String root = session.getServletContext().getRealPath("/");
-			String path = root + "files";
+			String path = root + "files/restaurant";
 			
 			String newFileName = "";
 			byte[] bytes = null;
@@ -283,9 +284,10 @@ public class RestaurantController {
 		if (fileNum > 0) {	
 			try{
 				for (int i = 0; i < fvo.getAttach().length; i++) {
-					
+					path = root + "files/restaurant";
 					bytes = fvo.getAttach()[i].getBytes();
 					newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[i].getOriginalFilename(), path);
+					path += "/thumb";
 					thumbnailManager.doCreateThumbnail(newFileName, path);
 					
 					imageList.add(newFileName);
@@ -301,10 +303,11 @@ public class RestaurantController {
 		
 		try{
 			for (int i = 0; i < mvo.getMenuImgFile().length; i++) {
-				
+				path = root + "files/menu";
 				if (mvo.getMenuImgFile()[i].equals(null)) {
 					bytes = mvo.getMenuImgFile()[i].getBytes();
 					newFileName = fileManager.doFileUpload(bytes, mvo.getMenuImgFile()[i].getOriginalFilename(), path);
+					path += "/thumb";
 					thumbnailManager.doCreateThumbnail(newFileName, path);
 				}
 				
@@ -365,6 +368,19 @@ public class RestaurantController {
 		return "restaurant/restList";
 	}
 	
+	// 업장 리스트를 불러오는 메서드
+	@RequestMapping(value="/myPageRestList.eat", method={RequestMethod.GET})
+	public String myPageRestList(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+		String userSeq = loginUser.getUserSeq();
+				
+		List<RestaurantVO> restList = service.getRestList(userSeq);
+		
+		req.setAttribute("restList", restList);
+		
+		return "restaurant/myPageRestList";
+	}
+	
 	// 메뉴 리스트를 불러오는 메서드
 	@RequestMapping(value="/restMenuList.eat", method={RequestMethod.POST})
 	public String restMenuList(HttpServletRequest req, HttpServletResponse res, HttpSession session){
@@ -411,7 +427,7 @@ public class RestaurantController {
 		
 		// 메뉴 이미지 업로드하기
 		String root = session.getServletContext().getRealPath("/");
-		String path = root + "files";
+		String path = root + "files/menu";
 		
 		String newFileName = "";
 		byte[] bytes = null;
@@ -420,9 +436,10 @@ public class RestaurantController {
 		
 		try{
 			for (int i = 0; i < fvo.getAttach().length; i++) {
-				
+				path = root + "files/menu";
 				bytes = fvo.getAttach()[i].getBytes();
 				newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[i].getOriginalFilename(), path);
+				path += "/thumb";
 				
 				if (newFileName == null && menuImg[i] == null) {
 					newFileName = "noimage.jpg";
@@ -514,7 +531,7 @@ public class RestaurantController {
 
 		// 업장 소개이미지 파일 업로드 및 파일명 배열에 저장하기
 		String root = session.getServletContext().getRealPath("/");
-		String path = root + "files";
+		String path = root + "files/restaurant";
 		
 		String newFileName = "";
 		byte[] bytes = null;
@@ -523,6 +540,7 @@ public class RestaurantController {
 				
 			bytes = fvo.getAttach()[0].getBytes();
 			newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[0].getOriginalFilename(), path);
+			path += "/thumb";
 			thumbnailManager.doCreateThumbnail(newFileName, path);
 		}catch (Exception e) {
 			e.printStackTrace();

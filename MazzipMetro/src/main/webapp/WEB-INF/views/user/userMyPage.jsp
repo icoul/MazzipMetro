@@ -14,6 +14,7 @@
 
 $(document).ready(function(){
 	
+	restList();
 	
 	$("#btn_Mazzip").click(function(){
 		$.ajax({	
@@ -103,6 +104,17 @@ $(document).ready(function(){
 		});
 	});
 });
+
+function restList(){
+	$.ajax({	
+		url:"<%= request.getContextPath() %>/myPageRestList.eat",
+	    type:"GET",
+		datatype:"html", 
+		success:function(data){ 
+			$("#restList").html(data);
+		}
+	});
+}
 
 </script>
 <style type="text/css">
@@ -244,8 +256,11 @@ $(document).ready(function(){
 		<td><a href="<%= request.getContextPath()%>/couponList.eat">쿠폰</a></td>
 		<td>${coupon}</td>
 	</tr>
-	
 </table>
+
+<div id = "restList">
+
+</div>
 </c:if>
 <div id="userInfo" style="margin-top:60px; position: relative; height:auto;">
 </div>
