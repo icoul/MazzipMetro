@@ -393,7 +393,12 @@ function getLoginUserInfo(){
 		<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
 			<div class="loginWrap">
 				<div class="loginInfo">
-					<span>${sessionScope.loginUser.userName} 님 환영합니다. </span>                        
+				<c:if test="${sessionScope.loginUser.userSort == 0}">
+					${sessionScope.loginUser.userName} <span> (일반) </span> | 
+				</c:if>
+				<c:if test="${sessionScope.loginUser.userSort == 1}">
+					${sessionScope.loginUser.userName} <span> (사업자) </span> | 
+				</c:if>                        
 					현재 마일리지: <span style="color:gold; margin-right: 30px;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userPoint }</fmt:formatNumber></span>
 					등급 : <span style="color: red;">${sessionScope.loginUser.gradeName }</span>
 					Exp: <span style="color: red;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userExp }</fmt:formatNumber>  
@@ -580,8 +585,14 @@ function getLoginUserInfo(){
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default myclose" data-dismiss="modal">Close</button>
-        </div>
+        <button type="submit" class="btn btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 취소</button>
+        <p>
+        <td colspan="2" align="center">
+			<a data-toggle="modal" data-target="#accountSelectModal" data-dismiss="modal" style="color:#f4511e; cursor: pointer;">회원가입하기</a> /
+			<a data-toggle="modal" data-target="#passwdFind" data-dismiss="modal" style="cursor: pointer;">비밀번호찾기</a>
+		</td>	
+		</p>
+      </div>
       </div>
       
     </div>
@@ -606,8 +617,14 @@ function getLoginUserInfo(){
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default myclose" data-dismiss="modal">Close</button>
-        </div>
+        <button type="submit" class="btn btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 취소</button>
+        <p>
+        <td colspan="2" align="center">
+			<a data-toggle="modal" data-target="#accountSelectModal" data-dismiss="modal" style="color:#f4511e; cursor: pointer;">회원가입하기</a> /
+			<a data-toggle="modal" data-target="#userIdfind" data-dismiss="modal" style="cursor: pointer;">아이디찾기</a>
+		</td>	
+		</p>
+      </div>
       </div>
       
     </div>

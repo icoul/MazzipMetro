@@ -60,7 +60,7 @@ img {border:0; padding:0; margin:0; vertical-align:top;}
 .btnLogin {float:right; width:58px; height:25px; background:#fff; font-size:10px; border:1px solid #000; border-radius:2px; color:#000; cursor:pointer;}
 
 .loginWrap {width:100%; z-index:100; position:fixed; top:0; left:0; height:25px; padding-bottom:3px;  background:#fff url(http://localhost:9090/mazzipmetro/resources/images/bgLoginInfo.png) repeat-x 0 100%; }
-.loginInfo {width:700px; float:right; padding-top:5px;} 
+.loginInfo {width:600px; float:right; padding-top:5px;} 
 
 #content {width:1400px; overflow:hidden; margin:0 auto;}
 #leftCon {float:left; width:856px;}

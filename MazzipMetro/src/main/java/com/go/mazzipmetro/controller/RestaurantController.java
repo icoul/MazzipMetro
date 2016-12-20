@@ -704,7 +704,10 @@ public class RestaurantController {
 		public String Statistics(HttpServletRequest req, HttpServletResponse res, HttpSession session){
 
 			String restSeq = req.getParameter("restSeq");
+			System.out.println(">>>>>>>>>>>>>###################" + restSeq);
+			String restName = req.getParameter("restName");
 			
+			System.out.println(">>>>>>>>>>>>>###################" + restName);
 //			성별 차트 DB
 			List<HashMap<String, String>> genderList = service.restStati_Gender(restSeq); 
 
@@ -722,7 +725,7 @@ public class RestaurantController {
 			req.setAttribute("reviewCount", reviewCount);
 			req.setAttribute("reviewGrade", reviewGrade);
 			
-			
+			req.setAttribute("restName", restName);
 			return "user/Statistics";
 		}
 		
