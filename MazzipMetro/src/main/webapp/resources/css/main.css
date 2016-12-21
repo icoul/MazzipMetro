@@ -1,5 +1,9 @@
 @CHARSET "UTF-8";
 
+/* 구글 본고딕체 웹폰트 */
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+@font-face { font-family: 'Noto Sans KR'; font-style: normal; font-weight: 300; src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype'); }
+
 /* css 초기화 */
 
 html, body, div, span, applet, object, iframe,
@@ -19,7 +23,7 @@ time, mark, audio, video {
 	padding: 0;
 	border: 0;
 	vertical-align: baseline;
-	font-family:'나눔바른고딕','맑은고딕','MalgunGothic','돋움',dotum,sans-serif;
+	font-family:'Noto Sans KR','나눔바른고딕','맑은고딕','MalgunGothic','돋움',dotum,sans-serif;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -48,8 +52,11 @@ table {
 img {border:0; padding:0; margin:0; vertical-align:middle;}
 
 
+
+
+
 #headWrap {border-bottom:1px solid #dbdbdb;}
-.header {width:1400px; margin:0 auto;  height:70px; padding:20px 0 0; position: relative;}
+.header {width:1400px; margin:0 auto;  height:70px; padding:20px 0 0; position: relative; margin-top:20px;}
 .header  h1 {float:left; padding:0 20px 0 50px; margin:0; font-size:23px; font-weight:bold;} 
 .header .menu  {float:left; padding:4px 0 0 7px; margin:0; }
 .header .menu li {float:left; list-style:none; padding:0 10px;}
@@ -60,8 +67,9 @@ img {border:0; padding:0; margin:0; vertical-align:middle;}
 .btnLogin {float:right; width:58px; height:25px; background:#fff; font-size:10px; border:1px solid #000; border-radius:2px; color:#000; cursor:pointer;}
 
 /* 한별 로그인정보, 탑 css */
+.topWrap {position:relative; width:1400px; margin:0 auto;}
 .loginWrap {width:100%; z-index:100; position:fixed; top:0; left:0; height:30px; background-color: #f2f2f2;}
-.loginInfo {width:800px; float:right;} 
+.loginInfo {position:absolute; right:0;} 
 .btnColor {background-color: #008968; color: #fff;}
 .fontDesign {color:#008968; font-size:13px; font-stretch:narrower; font-weight: bold;}
 .btnDesign {background:#F7F7F7; padding:2px; font-size:12px; border:1px solid #D4DADC; border-radius:2px; color:#A1A1A1; cursor:pointer;}
@@ -197,21 +205,27 @@ footer .copyRight {color:#8a8a8a;}
     display: none;
     position: absolute;
     background-color: white;
+    border-top:2px #008968 solid;
+    top:42px;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 10000000;
 }
 
-.dropdown-content a {
+.header .menu li .dropdown-content a {
     color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
+    font-size: 12px;
+    
 }
 
-.dropdown-content a:hover {background-color: #00d9a4;}
+
+.dropdown-content a:hover {background-color: #f2f2f2;}
 
 .dropdown:hover .dropbtn {
-    background-color: gray;
+    background-color: gray ;
 }
 
  
