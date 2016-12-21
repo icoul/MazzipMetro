@@ -25,8 +25,7 @@ function getLoginUserInfo(){
 	}//end of getLoginUserInfo () 
 	
 	$(document).ready(function(){
-<<<<<<< HEAD
-=======
+
 		//동현_관리자 dropdown 메뉴용 이벤트
 		$(".dropdown").hover(function(){
 			$(".dropdown-content").css('display','block');
@@ -35,7 +34,7 @@ function getLoginUserInfo(){
 		});	
 		
 		
->>>>>>> 7c23fd0232c4a51ed1dd29d01f7648b3456099ab
+
 		//가고싶다 상단의 배너
 		wantGoContentView();
 
