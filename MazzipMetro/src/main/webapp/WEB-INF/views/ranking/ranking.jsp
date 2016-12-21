@@ -4,11 +4,6 @@
 <jsp:include page="../library.jsp" />
 <jsp:include page="../top.jsp" />
 
-<style>
-	.subleftCon {float:left; width:200px; height:500px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;}
-	.subrightCon {float:left; width:70%; height:auto; border-right:1px solid #dbdbdb; padding-bottom:40px;}
-</style>
-
 <script type = "text/javascript">
 	$(document).ready(function(){
 		restRanking();
@@ -48,11 +43,10 @@
 <meta charset="UTF-8">
 </head>
 <body>
-<div class="subleftCon" style="height:auto; font-size:25px;">
+<div class="subleftCon" style="height:1500px; font-size:25px;">
 	<h2>My Zone</h2>
 </div>
-
-<div class="subrightCon" style="height:2500px;">
+<div  class="subrightCon" style="height:auto;">
 	<nav style="padding-left:30px;" class="navbar navbar-default">
 	  <div class="container-fluid">
 	    <ul align="center" class="nav navbar-nav">

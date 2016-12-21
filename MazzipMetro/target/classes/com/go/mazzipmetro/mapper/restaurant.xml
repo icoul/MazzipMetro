@@ -156,10 +156,24 @@
 	
 	
 	<!-- 업장이름 리스트 가져오기 -->
-	<select id="restaurant.getRestName" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
-		select restSeq,  userSeq,  gradeSeq,  restName,  restPhone,
-			   restImg,  restAddr,  restNewAddr,  restLatitude,  restLongitude,
-			   restZIndex,  dongId,  metroId,  restRegDate,  restVisitor, restStatus
+	<select id="restaurant.getRestName" parameterType="java.util.HashMap" resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select V.restSeq,  V.userSeq,  V.gradeSeq,  V.restName,  V.restPhone,
+					   V.restImg,  V.restAddr,  V.restNewAddr,  V.restLatitude,  V.restLongitude,
+					   V.restZIndex,  V.dongId,  V.metroId,  V.restRegDate,  V.restVisitor, V.restStatus
+		from
+		(
+		select rownum as rno, restSeq,  userSeq,  gradeSeq,  restName,  restPhone,
+					   restImg,  restAddr,  restNewAddr,  restLatitude,  restLongitude,
+					   restZIndex,  dongId,  metroId,  restRegDate,  restVisitor, restStatus
+		from TBL_Restaurant
+		where restName like '%' || #{name} || '%'
+		)V
+		where rno between #{rankStartNum} and #{rankEndNum}
+	</select>
+	
+	<!-- 업장이름 리스트 가져오기 -->
+	<select id="restaurant.getTotalRestName" parameterType="String" resultType="int">
+		select count(restName)
 		from TBL_Restaurant
 		where restName like '%' || #{name} || '%'
 	</select>

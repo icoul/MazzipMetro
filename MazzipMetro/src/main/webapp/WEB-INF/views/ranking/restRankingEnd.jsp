@@ -56,7 +56,7 @@
 		<c:forEach var = "list" items = "${mapList}">
 			<tr style = "border-left-width: 0px; border-right-width: 0px;">
 				<td width = "10%" ><span style = "font-size: 15pt; font-weight: bold;">${list.rank}</span></td>
-				<td width = "15%" style = "border-left-width: 0px;"><img src="<%= request.getContextPath() %>/files/restaurant/thumb/thumb${list.restImg}" /></td>
+				<td width = "15%" style = "border-left-width: 0px;"><img src="<%= request.getContextPath() %>/files/rest/thumb/thumb${list.restImg}" /></td>
 				<td width = "35%" style = "border-left-width: 0px; text-align: left; font-size : 12pt; font-weight: bold;">
 					<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${list.restSeq}">
 						<span style = "color : black;">${list.restName}</span>

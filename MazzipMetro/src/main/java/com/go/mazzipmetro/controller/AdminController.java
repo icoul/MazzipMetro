@@ -90,7 +90,7 @@ public class AdminController {
 				try{
 					bytes = fvo.getAttach()[0].getBytes();
 					newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[0].getOriginalFilename(), path);
-					thumbnailManager.doCreateThumbnail(newFileName, path+ File.separator + "thumb");
+					thumbnailManager.doCreateThumbnail(newFileName, path);
 					System.out.println(">>>>>>>>>newFileName ="+newFileName); 
 					
 					vo.setRestImg(newFileName);
@@ -106,7 +106,7 @@ public class AdminController {
 				try{
 					bytes = fvo.getAttach()[i].getBytes();
 					newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[i].getOriginalFilename(), path);
-					thumbnailManager.doCreateThumbnail(newFileName, path+ File.separator + "thumb");
+					thumbnailManager.doCreateThumbnail(newFileName, path);
 					
 					adImgList.add(newFileName);
 				}catch (Exception e) {

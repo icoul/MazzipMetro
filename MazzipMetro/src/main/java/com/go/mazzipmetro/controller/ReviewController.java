@@ -1,5 +1,6 @@
 package com.go.mazzipmetro.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -80,8 +81,15 @@ public class ReviewController {
 		String restSeq = req.getParameter("restSeq");
 		HashMap<String, String> rest= service.getRestaurant(restSeq);
 		
+		// 동현_태그 checkbox 속성 disabled를 위한 배열 생성 
+		String[] restBgTagArr = RestaurantController.tagToArray(rest.get("restbgtag"));
+		String[] restMdTagArr = RestaurantController.tagToArray(rest.get("restmdtag").replace("고기류", "고기").replace("어폐류", "물고기").replace("채소류", "채소").replace("밥류", "밥").replace("면류", "면"));
+		req.setAttribute("restBgTagArr", restBgTagArr);
+		req.setAttribute("restMdTagArr", restMdTagArr);
+		
 		req.setAttribute("rest", rest);
 		req.setAttribute("restSeq", restSeq);
+		
 		return "/review/reviewAdd";  
 		
 	}
@@ -121,16 +129,15 @@ public class ReviewController {
 		ArrayList<String> imageList = new ArrayList<String>();	
 		
 		String root = session.getServletContext().getRealPath("/");
-		String path = root + "files";
-		
 		String newFileName = "";
 		byte[] bytes = null;
 
 		try{
-			for (int i = 0; i < fvo.getAttach().length; i++) {
-				
+			for (int i = 0; i < fvo.getAttach().length; i++) { 
+				String path = root + "files"+File.separator+"review";
 				bytes = fvo.getAttach()[i].getBytes();
 				newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[i].getOriginalFilename(), path);
+				path+=File.separator+"thumb";
 				thumbnailManager.doCreateThumbnail(newFileName, path);
 				
 				imageList.add(newFileName);

@@ -84,11 +84,10 @@
 	
 </script>
 
-<div class="subleftCon" style="height:auto; font-size:25px;">
-<h2>업장 등록</h2>
+<div class="subleftCon" style="height:1500px; font-size:25px;">
+	<h2>업장 등록</h2>
 </div>
-
-<div class="subrightCon" style="height:2500px;">
+<div  class="subrightCon" style="height:auto;">
 <jsp:include page="../userMyPage_Menubar.jsp" />
 <form name="registerFrm" action="restRegister.eat" method="post" enctype="multipart/form-data">
 
@@ -107,7 +106,7 @@
 		<td width="20%" class="subject" style = "font-size : 14pt;">업장명</td>
 		<td width="80%" align="left">
 			<input type="text" name="name" id="name" />&nbsp;&nbsp;&nbsp;
-			<button type ="button" class="btn btn-primary"><span id="restCheck" style = "font-family : 헤드라인; font-weight : bold; font-size : 10pt;">업장검색</span></button>
+			<button type ="button" class="btn btn-default"><span id="restCheck" style = "font-family : 헤드라인; font-weight : bold; font-size : 10pt;">업장검색</span></button>
 		</td>
 	</tr>
 	<tr class = "content">
@@ -156,10 +155,10 @@
 	<tr>
 		<td height = "40px" colspan="2" align="center" valign="middle">
 			
-				<button type ="button" class="btn btn-primary" onClick="goRegister();">
+				<button type ="button" class="btn btn-default" onClick="goRegister();">
 					<span style = "font-family : 헤드라인; font-weight : bold; font-size : 14pt;">등록신청</span>
 				</button>&nbsp;&nbsp;
-				<button type ="button" class="btn btn-primary" onClick="returnIndex();">
+				<button type ="button" class="btn btn-default" onClick="returnIndex();">
 					<span style = "font-family : 헤드라인; font-weight : bold; font-size : 14pt;">취소</span>
 				</button>
 		</td>

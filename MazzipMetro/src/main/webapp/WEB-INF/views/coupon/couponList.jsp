@@ -175,11 +175,10 @@
 		<jsp:include page="../library.jsp" />
 		<jsp:include page="../top.jsp" />
 		
-		<div class="subleftCon" style="height:auto; font-size:25px;">
-		<h2>쿠폰</h2>
+		<div class="subleftCon" style="height:1500px; font-size:25px;">
+			<h2>쿠폰</h2>
 		</div>
-		
-		<div class="subrightCon" style="height:2500px;">
+		<div  class="subrightCon" style="height:auto;">
 		<jsp:include page="../userMyPage_Menubar.jsp" />
 			<table class = "table" style = "border-bottom-width: 0px;">
 				<c:if test="${couponList != null && not empty couponList}">
@@ -260,8 +259,8 @@
 							</select>
 						</td>
 						<td width="3%" class="couponBuy" style = "font-size : 12pt; padding-right : 40px;"" align = "center"><b>|</b></td>
-						<td width="15%" class="couponBuy" style = "font-size : 12pt;">
-							<button type = "button" onClick="couponBuy();" ><b>쿠폰 발행</b></button>
+						<td width="15%" class="couponBuy" style = "font-size : 12pt; padding-left : 37px;">
+							<button type = "button" onClick="couponBuy();" class="btn btn-default"><b>쿠폰 발행</b></button>
 						</td>
 					</tr>
 					<tr style = "border-left-width: 0px; border-right-width: 0px;">
@@ -291,7 +290,7 @@
 							<input type="text" name = "couponSeqConfirm" id="couponSeqConfirm" size="45" value="" />
 						</td>
 						<td width="20%" class="couponBuy" style = "font-size : 12pt; padding-left : 47px;">
-							<button type = "button" onClick="couponConfirm();" ><b>쿠폰 확인</b></button>
+							<button type = "button" onClick="couponConfirm();" class="btn btn-default" ><b>쿠폰 확인</b></button>
 						</td>
 					</tr>
 				</table>
