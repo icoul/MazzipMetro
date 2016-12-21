@@ -164,7 +164,7 @@ function restList(){
 				<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade06.png">
 			</c:if>
 			<c:if test="${sessionScope.loginUser.gradeName eq '신'}">
-				<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade01.png">
+				<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade07.png">
 			</c:if>
 		</td>
 		<td width="13%">등급 </td>
