@@ -435,7 +435,6 @@ function getLoginUserInfo(){
 						<span class="btnDesign"> 현재 마일리지 </span> &nbsp;
 						<span style="color:#008968; font-size:12px; font-stretch:narrower; margin-right: 10px; font-weight: bold;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userPoint }</fmt:formatNumber></span>
 						<span class="btnDesign"> 등급 </span> &nbsp;
-						
 							<c:if test="${sessionScope.loginUser.gradeName eq '흙수저'}">
 								<img src="<%=request.getContextPath()%>/resources/images/icoUserGrade01.png" width="8" height="15"> 
 							</c:if>
@@ -459,6 +458,18 @@ function getLoginUserInfo(){
 							</c:if>
 							<c:if test="${sessionScope.loginUser.gradeName eq '초가집'}">
 								<img src="<%= request.getContextPath() %>/resources/images/icoBossGrade01.png" width="15" height="15" >
+							</c:if>
+							<c:if test="${sessionScope.loginUser.gradeName eq '황토집'}">
+								<img src="<%= request.getContextPath() %>/resources/images/icoBossGrade02.png" width="15" height="15" >
+							</c:if>
+							<c:if test="${sessionScope.loginUser.gradeName eq '기와집'}">
+								<img src="<%= request.getContextPath() %>/resources/images/icoBossGrade03.png" width="15" height="15" >
+							</c:if>
+							<c:if test="${sessionScope.loginUser.gradeName eq '왕궁'}">
+								<img src="<%= request.getContextPath() %>/resources/images/icoBossGrade04.png" width="15" height="15" >
+							</c:if>
+							<c:if test="${sessionScope.loginUser.gradeName eq '황궁'}">
+								<img src="<%= request.getContextPath() %>/resources/images/icoBossGrade05.png" width="15" height="15" >
 							</c:if>
 		
 						
@@ -526,7 +537,7 @@ function getLoginUserInfo(){
 						<li>
 							<div class="dropdown">
 						  		<a class="drop_anchor">관리자메뉴</a>
-								  <div class="dropdown-content">
+								  <div class="dropdown-content" style="z-index:9999;">
 									<a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a>
 									<a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a>
 									<a href="<%=request.getContextPath()%>/adminContentList.eat">컨텐츠관리</a>

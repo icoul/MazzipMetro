@@ -1,6 +1,7 @@
 package com.go.mazzipmetro.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -333,6 +334,37 @@ public class RankingController {
 		
 		return "ranking/metroMapRestRanking";
 	}
+	
+	//인덱스 페이지 탑랭크 리뷰어가 추천한 맛집 이 곳
+	@RequestMapping(value="/topReviewerRecommend.eat", method={RequestMethod.GET})
+	public String topReviewerRecommend(HttpServletRequest req, HttpServletResponse res, HttpSession session){
+		
+		// 랭킹에 필요한 각 파라미터
+		String regDate = "0";
+		
+		String metroId = "";
+		String dongId = "";
+		String[] bgTag = null;
+		String[] mdTag = null;
+		
+		HashMap<String, Object> optionMap = restRankingOptionMethod(metroId, dongId, bgTag, mdTag);
+		
+		optionMap.put("rankStartNum", 1);
+		optionMap.put("rankEndNum", 5);
+		
+		List<HashMap<String, String>> mapList = reviewRankingMethod(regDate, optionMap);
+		
+		Collections.shuffle(mapList);
+		
+		String userSeq = mapList.get(0).get("userSeq");
+		HashMap<String, String> seqList = service.getTop5ScoreRest(userSeq);
+		
+		seqList.put("userSeq", userSeq);
+		
+		
+		return "ranking/0";
+	}
+	
 	
 	// 랭킹 메소드 (앞으로 이런저런 곳에 쓰려면 다양한 패턴으로 ajax에 받아올 필요가 있음
 	//			그런데 Controller에서 하는 일은 페이징 처리 외에 항상 같기 때문에 매번 복붙하는 건 비효율적

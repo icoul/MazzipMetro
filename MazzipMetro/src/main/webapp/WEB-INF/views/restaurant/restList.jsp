@@ -5,13 +5,6 @@
 <jsp:include page="../top.jsp" />
 
 <style type="text/css">
-* { padding:0; margin:0;}
-#colName {height:23px; font-size:13px;}
-.subleftCon {float:left; width:200px; height:500px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;}
-.subleftCon h2 {width:187px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right;}
-.subrightCon {float:left; width:70%; height:auto; border-right:1px solid #dbdbdb; padding-bottom:40px;}
-.subrightCon .searchWrap {padding-top:10px; text-align:center;}
-
 .tblRestList {margin:50px 0 0 50px; border-collapse: collapse; width:90%;}
 .tblRestList th {height:50px; padding-top:16px; border-top:1px solid #00bad2; border-bottom:1px solid #c2c2c2; background-color:#fafafa; color:#444; text-align:center; font-size:13px; font-weight:normal;}
 .tblRestList td {height:10px; padding-top:16px; padding-bottom:16px; border-bottom:1px solid #e0e0e0; font-size:12px; text-align:center; vertical-align: middle;}
@@ -83,12 +76,10 @@
 
 </script>
 
-	<div class="subleftCon" style="height:auto; font-size:25px;">
-	<h2>업장 리스트</h2>
+	<div class="subleftCon" style="height:1500px; font-size:25px;">
+		<h2>업장 리스트</h2>
 	</div>
-	
-	<%-- subleftCon --%>
-	<div class="subrightCon" id = "demobtn" style="height:2500px;">
+	<div  class="subrightCon" style="height:auto;">
 		<jsp:include page="../userMyPage_Menubar.jsp" />
 		<table class="tblRestList" >
 		<span style = "position : absolute; margin-left: 50px; top: 175px; " >*클릭하시면 메뉴를 확인할 수 있습니다</span>
@@ -103,9 +94,9 @@
 				<th style="width: 70px;" >수정하기</th>
 			</tr>
 			<tr class = "rest" >
-				<td data-toggle="collapse" data-target="#menu${status.index}" onClick="getMenuAjax('${vo.restSeq}');">${vo.restName}</td>
+				<td><a href = "<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${vo.restSeq}">${vo.restName}</a></td>
 				<td data-toggle="collapse" data-target="#menu${status.index}" onClick="getMenuAjax('${vo.restSeq}');">${vo.gradeSeq}</td>
-				<td data-toggle="collapse" data-target="#menu${status.index}" onClick="getMenuAjax('${vo.restSeq}');"><img src = "<%=request.getContextPath() %>/files/restaurant/thumb/thumb${vo.restImg}" /></td>
+				<td data-toggle="collapse" data-target="#menu${status.index}" onClick="getMenuAjax('${vo.restSeq}');"><img src = "<%=request.getContextPath() %>/files/rest/thumb/thumb${vo.restImg}" /></td>
 				<td data-toggle="collapse" data-target="#menu${status.index}" onClick="getMenuAjax('${vo.restSeq}');">${vo.restRegDate}</td>
 				<td data-toggle="collapse" data-target="#menu${status.index}" onClick="getMenuAjax('${vo.restSeq}');">${vo.restVisitor}</td>
 				<td>

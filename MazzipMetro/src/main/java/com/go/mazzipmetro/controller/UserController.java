@@ -1134,10 +1134,32 @@ public class UserController {
 				
 				loginUser.setGradeName(userGradeName);
 				session.setAttribute("loginUser", loginUser);
-				
-				req.setAttribute("msg", userGradeName + "로 등급업 하셨습니다!!!!");
-				req.setAttribute("script", " alert('"+ userGradeName + "로 등급업 하셨습니다!!!!'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
-			}
+				/*if(userGradeName == "구리수저")
+				{
+					req.setAttribute("script", " sweetAlert({text: '"+userGradeName + "로 등급업 하셨습니다!!!!', imageUrl:'<%= request.getContextPath()%>/resources/images/icoUserGrade02.png'}); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+				}
+				else if(userGradeName == "은수저")
+				{
+					req.setAttribute("script", " sweetAlert({text: '"+userGradeName + "로 등급업 하셨습니다!!!!', imageUrl:'<%= request.getContextPath()%>/resources/images/icoUserGrade03.png'}); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+				}
+				else if(userGradeName == "금수저")
+				{
+					req.setAttribute("script", " sweetAlert({text: '"+userGradeName + "로 등급업 하셨습니다!!!!', imageUrl:'<%= request.getContextPath()%>/resources/images/icoUserGrade04.png'}); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+				}
+				else if(userGradeName == "다이아수저")
+				{
+					req.setAttribute("script", " sweetAlert({text: '"+userGradeName + "로 등급업 하셨습니다!!!!', imageUrl:'<%= request.getContextPath()%>/resources/images/icoUserGrade05.png'}); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+				}
+				else if(userGradeName == "달인")
+				{
+					req.setAttribute("script", " sweetAlert({text: '"+userGradeName + "로 등급업 하셨습니다!!!!', imageUrl:'<%= request.getContextPath()%>/resources/images/icoUserGrade01.png'}); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+				}
+				else	// 신으로 달성되었을 경우!
+				{
+					req.setAttribute("script", " sweetAlert({text: '"+userGradeName + "로 등급업 하셨습니다!!!!', imageUrl:'<%= request.getContextPath()%>/resources/images/icoUserGrade01.png'}); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+				}*/
+				req.setAttribute("script", "alert('"+userGradeName + "로 등급업 하셨습니다!!!!'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+				}
 			
 		}else{ //등급업을 안하고 기존 등급 유지
 			req.setAttribute("script", "location.href='index.eat'; self.close(); opener.location.reload(true);  ");
@@ -1302,7 +1324,11 @@ public class UserController {
 		return "/user/msgEnd";
 	}
 	
-	
-	
+/*	@RequestMapping(value="/test.eat", method={RequestMethod.GET})
+	public String test(){
+		
+		 return"/user/msgEnd";
+	}
+	*/
 ////////////////////////////////////////////////////////은석7 //////////////////////////////////////////////////////////////
 }

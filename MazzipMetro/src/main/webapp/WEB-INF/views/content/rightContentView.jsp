@@ -8,7 +8,7 @@
 <c:forEach var="list" items="${rvoList}">
 		<tr>
 			<td style = "width : 30%; padding : 5px; padding-left : 15px;">
-				<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${list.restSeq}"><img width = "80px;" src="<%= request.getContextPath() %>/files/restaurant/${list.restImg}" /></a>
+				<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${list.restSeq}"><img width = "80px;" src="<%= request.getContextPath() %>/files/rest/${list.restImg}" /></a>
 			</td>
 			<td style = "padding-top : 6px; line-height: 20pt;">
 				<span style = "font-size: 15pt; font-weight: bold;">${list.restName}</span><br/>

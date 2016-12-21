@@ -88,9 +88,9 @@
 				<th style="width: 70px;" >수정하기</th>
 			</tr>
 			<tr class = "rest" >
-				<td data-toggle="collapse" data-target="#menu${status.index}" onClick="getMenuAjax('${vo.restSeq}');">${vo.restName}</td>
+				<td><a href = "<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${vo.restSeq}">${vo.restName}</a></td>
 				<td data-toggle="collapse" data-target="#menu${status.index}" onClick="getMenuAjax('${vo.restSeq}');">${vo.gradeSeq}</td>
-				<td data-toggle="collapse" data-target="#menu${status.index}" onClick="getMenuAjax('${vo.restSeq}');"><img src = "<%=request.getContextPath() %>/files/restaurant/thumb/thumb${vo.restImg}" /></td>
+				<td data-toggle="collapse" data-target="#menu${status.index}" onClick="getMenuAjax('${vo.restSeq}');"><img src = "<%=request.getContextPath() %>/files/rest/thumb/thumb${vo.restImg}" /></td>
 				<td data-toggle="collapse" data-target="#menu${status.index}" onClick="getMenuAjax('${vo.restSeq}');">${vo.restRegDate}</td>
 				<td data-toggle="collapse" data-target="#menu${status.index}" onClick="getMenuAjax('${vo.restSeq}');">${vo.restVisitor}</td>
 				<td>

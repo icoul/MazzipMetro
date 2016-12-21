@@ -77,16 +77,17 @@ img {border:0; padding:0; margin:0; vertical-align:middle;}
 .logOut {color: #000; font-size:12px; font-weight: bold;}
 
 #content {width:1400px; overflow:hidden; margin:0 auto;}
-#leftCon {float:left; width:856px;}
-#leftCon .reconCon  {margin-top:30px;}
-#leftCon .reconCon h2 {padding:10px 0; font-size:12px; color:#222;}
-.rightCon {position:relative;  float:left; width:544px; height:1000px;}
+.leftCon {float:left; width:856px;}
+.leftCon .reconCon  {margin-top:30px;}
+.leftCon .reconCon h2 {padding:10px 0; font-size:12px; color:#222;}
+.rightCon {float:left; width:544px; height:1000px;}
 
 
 footer {height:170px; background-color: #eff3f2; padding-top:30px; clear: both; font-size:12px;}
 footer .comIntro a {padding:0 5px; font-size:12px; color:#000; font-weight:bold; text-decoarion:none;}
 footer .copyRight {color:#8a8a8a;}
-#realReview {position:absolute; right:280px; height:40px;}
+#realReview {height:40px; font-size: 25pt; font-weight: bold; margin-top:30px; text-align:center;
+			 width:344px; margin-left: 67px;}
 
 /* 동현 자동 검색어 완성 관련 css 추가 */
 /* 카테고리화된 검색어 자동완성 css */
@@ -204,6 +205,7 @@ footer .copyRight {color:#8a8a8a;}
 .dropdown-content {
     display: none;
     position: absolute;
+    z-index: 9999;
     background-color: white;
     border-top:2px #008968 solid;
     top:42px;
@@ -222,7 +224,7 @@ footer .copyRight {color:#8a8a8a;}
 }
 
 
-.dropdown-content a:hover {background-color: #f2f2f2;}
+.header .menu li .dropdown-content a:hover {background-color: #f2f2f2;}
 
 .dropdown:hover .dropbtn {
     background-color: gray ;
