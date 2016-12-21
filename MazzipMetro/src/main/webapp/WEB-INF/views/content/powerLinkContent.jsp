@@ -32,7 +32,7 @@ ul.pagination li a:hover:not(.active) {background-color: #ddd;}
 			<tr >
 				<td style="width : 100px; padding: 10px; height: 120px;">
 					<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${list.restSeq}" style="color:black; text-decoration: none;">
-					<img src="<%=request.getContextPath()%>/files/${list.restImg}" width="100px"/>
+					<img src="<%=request.getContextPath()%>/files/restaurant/${list.restImg}" width="100px"/>
 					</a>
 				</td>
 				<td style="vertical-align: middle; padding: 10px;">

@@ -49,9 +49,9 @@ img {border:0; padding:0; margin:0; vertical-align:top;}
 
 
 #headWrap {border-bottom:1px solid #dbdbdb;}
-.header {overflow:hidden; width:1400px; margin:0 auto;  height:70px; padding:20px 0 0; position: relative;}
+.header {width:1400px; margin:0 auto;  height:70px; padding:20px 0 0; position: relative;}
 .header  h1 {float:left; padding:0 20px 0 50px; margin:0; font-size:23px; font-weight:bold;} 
-.header .menu {overflow:hidden; float:left; padding:4px 0 0 7px; margin:0; }
+.header .menu  {float:left; padding:4px 0 0 7px; margin:0; }
 .header .menu li {float:left; list-style:none; padding:0 10px;}
 .header .menu li a {text-decoration:none; font-size:16px; color:#222;}
 .header .btnLogin {float:right; width:58px; height:25px; background:#fff; font-size:10px; border:1px solid #000; border-radius:2px; color:#000; cursor:pointer;}
@@ -60,7 +60,7 @@ img {border:0; padding:0; margin:0; vertical-align:top;}
 .btnLogin {float:right; width:58px; height:25px; background:#fff; font-size:10px; border:1px solid #000; border-radius:2px; color:#000; cursor:pointer;}
 
 .loginWrap {width:100%; z-index:100; position:fixed; top:0; left:0; height:25px; padding-bottom:3px;  background:#fff url(http://localhost:9090/mazzipmetro/resources/images/bgLoginInfo.png) repeat-x 0 100%; }
-.loginInfo {width:700px; float:right; padding-top:5px;} 
+.loginInfo {width:600px; float:right; padding-top:5px;} 
 
 #content {width:1400px; overflow:hidden; margin:0 auto;}
 #leftCon {float:left; width:856px;}
@@ -176,3 +176,36 @@ footer .copyRight {color:#8a8a8a;}
  .myborder {
 	border: red solid 3px;
   }
+
+ /* 동현 관리자 헤더메뉴 */
+.drop_anchor {
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #00d9a4;}
+
+.dropdown:hover .dropbtn {
+    background-color: gray;
+}
+
+ 

@@ -64,7 +64,7 @@
 			<tr>
 				<td>${vo.restName}</td>
 				<td>${vo.restPhone}</td>
-				<td><img src="<%= request.getContextPath()%>/resources/images/${vo.restImg}"/></td>
+				<td><img src="<%= request.getContextPath()%>/files/restaurant/thumb/thumb${vo.restImg}"/></td>
 				<td>${vo.restAddr }</td>
 				<td>${vo.restRegDate }</td>
 				<td><a href="">리뷰통계보기</a></td>

@@ -78,4 +78,20 @@ public class ContentDAO {
 		
 		return rvoList;
 	}
+	
+	// 측면배너 컨텐츠에 들어갈 데이터	
+	public RestaurantVO getWantGoContents() {
+		String seq = "3";
+		List<String> countList = sqlSession.selectList("content.contentListCount", seq);
+		
+		Collections.shuffle(countList);
+		
+		RestaurantVO vo = sqlSession.selectOne("content.getRightRestaurant", countList.get(0));
+		
+		String restContent = vo.getRestContent();
+		restContent = restContent.substring(0, 30);
+		vo.setRestContent(restContent+"...");
+		
+		return vo;
+	}
 }

@@ -491,7 +491,7 @@ function goRestRanking(pageNum){
 		}
 	
 	$.ajax({
-		url : "<%=request.getContextPath()%>/restRankingEnd.eat",
+		url : "<%=request.getContextPath()%>/metroMapRestRanking.eat",
 		method : "GET",
 		data : form_data,
 		dataType : "html",

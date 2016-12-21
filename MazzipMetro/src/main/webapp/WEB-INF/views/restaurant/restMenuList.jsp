@@ -17,7 +17,7 @@
 				</tr>
 				<tr>
 					<td width='10%' style = 'font-size : 11pt;'><b>메뉴이미지</b></td>
-					<td><img src = "<%=request.getContextPath() %>/files/thumb${list.menuImg}" /></td>
+					<td><img src = "<%=request.getContextPath() %>/files/menu/thumb/thumb${list.menuImg}" /></td>
 					<td width='10%' style = 'font-size : 11pt;'><b>메뉴가격</b></td>
 					<td width='15%' align='left'>${list.menuPrice}</td>
 					<td width='10%' style = 'font-size : 11pt;'><b>세일가격</b></td>
@@ -38,7 +38,5 @@
 	<c:if test="${menuList == null || empty menuList}">
 		등록된 메뉴가 존재하지 않습니다
 	</c:if>
-	<br/>
-	<hr width=100% color="black">
 	<br/>
 </div>

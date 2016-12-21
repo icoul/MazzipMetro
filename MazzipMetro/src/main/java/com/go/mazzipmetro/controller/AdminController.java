@@ -1,5 +1,6 @@
 package com.go.mazzipmetro.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,7 +72,7 @@ public class AdminController {
 		// 업장 대표이미지 및 소개이미지 파일 업로드 및 파일명 배열에 저장하기
 		HttpSession session = req.getSession();
 		String root = session.getServletContext().getRealPath("/");
-		String path = root + "files";
+		String path = root + "files"+ File.separator + "rest";
 		String newFileName = "";
 		byte[] bytes = null;
 		
@@ -89,7 +90,7 @@ public class AdminController {
 				try{
 					bytes = fvo.getAttach()[0].getBytes();
 					newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[0].getOriginalFilename(), path);
-					thumbnailManager.doCreateThumbnail(newFileName, path);
+					thumbnailManager.doCreateThumbnail(newFileName, path+ File.separator + "thumb");
 					System.out.println(">>>>>>>>>newFileName ="+newFileName); 
 					
 					vo.setRestImg(newFileName);
@@ -105,7 +106,7 @@ public class AdminController {
 				try{
 					bytes = fvo.getAttach()[i].getBytes();
 					newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[i].getOriginalFilename(), path);
-					thumbnailManager.doCreateThumbnail(newFileName, path);
+					thumbnailManager.doCreateThumbnail(newFileName, path+ File.separator + "thumb");
 					
 					adImgList.add(newFileName);
 				}catch (Exception e) {

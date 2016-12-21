@@ -540,6 +540,23 @@ public class UserController {
 		req.setAttribute("coupon", coupon);
 		req.setAttribute("userPoint", userPoint);
 		
+		
+		List<UserAliasVO> userGuAliasList = service.getUserGuAliasList(loginUser.getUserSeq());
+		
+		List<UserAliasVO> userDongAliasList = service.getUserDongAliasList(loginUser.getUserSeq());
+	
+		List<UserAliasVO> userMetroAliasList = service.getUserMetroAliasList(loginUser.getUserSeq());
+	
+		List<UserAliasVO> userRestTagAliasList = service.getUserRestTagAliasList(loginUser.getUserSeq());
+		
+		System.out.println("확인확인"+userGuAliasList);
+		
+		req.setAttribute("userGuAliasList", userGuAliasList);
+		req.setAttribute("userDongAliasList", userDongAliasList);
+		req.setAttribute("userMetroAliasList", userMetroAliasList);
+		req.setAttribute("userRestTagAliasList", userRestTagAliasList);
+		
+		
 		return "user/userMyPage";
 	} // end : userMyPage
 
@@ -564,6 +581,7 @@ public class UserController {
 		req.setAttribute("loc", loc);
 		
 		return "msg";
+		
 	}
 	
 	// 로그인 처리
@@ -1134,7 +1152,7 @@ public class UserController {
 		req.setAttribute("userRestTagAliasList", userRestTagAliasList);
 		
 		
-		return "user/userAliasList";
+		return "user/userMyPage";
 	}
 	
 	

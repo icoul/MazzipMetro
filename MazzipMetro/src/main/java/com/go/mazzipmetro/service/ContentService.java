@@ -40,4 +40,13 @@ public class ContentService {
 		List<RestaurantVO> rvoList = dao.getPowerLinkContents();
 		return rvoList;
 	}
+	
+	// 측면배너 컨텐츠에 들어갈 데이터
+	public RestaurantVO getWantGoContents() {
+		
+		RestaurantVO vo = dao.getWantGoContents();
+		return vo;
+	}
 }
+
+

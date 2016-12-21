@@ -4,6 +4,11 @@
 
 <!DOCTYPE html>
 
+<c:if test = "${sessionScope.loginUser.userSort == 1}">
+<jsp:include page="../library.jsp" />
+<jsp:include page="../top.jsp" />
+</c:if>
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -179,7 +184,173 @@
 
 </head>
 <body>
-
+<c:if test = "${sessionScope.loginUser.userSort == 1}">
+<div class="subleftCon"  style="height:1000px;">
+		<h2>${sessionScope.loginUser.userName}님의<br> 정보수정</h2>
+</div>
+<div class="subrightCon" style="height=1000px;";>
+<form name="contact_form" id="contact_form" class="well form-horizontal" action="<%= request.getContextPath() %>/userEditEnd.eat" method="post" enctype="multipart/form-data" style="background:none;">
+		<fieldset>
+		
+		
+		<div class="form-group">
+		  <label class="col-md-4 control-label">맛집메트로계정(이메일)</label>  
+		  <div class="col-md-7 inputGroupContainer">
+		  <div class="input-group">
+		  <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+		  <input name="userEmail" class="form-control" value="${sessionScope.loginUser.userEmail}" type="text" readonly="readonly">
+		</div>
+		  </div>
+		</div>
+		
+		<!-- Text input-->
+		
+		<div class="form-group">
+			<label class="col-md-4 control-label">비밀번호입력</label>
+				<div class="col-md-7 inputGroupContainer">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+						<input type="password" class="form-control" name="userPw" id="userPw" placeholder="비밀번호 입력" autocomplete="off">
+					</div>
+					<a class="show-password" href="">비밀번호 보기</a>
+				</div>
+		</div>
+		
+		<!-- Text input-->
+		
+		<div class="form-group">
+		  <label class="col-md-4 control-label">비밀번호확인</label>  
+		    <div class="col-md-7 inputGroupContainer">
+		    <div class="input-group">
+		        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+		        <input type="password" class="form-control" name="userPw2" id="userPw2" placeholder="Repeat Password" autocomplete="off">
+		        
+		  <!-- <input name="userPw_confirm" id="userPw_confirm" placeholder="정확하게 입력해주세요" class="form-control"  type="text"> -->
+		    </div>
+		    <span id="pwmatch" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> 비밀번호 일치 확인
+		</div>
+		</div>
+		
+		<input type="hidden" name="userSort" value="${userSort}" />
+		
+		<!-- Text input-->
+		       
+		<div class="form-group">
+		  <label class="col-md-4 control-label">휴대폰번호</label>  
+		    <div class="col-md-7 inputGroupContainer">
+		    <div class="input-group">
+		        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+		  <input name="userPhone" placeholder="-없이 입력바랍니다" class="form-control" type="text">
+		    </div>
+		  </div>
+		</div>
+		
+		<div class="form-group">
+		  <label class="col-md-4 control-label">프로필사진</label>
+		  <div class="col-md-7 inputGroupContainer">
+		    <div class="input-group">
+		    <span class="input-group-addon"><i class="glyphicon glyphicon-upload"></i></span>  
+			<input type='file' id="userUpload" name="attach" />
+	        <img id="userProfile" name="userProfile" src="<%= request.getContextPath() %>/resources/images/userNoImg.png" alt="your image" width="150px;" height="150px;"/>
+			</div>
+		  </div>
+		</div>
+		
+		<div class="form-group">
+		  <label class="col-md-4 control-label">선호역(지역)<br>
+		  최대 3개까지 선택가능합니다
+		  </label>
+		    <div class="col-md-7 inputGroupContainer">
+		    <div class="input-group">
+		        	<table class ="table table_Station" style="width:730px;">
+		        		<tr>
+		        			<th> <span class="tablethline">가 </span></th>
+		        			<th> <span class="tablethline">나 </span></th>
+		        			<th> <span class="tablethline">다 </span></th>
+		        			<th> <span class="tablethline">마 </span></th>
+		        			<th> <span class="tablethline">바 </span></th>
+		        		</tr>
+		        		<tr>
+		        			<td class="tabletdblock">
+					        	<c:forEach var="list" items="${gaList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+							</td>
+							<td class="tabletdblock">
+								<c:forEach var="list" items="${naList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+							</td>
+							<td class="tabletdblock">
+								<c:forEach var="list" items="${daList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+							</td>
+							<td class="tabletdblock">
+								<c:forEach var="list" items="${maList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+							</td>
+							<td class="tabletdblock">
+								<c:forEach var="list" items="${baList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+							</td>
+			   			</tr>
+			   			<tr>
+			   				<th>사</th>
+			   				<th>아</th>
+			   				<th>자</th>
+			   				<th>차</th>
+			   				<th>하</th>
+			   			</tr>
+			   			<tr>
+			   				<td>
+			   					<c:forEach var="list" items="${saList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+			   				</td>
+			   				<td style="width:16%;">
+			   					<c:forEach var="list" items="${aaList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+			   				</td>
+			   				<td>
+				   				<c:forEach var="list" items="${jaList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+			   				</td>
+			   				<td>
+			   					<c:forEach var="list" items="${chaList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+			   				</td>
+			   				<td>
+			   					<c:forEach var="list" items="${haList}">
+									<input type="checkbox" id="${list}" value="${list}" name="userStation"><label for = "${list}">${list} </label><br>
+								</c:forEach>
+			   				</td>
+			   			</tr>
+					</table>
+		  	</div> 
+		  </div> 
+		</div> 
+		
+		
+		
+		<!-- Button -->
+		<div class="form-group">
+		  <label class="col-md-4 control-label"></label>
+		  <div class="col-md-4">
+		    <button type="button" id="btnEdit" class="btn btn-warning" onClick="goSubmit();">정보수정<span class="glyphicon glyphicon-send"></span></button>
+		  </div>
+		</div>
+		
+		</fieldset>
+		</form>
+</div>
+</c:if>
+<c:if test = "${sessionScope.loginUser.userSort == 0}">
 		<h2>${sessionScope.loginUser.userName}님의 정보수정</h2>
 <form name="contact_form" id="contact_form" class="well form-horizontal" action="<%= request.getContextPath() %>/userEditEnd.eat" method="post" enctype="multipart/form-data" style="background:none;">
 		<fieldset>
@@ -340,9 +511,7 @@
 		
 		</fieldset>
 		</form>
-
-
-
 </div>
+</c:if>
 </body>
 </html>

@@ -44,7 +44,7 @@
 		<tr><th>전화번호  : 					</th><td><input type="text" id="restPhone" 			name="restPhone" 		size="50" value="${vo.restPhone}"/></td></tr>
 		<tr><th>위도  : 						</th><td><input type="text" id="restLatitude" 		name="restLatitude" 	size="50" value="${vo.restLatitude}" class="required"/></td></tr>
 		<tr><th>경도  :	 					</th><td><input type="text" id="restLongitude"	name="restLongitude" size="50" value="${vo.restLongitude}" class="required"/></td></tr>
-		<tr><th>업장 대표이미지  :	 		</th><td><img src="<%=request.getContextPath()%>/files/${vo.restImg}" id="currImg" width="300px;"><br/><br/>
+		<tr><th>업장 대표이미지  :	 		</th><td><img src="<%=request.getContextPath()%>/files/rest/${vo.restImg}" id="currImg" width="300px;"><br/><br/>
 																		 <input type='file' id="attach" name="attach"  onchange='showCurrImg(this);'/></td></tr>
 		<tr><th>업장 소개글  :	 			</th><td><textarea id="restContent"		name="restContent"  rows="4" cols="48">${vo.restContent}</textarea></td></tr>
 		<tr><th>업장 대분류  : 						</th><td><input type="text" id="restBgTag" 		name="restBgTag" 	size="50" value="${vo.restBgTag}" class="required"/></td></tr>
@@ -57,7 +57,7 @@
 				<div id="adImages">
 					<c:if test="${not empty ravo.adImg}">
 					<c:forEach var="adImg" items="${ravo.adImg}" varStatus="status">
-						<img src="<%=request.getContextPath()%>/files/thumb${adImg}" name="thumbAdImg" id="${adImg}">&nbsp;
+						<img src="<%=request.getContextPath()%>/files/rest/thumb/thumb${adImg}" name="thumbAdImg" id="${adImg}">&nbsp;
 						<c:set var="adImgNum" value="${status.count}"/>
 					</c:forEach>
 					</c:if>
