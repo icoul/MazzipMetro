@@ -26,12 +26,18 @@ public class RestaurantDAO implements IDAO{
 	}
 	
 	// 업장이름 리스트 가져오기
-	public List<RestaurantVO> getRestName(String name){
+	public List<RestaurantVO> getRestName(HashMap<String, Object> optionMap){
 		
-		List<RestaurantVO> nameList = sqlSession.selectList("restaurant.getRestName", name);
+		List<RestaurantVO> nameList = sqlSession.selectList("restaurant.getRestName", optionMap);
 		
 		return nameList;
 	}// end of getRestName(String name)
+	
+	// 가져올 업장이름 리스트의 총 갯수
+	public int getTotalRestName(String name) {
+		int totalNum = sqlSession.selectOne("restaurant.getTotalRestName", name);
+		return totalNum;
+	}
 	
 	// 새 업장 등록
 	public int setRestRegister(RestaurantVO vo){
@@ -248,6 +254,5 @@ public class RestaurantDAO implements IDAO{
 		List<String> restImageList = sqlSession.selectList("restaurant.getRestImageList", restSeq);
 		return restImageList;
 	}
-
 
 }

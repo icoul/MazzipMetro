@@ -69,6 +69,13 @@ public class RankingService {
 		return mapList;
 	}
 
+	//인덱스 페이지 탑랭크 리뷰어가 추천한 맛집 이 곳의 맛집번호를 가져오는 메서드
+	public HashMap<String, String> getTop5ScoreRest(String userSeq) {
+		HashMap<String, String> seqList = dao.getTop5ScoreRest(userSeq);
+		
+		return seqList;
+	}
+
 	
 
 	

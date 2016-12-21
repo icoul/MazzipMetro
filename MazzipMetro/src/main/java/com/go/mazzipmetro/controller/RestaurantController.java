@@ -54,8 +54,59 @@ public class RestaurantController {
 		
 		String name = req.getParameter("name");
 		
-		List<RestaurantVO> nameList = service.getRestName(name); 
+		HashMap<String, Object> optionMap = new HashMap<String, Object>();
 
+		// 페이징 처리
+		String pageNum_str = req.getParameter("pageNum");
+		
+		if (pageNum_str == null) {
+			pageNum_str = "1";
+		}
+		
+		int pageNum = Integer.parseInt(pageNum_str); // 페이지번호
+		
+		int pageBar = 10; // 한 그룹당 보여줄 페이지 갯수
+		int pageGroupNum = ((pageNum-1)/10)+1; // 해당 그룹 번호(1 = 1~10페이지까지)
+		int startNum = (pageNum-1)/10*10+1; // 시작번호
+		int endNum = startNum + 9; // 끝번호
+		
+		int totalNum = service.getTotalRestName(name); // 총 갯수
+		
+		int rankStartNum = ((pageNum-1)*10)+1;
+		int rankEndNum = rankStartNum+9;
+		
+		optionMap.put("rankStartNum", rankStartNum);
+		optionMap.put("rankEndNum", rankEndNum);
+		optionMap.put("name", name);
+		
+		List<RestaurantVO> nameList = service.getRestName(optionMap); 
+		
+		String html = "";
+		
+		if (pageGroupNum != 1) {
+			html += "<a href='restCheck.eat?pageNum="+(startNum-1)+"&name="+name+"' style='text-decoration:none; color:black;'>[이전 10페이지]</a>&nbsp;&nbsp;&nbsp;";
+		}
+		
+		for (int i = startNum; i <= endNum; i++) {
+			if (i == pageNum) {
+				html += "<span style = 'color : red; font-weight : bold;'>"+i+"</span>";
+				html += (i*pageBar < totalNum)?"&nbsp;|&nbsp;":"";
+			}
+			else if (i != pageNum && ((i-1)*pageBar) < totalNum) {
+				html += "<a href='restCheck.eat?pageNum="+i+"&name="+name+"' style='text-decoration:none; color:black;'>"+i+"</a>";
+				html += (i*pageBar < totalNum)?"&nbsp;|&nbsp;":"";
+			}
+			else {
+				break;
+			}
+		}
+		
+		if ((pageGroupNum*100 - totalNum) < 0) {
+			html += "&nbsp;&nbsp;<a href='restCheck.eat?pageNum="+(endNum+1)+"&name="+name+"' style='text-decoration:none; color:black;'>[다음 10페이지]</a>";
+		}
+		
+		req.setAttribute("html", html);
+		
 		req.setAttribute("name", name);
 		req.setAttribute("nameList", nameList);
 		
@@ -106,7 +157,7 @@ public class RestaurantController {
 		// 업장 소개이미지 파일 업로드 및 파일명 배열에 저장하기
 		
 		String root = session.getServletContext().getRealPath("/");
-		String path = root + "files/restaurant";
+		String path = root + "files/rest";
 		
 		String newFileName = "";
 		byte[] bytes = null;
@@ -115,7 +166,7 @@ public class RestaurantController {
 				
 			bytes = fvo.getAttach()[0].getBytes();
 			newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[0].getOriginalFilename(), path);
-			path += "/thumb";
+			
 			thumbnailManager.doCreateThumbnail(newFileName, path);
 				
 		}catch (Exception e) {
@@ -246,6 +297,11 @@ public class RestaurantController {
 		//은석 음식점상세페이지에서 음식점 사진들 
 		List<String> restImageList = service.getRestImageList(restSeq);
 		
+		//정훈 음식점 관련 메뉴 리스트
+		List<HashMap<String, String>> menuList = service.getMenuList(restSeq);
+		
+		req.setAttribute("menuList", menuList);
+		
 		req.setAttribute("restSeq", restSeq);
 		req.setAttribute("restvo", restvo);
 		req.setAttribute("agelineChartList", agelineChartList);
@@ -275,7 +331,7 @@ public class RestaurantController {
 			ArrayList<String> imageList = new ArrayList<String>();	
 			
 			String root = session.getServletContext().getRealPath("/");
-			String path = root + "files/restaurant";
+			String path = root + "files/rest";
 			
 			String newFileName = "";
 			byte[] bytes = null;
@@ -284,10 +340,10 @@ public class RestaurantController {
 		if (fileNum > 0) {	
 			try{
 				for (int i = 0; i < fvo.getAttach().length; i++) {
-					path = root + "files/restaurant";
+					path = root + "files/rest";
 					bytes = fvo.getAttach()[i].getBytes();
 					newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[i].getOriginalFilename(), path);
-					path += "/thumb";
+					
 					thumbnailManager.doCreateThumbnail(newFileName, path);
 					
 					imageList.add(newFileName);
@@ -307,7 +363,7 @@ public class RestaurantController {
 				if (mvo.getMenuImgFile()[i].equals(null)) {
 					bytes = mvo.getMenuImgFile()[i].getBytes();
 					newFileName = fileManager.doFileUpload(bytes, mvo.getMenuImgFile()[i].getOriginalFilename(), path);
-					path += "/thumb";
+					
 					thumbnailManager.doCreateThumbnail(newFileName, path);
 				}
 				
@@ -532,7 +588,7 @@ public class RestaurantController {
 
 		// 업장 소개이미지 파일 업로드 및 파일명 배열에 저장하기
 		String root = session.getServletContext().getRealPath("/");
-		String path = root + "files/restaurant";
+		String path = root + "files/rest";
 		
 		String newFileName = "";
 		byte[] bytes = null;
@@ -541,7 +597,7 @@ public class RestaurantController {
 				
 			bytes = fvo.getAttach()[0].getBytes();
 			newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[0].getOriginalFilename(), path);
-			path += "/thumb";
+			
 			thumbnailManager.doCreateThumbnail(newFileName, path);
 		}catch (Exception e) {
 			e.printStackTrace();

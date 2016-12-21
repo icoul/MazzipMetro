@@ -49,7 +49,7 @@
 		<c:forEach var="vo" items="${restList}" varStatus="status"> 
 			<tr>
 				<td><a href="javascript:statistics('${vo.restSeq}','${vo.restName}')">${vo.restName}</a></td>
-				<td><img src = "<%=request.getContextPath() %>/files/restaurant/thumb/thumb${vo.restImg}" /></td>
+				<td><img src = "<%=request.getContextPath() %>/files/rest/thumb/thumb${vo.restImg}" /></td>
 				<td>${vo.restAddr}</td>
 				<td>${vo.metroName}</td>
 				<td>${vo.restRegDate}</td>

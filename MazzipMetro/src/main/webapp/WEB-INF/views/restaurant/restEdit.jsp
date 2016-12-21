@@ -40,7 +40,7 @@
 		<tr><th>전화번호  : 				</th><td><input type="text" id="restPhone" 			name="restPhone" 		size="50" value="${vo.restPhone}" /></td></tr>
 		<tr><th>위도  : 					</th><td><input type="text" id="restLatitude" 		name="restLatitude" 	size="50" value="${vo.restLatitude}" class="required" disabled/></td></tr>
 		<tr><th>경도  :	 				</th><td><input type="text" id="restLongitude"	name="restLongitude" size="50" value="${vo.restLongitude}" class="required" disabled/></td></tr>
-		<tr><th>업장 대표이미지  :	 		</th><td id="addImg"><img src="<%=request.getContextPath()%>/files/restaurant/${vo.restImg}" id="currImg" width="300px;"><br/><br/><input type='file' id="attach" name="attach" /></td></tr>
+		<tr><th>업장 대표이미지  :	 		</th><td id="addImg"><img src="<%=request.getContextPath()%>/files/rest/${vo.restImg}" id="currImg" width="300px;"><br/><br/><input type='file' id="attach" name="attach" /></td></tr>
 		<tr><th>업장 소개글  :	 			</th><td><textarea id="restContent"		name="restContent"  rows="4" cols="48">${vo.restContent}</textarea></td></tr>
 		<tr><th>인근 지하철역  : 			</th><td><select id="metroId" name="metroId" class="required"></select>
 		<tr><th>태그(대분류)  :</th><td> 		
