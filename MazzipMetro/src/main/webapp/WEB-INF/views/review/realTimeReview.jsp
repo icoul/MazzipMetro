@@ -74,7 +74,7 @@ $(document).ready(function(){
         <c:forEach var="review" items="${reviewList}" varStatus="status">
             <tr>
             	<td style="border-right:0px;">
-                    <a href="<%= request.getContextPath() %>/restaurantDetail.eat?restSeq=${review.restSeq}"><img src="<%= request.getContextPath() %>/files/${review.reviewImg}" width="50px" height="50px"/></a> &nbsp;&nbsp;
+                    <a href="<%= request.getContextPath() %>/restaurantDetail.eat?restSeq=${review.restSeq}"><img src="<%= request.getContextPath() %>/files/review/${review.reviewImg}" width="50px" height="50px"/></a> &nbsp;&nbsp;
                 </td>
                 <td> 
                      <c:if test="${review.reviewAvgScore < 1}">

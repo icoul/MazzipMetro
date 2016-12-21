@@ -130,6 +130,16 @@
 	
 	$(document).ready(function(){
 		
+		// 리뷰 제목 글자 수 제한
+		$("#reviewTitle").keyup(function(){
+			var qnaCommentLength = $("#reviewTitle").val().length;
+			
+			if(18 < qnaCommentLength){
+				alert("입력가능한 글자수는18자 입니다");
+				$("#reviewTitle").val("");
+			}
+		});	
+		
 		
 		$("[name=taste-rating]").click(function(){
 			var html = "";
@@ -241,7 +251,7 @@
 			</tr>
 			<tr>
 				<td align="center">
-					<input type="text" name="reviewTitle" id="reviewTitle" value="" placeholder="최대 18자"/>
+					<input type="text" name="reviewTitle" id="reviewTitle" placeholder="최대 18자"/>
 					<input type="hidden" id="reviewHit" name="reviewHit" value="like!"/>
 				</td>
 			</tr>			
