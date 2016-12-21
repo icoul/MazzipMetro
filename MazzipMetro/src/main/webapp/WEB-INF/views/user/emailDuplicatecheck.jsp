@@ -23,7 +23,7 @@
 
 </head>
 <body style="margin: 0;">
-<div style="background: #FF5400; height: 30px; padding-top: 7px;">
+<div style="background: #008968; height: 30px; padding-top: 7px;">
 	<span style="font-size:13pt;">&nbsp; ::: 아이디 중복검사</span>
 </div>
 <div>
