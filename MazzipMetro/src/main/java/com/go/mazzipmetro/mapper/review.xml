@@ -316,4 +316,21 @@
 		from tbl_review
 		where restSeq = #{restSeq}
 	</select>
+	
+	<!-- 은석 리뷰댓글 쓰기 -->
+	<insert id="insertReviewComment" parameterType="java.util.HashMap">
+		insert into tbl_review_comment values(tbl_review_commentSeq.nextval, #{reviewSeq}, #{userSeq}, #{comment}, sysdate, default, default, #{groupNo}, default, default)
+	</insert>
+	
+	<select id="getReviewCommentMaxGroupNo" resultType="String">
+		select nvl(max(groupNo),0)
+		from tbl_review_comment
+	</select>
+	
+	<select id="getReviewCommentList" parameterType="String" resultType="com.go.mazzipmetro.vo.ReviewCommentVO">
+		select a.content, trunc((sysdate - a.regDate), 0) as agoDay, trunc((sysdate - a.regDate) * 1 * 24, 0) as agoHour, trunc((sysdate - a.regDate) * 1 * 24 * 60,0) as agoMinute, a.commentCount, a.groupNo, a.fk_seq, a.depthNo, b.userName, b.userProfile
+		from tbl_review_comment a join tbl_user b
+		on a.userSeq = b.userSeq
+		where reviewSeq = #{reviewSeq}
+	</select>
 </mapper>

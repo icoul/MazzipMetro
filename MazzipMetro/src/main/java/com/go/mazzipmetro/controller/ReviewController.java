@@ -22,6 +22,7 @@ import com.go.mazzipmetro.vo.AttachFileVO;
 import com.go.mazzipmetro.vo.FileVO;
 import com.go.mazzipmetro.vo.MenuVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
+import com.go.mazzipmetro.vo.ReviewCommentVO;
 import com.go.mazzipmetro.vo.ReviewVO;
 import com.go.mazzipmetro.vo.ThemeVO;
 import com.go.mazzipmetro.vo.UserAliasVO;
@@ -56,7 +57,7 @@ public class ReviewController {
 		req.setAttribute("reviewContent", reviewcontent);
 		req.setAttribute("reviewRegDate", reviewregdate);
 		req.setAttribute("reviewImageList", reviewImageList);
-		
+		req.setAttribute("reviewseq", reviewseq);
 		return "review/reviewModal";
 	}
 	
@@ -265,6 +266,69 @@ public class ReviewController {
 		
 	}
 	
+	@RequestMapping(value="/insertReviewComment.eat", method={RequestMethod.POST} ) 
+	public String insertReviewComment(HttpServletRequest req, HttpSession session) {
+		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+		String reviewSeq = req.getParameter("reviewSeq");
+		String comment = req.getParameter("comment");
+		
+		String groupNo1 = service.getReviewCommentMaxGroupNo();
+		
+		System.out.println("--------------------------------------" + comment);
+		
+		int groupNo2 = Integer.parseInt(groupNo1) + 1;
+		
+		int result = service.insertReviewComment(loginUser.getUserSeq(), reviewSeq, comment, String.valueOf(groupNo2));
+		
+		if(result == 1){
+			req.setAttribute("script", "alert('댓글 등록 완료');");
+		}else{
+			req.setAttribute("script", "alert('댓글 등록 실패');");
+		}
+		
+		return "/user/msgEnd";  
+		
+	}
 	
+	@RequestMapping(value="/getReviewComment.eat", method={RequestMethod.GET} ) 
+	public String getReviewComment(HttpServletRequest req, HttpSession session) {
+		String reviewSeq = req.getParameter("reviewSeq");
+		
+		List<ReviewCommentVO> reviewCommentList = service.getReviewCommentList(reviewSeq);
+		
+		List<JSONObject> reviewCommentListJSON = new ArrayList<JSONObject>();
+		for(int i = 0; i < reviewCommentList.size(); ++i){
+			String commentSeq = reviewCommentList.get(i).getCommentSeq();
+			String userName = reviewCommentList.get(i).getUserName();
+			String userProfile = reviewCommentList.get(i).getUserProfile();
+			String content = reviewCommentList.get(i).getContent(); 
+			String commentCount = reviewCommentList.get(i).getCommentCount(); 
+			String groupNo = reviewCommentList.get(i).getGroupno(); 
+			String fk_seq = reviewCommentList.get(i).getFk_seq(); 
+			String depthNo = reviewCommentList.get(i).getDepthno();
+			String agoDay = reviewCommentList.get(i).getAgoDay();
+			String agoHour = reviewCommentList.get(i).getAgoHour();
+			String agoMinute = reviewCommentList.get(i).getAgoMinute();
+			
+			
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("userName", userName);
+			jsonObj.put("userProfile", userProfile);
+			jsonObj.put("content", content);
+			jsonObj.put("commentCount", commentCount);
+			jsonObj.put("groupNo", groupNo);
+			jsonObj.put("fk_seq", fk_seq);
+			jsonObj.put("depthNo", depthNo);
+			jsonObj.put("agoDay", agoDay);
+			jsonObj.put("agoHour", agoHour);
+			jsonObj.put("agoMinute", agoMinute);
+			
+			reviewCommentListJSON.add(jsonObj);
+		}
+		
+		
+		req.setAttribute("reviewCommentListJSON", reviewCommentListJSON);
+		return "/review/getReviewCommentJSON";
+	}
 }
 

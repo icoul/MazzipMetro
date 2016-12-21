@@ -37,8 +37,141 @@
 					$(this).removeClass("myborder");
 				}
 		);
-				
+		
+		$("#reviewComment").keyup(function(){
+			var reviewCommentLength = $("#reviewComment").val().length;
+			
+			if(50 < reviewCommentLength){
+				alert("입력가능한 글자수는 50자 입니다");
+				$("#reviewComment").val("");
+			}
+			
+			if(0 < reviewCommentLength && reviewCommentLength <= 50){
+				$("#reviewCommentLength").text(reviewCommentLength + "자 입력");
+			}else{
+				$("#reviewCommentLength").text("");
+			}
+			
+			
+			
+		});
+		
+		
+		getReviewComment("${reviewseq}");
 	});		
+	
+	function loginCheck(userSeq){
+		if(userSeq == ""){
+			alert("로그인을 해주세요");
+			document.getElementById("reviewComment").value = "";
+		}
+	}
+	
+function getReviewComment(previewSeq){
+			var userName = $("#userName").val();
+			var userProfile = $("#userProfile").val();
+			$.getJSON("getReviewComment.eat?reviewSeq="+previewSeq ,function(data){
+				var html = "";
+				var html2 = "";
+				var count = 0;
+
+				
+				$("#resultComments").empty();
+				$.each(data, function(enrtyIndex, entry){
+						
+					html += "<div class='media'>";
+					
+					if(Number(entry.agoDay) > 0){
+						html += "<p class='pull-right'> <small>" + entry.agoDay +"일 전 </small> </p>";	
+					}else if(Number(entry.agoHour) > 0 && Number(entry.agoHour) < 24){
+						html += "<p class='pull-right'> <small>" + entry.agoHour +"시간 전 </small> </p>";	
+					}else if(Number(entry.agoMinute) > 0 && Number(entry.agoMinute) < 60){
+						html += "<p class='pull-right'> <small>" + entry.agoMinute +"분전 </small> </p>";
+					}else if(Number(entry.agoMinute) == 0){
+						html += "<p class='pull-right'> <small> 방금 </small> </p>";
+					}
+					
+
+				    html += "<a class='media-left' href='#'> <img src='<%=request.getContextPath() %>/files/user/" + entry.userProfile + "' width='70px' height='70px'> </a>"; 
+
+					html += "<div class='media-body'>";
+					html += "<input type='hidden' name='commentSeq' id='commentSeq"+ entry.commentSeq +"' value='"+ entry.commentSeq +" '/>"
+					html += "<h4 class='media-heading user_name'>" + entry.userName +"</h4> " +entry.content +".";
+					
+					if(userName != null){
+						html += "  <small ><a href='#' id='commentLink" + enrtyIndex + "' onClick='goComment(" + enrtyIndex + ");'>한줄댓글</a></small>";	
+						
+						if(userName == entry.userName){
+							userProfile = entry.userProfile;
+							html +=	"  <small><a href='javascript:deleteReviewComment("+entry.commentSeq + ");'>삭제</a></small>";
+						}
+					}
+					
+					 		
+					html += "</div>";
+					html += "</div>";
+					
+					
+					html += "<div class='media' style='display:none;' id='commentComment" + enrtyIndex + "'>";
+					html += "<a class='media-left' href='#'> <img src='<%=request.getContextPath() %>/files/user/" + userProfile + "' width='70px' height='70px'> </a>";
+					html += "<div class='media-body'>";
+					html += "<h4 class='media-heading user_name'>" + userName +"</h4> <input type='text' /> ";
+					
+					
+					html += "</div>";
+					html += "</div>";
+					
+					
+					count++;
+				});
+				
+				html2 += "<small>(" + count + ")</small>";
+				
+				$("#resultComments").html(html);
+				$("#resultCommentsCount").html(html2);
+			}
+		);
+		}
+	 
+	function insertReviewComment(previewSeq, userSeq, e){
+		var reviewComment = $("#reviewComment").val();
+		
+			if(userSeq == ""){
+				alert("로그인을 해주세요");
+				reviewComment.value = "";
+			}else{
+				if(e.keyCode == 13){
+					if(reviewComment.length < 1 || reviewComment.trim() == ""){
+						alert("댓글을 입력해주세요");
+						reviewComment.value = "";
+					}else{
+						var form_data = {reviewSeq : previewSeq ,          
+							    comment : reviewComment        
+						    };
+			
+						$.ajax({
+							url: "insertReviewComment.eat",   // action 에 해당하는 URL 속성값
+							method:"POST",                 // method
+							data: form_data,               // 위의 URL 페이지로 사용자가 보내는 ajax 요청 데이터.
+							success: function() {          // 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
+								reviewComment.value = "";
+								getReviewComment(previewSeq);
+							         }
+						});
+					}  
+				}
+			}
+		
+	} 
+	
+	function goComment(index){
+	var comment =	document.getElementById("commentComment"+index)/* .style.display = "block" */;
+		
+		if(comment.style.display == "none")
+			comment.style.display = "block";
+		else
+			comment.style.display = "none";
+	}
 	
 </script>
 
@@ -48,7 +181,7 @@
 
   
   
-  <div class="container" align="left">
+<div class="container" align="center">
   <br>
   <div id="myCarousel" class="carousel slide" data-ride="carousel" style="width: 75%;">
     <!-- Indicators -->
@@ -100,7 +233,7 @@
 </div>
 	
 
-<div class="container" align="right">
+<div class="container">
 	<table class="table">
 		<tr>
 			<th>${restName}</th>
@@ -113,7 +246,53 @@
 				<p>${reviewRegDate }</p>
 			</td>
 		</tr>
+	
 	</table>
+	
+
+	<div class="col-md-12 product-info">
+					<ul id="myTab" class="nav nav-tabs nav_tabs">
+						<li class="active"><a href="#service-one" data-toggle="tab">댓글<span id="resultCommentsCount"></span></a></li>	
+					</ul>
+				
+				<div id="myTabContent" class="tab-content" style="margin-top:10px;">
+					<div class="comments-list" id="resultComments" style="margin-bottom:100px;">
+						
+					</div>
+				<hr>
+						<div class="tab-pane fade in active" id="service-one">
+	
+							<div class="row" style="margin-top:100px; position:fixed; bottom: 0px;">
+								<div class="col-md-12">
+										
+										<table>
+											<tr>
+												<td></td>
+												<td>
+													<textarea id="reviewComment" cols="90" rows="2" name="reviewComment" title="댓글 입력창" onkeypress="javascript:insertReviewComment('${reviewseq}', '${(sessionScope.loginUser.userSeq)}', event);"  onclick="javascript:loginCheck('${(sessionScope.loginUser.userSeq)}' );"></textarea>
+													<div id="reviewCommentLength"></div>
+													<input type="hidden" id="userName" value="${(sessionScope.loginUser.userName)}" />
+													<input type="hidden" id="userProfile" value="${(sessionScope.loginUser.userProfile)}" />
+												</td>
+											</tr>
+											<tr>
+												<td></td>
+												<td>
+													<div class="cbox_desc_area"></div>
+												</td>
+												<td></td>
+											</tr>
+									</table>
+										
+								</div>
+							</div>
+						
+						</div>
+					</div>
+				
+	</div>
+			
+			
 </div>
 
 

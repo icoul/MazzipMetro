@@ -178,14 +178,16 @@ $(document).ready(function(){
 					</section>
 				</td>
 			
+		
 			
-			
-			<div class="modal  fade" id="reviewImageDiv${status.index}" role="dialog" >
-			  <iframe scrolling="no" style=" border: none; width: 100%; height: 600px; " src="<%= request.getContextPath() %>/reviewModal.eat?reviewseq=${review.reviewSeq}&restname=${restvo.restname}&username=${review.userName }&reviewprofile=${review.userProfile}&reviewcontent=${review.reviewContent}&reviewregdate=${review.reviewRegDate}">
+			<div class="modal  fade" id="reviewImageDiv${status.index}" style="margin-top:20px; margin-left:350px; width:80%; " >
+
+			<div style="margin-left:810px;">
+			   <a href="#"><img src="<%=request.getContextPath()%>/files/closeButton2.png" width="30px" height="30px" data-dismiss="modal"></a>
+			  </div>
+			  <iframe scrolling="yes" style=" border: none; width: 70%; height: 600px; " src="<%= request.getContextPath() %>/reviewModal.eat?reviewseq=${review.reviewSeq}&restname=${restvo.restname}&username=${review.userName }&reviewprofile=${review.userProfile}&reviewcontent=${review.reviewContent}&reviewregdate=${review.reviewRegDate}">
 			  </iframe>
-			  <div >
-			   <button type="button" class="btn btn-default myclose" data-dismiss="modal">닫기</button>
-			  </div> 
+			   
 			  
 			</div>
 		</c:forEach>
