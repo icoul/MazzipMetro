@@ -222,7 +222,7 @@ footer .copyRight {color:#8a8a8a;}
 }
 
 
-.dropdown-content a:hover {background-color: #f2f2f2;}
+.header .menu li .dropdown-content a:hover {background-color: #f2f2f2;}
 
 .dropdown:hover .dropbtn {
     background-color: gray ;
