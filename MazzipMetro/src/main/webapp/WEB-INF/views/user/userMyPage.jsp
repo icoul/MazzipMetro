@@ -14,6 +14,7 @@
 
 $(document).ready(function(){
 	
+	restList();
 	
 	$("#btn_Mazzip").click(function(){
 		$.ajax({	
@@ -104,6 +105,17 @@ $(document).ready(function(){
 	});
 });
 
+function restList(){
+	$.ajax({	
+		url:"<%= request.getContextPath() %>/myPageRestList.eat",
+	    type:"GET",
+		datatype:"html", 
+		success:function(data){ 
+			$("#restList").html(data);
+		}
+	});
+}
+
 </script>
 <style type="text/css">
 	.gradeDetail {overflow:hidden;}
@@ -132,7 +144,29 @@ $(document).ready(function(){
 		${(sessionScope.loginUser).userName} 님의 정보</th>
 	</tr>
 	<tr>
-		<td rowspan="2" colspan="2" align="center" width="22%"><img src="<%= request.getContextPath() %>/resources/images/img.png" width="50px" height="50px"></td>
+		<td rowspan="2" colspan="2" align="center" width="22%">
+			<c:if test="${sessionScope.loginUser.gradeName eq '흙수저'}">
+				<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade01.png">
+			</c:if>
+			<c:if test="${sessionScope.loginUser.gradeName eq '구리수저'}">
+				<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade02.png">
+			</c:if>
+			<c:if test="${sessionScope.loginUser.gradeName eq '은수저'}">
+				<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade03.png">
+			</c:if>
+			<c:if test="${sessionScope.loginUser.gradeName eq '금수저'}">
+				<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade04.png">
+			</c:if>
+			<c:if test="${sessionScope.loginUser.gradeName eq '다이아수저'}">
+				<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade05.png">
+			</c:if>
+			<c:if test="${sessionScope.loginUser.gradeName eq '달인'}">
+				<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade06.png">
+			</c:if>
+			<c:if test="${sessionScope.loginUser.gradeName eq '신'}">
+				<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade01.png">
+			</c:if>
+		</td>
 		<td width="13%">등급 </td>
 		<td width="13%"> ${sessionScope.loginUser.gradeName} </td>
 		
@@ -175,12 +209,17 @@ $(document).ready(function(){
 		<td width="11%">구별</td>
 		<td colspan="6">
 			<ul class="gradeDetail">
-				<li class="icoMaster"><span>강남구</span><span class="detail">마스터</span></li>
-				<li class="icoNovice"><span class="twist">서초구</span><span class="detail">초보자</span></li>
-				<li class="icoSkill"><span>성동구</span><span class="detail">숙련자</span></li>
-				<li class="icoMaster"><span>영등포구</span><span class="detail">마스터</span></li>
-				<li class="icoNovice"><span class="twist">강북구</span><span class="detail">초보자</span></li>
-				<li class="icoSkill"><span>동작구</span><span class="detail">숙련자</span></li>
+				<c:forEach var="map" items="${userGuAliasList}" varStatus="stauts">
+					<c:if test="${map.aliasName eq '마스터'}">
+						<li class="icoMaster"><span>${map.guName}</span><span class="detail">${map.aliasName}</span></li>
+					</c:if>
+					<c:if test="${map.aliasName eq '입문자'}">
+						<li class="icoNovice"><span class="twist">${map.guName}</span><span class="detail">${map.aliasName}</span></li>
+					</c:if>
+					<c:if test="${map.aliasName eq '숙련자'}">
+						<li class="icoSkill"><span>${map.guName}</span><span class="detail">${map.aliasName}</span></li>
+					</c:if>
+				</c:forEach>
 			</ul>
 		</td>
 	</tr>
@@ -188,12 +227,17 @@ $(document).ready(function(){
 		<td>동별</td>
 		<td colspan="6">
 			<ul class="gradeDetail">
-				<li class="icoMaster"><span>역삼동</span><span class="detail">마스터</span></li>
-				<li class="icoNovice"><span class="twist">일원동</span><span class="detail">초보자</span></li>
-				<li class="icoSkill"><span>삼성동</span><span class="detail">숙련자</span></li>
-				<li class="icoMaster"><span>서초동</span><span class="detail">마스터</span></li>
-				<li class="icoNovice"><span class="twist">대치동</span><span class="detail">초보자</span></li>
-				<li class="icoSkill"><span>압구정동</span><span class="detail">숙련자</span></li>
+				<c:forEach var="map" items="${userDongAliasList}" varStatus="stauts">
+					<c:if test="${map.aliasName eq '마스터'}">
+						<li class="icoMaster"><span>${map.dongName}</span><span class="detail">${map.aliasName}</span></li>
+					</c:if>
+					<c:if test="${map.aliasName eq '입문자'}">
+						<li class="icoNovice"><span class="twist">${map.dongName}</span><span class="detail">${map.aliasName}</span></li>
+					</c:if>
+					<c:if test="${map.aliasName eq '숙련자'}">
+						<li class="icoSkill"><span>${map.dongName}</span><span class="detail">${map.aliasName}</span></li>
+					</c:if>
+				</c:forEach>
 			</ul>
 		</td>
 	</tr>
@@ -201,12 +245,17 @@ $(document).ready(function(){
 		<td>역별</td>
 		<td colspan="6">
 			<ul class="gradeDetail">
-				<li class="icoMaster"><span>강남역</span><span class="detail">마스터</span></li>
-				<li class="icoNovice"><span class="twist">서울역</span><span class="detail">초보자</span></li>
-				<li class="icoSkill"><span>교대역</span><span class="detail">숙련자</span></li>
-				<li class="icoMaster"><span>서초역</span><span class="detail">마스터</span></li>
-				<li class="icoNovice"><span class="twist">선릉역</span><span class="detail">초보자</span></li>
-				<li class="icoSkill"><span>성수역</span><span class="detail">숙련자</span></li>
+				<c:forEach var="map" items="${userMetroAliasList}" varStatus="stauts">
+					<c:if test="${map.aliasName eq '마스터'}">
+						<li class="icoMaster"><span>${map.metroName}</span><span class="detail">${map.aliasName}</span></li>
+					</c:if>
+					<c:if test="${map.aliasName eq '입문자'}">
+						<li class="icoNovice"><span class="twist">${map.metroName}</span><span class="detail">${map.aliasName}</span></li>
+					</c:if>
+					<c:if test="${map.aliasName eq '숙련자'}">
+						<li class="icoSkill"><span>${map.metroName}</span><span class="detail">${map.aliasName}</span></li>
+					</c:if>
+				</c:forEach>
 			</ul>
 		</td>
 	</tr>
@@ -214,12 +263,17 @@ $(document).ready(function(){
 		<td>태그별</td>
 		<td colspan="6">
 			<ul class="gradeDetail">
-				<li class="icoMaster"><span>고기</span><span class="detail">마스터</span></li>
-				<li class="icoNovice"><span class="twist">물고기</span><span class="detail">초보자</span></li>
-				<li class="icoSkill"><span>야채</span><span class="detail">숙련자</span></li>
-				<li class="icoMaster"><span>동남아</span><span class="detail">마스터</span></li>
-				<li class="icoNovice"><span class="twist">양식</span><span class="detail">초보자</span></li>
-				<li class="icoSkill"><span>중식</span><span class="detail">숙련자</span></li>
+				<c:forEach var="map" items="${userRestTagAliasList}" varStatus="stauts">
+					<c:if test="${map.aliasName eq '마스터'}">
+						<li class="icoMaster"><span>${map.aliasId}</span><span class="detail">${map.aliasName}</span></li>
+					</c:if>
+					<c:if test="${map.aliasName eq '입문자'}">
+						<li class="icoNovice"><span class="twist" style="padding-left:15px;">${map.aliasId}</span><span class="detail">${map.aliasName}</span></li>
+					</c:if>
+					<c:if test="${map.aliasName eq '숙련자'}">
+						<li class="icoSkill"><span style="padding-left:18px;">${map.aliasId}</span><span class="detail">${map.aliasName}</span></li>
+					</c:if>
+				</c:forEach>
 			</ul>
 		</td>
 	</tr>
@@ -244,8 +298,11 @@ $(document).ready(function(){
 		<td><a href="<%= request.getContextPath()%>/couponList.eat">쿠폰</a></td>
 		<td>${coupon}</td>
 	</tr>
-	
 </table>
+
+<div id = "restList">
+
+</div>
 </c:if>
 <div id="userInfo" style="margin-top:60px; position: relative; height:auto;">
 </div>

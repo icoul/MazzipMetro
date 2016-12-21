@@ -73,7 +73,7 @@
 	        <ul class="dropdown-menu">
 	          <li><a href="<%= request.getContextPath() %>/bossCoinResi.eat">포인트구매</a></li>
 	          <li><a href="<%= request.getContextPath() %>/bossContentList.eat">컨텐츠목록</a></li>
-	          <li id="userEdit"><a href="#">개인정보수정 </a></li> 
+	          <li><a href="<%= request.getContextPath() %>/userEdit.eat">개인정보수정 </a></li> 
 	          <li><a href="#" onClick = "userDelete();">회원탈퇴</a></li>
 	        </ul>
 	      </li>

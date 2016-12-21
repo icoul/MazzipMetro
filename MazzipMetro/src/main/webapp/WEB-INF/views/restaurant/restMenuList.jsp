@@ -39,6 +39,4 @@
 		등록된 메뉴가 존재하지 않습니다
 	</c:if>
 	<br/>
-	<hr width=100% color="black">
-	<br/>
 </div>

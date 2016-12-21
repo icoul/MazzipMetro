@@ -10,42 +10,7 @@
 </style>
 	
 <script type="text/javascript">
-$(document).ready(function(){
-	$("#table_Gender").hide();
-	$("#table_AgeLine").hide();
-	$("#table_ReviewCount").hide();
-	$("#table_ReviewGrade").hide();
-	 
-	$("#btn_Gender").click(function(){
-		 $("#table_Gender").show();
-		 $("#table_AgeLine").hide();
-		 $("#table_ReviewCount").hide();
-		 $("#table_ReviewGrade").hide();
-	});
-	
-	$("#btn_AgeLine").click(function(){
-		 $("#table_AgeLine").show();
-		 $("#table_Gender").hide();
-		 $("#table_ReviewCount").hide();
-		 $("#table_ReviewGrade").hide();
-	});
-	
-	$("#btn_ReviewCount").click(function(){
-		 $("#table_ReviewCount").show();
-		 $("#table_Gender").hide();
-		 $("#table_AgeLine").hide();
-		 $("#table_ReviewGrade").hide();
-	});
-	
-	$("#btn_ReviewGrade").click(function(){
-		 $("#table_ReviewGrade").show();
-		 $("#table_Gender").hide();
-		 $("#table_AgeLine").hide();
-		 $("#table_ReviewCount").hide();
-		 
-	});
-	
-});// end of ready
+
 
 jQuery.noConflict();
 
@@ -143,7 +108,7 @@ $(function () {
                 <c:forEach var="val" items="${ageList}" varStatus="status">
          		<c:if test="${status.count < ageList.size()}">
 						[
-							'${val.AGELINE}',
+							'${val.AGELINE}대',
 							Number(${val.PERCENT})
 							<c:if test="${status.count == ageList.size() - 1}">
 								,
@@ -177,9 +142,10 @@ $(function () {
         },
         xAxis: {
             categories: [
-			<c:forEach var="val" items="${reviewCount}" varStatus="status">
+                         '날짜별'
+			/* <c:forEach var="val" items="${reviewCount}" varStatus="status">
                          '${val.REGDATE}',
-            </c:forEach>
+            </c:forEach> */
                          ]
         },
         yAxis: {
@@ -216,12 +182,12 @@ $(function () {
         credits: {
             enabled: false
         },
-        series: [{
+        series: [
         <c:forEach var="val" items="${reviewCount}" varStatus="status">
-        	name: '${val.REGDATE}',
-            data: [${val.CNT}],
+        	{name: '${val.REGDATE}',
+            data: [${val.CNT}]},
 		</c:forEach>
-        }]
+        ]
     });
 });
  
@@ -279,12 +245,51 @@ $(function () {
  });
 
 
+$(document).ready(function(){
+	$("#table_Gender").hide();
+	$("#table_AgeLine").hide();
+	$("#table_ReviewCount").hide();
+	$("#table_ReviewGrade").hide();
+	 
+	$("#btn_Gender").click(function(){
+		 $("#table_Gender").show();
+		 $("#table_AgeLine").hide();
+		 $("#table_ReviewCount").hide();
+		 $("#table_ReviewGrade").hide();
+	});
+	
+	$("#btn_AgeLine").click(function(){
+		 $("#table_AgeLine").show();
+		 $("#table_Gender").hide();
+		 $("#table_ReviewCount").hide();
+		 $("#table_ReviewGrade").hide();
+	});
+	
+	$("#btn_ReviewCount").click(function(){
+		 $("#table_ReviewCount").show();
+		 $("#table_Gender").hide();
+		 $("#table_AgeLine").hide();
+		 $("#table_ReviewGrade").hide();
+	});
+	
+	$("#btn_ReviewGrade").click(function(){
+		 $("#table_ReviewGrade").show();
+		 $("#table_Gender").hide();
+		 $("#table_AgeLine").hide();
+		 $("#table_ReviewCount").hide();
+		 
+	});
+	
+});// end of ready
  
 
 </script>
 
 
 <table style="width:100%; height:100px; margin-top:30px;">
+	<tr>
+		<td> <span style="font-size:20px;"> 가게명 : </span> <span style="font-weight: bold; font-size:24px; border-bottom: 1px gray; border-bottom:double;"> ${restName} </span>  </td>
+	</tr>
 	<tr>
 		<td>
 			<button type="button" class="btnClass" id="btn_Gender">남녀비율</button> &nbsp;

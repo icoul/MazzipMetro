@@ -179,8 +179,7 @@
 		</div>
 		<%-- end of leftCon --%>
 		
-		<div class="rightCon" id="rightContent" style = "margin-left : 30px;"></div>
-		
+		<div id="rightContent" style = "position:relative;  float:left; width:444px; height:1000px; margin-top : 40px; margin-left : 70px;"></div>
 		<%-- end of rightCon --%>	
 
 

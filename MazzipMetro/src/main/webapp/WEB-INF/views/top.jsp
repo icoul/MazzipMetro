@@ -33,8 +33,9 @@ function getLoginUserInfo(){
 		});	
 		
 		
-		
-	
+		//가고싶다 상단의 배너
+		wantGoContentView();
+
 		//생성된 쿠키를 사용하기 위한 자바코드
 		<%
 		  		UserVO loginUser = (UserVO)session.getAttribute("loginUser");	
@@ -233,6 +234,18 @@ function getLoginUserInfo(){
 		window.open(url, "myQna", "left=350px, top=100px, width=500px, height=400px, status=no, scrollbars=yes");		
 	}
 	
+	//가고싶다에 들어가는 배너 컨텐츠 뷰
+   	function wantGoContentView(){
+   		$.ajax({
+			url : "<%=request.getContextPath()%>/wantGoContentView.eat",
+			method : "GET",
+			dataType : "html",
+			success : function(data){
+				$("#wantGoContentView").html(data);
+			}
+		}); // end of ajax
+   	}
+	
 	// 가고싶다 추가 함수
 	function addWantToGo(restSeq){
 			
@@ -383,8 +396,9 @@ function getLoginUserInfo(){
 
 <%-- 사이드 메뉴 & 장바구니 --%>
 <div id="mySidenav" class="sidenav">
-	<div style="height: 100px;"></div>
-		<div style="padding: 20px;">
+	<div style="height: 100px;" id = "wantGoContentView">
+	</div>
+		<div style="padding-left: 20px; padding-top: 50px;">
 		<br/><br/> 맛집메트로가 제공하는 <span style="color: lime;">가고싶다</span>를 이용해 보세요. <br/><br/> <br/> <br/> 		
 		</div>
         <span style="color: #818181; font-size: 22px; font-weight: bold; margin-left: 35px;">가고싶다 </span>카트
@@ -401,7 +415,12 @@ function getLoginUserInfo(){
 		<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
 			<div class="loginWrap">
 				<div class="loginInfo">
-					<span>${sessionScope.loginUser.userName} 님 환영합니다. </span>                        
+				<c:if test="${sessionScope.loginUser.userSort == 0}">
+					${sessionScope.loginUser.userName} <span> (일반) </span> | 
+				</c:if>
+				<c:if test="${sessionScope.loginUser.userSort == 1}">
+					${sessionScope.loginUser.userName} <span> (사업자) </span> | 
+				</c:if>                        
 					현재 마일리지: <span style="color:gold; margin-right: 30px;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userPoint }</fmt:formatNumber></span>
 					등급 : <span style="color: red;">${sessionScope.loginUser.gradeName }</span>
 					Exp: <span style="color: red;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userExp }</fmt:formatNumber>  
@@ -594,8 +613,14 @@ function getLoginUserInfo(){
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default myclose" data-dismiss="modal">Close</button>
-        </div>
+        <button type="submit" class="btn btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 취소</button>
+        <p>
+        <td colspan="2" align="center">
+			<a data-toggle="modal" data-target="#accountSelectModal" data-dismiss="modal" style="color:#f4511e; cursor: pointer;">회원가입하기</a> /
+			<a data-toggle="modal" data-target="#passwdFind" data-dismiss="modal" style="cursor: pointer;">비밀번호찾기</a>
+		</td>	
+		</p>
+      </div>
       </div>
       
     </div>
@@ -620,8 +645,14 @@ function getLoginUserInfo(){
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default myclose" data-dismiss="modal">Close</button>
-        </div>
+        <button type="submit" class="btn btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 취소</button>
+        <p>
+        <td colspan="2" align="center">
+			<a data-toggle="modal" data-target="#accountSelectModal" data-dismiss="modal" style="color:#f4511e; cursor: pointer;">회원가입하기</a> /
+			<a data-toggle="modal" data-target="#userIdfind" data-dismiss="modal" style="cursor: pointer;">아이디찾기</a>
+		</td>	
+		</p>
+      </div>
       </div>
       
     </div>
