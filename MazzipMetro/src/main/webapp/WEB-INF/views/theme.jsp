@@ -5,9 +5,9 @@
 <jsp:include page="top.jsp" />
 
 <style>
-table#dx_theme, table#dx_theme tr, table#dx_theme th, table#dx_theme td {border: solid 1px gray; padding: 10px;}
-table#dx_theme th{text-align: center; width: 100px; height: 30px;}
-table#dx_theme td{text-align: center; width: 100px; height:  50px;}
+table#dx_theme {border: solid 1px gray; padding: 10px;}
+table#dx_theme th{text-align: center; width: 100px; height: 25px;padding: 5px;border: solid 1px gray;}
+table#dx_theme td{text-align: center; width: 100px; height:  50px;padding: 10px;border: solid 1px gray;}
 
 
 #theme_icon_single 		{width:60px; height: 45px; background:url("<%=request.getContextPath()%>/resources/images/theme_icon_single.png") no-repeat; background-position: center}
@@ -20,6 +20,46 @@ table#dx_theme td{text-align: center; width: 100px; height:  50px;}
 #theme_icon_people 	{width:60px; height: 45px; background:url("<%=request.getContextPath()%>/resources/images/theme_icon_people.png") no-repeat; background-position: center 5}
 
 
+/* 체크박스 대신 체크문자 사용하기 */
+input[type=checkbox] {  
+    display: none;  
+}
+
+/* ex) div + p	  Selects all <p> elements that are placed immediately after <div> elements*/
+input[type=checkbox] + label{
+    display: inline-block;  
+    cursor: pointer;  
+    position: relative;  
+    padding-left: 25px;  
+    margin-right: 15px;  
+}
+
+/* unchecked */
+input[type=checkbox]+ label:before {     
+
+    content: ""; 
+    display: inline-block;  
+    width: 29px;  
+    height: 19px;  
+    margin-right: 10px;  
+    position: relative;  
+    left: 0;  
+}
+
+/* checked */
+input[type=checkbox]:checked + label:before { 
+
+    content: "\2713";  /* 체크모양 */
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);  
+    font-size: 24px; 
+    font-weight:800; 
+    color: red;
+    width: 29px;  
+    height: 19px; 
+    text-align: center;  
+    line-height: 22px;  
+
+} 
 
 </style>
 <script>
@@ -54,15 +94,23 @@ $(document).ready(function(){
 	});
 	
 	$("#selMenu_dongName").change(function(){
+		if($("[name=themeChk]:checked").length == 0){
+			alert("테마를 선택해주세요.");
+			return;		
+		}
 		goThemeSearch(1);
 	});
 	
 	$("#selMenu_metroName").change(function(){
+		if($("[name=themeChk]:checked").length == 0){
+			alert("테마를 선택해주세요.");
+			return;		
+		}
 		goThemeSearch(1);
 	});
 	
 	// 테마를 선택하면 체크이미지를 보여준다.
-	$("[name=themeChk]").click(function(){
+	/* $("[name=themeChk]").click(function(){
 		
 		//alert($(this).is('checked'));// 클릭하자마자는 false를 리턴한다. 이 메소드가 끝나면, true가 되는걸까?
 		
@@ -76,7 +124,7 @@ $(document).ready(function(){
 			$("#"+markId).css('opacity',0);
 	    } 
 		
-	});
+	}); */
 	
 	// 사용자가 체크박스 값을 달리하면 바로 함수 호출한다.
 	$("[name=themeChk]").change(function(){
@@ -92,7 +140,6 @@ function goThemeSearch(pageNo){
 	//alert($("[name=themeChk]:checked").length);
 	
 	if($("[name=themeChk]:checked").length == 0){
-		alert("테마를 선택해주세요.");
 		return;		
 	}
 	
@@ -176,52 +223,36 @@ function getGuMetroNameList(){
 			<tr><th>혼밥</th><th>가족</th><th>가성비</th><th>고급스러움</th><th>술 안주</th><th>야식</th><th>분위기 좋음</th><th>회식</th></tr>
 			<tr>
 				<td id="theme_icon_single">
-					<input type="checkbox" id="chk_single" name="themeChk"  style="display: none;" value="혼밥"/>
-					<label for="chk_single">
-					<img class="marked" id="mark_single" src="<%=request.getContextPath()%>/files/marked_red.png" style="left:20%; top: -10%; width: 30px;" >
-					</label>
+					<input type="checkbox" id="chk_single" name="themeChk" value="혼밥"/>
+					<label for="chk_single"></label>
 				</td>
 				<td id="theme_icon_family">
-					<input type="checkbox" id="chk_family" name="themeChk"  style="display: none;" value="가족"/>
-					<label for="chk_family">
-					<img class="marked" id="mark_family" src="<%=request.getContextPath()%>/files/marked_red.png" style="left:20%; top: 0%; width: 30px;" >
-					</label>
+					<input type="checkbox" id="chk_family" name="themeChk" value="가족"/>
+					<label for="chk_family"></label>
 				</td>
 				<td id="theme_icon_cost">
-					<input type="checkbox" id="chk_cost" name="themeChk"  style="display: none;" value="가성비"/>
-					<label for="chk_cost">
-					<img class="marked" id="mark_cost" src="<%=request.getContextPath()%>/files/marked_red.png" style="left:20%; top: 0%; width: 30px;" >
-					</label>
+					<input type="checkbox" id="chk_cost" name="themeChk" value="가성비"/>
+					<label for="chk_cost"></label>
 				</td>
 				<td id="theme_icon_luxury">
-					<input type="checkbox" id="chk_luxury" name="themeChk"  style="display: none;" value="고급스러움"/>
-					<label for="chk_luxury">
-					<img class="marked" id="mark_luxury" src="<%=request.getContextPath()%>/files/marked_red.png" style="left:20%; top: 0%; width: 30px;" >
-					</label>
+					<input type="checkbox" id="chk_luxury" name="themeChk"  value="고급스러움"/>
+					<label for="chk_luxury"></label>
 				</td>
 				<td  id="theme_icon_forDrink">
-					<input type="checkbox" id="chk_forDrink" name="themeChk"  style="display: none;" value="술 안주"/>
-					<label for="chk_forDrink">
-					<img class="marked" id="mark_forDrink" src="<%=request.getContextPath()%>/files/marked_red.png" style="left:20%; top: 0%; width: 30px;" >
-					</label>
+					<input type="checkbox" id="chk_forDrink" name="themeChk" value="술 안주"/>
+					<label for="chk_forDrink"></label>
 				</td>
 				<td  id="theme_icon_night">
-					<input type="checkbox" id="chk_night" name="themeChk"  style="display: none;" value="야식"/>
-					<label for="chk_night">
-					<img class="marked" id="mark_night" src="<%=request.getContextPath()%>/files/marked_red.png" style="left:20%; top: 0%; width: 30px;" >
-					</label>
+					<input type="checkbox" id="chk_night" name="themeChk" value="야식"/>
+					<label for="chk_night"></label>
 				</td>
 				<td  id="theme_icon_mood">
-					<input type="checkbox" id="chk_mood" name="themeChk"  style="display: none;" value="분위기 좋음"/>
-					<label for="chk_mood">
-					<img class="marked" id="mark_mood" src="<%=request.getContextPath()%>/files/marked_red.png" style="left:20%; top: 0%; width: 30px;" >
-					</label>
+					<input type="checkbox" id="chk_mood" name="themeChk" value="분위기 좋음"/>
+					<label for="chk_mood"></label>
 				</td>
 				<td  id="theme_icon_people">
-					<input type="checkbox" id="chk_people" name="themeChk"  style="display: none;" value="회식"/>
-					<label for="chk_people">
-					<img class="marked" id="mark_people" src="<%=request.getContextPath()%>/files/marked_red.png" style="left:20%; top: 0%; width: 30px;" >
-					</label>
+					<input type="checkbox" id="chk_people" name="themeChk"  value="회식"/>
+					<label for="chk_people"></label>
 				</td>
 			</tr>
 		</table>
@@ -241,7 +272,7 @@ function getGuMetroNameList(){
 				
 				<!-- 동이름 선택 -->
 				<div class="col-sm-3">
-				<select name="selMenu_dongName" id="selMenu_dongName" class="form-control"><option value="dongId">구를 먼저 선택하세요!</option></select>
+				<select name="selMenu_dongName" id="selMenu_dongName" class="form-control"><option value="dongId">동 선택하기(구를 먼저 선택)</option></select>
 				</div>
 			</div>
 		</div> 

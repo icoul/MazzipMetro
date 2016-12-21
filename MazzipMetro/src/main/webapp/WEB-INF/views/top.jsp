@@ -10,9 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
-    
 
 <title>:::Mazzip Metro:::</title>
 
@@ -27,6 +25,20 @@ function getLoginUserInfo(){
 	}//end of getLoginUserInfo () 
 	
 	$(document).ready(function(){
+<<<<<<< HEAD
+=======
+		//동현_관리자 dropdown 메뉴용 이벤트
+		$(".dropdown").hover(function(){
+			$(".dropdown-content").css('display','block');
+		}, function(){
+			$(".dropdown-content").css('display','none');
+		});	
+		
+		
+>>>>>>> 7c23fd0232c4a51ed1dd29d01f7648b3456099ab
+		//가고싶다 상단의 배너
+		wantGoContentView();
+
 		//생성된 쿠키를 사용하기 위한 자바코드
 		<%
 		  		UserVO loginUser = (UserVO)session.getAttribute("loginUser");	
@@ -225,6 +237,18 @@ function getLoginUserInfo(){
 		window.open(url, "myQna", "left=350px, top=100px, width=500px, height=400px, status=no, scrollbars=yes");		
 	}
 	
+	//가고싶다에 들어가는 배너 컨텐츠 뷰
+   	function wantGoContentView(){
+   		$.ajax({
+			url : "<%=request.getContextPath()%>/wantGoContentView.eat",
+			method : "GET",
+			dataType : "html",
+			success : function(data){
+				$("#wantGoContentView").html(data);
+			}
+		}); // end of ajax
+   	}
+	
 	// 가고싶다 추가 함수
 	function addWantToGo(restSeq){
 			
@@ -375,8 +399,9 @@ function getLoginUserInfo(){
 
 <%-- 사이드 메뉴 & 장바구니 --%>
 <div id="mySidenav" class="sidenav">
-	<div style="height: 100px;"></div>
-		<div style="padding: 20px;">
+	<div style="height: 100px;" id = "wantGoContentView">
+	</div>
+		<div style="padding-left: 20px; padding-top: 50px;">
 		<br/><br/> 맛집메트로가 제공하는 <span style="color: lime;">가고싶다</span>를 이용해 보세요. <br/><br/> <br/> <br/> 		
 		</div>
         <span style="color: #818181; font-size: 22px; font-weight: bold; margin-left: 35px;">가고싶다 </span>카트
@@ -393,10 +418,12 @@ function getLoginUserInfo(){
 		<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
 			<div class="loginWrap">
 				<div class="loginInfo">
-					<span>${sessionScope.loginUser.userName} 님 환영합니다. </span>                        
-					현재 마일리지: <span style="color:gold; margin-right: 30px;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userPoint }</fmt:formatNumber></span>
-					등급 : <span style="color: red;">${sessionScope.loginUser.gradeName }</span>
-					Exp: <span style="color: red;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userExp }</fmt:formatNumber>  
+					<span class="btnDesign"> 현재 마일리지 </span> &nbsp;
+					<span style="color:#008968; font-size:12px; font-stretch:narrower; margin-right: 10px; font-weight: bold;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userPoint }</fmt:formatNumber></span>
+					<span class="btnDesign"> 등급 </span> &nbsp;
+					<span style="color: red; font-size:12px; font-stretch:narrower; font-weight: bold; margin-right: 10px;">${sessionScope.loginUser.gradeName }</span>
+					<span class="btnDesign">Exp</span>
+					<span style="color: red; font-size:12px; font-stretch:narrower; font-weight: bold; margin-right: 10px;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userExp }</fmt:formatNumber>  
 					
 					<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG1'}">
 						/ 200
@@ -417,6 +444,16 @@ function getLoginUserInfo(){
 						/ 10000
 					</c:if>
 					</span>
+					<c:if test="${sessionScope.loginUser.userSort == 0}">
+					<span class="fontDesign" style="font-weight: bold;">${sessionScope.loginUser.userName}</span>
+					 <span style="color: #000; font-size:12px; font-stretch:narrower; margin-right:10px; font-weight: bold;">님 환영합니다 </span>
+				</c:if>
+				<c:if test="${sessionScope.loginUser.userSort == 1}">
+					${sessionScope.loginUser.userName} <span> (사업자) </span> | 
+				</c:if>
+				<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
+					<button type="button" class="btn btnLogout"  onClick="goLogOut();"><span class = "logOut">로그아웃</span></button>
+				</c:if>
 				</div> 
 			</div>
 		</c:if>	
@@ -425,54 +462,54 @@ function getLoginUserInfo(){
 				<div style="padding-top: 5px;">
 					
 				<ul class="menu">
+					<li><a><span id="dx_wantToGo">가고싶다</span></a></li>
+					<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
+					<li><a href="<%=request.getContextPath()%>/theme.eat">테마검색</a></li>
+					
 					<!-- 비회원 로그인시(로그인전) -->
 					<c:if test="${empty sessionScope.loginUser.userSeq}">
-						<li><a><span id="dx_wantToGo">가고싶다</span></a></li>
-						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
-						<li><a href="<%=request.getContextPath()%>/theme.eat">테마검색</a></li>
 						<li><a href="javascript:goAsk();">문의하기</a></li>
 						<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
 						&nbsp;&nbsp;&nbsp;&nbsp;
 					</c:if>
 					<!-- 일반사용자 로그인시 -->
 					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 0}">
-						<li><a><span id="dx_wantToGo">가고싶다</span></a></li>
-						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
-						<li><a href="<%=request.getContextPath()%>/theme.eat">테마검색</a></li>
 						<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
 						<li><a href="javascript:goAsk();">문의하기</a></li>
 						<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
 					</c:if>
 					<!-- 사업주 로그인시 -->
 					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 1}">
-						<li><a><span id="dx_wantToGo">가고싶다</span></a></li>
-						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
-						<li><a href="<%=request.getContextPath()%>/theme.eat">테마검색</a></li>
 						<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
 						<li><a href="javascript:goAsk();">문의하기</a></li>
 						<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
 					</c:if>
 					<!-- 관리자 로그인시 -->
 					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 2}">
-						<li><a><span id="dx_wantToGo">가고싶다</span></a></li>
-						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
-						<li><a href="<%=request.getContextPath()%>/theme.eat">테마검색</a></li>
-						<li><a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a></li>
-						<li><a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a></li>
-						<li><a href="<%=request.getContextPath()%>/adminContentList.eat">컨텐츠관리</a></li>
-						<li><a href="<%=request.getContextPath()%>/adminQnaList.eat">고객문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
+						<!-- 관리자 dropdown 메뉴 -->
+						<li>
+							<div class="dropdown">
+						  		<a class="drop_anchor">관리자메뉴</a>
+								  <div class="dropdown-content">
+									<a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a>
+									<a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a>
+									<a href="<%=request.getContextPath()%>/adminContentList.eat">컨텐츠관리</a>
+									<a href="<%=request.getContextPath()%>/adminQnaList.eat">고객문의내역</a>
+								  </div>
+							</div>
+						</li>
 					</c:if>
 				</ul>
 
 				</div>
 				
 				<!-- 검색바 -->
-				<div  id="search_div" align="center" style="position: absolute; top: 21px; left: 700px; width: 35%;">
+				<div  id="search_div" align="center" style="position: absolute; top: 21px; left: 950px; width: 30%;">
 				  <form name="searchFrm" id="searchFrm" onsubmit="return false;">
 				    <div class="input-group" style="width: 100%;">
 				      <input type="text" class="form-control" name="keyword" id="keyword" size="50" placeholder="검색어를 입력하세요!" onkeydown="goButton();" required>
 				      <div class="input-group-btn">
-				        <button type="button" class="btn btn-default" onclick="goSearch();" >검색</button>
+				        <button type="button" class="btn btnColor" onclick="goSearch();"><i class="glyphicon glyphicon-search"></i> &nbsp;<span>검색</button>
 				      </div>
 				    </div>
 				  </form>
@@ -484,10 +521,7 @@ function getLoginUserInfo(){
 				<button type="button" class="btnLogin" data-toggle="modal" data-target="#accountSelectModal">회원가입</button>
 				</c:if>
 				
-				<!-- 메뉴바 : top 우측-->
-				<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
-					<button type="button" class="btnLogin" onClick="goLogOut();">로그아웃</button>
-				</c:if>
+				
 			</div>
 	</div>
 
@@ -586,8 +620,14 @@ function getLoginUserInfo(){
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default myclose" data-dismiss="modal">Close</button>
-        </div>
+        <button type="submit" class="btn btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 취소</button>
+        <p>
+        <td colspan="2" align="center">
+			<a data-toggle="modal" data-target="#accountSelectModal" data-dismiss="modal" style="color:#f4511e; cursor: pointer;">회원가입하기</a> /
+			<a data-toggle="modal" data-target="#passwdFind" data-dismiss="modal" style="cursor: pointer;">비밀번호찾기</a>
+		</td>	
+		</p>
+      </div>
       </div>
       
     </div>
@@ -612,8 +652,14 @@ function getLoginUserInfo(){
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default myclose" data-dismiss="modal">Close</button>
-        </div>
+        <button type="submit" class="btn btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 취소</button>
+        <p>
+        <td colspan="2" align="center">
+			<a data-toggle="modal" data-target="#accountSelectModal" data-dismiss="modal" style="color:#f4511e; cursor: pointer;">회원가입하기</a> /
+			<a data-toggle="modal" data-target="#userIdfind" data-dismiss="modal" style="cursor: pointer;">아이디찾기</a>
+		</td>	
+		</p>
+      </div>
       </div>
       
     </div>

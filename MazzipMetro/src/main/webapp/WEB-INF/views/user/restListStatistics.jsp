@@ -19,16 +19,17 @@
 		
 	});
 	
-	function statistics(restSeq) {
+	function statistics(restSeq, restName) {
 		$.ajax({
 			url:"<%=request.getContextPath()%>/Statistics.eat",
 			type :"GET",
-			data: "restSeq="+restSeq,
+			data: "restSeq="+restSeq+"&restName="+restName,
 			dataType:"html",
 			success: function(data){
 				$("#hb_container").html(data);
 			}
 		});
+		
 	}
 </script>
 <div class="subleftCon"  style="height:1000px;">
@@ -47,8 +48,8 @@
 		
 		<c:forEach var="vo" items="${restList}" varStatus="status"> 
 			<tr>
-				<td><a href="javascript:statistics('${vo.restSeq}')">${vo.restName}</a></td>
-				<td><img src = "<%=request.getContextPath() %>/files/thumb${vo.restImg}" /></td>
+				<td><a href="javascript:statistics('${vo.restSeq}','${vo.restName}')">${vo.restName}</a></td>
+				<td><img src = "<%=request.getContextPath() %>/files/restaurant/thumb/thumb${vo.restImg}" /></td>
 				<td>${vo.restAddr}</td>
 				<td>${vo.metroName}</td>
 				<td>${vo.restRegDate}</td>

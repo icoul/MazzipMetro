@@ -241,6 +241,7 @@
 		 <result column="reviewAvgScore"	  	property="reviewAvgScore" 			javaType="String" />
 		 <result column="count"	  	    		property="count" 					javaType="String" />
 		 <result column="score"	  	    		property="score" 					javaType="String" />
+		 <result column="restContent"			property="restContent"				javaType="String" />
 	</resultMap>
 	<!-- 기간 상관없이 랭킹 -->
 	<select id = "ranking.getNotDateRestRanking" parameterType="java.util.HashMap" resultMap="restRanking" >

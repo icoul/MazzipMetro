@@ -8,6 +8,6 @@ public class SMTPAuthenticator extends Authenticator {
 	public PasswordAuthentication getPasswordAuthentication() { 
 	
 		// Gmail 인 경우 @gmail.com 을 제외한 아이디만 입력한다.
-		return new PasswordAuthentication("mazzipmetro","mazzipmetro0103");
+		return new PasswordAuthentication("mazzipmetro","finalproject0103");
 	}
 }
