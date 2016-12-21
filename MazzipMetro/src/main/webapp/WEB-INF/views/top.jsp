@@ -10,9 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
-    
 
 <title>:::Mazzip Metro:::</title>
 
@@ -27,9 +25,20 @@ function getLoginUserInfo(){
 	}//end of getLoginUserInfo () 
 	
 	$(document).ready(function(){
+<<<<<<< HEAD
+=======
+		//동현_관리자 dropdown 메뉴용 이벤트
+		$(".dropdown").hover(function(){
+			$(".dropdown-content").css('display','block');
+		}, function(){
+			$(".dropdown-content").css('display','none');
+		});	
+		
+		
+>>>>>>> 7c23fd0232c4a51ed1dd29d01f7648b3456099ab
 		//가고싶다 상단의 배너
 		wantGoContentView();
-		
+
 		//생성된 쿠키를 사용하기 위한 자바코드
 		<%
 		  		UserVO loginUser = (UserVO)session.getAttribute("loginUser");	
@@ -453,42 +462,42 @@ function getLoginUserInfo(){
 				<div style="padding-top: 5px;">
 					
 				<ul class="menu">
+					<li><a><span id="dx_wantToGo">가고싶다</span></a></li>
+					<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
+					<li><a href="<%=request.getContextPath()%>/theme.eat">테마검색</a></li>
+					
 					<!-- 비회원 로그인시(로그인전) -->
 					<c:if test="${empty sessionScope.loginUser.userSeq}">
-						<li><a><span id="dx_wantToGo">가고싶다</span></a></li>
-						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
-						<li><a href="<%=request.getContextPath()%>/theme.eat">테마검색</a></li>
 						<li><a href="javascript:goAsk();">문의하기</a></li>
 						<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
 						&nbsp;&nbsp;&nbsp;&nbsp;
 					</c:if>
 					<!-- 일반사용자 로그인시 -->
 					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 0}">
-						<li><a><span id="dx_wantToGo">가고싶다</span></a></li>
-						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
-						<li><a href="<%=request.getContextPath()%>/theme.eat">테마검색</a></li>
 						<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
 						<li><a href="javascript:goAsk();">문의하기</a></li>
 						<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
 					</c:if>
 					<!-- 사업주 로그인시 -->
 					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 1}">
-						<li><a><span id="dx_wantToGo">가고싶다</span></a></li>
-						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
-						<li><a href="<%=request.getContextPath()%>/theme.eat">테마검색</a></li>
 						<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
 						<li><a href="javascript:goAsk();">문의하기</a></li>
 						<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
 					</c:if>
 					<!-- 관리자 로그인시 -->
 					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 2}">
-						<li><a><span id="dx_wantToGo">가고싶다</span></a></li>
-						<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
-						<li><a href="<%=request.getContextPath()%>/theme.eat">테마검색</a></li>
-						<li><a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a></li>
-						<li><a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a></li>
-						<li><a href="<%=request.getContextPath()%>/adminContentList.eat">컨텐츠관리</a></li>
-						<li><a href="<%=request.getContextPath()%>/adminQnaList.eat">고객문의내역</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
+						<!-- 관리자 dropdown 메뉴 -->
+						<li>
+							<div class="dropdown">
+						  		<a class="drop_anchor">관리자메뉴</a>
+								  <div class="dropdown-content">
+									<a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a>
+									<a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a>
+									<a href="<%=request.getContextPath()%>/adminContentList.eat">컨텐츠관리</a>
+									<a href="<%=request.getContextPath()%>/adminQnaList.eat">고객문의내역</a>
+								  </div>
+							</div>
+						</li>
 					</c:if>
 				</ul>
 
