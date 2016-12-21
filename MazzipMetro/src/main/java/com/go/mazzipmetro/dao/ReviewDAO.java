@@ -229,6 +229,10 @@ public class ReviewDAO implements IDAO{
 	public List<ReviewCommentVO> getReviewCommentList(String reviewSeq) {
 		List<ReviewCommentVO> reviewCommentList = sqlSession.selectList("getReviewCommentList", reviewSeq);
 		return reviewCommentList;
+	}
+	public int updateReviewComment(HashMap<String, String> hashMap) {
+		int result = sqlSession.update("updateReviewComment", hashMap);
+		return result;
 	}	
 
 

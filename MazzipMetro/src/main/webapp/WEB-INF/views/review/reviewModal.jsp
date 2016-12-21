@@ -56,10 +56,19 @@
 			
 		});
 		
+		//텍스트에어리어에서 ctrl + enter을 누르면 줄바꿈을 시켜준다
+		$("#reviewComment").keydown(function (e) {
+		    if (e.keyCode === 13 && e.ctrlKey) {
+		        $(this).val(function(i,val){
+		            return val + "\n";
+		        });
+		    }
+		});
 		
-		getReviewComment("${reviewseq}");
+		
+		getReviewComment("${reviewseq}"); 
 	});		
-	
+
 	function loginCheck(userSeq){
 		if(userSeq == ""){
 			alert("로그인을 해주세요");
@@ -67,7 +76,17 @@
 		}
 	}
 	
-function getReviewComment(previewSeq){
+	function getReviewCommentCalls(reviewSeq) {
+		getReviewComment(reviewSeq);
+		
+		var timejugi = 1000;   // JSON 정보를 10초 마다 자동 갱신하려고.
+		
+		setTimeout(function(){
+				getReviewCommentCalls(reviewSeq);
+				   }, timejugi);
+	}
+	
+	function getReviewComment(previewSeq){
 			var userName = $("#userName").val();
 			var userProfile = $("#userProfile").val();
 			$.getJSON("getReviewComment.eat?reviewSeq="+previewSeq ,function(data){
@@ -77,9 +96,16 @@ function getReviewComment(previewSeq){
 
 				
 				$("#resultComments").empty();
-				$.each(data, function(enrtyIndex, entry){
-						
-					html += "<div class='media'>";
+				$.each(data, function(entryIndex, entry){
+					var margin = Number(entry.depthNo) * 50;
+					var margin2 = (Number(entry.depthNo) + 1) * 50;
+					
+					if(Number(entry.depthNo) == 0){
+						html += "<div class='media' style='padding-left:" + margin + "px;'>";	
+					}else {
+						html += "<div class='media' name='groupNo"+ entry.groupNo + entry.depthNo + "' style='padding-left:" + margin + "px; display:none;'>";
+					}
+					
 					
 					if(Number(entry.agoDay) > 0){
 						html += "<p class='pull-right'> <small>" + entry.agoDay +"일 전 </small> </p>";	
@@ -92,31 +118,36 @@ function getReviewComment(previewSeq){
 					}
 					
 
-				    html += "<a class='media-left' href='#'> <img src='<%=request.getContextPath() %>/files/user/" + entry.userProfile + "' width='70px' height='70px'> </a>"; 
+				    html += "<a class='media-left' > <img class='img-circle' src='<%=request.getContextPath() %>/files/user/" + entry.userProfile + "' width='70px' height='70px'> </a>"; 
 
 					html += "<div class='media-body'>";
 					html += "<input type='hidden' name='commentSeq' id='commentSeq"+ entry.commentSeq +"' value='"+ entry.commentSeq +" '/>"
 					html += "<h4 class='media-heading user_name'>" + entry.userName +"</h4> " +entry.content +".";
 					
-					if(userName != null){
-						html += "  <small ><a href='#' id='commentLink" + enrtyIndex + "' onClick='goComment(" + enrtyIndex + ");'>한줄댓글</a></small>";	
-						
-						if(userName == entry.userName){
-							userProfile = entry.userProfile;
-							html +=	"  <small><a href='javascript:deleteReviewComment("+entry.commentSeq + ");'>삭제</a></small>";
-						}
+					if(userName != "" && userName != entry.userName){
+						html += "  <small ><a  id='commentLink" + entryIndex + "' style='cursor:pointer;' onClick='goComment(" + entryIndex + ");'>한줄댓글</a></small>";	
 					}
 					
-					 		
+					
+					
+					if(userName == entry.userName){
+						userProfile = entry.userProfile;
+						html +=	"  <small><a href='javascript:deleteReviewComment("+entry.commentSeq + ");'>삭제</a></small>";
+					}
+					
+					if(entry.commentCount > 0){
+						html += "<br> <a style='cursor:pointer;' id='commentMore"+ entry.commentSeq +"' onClick='commentMoreView("+ entry.groupNo + "," + (Number(entry.depthNo)+1) + "," + entry.commentSeq +");'>댓글 "+ entry.commentCount +"개 더보기</a>";	
+					}
+					
+					
 					html += "</div>";
 					html += "</div>";
 					
-					
-					html += "<div class='media' style='display:none;' id='commentComment" + enrtyIndex + "'>";
-					html += "<a class='media-left' href='#'> <img src='<%=request.getContextPath() %>/files/user/" + userProfile + "' width='70px' height='70px'> </a>";
+					html += "<div class='media' style='display:none; margin-left:"+margin2+"px;' id='commentComment" + entryIndex + "'>";
+					html += "<a class='media-left' > <img class='img-circle' src='<%=request.getContextPath() %>/files/user/" + userProfile + "'  width='70px' height='70px'> </a>";
 					html += "<div class='media-body'>";
-					html += "<h4 class='media-heading user_name'>" + userName +"</h4> <input type='text' /> ";
-					
+					html += "<h4 class='media-heading user_name'>" + userName +"</h4>";                                                                                  
+					html += "<input type='text' id='commentContent" + entryIndex +"' onkeypress='insertCommentComment(event, "+previewSeq+","+ entry.commentSeq +","+ entry.groupNo +","+ entry.depthNo +","+ entryIndex +");' /> "; 
 					
 					html += "</div>";
 					html += "</div>";
@@ -138,12 +169,12 @@ function getReviewComment(previewSeq){
 		
 			if(userSeq == ""){
 				alert("로그인을 해주세요");
-				reviewComment.value = "";
+				$("#reviewComment").val("");
 			}else{
 				if(e.keyCode == 13){
 					if(reviewComment.length < 1 || reviewComment.trim() == ""){
 						alert("댓글을 입력해주세요");
-						reviewComment.value = "";
+						$("#reviewComment").val("");
 					}else{
 						var form_data = {reviewSeq : previewSeq ,          
 							    comment : reviewComment        
@@ -154,7 +185,7 @@ function getReviewComment(previewSeq){
 							method:"POST",                 // method
 							data: form_data,               // 위의 URL 페이지로 사용자가 보내는 ajax 요청 데이터.
 							success: function() {          // 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
-								reviewComment.value = "";
+								$("#reviewComment").val("");
 								getReviewComment(previewSeq);
 							         }
 						});
@@ -164,13 +195,51 @@ function getReviewComment(previewSeq){
 		
 	} 
 	
+	 function insertCommentComment(e, reviewSeq1, commentSeq1, groupNo1, depthNo1, index){
+		var commentContent = $("#commentContent"+index).val();
+				if(e.keyCode == 13){
+					if(commentContent.length < 1 || commentContent.trim() == ""){
+						alert("댓글을 입력해주세요");
+						$("#commentContent"+index).val("");
+					}else{
+						var form_data = {reviewSeq : reviewSeq1,
+							    comment : commentContent,
+							    commentSeq : commentSeq1,
+								groupNo	: 	groupNo1,
+								depthNo : depthNo1
+						    };
+			
+						$.ajax({
+							url: "insertReviewComment.eat",   // action 에 해당하는 URL 속성값
+							method:"POST",                 // method
+							data: form_data,               // 위의 URL 페이지로 사용자가 보내는 ajax 요청 데이터.
+							success: function() {          // 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
+								$("#commentContent"+index).val("");
+								getReviewComment(reviewSeq1);
+							         }
+						});
+					}  
+				}
+	} 
+	
 	function goComment(index){
-	var comment =	document.getElementById("commentComment"+index)/* .style.display = "block" */;
+	var comment =	document.getElementById("commentComment"+index);
 		
 		if(comment.style.display == "none")
 			comment.style.display = "block";
 		else
 			comment.style.display = "none";
+	}
+	
+	function commentMoreView(groupNo,depthNo,commentSeq){
+
+		var groupNoArr = document.getElementsByName("groupNo"+groupNo+""+depthNo);
+		
+		for(var i = 0; i < groupNoArr.length; ++i){
+				groupNoArr[i].style.display = "block";
+		}
+		var commentMore =  document.getElementById("commentMore"+commentSeq);
+		commentMore.style.display = "none";
 	}
 	
 </script>
@@ -256,34 +325,35 @@ function getReviewComment(previewSeq){
 					</ul>
 				
 				<div id="myTabContent" class="tab-content" style="margin-top:10px;">
-					<div class="comments-list" id="resultComments" style="margin-bottom:100px;">
+					<div class="comments-list" id="resultComments" style="margin-bottom:20px;">
 						
 					</div>
 				<hr>
 						<div class="tab-pane fade in active" id="service-one">
-	
-							<div class="row" style="margin-top:100px; position:fixed; bottom: 0px;">
+							<div class="row" style="margin-top:20px;">
 								<div class="col-md-12">
 										
 										<table>
 											<tr>
 												<td></td>
 												<td>
-													<textarea id="reviewComment" cols="90" rows="2" name="reviewComment" title="댓글 입력창" onkeypress="javascript:insertReviewComment('${reviewseq}', '${(sessionScope.loginUser.userSeq)}', event);"  onclick="javascript:loginCheck('${(sessionScope.loginUser.userSeq)}' );"></textarea>
-													<div id="reviewCommentLength"></div>
+														<div class="media">
+															<a class="media-left" > <img class="img-circle" src="<%=request.getContextPath() %>/files/user/${(sessionScope.loginUser.userProfile)}"  width="70px" height="70px"> </a>
+															<div class="media-body">
+																<br>
+																<textarea id="reviewComment" cols="80" rows="1"  name="reviewComment" title="댓글 입력창" onkeypress="javascript:insertReviewComment('${reviewseq}', '${(sessionScope.loginUser.userSeq)}', event);"  onclick="javascript:loginCheck('${(sessionScope.loginUser.userSeq)}' );"></textarea>
+																<div id="reviewCommentLength">
+																</div>  
+															</div>
+														</div>
+												
 													<input type="hidden" id="userName" value="${(sessionScope.loginUser.userName)}" />
 													<input type="hidden" id="userProfile" value="${(sessionScope.loginUser.userProfile)}" />
 												</td>
 											</tr>
-											<tr>
-												<td></td>
-												<td>
-													<div class="cbox_desc_area"></div>
-												</td>
-												<td></td>
-											</tr>
+											
 									</table>
-										
+										<br><br>
 								</div>
 							</div>
 						

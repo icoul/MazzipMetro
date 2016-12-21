@@ -319,18 +319,35 @@
 	
 	<!-- 은석 리뷰댓글 쓰기 -->
 	<insert id="insertReviewComment" parameterType="java.util.HashMap">
-		insert into tbl_review_comment values(tbl_review_commentSeq.nextval, #{reviewSeq}, #{userSeq}, #{comment}, sysdate, default, default, #{groupNo}, default, default)
+		<if test="commentSeq == null and depthNo == null">  <!-- 리뷰 원댓글  -->
+			insert into tbl_review_comment values(tbl_review_commentSeq.nextval, #{reviewSeq}, #{userSeq}, #{comment}, sysdate, default, default, #{groupNo}, default, default)	
+		</if>
+		
+		<if test="commentSeq != null and depthNo != null">  <!-- 리뷰 원댓글의 댓글 -->
+			insert into tbl_review_comment values(tbl_review_commentSeq.nextval, #{reviewSeq}, #{userSeq}, #{comment}, sysdate, default, default, #{groupNo}, #{commentSeq}, #{depthNo})	
+		</if>
+
 	</insert>
 	
+	<!-- tbl_review_comment의 groupNo의 최대값을 가져온다. -->
 	<select id="getReviewCommentMaxGroupNo" resultType="String">
 		select nvl(max(groupNo),0)
 		from tbl_review_comment
 	</select>
 	
+	<!-- 리뷰댓글의 목록을 가져온다. -->
 	<select id="getReviewCommentList" parameterType="String" resultType="com.go.mazzipmetro.vo.ReviewCommentVO">
-		select a.content, trunc((sysdate - a.regDate), 0) as agoDay, trunc((sysdate - a.regDate) * 1 * 24, 0) as agoHour, trunc((sysdate - a.regDate) * 1 * 24 * 60,0) as agoMinute, a.commentCount, a.groupNo, a.fk_seq, a.depthNo, b.userName, b.userProfile
+		select a.commentSeq, a.content, trunc((sysdate - a.regDate), 0) as agoDay, trunc((sysdate - a.regDate) * 1 * 24, 0) as agoHour, trunc((sysdate - a.regDate) * 1 * 24 * 60,0) as agoMinute, a.commentCount, a.groupNo, a.fk_seq, a.depthNo, b.userName, b.userProfile
 		from tbl_review_comment a join tbl_user b
 		on a.userSeq = b.userSeq
 		where reviewSeq = #{reviewSeq}
+		start with fk_seq = 0
+		connect by prior a.commentseq = a.fk_seq
+		order siblings by a.groupno asc, a.commentseq asc
 	</select>
+	
+	<!-- 원 댓글에 댓글이 달리면 commentCount를 1증가 시킨다. -->
+	<update id="updateReviewComment" parameterType="java.util.HashMap">
+		update tbl_review_comment set commentCount = commentCount + 1 where commentSeq = #{commentSeq}
+	</update>
 </mapper>

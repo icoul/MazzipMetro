@@ -271,19 +271,37 @@ public class ReviewController {
 		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
 		String reviewSeq = req.getParameter("reviewSeq");
 		String comment = req.getParameter("comment");
+		String commentSeq = req.getParameter("commentSeq");
+		String groupNo = req.getParameter("groupNo");
+		String depthNo = req.getParameter("depthNo");
+
+		System.out.println("==============================" + reviewSeq + " " + comment + " " + commentSeq + " " + groupNo + " " + depthNo + " ");
 		
-		String groupNo1 = service.getReviewCommentMaxGroupNo();
+		int result = 0;
 		
-		System.out.println("--------------------------------------" + comment);
+		if(commentSeq == null && groupNo == null && depthNo == null){ //원 댓글일떄
+			System.out.println("==============================원댓글");
+			String groupNo1 = service.getReviewCommentMaxGroupNo();
+			
+			int groupNo2 = Integer.parseInt(groupNo1) + 1;
+			
+			result = service.insertReviewComment(loginUser.getUserSeq(), reviewSeq, comment, String.valueOf(groupNo2), commentSeq, depthNo);
 		
-		int groupNo2 = Integer.parseInt(groupNo1) + 1;
-		
-		int result = service.insertReviewComment(loginUser.getUserSeq(), reviewSeq, comment, String.valueOf(groupNo2));
-		
-		if(result == 1){
-			req.setAttribute("script", "alert('댓글 등록 완료');");
-		}else{
-			req.setAttribute("script", "alert('댓글 등록 실패');");
+			if(result == 1){
+				req.setAttribute("script", "alert('댓글 등록 완료');");
+			}else{
+				req.setAttribute("script", "alert('댓글 등록 실패');");
+			}
+			
+		}else if(commentSeq != null && groupNo != null && depthNo != null){ //댓글의 댓글일때
+			System.out.println("==============================댓글의 댓글");
+			result = service.insertCommmentComment(loginUser.getUserSeq(), reviewSeq, comment, commentSeq, groupNo, Integer.parseInt(depthNo)+1);
+			
+			if(result == 2){
+				req.setAttribute("script", "alert('대댓글 등록 완료');");
+			}else{
+				req.setAttribute("script", "alert('대댓글 등록 실패');");
+			}
 		}
 		
 		return "/user/msgEnd";  
@@ -312,6 +330,7 @@ public class ReviewController {
 			
 			
 			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("commentSeq", commentSeq);
 			jsonObj.put("userName", userName);
 			jsonObj.put("userProfile", userProfile);
 			jsonObj.put("content", content);

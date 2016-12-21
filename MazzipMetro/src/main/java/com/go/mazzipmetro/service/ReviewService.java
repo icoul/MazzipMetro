@@ -430,12 +430,15 @@ public class ReviewService implements IService{
 		return reviewAvgScore;
 	}
 
-	public int insertReviewComment(String userSeq, String reviewSeq, String comment, String groupNo) {
+	public int insertReviewComment(String userSeq, String reviewSeq, String comment, String groupNo, String commentSeq, String depthNo) {
 		HashMap<String,String> hashMap = new HashMap<String,String>();
 		hashMap.put("userSeq", userSeq);
 		hashMap.put("reviewSeq", reviewSeq);
 		hashMap.put("comment", comment);
 		hashMap.put("groupNo", groupNo);
+		hashMap.put("commentSeq", commentSeq);
+		hashMap.put("depthNo", depthNo);
+
 		
 		int result = dao.insertReviewComment(hashMap);
 		return result;
@@ -449,6 +452,24 @@ public class ReviewService implements IService{
 	public List<ReviewCommentVO> getReviewCommentList(String reviewSeq) {
 		List<ReviewCommentVO> reviewCommentList = dao.getReviewCommentList(reviewSeq);
 		return reviewCommentList;
+	}
+
+	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
+	public int insertCommmentComment(String userSeq, String reviewSeq, String comment, String commentSeq,
+			String groupNo, int depthNo) {
+		HashMap<String,String> hashMap = new HashMap<String,String>();
+		hashMap.put("userSeq", userSeq);
+		hashMap.put("reviewSeq", reviewSeq);
+		hashMap.put("comment", comment);
+		hashMap.put("commentSeq", commentSeq);
+		hashMap.put("groupNo", groupNo);
+		hashMap.put("depthNo", String.valueOf(depthNo));
+		
+		int result = dao.insertReviewComment(hashMap);
+		
+		int result2 = dao.updateReviewComment(hashMap);
+		
+		return (result+result2);
 	}
 
 
