@@ -86,7 +86,7 @@
 				</table>
 			</th>
 			<th style="width:25%; padding-left:5%; vertical-align: middle;" align="center">
-				<button type="button" class="btn btn-success btn-lg" id="btnFind">찾기</button>
+				<button type="button" class="btn btn-default btn-lg" id="btnFind">찾기</button>
 			</th>
 		</tr>
 		<tr>

@@ -161,8 +161,8 @@ function mazzipMetroPick () {
 				<div style="position: relative; height: 110px;">
 					<input type="checkbox" id="chk_${restvo.restSeq}" name="wantToGoChk"  style="display: none;" value="${restvo.restSeq}"/>
 					<label for="chk_${restvo.restSeq}">
-						<img class="marked" id="mark_${restvo.restSeq}" src="<%=request.getContextPath()%>/files/marked.png" style="position: absolute; left:20%; top: 20%; width: 50px;" >
-						<img id="img_${restvo.restSeq}" src="<%=request.getContextPath()%>/files/${restvo.restImg}" style="position: absolute; width: 100px;" class='tooltipster tooltip_group' title="사진을 클릭해서 선택하세요!">
+						<img class="marked" id="mark_${restvo.restSeq}" src="<%=request.getContextPath()%>/resources/images/marked.png" style="position: absolute; left:20%; top: 20%; width: 50px;" >
+						<img id="img_${restvo.restSeq}" src="<%=request.getContextPath()%>/files/rest/${restvo.restImg}" style="position: absolute; width: 100px;" class='tooltipster tooltip_group' title="사진을 클릭해서 선택하세요!">
 					</label>
 				</div>
 			</td>
