@@ -313,6 +313,24 @@
 			<span class="glyphicon glyphicon-home order"> 가입완료 </span>
 		</div>
 	</div> -->
+	<div class="row form-group">
+        <div class="col-xs-12">
+            <ul class="nav nav-pills nav-justified thumbnail setup-panel">
+                <li class="disabled"><a href="#step-1">
+                    <h4 class="list-group-item-heading">약관동의</h4>
+                    <p class="list-group-item-text">First step description</p>
+                </a></li>
+                <li class="active"><a href="#step-2">
+                    <h4 class="list-group-item-heading">정보입력</h4>
+                    <p class="list-group-item-text">Second step description</p>
+                </a></li>
+                <li class="disabled"><a href="#step-3">
+                    <h4 class="list-group-item-heading">가입완료</h4>
+                    <p class="list-group-item-text">Third step description</p>
+                </a></li>
+            </ul>
+        </div>
+	</div>
 	
 <div class="container">
     <form name="registerFrm" class="form-horizontal" action="<%= request.getContextPath() %>/userRegisterEnd.eat" method="post"  enctype="multipart/form-data">
@@ -460,7 +478,7 @@
 		  <label class="col-md-3 control-label">프로필사진</label>
 		  <div class="col-md-7 inputGroupContainer">
 		    <div class="input-group">
-		    <span class="input-group-addon"><i class="glyphicon glyphicon-upload"></i></span>  
+		    <span class="input-group-addon"><i class="material-icons">insert_photo</i></span>  
 			<input type='file' id="userUpload" name="attach" />
 	        <img id="userProfile" name="userProfile" src="<%= request.getContextPath() %>/resources/images/userNoImg.png" alt="your image" width="150px;" height="150px;"/>
 			</div>

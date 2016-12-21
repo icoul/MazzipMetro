@@ -439,14 +439,15 @@ public class RestaurantController {
 				path = root + "files/menu";
 				bytes = fvo.getAttach()[i].getBytes();
 				newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[i].getOriginalFilename(), path);
-				path += "/thumb";
+				
 				
 				if (newFileName == null && menuImg[i] == null) {
-					newFileName = "noimage.jpg";
+					newFileName = "noImage.jpg";
 				}
 				
 				if (newFileName == null && menuImg[i] != null) {
 					newFileName = menuImg[i];
+					thumbnailManager.doCreateThumbnail(newFileName, path);
 				}
 				
 				if (newFileName != null) {
@@ -722,7 +723,10 @@ public class RestaurantController {
 		public String Statistics(HttpServletRequest req, HttpServletResponse res, HttpSession session){
 
 			String restSeq = req.getParameter("restSeq");
+			System.out.println(">>>>>>>>>>>>>###################" + restSeq);
+			String restName = req.getParameter("restName");
 			
+			System.out.println(">>>>>>>>>>>>>###################" + restName);
 //			성별 차트 DB
 			List<HashMap<String, String>> genderList = service.restStati_Gender(restSeq); 
 
@@ -740,7 +744,7 @@ public class RestaurantController {
 			req.setAttribute("reviewCount", reviewCount);
 			req.setAttribute("reviewGrade", reviewGrade);
 			
-			
+			req.setAttribute("restName", restName);
 			return "user/Statistics";
 		}
 		
