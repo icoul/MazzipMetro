@@ -77,9 +77,9 @@ img {border:0; padding:0; margin:0; vertical-align:middle;}
 .logOut {color: #000; font-size:12px; font-weight: bold;}
 
 #content {width:1400px; overflow:hidden; margin:0 auto;}
-#leftCon {float:left; width:856px;}
-#leftCon .reconCon  {margin-top:30px;}
-#leftCon .reconCon h2 {padding:10px 0; font-size:12px; color:#222;}
+.leftCon {float:left; width:856px;}
+.leftCon .reconCon  {margin-top:30px;}
+.leftCon .reconCon h2 {padding:10px 0; font-size:12px; color:#222;}
 .rightCon {float:left; width:544px; height:1000px;}
 
 

@@ -381,7 +381,7 @@
 	   	}
        
 </script> 
-		<div id="leftCon">
+		<div class="leftCon">
 		
 			<div class="mainBann">
 				<img alt="" src="<%=request.getContextPath() %>/resources/images/metroMap.jpg"  usemap="#mazzipMetroImgMap" style="margin-top: 15px;margin-bottom: 15px;">

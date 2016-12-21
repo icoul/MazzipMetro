@@ -59,7 +59,7 @@
 	#pagination {margin:10px auto;text-align: center;}
 	#pagination a {display:inline-block;margin-right:0px;}
 	#pagination .on {font-weight: bold; cursor: default;color:#777;}
-	#realReview {position:absolute; right:184px; height:40px; font-size: 25pt; font-weight: bold;}
+	/* #realReview {position:absolute; right:184px; height:40px; font-size: 25pt; font-weight: bold;} */
 </style>
   
 <script>
@@ -365,7 +365,7 @@
            }// end of MainReview
 //////////////////////////////////////////////////////////////////////////////////////////////////        
 </script>  
-<div id="leftCon">
+<div class="leftCon">
 	<div class="mainBann">
 	
 	<img alt="" src="<%=request.getContextPath() %>/resources/images/metroMap.jpg"  usemap="#mazzipMetroImgMap" style="margin-top: 15px;margin-bottom: 15px;">
@@ -419,8 +419,8 @@
 
 <%-- end of leftCon --%>
 		
-<div id="rightCon">
-	<!-- <div class="realTimeAppra" style="margin-top:20px;"> -->
+<div class="rightCon">
+	<div class="realTimeAppra">
 		<div id="realReview" ><img style="width: 50px; height: 50px;" src="<%= request.getContextPath() %>/resources/images/pizza.png">&nbsp;실시간 리뷰&nbsp;<img style="width: 50px; height: 50px;" src="<%= request.getContextPath() %>/resources/images/hamburger.png"></div>
 		<div id="Scroller" class="Scroller" style="padding-top: 50px;"></div>
 	</div>
