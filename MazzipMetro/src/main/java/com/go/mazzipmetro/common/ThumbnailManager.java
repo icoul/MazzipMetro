@@ -46,6 +46,7 @@ public class ThumbnailManager {
 			dir.mkdirs();
 		
 		String pathFilename = path + File.separator + filename;//원본 파일 경로명
+		
 		String pathThumbnailFileName = path + File.separator + thumbnailFileName;
 		
 		File image = new File(pathFilename);

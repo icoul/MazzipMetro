@@ -247,10 +247,6 @@ function goLargeImgView(adImg) {
 	 </div>
 	 
 	 <!-- 음식점 메인 이미지 -->
-	 <%-- <div id="restMainImge" style="width: 50%;clear:both; float: left; margin-bottom: 30px;" align="center">
-	 	<img src="<%=request.getContextPath()%>/files/${restvo.restImg}" width="500px;" >
-	 </div> --%>
-	 
 	 <div id="restMainImge" style="width: 50%; clear:both; float: left; margin-top: 50px; margin-bottom: 30px;" align="center">
 	 
 	 <div id="largeImg" style="float: left;  border: green solid 0px; width: 100%;">

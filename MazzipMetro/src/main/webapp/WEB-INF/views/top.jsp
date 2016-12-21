@@ -480,7 +480,7 @@ function getLoginUserInfo(){
 						<li>
 							<div class="dropdown">
 						  		<a class="drop_anchor">관리자메뉴</a>
-								  <div class="dropdown-content">
+								  <div class="dropdown-content" style="z-index:9999;">
 									<a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a>
 									<a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a>
 									<a href="<%=request.getContextPath()%>/adminContentList.eat">컨텐츠관리</a>
