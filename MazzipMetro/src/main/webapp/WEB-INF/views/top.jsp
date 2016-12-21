@@ -414,74 +414,46 @@ function getLoginUserInfo(){
 		<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
 			<div class="loginWrap">
 				<div class="loginInfo">
-<<<<<<< HEAD
-				<c:if test="${sessionScope.loginUser.userSort == 0}">
-					${sessionScope.loginUser.userName} <span> (일반) </span> | 
-				</c:if>
-				<c:if test="${sessionScope.loginUser.userSort == 1}">
-					${sessionScope.loginUser.userName} <span> (사업자) </span> | 
-				</c:if>                        
-					현재 마일리지: <span style="color:gold; margin-right: 30px;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userPoint }</fmt:formatNumber></span>
-					등급 : <span style="color: red;">
-							<c:if test="${sessionScope.loginUser.gradeName eq '흙수저'}">
-								<img src="<%=request.getContextPath()%>/resources/images/icoUserGrade01.png" width="8" height="15"> 
-							</c:if>
-							<c:if test="${sessionScope.loginUser.gradeName eq '구리수저'}">
-								<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade02.png" width="15" height="15" >
-							</c:if>
-							<c:if test="${sessionScope.loginUser.gradeName eq '은수저'}">
-								<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade03.png" width="15" height="15" >
-							</c:if>
-							<c:if test="${sessionScope.loginUser.gradeName eq '금수저'}">
-								<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade04.png" width="15" height="15" >
-							</c:if>
-							<c:if test="${sessionScope.loginUser.gradeName eq '다이아수저'}">
-								<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade05.png" width="15" height="15" >
-							</c:if>
-							<c:if test="${sessionScope.loginUser.gradeName eq '달인'}">
-								<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade06.png" width="15" height="15" >
-							</c:if>
-							<c:if test="${sessionScope.loginUser.gradeName eq '신'}">
-								<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade07.png" width="15" height="15" >
-							</c:if>
-							<c:if test="${sessionScope.loginUser.gradeName eq '초가집'}">
-								<img src="<%= request.getContextPath() %>/resources/images/icoBossGrade01.png" width="15" height="15" >
-							</c:if>
-							(${sessionScope.loginUser.gradeName })
-						 </span>
-					Exp: <span style="color: red;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userExp }</fmt:formatNumber>  
 					<span class="btnDesign"> 현재 마일리지 </span> &nbsp;
 					<span style="color:#008968; font-size:12px; font-stretch:narrower; margin-right: 10px; font-weight: bold;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userPoint }</fmt:formatNumber></span>
 					<span class="btnDesign"> 등급 </span> &nbsp;
+					
+						<c:if test="${sessionScope.loginUser.gradeName eq '흙수저'}">
+							<img src="<%=request.getContextPath()%>/resources/images/icoUserGrade01.png" width="8" height="15"> 
+						</c:if>
+						<c:if test="${sessionScope.loginUser.gradeName eq '구리수저'}">
+							<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade02.png" width="15" height="15" >
+						</c:if>
+						<c:if test="${sessionScope.loginUser.gradeName eq '은수저'}">
+							<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade03.png" width="15" height="15" >
+						</c:if>
+						<c:if test="${sessionScope.loginUser.gradeName eq '금수저'}">
+							<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade04.png" width="15" height="15" >
+						</c:if>
+						<c:if test="${sessionScope.loginUser.gradeName eq '다이아수저'}">
+							<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade05.png" width="15" height="15" >
+						</c:if>
+						<c:if test="${sessionScope.loginUser.gradeName eq '달인'}">
+							<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade06.png" width="15" height="15" >
+						</c:if>
+						<c:if test="${sessionScope.loginUser.gradeName eq '신'}">
+							<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade07.png" width="15" height="15" >
+						</c:if>
+						<c:if test="${sessionScope.loginUser.gradeName eq '초가집'}">
+							<img src="<%= request.getContextPath() %>/resources/images/icoBossGrade01.png" width="15" height="15" >
+						</c:if>
+	
+					
 					<span style="color: red; font-size:12px; font-stretch:narrower; font-weight: bold; margin-right: 10px;">${sessionScope.loginUser.gradeName }</span>
 					<span class="btnDesign">Exp</span>
 					<span style="color: red; font-size:12px; font-stretch:narrower; font-weight: bold; margin-right: 10px;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userExp }</fmt:formatNumber>  
-					<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG1'}">
-						/ 200
-					</c:if>
-					<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG2'}">
-						/ 750
-					</c:if>
-					<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG3'}">
-						/ 1200
-					</c:if>
-					<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG4'}">
-						/ 3500
-					</c:if>
-					<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG5'}">
-						/ 5000
-					</c:if>
-					<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG6'}">
-						/ 10000
-					</c:if>
-					</span>
-					<c:if test="${sessionScope.loginUser.userSort == 0}">
-					<span class="fontDesign" style="font-weight: bold;">${sessionScope.loginUser.userName}</span>
-					 <span style="color: #000; font-size:12px; font-stretch:narrower; margin-right:10px; font-weight: bold;">님 환영합니다 </span>
-				</c:if>
-				<c:if test="${sessionScope.loginUser.userSort == 1}">
-					${sessionScope.loginUser.userName} <span> (사업자) </span> | 
-				</c:if>
+		
+		
+		
+		
+		
+					
+		
 				<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
 					<button type="button" class="btn btnLogout"  onClick="goLogOut();"><span class = "logOut">로그아웃</span></button>
 				</c:if>
