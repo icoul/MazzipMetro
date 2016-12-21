@@ -450,7 +450,7 @@
 		<%-- end of leftCon --%>
 		
 		<div class="rightCon" style = "height : 730px;">
-			<div style="background-color: yellow; font-size: 25pt; font-weight: bold;" id="realReview" >실시간 리뷰</div>
+			<div id="realReview" ><img style="width: 50px; height: 50px;" src="<%= request.getContextPath() %>/resources/images/pizza.png">&nbsp;실시간 리뷰&nbsp;<img style="width: 50px; height: 50px;" src="<%= request.getContextPath() %>/resources/images/hamburger.png"></div>
 			<div id="Scroller" class="Scroller">
 			</div>
 
