@@ -32,7 +32,6 @@ function getLoginUserInfo(){
 			$(".dropdown-content").css('display','none');
 		});	
 		
-		
 		//가고싶다 상단의 배너
 		wantGoContentView();
 
@@ -415,6 +414,7 @@ function getLoginUserInfo(){
 		<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
 			<div class="loginWrap">
 				<div class="loginInfo">
+<<<<<<< HEAD
 				<c:if test="${sessionScope.loginUser.userSort == 0}">
 					${sessionScope.loginUser.userName} <span> (일반) </span> | 
 				</c:if>
@@ -450,7 +450,12 @@ function getLoginUserInfo(){
 							(${sessionScope.loginUser.gradeName })
 						 </span>
 					Exp: <span style="color: red;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userExp }</fmt:formatNumber>  
-					
+					<span class="btnDesign"> 현재 마일리지 </span> &nbsp;
+					<span style="color:#008968; font-size:12px; font-stretch:narrower; margin-right: 10px; font-weight: bold;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userPoint }</fmt:formatNumber></span>
+					<span class="btnDesign"> 등급 </span> &nbsp;
+					<span style="color: red; font-size:12px; font-stretch:narrower; font-weight: bold; margin-right: 10px;">${sessionScope.loginUser.gradeName }</span>
+					<span class="btnDesign">Exp</span>
+					<span style="color: red; font-size:12px; font-stretch:narrower; font-weight: bold; margin-right: 10px;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userExp }</fmt:formatNumber>  
 					<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG1'}">
 						/ 200
 					</c:if>
@@ -470,6 +475,16 @@ function getLoginUserInfo(){
 						/ 10000
 					</c:if>
 					</span>
+					<c:if test="${sessionScope.loginUser.userSort == 0}">
+					<span class="fontDesign" style="font-weight: bold;">${sessionScope.loginUser.userName}</span>
+					 <span style="color: #000; font-size:12px; font-stretch:narrower; margin-right:10px; font-weight: bold;">님 환영합니다 </span>
+				</c:if>
+				<c:if test="${sessionScope.loginUser.userSort == 1}">
+					${sessionScope.loginUser.userName} <span> (사업자) </span> | 
+				</c:if>
+				<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
+					<button type="button" class="btn btnLogout"  onClick="goLogOut();"><span class = "logOut">로그아웃</span></button>
+				</c:if>
 				</div> 
 			</div>
 		</c:if>	
@@ -520,12 +535,12 @@ function getLoginUserInfo(){
 				</div>
 				
 				<!-- 검색바 -->
-				<div  id="search_div" align="center" style="position: absolute; top: 21px; left: 750px; width: 35%;">
+				<div  id="search_div" align="center" style="position: absolute; top: 21px; left: 950px; width: 30%;">
 				  <form name="searchFrm" id="searchFrm" onsubmit="return false;">
 				    <div class="input-group" style="width: 100%;">
 				      <input type="text" class="form-control" name="keyword" id="keyword" size="50" placeholder="검색어를 입력하세요!" onkeydown="goButton();" required>
 				      <div class="input-group-btn">
-				        <button type="button" class="btn btn-default" onclick="goSearch();" >검색</button>
+				        <button type="button" class="btn btnColor" onclick="goSearch();"><i class="glyphicon glyphicon-search"></i> &nbsp;<span>검색</button>
 				      </div>
 				    </div>
 				  </form>
@@ -537,10 +552,7 @@ function getLoginUserInfo(){
 				<button type="button" class="btnLogin" data-toggle="modal" data-target="#accountSelectModal">회원가입</button>
 				</c:if>
 				
-				<!-- 메뉴바 : top 우측-->
-				<c:if test="${sessionScope.loginUser.userSeq != null && not empty sessionScope.loginUser.userSeq}">
-					<button type="button" class="btnLogin" onClick="goLogOut();">로그아웃</button>
-				</c:if>
+				
 			</div>
 	</div>
 
