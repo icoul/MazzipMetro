@@ -312,6 +312,15 @@ input[name=reviewMdTag]:checked + label:before {
 		</c:forEach>
 		</c:if>
 		
+		// 리뷰 제목 글자 수 제한
+		$("#reviewTitle").keyup(function(){
+			var qnaCommentLength = $("#reviewTitle").val().length;
+			
+			if(18 < qnaCommentLength){
+				alert("입력가능한 글자수는18자 입니다");
+				$("#reviewTitle").val("");
+			}
+		});	
 		
 		
 		$("[name=taste-rating]").click(function(){
@@ -416,7 +425,6 @@ input[name=reviewMdTag]:checked + label:before {
 			<span style="color:skyblue">${rest.restmdtag}</span><br/>
 		</div>
 	
-		
 	 	<%-- >>>> 파일첨부하기 enctype="multipart/form-data" 을 해주어야만 파일첨부가 된다. --%>
 	 	
 		<div style="clear:both;" align="center">
@@ -668,46 +676,6 @@ input[name=reviewMdTag]:checked + label:before {
 					</tr>
 					</table>
 					
-					
-		         	<!-- <tr>
-		         		<th>테마</th>
-		         	</tr>
-		         	<tr align="center">	
-		         		<td>
-		         		<input type="checkbox"  class="theme" name="theme"   id="single" value="혼밥"   	 	/><label for="single">	혼밥		</label>&nbsp;&nbsp;
-		         		<input type="checkbox"  class="theme" name="theme"   id="family" value="가족"   	 	/><label for="family">	가족		</label>&nbsp;&nbsp;
-		         		<input type="checkbox"  class="theme" name="theme"   id="cost"   value="가성비"   	/><label for="cost">	가성비	</label>&nbsp;&nbsp;
-		         		<input type="checkbox"  class="theme" name="theme"   id="luxury" value="고급스러움"    /><label for="luxury">	고급스러움 </label><br/>
-		         		<input type="checkbox"  class="theme" name="theme"   id="drink"  value="술 안주"   	/><label for="drink">	술 안주	</label>&nbsp;&nbsp;
-		         		<input type="checkbox"  class="theme" name="theme"   id="night"  value="야식"   	 	/><label for="night">	야식		</label>&nbsp;&nbsp;
-		         		<input type="checkbox"  class="theme" name="theme"   id="feel"   value="분위기 좋음"   /><label for="feel">	분위기 좋음		</label>&nbsp;&nbsp;
-		         		<input type="checkbox"  class="theme" name="theme"   id="party"  value="회식"   	 	/><label for="party">	회식		</label>&nbsp;
-		         		</td>
-		         	</tr>	 -->
-		         	<!-- <tr>
-						<th><b>태그</b></th>
-					</tr>
-					<tr>	
-						<td align="center">
-						   <input type = "checkbox" class = "reviewBgTag" name = "reviewBgTag" id="korea" value="한식" /><label for="korea">한식</label>&nbsp;&nbsp;
-						   <input type = "checkbox" class = "reviewBgTag" name = "reviewBgTag" id="japan" value="양식" /><label for="japan">양식</label>&nbsp;&nbsp;
-						   <input type = "checkbox" class = "reviewBgTag" name = "reviewBgTag" id="china" value="일식" /><label for="china">일식</label>&nbsp;&nbsp;
-						   <input type = "checkbox" class = "reviewBgTag" name = "reviewBgTag" id="europe" value="중식" /><label for="europe">중식</label>&nbsp;&nbsp;
-						   <input type = "checkbox" class = "reviewBgTag" name = "reviewBgTag" id="india" value="동남아" /><label for="india">동남아</label>
-						</td>
-					</tr>
-					<br/>
-					<tr>
-						<td align="center">
-							<input type = "checkbox" class = "reviewMdTag" name = "reviewMdTag" id="meet" value="고기" /><label for="meet">고기류</label>&nbsp;&nbsp;
-							<input type = "checkbox" class = "reviewMdTag" name = "reviewMdTag" id="fish" value="물고기" /><label for="fish">어폐류</label>&nbsp;&nbsp;
-							<input type = "checkbox" class = "reviewMdTag" name = "reviewMdTag" id="vegetable" value="채소" /><label for="vegetable">채소류</label>&nbsp;&nbsp;
-							<input type = "checkbox" class = "reviewMdTag" name = "reviewMdTag" id="rice" value="밥" /><label for="rice">밥류</label>&nbsp;&nbsp;
-							<input type = "checkbox" class = "reviewMdTag" name = "reviewMdTag" id="noodle" value="면" /><label for="noodle">면류</label>
-						</td>
-					</tr> -->
-		         	
-				
 				<input type="hidden" name ="userSeq" value="${sessionScope.loginUser.userSeq}" />
 				<input type="hidden" name ="restSeq" value="${restSeq}" />
 				<br/>

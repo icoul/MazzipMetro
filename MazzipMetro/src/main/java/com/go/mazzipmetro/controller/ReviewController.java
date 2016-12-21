@@ -1,5 +1,6 @@
 package com.go.mazzipmetro.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -127,16 +128,15 @@ public class ReviewController {
 		ArrayList<String> imageList = new ArrayList<String>();	
 		
 		String root = session.getServletContext().getRealPath("/");
-		String path = root + "files";
-		
 		String newFileName = "";
 		byte[] bytes = null;
 
 		try{
-			for (int i = 0; i < fvo.getAttach().length; i++) {
-				
+			for (int i = 0; i < fvo.getAttach().length; i++) { 
+				String path = root + "files"+File.separator+"review";
 				bytes = fvo.getAttach()[i].getBytes();
 				newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[i].getOriginalFilename(), path);
+				path+=File.separator+"thumb";
 				thumbnailManager.doCreateThumbnail(newFileName, path);
 				
 				imageList.add(newFileName);

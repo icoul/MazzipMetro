@@ -438,14 +438,15 @@ public class RestaurantController {
 				path = root + "files/menu";
 				bytes = fvo.getAttach()[i].getBytes();
 				newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[i].getOriginalFilename(), path);
-				path += "/thumb";
+				
 				
 				if (newFileName == null && menuImg[i] == null) {
-					newFileName = "noimage.jpg";
+					newFileName = "noImage.jpg";
 				}
 				
 				if (newFileName == null && menuImg[i] != null) {
 					newFileName = menuImg[i];
+					thumbnailManager.doCreateThumbnail(newFileName, path);
 				}
 				
 				if (newFileName != null) {

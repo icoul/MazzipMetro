@@ -382,13 +382,14 @@ function goLargeImgView(adImg) {
 
 <!-- 차트 div입니다. -->
 <div style="width: 85%;">
+	<h2 style="margin-left: 220px;">나이별 통계 <span style="margin-left: 432px;">성별 통계</span></h2>
 	<div id="container" style="width: 50%; height: 300px; float: left"></div>
 	<div id="container2" style="width: 50%; height: 300px; left: 100px;float: left "></div>
 </div>
 	<%-- <h2>${restvo.restname}의 리뷰(${reviewList.size() })</h2> --%>
 	
 	
-	<div id="ReviewListAjax" style="clear:both;padding-top: 50px;"></div>
+	<div id="ReviewListAjax" style="clear:both;padding-top: 50px; width: 1290px; padding-left: 100px;"></div>
 	
 	<input type = "hidden" id = "StartRno" value = "1" />
 	<input type = "hidden" id = "EndRno" value = "5" />

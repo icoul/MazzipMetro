@@ -11,9 +11,6 @@
 .control-label {font-size: 14pt;}
 .order {font-size:2em;}
 
-body{ 
-    margin-top:40px; 
-}
 .stepwizard-step p {
     margin-top: 10px;
 }

@@ -381,7 +381,8 @@
 	<!-- 메뉴 수정하기 // SQL문 3개를 씁니다 -->
 	<insert id = "restaurant.menuEditInsert" parameterType="java.util.HashMap">
 		insert into TBL_Restaurant_Menu(menuSeq, restSeq, menuName, menuContent, menuImg, menuPrice, menuSalePrice, menuSort, menuEvent, menuStatus)
-		values (TBL_RESTAURANT_MENUSEQ.nextval, #{restSeq}, #{menuName}, #{menuContent}, #{menuImg}, #{menuPrice}, #{menuSalePrice}, #{menuSort},
+		values (TBL_RESTAURANT_MENUSEQ.nextval, #{restSeq}, #{menuName}, #{menuContent}, #{menuImg}
+			, #{menuPrice}, #{menuSalePrice}, #{menuSort},
 			<if test="menuEvent == null or menuEvent.equals('')">
 				null
 			</if>
