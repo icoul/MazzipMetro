@@ -166,7 +166,6 @@ public class RestaurantController {
 				
 			bytes = fvo.getAttach()[0].getBytes();
 			newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[0].getOriginalFilename(), path);
-			
 			thumbnailManager.doCreateThumbnail(newFileName, path);
 				
 		}catch (Exception e) {

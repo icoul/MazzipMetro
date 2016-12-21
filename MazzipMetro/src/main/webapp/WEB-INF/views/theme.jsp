@@ -21,12 +21,12 @@ table#dx_theme td{text-align: center; width: 100px; height:  50px;padding: 10px;
 
 
 /* 체크박스 대신 체크문자 사용하기 */
-input[type=checkbox] {  
+input[name=themeChk] {  
     display: none;  
 }
 
 /* ex) div + p	  Selects all <p> elements that are placed immediately after <div> elements*/
-input[type=checkbox] + label{
+input[name=themeChk] + label{
     display: inline-block;  
     cursor: pointer;  
     position: relative;  
@@ -35,7 +35,7 @@ input[type=checkbox] + label{
 }
 
 /* unchecked */
-input[type=checkbox]+ label:before {     
+input[name=themeChk]+ label:before {     
 
     content: ""; 
     display: inline-block;  
@@ -47,7 +47,7 @@ input[type=checkbox]+ label:before {
 }
 
 /* checked */
-input[type=checkbox]:checked + label:before { 
+input[name=themeChk]:checked + label:before { 
 
     content: "\2713";  /* 체크모양 */
     text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);  
@@ -281,7 +281,9 @@ function getGuMetroNameList(){
 		
 	</form>
 	
-	<div id="themeResult"></div>
+	<div id="themeResult" style="min-height: 500px; margin: auto;">
+		<p> 원하시는 테마를 선택해주세요.
+	</div>
 </div>
 
 
