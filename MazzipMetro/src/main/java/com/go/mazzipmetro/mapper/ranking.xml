@@ -604,4 +604,30 @@
 		)W
 		where  rank <![CDATA[>=]]> #{rankStartNum} and rank <![CDATA[<=]]> #{rankEndNum}
 	</select>
+	
+	
+	<!-- 인덱스 페이지 탑랭크 리뷰어가 추천한 맛집 이 곳의 맛집번호를 가져오는 메서드 -->
+	<resultMap type="java.util.HashMap" id="Top5ScoreRest">
+		<result column="restSeq"	  	    property="restSeq" 			    	javaType="String" />
+		<result column="reviewSeq"	  	    property="reviewSeq" 			    javaType="String" />
+	</resultMap>
+	
+	<select id = "ranking.getTop5ScoreRest" parameterType="String" resultMap="Top5ScoreRest">
+		select T.restSeq, T.reviewseq
+		from
+		(
+		select V.restSeq, V.reviewseq
+		from 
+		    (   
+		      select rownum as rno, restSeq, reviewseq
+		      from TBL_review
+		      where userSeq = #{userSeq}
+		      order by reviewavgscore desc
+		    )V
+		where rno between 1 and 5
+		order by dbms_random.value
+		)T
+		where rownum = 1
+	</select>
+	
 </mapper>

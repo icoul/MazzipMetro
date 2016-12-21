@@ -70,7 +70,7 @@
 			<li>
 				<h2>${list.rank}등. <a href = "<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${list.restSeq}">${list.restName}</a>. ${list.restBgTag}</h2>
 				<div class="photoDiv">
-					<div><img width="200px;" src="<%= request.getContextPath() %>/files/restaurant/${list.restImg}" /></div>
+					<div><img width="200px;" src="<%= request.getContextPath() %>/files/rest/${list.restImg}" /></div>
 				</div>
 				<div class="textDiv">
 					<dl>

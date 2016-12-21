@@ -21,7 +21,7 @@
 
 <table id = "mainContent">
 	<tr>
-		<td width = "50px;" rowspan="3"><img src = "<%=request.getContextPath()%>/files/restaurant/${rvo.restImg}" width="200px" /></td>
+		<td width = "50px;" rowspan="3"><img src = "<%=request.getContextPath()%>/files/rest/${rvo.restImg}" width="200px" /></td>
 		<td width = "10px;" rowspan="3" style = "border-right:solid lightgrey 3px;"></td>
 		<td class = "content" width = "400px;" style = "height : 50px; padding-top : 10px; "><span style = "font-size: 35pt; font-weight: bold; font-family: 맑은고딕">${rvo.restName}</span>&nbsp;${rvo.restBgTag}</td>
 	</tr>

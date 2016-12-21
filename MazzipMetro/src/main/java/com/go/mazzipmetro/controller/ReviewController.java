@@ -80,8 +80,15 @@ public class ReviewController {
 		String restSeq = req.getParameter("restSeq");
 		HashMap<String, String> rest= service.getRestaurant(restSeq);
 		
+		// 동현_태그 checkbox 속성 disabled를 위한 배열 생성 
+		String[] restBgTagArr = RestaurantController.tagToArray(rest.get("restbgtag"));
+		String[] restMdTagArr = RestaurantController.tagToArray(rest.get("restmdtag").replace("고기류", "고기").replace("어폐류", "물고기").replace("채소류", "채소").replace("밥류", "밥").replace("면류", "면"));
+		req.setAttribute("restBgTagArr", restBgTagArr);
+		req.setAttribute("restMdTagArr", restMdTagArr);
+		
 		req.setAttribute("rest", rest);
 		req.setAttribute("restSeq", restSeq);
+		
 		return "/review/reviewAdd";  
 		
 	}

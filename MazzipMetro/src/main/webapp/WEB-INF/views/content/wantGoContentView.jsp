@@ -7,7 +7,7 @@
 	</tr>	
 	<tr>
 		<td style = "padding : 5px; padding-left : 15px; width : 25%;">
-			<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${vo.restSeq}"><img width = "100px;" src="<%= request.getContextPath() %>/files/restaurant/${vo.restImg}" /></a>
+			<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${vo.restSeq}"><img width = "100px;" src="<%= request.getContextPath() %>/files/rest/${vo.restImg}" /></a>
 		</td>
 		<td style = "padding-top : 6px; line-height: 26pt;">
 			<span style = "font-size: 25pt; font-weight: bold;">${vo.restName}</span><br/>

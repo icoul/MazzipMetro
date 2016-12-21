@@ -116,16 +116,19 @@
 							}
 						});
 	}
+	
 </script>
 
 </head>
-<body bgcolor="fff0f5">
 
 <span style="font-size: 10pt;">가게명 '${name}'의 검색결과입니다</span>
 
 <form name = "searchFrm" action = "restCheck.eat" method = "get">
 	<input type = "text" name = "name" id = "searchWord" value = "" />&nbsp;
-	<button type = "button" onClick = "goSearch();">검색</button>
+	<button type = "button" onClick = "goSearch();">검색</button>&nbsp;
+	<c:if test="${not empty nameList}">
+		<button type = "button" onClick="goMove();">확인</button>
+	</c:if>
 </form>
 
 <div align="center">
@@ -148,22 +151,21 @@
 	    	<td>찾으시는 업장을 클릭하시고 맞으면 확인을 눌러주세요</td>
 	    </tr>
 	  <c:forEach var="list" items="${nameList}" varStatus="status">
-	  <c:if test = "${status.index < 10}">
 	    <tr>
       	   <td onClick="goInput('${list.restName}', '${list.restAddr}', '${list.restNewAddr}', '${list.restPhone}', '${list.restSeq}');">
 	      	 <input type = "radio" id = "restName${status.index}" name = "restName" class = "restName" value = "${list.restAddr}" />
 		       <label for = "restName${status.index}">
 		      	 <span style = "cursor: pointer;">${list.restName}</span>
 	      	   </label>
+	      	    <br/>
       	   </td>
         </tr>
-       </c:if> 
 	  </c:forEach>
-	  <tr>
-	  	  <td><button type = "button" onClick="goMove();">확인</button></td>
-	  </tr>
 	</c:if>
 </table>
+<c:if test="${not empty nameList}">
+	<div>${html}</div>
+</c:if>
 	<input type = "hidden" id = "name" value="" />
 	<input type = "hidden" id = "addr" value="" />
 	<input type = "hidden" id = "newAddr" value="" />
