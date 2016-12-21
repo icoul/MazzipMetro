@@ -18,7 +18,7 @@
 function getLoginUserInfo(){
 		
 	 	//alert('로그인 정보를 갱신하는 함수를 따로 만들었습니다. 사용자 정보가 바뀌는 경우 이 함수를 호출해 주세요~');
-		/* $.getJSON("loginUserInfo.do", function(data){
+		/* $.getJSON("UserInfo.do", function(data){
 		
 		}); // end of $.getJSON();	 */
 		
@@ -122,6 +122,21 @@ function getLoginUserInfo(){
 			loginSubmit();
 		});
 		
+		//우철: enter 로그인
+		$(".modal-content").keyup(function(event) {
+            if (event.which == 13) {
+            	var dx_userId = $("#dx_userId").val().trim();
+    			var dx_password = $("#dx_password").val().trim();
+    			if(dx_password.length == 0 || dx_userId.length == 0){
+    				alert('아이디와 비밀번호를 입력해주세요.');
+    				return;
+    			}
+    			$("#dx_userId").val(dx_userId);
+    			$("#dx_password").val(dx_password);
+            	loginSubmit();
+        	}	
+        });
+		
 		
 		//SideMenu 활성화 관련 이벤트 
   		$("#mySidenavTrigger").mouseover(function(){
@@ -200,7 +215,7 @@ function getLoginUserInfo(){
   		})(jQuery)	
   		
   		
-	});
+	});// end of ready
 	
 	function loginSubmit(){
 		$("#dx_loginFrm").submit();
@@ -209,6 +224,7 @@ function getLoginUserInfo(){
 	function goLogin(){
 		var $modal = $('#loginModal');
     	$modal.modal();
+    	$("#dx_userId").focus();
 	}
 	
 	function goLogOut(){

@@ -164,7 +164,7 @@ footer .copyRight {color:#8a8a8a;}
 	
 
 /* 메인 페이지 실시간 리뷰  div 및 table */
-#Scroller {position:absolute; height:400px;  width:270px;  margin-top:50px; right:320px; } 
+#Scroller {position:absolute; height:400px;  width:270px;  margin-top:50px;} 
 #Scroller table {border:0px; position:relative;}
 
 /* 미현 -- 서브페이지레이아웃,검색바,테이블,버튼*/

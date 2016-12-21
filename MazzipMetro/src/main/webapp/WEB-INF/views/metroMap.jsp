@@ -422,7 +422,7 @@
 <div class="rightCon">
 	<div class="realTimeAppra">
 		<div id="realReview" ><img style="width: 50px; height: 50px;" src="<%= request.getContextPath() %>/resources/images/pizza.png">&nbsp;실시간 리뷰&nbsp;<img style="width: 50px; height: 50px;" src="<%= request.getContextPath() %>/resources/images/hamburger.png"></div>
-		<div id="Scroller" class="Scroller" style="padding-top: 50px;"></div>
+		<div id="Scroller" class="Scroller"></div>
 	</div>
 </div>
 <%-- end of rightCon --%>	
