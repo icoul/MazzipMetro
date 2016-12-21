@@ -422,7 +422,33 @@ function getLoginUserInfo(){
 					${sessionScope.loginUser.userName} <span> (사업자) </span> | 
 				</c:if>                        
 					현재 마일리지: <span style="color:gold; margin-right: 30px;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userPoint }</fmt:formatNumber></span>
-					등급 : <span style="color: red;">${sessionScope.loginUser.gradeName }</span>
+					등급 : <span style="color: red;">
+							<c:if test="${sessionScope.loginUser.gradeName eq '흙수저'}">
+								<img src="<%=request.getContextPath()%>/resources/images/icoUserGrade01.png" width="8" height="15"> 
+							</c:if>
+							<c:if test="${sessionScope.loginUser.gradeName eq '구리수저'}">
+								<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade02.png" width="15" height="15" >
+							</c:if>
+							<c:if test="${sessionScope.loginUser.gradeName eq '은수저'}">
+								<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade03.png" width="15" height="15" >
+							</c:if>
+							<c:if test="${sessionScope.loginUser.gradeName eq '금수저'}">
+								<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade04.png" width="15" height="15" >
+							</c:if>
+							<c:if test="${sessionScope.loginUser.gradeName eq '다이아수저'}">
+								<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade05.png" width="15" height="15" >
+							</c:if>
+							<c:if test="${sessionScope.loginUser.gradeName eq '달인'}">
+								<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade06.png" width="15" height="15" >
+							</c:if>
+							<c:if test="${sessionScope.loginUser.gradeName eq '신'}">
+								<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade07.png" width="15" height="15" >
+							</c:if>
+							<c:if test="${sessionScope.loginUser.gradeName eq '초가집'}">
+								<img src="<%= request.getContextPath() %>/resources/images/icoBossGrade01.png" width="15" height="15" >
+							</c:if>
+							(${sessionScope.loginUser.gradeName })
+						 </span>
 					Exp: <span style="color: red;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userExp }</fmt:formatNumber>  
 					
 					<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG1'}">
