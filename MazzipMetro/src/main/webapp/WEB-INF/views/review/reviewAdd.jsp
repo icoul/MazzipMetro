@@ -192,7 +192,7 @@ input[name=reviewMdTag]:checked + label:before {
 
 	
 	
-
+	//우철_총 평점
 	function getTotalRating(){
 		
 		var total;
@@ -223,7 +223,8 @@ input[name=reviewMdTag]:checked + label:before {
 
 		
 	}
-
+	
+	// 우철_리뷰 쓰기
 	function goWrite(event) {
 		
 		var reviewTitle = $('#reviewTitle').val();
@@ -271,17 +272,12 @@ input[name=reviewMdTag]:checked + label:before {
 		writeFrm.submit();
 	}
 
+	// 우철_취소버튼
 	function goReset() {
 		var writeFrm = document.writeFrm;
 		writeFrm.reset();
 		$("#result").empty();
 	}
-
-	function goList() {
-		var writeFrm = document.writeFrm;
-		location.href = "<%= request.getContextPath() %>/list.action";
-	}
-
 	
 	$(document).ready(function(){
 		
@@ -336,7 +332,7 @@ input[name=reviewMdTag]:checked + label:before {
 		});
 		
 
-		
+		// 우철_ 분위기평점
 		$("[name=mood-rating]").click(function(){
 			
 			var html = "";
@@ -351,7 +347,7 @@ input[name=reviewMdTag]:checked + label:before {
 		});
 		
 
-		
+		// 우철_ 가격평점
 		$("[name=price-rating]").click(function(){
 			var html = "";
 			var price = $(':radio[name=price-rating]:checked').val();
@@ -364,7 +360,7 @@ input[name=reviewMdTag]:checked + label:before {
 			getTotalRating();
 		});
 		
-		
+		// 우철_ 서비스평점
 		$("[name=service-rating]").change(function(){
 			var html = "";
 			var service = $(':radio[name=service-rating]:checked').val();
@@ -381,7 +377,7 @@ input[name=reviewMdTag]:checked + label:before {
 		
 			
 		
-		
+		// 우철_ 사진넣기
 		$("#attachNum").bind("change", function(){
 		
 			var html = "";

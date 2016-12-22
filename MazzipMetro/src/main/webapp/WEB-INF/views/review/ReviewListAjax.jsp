@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style>
+/* 더보기 버튼 css */
 #btn_more {
 	-moz-box-shadow: 3px 4px 0px 0px #899599;
 	-webkit-box-shadow: 3px 4px 0px 0px #899599;
@@ -94,9 +95,40 @@ input.btn_dislike {
 }
 input.report {
 	  border:0; width:30px; height:30px; background: url('http://localhost:9090/mazzipmetro/resources/images/icosiren.png') no-repeat;
+	  border-radius: 10px;
 }
+
+input#reviewAdd{
+  background: #3498db;
+  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+  background-image: -o-linear-gradient(top, #3498db, #2980b9);
+  background-image: linear-gradient(to bottom, #3498db, #2980b9);
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  font-family: Georgia;
+  color: #ffffff;
+  font-size: 25px;
+  padding: 10px 20px 10px 20px;
+  border: solid #1f628d 0px;
+  text-decoration: none;
+}
+
+input#reviewAdd:hover {
+  background: #3cb0fd;
+  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  text-decoration: none;
+}
+
 </style>
 <script type="text/javascript">
+// 우철_리뷰 더보기 버튼
 function btnMore(){
 	var Five = 5;
 	var EndRno = $("#EndRno").val();
@@ -106,7 +138,7 @@ function btnMore(){
 	getReviewList();
 }//end of btnMore
 
-// 좋아요 취소
+// 우철_좋아요 취소
 function DownHit(reviewSeq, likeId){
 	 $.ajax({ 
 		 	
@@ -120,7 +152,7 @@ function DownHit(reviewSeq, likeId){
 		});//end of $.ajax()
 } // end of DownHit
 
-// 좋아요 누르기 
+// 우철_좋아요 누르기 
 function upHit(reviewSeq, likeId){
 	 $.ajax({ 
 		 	
@@ -138,7 +170,7 @@ function upHit(reviewSeq, likeId){
 		});//end of $.ajax()
 } // end of upHit
 
-// 좋아요 누른사람을 tbl_liker에 넣기
+// 우철_좋아요 누른사람을 tbl_liker에 넣기
 function insert_Liker(reviewSeq, likeId){
 	 $.ajax({ 
 		 	
@@ -152,6 +184,7 @@ function insert_Liker(reviewSeq, likeId){
 		});//end of $.ajax()
 } // end of insert_Liker
 
+// 우철_좋아요 버튼 클릭시 함수 호출(로그인 필수)
 function insertAndUpHit(reviewSeq, likeId){
 	
 	<c:if test="${UserSeq == null}">
@@ -167,6 +200,7 @@ function insertAndUpHit(reviewSeq, likeId){
 		
 } // end of upAndDownHit
 
+// 우철_리뷰달기
 function goReviewAdd(restSeq){
 	<c:if test="${UserSeq == null}">
 	alert("로그인 후에 이용해주세요.");
@@ -184,10 +218,12 @@ function goReviewAdd(restSeq){
 
 $(document).ready(function(){
 	
+	// 위로 버튼
 	$("#goTop").click(function(){
 		document.body.scrollTop = 0;
  }); 
 
+	// 아래로 버튼
  $("#goBottom").click(function(){
 	document.body.scrollTop = document.body.scrollHeight;
  });
@@ -197,7 +233,9 @@ $(document).ready(function(){
 </script>
 
 <h2 style="float: left">${restvo.restname}의 리뷰(${TotalReviewCount })</h2>
-<input type="button" id="reviewAdd" name="reviewAdd" value="리뷰쓰기 " style="float: left; margin-left: 580px;" onClick="goReviewAdd('${restSeq}');" /> 	
+<h2>
+<input type="button" id="reviewAdd" name="reviewAdd" value="리뷰쓰기 " style="float: left; margin-left: 504px;"  onClick="goReviewAdd('${restSeq}');" />
+</h2> 	
   	<p align="right" style="clear: both;">
 		<button type="button" class="btn_srollbar" id="goBottom" >아래로</button>
 	</p>
