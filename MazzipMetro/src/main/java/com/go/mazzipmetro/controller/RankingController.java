@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.go.mazzipmetro.service.RankingService;
 import com.go.mazzipmetro.vo.RankingVO;
+import com.go.mazzipmetro.vo.RestaurantAdVO;
+import com.go.mazzipmetro.vo.RestaurantVO;
+import com.go.mazzipmetro.vo.ReviewVO;
+import com.go.mazzipmetro.vo.UserVO;
 
 
 @Controller
@@ -361,8 +365,17 @@ public class RankingController {
 		
 		seqList.put("userSeq", userSeq);
 		
+		RestaurantVO restvo = service.getRestInfo(seqList);
+		ReviewVO reviewvo = service.getReviewInfo(seqList);
+		UserVO uservo = service.getUserInfo(seqList);
+		List<String> adImage = service.getRestAdInfo(seqList);
 		
-		return "ranking/0";
+		req.setAttribute("restvo", restvo);
+		req.setAttribute("reviewvo", reviewvo);
+		req.setAttribute("uservo", uservo);
+		req.setAttribute("adImage", adImage);
+		
+		return "ranking/topReviewerRecommend";
 	}
 	
 	

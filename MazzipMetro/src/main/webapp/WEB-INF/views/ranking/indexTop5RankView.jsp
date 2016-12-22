@@ -4,7 +4,7 @@
 <style>
 	td {line-height: 15pt;}
 </style>
-<table>
+<table style = "width : 100%;">
 	<tr>  
 <c:forEach var="list" items="${mapList}" begin="0" end="4" >
 			<td style = "padding : 5px;">
