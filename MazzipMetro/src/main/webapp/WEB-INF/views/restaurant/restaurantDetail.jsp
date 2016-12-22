@@ -174,6 +174,7 @@ $(function () {
  
 })(jQuery)
  
+ // 우철_ 리뷰리스트 불러오기
  function getReviewList(){
 	 
 	 var form_data = {
@@ -198,7 +199,7 @@ $(function () {
 	
  }
  
- 
+
 function goLargeImgView(adImg) {
 	$.ajax({ 
 		url : "getLargeAdImgFilename.eat", 	
@@ -427,7 +428,7 @@ function goLargeImgView(adImg) {
 
 <!-- 차트 div입니다. -->
 <div style="width: 85%;">
-	<h2 style="margin-left: 220px;">나이별 통계 <span style="margin-left: 432px;">성별 통계</span></h2>
+	<h2 style="margin-left: 220px;">나이별 통계 <span style="margin-left: 457px;">성별 통계</span></h2>
 	<div id="container" style="width: 50%; height: 300px; float: left"></div>
 	<div id="container2" style="width: 50%; height: 300px; left: 100px;float: left "></div>
 </div>

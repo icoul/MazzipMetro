@@ -10,14 +10,14 @@ table#dx_theme th{text-align: center; width: 100px; height: 25px;padding: 5px;bo
 table#dx_theme td{text-align: center; width: 100px; height:  50px;padding: 10px;border: solid 1px gray;}
 
 
-#theme_icon_single 		{width:60px; height: 45px; background:url("<%=request.getContextPath()%>/resources/images/theme_icon_single.png") no-repeat; background-position: center}
-#theme_icon_family 	{width:60px; height: 45px; background:url("<%=request.getContextPath()%>/resources/images/theme_icon_family.png") no-repeat; background-position: center 5}
-#theme_icon_cost 		{width:60px; height: 45px; background:url("<%=request.getContextPath()%>/resources/images/theme_icon_cost.png") no-repeat; background-position: center 5}	
-#theme_icon_luxury 	{width:60px; height: 45px; background:url("<%=request.getContextPath()%>/resources/images/theme_icon_luxury.png") no-repeat; background-position: center 5}
-#theme_icon_forDrink {width:60px; height: 45px; background:url("<%=request.getContextPath()%>/resources/images/theme_icon_forDrink.png") no-repeat; background-position: center 5}
-#theme_icon_night 		{width:60px; height: 45px; background:url("<%=request.getContextPath()%>/resources/images/theme_icon_night.png") no-repeat; background-position: center 5}
-#theme_icon_mood 		{width:60px; height: 45px; background:url("<%=request.getContextPath()%>/resources/images/theme_icon_mood.png") no-repeat; background-position:center 5}
-#theme_icon_people 	{width:60px; height: 45px; background:url("<%=request.getContextPath()%>/resources/images/theme_icon_people.png") no-repeat; background-position: center 5}
+#theme_icon_single 		{background:url("<%=request.getContextPath()%>/resources/images/theme_icon_single.png") no-repeat; background-position: center}
+#theme_icon_family 	{background:url("<%=request.getContextPath()%>/resources/images/theme_icon_family.png") no-repeat; background-position: center 5}
+#theme_icon_cost 		{background:url("<%=request.getContextPath()%>/resources/images/theme_icon_cost.png") no-repeat; background-position: center 5}	
+#theme_icon_luxury 	{ background:url("<%=request.getContextPath()%>/resources/images/theme_icon_luxury.png") no-repeat; background-position: center 5}
+#theme_icon_forDrink { background:url("<%=request.getContextPath()%>/resources/images/theme_icon_forDrink.png") no-repeat; background-position: center 5}
+#theme_icon_night 		{ background:url("<%=request.getContextPath()%>/resources/images/theme_icon_night.png") no-repeat; background-position: center 5}
+#theme_icon_mood 		{background:url("<%=request.getContextPath()%>/resources/images/theme_icon_mood.png") no-repeat; background-position:center 5}
+#theme_icon_people 	{background:url("<%=request.getContextPath()%>/resources/images/theme_icon_people.png") no-repeat; background-position: center 5}
 
 
 /* 체크박스 대신 체크문자 사용하기 */
@@ -40,9 +40,9 @@ input[name=themeChk]+ label:before {
     content: ""; 
     display: inline-block;  
     width: 29px;  
-    height: 19px;  
+    height: 18px;  
     margin-right: 10px;  
-    position: relative;  
+    position: absolute;  
     left: 0;  
 }
 
@@ -51,13 +51,13 @@ input[name=themeChk]:checked + label:before {
 
     content: "\2713";  /* 체크모양 */
     text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);  
-    font-size: 24px; 
+    font-size: 53px; 
     font-weight:800; 
     color: red;
     width: 29px;  
-    height: 19px; 
-    text-align: center;  
-    line-height: 22px;  
+    height: 18px; 
+    text-align: center; 
+    line-height: 20px;  
 
 } 
 

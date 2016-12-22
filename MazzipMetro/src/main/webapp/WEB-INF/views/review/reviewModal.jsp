@@ -23,6 +23,10 @@
 	border: navy solid 1px;
   }
   
+  input.report {
+	  border:0; width:30px; height:30px; background: url('http://localhost:9090/mazzipmetro/resources/images/icosiren.png') no-repeat;
+	  border-radius: 10px;
+}
 
   </style>
 
@@ -383,7 +387,9 @@
 <div class="container">
 	<table class="table">
 		<tr>
+			<input type="button" style="float: right" class="report" onClick="" />
 			<th>${restName}</th>
+			
 		</tr>
 		
 		<tr>
