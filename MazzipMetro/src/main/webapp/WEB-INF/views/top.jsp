@@ -458,7 +458,10 @@ function getLoginUserInfo(){
 					</c:if>
 					<c:if test="${sessionScope.loginUser.userSort == 1}">
 						<span class="btnDesign"> 현재 포인트 </span> &nbsp;
-					</c:if>	
+					</c:if>
+					<c:if test="${sessionScope.loginUser.userSort == 2}">
+						<span class="btnDesign"> 현재 포인트 </span> &nbsp;
+					</c:if>		
 						<span style="color:#008968; font-size:12px; font-stretch:narrower; margin-right: 10px; font-weight: bold;"><fmt:formatNumber pattern="#,###,###,###">${sessionScope.loginUser.userPoint }</fmt:formatNumber></span>
 						<span class="btnDesign"> 등급 </span> &nbsp;
 							<c:if test="${sessionScope.loginUser.gradeName eq '흙수저'}">

@@ -205,7 +205,8 @@ function restList(){
 		<td><a href="<%= request.getContextPath()%>/couponList.eat">쿠폰</a></td>
 		<td>${coupon}</td>
 	</tr>
-	<c:if test="${userGuAliasList !=null or userDongAliasList !=null or userMetroAliasList !=null or userRestTagAliasList !=null}">
+	<%-- <c:if test="${userGuAliasList !=null or userDongAliasList !=null or userMetroAliasList !=null or userRestTagAliasList !=null}"> --%>
+	<c:if test="${not empty userGuAliasList or not empty userDongAliasList or not empty userMetroAliasList or not empty userRestTagAliasList}">
 		<tr>
 			<td rowspan="4" width="11%">획득한 칭호</td>
 			<td width="11%">구별</td>
