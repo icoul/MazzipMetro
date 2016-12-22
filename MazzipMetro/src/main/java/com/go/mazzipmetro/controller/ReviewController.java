@@ -50,7 +50,7 @@ public class ReviewController {
 		String reviewregdate = req.getParameter("reviewregdate");
 
 		List<HashMap<String,String>> reviewImageList = service.getReviewImageList(reviewseq);
-		
+		int reviewCommentTotalCount = service.getReviewCommentTotalCount(reviewseq);
 		
 		req.setAttribute("restName", restname);
 		req.setAttribute("userName", username);
@@ -59,6 +59,7 @@ public class ReviewController {
 		req.setAttribute("reviewRegDate", reviewregdate);
 		req.setAttribute("reviewImageList", reviewImageList);
 		req.setAttribute("reviewseq", reviewseq);
+		req.setAttribute("reviewCommentTotalCount", reviewCommentTotalCount);
 		return "review/reviewModal";
 	}
 	
@@ -281,13 +282,10 @@ public class ReviewController {
 		String commentSeq = req.getParameter("commentSeq");
 		String groupNo = req.getParameter("groupNo");
 		String depthNo = req.getParameter("depthNo");
-
-		System.out.println("==============================" + reviewSeq + " " + comment + " " + commentSeq + " " + groupNo + " " + depthNo + " ");
 		
 		int result = 0;
 		
 		if(commentSeq == null && groupNo == null && depthNo == null){ //원 댓글일떄
-			System.out.println("==============================원댓글");
 			String groupNo1 = service.getReviewCommentMaxGroupNo();
 			
 			int groupNo2 = Integer.parseInt(groupNo1) + 1;
@@ -301,7 +299,6 @@ public class ReviewController {
 			}
 			
 		}else if(commentSeq != null && groupNo != null && depthNo != null){ //댓글의 댓글일때
-			System.out.println("==============================댓글의 댓글");
 			result = service.insertCommmentComment(loginUser.getUserSeq(), reviewSeq, comment, commentSeq, groupNo, Integer.parseInt(depthNo)+1);
 			
 			if(result == 2){
@@ -318,8 +315,25 @@ public class ReviewController {
 	@RequestMapping(value="/getReviewComment.eat", method={RequestMethod.GET} ) 
 	public String getReviewComment(HttpServletRequest req, HttpSession session) {
 		String reviewSeq = req.getParameter("reviewSeq");
+		String start = req.getParameter("start");    // 1, 3, 5....
+		String len = req.getParameter("len");        // 2개씩   더보기.. 클릭에 보여줄 상품의 갯수 단위크기   
+			
+		if (start == null) {
+			start = "1";
+		}
+		if (len == null) {
+			len = "2";
+		}
+	
+		HashMap<String,String> hashMap = new HashMap<String,String>();
 		
-		List<ReviewCommentVO> reviewCommentList = service.getReviewCommentList(reviewSeq);
+		int startRno = Integer.parseInt(start);          // 공식!! 시작 행번호   1               3               5
+		int endRno   = startRno+Integer.parseInt(len)-1;
+		
+		hashMap.put("reviewSeq", reviewSeq);
+		hashMap.put("startRno", String.valueOf(startRno));
+		hashMap.put("endRno", String.valueOf(endRno));
+		List<ReviewCommentVO> reviewCommentList = service.getReviewCommentList(hashMap);
 		
 		List<JSONObject> reviewCommentListJSON = new ArrayList<JSONObject>();
 		for(int i = 0; i < reviewCommentList.size(); ++i){
@@ -355,6 +369,99 @@ public class ReviewController {
 		
 		req.setAttribute("reviewCommentListJSON", reviewCommentListJSON);
 		return "/review/getReviewCommentJSON";
+	}
+	
+	@RequestMapping(value="/commentMoreView.eat", method={RequestMethod.GET} ) 
+	public String commentMoreView(HttpServletRequest req, HttpSession session) {
+		String commentSeq = req.getParameter("commentSeq");    // 1, 3, 5....
+
+		List<ReviewCommentVO> commentCommentList = service.getCommentCommentList(commentSeq);
+		
+		List<JSONObject> commentCommentListJSON = new ArrayList<JSONObject>();
+		for(int i = 0; i < commentCommentList.size(); ++i){
+			String commentSeq2 = commentCommentList.get(i).getCommentSeq();
+			String userName = commentCommentList.get(i).getUserName();
+			String userProfile = commentCommentList.get(i).getUserProfile();
+			String content = commentCommentList.get(i).getContent(); 
+			String commentCount = commentCommentList.get(i).getCommentCount(); 
+			String groupNo = commentCommentList.get(i).getGroupno(); 
+			String fk_seq = commentCommentList.get(i).getFk_seq(); 
+			String depthNo = commentCommentList.get(i).getDepthno();
+			String agoDay = commentCommentList.get(i).getAgoDay();
+			String agoHour = commentCommentList.get(i).getAgoHour();
+			String agoMinute = commentCommentList.get(i).getAgoMinute();
+			
+			
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("commentSeq", commentSeq2);
+			jsonObj.put("userName", userName);
+			jsonObj.put("userProfile", userProfile);
+			jsonObj.put("content", content);
+			jsonObj.put("commentCount", commentCount);
+			jsonObj.put("groupNo", groupNo);
+			jsonObj.put("fk_seq", fk_seq);
+			jsonObj.put("depthNo", depthNo);
+			jsonObj.put("agoDay", agoDay);
+			jsonObj.put("agoHour", agoHour);
+			jsonObj.put("agoMinute", agoMinute);
+			
+			
+			commentCommentListJSON.add(jsonObj);
+		}
+		
+		
+		req.setAttribute("commentCommentListJSON", commentCommentListJSON);
+		return "/review/getCommentCommentJSON";
+	}
+	
+	@RequestMapping(value="/deleteReviewComment.eat", method={RequestMethod.POST} ) 
+	public String deleteReviewComment(HttpServletRequest req, HttpSession session) {
+		String commentSeq = req.getParameter("commentSeq");
+		String fk_seq = req.getParameter("fk_seq");
+		System.out.println("=============================="+commentSeq);
+		int commentCount = service.getCommentCount(commentSeq);
+		
+		
+		if(commentCount > 0){ //원댓글에 댓글이 있는경우 : 댓글의 댓글도 지우고 원댓글을 지운다 status = 0
+			int result = service.deleteReviewCommentWithComment(commentSeq);
+			System.out.println();
+			if(result == 2){
+				System.out.println("==============================1");
+				req.setAttribute("script", "alert('댓글 삭제 성공');");
+			}else{
+				System.out.println("==============================2");
+				req.setAttribute("script", "alert('댓글 삭제 실패');");
+			}
+		}else{//원댓글에 댓글이 없는경우, 댓글에 댓글일 경우 :  status = 0
+			int result = 0;
+			
+			if(fk_seq == null){ // 원댓글에서는 depthNo를 아예 받아오지않는다
+				 result = service.deleteReviewComment(commentSeq);
+				 
+				 if(result == 1){
+						System.out.println("==============================3");
+						req.setAttribute("script", "alert('댓글 삭제 성공');");
+					}else{
+						System.out.println("==============================4");
+						req.setAttribute("script", "alert('댓글 삭제 실패');");
+					}
+			}else{ // 댓글에서는 depthNo를 받아온다
+				result = service.deleteCommentComment(commentSeq, fk_seq);
+				
+				if(result == 2){
+					System.out.println("==============================3");
+					req.setAttribute("script", "alert('댓글 삭제 성공');");
+				}else{
+					System.out.println("==============================4");
+					req.setAttribute("script", "alert('댓글 삭제 실패');");
+				}
+			}
+			
+			
+			
+		}
+		
+		return "/user/msgEnd";
 	}
 }
 

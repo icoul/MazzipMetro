@@ -226,14 +226,37 @@ public class ReviewDAO implements IDAO{
 		String groupNo = sqlSession.selectOne("getReviewCommentMaxGroupNo");
 		return groupNo;
 	}
-	public List<ReviewCommentVO> getReviewCommentList(String reviewSeq) {
-		List<ReviewCommentVO> reviewCommentList = sqlSession.selectList("getReviewCommentList", reviewSeq);
+	public List<ReviewCommentVO> getReviewCommentList(HashMap<String,String> hashMap) {
+		List<ReviewCommentVO> reviewCommentList = sqlSession.selectList("getReviewCommentList", hashMap);
 		return reviewCommentList;
 	}
 	public int updateReviewComment(HashMap<String, String> hashMap) {
 		int result = sqlSession.update("updateReviewComment", hashMap);
 		return result;
+	}
+	public int getReviewCommentTotalCount(String reviewSeq) {
+		int reviewCommentTotalCount = sqlSession.selectOne("getReviewCommentTotalCount",reviewSeq);
+		return reviewCommentTotalCount;
+	}
+	public List<ReviewCommentVO> getCommentCommentList(String commentSeq) {
+		List<ReviewCommentVO> commentCommentList = sqlSession.selectList("getCommentCommentList", commentSeq);
+		return commentCommentList;
+	}
+	public int getCommentCount(String commentSeq) {
+		int commentCount = sqlSession.selectOne("getCommentCount",commentSeq);
+		return commentCount;
+	}
+	public int deleteCommentComment(String commentSeq) {
+		int result1 = sqlSession.update("deleteCommentComment", commentSeq);
+		return result1;
+	}
+	public int deleteReviewComment(String commentSeq) {
+		int result1 = sqlSession.update("deleteReviewComment", commentSeq);
+		return result1;
+	}
+	public int updateCommentCount(String fk_seq) {
+		int result = sqlSession.update("updateCommentCount",fk_seq);
+		return result;
 	}	
-
 
 }

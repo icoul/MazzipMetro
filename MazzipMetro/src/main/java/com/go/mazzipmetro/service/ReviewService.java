@@ -449,8 +449,8 @@ public class ReviewService implements IService{
 		return groupNo;
 	}
 
-	public List<ReviewCommentVO> getReviewCommentList(String reviewSeq) {
-		List<ReviewCommentVO> reviewCommentList = dao.getReviewCommentList(reviewSeq);
+	public List<ReviewCommentVO> getReviewCommentList(HashMap<String,String> hashMap) {
+		List<ReviewCommentVO> reviewCommentList = dao.getReviewCommentList(hashMap);
 		return reviewCommentList;
 	}
 
@@ -470,6 +470,38 @@ public class ReviewService implements IService{
 		int result2 = dao.updateReviewComment(hashMap);
 		
 		return (result+result2);
+	}
+
+	public int getReviewCommentTotalCount(String reviewSeq) {
+		int reviewCommentTotalCount = dao.getReviewCommentTotalCount(reviewSeq);
+		return reviewCommentTotalCount;
+	}
+
+	public List<ReviewCommentVO> getCommentCommentList(String commentSeq) {
+		List<ReviewCommentVO> commentCommentList = dao.getCommentCommentList(commentSeq);
+		return commentCommentList;
+	}
+
+	public int getCommentCount(String commentSeq) {
+		int commentCount = dao.getCommentCount(commentSeq);
+		return commentCount;
+	}
+
+	public int deleteReviewCommentWithComment(String commentSeq) {
+		int result1 = dao.deleteCommentComment(commentSeq);
+		int result2 = dao.deleteReviewComment(commentSeq);
+		return (result1+result2);
+	}
+
+	public int deleteReviewComment(String commentSeq) {
+		int result = dao.deleteReviewComment(commentSeq);
+		return result;
+	}
+
+	public int deleteCommentComment(String commentSeq,String fk_seq) {
+		int result1 = dao.deleteReviewComment(commentSeq);
+		int result2 = dao.updateCommentCount(fk_seq);
+		return (result1+result2);
 	}
 
 
