@@ -409,7 +409,7 @@ public class MazzipMetroController {
 							pageBar += String.format("<li><a class='active' href='#'>%s</a></li>", sPage);
 						} else{
 							
-							pageBar += String.format("<li><a href='javascript:goRgoThemeSearch)'>%s</a></li>", sPage, sPage);
+							pageBar += String.format("<li><a href='javascript:goRestSearch(%d)'>%s</a></li>", sPage, sPage);
 						}
 						loop++;
 						sPage++;
