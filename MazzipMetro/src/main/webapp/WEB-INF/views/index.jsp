@@ -31,7 +31,7 @@
             	animationDuration: 200,
             	distance : 3,
            	   	delay: 100,
-           	   	side: 'top', // 'top', 'bottom', 'right', 'left'
+           	   	side: 'bottom', // 'top', 'bottom', 'right', 'left'
            	   	theme: 'tooltipster-noir',
            	   	trigger: 'hover',
            	 	interactive: true,
@@ -77,7 +77,7 @@
             	animationDuration: 200,
             	distance : 3,
            	   	delay: 100,
-           	   	side: 'right', // 'top', 'bottom', 'right', 'left'
+           	   	side: 'left', // 'top', 'bottom', 'right', 'left'
            	   	theme: 'tooltipster-noir',
            	   	trigger: 'hover',
            	 	interactive: true,
@@ -129,7 +129,7 @@
             	animationDuration: 200,
             	distance : 3,
            	   	delay: 100,
-           	 	side: 'bottom', // 'top', 'bottom', 'right', 'left'
+           	 	side: 'top', // 'top', 'bottom', 'right', 'left'
            	   	theme: 'tooltipster-noir',
            	   	trigger: 'hover',
            		interactive: true,
@@ -180,7 +180,7 @@
             	animationDuration: 200,
             	distance : 3,
            	   	delay: 100,
-           	   	side: 'left', // 'top', 'bottom', 'right', 'left'
+           	   	side: 'right', // 'top', 'bottom', 'right', 'left'
            	   	theme: 'tooltipster-noir',
            	   	trigger: 'hover',
            		interactive: true,
@@ -387,7 +387,7 @@
 				<map id="mazzipMetroImgMap" name="mazzipMetroImgMap">
 					<area shape="circle" alt="잠실역" 				  	coords="617,452,20" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2005" id="2005" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
 					<area shape="circle" alt="잠실나루역" 			  	coords="661,450,19" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2006" id="2006" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-					<area shape="circle" alt="강변역" 				  	coords="704,440,19" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2007" id="2007" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+					<area shape="circle" alt="강변역" 				  	coords="704,440,19" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2007" id="2007" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
 					<area shape="circle" alt="구의역" 				  	coords="745,419,17" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2008" id="2008" name="metroMapArea" class='tooltip_group tooltipster_right'/>
 					<area shape="circle" alt="건대입구역"	 		  	coords="775,386,19" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2009" id="2009" name="metroMapArea" class='tooltip_group tooltipster_right'/>
 					<area shape="circle" alt="성수역" 				  	coords="800,349,18" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2010" id="2010" name="metroMapArea" class='tooltip_group tooltipster_right'/>
@@ -418,7 +418,7 @@
 					<area shape="circle" alt="봉천역" 				  	coords="63,361,17" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2035" id="2035" name="metroMapArea" class='tooltip_group tooltipster_left'/>
 					<area shape="circle" alt="서울대입구역"		  	coords="88,392,15" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2036" id="2036" name="metroMapArea" class='tooltip_group tooltipster_left'/>
 					<area shape="circle" alt="낙성대역" 				coords="125,418,17" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2037" id="2037" name="metroMapArea" class='tooltip_group tooltipster_left'/>
-					<area shape="circle" alt="사당역" 				  	coords="160,441,16" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2038" id="2038" name="metroMapArea" class='tooltip_group tooltipster_left'/>
+					<area shape="circle" alt="사당역" 				  	coords="160,441,16" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2038" id="2038" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
 					<area shape="circle" alt="방배역" 				  	coords="203,451,17" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2039" id="2039" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
 					<area shape="circle" alt="서초역" 			 	  	coords="244,455,17" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2040" id="2040" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
 					<area shape="circle" alt="교대역" 				  	coords="293,455,18" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2041" id="2041" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
