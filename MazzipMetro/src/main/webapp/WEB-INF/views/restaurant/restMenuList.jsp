@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core" %>
+<style>
+	table.tblRestList tr td{ vertical-align: middle;}
+</style>
 
 <div align="center">
 	<c:if test="${menuList != null && not empty menuList}">

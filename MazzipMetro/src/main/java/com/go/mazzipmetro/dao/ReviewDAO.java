@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.go.mazzipmetro.vo.RestaurantVO;
+import com.go.mazzipmetro.vo.ReviewCommentVO;
 import com.go.mazzipmetro.vo.ReviewVO;
 import com.go.mazzipmetro.vo.UserAliasVO;
 
@@ -214,6 +215,24 @@ public class ReviewDAO implements IDAO{
 	public HashMap<String, String> getReviewAvgScore(String restSeq) {
 		HashMap<String, String> reviewAvgScore = sqlSession.selectOne("getReviewAvgScore" , restSeq);
 		return reviewAvgScore;
+	}
+	
+	//리뷰 댓글쓰기
+	public int insertReviewComment(HashMap<String,String> hashMap) {
+		int result = sqlSession.insert("insertReviewComment", hashMap);
+		return result;
+	}
+	public String getReviewCommentMaxGroupNo() {
+		String groupNo = sqlSession.selectOne("getReviewCommentMaxGroupNo");
+		return groupNo;
+	}
+	public List<ReviewCommentVO> getReviewCommentList(String reviewSeq) {
+		List<ReviewCommentVO> reviewCommentList = sqlSession.selectList("getReviewCommentList", reviewSeq);
+		return reviewCommentList;
+	}
+	public int updateReviewComment(HashMap<String, String> hashMap) {
+		int result = sqlSession.update("updateReviewComment", hashMap);
+		return result;
 	}	
 
 

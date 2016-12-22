@@ -32,6 +32,7 @@ font-weight: bold;
     
 
 $(document).ready(function(){
+	//우철_메인화면 리뷰 스크롤링
 	(function($){	
 	   	var $wrapper = $("#Scroll");
 		$wrapper.css({'top':0});

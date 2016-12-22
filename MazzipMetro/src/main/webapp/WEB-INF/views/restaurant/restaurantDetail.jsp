@@ -3,7 +3,19 @@
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../library.jsp" />
 <jsp:include page="../top.jsp" />
-
+<style>
+	.contArea{display:inline; float:left; width:38%; margin:10px 0 10px 105px;}
+	.contArea .restList ul li{display:inline-block; float:left; border-bottom:1px solid #e7e7e7; padding:20px 0; width:100%; }
+	.contArea .restList ul li h2{display:block; font-family:굴림, Gulim; font-size:20px; padding:0 0 10px 0;}
+	.contArea .restList ul li h2 a:hover{text-decoration:underline;}
+	.contArea .restList ul li h2 img{vertical-align:middle; padding-right:5px;}
+	.contArea .restList ul li h2 .part{font-weight:normal; font-size:12px; margin:0 0 0 5px;}
+	
+	.contArea .restList ul li .photoDiv{float:left; width:55px;}
+	.contArea .restList ul li .textDiv{float:right; width:285px;}
+	.contArea .restList ul li .textDiv dl dd.summary{background:url('/image/common/img_dot.gif') repeat-x left bottom; padding:30px 0; line-height:1.5em;}
+	.contArea .restList ul li .textDiv dl dd.summary a:hover{text-decoration:underline;}
+</style>
 
  <script type="text/javascript">
  $(document).ready(function(){
@@ -162,6 +174,7 @@ $(function () {
  
 })(jQuery)
  
+ // 우철_ 리뷰리스트 불러오기
  function getReviewList(){
 	 
 	 var form_data = {
@@ -186,7 +199,7 @@ $(function () {
 	
  }
  
- 
+
 function goLargeImgView(adImg) {
 	$.ajax({ 
 		url : "getLargeAdImgFilename.eat", 	
@@ -246,10 +259,14 @@ function goLargeImgView(adImg) {
 	 	 </div>
 	 </div>
 	 
+
 	 <!-- 음식점 메인 이미지 -->
 	 <div id="restMainImge" style="width: 50%; clear:both; float: left; margin-top: 50px; margin-bottom: 30px;" align="center">
 	 
 	 <div id="largeImg" style="float: left;  border: green solid 0px; width: 100%;">
+	 	<c:if test="${empty restImageList}">
+	 		<img src='<%=request.getContextPath() %>/resources/images/no_image.jpg' width='460' height='345' />
+	 	</c:if>
 	</div>  
 		
 	<div  style="border: red solid 0px; clear:both; float:left; width: 100%;  padding: 20px;">
@@ -351,11 +368,11 @@ function goLargeImgView(adImg) {
 	      		<c:forEach var="theme" items="${restThemeList}" varStatus="status">
 	      			
 	      			<c:if test="${status.count <  restThemeList.size() }">
-	      				<a href="">${theme} </a>,
+	      				<a href="<%=request.getContextPath()%>/theme.eat?theme=${theme}">${theme} </a>,
 	      			</c:if>
 	      			
 	      			<c:if test="${status.count ==  restThemeList.size() }">
-	      				<a href="">${theme}</a>
+	      				<a href="<%=request.getContextPath()%>/theme.eat?theme=${theme}">${theme}</a>
 	      			</c:if>
 	      			
 	      		</c:forEach>
@@ -366,6 +383,35 @@ function goLargeImgView(adImg) {
 	  </div>
 </div>
 <br/> <br/> 
+<!-- 음식점 메뉴 목록 -->
+<c:if test="${menuList != null && not empty menuList}">
+<c:forEach var = "list" items = "${menuList}">
+<div class = "contArea">
+	<div class = "restList">
+		<ul>
+			<li>
+				<h2><span style = "font-size: 18pt;">${list.menuName}</span>&nbsp;&nbsp;&nbsp;<span style = "font-size: 10pt;">${list.menuSort} <c:if test = "${list.menuEvent != null && not empty list.menuEvent}"> / ${list.menuEvent}</c:if></span></h2>
+				<div class="photoDiv">
+					<div><img width="200px;" src="<%= request.getContextPath() %>/files/menu/${list.menuImg}" /></div>
+				</div>
+				<div class="textDiv">
+					<dl><c:if test="${list.menuSalePrice == 0}" >
+							<dd class="add">메뉴가격 : ${list.menuPrice}원</dd>
+							<dd class="add"></dd>
+						</c:if>
+						<c:if test="${list.menuSalePrice != 0}" >
+							<dd class="add"><span style = "text-decoration: line-through; ">메뉴가격 : ${list.menuPrice}원</span></dd>
+							<dd class="add">세일가격 : <span style = "color : red; font-weight: bold;">${list.menuSalePrice}원</span></dd>
+						</c:if>
+						<dd class="summary"><span style = "font-size : 12pt;">${list.menuContent}</span></dd>
+					</dl>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+</c:forEach>
+</c:if>
 <!-- 음식점 지도 및 로드뷰 표시, 출발지 입력 -->
 <div id="mapContainer" style="border:solid 1px gray;padding: 10px; clear: both; width: 85%;margin: auto;" >
 	<div id="roadFinder">
@@ -382,7 +428,7 @@ function goLargeImgView(adImg) {
 
 <!-- 차트 div입니다. -->
 <div style="width: 85%;">
-	<h2 style="margin-left: 220px;">나이별 통계 <span style="margin-left: 432px;">성별 통계</span></h2>
+	<h2 style="margin-left: 220px;">나이별 통계 <span style="margin-left: 457px;">성별 통계</span></h2>
 	<div id="container" style="width: 50%; height: 300px; float: left"></div>
 	<div id="container2" style="width: 50%; height: 300px; left: 100px;float: left "></div>
 </div>

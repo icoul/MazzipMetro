@@ -68,26 +68,26 @@
 <title>지역 검색</title>
 </head>
 <body>
-
+<div style="background: #008968; height: 30px; padding-top: 7px;">
+	<span style="font-size:13pt; color:#fff;">&nbsp; ::: 동명 검색</span>
+</div>
+<div align="center" style="margin-top:4px;">
+(예). 동명 : 성북동, 신림동, 방배동 .. 등 등
+</div>
 <form name="dongSearchFrm" action="dongSearch.eat" method="get">
 	<c:if test="${searchDong == null}">
-		<table>
-			<tr>
-				<td>
-					 동명(예 : 성북동) : 
-					 <input type="text" name="searchVar" id="searchVar" size="15" class="box" />
-		 		     <input type="button" value="검색" class="box" onClick="goCheck();" />
-		 		     <div id = "display" style = "position : relative; left : 0px; top : 0px;">
-						 <div id = "displayList" style = "width : 131px; margin-left : 140px; border-top : 0px; border : solid gray 1px;">
-							
-						 </div>
-					 </div>
-				</td>
-			</tr>
-		</table>
+		<div style="margin-top:15px;">
+				<div align="center">
+		 			<input type="text" class="form-control" name="searchVar" id="searchVar" style="width:250px; margin-left: 28px; float:left;" />
+	     			<input type="button" style="float:left; margin-left:5px;" value="검색" class="btn btn-default" onClick="goCheck();" />
+	     		</div>
+			<div id = "display" style = "clear:both; position : relative; margin-left:40px; top : 0px;">
+				<div id = "displayList" style = "top : 2px;"></div>
+		    </div>
+		</div>
 	</c:if>
 	<c:if test="${searchDong != null}">
-		<div align="center" style = "margin-left : 15px; margin-top : 50px;">
+		<div align="center" style="margin-top:15px;">
 			<span style = "font-size : 12pt; font-weight: bold;">
 				<span style = "color:red;">"${searchVar}"</span>의 검색결과입니다.<br/> 원하는 역명을 선택해주세요.
 			</span>

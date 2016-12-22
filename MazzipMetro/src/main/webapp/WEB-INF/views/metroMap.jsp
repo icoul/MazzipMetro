@@ -87,7 +87,7 @@
    		 	// 페이지 최초로딩시 지하철역명 출력하기
    		 	var areaIdArr = $("[name=metroMapArea]");
    		 	areaIdArr.each(function(){
-   		 		if('${metroId}' == $(this).attr('id')){
+   		 		if(${metroId} == $(this).attr('id')){
    		 			var title = "<h2 style='width:187px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right; font-size:25px;''>"+$(this).attr('alt')+"<br/>맛집리스트 </h2>";
    	   		 		$("#title_metroName").html(title);		
    		 		}
@@ -102,7 +102,7 @@
             	animationDuration: 200,
             	distance : 3,
            	   	delay: 100,
-           	   	side: 'bottom', // 'top', 'bottom', 'right', 'left'
+           	   	side: 'top', // 'top', 'bottom', 'right', 'left'
            	   	theme: 'tooltipster-noir',
            	   	trigger: 'hover',
            	 	interactive: true,
@@ -147,7 +147,7 @@
             	animationDuration: 200,
             	distance : 3,
            	   	delay: 100,
-           	   	side: 'left', // 'top', 'bottom', 'right', 'left'
+           	   	side: 'right', // 'top', 'bottom', 'right', 'left'
            	   	theme: 'tooltipster-noir',
            	   	trigger: 'hover',
            	 	interactive: true,
@@ -199,7 +199,7 @@
             	animationDuration: 200,
             	distance : 3,
            	   	delay: 100,
-           	 	side: 'top', // 'top', 'bottom', 'right', 'left'
+           	 	side: 'bottom', // 'top', 'bottom', 'right', 'left'
            	   	theme: 'tooltipster-noir',
            	   	trigger: 'hover',
            		interactive: true,
@@ -250,7 +250,7 @@
             	animationDuration: 200,
             	distance : 3,
            	   	delay: 100,
-           	   	side: 'right', // 'top', 'bottom', 'right', 'left'
+           	   	side: 'left', // 'top', 'bottom', 'right', 'left'
            	   	theme: 'tooltipster-noir',
            	   	trigger: 'hover',
            		interactive: true,
@@ -372,7 +372,7 @@
 	<map id="mazzipMetroImgMap" name="mazzipMetroImgMap">
 		<area shape="circle" alt="잠실역" 				  	coords="617,452,20" 	href="javascript: searchByMetro(1, '2005')" id="2005" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
 		<area shape="circle" alt="잠실나루역" 			  	coords="661,450,19" 	href="javascript: searchByMetro(1, '2006')" id="2006" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-		<area shape="circle" alt="강변역" 				  	coords="704,440,19" 	href="javascript: searchByMetro(1, '2007')" id="2007" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+		<area shape="circle" alt="강변역" 				  	coords="704,440,19" 	href="javascript: searchByMetro(1, '2007')" id="2007" name="metroMapArea" class='tooltip_group tooltipster_top'/>
 		<area shape="circle" alt="구의역" 				  	coords="745,419,17" 	href="javascript: searchByMetro(1, '2008')" id="2008" name="metroMapArea" class='tooltip_group tooltipster_right'/>
 		<area shape="circle" alt="건대입구역"	 		  	coords="775,386,19" 	href="javascript: searchByMetro(1, '2009')" id="2009" name="metroMapArea" class='tooltip_group tooltipster_right'/>
 		<area shape="circle" alt="성수역" 				  	coords="800,349,18" 	href="javascript: searchByMetro(1, '2010')" id="2010" name="metroMapArea" class='tooltip_group tooltipster_right'/>
@@ -403,7 +403,7 @@
 		<area shape="circle" alt="봉천역" 				  	coords="63,361,17" 	href="javascript: searchByMetro(1, '2035')" id="2035" name="metroMapArea" class='tooltip_group tooltipster_left'/>
 		<area shape="circle" alt="서울대입구역"		  	coords="88,392,15" 	href="javascript: searchByMetro(1, '2036')" id="2036" name="metroMapArea" class='tooltip_group tooltipster_left'/>
 		<area shape="circle" alt="낙성대역" 				coords="125,418,17" 	href="javascript: searchByMetro(1, '2037')" id="2037" name="metroMapArea" class='tooltip_group tooltipster_left'/>
-		<area shape="circle" alt="사당역" 				  	coords="160,441,16" 	href="javascript: searchByMetro(1, '2038')" id="2038" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+		<area shape="circle" alt="사당역" 				  	coords="160,441,16" 	href="javascript: searchByMetro(1, '2038')" id="2038" name="metroMapArea" class='tooltip_group tooltipster_left'/>
 		<area shape="circle" alt="방배역" 				  	coords="203,451,17" 	href="javascript: searchByMetro(1, '2039')" id="2039" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
 		<area shape="circle" alt="서초역" 			 	  	coords="244,455,17" 	href="javascript: searchByMetro(1, '2040')" id="2040" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
 		<area shape="circle" alt="교대역" 				  	coords="293,455,18" 	href="javascript: searchByMetro(1, '2041')" id="2041" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
@@ -419,10 +419,10 @@
 
 <%-- end of leftCon --%>
 		
-<div class="rightCon" style="height: 450px;">
+<div class="rightCon">
 	<div class="realTimeAppra">
 		<div id="realReview" ><img style="width: 50px; height: 50px;" src="<%= request.getContextPath() %>/resources/images/pizza.png">&nbsp;실시간 리뷰&nbsp;<img style="width: 50px; height: 50px;" src="<%= request.getContextPath() %>/resources/images/hamburger.png"></div>
-		<div id="Scroller" class="Scroller" style="padding-top: 50px; position: absolute; z-index: 1;"></div>
+		<div id="Scroller" class="Scroller"></div>
 	</div>
 </div>
 <%-- end of rightCon --%>	
@@ -435,7 +435,7 @@
 	
 	
 	<!-- 사용자 마커 안내 -->
-	<div style="float:left; padding-left: 550px;padding-top: 90px;padding-bottom: 10px; z-index: 9999;" >
+	<div style="float:left; padding-left: 550px;padding-top: 90px;padding-bottom: 10px;" >
 	<table >
 		<tr>
 			<td >
@@ -464,7 +464,7 @@
 	    </div>
 	</div>
 
-<div class="rankingView" id="rankingView">
+<div class="rankingView">
 
 </div>
 
@@ -495,7 +495,6 @@ function goRestRanking(pageNum){
 		dataType : "html",
 		success : function(data){
 			$(".rankingView").html(data);
-			location.href='#rankingView';
 		}
 	}); // end of ajax
 }

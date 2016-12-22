@@ -1,6 +1,7 @@
 package com.go.mazzipmetro.dao;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -146,6 +147,20 @@ public class RankingDAO {
 		
 		return mapList;
 	}
+
+	//인덱스 페이지 탑랭크 리뷰어가 추천한 맛집 이 곳의 맛집번호를 가져오는 메서드
+	public HashMap<String, String> getTop5ScoreRest(String userSeq) {
+		HashMap<String, String> seqList = sqlSession.selectOne("ranking.getTop5ScoreRest", userSeq);
+		
+		/*Collections.shuffle(seqList);
+		
+		String restSeq = seqList.get(0);
+		*/
+		
+		
+		return seqList;
+	}
+
 
 	
 }

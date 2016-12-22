@@ -185,10 +185,11 @@
 </head>
 <body>
 <c:if test = "${sessionScope.loginUser.userSort == 1}">
-<div class="subleftCon"  style="height:1000px;">
+<div class="subleftCon"  style="height:1300px;">
 		<h2>${sessionScope.loginUser.userName}님의<br> 정보수정</h2>
 </div>
-<div class="subrightCon" style="height=1000px;";>
+<div class="subrightCon" style="height:1300px;">
+	<jsp:include page="../userMyPage_Menubar.jsp" />
 <form name="contact_form" id="contact_form" class="well form-horizontal" action="<%= request.getContextPath() %>/userEditEnd.eat" method="post" enctype="multipart/form-data" style="background:none;">
 		<fieldset>
 		
@@ -513,5 +514,7 @@
 		</form>
 </div>
 </c:if>
+<jsp:include page="../footer.jsp" />
+
 </body>
 </html>

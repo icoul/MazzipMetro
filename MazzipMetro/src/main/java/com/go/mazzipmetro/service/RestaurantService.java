@@ -18,63 +18,69 @@ import com.go.mazzipmetro.vo.ReviewVO;
 import com.go.mazzipmetro.vo.UserVO;
 
 @Service
-public class RestaurantService implements IService{
+public class RestaurantService implements IService {
 
 	@Autowired
 	private RestaurantDAO dao;
-	
+
 	// 하나의 업장 정보 가져오기
-	public HashMap<String,String> getRestaurant(String restseq) {
-		HashMap<String,String> restvo = dao.getRestaurant(restseq);
+	public HashMap<String, String> getRestaurant(String restseq) {
+		HashMap<String, String> restvo = dao.getRestaurant(restseq);
 		return restvo;
 	}
-	
+
 	// 업장이름 리스트 가져오기
-	public List<RestaurantVO> getRestName(String name){
-		
-		List<RestaurantVO> nameList = dao.getRestName(name);
-		
+	public List<RestaurantVO> getRestName(HashMap<String, Object> optionMap) {
+
+		List<RestaurantVO> nameList = dao.getRestName(optionMap);
+
 		return nameList;
 	} // end of getRestName(String name)
-	
+
+	// 가져올 업장이름 리스트의 총 갯수
+	public int getTotalRestName(String name) {
+		int totalNum = dao.getTotalRestName(name);
+		return totalNum;
+	}
+
 	// 새 업장 등록
-	public int setRestRegister(RestaurantVO vo){
-		
+	public int setRestRegister(RestaurantVO vo) {
+
 		int result = dao.setRestRegister(vo);
-		
+
 		return result;
 	}// end of setRestRegister(RestaurantVO vo)
-	
+
 	// 기존 업장 업데이트
-	public int setRestUpdate(RestaurantVO vo){
-		
+	public int setRestUpdate(RestaurantVO vo) {
+
 		int result = dao.setRestUpdate(vo);
-		
+
 		return result;
 	}// end of setRestUpdate(RestaurantVO vo)
 
 	// 업장을 새로 등록했기 때문에 Seq번호를 새로 가져오기 위함.
 	public String getNewRestSeq(String userSeq) {
 		String newSeq = dao.getNewRestSeq(userSeq);
-		
+
 		return newSeq;
 	}// end of getNewRestSeq(RestaurantVO vo)
-	
-	// 업장 세부정보 등록(소개글, 이미지, 태그)
-	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
-	public int setRestaurantInfo(HashMap<String, String> map, ArrayList<String> imageList, MenuVO mvo, int menuNum) {
-		
-		int result = dao.setRestaurantInfo(map, imageList, mvo, menuNum);
-		
-		return result;
-	}// end of setRestaurantInfo(HashMap<String, Object> map) 
 
-	
+	// 업장 세부정보 등록(소개글, 이미지, 태그)
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {
+			Throwable.class })
+	public int setRestaurantInfo(HashMap<String, String> map, ArrayList<String> imageList, MenuVO mvo, int menuNum) {
+
+		int result = dao.setRestaurantInfo(map, imageList, mvo, menuNum);
+
+		return result;
+	}// end of setRestaurantInfo(HashMap<String, Object> map)
+
 	// 매장 정보 수정을 위한 해당 회원이 등록한 매장 정보 모두 불러오기
 	public List<RestaurantVO> getRestList(String userSeq) {
-		
+
 		List<RestaurantVO> restList = dao.getRestList(userSeq);
-		
+
 		return restList;
 	}
 
@@ -82,7 +88,7 @@ public class RestaurantService implements IService{
 	public RestaurantVO getOneRestInfo(String restSeq) {
 
 		RestaurantVO vo = dao.getOneRestInfo(restSeq);
-		
+
 		return vo;
 	}
 
@@ -90,15 +96,15 @@ public class RestaurantService implements IService{
 	public int delRest(HashMap<String, String> map) {
 
 		int result = dao.delRest(map);
-		
+
 		return result;
 	}
-	
+
 	// 매장 수정 매서드
 	public int editRest(RestaurantVO rvo) {
 
 		int result = dao.editRest(rvo);
-		
+
 		return result;
 	}
 
@@ -108,35 +114,36 @@ public class RestaurantService implements IService{
 		return metroId;
 	}
 
-	// 리뷰 가져오기 
+	// 리뷰 가져오기
 	public List<HashMap<String, String>> getReviewList(HashMap<String, String> map) {
-		
+
 		List<HashMap<String, String>> list = dao.getReviewList(map);
-		
+
 		return list;
 	}
 
-	//총 리뷰수 가져오기
+	// 총 리뷰수 가져오기
 	public int getTotalReview(String restSeq) {
-		
+
 		int result = dao.getTotalReview(restSeq);
-		
+
 		return result;
 	}
-	
-	//메뉴 목록 가져오기
+
+	// 메뉴 목록 가져오기
 	public List<HashMap<String, String>> getMenuList(String restSeq) {
 
 		List<HashMap<String, String>> menuList = dao.getMenuList(restSeq);
-		
+
 		return menuList;
 	}
-	
-	//메뉴 수정하기
-	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
-	public int editRestMenu(MenuVO mvo){
+
+	// 메뉴 수정하기
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {
+			Throwable.class })
+	public int editRestMenu(MenuVO mvo) {
 		int result = dao.editRestMenu(mvo);
-		
+
 		return result;
 	}
 
@@ -170,23 +177,20 @@ public class RestaurantService implements IService{
 		return reviewGrade;
 	}
 
-
 	public List<String> getRestThemeList(String restSeq) {
 		List<String> restThemeList = dao.getRestThemeList(restSeq);
 		return restThemeList;
 	}
+
 	// 조회수 증가 요청
 	public int updateRestVisitor(String restSeq) {
 		return dao.updateRestVisitor(restSeq);
 	}
 
-	//은석 음식점상세페이지에서 음식점 사진들 
+	// 은석 음식점상세페이지에서 음식점 사진들
 	public List<String> getRestImageList(String restSeq) {
 		List<String> restImageList = dao.getRestImageList(restSeq);
 		return restImageList;
 	}
 
-
-
-	
 }

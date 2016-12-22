@@ -566,7 +566,7 @@ public class UserController {
 		
 		HttpSession session = req.getSession();
 		session.setAttribute("loginUser", null);
-		
+		session.setAttribute("returnPage", null);
 		//session.invalidate();
 		
 		String msg = "로그아웃되었습니다";
@@ -735,26 +735,7 @@ public class UserController {
 		}// end of if~else
 		return "msg";
 
-	}// end of logIn
-	
-	
-	@RequestMapping(value="/login_End.eat", method={RequestMethod.GET})
-	public String loginEnd(HttpServletRequest req, HttpServletResponse res){
-		
-		HttpSession session = req.getSession();
-		session.invalidate();
-		
-		String msg = "로그아웃되었습니다";
-		String loc = "index.eat";
-		
-		
-		req.setAttribute("msg", msg);
-		req.setAttribute("loc", loc);
-		
-		return "user/userLogin";
-	}
-	
-	
+	}// end of logIn	
 	
 	@RequestMapping(value="/myReviewList.eat", method={RequestMethod.GET})
 	public String login_myReviewList(HttpServletRequest req, HttpServletResponse res, HttpSession session) {

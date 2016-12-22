@@ -68,6 +68,7 @@
 			}
 			
 			if(regexp.test(menuPrice)){
+				alert(menuPrice);
 				alert("메뉴가격은 숫자만 입력가능합니다");
 				return;
 			}
