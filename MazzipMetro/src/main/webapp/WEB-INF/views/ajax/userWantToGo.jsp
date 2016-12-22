@@ -91,6 +91,11 @@ $(document).ready(function(){
 
 // 결정장애용, 맛집메트로 대리 추천...
 function mazzipMetroPick () {
+	if($("[name=wantToGoChk]:checked").length < 2){
+		alert("후보 음식점을 두개이상 선택하세요.");
+		return;
+	}
+	
 	alert('음...저희가 드리는 추천은요....');
 	
 	var mazzipMetroPickArr = [];
@@ -129,6 +134,18 @@ function mazzipMetroPick () {
 	
 }
 
+function selectAll(){
+	$("[name=wantToGoChk]").attr('checked', true);
+	
+	$("[name=wantToGoChk]").each(function(){
+		var imgId = 'img_'+$(this).attr('id').substring(4);              
+	    var markId ='mark_'+$(this).attr('id').substring(4);
+	    $("#"+imgId).css('opacity', '0.3');
+	    $("#"+markId).show();
+		
+	});
+}
+
 
 
 </script>
@@ -144,6 +161,7 @@ function mazzipMetroPick () {
 		<button type="button" onclick="mazzipMetroPick();" class="btn btn-default btn-sm">못고르겠어요ㅠㅜ 맛집 메트로가 골라주세요!</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	</td>
 	<td align="center" style="width: 25%;">
+		<button type="button" onclick="selectAll();" class="btn btn-default btn-xs" style="border:1px solid gray;">모두선택</button>
 		<button type="button" onclick="goDel();" class="btn btn-danger btn-xs">선택삭제</button>
 	</td>
 </tr>

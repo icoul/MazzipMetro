@@ -26,10 +26,10 @@ function getLoginUserInfo(){
 	
 	$(document).ready(function(){
 		//동현_관리자 dropdown 메뉴용 이벤트
-		$(".dropdown").hover(function(){
-			$(".dropdown-content").css('display','block');
+		$(".dx_dropdown").hover(function(){
+			$(".dx_dropdown-content").css('display','block');
 		}, function(){
-			$(".dropdown-content").css('display','none');
+			$(".dx_dropdown-content").css('display','none');
 		});	
 		
 		//가고싶다 상단의 배너
@@ -391,13 +391,18 @@ function getLoginUserInfo(){
 
 <%-- 사이드 메뉴 & 장바구니 --%>
 <div id="mySidenav" class="sidenav">
-	<div style="height: 100px;" id = "wantGoContentView">
-	</div>
+	<!-- 가고싶다 content 영역 -->
+	<div style="min-height: 100px;" id = "wantGoContentView"></div>
+	
+	<!-- 비회원에게 가고싶다 이용 유도 문구 -->
+	<c:if test="${empty sessionScope.loginUser.userSeq}">
 		<div style="padding-left: 20px; padding-top: 50px;">
 		<br/><br/> 맛집메트로가 제공하는 <span style="color: lime;">가고싶다</span>를 이용해 보세요. <br/><br/> <br/> <br/> 		
 		</div>
-        <span style="color: #818181; font-size: 22px; font-weight: bold; margin-left: 35px;">가고싶다 </span>카트
-  <div id="myWantToGo" style="border: solid 1px #818181;margin: 5px; padding: 5px;" align="center">
+	</c:if>
+	<br/> <br/> 
+    <span style="color: #818181; font-size: 22px; font-weight: bold; margin-left: 35px;">가고싶다 </span>카트
+  	<div id="myWantToGo" style="border: solid 1px #818181;margin: 5px; padding: 5px;" align="center">
   	<br/><br/><span style="color: #818181; text-decoration: underline;">가고 싶은 음식점을 담아보세요.</span><br/><br/> 
   </div>
 </div>
@@ -533,9 +538,9 @@ function getLoginUserInfo(){
 					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 2}">
 						<!-- 관리자 dropdown 메뉴 -->
 						<li>
-							<div class="dropdown">
-						  		<a class="drop_anchor">관리자메뉴</a>
-								  <div class="dropdown-content" style="z-index:9999;">
+							<div class="dx_dropdown">
+						  		<a class="dx_drop_anchor" style="padding-bottom: 30px;">관리자메뉴</a>
+								  <div class="dx_dropdown-content">
 									<a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a>
 									<a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a>
 									<a href="<%=request.getContextPath()%>/adminContentList.eat">컨텐츠관리</a>
