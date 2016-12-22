@@ -92,6 +92,9 @@ input.btn_like {
 input.btn_dislike {
 	width:50px; height:50px;  border:0; background: url('http://localhost:9090/mazzipmetro/resources/images/unlike.png') no-repeat;
 }
+input.report {
+	  border:0; width:30px; height:30px; background: url('http://localhost:9090/mazzipmetro/resources/images/icosiren.png') no-repeat;
+}
 </style>
 <script type="text/javascript">
 function btnMore(){
@@ -193,12 +196,9 @@ $(document).ready(function(){
 
 </script>
 
-<h2>${restvo.restname}의 리뷰(${TotalReviewCount })
-
- <input type="button" id="reviewAdd" name="reviewAdd" value="리뷰쓰기 " onClick="goReviewAdd('${restSeq}');" />
-
- </h2> 	
-  	<p align="right">
+<h2 style="float: left">${restvo.restname}의 리뷰(${TotalReviewCount })</h2>
+<input type="button" id="reviewAdd" name="reviewAdd" value="리뷰쓰기 " style="float: left; margin-left: 580px;" onClick="goReviewAdd('${restSeq}');" /> 	
+  	<p align="right" style="clear: both;">
 		<button type="button" class="btn_srollbar" id="goBottom" >아래로</button>
 	</p>
 
@@ -231,6 +231,7 @@ $(document).ready(function(){
 					 </c:if>
 					 <span style="font-weight:bold; font-size:15pt; color:red;">${review.reviewAvgScore}</span>&nbsp;&nbsp;
 					 <span>${review.reviewRegDate }</span>
+					 <input style="float: right" type="button" class="report" onClick="" />
 					 <br/><br/>
 					<section>${review.reviewContent}</section>
 					
