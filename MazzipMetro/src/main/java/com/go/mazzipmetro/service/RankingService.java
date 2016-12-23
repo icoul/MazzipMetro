@@ -7,6 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.go.mazzipmetro.dao.RankingDAO;
+import com.go.mazzipmetro.vo.RestaurantAdVO;
+import com.go.mazzipmetro.vo.RestaurantVO;
+import com.go.mazzipmetro.vo.ReviewVO;
+import com.go.mazzipmetro.vo.UserVO;
 
 @Controller
 public class RankingService {
@@ -74,6 +78,26 @@ public class RankingService {
 		HashMap<String, String> seqList = dao.getTop5ScoreRest(userSeq);
 		
 		return seqList;
+	}
+
+	public RestaurantVO getRestInfo(HashMap<String, String> seqList) {
+		RestaurantVO restvo = dao.getRestInfo(seqList);
+		return restvo;
+	}
+
+	public ReviewVO getReviewInfo(HashMap<String, String> seqList) {
+		ReviewVO reviewvo = dao.getReviewInfo(seqList);
+		return reviewvo;
+	}
+
+	public UserVO getUserInfo(HashMap<String, String> seqList) {
+		UserVO uservo = dao.getUserInfo(seqList);
+		return uservo;
+	}
+
+	public List<String> getRestAdInfo(HashMap<String, String> seqList) {
+		List<String> adImage = dao.getRestAdInfo(seqList);
+		return adImage;
 	}
 
 	

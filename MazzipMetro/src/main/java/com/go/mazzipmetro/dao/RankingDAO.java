@@ -9,6 +9,11 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.go.mazzipmetro.vo.RestaurantAdVO;
+import com.go.mazzipmetro.vo.RestaurantVO;
+import com.go.mazzipmetro.vo.ReviewVO;
+import com.go.mazzipmetro.vo.UserVO;
+
 @Controller
 public class RankingDAO {
 	
@@ -161,6 +166,24 @@ public class RankingDAO {
 		return seqList;
 	}
 
+	public RestaurantVO getRestInfo(HashMap<String, String> seqList) {
+		RestaurantVO restvo = sqlSession.selectOne("ranking.getRestInfo", seqList);
+		return restvo;
+	}
 
+	public ReviewVO getReviewInfo(HashMap<String, String> seqList) {
+		ReviewVO reviewvo = sqlSession.selectOne("ranking.getReviewInfo", seqList);
+		return reviewvo;
+	}
+
+	public UserVO getUserInfo(HashMap<String, String> seqList) {
+		UserVO uservo = sqlSession.selectOne("ranking.getUserInfo", seqList);
+		return uservo;
+	}
+
+	public List<String> getRestAdInfo(HashMap<String, String> seqList) {
+		List<String> adImage = sqlSession.selectList("ranking.getRestAdInfo", seqList);
+		return adImage;
+	}
 	
 }

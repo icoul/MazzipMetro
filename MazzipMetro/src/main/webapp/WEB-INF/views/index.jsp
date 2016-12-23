@@ -15,6 +15,9 @@
         	// 인덱스 페이지 측면 컨텐츠 뷰
         	rightContentView();
         	
+        	// 인덱스 페이지 최하단 리뷰어 추천 뷰
+        	topReviewerRecommend();
+        	
         	// 인덱스 페이지 업장 탑 5 랭킹
         	top5RankView();
         	
@@ -378,6 +381,18 @@
 				}
 			}); // end of ajax
 	   	}
+	    
+	  //중앙 최하단의 리뷰어 추천 뷰
+	   	function topReviewerRecommend(){
+	   		$.ajax({
+				url : "<%=request.getContextPath()%>/topReviewerRecommend.eat",
+				method : "GET",
+				dataType : "html",
+				success : function(data){
+					$(".topReviewerRecommend").html(data);
+				}
+			}); // end of ajax
+	   	}
        
 </script> 
 		<div class="leftCon">
@@ -433,17 +448,17 @@
 			
 			<div class="mainContentsView">
 			</div>
-			<div  style="margin-top:30px;">
-				<div style = "height : 20px; width : 96%; background-color: lightgrey;">
-					<span style = "font-size: 15pt; font-weight: bold; padding : 15px;">MazzipMetro의 추천 맛집</span>
+			<div  style="margin-top:60px; vertical-align : middle;">
+				<div style = "margin-bottom : 8px;">
+					<span style = "font-size: 20pt; font-weight: bold;">MazzipMetro의 추천 맛집</span>
+				</div>
+				<div style = "border : solid 1px black;">
 				</div>
 				<div class="top5RankView">
 				</div>
 			</div>
 			
-			<div class="reconCon">
-				<h2>지하철 추천 맛집</h2>
-				<img src="<%= request.getContextPath() %>/resources/images/imgTest02.jpg" border="0" />
+			<div class="topReviewerRecommend">
 			</div>
 		</div>
 		<%-- end of leftCon --%>
@@ -454,7 +469,7 @@
 			</div>
 
 		</div>
-		<div class="rightCon" id="rightContent"></div>
+		<div class="rightCon" id="rightContent" style = "width : 30%; margin-left : 55px;"></div>
 		<%-- end of rightCon --%>	
 
 <jsp:include page="footer.jsp" />

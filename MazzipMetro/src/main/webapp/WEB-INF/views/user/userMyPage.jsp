@@ -117,6 +117,7 @@ function restList(){
 }
 
 </script>
+<!-- 미현_칭호 붙이기에 쓰이는 css -->
 <style type="text/css">
 	.gradeDetail {overflow:hidden;}
 	.gradeDetail li {float:left; position:relative; height:70px; font-weight:bold;}
@@ -204,79 +205,82 @@ function restList(){
 		<td><a href="<%= request.getContextPath()%>/couponList.eat">쿠폰</a></td>
 		<td>${coupon}</td>
 	</tr>
-	<tr>
-		<td rowspan="4" width="11%">획득한 칭호</td>
-		<td width="11%">구별</td>
-		<td colspan="6">
-			<ul class="gradeDetail">
-				<c:forEach var="map" items="${userGuAliasList}" varStatus="stauts">
-					<c:if test="${map.aliasName eq '마스터'}">
-						<li class="icoMaster"><span>${map.guName}</span><span class="detail">${map.aliasName}</span></li>
-					</c:if>
-					<c:if test="${map.aliasName eq '입문자'}">
-						<li class="icoNovice"><span class="twist">${map.guName}</span><span class="detail">${map.aliasName}</span></li>
-					</c:if>
-					<c:if test="${map.aliasName eq '숙련자'}">
-						<li class="icoSkill"><span>${map.guName}</span><span class="detail">${map.aliasName}</span></li>
-					</c:if>
-				</c:forEach>
-			</ul>
-		</td>
-	</tr>
-	<tr>
-		<td>동별</td>
-		<td colspan="6">
-			<ul class="gradeDetail">
-				<c:forEach var="map" items="${userDongAliasList}" varStatus="stauts">
-					<c:if test="${map.aliasName eq '마스터'}">
-						<li class="icoMaster"><span>${map.dongName}</span><span class="detail">${map.aliasName}</span></li>
-					</c:if>
-					<c:if test="${map.aliasName eq '입문자'}">
-						<li class="icoNovice"><span class="twist">${map.dongName}</span><span class="detail">${map.aliasName}</span></li>
-					</c:if>
-					<c:if test="${map.aliasName eq '숙련자'}">
-						<li class="icoSkill"><span>${map.dongName}</span><span class="detail">${map.aliasName}</span></li>
-					</c:if>
-				</c:forEach>
-			</ul>
-		</td>
-	</tr>
-	<tr>
-		<td>역별</td>
-		<td colspan="6">
-			<ul class="gradeDetail">
-				<c:forEach var="map" items="${userMetroAliasList}" varStatus="stauts">
-					<c:if test="${map.aliasName eq '마스터'}">
-						<li class="icoMaster"><span>${map.metroName}</span><span class="detail">${map.aliasName}</span></li>
-					</c:if>
-					<c:if test="${map.aliasName eq '입문자'}">
-						<li class="icoNovice"><span class="twist">${map.metroName}</span><span class="detail">${map.aliasName}</span></li>
-					</c:if>
-					<c:if test="${map.aliasName eq '숙련자'}">
-						<li class="icoSkill"><span>${map.metroName}</span><span class="detail">${map.aliasName}</span></li>
-					</c:if>
-				</c:forEach>
-			</ul>
-		</td>
-	</tr>
-	<tr>
-		<td>태그별</td>
-		<td colspan="6">
-			<ul class="gradeDetail">
-				<c:forEach var="map" items="${userRestTagAliasList}" varStatus="stauts">
-					<c:if test="${map.aliasName eq '마스터'}">
-						<li class="icoMaster"><span>${map.aliasId}</span><span class="detail">${map.aliasName}</span></li>
-					</c:if>
-					<c:if test="${map.aliasName eq '입문자'}">
-						<li class="icoNovice"><span class="twist" style="padding-left:15px;">${map.aliasId}</span><span class="detail">${map.aliasName}</span></li>
-					</c:if>
-					<c:if test="${map.aliasName eq '숙련자'}">
-						<li class="icoSkill"><span style="padding-left:18px;">${map.aliasId}</span><span class="detail">${map.aliasName}</span></li>
-					</c:if>
-				</c:forEach>
-			</ul>
-		</td>
-	</tr>
+	<%-- <c:if test="${userGuAliasList !=null or userDongAliasList !=null or userMetroAliasList !=null or userRestTagAliasList !=null}"> --%>
+	<c:if test="${not empty userGuAliasList or not empty userDongAliasList or not empty userMetroAliasList or not empty userRestTagAliasList}">
+		<tr>
+			<td rowspan="4" width="11%">획득한 칭호</td>
+			<td width="11%">구별</td>
+			<td colspan="6">
+				<ul class="gradeDetail">
+					<c:forEach var="map" items="${userGuAliasList}" varStatus="stauts">
+						<c:if test="${map.aliasName eq '마스터'}">
+							<li class="icoMaster"><span>${map.guName}</span><span class="detail">${map.aliasName}</span></li>
+						</c:if>
+						<c:if test="${map.aliasName eq '입문자'}">
+							<li class="icoNovice"><span class="twist">${map.guName}</span><span class="detail">${map.aliasName}</span></li>
+						</c:if>
+						<c:if test="${map.aliasName eq '숙련자'}">
+							<li class="icoSkill"><span>${map.guName}</span><span class="detail">${map.aliasName}</span></li>
+						</c:if>
+					</c:forEach>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>동별</td>
+			<td colspan="6">
+				<ul class="gradeDetail">
+					<c:forEach var="map" items="${userDongAliasList}" varStatus="stauts">
+						<c:if test="${map.aliasName eq '마스터'}">
+							<li class="icoMaster"><span>${map.dongName}</span><span class="detail">${map.aliasName}</span></li>
+						</c:if>
+						<c:if test="${map.aliasName eq '입문자'}">
+							<li class="icoNovice"><span class="twist">${map.dongName}</span><span class="detail">${map.aliasName}</span></li>
+						</c:if>
+						<c:if test="${map.aliasName eq '숙련자'}">
+							<li class="icoSkill"><span>${map.dongName}</span><span class="detail">${map.aliasName}</span></li>
+						</c:if>
+					</c:forEach>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>역별</td>
+			<td colspan="6">
+				<ul class="gradeDetail">
+					<c:forEach var="map" items="${userMetroAliasList}" varStatus="stauts">
+						<c:if test="${map.aliasName eq '마스터'}">
+							<li class="icoMaster"><span>${map.metroName}</span><span class="detail">${map.aliasName}</span></li>
+						</c:if>
+						<c:if test="${map.aliasName eq '입문자'}">
+							<li class="icoNovice"><span class="twist">${map.metroName}</span><span class="detail">${map.aliasName}</span></li>
+						</c:if>
+						<c:if test="${map.aliasName eq '숙련자'}">
+							<li class="icoSkill"><span>${map.metroName}</span><span class="detail">${map.aliasName}</span></li>
+						</c:if>
+					</c:forEach>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>태그별</td>
+			<td colspan="6">
+				<ul class="gradeDetail">
+					<c:forEach var="map" items="${userRestTagAliasList}" varStatus="stauts">
+						<c:if test="${map.aliasName eq '마스터'}">
+							<li class="icoMaster"><span>${map.aliasId}</span><span class="detail">${map.aliasName}</span></li>
+						</c:if>
+						<c:if test="${map.aliasName eq '입문자'}">
+							<li class="icoNovice"><span class="twist" style="padding-left:15px;">${map.aliasId}</span><span class="detail">${map.aliasName}</span></li>
+						</c:if>
+						<c:if test="${map.aliasName eq '숙련자'}">
+							<li class="icoSkill"><span style="padding-left:18px;">${map.aliasId}</span><span class="detail">${map.aliasName}</span></li>
+						</c:if>
+					</c:forEach>
+				</ul>
+			</td>
+		</tr>
+		</c:if>
 </table>
 </c:if>
 
