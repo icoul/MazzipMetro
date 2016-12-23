@@ -60,6 +60,8 @@
 	        level : 8// 지도의 확대 레벨 
 	    });
 		
+		map.setZoomable(false);
+		
 		getList();
 		
 		$("#selMenu_dongName").change(function(){
@@ -179,6 +181,12 @@
 			        center : new daum.maps.LatLng(37.515812, 126.982340), // 지도의 중심좌표 
 			        level : 8// 지도의 확대 레벨 
 			    });
+				
+				map.setZoomable(false);
+				
+				// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+				var zoomControl = new daum.maps.ZoomControl();
+				map.addControl(zoomControl, daum.maps.ControlPosition.BOTTOMRIGHT);
 			    
 			    // 마커 클러스터러를 생성합니다 
 			    // 마커 클러스터러를 생성할 때 disableClickZoom 값을 true로 지정하지 않은 경우

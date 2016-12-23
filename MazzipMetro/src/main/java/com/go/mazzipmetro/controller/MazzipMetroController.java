@@ -173,6 +173,27 @@ public class MazzipMetroController {
 		return "/ajax/themeSearch";
 	}
 	
+	
+	// 사용자 가고싶다 list 중 체크된 체크박스를 세션 저장 요청
+	@RequestMapping(value="/userWantToGoChk.eat", method={RequestMethod.GET})
+	public void login_userWantToGoChk(HttpServletRequest req, HttpServletResponse res){
+		String[] userWantToGoChk = req.getParameterValues("userWantToGoChk");
+		
+		System.out.println(">>>>>>>>>>>>>>>>"+userWantToGoChk[0]);
+		/*String, int배열인데, 찍으면 객체로 찍힌다.*/
+		//String[] testArr = new String[]{"헬","로","우"};
+		//int[] intTestArr = new int[]{1,2,3};
+		//System.out.println(">>>>>>>>>>>>>>>>"+intTestArr);
+		//>>>>>>>>>>>>>>>>[I@4d695f9e
+		//System.out.println(">>>>>>>>>>>>>>>>"+userWantToGoChk);
+		//>>>>>>>>>>>>>>>>[Ljava.lang.String;@4495fddc
+		//System.out.println(">>>>>>>>>>>>>>>>"+testArr);
+		//>>>>>>>>>>>>>>>>[Ljava.lang.String;@74641b3c
+		
+		req.getSession().setAttribute("userWantToGoChk", userWantToGoChk);
+		
+	}
+	
 	// 사용자 가고싶다 list 요청
 	@RequestMapping(value="/getUserWantToGo.eat", method={RequestMethod.GET})
 	public String login_getUserWantToGo(HttpServletRequest req, HttpServletResponse res){
