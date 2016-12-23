@@ -1223,13 +1223,13 @@ public class MazzipMetroController {
 						startPageNo);
 			} else {
 				if (qnaSearch == null) {// 검색어가 없는경우
-					pageBar += String.format("<li>"
-							+ "<a href='%s/myQnaList.eat?qnaRegYearStart=%s&qnaRegMonthStart=%s&qnaRegDayStart=%s&qnaRegYearEnd=%s&qnaRegMonthEnd=%s&qnaRegDayEnd=%s&qnaInquiry=%s&pageNo=%d&userSeq=%s&qnaProgress=%s'>%d</a></li>",
-							req.getContextPath(),qnaRegYearStart,qnaRegMonthStart,qnaRegDayStart,qnaRegYearEnd ,qnaRegMonthEnd,qnaRegDayEnd,qnaInquiry,  startPageNo, userSeq,qnaProgress, startPageNo);
+					pageBar += String.format("<li onClick='getMyQnAList(%s,%s,%s,%s,%s,%s,%s,%d,%s,%s);'>"
+							+ "<a href=#none>%d</a></li>",
+							qnaRegYearStart,qnaRegMonthStart,qnaRegDayStart,qnaRegYearEnd ,qnaRegMonthEnd,qnaRegDayEnd,qnaInquiry,  startPageNo, userSeq,qnaProgress, startPageNo);
 				} else {// 검색어가 있는 경우
 					pageBar += String.format(
-							"<li><a href='%s/myQnaList.eat?qnaRegYearStart=%s&qnaRegMonthStart=%s&qnaRegDayStart=%s&qnaRegYearEnd=%s&qnaRegMonthEnd=%s&qnaRegDayEnd=%s&qnaInquiry=%s&pageNo=%d&userSeq=%s&qnaColName=%s&qnaSearch=%s&qnaProgress=%s'>%d</a></li>",
-							req.getContextPath(),qnaRegYearStart,qnaRegMonthStart,qnaRegDayStart,qnaRegYearEnd ,qnaRegMonthEnd,qnaRegDayEnd,qnaInquiry, startPageNo,userSeq, qnaColName, qnaSearch,qnaProgress, startPageNo);
+							"<li onClick='getMyQnAList(%s,%s,%s,%s,%s,%s,%s,%d,%s,%s);'><a href='#none'>%d</a></li>",
+							qnaRegYearStart,qnaRegMonthStart,qnaRegDayStart,qnaRegYearEnd ,qnaRegMonthEnd,qnaRegDayEnd,qnaInquiry,  startPageNo, userSeq,qnaProgress, startPageNo);
 				}
 	
 			}
