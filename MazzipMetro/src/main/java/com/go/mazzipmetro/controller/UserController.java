@@ -819,10 +819,10 @@ public class UserController {
 	
 		if(startPageNo == 1) {
 			if(((startPageNo - blockSize) > 0) ) {
-				pageBar += String.format("<li><a href='/mazzipmetro/myReviewList.eat?pageNo=%d'>[이전%d페이지]</a></li>", startPageNo-1, blockSize ) + "&nbsp;";
+				pageBar += String.format("<li onClick='getMyReviewList('getMyReviewList(%d)')'><a href='#'>[이전%d페이지]</a></li>", startPageNo-1, blockSize ) + "&nbsp;";
 			}
 		} else {
-				pageBar += String.format("<li><a href='/mazzipmetro/myReviewList.eat?pageNo=%d'>[이전%d페이지]</a></li>", startPageNo-1, blockSize ) + "&nbsp;";
+				pageBar += String.format("<li onClick='getMyReviewList('getMyReviewList(%d)')'><a href='#'>[이전%d페이지]</a></li>", startPageNo-1, blockSize ) + "&nbsp;";
 			
 		}
 		
@@ -831,7 +831,7 @@ public class UserController {
 			if (currentShowPageNo == startPageNo) {
 				pageBar += String.format("<li><span style='color:red; font-weight:bold; text-decoration:underline;'>%d</span></li>", startPageNo) + "&nbsp;";
 			} else {
-				pageBar += String.format("<li><a href='/mazzipmetro/myReviewList.eat?pageNo=%d'>%d</a></li>", startPageNo, startPageNo ) + "&nbsp;";
+				pageBar += String.format("<li onClick='getMyReviewList(%d)'><a href='#'>%d</a></li>", startPageNo, startPageNo ) + "&nbsp;";
 			}
 			loop ++;
 			startPageNo++;
@@ -840,7 +840,7 @@ public class UserController {
 		// ***** 다음 5페이지 만들기 *****
 
 		if(totalPage > startPageNo) {
-			pageBar += String.format("<li><a href='/mazzipmetro/myReviewList.eat?pageNo=%d'>[다음%d페이지]</a></li>", startPageNo, blockSize ) + "&nbsp;";
+			pageBar += String.format("<li onClick='getMyReviewList(%d)')'><a href='#'>[다음%d페이지]</a></li>", startPageNo, blockSize ) + "&nbsp;";
 		}
 
 		pageBar += "</ul>";

@@ -14,6 +14,7 @@
 
 $(document).ready(function(){
 	
+	
 	restList();
 	
 	$("#btn_Mazzip").click(function(){
@@ -59,6 +60,17 @@ $(document).ready(function(){
 			}
 		});
 	});
+	
+	$("#myReviewList").click(function(){
+		$.ajax({	
+			url:"<%= request.getContextPath() %>/myReviewList.eat",
+		    type:"GET",
+			datatype:"html", 
+			success:function(data){ 
+				$("#userInfo").html(data);
+			}
+		});
+	});
 
 	$("#userAlias").click(function(){
 		$.ajax({	
@@ -82,16 +94,6 @@ $(document).ready(function(){
 		});
 	});
 	
-	$("#myReviewList").click(function(){
-		$.ajax({	
-			url:"<%= request.getContextPath() %>/myReviewList.eat",
-		    type:"GET",
-			datatype:"html", 
-			success:function(data){ 
-				$("#userInfo").html(data);
-			}
-		});
-	});
 	
 	$("#userRandomBox").click(function(){
 		$.ajax({	
@@ -103,7 +105,8 @@ $(document).ready(function(){
 			}
 		});
 	});
-});
+	
+});// end of ready
 
 function restList(){
 	$.ajax({	
@@ -115,6 +118,22 @@ function restList(){
 		}
 	});
 }
+
+function getMyReviewList(startPageNo){ 
+	     
+		$.ajax({	
+			url:'/mazzipmetro/myReviewList.eat?pageNo='+startPageNo,
+		    type:"GET",
+			datatype:"html", 
+			success:function(data){ 
+				$("#userInfo").html(data);
+			},
+			error: function(request, status, error){
+		        alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+	};// end of myReviewList
+
 
 </script>
 <!-- 미현_칭호 붙이기에 쓰이는 css -->
