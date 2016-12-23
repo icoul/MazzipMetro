@@ -9,6 +9,7 @@
 	/* input.btnLike {height:100px; width:200px; border:0; background:url(http://localhost:9090/mazzipmetro/resources/images/logoMazzipMetro.png) no-repeat;} */
 </style>
 <script type="text/javascript">
+//미현_ ajax로 그래프 불러오기
 $(document).ready(function(){
 	searchKeep();
 	

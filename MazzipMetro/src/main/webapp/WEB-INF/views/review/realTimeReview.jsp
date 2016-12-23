@@ -95,7 +95,7 @@ $(document).ready(function(){
 					 </c:if>
 					 <br/><br/><span style="font-weight:bold; font-size:10pt; color:red;">${review.reviewAvgScore}</span>
                 </td>
-                <td>    
+                <td style="width:200px;">    
                     <section style="font-size: 9pt;">
                     <p id="content">${review.reviewContent}</p><br/>
                     <span style="color:#FA5858">${review.restName}</span>&nbsp;<br/>

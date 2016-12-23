@@ -48,19 +48,6 @@
 		
 	}
 	
-	function allCheckBox(){
-		var allCheckBox = document.getElementById("allCheckBox");
-		var qnaSeqCheckBoxArr = document.getElementsByName("qnaSeqCheckBox");
-		
-			for(var i = 0; i < qnaSeqCheckBoxArr.length; ++i){
-				if(allCheckBox.checked){
-					qnaSeqCheckBoxArr[i].checked = true;
-				}else{
-					qnaSeqCheckBoxArr[i].checked = false;
-				}
-			}
-	}
-	
 	function qnaDelete(){
 		var chkboxQnaSeqArr = document.getElementsByName("qnaSeqCheckBox");
 
@@ -93,19 +80,18 @@
 </head>
 <body>
 
-<div class="subleftCon" style="height:auto; font-size:25px;">
+<div class="subleftCon">
 	<h2>고객 문의내역</h2>
 </div>
 
-<div align="center" class="subrightCon" style="height:auto;">
+<div align="center" class="subrightCon">
 <jsp:include page="../userMyPage_Menubar.jsp" />
 	<div style="width:90%;">
-		<h2> <span class="title-label">고객 문의내역</span>  </h2>
-		<span>총 문의건 : ${totalCount}건 | 접수완료 : ${registerQnaCount}건 | 답변완료 : ${answerQnaCount}건</span>
+		<p style="padding:40px 0 10px;">총 문의건 : ${totalCount}건 | 접수완료 : ${registerQnaCount}건 | 답변완료 : ${answerQnaCount}건</p>
         <nav class="navbar navbar-default query" role="query">
             <div class="container-fluid">
           	 <form name="qnaSearchFrm" style="display:inline;" action="<%=request.getContextPath()%>/adminQnaList.eat" method="get">
-                <table class="table table-bordered">
+                <table class="table">
 				      <tr>
 				        <th>문의접수일</th>
 				        <td colspan="5">
@@ -187,7 +173,7 @@
 		                	<th colspan="8">선택한 QnA를 <button class="btn" onClick="javascript:qnaDelete();">삭제</button></th>
 		                </tr>
 	                    <tr>
-	                    	<th><input type="checkbox" name="allCheckBox" id="allCheckBox" onClick="javascript:allCheckBox();"/></th>
+	                    	<th>선택</th>
 	                        <th>NO</th>
 	                        <th>글쓴이</th>
 	                        <th>문의종류</th>
@@ -203,7 +189,7 @@
 			                    		<td><input type="checkbox" name="qnaSeqCheckBox" id="qnaSeqCheckBox${status.index}" value="${map.qnaSeq}" /></td>
 				                        <td>${map.rno }</td>
 				                        <td>${map.userName }</td>
-				                        <td>${map.qnaInquiry } 문의</td>                                                                                                        
+				                        <td>${map.qnaInquiry }</td>                                                                                                        
 				                        <td>
 				                        <a class="btn btn-link" href="#" onClick="openWin('<%=request.getContextPath() %>/adminSeeUserQuestion.eat?userName=${map.userName}&qnaInquiry=${map.qnaInquiry}&qnaSubject=${map.qnaSubject}&qnaRegDate=${map.qnaRegDate }&qnaContent=${map.qnaContent}&qnaProgress=${map.qnaProgress}&qnaSeq=${map.qnaSeq}' );">${map.qnaSubject }</a>
 				                        </td>

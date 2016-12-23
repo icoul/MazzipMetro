@@ -19,6 +19,7 @@
 
 $(document).ready(function(){
 	
+	
 	restList();
 	
 	$("#btn_Mazzip").click(function(){
@@ -64,6 +65,17 @@ $(document).ready(function(){
 			}
 		});
 	});
+	
+	$("#myReviewList").click(function(){
+		$.ajax({	
+			url:"<%= request.getContextPath() %>/myReviewList.eat",
+		    type:"GET",
+			datatype:"html", 
+			success:function(data){ 
+				$("#userInfo").html(data);
+			}
+		});
+	});
 
 	$("#userAlias").click(function(){
 		$.ajax({	
@@ -87,16 +99,6 @@ $(document).ready(function(){
 		});
 	});
 	
-	$("#myReviewList").click(function(){
-		$.ajax({	
-			url:"<%= request.getContextPath() %>/myReviewList.eat",
-		    type:"GET",
-			datatype:"html", 
-			success:function(data){ 
-				$("#userInfo").html(data);
-			}
-		});
-	});
 	
 	$("#userRandomBox").click(function(){
 		$.ajax({	
@@ -108,7 +110,8 @@ $(document).ready(function(){
 			}
 		});
 	});
-});
+	
+});// end of ready
 
 function restList(){
 	$.ajax({	
@@ -120,6 +123,22 @@ function restList(){
 		}
 	});
 }
+
+function getMyReviewList(startPageNo){ 
+	     
+		$.ajax({	
+			url:'/mazzipmetro/myReviewList.eat?pageNo='+startPageNo,
+		    type:"GET",
+			datatype:"html", 
+			success:function(data){ 
+				$("#userInfo").html(data);
+			},
+			error: function(request, status, error){
+		        alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+	};// end of myReviewList
+
 
 </script>
 <!-- 미현_칭호 붙이기에 쓰이는 css -->
@@ -133,6 +152,9 @@ function restList(){
 	.gradeDetail li.icoSkill {width:65px; padding-top:21px; font-size:7px; font-weight:bold; background:url(http://localhost:9090/mazzipmetro/resources/images/icoSkilled.png) no-repeat;}
 	.gradeDetail li.icoSkill span {padding-left:14px;}
 	.gradeDetail li span.detail {position:absolute; width:50px; left:8px; bottom:0; padding-left:0; font-size:9px;}
+	.aliasOn {cursor:pointer;}
+	.aliasInfo {display:none; width:100px; margin-top:5px; padding:10px; font-size:11px; color:#666; border:1px solid #048a6a;}
+	.aliasOn:hover .aliasInfo{display:block;}
 </style>
 
 </head>
@@ -213,7 +235,16 @@ function restList(){
 	<%-- <c:if test="${userGuAliasList !=null or userDongAliasList !=null or userMetroAliasList !=null or userRestTagAliasList !=null}"> --%>
 	<c:if test="${not empty userGuAliasList or not empty userDongAliasList or not empty userMetroAliasList or not empty userRestTagAliasList}">
 		<tr>
-			<td rowspan="4" width="11%">획득한 칭호</td>
+			<td rowspan="4" width="11%">획득한 칭호 
+				<span class="aliasOn"><img src="<%= request.getContextPath() %>/resources/images/icoQuest.png">
+					<ul class="aliasInfo">
+						<li>입문자 &nbsp;&nbsp;<img src="<%= request.getContextPath() %>/resources/images/icoNovice.png" width="20" height="20"></li>
+						<li>숙련자 &nbsp;&nbsp;<img src="<%= request.getContextPath() %>/resources/images/icoSkilled.png" width="20" height="20"></li>
+						<li>마스터 &nbsp;&nbsp;<img src="<%= request.getContextPath() %>/resources/images/icoMaster.png" width="15" height="15"></li>
+					</ul>
+				</span>
+				
+			</td>
 			<td width="11%">구별</td>
 			<td colspan="6">
 				<ul class="gradeDetail">
@@ -292,10 +323,28 @@ function restList(){
 <c:if test = "${sessionScope.loginUser.userSort == 1}">
 <table class="table">
 	<tr>
-		<th colspan="4">
+		<th colspan="8">
 		${(sessionScope.loginUser).userName} 님의 정보</th>
 	</tr>
 	<tr>
+		<td rowspan="2" colspan="2" align="center" width="22%">
+			<c:if test="${sessionScope.loginUser.gradeName eq '초가집'}">
+				<img src="<%= request.getContextPath() %>/resources/images/icoBossGrade01.png">
+			</c:if>
+			<c:if test="${sessionScope.loginUser.gradeName eq '황토집'}">
+				<img src="<%= request.getContextPath() %>/resources/images/icoBossGrade02.png">
+			</c:if>
+			<c:if test="${sessionScope.loginUser.gradeName eq '기와집'}">
+				<img src="<%= request.getContextPath() %>/resources/images/icoBossGrade03.png">
+			</c:if>
+			<c:if test="${sessionScope.loginUser.gradeName eq '왕궁'}">
+				<img src="<%= request.getContextPath() %>/resources/images/icoBossGrade04.png">
+			</c:if>
+			<c:if test="${sessionScope.loginUser.gradeName eq '황궁'}">
+				<img src="<%= request.getContextPath() %>/resources/images/icoBossGrade05.png">
+			</c:if>
+		</td>
+		
 		<td>포인트</td>
 		<td><fmt:formatNumber pattern="###,###" value="${userPoint}" /></td>
 		<td>매장수</td>

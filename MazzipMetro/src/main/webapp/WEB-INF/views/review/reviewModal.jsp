@@ -5,7 +5,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>멀티 파일올리기 및 썸네일 파일 생성하기</title>
 <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/BootStrapStudy/css/bootstrap.css">
@@ -69,8 +68,11 @@
 		    }
 		});
 		
+		$("#btnMoreComment").bind("click", function() {
+			getReviewComment( "${reviewseq}", parseInt($(this).val()));
+		});
 		
-		getReviewComment("${reviewseq}"); 
+		getReviewComment("${reviewseq}", 1); 
 	});		
 
 	function loginCheck(userSeq){
@@ -80,36 +82,20 @@
 		}
 	}
 	
-	function getReviewCommentCalls(reviewSeq) {
-		getReviewComment(reviewSeq);
-		
-		var timejugi = 1000;   // JSON 정보를 10초 마다 자동 갱신하려고.
-		
-		setTimeout(function(){
-				getReviewCommentCalls(reviewSeq);
-				   }, timejugi);
-	}
+	var lenNew = 5;
 	
-	function getReviewComment(previewSeq){
+	function getReviewComment(previewSeq, start){ //댓글 더보기
 			var userName = $("#userName").val();
 			var userProfile = $("#userProfile").val();
-			$.getJSON("getReviewComment.eat?reviewSeq="+previewSeq ,function(data){
+			$.getJSON("getReviewComment.eat?reviewSeq="+previewSeq + "&start="+start+"&len="+lenNew ,function(data){
 				var html = "";
 				var html2 = "";
 				var count = 0;
 
 				
-				$("#resultComments").empty();
 				$.each(data, function(entryIndex, entry){
-					var margin = Number(entry.depthNo) * 50;
-					var margin2 = (Number(entry.depthNo) + 1) * 50;
 					
-					if(Number(entry.depthNo) == 0){
-						html += "<div class='media' style='padding-left:" + margin + "px;'>";	
-					}else {
-						html += "<div class='media' name='groupNo"+ entry.groupNo + entry.depthNo + "' style='padding-left:" + margin + "px; display:none;'>";
-					}
-					
+					html += "<div class='media'>";	
 					
 					if(Number(entry.agoDay) > 0){
 						html += "<p class='pull-right'> <small>" + entry.agoDay +"일 전 </small> </p>";	
@@ -132,22 +118,22 @@
 						html += "  <small ><a  id='commentLink" + entryIndex + "' style='cursor:pointer;' onClick='goComment(" + entryIndex + ");'>한줄댓글</a></small>";	
 					}
 					
-					
-					
+
 					if(userName == entry.userName){
 						userProfile = entry.userProfile;
-						html +=	"  <small><a href='javascript:deleteReviewComment("+entry.commentSeq + ");'>삭제</a></small>";
+						html +=	"  <small><a onClick='deleteReviewComment("+ previewSeq +","+ entry.commentSeq + ");'>삭제</a></small>";
 					}
 					
 					if(entry.commentCount > 0){
-						html += "<br> <a style='cursor:pointer;' id='commentMore"+ entry.commentSeq +"' onClick='commentMoreView("+ entry.groupNo + "," + (Number(entry.depthNo)+1) + "," + entry.commentSeq +");'>댓글 "+ entry.commentCount +"개 더보기</a>";	
+						html += "<br> <a style='cursor:pointer;' id='commentMore"+ entry.commentSeq +"' onClick='commentMoreView(" + entry.commentSeq +");'>댓글 "+ entry.commentCount +"개 더보기</a>";
+						html += "<div class='comments-list' style='margin-top:30px;' id='resultComments"+ entry.groupNo +"' > </div>";
 					}
 					
 					
 					html += "</div>";
 					html += "</div>";
-					
-					html += "<div class='media' style='display:none; margin-left:"+margin2+"px;' id='commentComment" + entryIndex + "'>";
+
+					html += "<div class='media' style='display:none;'  id='commentComment" + entryIndex + "'>";
 					html += "<a class='media-left' > <img class='img-circle' src='<%=request.getContextPath() %>/files/user/" + userProfile + "'  width='70px' height='70px'> </a>";
 					html += "<div class='media-body'>";
 					html += "<h4 class='media-heading user_name'>" + userName +"</h4>";                                                                                  
@@ -156,19 +142,80 @@
 					html += "</div>";
 					html += "</div>";
 					
-					
 					count++;
 				});
 				
 				html2 += "<small>(" + count + ")</small>";
-				
-				$("#resultComments").html(html);
+				$("#resultComments").append(html);    //여기서는 append를 해줘야한다 왜냐하면 더보기버튼을 클릭하면 start와 lenNew의 범위에 따라서 쿼리가 실행되기 때문에 댓글의 전체를 가져오는게 아니라 일부분만 가져와서 추가하는것이기 때문에 append를 쓴다
 				$("#resultCommentsCount").html(html2);
+				
+				  //>>>>>> 더보기 버튼의 value 속성에 값을 지정해주기 (중요!!!!!) <<<<<<<<
+				  $("#btnMoreComment").val(parseInt(start) + lenNew);
+				  
+				
+				  $("#commentCountNEW").text( parseInt($("#commentCountNEW").text()) + count );
+				  //더보기 버튼의 비활성 처리
+				  //-> count와 totalCout가 일치하는 경우 비활성
+				  if (parseInt($("#commentCountNEW").text()) == parseInt($("#totalCommentCount").text())) {
+					  $("#btnMoreComment").hide();
+					
+				  }else{
+					  $("#btnMoreComment").show();
+				  }
+					
 			}
 		);
-		}
+	}
 	 
-	function insertReviewComment(previewSeq, userSeq, e){
+	function commentMoreView(commentSeq){ //댓글의 댓글 더보기
+ 		var userName = $("#userName").val();
+ 		
+ 		$.getJSON("commentMoreView.eat?commentSeq="+commentSeq ,function(data){
+			var html = "";
+			var html2 = "";
+			var groupNo = "";
+
+			
+			$.each(data, function(entryIndex, entry){
+				/* var margin = Number(entry.depthNo) * 20; */
+				groupNo = entry.groupNo;
+				html += "<div class='media' >";	
+				
+				if(Number(entry.agoDay) > 0){
+					html += "<p class='pull-right'>  <small>" + entry.agoDay +"일 전 </small> </p>";	
+				}else if(Number(entry.agoHour) > 0 && Number(entry.agoHour) < 24){
+					html += "<p class='pull-right'> <small>" + entry.agoHour +"시간 전 </small> </p>";	
+				}else if(Number(entry.agoMinute) > 0 && Number(entry.agoMinute) < 60){
+					html += "<p class='pull-right'> <small>" + entry.agoMinute +"분전 </small> </p>";
+				}else if(Number(entry.agoMinute) == 0){
+					html += "<p class='pull-right'> <small> 방금 </small> </p>";
+				}
+				
+
+			    html += "<a class='media-left' > <img class='img-circle' src='<%=request.getContextPath() %>/files/user/" + entry.userProfile + "' width='70px' height='70px'> </a>"; 
+
+				html += "<div class='media-body'>";
+				html += "<input type='hidden' name='commentSeq' id='commentSeq"+ entry.commentSeq +"' value='"+ entry.commentSeq +" '/>"
+				html += "<h4 class='media-heading user_name'>" + entry.userName +"</h4> " +entry.content +".";
+				
+				if(userName == entry.userName){
+					userProfile = entry.userProfile;
+					html +=	"  <small><a onClick='deleteCommentComment("+entry.commentSeq + "," + commentSeq + "," + entry.fk_seq + ");'>삭제</a></small>";
+				}
+				
+				html += "</div>";
+				html += "</div>";
+				
+			});
+			$("#resultComments"+groupNo).empty();
+			$("#resultComments"+groupNo).html(html); //댓글의 댓글을 불러올때는 전체를 불러오기때문에  html()을쓰거나 append()를 써도 상관없다 위에 empty를 해주고있기 때문에
+			
+		}
+	);
+ 		$("#commentMore"+commentSeq).hide();	
+	}
+	
+	function insertReviewComment(previewSeq, userSeq, e){ //댓글 달기
 		var reviewComment = $("#reviewComment").val();
 		
 			if(userSeq == ""){
@@ -188,18 +235,30 @@
 							url: "insertReviewComment.eat",   // action 에 해당하는 URL 속성값
 							method:"POST",                 // method
 							data: form_data,               // 위의 URL 페이지로 사용자가 보내는 ajax 요청 데이터.
-							success: function() {          // 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
+							dataType:"json",
+							success: function(data) {          // 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
 								$("#reviewComment").val("");
-								getReviewComment(previewSeq);
-							         }
-						});
-					}  
-				}
-			}
+								$("#resultComments").empty();
+								$("#commentCountNEW").text("0");
+								getReviewComment(previewSeq,1);
+								
+								$.each(data, function(key, val){
+									
+									if(key == "reviewCommentTotalCount") {
+											$("#totalCommentCount").text(val+"");
+										}// end of  if(key == "name")
+									}//end of function(key, val)
+								);//end of $.each(data, function(key, val));
+							
+							}//end of success:function(data)
+						}); //end of $.ajax
+					}//end of else  
+				}//end of if(e.keyCode == 13)
+			}//end of else
 		
-	} 
+	}//end of  insertReviewComment
 	
-	 function insertCommentComment(e, reviewSeq1, commentSeq1, groupNo1, depthNo1, index){
+	 function insertCommentComment(e, reviewSeq1, commentSeq1, groupNo1, depthNo1, index){//댓글에 댓글 달기
 		var commentContent = $("#commentContent"+index).val();
 				if(e.keyCode == 13){
 					if(commentContent.length < 1 || commentContent.trim() == ""){
@@ -219,33 +278,66 @@
 							data: form_data,               // 위의 URL 페이지로 사용자가 보내는 ajax 요청 데이터.
 							success: function() {          // 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
 								$("#commentContent"+index).val("");
-								getReviewComment(reviewSeq1);
+								commentMoreView(commentSeq1);
 							         }
 						});
 					}  
 				}
 	} 
 	
-	function goComment(index){
-	var comment =	document.getElementById("commentComment"+index);
-		
-		if(comment.style.display == "none")
-			comment.style.display = "block";
-		else
-			comment.style.display = "none";
-	}
-	
-	function commentMoreView(groupNo,depthNo,commentSeq){
+ 	function deleteReviewComment(reviewSeq1, commentSeq1){ //댓글삭제
+ 		var form_data = {commentSeq : commentSeq1,
+ 				reviewSeq : reviewSeq1,
+		    };
 
-		var groupNoArr = document.getElementsByName("groupNo"+groupNo+""+depthNo);
-		
-		for(var i = 0; i < groupNoArr.length; ++i){
-				groupNoArr[i].style.display = "block";
+		$.ajax({
+			url: "deleteReviewComment.eat",   // action 에 해당하는 URL 속성값
+			method:"POST",                 // method
+			data: form_data,               // 위의 URL 페이지로 사용자가 보내는 ajax 요청 데이터.
+			dataType:"json",
+			success: function(data) {          // 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
+				$("#resultComments").empty();
+				$("#commentCountNEW").text("0");
+				getReviewComment(reviewSeq1, 1);
+				
+				$.each(data, function(key, val){
+					if(key == "reviewCommentTotalCount") {
+							$("#totalCommentCount").text(val+"");
+						}// end of  if(key == "name")
+					}//end of function(key, val)
+				);//end $.each
+			 }//end of success: function(data)
+		});//end of $.ajax
+ 	}//end of deleteReviewComment
+ 	
+ 	function deleteCommentComment(commentSeq1,commentSeq2, fk_seq1){ //댓글의 댓글을 삭제
+ 		var form_data = {commentSeq : commentSeq1,
+ 				fk_seq : fk_seq1
+		    };
+
+		$.ajax({
+			url: "deleteReviewComment.eat",   // action 에 해당하는 URL 속성값
+			method:"POST",                 // method
+			data: form_data,               // 위의 URL 페이지로 사용자가 보내는 ajax 요청 데이터.
+			success: function() {          // 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
+				commentMoreView(commentSeq2);
+			         }
+		});
+ 	}
+ 	
+ 	function goComment(index){
+ 		var comment = document.getElementById("commentComment"+index);
+ 			
+ 			if(comment.style.display == "none")
+ 				comment.style.display = "block";
+ 			else
+ 				comment.style.display = "none";
+ 		}
+ 	
+ 	 function openWinFaq(src, width, height){
+			window.open(src,"팝업창이름(의미없음)", "width=" + width + ", height=" + height + ", left=100px, top=100px, menubar=no, status=no, scrollbars=no");
 		}
-		var commentMore =  document.getElementById("commentMore"+commentSeq);
-		commentMore.style.display = "none";
-	}
-	
+ 	
 </script>
 
 </head>
@@ -309,7 +401,7 @@
 <div class="container">
 	<table class="table">
 		<tr>
-			<input type="button" style="float: right" class="report" onClick="" />
+			<input type="button" style="float: right;" class="report" onClick="openWinFaq('<%=request.getContextPath() %>/report.eat', '500','400' );" />
 			<th>${restName}</th>
 			
 		</tr>
@@ -334,6 +426,11 @@
 					<div class="comments-list" id="resultComments" style="margin-bottom:20px;">
 						
 					</div>
+					<div>
+						<button id="btnMoreComment"  value="">더보기</button>
+						<button type="button" id="btntotalCommentCount">TotalNEWCount : <span id="totalCommentCount">${reviewCommentTotalCount}</span></button>
+						<button type="button" id="btnRomanceCountNEW">Count : <span id="commentCountNEW">0</span></button>
+					</div>
 				<hr>
 						<div class="tab-pane fade in active" id="service-one">
 							<div class="row" style="margin-top:20px;">
@@ -343,7 +440,7 @@
 											<tr>
 												<td></td>
 												<td>
-														<div class="media">
+														<div class="media" >
 															<a class="media-left" > <img class="img-circle" src="<%=request.getContextPath() %>/files/user/${(sessionScope.loginUser.userProfile)}"  width="70px" height="70px"> </a>
 															<div class="media-body">
 																<br>

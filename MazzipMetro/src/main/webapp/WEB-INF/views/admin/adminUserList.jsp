@@ -8,6 +8,7 @@
 	#colName {height:23px; font-size:13px;}
 </style>
 <script type="text/javascript">
+//미현_검색어관련
 $(document).ready(function(){
 	searchKeep();
 	
@@ -34,7 +35,7 @@ function searchKeep(){
 	   $("#search").val("${search}");    // 검색어를 유지시켜 주겠다.
 	</c:if>
 }
-
+//미현_회원삭제하기
 function goUserDel(userSeq){
 	var userDelFrm = document.userDelFrm;
 	
@@ -42,7 +43,7 @@ function goUserDel(userSeq){
 	userDelFrm.method="post";
 	userDelFrm.submit();
 }
-
+//미현_회원수정하기
 function goUserEdit(userSeq){
 	var url = "adminUserEdit.eat?userSeq="+userSeq;
 	window.open(url, "adminUserEdit", "left=350px, top=100px, width=350px, height=300px, status=no, scrollbars=yes");

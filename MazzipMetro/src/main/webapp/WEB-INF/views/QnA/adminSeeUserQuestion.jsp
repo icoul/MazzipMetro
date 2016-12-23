@@ -101,7 +101,7 @@
 				<tr>
 					<th>답변제목</th>
 					<td>
-						<input name="qnaSubject" id="qnaSubject" type="text"/> <input type="text" name="qnaSeq" value="${qnaSeq}"/>
+						<input name="qnaSubject" id="qnaSubject" type="text"/> <input type="hidden" name="qnaSeq" value="${qnaSeq}"/>
 					</td>
 				</tr>
 				<tr> 
@@ -115,7 +115,7 @@
 		</form>
 	</div>
 	</c:if>
-	<div align="center">
+	<div align="center" >
 		<c:if test="${qnaProgress eq '접수완료'}">
 			<button class="btn btn-primary" type="button" onClick="javascript:goRegister();">답변하기</button>
 		</c:if>
