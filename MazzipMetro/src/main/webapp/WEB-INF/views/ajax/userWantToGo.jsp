@@ -11,8 +11,50 @@
 $(document).ready(function(){
 	
 	$(".marked").hide();
+
+	// 분명 String[] 타입으로 세션에 담았지만, 문자열 객체로 전달되었고, 배열이 아니다.....
+	<c:if test="${not empty sessionScope.userWantToGoChk}">
+	var userWantToGoChk = '${sessionScope.userWantToGoChk[0]}'.split(',');
 	
-	$('input:checkbox').click(function(){    
+	//alert('${sessionScope.userWantToGoChk[0]}');
+	//alert("userWantToGoChk[0] = "+userWantToGoChk[0]+" ,userWantToGoChk[1]="+userWantToGoChk[1]);
+	
+	for (var i = 0; i < userWantToGoChk.length; i++) {
+		$("[name=wantToGoChk]").each(function(){
+			
+			if($(this).val() == userWantToGoChk[i]){
+				var imgId = 'img_'+$(this).val();       
+			    var markId ='mark_'+$(this).val();
+			    
+				$(this).attr('checked', true);
+				$("#"+imgId).css('opacity', '0.3');
+		        $("#"+markId).show();
+			}
+		});
+		
+	}
+	</c:if>
+	
+	// 가고싶다 최초 오픈시 모두 선택되지 않았다면, 모두선택버튼을 보여준다.
+	//alert($("[name=wantToGoChk]").length+' ' + $("[name=wantToGoChk]:checked").length);
+	
+	if($("[name=wantToGoChk]").length == $("[name=wantToGoChk]:checked").length){
+		$("#btnSelectAll").hide();
+		$("#btnSelectNone").show();		
+	}else {
+		$("#btnSelectAll").show();
+		$("#btnSelectNone").hide();		
+	}  
+	
+	/* $('input:checkbox').click(function(){    
+		
+		if($("[name=wantToGoChk]").length == $("[name=wantToGoChk]:checked").length){
+			$("#btnSelectAll").hide();
+			$("#btnSelectNone").show();		
+		}else {
+			$("#btnSelectAll").show();
+			$("#btnSelectNone").hide();		
+		} 
 	
 	    var imgId = 'img_'+$(this).attr('id').substring(4);              
 	    var markId ='mark_'+$(this).attr('id').substring(4);
@@ -25,7 +67,7 @@ $(document).ready(function(){
 	           $("#"+imgId).css('opacity', '1');
 	           $("#"+markId).hide();
 	         }             
-	});
+	}); */
 	
 	$('.tooltipster').tooltipster({
 		animation: 'grow',
@@ -87,7 +129,88 @@ $(document).ready(function(){
 	    }
 	});
 	
+	// 페이지 이동시 체크박스가 해제되는 것을 방지하기 위해서 session을 이용한다.
+	$("[name=wantToGoChk]").change(function(){
+		
+		if($("[name=wantToGoChk]").length == $("[name=wantToGoChk]:checked").length){
+			$("#btnSelectAll").hide();
+			$("#btnSelectNone").show();		
+		}else {
+			$("#btnSelectAll").show();
+			$("#btnSelectNone").hide();		
+		} 
+	
+	    var imgId = 'img_'+$(this).attr('id').substring(4);              
+	    var markId ='mark_'+$(this).attr('id').substring(4);
+	    
+	    if( $(this).is(':checked')) {
+          $("#"+imgId).css('opacity', '0.3');
+          $("#"+markId).show();
+        } else {
+           $("#"+imgId).css('opacity', '1');
+           $("#"+markId).hide();
+         } 
+		
+		sendUserWantToGoChk();
+		
+	});
+	
 }); // end of $(document).ready()
+
+
+//모두 선택 버튼
+function selectAll(){
+	// 자바 1.6버젼이후로 defaultChecked, defautlSelected 에 대해서는 prop속성을 사용해야한다.
+	$("[name=wantToGoChk]").prop('checked', true);
+	
+	
+	$("[name=wantToGoChk]").each(function(){
+		var imgId = 'img_'+$(this).attr('id').substring(4);              
+	    var markId ='mark_'+$(this).attr('id').substring(4);
+	    $("#"+imgId).css('opacity', '0.3');
+	    $("#"+markId).show();
+	});
+	$("#btnSelectAll").hide();
+	$("#btnSelectNone").show();
+	
+	sendUserWantToGoChk();
+}
+
+//모두 선택 버튼 해제
+function selectNone(){
+	$("[name=wantToGoChk]").prop('checked', false);
+	
+	$("[name=wantToGoChk]").each(function(){
+		var imgId = 'img_'+$(this).attr('id').substring(4);              
+	    var markId ='mark_'+$(this).attr('id').substring(4);
+	    $("#"+imgId).css('opacity', '1');
+	    $("#"+markId).hide();
+	});
+	$("#btnSelectNone").hide();
+	$("#btnSelectAll").show();
+	
+	sendUserWantToGoChk();
+}
+
+function sendUserWantToGoChk(){
+	//alert(1);
+	
+	var userWantToGoChk = [];
+	
+	$("[name=wantToGoChk]:checked").each(function(){
+		userWantToGoChk.push($(this).val());
+	});
+	
+	$.ajax({
+		url: "<%=request.getContextPath()%>/userWantToGoChk.eat", 
+		method:"GET",  		 // method
+		data: "userWantToGoChk="+userWantToGoChk,
+		traditional: true,		 // 배열 데이터 전송용
+		success: function(data) {// 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
+			//alert(2);
+			}
+	});//end of $.ajax()
+}
 
 // 결정장애용, 맛집메트로 대리 추천...
 function mazzipMetroPick () {
@@ -134,21 +257,9 @@ function mazzipMetroPick () {
 	
 }
 
-function selectAll(){
-	$("[name=wantToGoChk]").attr('checked', true);
-	
-	$("[name=wantToGoChk]").each(function(){
-		var imgId = 'img_'+$(this).attr('id').substring(4);              
-	    var markId ='mark_'+$(this).attr('id').substring(4);
-	    $("#"+imgId).css('opacity', '0.3');
-	    $("#"+markId).show();
-		
-	});
-}
-
-
 
 </script>
+
 
 <c:if test="${empty list}">
 <br/><br/><span style="color: #818181; text-decoration: underline;">가고 싶은 음식점을 담아보세요.</span><br/><br/> 
@@ -157,11 +268,12 @@ function selectAll(){
 <c:if test="${not empty list}">
 <table style="width: 450px;position: relative; border: solid gray 0px;">
 <tr>
-	<td style="padding: 30px; width: 70%;">
-		<button type="button" onclick="mazzipMetroPick();" class="btn btn-default btn-sm">못고르겠어요ㅠㅜ 맛집 메트로가 골라주세요!</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<td style="padding: 30px; width: 60%;">
+		<button type="button" onclick="mazzipMetroPick();" class="btn btn-default btn-xs">못고르겠어요ㅠㅜ 맛집 메트로가 골라주세요!</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	</td>
-	<td align="center" style="width: 25%;">
-		<button type="button" onclick="selectAll();" class="btn btn-default btn-xs" style="border:1px solid gray;">모두선택</button>
+	<td align="center" style="width: 35%;">
+		<button type="button" id="btnSelectAll" onclick="selectAll();" class="btn btn-default btn-xs" style="border:1px solid gray;">모두선택</button>
+		<button type="button" id="btnSelectNone" onclick="selectNone();" class="btn btn-default btn-xs" style="border:1px solid gray;">모두선택해제</button>
 		<button type="button" onclick="goDel();" class="btn btn-danger btn-xs">선택삭제</button>
 	</td>
 </tr>

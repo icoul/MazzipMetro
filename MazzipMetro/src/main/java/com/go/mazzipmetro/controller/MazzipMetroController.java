@@ -173,6 +173,27 @@ public class MazzipMetroController {
 		return "/ajax/themeSearch";
 	}
 	
+	
+	// 사용자 가고싶다 list 중 체크된 체크박스를 세션 저장 요청
+	@RequestMapping(value="/userWantToGoChk.eat", method={RequestMethod.GET})
+	public void login_userWantToGoChk(HttpServletRequest req, HttpServletResponse res){
+		String[] userWantToGoChk = req.getParameterValues("userWantToGoChk");
+		
+		System.out.println(">>>>>>>>>>>>>>>>"+userWantToGoChk[0]);
+		/*String, int배열인데, 찍으면 객체로 찍힌다.*/
+		//String[] testArr = new String[]{"헬","로","우"};
+		//int[] intTestArr = new int[]{1,2,3};
+		//System.out.println(">>>>>>>>>>>>>>>>"+intTestArr);
+		//>>>>>>>>>>>>>>>>[I@4d695f9e
+		//System.out.println(">>>>>>>>>>>>>>>>"+userWantToGoChk);
+		//>>>>>>>>>>>>>>>>[Ljava.lang.String;@4495fddc
+		//System.out.println(">>>>>>>>>>>>>>>>"+testArr);
+		//>>>>>>>>>>>>>>>>[Ljava.lang.String;@74641b3c
+		
+		req.getSession().setAttribute("userWantToGoChk", userWantToGoChk);
+		
+	}
+	
 	// 사용자 가고싶다 list 요청
 	@RequestMapping(value="/getUserWantToGo.eat", method={RequestMethod.GET})
 	public String login_getUserWantToGo(HttpServletRequest req, HttpServletResponse res){
@@ -958,9 +979,6 @@ public class MazzipMetroController {
 	//QnA/myQna.jsp페이지에서 등록하기를 누르면 등록해주는 컨트롤러
 	@RequestMapping(value = "/myQnaRegister.eat", method = {RequestMethod.POST})
 	public String myQnaRegister(HttpServletRequest req) {
-		
-		
-		
 		String userSeq = req.getParameter("userSeq");
 		String qnaQuiry = req.getParameter("qnaQuiry");
 		String qnaSubject = req.getParameter("qnaSubject");
@@ -976,10 +994,10 @@ public class MazzipMetroController {
 		int n =  service.qnaRegister(hashMap);
 		
 		if(n == 0){
-			req.setAttribute("msg", "문의등록이 실패하였습니다.");
+			req.setAttribute("msg", "등록 실패하였습니다.");
 			req.setAttribute("loc", "javascript:history.back();");
 		}else if(n==1){
-			req.setAttribute("msg", "문의등록이 성공하였습니다.");
+			req.setAttribute("msg", "등록 성공하였습니다.");
 			req.setAttribute("loc", "myQnaList.eat?userSeq=" + userSeq);
 		}
 		
@@ -1851,7 +1869,8 @@ public class MazzipMetroController {
 	//14
 	//adminQnaList에서 Q&A를 삭제하는 컨트롤러
 	@RequestMapping(value = "/deleteQna.eat", method = {RequestMethod.POST})
-	public String deleteQna(HttpServletRequest req) {
+	public String deleteQna(HttpServletRequest req, HttpSession session) {
+		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
 		
 		String qnaColName = req.getParameter("qnaColNameDeleteFrm");
 		String qnaSearch = req.getParameter("qnaSearchDeleteFrm");
@@ -1869,9 +1888,15 @@ public class MazzipMetroController {
 		int count = service.countAnswer(qnaSeqArr);
 		int result = service.deleteQna(qnaSeqArr);
 		
-		String loc =  String.format(
-				"myQnaList.eat?qnaRegYearStart=%s&qnaRegMonthStart=%s&qnaRegDayStart=%s&qnaRegYearEnd=%s&qnaRegMonthEnd=%s&qnaRegDayEnd=%s&qnaInquiry=%s&qnaColName=%s&qnaSearch=%s&qnaProgress=%s",
-				qnaRegYearStart,qnaRegMonthStart,qnaRegDayStart,qnaRegYearEnd ,qnaRegMonthEnd,qnaRegDayEnd,qnaInquiry, qnaColName, qnaSearch,qnaProgress);
+		String loc =  "";
+		
+		if(loginUser.getUserSeq().equals("0")){
+			loc =  String.format(
+					"adminQnaList.eat?qnaRegYearStart=%s&qnaRegMonthStart=%s&qnaRegDayStart=%s&qnaRegYearEnd=%s&qnaRegMonthEnd=%s&qnaRegDayEnd=%s&qnaInquiry=%s&qnaColName=%s&qnaSearch=%s&qnaProgress=%s",
+					qnaRegYearStart,qnaRegMonthStart,qnaRegDayStart,qnaRegYearEnd ,qnaRegMonthEnd,qnaRegDayEnd,qnaInquiry, qnaColName, qnaSearch,qnaProgress);
+		}else if(loginUser.getUserSeq().equals("1")){
+			loc = "userMyPage.eat";
+		}
 		
 		if(count + qnaSeqArr.length == result){
 			req.setAttribute("msg", "삭제가 완료되었습니다.");
@@ -1922,4 +1947,18 @@ public class MazzipMetroController {
 	
 	}	
 ////////////////////////////////////////////////////////은석17 //////////////////////////////////////////////////////////////
+
+	@RequestMapping(value = "/report.eat", method = {RequestMethod.GET})
+	public String report(HttpServletRequest req, HttpSession session) {
+		UserVO loginUser = (UserVO)session.getAttribute("loginUser");
+		System.out.println("///////////////////////////////////////////////////////");
+		if(loginUser == null){ 
+			req.setAttribute("msg", "로그인 후 이용해주세요");
+			req.setAttribute("loc", "javascript:history.back();");
+			return "QnA/msg";
+		}
+		
+		req.setAttribute("userSeq", loginUser.getUserSeq());
+		return "QnA/report";
+	}
 }
