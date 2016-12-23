@@ -48,7 +48,7 @@ table {
 	border-spacing: 0;
 }
 
-img {border:0; padding:0; margin:0; vertical-align:middle;}
+img {border:0; padding:0; margin:0; vertical-align:middle; text-align: center}
 
 /* 미현_헤더부분 레이아웃 */
 #headWrap {border-bottom:1px solid #dbdbdb;}
