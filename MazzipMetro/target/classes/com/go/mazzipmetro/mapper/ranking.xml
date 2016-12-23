@@ -630,4 +630,27 @@
 		where rownum = 1
 	</select>
 	
+	<select id="ranking.getRestInfo" parameterType="java.util.HashMap" resultType="com.go.mazzipmetro.vo.RestaurantVO">
+		select *
+		from tbl_restaurant
+		where restSeq = #{restSeq}
+	</select>
+	
+	<select id="ranking.getReviewInfo" parameterType="java.util.HashMap" resultType="com.go.mazzipmetro.vo.ReviewVO">
+		select *
+		from tbl_review
+		where reviewSeq = #{reviewSeq}
+	</select>
+	
+	<select id="ranking.getUserInfo" parameterType="java.util.HashMap" resultType="com.go.mazzipmetro.vo.UserVO">
+		select *
+		from tbl_user
+		where userSeq = #{userSeq}
+	</select>
+	
+	<select id="ranking.getRestAdInfo" parameterType="java.util.HashMap" resultType="String">
+		select adImg
+		from TBL_RESTAURANT_AD
+		where restSeq = #{restSeq}
+	</select>
 </mapper>
