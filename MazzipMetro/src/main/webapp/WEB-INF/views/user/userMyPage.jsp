@@ -9,6 +9,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>마이페이지</title>
+<style>
+.gradeFontSize {color:#008968; font-size:20px; font-stretch:narrower; font-weight: bold; text-align: center;}
+.gradeFontThSize {style="color: red; font-size:12px; font-stretch:narrower; font-weight: bold;}
+.tableAlign {text-align: center;}
+</style>
 
 <script type="text/javascript">
 
@@ -168,8 +173,8 @@ function restList(){
 				<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade07.png">
 			</c:if>
 		</td>
-		<td width="13%">등급 </td>
-		<td width="13%"> ${sessionScope.loginUser.gradeName} </td>
+		<td width="13%"><span>등급</span>  <a data-toggle="modal" data-target="#gradeInfoModal" style="cursor: pointer;"><i class="material-icons">help_outline</i></a></td>
+		<td width="13%"> ${sessionScope.loginUser.gradeName}  </td>
 		
 		<td width="13%">정복한 맛집</td>
 		<td width="13%">${reviewCount}</td>
@@ -318,6 +323,66 @@ function restList(){
 <div style="height:160px;">
 </div>
 
+<!-- 회원가입을 위한 Modal -->
+  <div class="modal fade" id="gradeInfoModal" role="dialog" >
+    <div class="modal-dialog  modal-lg" style="width:1300px; text-align: center;">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"><span class="gradeFontSize">회원등급안내</span></h4>
+        </div>
+        <div class="modal-body" align="center">
+          <table class="table tableAlign">
+          	<tr style="border-top-width:4px; border-style:double;">
+          		<th width="130px" rowspan="2"> 회원등급 </th>
+          		<th width="130px" style="text-align: center"><img src="<%= request.getContextPath() %>/resources/images/icoUserGrade01.png"></th>
+          		<th width="130px" style="text-align: center"><img src="<%= request.getContextPath() %>/resources/images/icoUserGrade02.png"></th>
+          		<th width="130px" style="text-align: center"><img src="<%= request.getContextPath() %>/resources/images/icoUserGrade03.png"></th>
+          		<th width="130px" style="text-align: center"><img src="<%= request.getContextPath() %>/resources/images/icoUserGrade04.png"></th>
+          		<th width="130px" style="text-align: center"><img src="<%= request.getContextPath() %>/resources/images/icoUserGrade05.png"></th>
+          		<th width="130px" style="text-align: center"><img src="<%= request.getContextPath() %>/resources/images/icoUserGrade06.png"></th>
+          		<th width="130px" style="text-align: center"><img src="<%= request.getContextPath() %>/resources/images/icoUserGrade07.png"></th>
+          	</tr>
+          	<tr style="border-bottom-width:4px; border-style:double;">
+          		<th style="font-size:14px; font-stretch:narrower; font-weight: bold; text-align: center;">흙수저</th>
+				<th style="font-size:14px; font-stretch:narrower; font-weight: bold; text-align: center;">구리수저</th>
+				<th style="font-size:14px; font-stretch:narrower; font-weight: bold; text-align: center;">은수저</th>
+				<th style="font-size:14px; font-stretch:narrower; font-weight: bold; text-align: center;">금수저</th>
+				<th style="font-size:14px; font-stretch:narrower; font-weight: bold; text-align: center;">다이아수저</th>
+				<th style="font-size:14px; font-stretch:narrower; font-weight: bold; text-align: center;">달인</th>
+				<th style="font-size:14px; font-stretch:narrower; font-weight: bold; text-align: center;">신</th>
+          	</tr>
+			<tr>	
+				<th class="gradeFontThSize">회원등급 조건</th>
+				<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">기본등급</td>
+				<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">EXP 200 이상</td>
+				<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">EXP 750 이상</td>
+				<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">EXP 1200 이상</td>
+				<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">EXP 3500 이상</td>
+				<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">EXP 5000 이상 <br> 동,역 마스터 각각 5개씩 + 1500 마일리지 소모 </td>
+				<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">EXP 10000 이상 <br> 구 마스터 1개 + 3000 마일리지 소모 </td>
+          	</tr>
+          	<tr>
+          		<th>회원혜택</th>
+          		<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">-</td>
+          		<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">랜덤박스 1개 지급</td>
+          		<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">랜덤박스 1개 <br>프리미엄박스 1개 지급</td>
+          		<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">프리미엄박스 2개 지급</td>
+          		<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">프리미엄박스 6개 지급</td>
+          		<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">한달에 프리미엄박스 1개 지급</td>
+          		<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">한달에 프리미엄박스 3개 지급</td>
+          	</tr>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
 </div>
 </body>
 </html>

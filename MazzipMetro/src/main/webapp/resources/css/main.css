@@ -49,7 +49,7 @@ table {
 	border-spacing: 0;
 }
 
-img {border:0; padding:0; margin:0; vertical-align:middle;}
+img {border:0; padding:0; margin:0; vertical-align:middle; text-align: center}
 
 
 
@@ -72,7 +72,7 @@ img {border:0; padding:0; margin:0; vertical-align:middle;}
 .loginInfo {position:absolute; right:0;} 
 .btnColor {background-color: #008968; color: #fff;}
 .fontDesign {color:#008968; font-size:13px; font-stretch:narrower; font-weight: bold;}
-.btnDesign {background:#F7F7F7; padding:2px; font-size:12px; border:1px solid #D4DADC; border-radius:2px; color:#A1A1A1; cursor:pointer;}
+.btnDesign {background:#F7F7F7; padding:2px; font-size:12px; border:1px solid #D4DADC; border-radius:5px; color:#A1A1A1; cursor:pointer;}
 .btnLogout {background-color: #dddddd; height:30px; border-radius: 0;}
 .logOut {color: #000; font-size:12px; font-weight: bold;}
 

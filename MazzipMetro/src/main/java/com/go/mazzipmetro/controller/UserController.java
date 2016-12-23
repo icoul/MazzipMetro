@@ -817,13 +817,10 @@ public class UserController {
 
 		// ***** 이전 5페이지 만들기 *****
 	
+		System.out.println("#####---------------" + startPageNo);
+		
 		if(startPageNo == 1) {
-			if(((startPageNo - blockSize) > 0) ) {
 				pageBar += String.format("<li><a href='/mazzipmetro/myReviewList.eat?pageNo=%d'>[이전%d페이지]</a></li>", startPageNo-1, blockSize ) + "&nbsp;";
-			}
-		} else {
-				pageBar += String.format("<li><a href='/mazzipmetro/myReviewList.eat?pageNo=%d'>[이전%d페이지]</a></li>", startPageNo-1, blockSize ) + "&nbsp;";
-			
 		}
 		
 		while (!(loop > blockSize || startPageNo > totalPage)) {
