@@ -90,7 +90,7 @@ function goEditEnd(){
 			
 		</table>
 		
-		<div align="center">
+		<div align="center" >
 			<input type="hidden" name="qnaSeq" id="qnaSeq" value="${qnaSeq }" />
 			<button type="button" class="btn btn-primary" onClick="javascript:goEditEnd();">수정</button>
 			<button type="button" class="btn btn-danger"  onClick="javascript:history.back();">취소</button>

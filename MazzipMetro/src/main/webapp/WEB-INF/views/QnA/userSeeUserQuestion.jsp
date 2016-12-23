@@ -60,7 +60,7 @@
 			</tr>
 		</table>
 		
-		<div align="center">	
+		<div align="center" >	
 			<c:if test="${userQuestion.qnaProgress eq '접수완료'}">                                                                                                                                             
 				<button type="button" class="btn btn-primary"  onClick="javascript:location.href='<%=request.getContextPath() %>/userQuestionEdit.eat?qnaSeq=${qnaSeq }&userName=${userName}&qnaInquiry=${userQuestion.qnaInquiry}&qnaSubject=${userQuestion.qnaSubject}&qnaRegDate=${userQuestion.qnaRegDate }&qnaProgress=${userQuestion.qnaProgress }'">수정</button>
 			</c:if>

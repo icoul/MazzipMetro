@@ -336,18 +336,54 @@
 	</select>
 	
 	<!-- 리뷰댓글의 목록을 가져온다. -->
-	<select id="getReviewCommentList" parameterType="String" resultType="com.go.mazzipmetro.vo.ReviewCommentVO">
-		select a.commentSeq, a.content, trunc((sysdate - a.regDate), 0) as agoDay, trunc((sysdate - a.regDate) * 1 * 24, 0) as agoHour, trunc((sysdate - a.regDate) * 1 * 24 * 60,0) as agoMinute, a.commentCount, a.groupNo, a.fk_seq, a.depthNo, b.userName, b.userProfile
-		from tbl_review_comment a join tbl_user b
-		on a.userSeq = b.userSeq
-		where reviewSeq = #{reviewSeq}
-		start with fk_seq = 0
-		connect by prior a.commentseq = a.fk_seq
-		order siblings by a.groupno asc, a.commentseq asc
+	<select id="getReviewCommentList" parameterType="java.util.HashMap" resultType="com.go.mazzipmetro.vo.ReviewCommentVO">
+		select rno, commentSeq, content, agoDay, agoHour, agoMinute, commentCount, groupNo, fk_seq, depthNo, userName, userProfile
+		from
+		(
+		  select rownum as rno, a.commentSeq, a.content, trunc((sysdate - a.regDate), 0) as agoDay, trunc((sysdate - a.regDate) * 1 * 24, 0) as agoHour, trunc((sysdate - a.regDate) * 1 * 24 * 60,0) as agoMinute, a.commentCount, a.groupNo, a.fk_seq, a.depthNo, b.userName, b.userProfile
+		  from tbl_review_comment a join tbl_user b
+		  on a.userSeq = b.userSeq
+		  where reviewSeq = #{reviewSeq} and depthno = 0 and status = 1
+		  start with fk_seq = 0 
+		  connect by prior a.commentseq = a.fk_seq
+		  order siblings by a.groupno asc, a.commentseq asc
+		)where rno between #{startRno} and #{endRno}
 	</select>
 	
 	<!-- 원 댓글에 댓글이 달리면 commentCount를 1증가 시킨다. -->
 	<update id="updateReviewComment" parameterType="java.util.HashMap">
 		update tbl_review_comment set commentCount = commentCount + 1 where commentSeq = #{commentSeq}
+	</update>
+	
+	<select id="getReviewCommentTotalCount" parameterType="String" resultType="int">
+		select count(*) as count
+		from tbl_review_comment
+		where reviewSeq = #{reviewSeq} and depthno = 0 and status = 1
+	</select>
+	
+	<select id="getCommentCommentList" parameterType="String" resultType="com.go.mazzipmetro.vo.ReviewCommentVO">
+		select a.commentSeq, a.content, trunc((sysdate - a.regDate), 0) as agoDay, trunc((sysdate - a.regDate) * 1 * 24, 0) as agoHour, trunc((sysdate - a.regDate) * 1 * 24 * 60,0) as agoMinute, a.commentCount, a.groupNo, a.fk_seq, a.depthNo, b.userName, b.userProfile
+		from tbl_review_comment a join tbl_user b
+		on a.userSeq = b.userSeq
+		where fk_seq = #{commentSeq} and status = 1
+		order by commentSeq asc
+	</select>
+	
+	<select id="getCommentCount" parameterType="String" resultType="int">
+		select count(*)
+		from tbl_review_comment
+	  	where fk_seq = #{commentSeq} and status = 1
+	</select>
+	
+	<update id="deleteCommentComment" parameterType="String">
+		update tbl_review_comment set status = 0 where  fk_seq = #{commentSeq}
+	</update>
+	
+	<update id="deleteReviewComment" parameterType="String">
+		update tbl_review_comment set status = 0 where  commentSeq = #{commentSeq}
+	</update>
+	
+	<update id="updateCommentCount" parameterType="String">
+		update tbl_review_comment set commentCount = commentCount - 1 where commentSeq = #{fk_seq} 
 	</update>
 </mapper>
