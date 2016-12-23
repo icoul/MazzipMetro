@@ -269,7 +269,7 @@ $(document).ready(function(){
 					 </c:if>
 					 <span style="font-weight:bold; font-size:15pt; color:red;">${review.reviewAvgScore}</span>&nbsp;&nbsp;
 					 <span>${review.reviewRegDate }</span>
-					 <input style="float: right" type="button" class="report" onClick="" />
+					 <input style="float: right" type="button" class="report" onClick="openWinFaq('<%=request.getContextPath() %>/report.eat', '500','400' );" />
 					 <br/><br/>
 					<section>${review.reviewContent}</section>
 					
@@ -301,7 +301,7 @@ $(document).ready(function(){
 			<div class="modal  fade" id="reviewImageDiv${status.index}" style="margin-top:20px; margin-left:350px; width:80%; " >
 
 			<div style="margin-left:810px;">
-			   <a href="#"><img src="<%=request.getContextPath()%>/files/closeButton2.png" width="30px" height="30px" data-dismiss="modal"></a>
+			   <a href="#"><img src="<%=request.getContextPath()%>/files/closeButton.png" width="30px" height="30px" data-dismiss="modal"></a>
 			  </div>
 			  <iframe scrolling="yes" style=" border: none; width: 70%; height: 600px; " src="<%= request.getContextPath() %>/reviewModal.eat?reviewseq=${review.reviewSeq}&restname=${restvo.restname}&username=${review.userName }&reviewprofile=${review.userProfile}&reviewcontent=${review.reviewContent}&reviewregdate=${review.reviewRegDate}">
 			  </iframe>

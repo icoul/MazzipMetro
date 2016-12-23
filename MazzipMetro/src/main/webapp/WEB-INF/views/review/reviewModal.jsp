@@ -5,7 +5,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>멀티 파일올리기 및 썸네일 파일 생성하기</title>
 <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/BootStrapStudy/css/bootstrap.css">
@@ -83,19 +82,9 @@
 		}
 	}
 	
-	function getReviewCommentCalls(reviewSeq) {
-		getReviewComment(reviewSeq);
-		
-		var timejugi = 1000;   // JSON 정보를 10초 마다 자동 갱신하려고.
-		
-		setTimeout(function(){
-				getReviewCommentCalls(reviewSeq);
-				   }, timejugi);
-	}
+	var lenNew = 5;
 	
-	var lenNew = 2;
-	
-	function getReviewComment(previewSeq, start){
+	function getReviewComment(previewSeq, start){ //댓글 더보기
 			var userName = $("#userName").val();
 			var userProfile = $("#userProfile").val();
 			$.getJSON("getReviewComment.eat?reviewSeq="+previewSeq + "&start="+start+"&len="+lenNew ,function(data){
@@ -176,77 +165,9 @@
 					
 			}
 		);
-		}
-	 
-	function insertReviewComment(previewSeq, userSeq, e){
-		var reviewComment = $("#reviewComment").val();
-		
-			if(userSeq == ""){
-				alert("로그인을 해주세요");
-				$("#reviewComment").val("");
-			}else{
-				if(e.keyCode == 13){
-					if(reviewComment.length < 1 || reviewComment.trim() == ""){
-						alert("댓글을 입력해주세요");
-						$("#reviewComment").val("");
-					}else{
-						var form_data = {reviewSeq : previewSeq ,          
-							    comment : reviewComment        
-						    };
-			
-						$.ajax({
-							url: "insertReviewComment.eat",   // action 에 해당하는 URL 속성값
-							method:"POST",                 // method
-							data: form_data,               // 위의 URL 페이지로 사용자가 보내는 ajax 요청 데이터.
-							success: function() {          // 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
-								$("#reviewComment").val("");
-								$("#resultComments").empty();
-								getReviewComment(previewSeq,1);
-							         }
-						});
-					}  
-				}
-			}
-		
-	} 
-	
-	 function insertCommentComment(e, reviewSeq1, commentSeq1, groupNo1, depthNo1, index){
-		var commentContent = $("#commentContent"+index).val();
-				if(e.keyCode == 13){
-					if(commentContent.length < 1 || commentContent.trim() == ""){
-						alert("댓글을 입력해주세요");
-						$("#commentContent"+index).val("");
-					}else{
-						var form_data = {reviewSeq : reviewSeq1,
-							    comment : commentContent,
-							    commentSeq : commentSeq1,
-								groupNo	: 	groupNo1,
-								depthNo : depthNo1
-						    };
-			
-						$.ajax({
-							url: "insertReviewComment.eat",   // action 에 해당하는 URL 속성값
-							method:"POST",                 // method
-							data: form_data,               // 위의 URL 페이지로 사용자가 보내는 ajax 요청 데이터.
-							success: function() {          // 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
-								$("#commentContent"+index).val("");
-								commentMoreView(commentSeq1);
-							         }
-						});
-					}  
-				}
-	} 
-	
-	function goComment(index){
-	var comment = document.getElementById("commentComment"+index);
-		
-		if(comment.style.display == "none")
-			comment.style.display = "block";
-		else
-			comment.style.display = "none";
 	}
-	
- 	function commentMoreView(commentSeq){
+	 
+	function commentMoreView(commentSeq){ //댓글의 댓글 더보기
  		var userName = $("#userName").val();
  		
  		$.getJSON("commentMoreView.eat?commentSeq="+commentSeq ,function(data){
@@ -292,24 +213,104 @@
 		}
 	);
  		$("#commentMore"+commentSeq).hide();	
+	}
+	
+	function insertReviewComment(previewSeq, userSeq, e){ //댓글 달기
+		var reviewComment = $("#reviewComment").val();
+		
+			if(userSeq == ""){
+				alert("로그인을 해주세요");
+				$("#reviewComment").val("");
+			}else{
+				if(e.keyCode == 13){
+					if(reviewComment.length < 1 || reviewComment.trim() == ""){
+						alert("댓글을 입력해주세요");
+						$("#reviewComment").val("");
+					}else{
+						var form_data = {reviewSeq : previewSeq ,          
+							    comment : reviewComment        
+						    };
+			
+						$.ajax({
+							url: "insertReviewComment.eat",   // action 에 해당하는 URL 속성값
+							method:"POST",                 // method
+							data: form_data,               // 위의 URL 페이지로 사용자가 보내는 ajax 요청 데이터.
+							dataType:"json",
+							success: function(data) {          // 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
+								$("#reviewComment").val("");
+								$("#resultComments").empty();
+								$("#commentCountNEW").text("0");
+								getReviewComment(previewSeq,1);
+								
+								$.each(data, function(key, val){
+									
+									if(key == "reviewCommentTotalCount") {
+											$("#totalCommentCount").text(val+"");
+										}// end of  if(key == "name")
+									}//end of function(key, val)
+								);//end of $.each(data, function(key, val));
+							
+							}//end of success:function(data)
+						}); //end of $.ajax
+					}//end of else  
+				}//end of if(e.keyCode == 13)
+			}//end of else
+		
+	}//end of  insertReviewComment
+	
+	 function insertCommentComment(e, reviewSeq1, commentSeq1, groupNo1, depthNo1, index){//댓글에 댓글 달기
+		var commentContent = $("#commentContent"+index).val();
+				if(e.keyCode == 13){
+					if(commentContent.length < 1 || commentContent.trim() == ""){
+						alert("댓글을 입력해주세요");
+						$("#commentContent"+index).val("");
+					}else{
+						var form_data = {reviewSeq : reviewSeq1,
+							    comment : commentContent,
+							    commentSeq : commentSeq1,
+								groupNo	: 	groupNo1,
+								depthNo : depthNo1
+						    };
+			
+						$.ajax({
+							url: "insertReviewComment.eat",   // action 에 해당하는 URL 속성값
+							method:"POST",                 // method
+							data: form_data,               // 위의 URL 페이지로 사용자가 보내는 ajax 요청 데이터.
+							success: function() {          // 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
+								$("#commentContent"+index).val("");
+								commentMoreView(commentSeq1);
+							         }
+						});
+					}  
+				}
 	} 
 	
- 	function deleteReviewComment(reviewSeq1, commentSeq1){
- 		var form_data = {commentSeq : commentSeq1
+ 	function deleteReviewComment(reviewSeq1, commentSeq1){ //댓글삭제
+ 		var form_data = {commentSeq : commentSeq1,
+ 				reviewSeq : reviewSeq1,
 		    };
 
 		$.ajax({
 			url: "deleteReviewComment.eat",   // action 에 해당하는 URL 속성값
 			method:"POST",                 // method
 			data: form_data,               // 위의 URL 페이지로 사용자가 보내는 ajax 요청 데이터.
-			success: function() {          // 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
+			dataType:"json",
+			success: function(data) {          // 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
 				$("#resultComments").empty();
+				$("#commentCountNEW").text("0");
 				getReviewComment(reviewSeq1, 1);
-			         }
-		});
- 	}
+				
+				$.each(data, function(key, val){
+					if(key == "reviewCommentTotalCount") {
+							$("#totalCommentCount").text(val+"");
+						}// end of  if(key == "name")
+					}//end of function(key, val)
+				);//end $.each
+			 }//end of success: function(data)
+		});//end of $.ajax
+ 	}//end of deleteReviewComment
  	
- 	function deleteCommentComment(commentSeq1,commentSeq2, fk_seq1){
+ 	function deleteCommentComment(commentSeq1,commentSeq2, fk_seq1){ //댓글의 댓글을 삭제
  		var form_data = {commentSeq : commentSeq1,
  				fk_seq : fk_seq1
 		    };
@@ -323,6 +324,19 @@
 			         }
 		});
  	}
+ 	
+ 	function goComment(index){
+ 		var comment = document.getElementById("commentComment"+index);
+ 			
+ 			if(comment.style.display == "none")
+ 				comment.style.display = "block";
+ 			else
+ 				comment.style.display = "none";
+ 		}
+ 	
+ 	 function openWinFaq(src, width, height){
+			window.open(src,"팝업창이름(의미없음)", "width=" + width + ", height=" + height + ", left=100px, top=100px, menubar=no, status=no, scrollbars=no");
+		}
  	
 </script>
 
@@ -387,7 +401,7 @@
 <div class="container">
 	<table class="table">
 		<tr>
-			<input type="button" style="float: right" class="report" onClick="" />
+			<input type="button" style="float: right;" class="report" onClick="openWinFaq('<%=request.getContextPath() %>/report.eat', '500','400' );" />
 			<th>${restName}</th>
 			
 		</tr>

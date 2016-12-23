@@ -308,7 +308,13 @@ public class ReviewController {
 			}
 		}
 		
-		return "/user/msgEnd";  
+		int reviewCommentTotalCount = service.getReviewCommentTotalCount(reviewSeq);
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("reviewCommentTotalCount", reviewCommentTotalCount);
+		
+		req.setAttribute("jsonObj", jsonObj);
+		return "/review/reviewCommentTotalCountJSON";  
 		
 	}
 	
@@ -417,6 +423,7 @@ public class ReviewController {
 	@RequestMapping(value="/deleteReviewComment.eat", method={RequestMethod.POST} ) 
 	public String deleteReviewComment(HttpServletRequest req, HttpSession session) {
 		String commentSeq = req.getParameter("commentSeq");
+		String reviewSeq = req.getParameter("reviewSeq");
 		String fk_seq = req.getParameter("fk_seq");
 		System.out.println("=============================="+commentSeq);
 		int commentCount = service.getCommentCount(commentSeq);
@@ -426,42 +433,44 @@ public class ReviewController {
 			int result = service.deleteReviewCommentWithComment(commentSeq);
 			System.out.println();
 			if(result == 2){
-				System.out.println("==============================1");
-				req.setAttribute("script", "alert('댓글 삭제 성공');");
+				System.out.println("==============================댓글 삭제 성공");
 			}else{
-				System.out.println("==============================2");
-				req.setAttribute("script", "alert('댓글 삭제 실패');");
+				System.out.println("==============================댓글 삭제 실패");
 			}
-		}else{//원댓글에 댓글이 없는경우, 댓글에 댓글일 경우 :  status = 0
+		}else{//원댓글에 댓글이 없는경우, 댓글의 댓글일 경우 :  status = 0
 			int result = 0;
 			
-			if(fk_seq == null){ // 원댓글에서는 depthNo를 아예 받아오지않는다
+			if(fk_seq == null){ // 원댓글에서는 fk_seq를 아예 받아오지않는다
 				 result = service.deleteReviewComment(commentSeq);
 				 
 				 if(result == 1){
-						System.out.println("==============================3");
-						req.setAttribute("script", "alert('댓글 삭제 성공');");
+						System.out.println("==============================댓글 삭제 성공");
 					}else{
-						System.out.println("==============================4");
-						req.setAttribute("script", "alert('댓글 삭제 실패');");
+						System.out.println("==============================댓글 삭제 실패");
 					}
-			}else{ // 댓글에서는 depthNo를 받아온다
+			}else{ // 댓글의 댓글에서는 fk_seq를 받아온다
 				result = service.deleteCommentComment(commentSeq, fk_seq);
 				
 				if(result == 2){
-					System.out.println("==============================3");
-					req.setAttribute("script", "alert('댓글 삭제 성공');");
+					System.out.println("==============================댓글의 댓글 삭제 성공");
 				}else{
-					System.out.println("==============================4");
-					req.setAttribute("script", "alert('댓글 삭제 실패');");
+					System.out.println("==============================댓글의 댓글 삭제 실패");
 				}
-			}
-			
-			
-			
+			}	
 		}
 		
-		return "/user/msgEnd";
+		if(reviewSeq != null){//댓글을 지울경우, 댓글더보기 버튼의 관련된 totalNewCount를 갱신하기위해서 해준다.
+			int reviewCommentTotalCount = service.getReviewCommentTotalCount(reviewSeq);
+			
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("reviewCommentTotalCount", reviewCommentTotalCount);
+			
+			req.setAttribute("jsonObj", jsonObj);
+			return "/review/reviewCommentTotalCountJSON";
+		}else{ //댓글의 댓글을 삭제할 경우, 이 경우에 return을 ""로 적어주면 404 GET 관련 에러가 난다. 아마도 돌아갈 jsp가 없어서 그런듯 하다.
+			return "/user/msgEnd";
+		}
+		
 	}
 }
 

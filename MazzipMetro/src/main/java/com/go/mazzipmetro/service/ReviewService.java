@@ -486,7 +486,8 @@ public class ReviewService implements IService{
 		int commentCount = dao.getCommentCount(commentSeq);
 		return commentCount;
 	}
-
+	
+	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
 	public int deleteReviewCommentWithComment(String commentSeq) {
 		int result1 = dao.deleteCommentComment(commentSeq);
 		int result2 = dao.deleteReviewComment(commentSeq);
@@ -498,6 +499,7 @@ public class ReviewService implements IService{
 		return result;
 	}
 
+	@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
 	public int deleteCommentComment(String commentSeq,String fk_seq) {
 		int result1 = dao.deleteReviewComment(commentSeq);
 		int result2 = dao.updateCommentCount(fk_seq);

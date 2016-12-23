@@ -59,7 +59,7 @@
 				</td>
 			</tr>
 		</table>
-		<div align="center">
+		<div align="center" style="margin-top:50px;">
 			<button class="btn btn-danger" type="button" onClick="javascript:self.close();">닫기</button>
 		</div>
 	</div>

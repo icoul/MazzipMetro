@@ -15,6 +15,10 @@
 	.contArea .restList ul li .textDiv{float:right; width:285px;}
 	.contArea .restList ul li .textDiv dl dd.summary{background:url('/image/common/img_dot.gif') repeat-x left bottom; padding:30px 0; line-height:1.5em;}
 	.contArea .restList ul li .textDiv dl dd.summary a:hover{text-decoration:underline;}
+	input.report {
+	  border:0; width:30px; height:30px; background: url('http://localhost:9090/mazzipmetro/resources/images/icosiren.png') no-repeat;
+	  border-radius: 10px;
+	}
 </style>
 
  <script type="text/javascript">
@@ -256,6 +260,7 @@ function goLargeImgView(adImg) {
 	 	</div>
 	 	 <div style="float: right;">
 		 	 <span style="font-weight:italic; font-size:13px;">방문자수  <span style="color : orange;">${restvo.restVisitor }</span></span>	 	 
+	 		 <input type="button" class="report" onClick="openWinFaq('<%=request.getContextPath() %>/report.eat', '500','400' );" />
 	 	 </div>
 	 </div>
 	 
