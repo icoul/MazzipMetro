@@ -385,7 +385,7 @@
 				     //map: map, //overlay에는 생성시에 map 옵션 지정하지 말것. 
 				     position: marker.getPosition()       
 
-				 }); // end of $(data.positions).map()
+				 });
 
 
 				    // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
@@ -425,22 +425,38 @@
 		        clusterer.addMarkers(markers);
 				
 		        setBounds(bounds);
-				}
+		        
+		        // 마커 클러스터러에 클릭이벤트를 등록합니다 
+			    // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우 
+			    // 이벤트 헨들러로 cluster 객체가 넘어오지 않을 수도 있습니다 
+			    daum.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
+
+		        // 현재 지도 레벨에서 1레벨 확대한 레벨 
+		        var level = map.getLevel()-1;
+
+		        // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다 
+		        map.setLevel(level, {anchor: cluster.getCenter()});  
+			    });
+		        
+				}// end of success: function(data)
 			    
 		});//end of $.ajax()
 	    
 
-	    // 마커 클러스터러에 클릭이벤트를 등록합니다 
+	   /*
+	    // 동현_최초 코딩시 클러스터러 클릭이벤트 생성하는 코드는 ajax 바깥에 위치했다. 어느 순간부터 클릭이벤트가 작동하지 않아서 ajax안으로 이동시킴.
+	    
+	   	// 마커 클러스터러에 클릭이벤트를 등록합니다 
 	    // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우 
 	    // 이벤트 헨들러로 cluster 객체가 넘어오지 않을 수도 있습니다 
 	    daum.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
 
-	        // 현재 지도 레벨에서 1레벨 확대한 레벨 
-	        var level = map.getLevel()-1;
+        // 현재 지도 레벨에서 1레벨 확대한 레벨 
+        var level = map.getLevel()-1;
 
-	        // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다 
-	        map.setLevel(level, {anchor: cluster.getCenter()});  
-	    });
+        // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다 
+        map.setLevel(level, {anchor: cluster.getCenter()});  
+	    }); */
 		
 	}//end of getRestaurant()
 	
