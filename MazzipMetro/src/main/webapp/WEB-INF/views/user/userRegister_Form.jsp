@@ -299,34 +299,20 @@
 </div>
 <%-- subleftCon --%>
 <div class="subrightCon" style="height:auto;">
-	<!-- <div align="center" style="height: 100px; width:1200px; margin:0 auto;" >
-		<div align="center" style="padding: 1em; float:left; border: 2px solid; border-top-left-radius: 5px; border-bottom-left-radius: 5px; height: 70px; width:300px; border-right:none;">
-			<span class="glyphicon glyphicon-pencil order"> 약관동의 </span>
-		</div>
-		<div align="center" style="padding: 1em; float:left; border: 2px solid; background-color:blue; height: 70px; width: 300px;">
-			<span class="glyphicon glyphicon-pencil order"> 정보입력 </span>
-		</div>
-		<div align="center" style="padding: 1em; float:left; border: 2px solid; height: 70px; width: 300px; border-left:none;">
-			<span class="glyphicon glyphicon-sort order"> 가입인증 </span>
-		</div>
-		<div align="center" style="padding: 1em; float:left; border: 2px solid; border-top-right-radius: 5px; border-bottom-right-radius: 5px; height: 70px; width: 300px; border-left:none;">
-			<span class="glyphicon glyphicon-home order"> 가입완료 </span>
-		</div>
-	</div> -->
 	<div class="row form-group">
         <div class="col-xs-12">
             <ul class="nav nav-pills nav-justified thumbnail setup-panel">
                 <li class="disabled"><a href="#step-1">
-                    <h4 class="list-group-item-heading">약관동의</h4>
-                    <p class="list-group-item-text">First step description</p>
+                    <h4 class="list-group-item-heading">STEP 1</h4>
+                    <p class="list-group-item-text">약관동의</p>
                 </a></li>
-                <li class="active"><a href="#step-2">
-                    <h4 class="list-group-item-heading">정보입력</h4>
-                    <p class="list-group-item-text">Second step description</p>
+                <li class="active"><a href="#step-2"  style="background-color: #008968;">
+                    <h4 class="list-group-item-heading">STEP 2</h4>
+                    <p class="list-group-item-text">정보입력</p>
                 </a></li>
                 <li class="disabled"><a href="#step-3">
-                    <h4 class="list-group-item-heading">가입완료</h4>
-                    <p class="list-group-item-text">Third step description</p>
+                    <h4 class="list-group-item-heading">STEP 3</h4>
+                    <p class="list-group-item-text">가입완료</p>
                 </a></li>
             </ul>
         </div>

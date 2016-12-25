@@ -1,11 +1,10 @@
 @CHARSET "UTF-8";
 
-/* 구글 본고딕체 웹폰트 */
+/* 미현_구글 본고딕체 웹폰트 */
 @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
 @font-face { font-family: 'Noto Sans KR'; font-style: normal; font-weight: 300; src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype'); }
 
-/* css 초기화 */
-
+/* 미현_css 초기화 */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -49,12 +48,9 @@ table {
 	border-spacing: 0;
 }
 
-img {border:0; padding:0; margin:0; vertical-align:middle;}
+img {border:0; padding:0; margin:0; vertical-align:middle; text-align: center}
 
-
-
-
-
+/* 미현_헤더부분 레이아웃 */
 #headWrap {border-bottom:1px solid #dbdbdb;}
 .header {width:1400px; margin:0 auto;  height:70px; padding:20px 0 0; position: relative; margin-top:20px;}
 .header  h1 {float:left; padding:0 20px 0 50px; margin:0; font-size:23px; font-weight:bold;} 
@@ -72,10 +68,11 @@ img {border:0; padding:0; margin:0; vertical-align:middle;}
 .loginInfo {position:absolute; right:0;} 
 .btnColor {background-color: #008968; color: #fff;}
 .fontDesign {color:#008968; font-size:13px; font-stretch:narrower; font-weight: bold;}
-.btnDesign {background:#F7F7F7; padding:2px; font-size:12px; border:1px solid #D4DADC; border-radius:2px; color:#A1A1A1; cursor:pointer;}
+.btnDesign {background:#F7F7F7; padding:2px; font-size:12px; border:1px solid #D4DADC; border-radius:2px; color:#A1A1A1;}
 .btnLogout {background-color: #dddddd; height:30px; border-radius: 0;}
 .logOut {color: #000; font-size:12px; font-weight: bold;}
 
+/* 미현_index부분 레이아웃 */
 #content {width:1400px; overflow:hidden; margin:0 auto;}
 .leftCon {float:left; width:856px;}
 .leftCon .reconCon  {margin-top:30px;}
@@ -179,13 +176,13 @@ footer .copyRight {color:#8a8a8a;}
 .btnFafa {width:63px; height:23px; display:inline-block; margin:0 15px 0; line-height:23px; border:1px solid #6c6c6c; background:#fafafa; color:#000; font-size:10px;}
 .txtC {margin:0 auto; width:1000px;}
 
-/* 코인충전 페이지  */
+/* 미현_코인충전 페이지  */
 .coinWrap {padding:30px 0 0 20px; font-size:13px; color:#666666;}
 .coinWrap  li {width:600px; padding-left:30px; border-bottom: 1px solid #dbdbdb; margin-bottom:30px;}
 .coinDetail {width:139px; height:132px; background:url("../images/icoCoinChar01.png") no-repeat; background-size:100px;}
 .coinDetail dt {width:300px; padding-left:149px; margin-bottom:13px; font-size:16px; font-weight:normal;}
 .coinDetail dd {width:500px; padding-left:149px;}
-.coinBg02 {background:url("../images/icoCoinChar02.png") no-repeat; background-size:100px;}
+.coinBg02 {background:url("../images/icoCoinChar02.png") no-repeat; background-size:90px;}
 .coinBg03 {background:url("../images/icoCoinChar03.png") no-repeat; background-size:100px;}
 .coinWrap  li.first {padding-bottom:30px;}
 .coinWrap  li.last {padding-left:180px; border:0;} 

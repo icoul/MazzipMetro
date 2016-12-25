@@ -44,7 +44,7 @@
 </head>
 <body>
 <div class="subleftCon" style="height:1500px; font-size:25px;">
-	<h2>My Zone</h2>
+	<h2>맛집 랭킹</h2>
 </div>
 <div  class="subrightCon" style="height:auto;">
 	<nav style="padding-left:30px;" class="navbar navbar-default">

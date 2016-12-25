@@ -514,7 +514,6 @@
 		</form>
 </div>
 </c:if>
-<jsp:include page="../footer.jsp" />
 
 </body>
 </html>
