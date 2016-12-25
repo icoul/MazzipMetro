@@ -2,9 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <style>
-/*상속된 css 초기화 */
+/*동현_상속된 css 초기화 */
 table#tbl_wantGoContentView td {vertical-align: middle;}
 </style>
+
 <table id="tbl_wantGoContentView" style = "width: 100%;">
 	<tr style = "height : 35px; background-color: #EFEFEF;">
 		<td colspan = "2" style = " vertical-align: middle; padding-left : 15px;"><span style = "font-weight: bold;">이 맛집은 어떠신가요? 맛집메트로의 추천!</span></td>

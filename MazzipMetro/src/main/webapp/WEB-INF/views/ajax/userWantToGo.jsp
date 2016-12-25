@@ -199,7 +199,7 @@ function sendUserWantToGoChk(){
 	$("[name=wantToGoChk]:checked").each(function(){
 		userWantToGoChk.push($(this).val());
 	});
-	alert('sendUserWantToGoChk 실행 : '+userWantToGoChk);
+	//alert('sendUserWantToGoChk 실행 : '+userWantToGoChk);
 	
 	$.ajax({
 		url: "<%=request.getContextPath()%>/userWantToGoChk.eat", 
@@ -207,7 +207,7 @@ function sendUserWantToGoChk(){
 		data: "userWantToGoChk="+userWantToGoChk,
 		traditional: true,		 // 배열 데이터 전송용
 		success: function(data) {// 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
-			alert(2);
+			//alert(2);
 			}
 	});//end of $.ajax()
 }
