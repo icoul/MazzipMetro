@@ -44,7 +44,7 @@
 		<ul>
 			<li>
 				<h2><img width="50px;" src="<%= request.getContextPath() %>/files/user/thumb/thumb${uservo.userProfile}" />${uservo.userName}님의 추천맛집입니다.
-					<span style="CLEAR: both;	PADDING-RIGHT: 0px;	PADDING-LEFT: 0px;	BACKGROUND: url(<%= request.getContextPath() %>/resources/images/icon_star2.gif) -1px 0px;	FLOAT: right;	PADDING-BOTTOM: 0px;	MARGIN-Right: 470px; MARGIN-TOP: 15px;	WIDTH: 90px;	PADDING-TOP: 0px;	HEIGHT: 18px;">
+					<span style="CLEAR: both;	PADDING-RIGHT: 0px;	PADDING-LEFT: 0px;	BACKGROUND: url(<%= request.getContextPath() %>/resources/images/icon_star2.gif) -1px 0px;	FLOAT: right;	PADDING-BOTTOM: 0px;	MARGIN-Right: 430px; MARGIN-TOP: 15px;	WIDTH: 90px;	PADDING-TOP: 0px;	HEIGHT: 18px;">
 						<p style="WIDTH: ${reviewvo.reviewAvgScore * 20}%; PADDING-RIGHT:0px;	PADDING-LEFT:0px;	BACKGROUND: url(<%= request.getContextPath() %>/resources/images/icon_star.gif) 1px 0px;	PADDING-BOTTOM: 0px;	MARGIN: 0px;	PADDING-TOP: 0px;	HEIGHT: 18px;">
 						</p>
 					</span> 
