@@ -21,7 +21,7 @@ time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	vertical-align: baseline;
+	vertical-align: middle;
 	font-family:'Noto Sans KR','나눔바른고딕','맑은고딕','MalgunGothic','돋움',dotum,sans-serif;
 }
 /* HTML5 display-role reset for older browsers */
