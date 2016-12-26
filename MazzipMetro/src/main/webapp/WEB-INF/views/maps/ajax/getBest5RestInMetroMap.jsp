@@ -14,8 +14,8 @@
 
 <style> 
 .tooltip_templates { display: none; }
-table#tbl_best5, table#tbl_best5 th, table#tbl_best5 td {border: solid 1px navy; border-collapse: collapse;}
-table#tbl_best5 th, table#tbl_best5 td{padding:5px;}
+table.tbl_best5, table.tbl_best5 th, table.tbl_best5 td {border: solid 1px navy; border-collapse: collapse;}
+table.tbl_best5 th, table.tbl_best5 td{padding:5px;}
 
 </style>
 <script>
@@ -90,7 +90,7 @@ table#tbl_best5 th, table#tbl_best5 td{padding:5px;}
 	<!-- 베스트 음식점 정보 -->
 	<div style="position:relative; float: left;margin: 10px;" align="center">
 		<h3 style="padding-bottom: 5px;"><span style="font-weight: bold;">${metroName}</span> 맛집 베스트5</h3> 
-		<table id="tbl_best5">
+		<table class="tbl_best5">
 		<c:forEach var="vo" items="${places}"  varStatus="status" begin="0" end="4">
 			<tr>
 				<th style="color: lime">${status.count}</th>
@@ -115,7 +115,7 @@ table#tbl_best5 th, table#tbl_best5 td{padding:5px;}
 	<c:if test="${reviews != null && not empty reviews}">
 		<div style="position:relative; float: left; margin-left: 20px; margin: 10px;" align="center" >
 		<h3 style="padding-bottom: 5px;"><span style="font-weight: bold;">${metroName}</span> 마스터즈 5</h3>  
-		<table id="tbl_best5">
+		<table class="tbl_best5">
 			<c:forEach var="vo" items="${reviews}"  varStatus="status" begin="0" end="4">
 				<tr>
 					<th style="color: lime;">${status.count}</th>
@@ -139,7 +139,7 @@ table#tbl_best5 th, table#tbl_best5 td{padding:5px;}
 	<c:forEach var="vo" items="${places}"  varStatus="status" begin="0" end="4">
 	    <div id="tooltip_content_rest${status.index}">
 	    	<div id="div_tooltipImg">
-	        	<img src="<%=request.getContextPath()%>/files/${vo.restImg}" width="500px;"/>
+	        	<img src="<%=request.getContextPath()%>/files/rest/${vo.restImg}" width="500px;"/>
 	        </div>
 	        <div style="padding: 5px; width: 500px;">
 	        	<strong>${vo.restContent}</strong>
@@ -147,7 +147,7 @@ table#tbl_best5 th, table#tbl_best5 td{padding:5px;}
 	        <br/> 
 	        <c:if test="${not empty adImgList[status.index]}">
 		        <c:forEach var="adImg" items="${adImgList[status.index].adImg}" varStatus="num">
-		        	<img src="<%=request.getContextPath()%>/files/thumb${adImg}" name="thumbImg" />&nbsp;
+		        	<img src="<%=request.getContextPath()%>/files/rest/thumb/thumb${adImg}" name="thumbImg" />&nbsp;
 		        </c:forEach>
 	        </c:if>
 	    </div>

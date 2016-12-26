@@ -5,6 +5,20 @@
 /*동현_상속된 css 초기화 */
 table#tbl_wantGoContentView td {vertical-align: middle;}
 </style>
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery-2.0.0.js"></script>
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		
+		// 동현_사용자 가고싶다에 담긴 업장이라면, 가고싶다 버튼 색깔 클래스 추가
+		<c:if test="${not empty userWantToGoHere && userWantToGoHere == 1}">
+			$(".bgFavorite").addClass("active");
+		</c:if>
+	
+		
+	});//end of $(document).ready()
+
+</script>
 
 <table id="tbl_wantGoContentView" style = "width: 100%;">
 	<tr style = "height : 35px; background-color: #EFEFEF;">
