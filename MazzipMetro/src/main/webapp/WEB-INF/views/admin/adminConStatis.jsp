@@ -10,7 +10,7 @@
     max-width: 800px;
     margin: 0 auto;
 }
-.table th {text-align:center; background:#fafafa;}
+.table th,.table td {text-align:center; background:#fafafa;}
 </style>
 <script type="text/javascript">
  $(function () {

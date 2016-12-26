@@ -22,8 +22,10 @@
 	input.report.reportRed {
 		width:40px; height:40px; background: url('http://localhost:9090/mazzipmetro/resources/images/icoSirenRed.png') no-repeat;
 	}
-	.bgFavorite {border:0; padding-top:40px; font-weight:bold; color:#9f9f9f; background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStar.png') no-repeat 20px 0;}
-	.bgFavorite.active {background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStarActive.png') no-repeat 20px 0;}
+	/*.bgFavorite {border:0; padding-top:40px; font-weight:bold; color:#9f9f9f; background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStar.png') no-repeat 16px 0;}
+	.bgFavorite.active {background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStarActive.png') no-repeat 16px 0;} */
+	.bgFavorite {border:0; padding-top:30px; font-weight:bold; font-size:12px; color:#9f9f9f; background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStar.png') no-repeat 12px 0;}
+.bgFavorite.active {background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStarActive.png') no-repeat 12px 0;}
 </style>
 
  <script type="text/javascript">
@@ -295,7 +297,7 @@ function goLargeImgView(adImg) {
 	 <!-- 음식점 info -->
 	 <div id="restInfo" style="width: 50%; float: left;">
 	 <div style="float:right;">
-	 	<button type="button"  onclick="addWantToGo(${restvo.restseq});" class="bgFavorite">가고싶다</button>
+	 	<button type="button"  onclick="addWantToGo(${restvo.restseq});" class="bgFavorite" style="padding-top:40px;">가고싶다</button>
 	 </div>
 	 
 	  <table class="table table-condensed" style="margin-top: 50px; width:80%; ">
