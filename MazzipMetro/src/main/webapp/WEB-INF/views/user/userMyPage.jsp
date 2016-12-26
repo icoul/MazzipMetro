@@ -9,10 +9,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>마이페이지</title>
+<style>
+.gradeFontSize {color:#008968; font-size:20px; font-stretch:narrower; font-weight: bold; text-align: center;}
+.gradeFontThSize {style="color: red; font-size:12px; font-stretch:narrower; font-weight: bold;}
+.tableAlign {text-align: center;}
+</style>
 
 <script type="text/javascript">
 
 $(document).ready(function(){
+	
 	
 	restList();
 	
@@ -59,6 +65,17 @@ $(document).ready(function(){
 			}
 		});
 	});
+	
+	$("#myReviewList").click(function(){
+		$.ajax({	
+			url:"<%= request.getContextPath() %>/myReviewList.eat",
+		    type:"GET",
+			datatype:"html", 
+			success:function(data){ 
+				$("#userInfo").html(data);
+			}
+		});
+	});
 
 	$("#userAlias").click(function(){
 		$.ajax({	
@@ -82,16 +99,6 @@ $(document).ready(function(){
 		});
 	});
 	
-	$("#myReviewList").click(function(){
-		$.ajax({	
-			url:"<%= request.getContextPath() %>/myReviewList.eat",
-		    type:"GET",
-			datatype:"html", 
-			success:function(data){ 
-				$("#userInfo").html(data);
-			}
-		});
-	});
 	
 	$("#userRandomBox").click(function(){
 		$.ajax({	
@@ -103,7 +110,8 @@ $(document).ready(function(){
 			}
 		});
 	});
-});
+	
+});// end of ready
 
 function restList(){
 	$.ajax({	
@@ -115,6 +123,7 @@ function restList(){
 		}
 	});
 }
+
 
 function userRandomBox(){
 	$.ajax({	
@@ -140,6 +149,34 @@ function userCoupon(boxType){
 	});
 }
 
+function getMyReviewList(startPageNo){ 
+	     
+		$.ajax({	
+			url:'/mazzipmetro/myReviewList.eat?pageNo='+startPageNo,
+		    type:"GET",
+			datatype:"html", 
+			success:function(data){ 
+				$("#userInfo").html(data);
+			},
+			error: function(request, status, error){
+		        alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+	};// end of myReviewList
+	
+function getMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd ,qnaRegMonthEnd, qnaRegDayEnd, qnaInquiry, startPageNo, userSeq,qnaProgress){
+
+		$.ajax({	
+			url:'/mazzipmetro/myQnaList.eat?qnaRegYearStart='+qnaRegYearStart+'&qnaRegMonthStart='+qnaRegMonthStart+'&qnaRegDayStart='+qnaRegDayStart+'&qnaRegYearEnd='+qnaRegYearEnd+'&qnaRegMonthEnd='+qnaRegMonthEnd+'&qnaRegDayEnd='+qnaRegDayEnd+'&qnaInquiry='+qnaInquiry+'&startPageNo='+startPageNo+'&userSeq='+userSeq+'&qnaProgress='+qnaProgress,
+		    type:"GET",
+			datatype:"html", 
+			success:function(data){ 
+				$("#userInfo").html(data);
+			}
+		});
+	};// end of getMyQnAList
+
+
 </script>
 <!-- 미현_칭호 붙이기에 쓰이는 css -->
 <style type="text/css">
@@ -152,6 +189,9 @@ function userCoupon(boxType){
 	.gradeDetail li.icoSkill {width:65px; padding-top:21px; font-size:7px; font-weight:bold; background:url(http://localhost:9090/mazzipmetro/resources/images/icoSkilled.png) no-repeat;}
 	.gradeDetail li.icoSkill span {padding-left:14px;}
 	.gradeDetail li span.detail {position:absolute; width:50px; left:8px; bottom:0; padding-left:0; font-size:9px;}
+	.aliasOn {cursor:pointer;}
+	.aliasInfo {display:none; width:100px; margin-top:5px; padding:10px; font-size:11px; color:#666; border:1px solid #048a6a;}
+	.aliasOn:hover .aliasInfo{display:block;}
 </style>
 
 </head>
@@ -192,7 +232,8 @@ function userCoupon(boxType){
 				<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade07.png">
 			</c:if>
 		</td>
-		<td width="13%">등급 	</td>
+		
+		<td width="13%"><span>등급</span>  <a data-toggle="modal" data-target="#gradeInfoModal" style="cursor: pointer;"><i class="material-icons">help_outline</i></a></td>
 		<td width="13%"> ${sessionScope.loginUser.gradeName}
 			<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG5' and sessionScope.loginUser.userExp >= 5000}">
 				<img style="cursor: pointer;" src="<%= request.getContextPath() %>/files/LevelUp.png" width="45px" height="30px" onclick="javascript:location.href='<%=request.getContextPath() %>/updateUserGrade.eat?gradeSeq=UG6'"/>			
@@ -239,7 +280,16 @@ function userCoupon(boxType){
 	<%-- <c:if test="${userGuAliasList !=null or userDongAliasList !=null or userMetroAliasList !=null or userRestTagAliasList !=null}"> --%>
 	<c:if test="${not empty userGuAliasList or not empty userDongAliasList or not empty userMetroAliasList or not empty userRestTagAliasList}">
 		<tr>
-			<td rowspan="4" width="11%">획득한 칭호</td>
+			<td rowspan="4" width="11%">획득한 칭호 
+				<span class="aliasOn"><img src="<%= request.getContextPath() %>/resources/images/icoQuest.png">
+					<ul class="aliasInfo">
+						<li>입문자 &nbsp;&nbsp;<img src="<%= request.getContextPath() %>/resources/images/icoNovice.png" width="20" height="20"></li>
+						<li>숙련자 &nbsp;&nbsp;<img src="<%= request.getContextPath() %>/resources/images/icoSkilled.png" width="20" height="20"></li>
+						<li>마스터 &nbsp;&nbsp;<img src="<%= request.getContextPath() %>/resources/images/icoMaster.png" width="15" height="15"></li>
+					</ul>
+				</span>
+				
+			</td>
 			<td width="11%">구별</td>
 			<td colspan="6">
 				<ul class="gradeDetail">
@@ -318,10 +368,28 @@ function userCoupon(boxType){
 <c:if test = "${sessionScope.loginUser.userSort == 1}">
 <table class="table">
 	<tr>
-		<th colspan="4">
+		<th colspan="8">
 		${(sessionScope.loginUser).userName} 님의 정보</th>
 	</tr>
 	<tr>
+		<td rowspan="2" colspan="2" align="center" width="22%">
+			<c:if test="${sessionScope.loginUser.gradeName eq '초가집'}">
+				<img src="<%= request.getContextPath() %>/resources/images/icoBossGrade01.png">
+			</c:if>
+			<c:if test="${sessionScope.loginUser.gradeName eq '황토집'}">
+				<img src="<%= request.getContextPath() %>/resources/images/icoBossGrade02.png">
+			</c:if>
+			<c:if test="${sessionScope.loginUser.gradeName eq '기와집'}">
+				<img src="<%= request.getContextPath() %>/resources/images/icoBossGrade03.png">
+			</c:if>
+			<c:if test="${sessionScope.loginUser.gradeName eq '왕궁'}">
+				<img src="<%= request.getContextPath() %>/resources/images/icoBossGrade04.png">
+			</c:if>
+			<c:if test="${sessionScope.loginUser.gradeName eq '황궁'}">
+				<img src="<%= request.getContextPath() %>/resources/images/icoBossGrade05.png">
+			</c:if>
+		</td>
+		
 		<td>포인트</td>
 		<td><fmt:formatNumber pattern="###,###" value="${userPoint}" /></td>
 		<td>매장수</td>
@@ -349,6 +417,66 @@ function userCoupon(boxType){
 <div style="height:160px;">
 </div>
 
+<!-- 회원가입을 위한 Modal -->
+  <div class="modal fade" id="gradeInfoModal" role="dialog" >
+    <div class="modal-dialog  modal-lg" style="width:1300px; text-align: center;">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"><span class="gradeFontSize">회원등급안내</span></h4>
+        </div>
+        <div class="modal-body" align="center">
+          <table class="table tableAlign">
+          	<tr style="border-top-width:4px; border-style:double;">
+          		<th width="130px" rowspan="2"> 회원등급 </th>
+          		<th width="130px" style="text-align: center"><img src="<%= request.getContextPath() %>/resources/images/icoUserGrade01.png"></th>
+          		<th width="130px" style="text-align: center"><img src="<%= request.getContextPath() %>/resources/images/icoUserGrade02.png"></th>
+          		<th width="130px" style="text-align: center"><img src="<%= request.getContextPath() %>/resources/images/icoUserGrade03.png"></th>
+          		<th width="130px" style="text-align: center"><img src="<%= request.getContextPath() %>/resources/images/icoUserGrade04.png"></th>
+          		<th width="130px" style="text-align: center"><img src="<%= request.getContextPath() %>/resources/images/icoUserGrade05.png"></th>
+          		<th width="130px" style="text-align: center"><img src="<%= request.getContextPath() %>/resources/images/icoUserGrade06.png"></th>
+          		<th width="130px" style="text-align: center"><img src="<%= request.getContextPath() %>/resources/images/icoUserGrade07.png"></th>
+          	</tr>
+          	<tr style="border-bottom-width:4px; border-style:double;">
+          		<th style="font-size:14px; font-stretch:narrower; font-weight: bold; text-align: center;">흙수저</th>
+				<th style="font-size:14px; font-stretch:narrower; font-weight: bold; text-align: center;">구리수저</th>
+				<th style="font-size:14px; font-stretch:narrower; font-weight: bold; text-align: center;">은수저</th>
+				<th style="font-size:14px; font-stretch:narrower; font-weight: bold; text-align: center;">금수저</th>
+				<th style="font-size:14px; font-stretch:narrower; font-weight: bold; text-align: center;">다이아수저</th>
+				<th style="font-size:14px; font-stretch:narrower; font-weight: bold; text-align: center;">달인</th>
+				<th style="font-size:14px; font-stretch:narrower; font-weight: bold; text-align: center;">신</th>
+          	</tr>
+			<tr>	
+				<th class="gradeFontThSize">회원등급 조건</th>
+				<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">기본등급</td>
+				<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">EXP 200 이상</td>
+				<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">EXP 750 이상</td>
+				<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">EXP 1200 이상</td>
+				<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">EXP 3500 이상</td>
+				<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">EXP 5000 이상 <br> 동,역 마스터 각각 5개씩 + 1500 마일리지 소모 </td>
+				<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">EXP 10000 이상 <br> 구 마스터 1개 + 3000 마일리지 소모 </td>
+          	</tr>
+          	<tr>
+          		<th>회원혜택</th>
+          		<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">-</td>
+          		<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">랜덤박스 1개 지급</td>
+          		<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">랜덤박스 1개 <br>프리미엄박스 1개 지급</td>
+          		<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">프리미엄박스 2개 지급</td>
+          		<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">프리미엄박스 6개 지급</td>
+          		<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">한달에 프리미엄박스 1개 지급</td>
+          		<td style="font-size:12px; font-stretch:narrower; font-weight: bold; text-align: center;">한달에 프리미엄박스 3개 지급</td>
+          	</tr>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
 </div>
 </body>
 </html>

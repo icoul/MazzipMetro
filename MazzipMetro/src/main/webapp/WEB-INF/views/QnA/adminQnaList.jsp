@@ -80,19 +80,18 @@
 </head>
 <body>
 
-<div class="subleftCon" style="height:auto; font-size:25px;">
+<div class="subleftCon">
 	<h2>고객 문의내역</h2>
 </div>
 
-<div align="center" class="subrightCon" style="height:auto;">
+<div align="center" class="subrightCon">
 <jsp:include page="../userMyPage_Menubar.jsp" />
 	<div style="width:90%;">
-		<h2> <span class="title-label">고객 문의내역</span>  </h2>
-		<span>총 문의건 : ${totalCount}건 | 접수완료 : ${registerQnaCount}건 | 답변완료 : ${answerQnaCount}건</span>
+		<p style="padding:40px 0 10px;">총 문의건 : ${totalCount}건 | 접수완료 : ${registerQnaCount}건 | 답변완료 : ${answerQnaCount}건</p>
         <nav class="navbar navbar-default query" role="query">
             <div class="container-fluid">
           	 <form name="qnaSearchFrm" style="display:inline;" action="<%=request.getContextPath()%>/adminQnaList.eat" method="get">
-                <table class="table table-bordered">
+                <table class="table">
 				      <tr>
 				        <th>문의접수일</th>
 				        <td colspan="5">

@@ -166,24 +166,39 @@ public class RankingDAO {
 		return seqList;
 	}
 
-	public RestaurantVO getRestInfo(HashMap<String, String> seqList) {
-		RestaurantVO restvo = sqlSession.selectOne("ranking.getRestInfo", seqList);
-		return restvo;
+	public List<RestaurantVO> getRestInfo(List<HashMap<String, String>> seqList) {
+		
+		List<RestaurantVO> restList = new ArrayList<RestaurantVO>();
+		
+		for (int i = 0; i < seqList.size(); i++) {
+			RestaurantVO restvo = sqlSession.selectOne("ranking.getRestInfo", seqList.get(i));
+		
+			restList.add(restvo);
+		}
+		
+		return restList;
 	}
 
-	public ReviewVO getReviewInfo(HashMap<String, String> seqList) {
-		ReviewVO reviewvo = sqlSession.selectOne("ranking.getReviewInfo", seqList);
-		return reviewvo;
+	public List<ReviewVO> getReviewInfo(List<HashMap<String, String>> seqList) {
+		List<ReviewVO> reviewList = new ArrayList<ReviewVO>();
+		
+		for (int i = 0; i < seqList.size(); i++) {
+			ReviewVO reviewvo = sqlSession.selectOne("ranking.getReviewInfo", seqList.get(i));
+			reviewList.add(reviewvo);
+		}
+		
+		return reviewList;
 	}
 
-	public UserVO getUserInfo(HashMap<String, String> seqList) {
-		UserVO uservo = sqlSession.selectOne("ranking.getUserInfo", seqList);
-		return uservo;
-	}
-
-	public List<String> getRestAdInfo(HashMap<String, String> seqList) {
-		List<String> adImage = sqlSession.selectList("ranking.getRestAdInfo", seqList);
-		return adImage;
+	public List<UserVO> getUserInfo(List<HashMap<String, String>> seqList) {
+		List<UserVO> userList = new ArrayList<UserVO>();
+		
+		for (int i = 0; i < seqList.size(); i++) {
+			UserVO uservo = sqlSession.selectOne("ranking.getUserInfo", seqList.get(i));
+			userList.add(uservo);
+		}
+		
+		return userList;
 	}
 	
 }

@@ -234,7 +234,7 @@ $(document).ready(function(){
 
 <h2 style="float: left">${restvo.restname}의 리뷰(${TotalReviewCount })</h2>
 <h2>
-<input type="button" id="reviewAdd" name="reviewAdd" value="리뷰쓰기 " style="float: right; margin-right: 238px;   onClick="goReviewAdd('${restSeq}');" />
+<input type="button" id="reviewAdd" name="reviewAdd" value="리뷰쓰기 " style="float: right; margin-right: 238px;"   onClick="goReviewAdd('${restSeq}');" />
 </h2> 	
   	<p align="right" style="clear: both;">
 		<button type="button" class="btn_srollbar" id="goBottom" >아래로</button>
