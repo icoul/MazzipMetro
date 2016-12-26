@@ -7,7 +7,7 @@
 <style>
 table#dx_theme {border: solid 1px gray; padding: 10px;}
 table#dx_theme th{text-align: center; width: 100px; height: 25px;padding: 5px;border: solid 1px gray;}
-table#dx_theme td{text-align: center; width: 100px; height:  50px;padding: 10px;border: solid 1px gray;}
+table#dx_theme td{text-align: center; width: 100px; height:  50px;padding: 10px;border: solid 1px gray; cursor: pointer;}
 
 
 #theme_icon_single 		{background:url("<%=request.getContextPath()%>/resources/images/theme_icon_single.png") no-repeat; background-position: center}
@@ -61,9 +61,24 @@ input[name=themeChk]:checked + label:before {
 
 } 
 
+
+
 </style>
 <script>
 $(document).ready(function(){
+	
+	/* td를 클릭해도 checkbox가 체크되도록 하자 */	
+	$("#dx_theme td").click(function(){
+		var bool = $(this).find("input:checkbox").prop("checked");
+		if(bool){
+			$(this).find("input:checkbox").prop("checked",false);
+		} else {
+			$(this).find("input:checkbox").prop("checked", true);
+		}
+		
+		goThemeSearch(1);
+		
+	});
 	
 	getGuMetroNameList();
 	
@@ -140,6 +155,7 @@ function goThemeSearch(pageNo){
 	//alert($("[name=themeChk]:checked").length);
 	
 	if($("[name=themeChk]:checked").length == 0){
+		$("#themeResult").html('<p style="margin-top: 100px; font-size: 20px; font-weight: bold;"> 원하시는 테마를 선택해주세요.');
 		return;		
 	}
 	
@@ -282,7 +298,8 @@ function getGuMetroNameList(){
 	</form>
 	
 	<div id="themeResult" style="min-height: 500px; margin: auto;">
-		<p> 원하시는 테마를 선택해주세요.
+	
+		<p style="margin-top: 100px; font-size: 20px; font-weight: bold;"> 원하시는 테마를 선택해주세요.
 	</div>
 </div>
 
