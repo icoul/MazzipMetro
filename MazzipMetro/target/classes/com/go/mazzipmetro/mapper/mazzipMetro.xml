@@ -392,24 +392,26 @@
     
     
    <resultMap type="java.util.HashMap" id="qnaListResultMap">
-   		<result column="rno"	  	    property="rno" 			    javaType="String" />
-		 <result column="userName"	  	    property="userName" 			    javaType="String" />
+   		 <result column="rno"	  	   			property="rno" 			    		javaType="String" />
+		 <result column="userName"	  	    	property="userName" 			    javaType="String" />
 		 <result column="qnaSeq"	  	        property="qnaSeq" 			    	javaType="String" />
 		 <result column="userSeq"	  	    	property="userSeq" 			    	javaType="String" />
 		 <result column="qnaInquiry"	  	    property="qnaInquiry" 			    javaType="String" />
 		 <result column="qnaSubject"	  	    property="qnaSubject" 			    javaType="String" />
 		 <result column="qnaContent"	  	    property="qnaContent" 			    javaType="String" />
 		 <result column="qnaRegDate"	  	    property="qnaRegDate" 				javaType="String" />
-		 <result column="qnaAnswerDate"	  	    property="qnaAnswerDate" 				javaType="String" />
+		 <result column="qnaAnswerDate"	  	    property="qnaAnswerDate" 			javaType="String" />
 		 <result column="qnaProgress"	  	    property="qnaProgress" 				javaType="String" />
 		 <result column="fk_seq"	  	    	property="fk_seq" 			    	javaType="String" />
-		 <result column="qnaStatus"	  	    property="qnaStatus" 			    javaType="String" />
+		 <result column="qnaStatus"	  	    	property="qnaStatus" 			    javaType="String" />
 		 <result column="userStatus"	  	    property="userStatus" 			    javaType="String" />
 	</resultMap>
     <!-- 2 -->
     <select id="qnaList" parameterType="java.util.HashMap" resultMap="qnaListResultMap">
 		 select T.rno, T.userName, T.qnaSeq, T.userSeq, T.qnaInquiry, T.qnaSubject
-		 ,T.qnaContent, T.qnaRegDate,T.qnaAnswerDate, T.qnaProgress, T.fk_seq, T.qnaStatus, T.userStatus
+		      , T.qnaContent, to_char(T.qnaRegDate, 'yyyy-mm-dd') as qnaRegDate
+		      , to_char(T.qnaAnswerDate, 'yyyy-mm-dd') as qnaAnswerDate
+		      , T.qnaProgress, T.fk_seq, T.qnaStatus, T.userStatus
 		from
 		(
 		select rownum as rno, V.userName, V.qnaSeq, V.userSeq, V.qnaInquiry, V.qnaSubject
@@ -428,8 +430,8 @@
 		and a.userSeq != 0 
 		</if>
 		and to_char(a.qnaRegDate,'YYYY-MM-DD hh24:mi:ss') 
-		between to_char(to_date(#{searchStartDay} || '00:00:00', 'YYYY-MM-DD hh24:mi:ss'),'YYYY-MM-DD hh24:mi:ss') 
-		and to_char(to_date(#{searchEndDay} || '23:59:59', 'YYYY-MM-DD hh24:mi:ss'),'YYYY-MM-DD hh24:mi:ss')
+		between to_char(to_date(#{searchStartDay} || ' 00:00:00', 'YYYY-MM-DD hh24:mi:ss'),'YYYY-MM-DD hh24:mi:ss') 
+		and to_char(to_date(#{searchEndDay} || ' 23:59:59', 'YYYY-MM-DD hh24:mi:ss'),'YYYY-MM-DD hh24:mi:ss')
 		<if test="qnaSearch != null">
 		 and ${qnaColName} like '%' || #{qnaSearch} || '%'
 		</if>
@@ -437,7 +439,7 @@
 			and qnaInquiry like '%' || #{qnaInquiry} || '%'
 		</if>
 		<if test="qnaProgress != null and !qnaProgress.equals('전체')">
-			and qnaProgress = #{qnaProgress}
+			and qnaProgress like '%' || #{qnaProgress} || '%'
 		</if>
 		order by a.qnaRegDate asc
 		)V
@@ -458,9 +460,9 @@
 		and a.userSeq != 0 
 		</if>
 		and to_char(qnaRegDate,'YYYY-MM-DD hh24:mi:ss')
-		between to_char(to_date(#{searchStartDay} || '00:00:00', 'YYYY-MM-DD
+		between to_char(to_date(#{searchStartDay} || ' 00:00:00', 'YYYY-MM-DD
 		hh24:mi:ss'),'YYYY-MM-DD hh24:mi:ss')
-		and to_char(to_date(#{searchEndDay} || '23:59:59', 'YYYY-MM-DD
+		and to_char(to_date(#{searchEndDay} || ' 23:59:59', 'YYYY-MM-DD
 		hh24:mi:ss'),'YYYY-MM-DD hh24:mi:ss')
 		<if test="qnaSearch != null">
 		and ${qnaColName} like '%' || #{qnaSearch} || '%'
@@ -487,9 +489,9 @@
 		and a.userSeq != 0 
 		</if>
 		and to_char(qnaRegDate,'YYYY-MM-DD hh24:mi:ss')
-		between to_char(to_date(#{searchStartDay} || '00:00:00', 'YYYY-MM-DD
+		between to_char(to_date(#{searchStartDay} || ' 00:00:00', 'YYYY-MM-DD
 		hh24:mi:ss'),'YYYY-MM-DD hh24:mi:ss')
-		and to_char(to_date(#{searchEndDay} || '23:59:59', 'YYYY-MM-DD
+		and to_char(to_date(#{searchEndDay} || ' 23:59:59', 'YYYY-MM-DD
 		hh24:mi:ss'),'YYYY-MM-DD hh24:mi:ss')
 		<if test="qnaSearch != null">
 		and ${qnaColName} like '%' || #{qnaSearch} || '%'
