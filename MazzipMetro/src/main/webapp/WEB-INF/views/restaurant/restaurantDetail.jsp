@@ -387,6 +387,9 @@ function goLargeImgView(adImg) {
 	  </table>
 	  </div>
 </div>
+<div style = "clear: both;">
+
+</div>
 <br/> <br/> 
 <!-- 음식점 메뉴 목록 -->
 <c:if test="${menuList != null && not empty menuList}">

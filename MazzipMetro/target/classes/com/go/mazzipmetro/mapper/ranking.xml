@@ -647,10 +647,4 @@
 		from tbl_user
 		where userSeq = #{userSeq}
 	</select>
-	
-	<select id="ranking.getRestAdInfo" parameterType="java.util.HashMap" resultType="String">
-		select adImg
-		from TBL_RESTAURANT_AD
-		where restSeq = #{restSeq}
-	</select>
 </mapper>

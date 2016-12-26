@@ -10,6 +10,8 @@
 			 padding-left : 15px;
 			 padding-bottom : 15px;
 			 }
+			 
+	
 </style>
 <script type = "text/javascript">
 	$(document).ready(function(){
@@ -19,7 +21,7 @@
 	});
 </script>
 
-<table id = "mainContent">
+<%-- <table id = "mainContent">
 	<tr>
 		<td width = "50px;" rowspan="3"><img src = "<%=request.getContextPath()%>/files/rest/${rvo.restImg}" width="200px" /></td>
 		<td width = "10px;" rowspan="3" style = "border-right:solid lightgrey 3px;"></td>
@@ -35,5 +37,10 @@
 			</c:forEach>
 		</tr>
 	</c:if>
-</table>
+</table> --%>
 
+<table id = "mainContent">
+	<tr>
+		<td><img src = "<%=request.getContextPath()%>/files/content/mainContent_403.jpg"/></td>
+	</tr>
+</table>
