@@ -74,7 +74,7 @@
 				, B.guName
 		from (
 			select A.*, B.dongName, B.guId
-			from (
+			from ( 
 				select A.*, B.metroName
 				from tbl_restaurant A left join tbl_metro B
 				on A.metroId = B.metroId) A 
@@ -127,7 +127,6 @@
 				<foreach collection="restMdTagArr"  index="i" open="(" close=")" separator=" or ">
 					A.restMdTag like '%'||'${restMdTagArr[i]}'||'%'   
 				</foreach>
-				
 			</if>
 		</if>
 		
@@ -271,7 +270,7 @@
 	</select>
 	
 	<!-- 사용자가 정복한 맛집(리뷰를 쓴 맛집) 리스트 보여주기 -->
-	<select id="getUserRestConquest" parameterType="String" resultType="com.go.mazzipmetro.vo.RestaurantVO">
+	<select id="getUserRestConquest" parameterType="java.util.HashMap" resultType="com.go.mazzipmetro.vo.RestaurantVO">
 			select A.*
 					, B.guName
 			from (
@@ -298,7 +297,20 @@
 			<if test="metroId != 'metroId'">
 				and metroId = #{metroId}
 			</if>
+			
+			<if test="restBgTag != null">
+				and 
+				<foreach collection="restBgTag"  index="i" open="(" close=")" separator=" or ">
+					(restBgTag like '%'||'${restBgTag[i]}'||'%' )
+				</foreach>
+			</if>
 				
+			<if test="restMdTag != null">
+				and 
+				<foreach collection="restMdTag"  index="i" open="(" close=")" separator=" or ">
+					(restMdTag like '%'||'${restMdTag[i]}'||'%' )
+				</foreach>
+			</if>
 	</select>
 	
 	<!-- 동이름 가져오기(사용자 마이페이지) -->
