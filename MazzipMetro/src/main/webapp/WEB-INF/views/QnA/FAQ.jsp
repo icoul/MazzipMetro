@@ -34,7 +34,7 @@
 				<tr>
 					<td height="26"><font color="#CC0000">${vo.faqType } 관련</font> &nbsp;
 					<img src="<%=request.getContextPath() %>/resources/images/list_line.gif" width="1" height="8">&nbsp;
-						<a onClick="javascript:openWin('<%=request.getContextPath() %>/faqDetail.eat?faqSeq=${vo.faqSeq}');">${vo.faqQuestion}</a>
+						<a onClick="javascript:openWinFaq('<%=request.getContextPath() %>/faqDetail.eat?faqSeq=${vo.faqSeq}', '500', '400');">${vo.faqQuestion}</a>
 					</td>
 				</tr>
 			</c:forEach>

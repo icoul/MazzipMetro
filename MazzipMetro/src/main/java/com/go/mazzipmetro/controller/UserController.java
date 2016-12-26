@@ -715,23 +715,10 @@ public class UserController {
 				System.out.println(">>>>>>>>>>>>>>>>>> 추천받은 맛집 : "+ restSeq); 
 				req.getSession().setAttribute("restRecom", restSeq);
 			}
-			
-			
-			//session에 저장된 returnPage가 있다면, 그곳으로 이동한다.
-			if(ses.getAttribute("returnPage") != null){
-				String viewPage = (String)ses.getAttribute("returnPage"); 
-				
-				req.setAttribute("msg", msg);
-				req.setAttribute("loc", viewPage);
-				
-				return "msg";
-			}
-			
+						
 			req.setAttribute("msg", msg);
 			req.setAttribute("loc", loc);//loc를 req에 담았지만, msg.jsp로 가지 않으면 휘발된다.
-			
-			
-			
+				
 		}// end of if~else
 		return "msg";
 
@@ -1078,6 +1065,8 @@ public class UserController {
 		
 		String alertUpgradeStatus = (service.getUserAttend(loginUser.getUserSeq())).getAlertUpgradeStatus();
 		
+		String script = "";
+		
 		if(resultHashMap.get("result").equals("1")){ //등급업이 됬을때
 			
 			if(((resultHashMap.get("gradeSeq").equals("UG6") || resultHashMap.get("gradeSeq").equals("UG7")) )){
@@ -1090,9 +1079,26 @@ public class UserController {
 					int n = service.updateAlertUpgradeStatus(hashMap);
 					
 					if(n == 1){
-						req.setAttribute("script", " alert('" + userGradeName + "으로 등급업 하실수 있습니다!!!!'); alert('동,역 마스터 칭호 각각 5개와 1500마일리지로 마이페이지에서 등급업을 해주세요'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+						//session에 저장된 returnPage가 있다면, 그곳으로 이동한다.
+						if(session.getAttribute("returnPage") != null){
+							String viewPage = (String)session.getAttribute("returnPage");
+							script += "location.href='" + viewPage + "';";
+						}else{
+							script += "location.href='index.eat';";
+						}
+						script += " alert('" + userGradeName + "으로 등급업 하실수 있습니다!!!!'); alert('동,역 마스터 칭호 각각 5개와 1500마일리지로 마이페이지에서 등급업을 해주세요'); self.close(); opener.location.reload(true);";
+						req.setAttribute("script", script);
 					}else{
-						req.setAttribute("script", " alert('userGradeCheck.eat 719줄 에러'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+						//session에 저장된 returnPage가 있다면, 그곳으로 이동한다.
+						if(session.getAttribute("returnPage") != null){
+							String viewPage = (String)session.getAttribute("returnPage");
+							script += "location.href='" + viewPage + "';";
+						}else{
+							script += "location.href='index.eat';";
+						}
+						
+						script += " alert('userGradeCheck.eat 719줄 에러'); self.close(); opener.location.reload(true);  ";
+						req.setAttribute("script", script);
 					}
 					
 				}else if(resultHashMap.get("gradeSeq").equals("UG7") && Integer.parseInt(alertUpgradeStatus) == 0){//신으로 등급업이 가능하고 알림횟수가 0일떄만 실행
@@ -1102,18 +1108,47 @@ public class UserController {
 					int n = service.updateAlertUpgradeStatus(hashMap);
 					
 					if(n == 1){
-						req.setAttribute("script", "alert('" + userGradeName + "으로 등급업 하실수 있습니다!!!!'); alert('구 마스터 칭호 1개와 3000마일리지로 마이페이지에서 등급업을 해주세요'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+						//session에 저장된 returnPage가 있다면, 그곳으로 이동한다.
+						if(session.getAttribute("returnPage") != null){
+							String viewPage = (String)session.getAttribute("returnPage");
+							script += "location.href='" + viewPage + "';";
+						}else{
+							script += "location.href='index.eat';";
+						}
+						
+						script += " alert('" + userGradeName + "으로 등급업 하실수 있습니다!!!!'); alert('구 마스터 칭호 1개와 3000마일리지로 마이페이지에서 등급업을 해주세요'); self.close(); opener.location.reload(true); ";
+						req.setAttribute("script", script);
 					}else{
-						req.setAttribute("script", " alert('userGradeCheck.eat 732줄 에러'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+						//session에 저장된 returnPage가 있다면, 그곳으로 이동한다.
+						if(session.getAttribute("returnPage") != null){
+							String viewPage = (String)session.getAttribute("returnPage");
+							script += "location.href='" + viewPage + "';";
+						}else{
+							script += "location.href='index.eat';";
+						}
+						
+						script += " alert('userGradeCheck.eat 732줄 에러'); self.close(); opener.location.reload(true);";
+						req.setAttribute("script", script);
 					}
-				}else{
-					req.setAttribute("script", " location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+				}else{//등급가능 알림횟수가 1이상일떄
+					//session에 저장된 returnPage가 있다면, 그곳으로 이동한다.
+					if(session.getAttribute("returnPage") != null){
+						String viewPage = (String)session.getAttribute("returnPage");
+						script += "location.href='" + viewPage + "';";
+					}else{
+						script += "location.href='index.eat';";
+					}
+					
+					script += " self.close(); opener.location.reload(true);";
+
+					req.setAttribute("script", script);
 				}
 	
 			}else{ //달인, 신을 제외한 나머지 계급들이 등급업이 되었을때 알려주는 것
 				String userGradeName = resultHashMap.get("userGradeName");
-				
+				String gradeSeq = resultHashMap.get("gradeSeq");
 				loginUser.setGradeName(userGradeName);
+				loginUser.setGradeSeq(gradeSeq);
 				session.setAttribute("loginUser", loginUser);
 				/*if(userGradeName == "구리수저")
 				{
@@ -1139,11 +1174,32 @@ public class UserController {
 				{
 					req.setAttribute("script", " sweetAlert({text: '"+userGradeName + "로 등급업 하셨습니다!!!!', imageUrl:'<%= request.getContextPath()%>/resources/images/icoUserGrade01.png'}); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
 				}*/
-				req.setAttribute("script", "alert('"+userGradeName + "로 등급업 하셨습니다!!!!'); location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+				
+				//session에 저장된 returnPage가 있다면, 그곳으로 이동한다.
+				if(session.getAttribute("returnPage") != null){
+					String viewPage = (String)session.getAttribute("returnPage");
+					script += "location.href='" + viewPage + "';";
+				}else{
+					script += "location.href='index.eat';";
+				}
+				
+				script += "alert('"+userGradeName + "로 등급업 하셨습니다!!!!'); self.close(); opener.location.reload(true);  ";
+
+				req.setAttribute("script", script);
 				}
 			
 		}else{ //등급업을 안하고 기존 등급 유지
-			req.setAttribute("script", "location.href='index.eat'; self.close(); opener.location.reload(true);  ");
+			
+			//session에 저장된 returnPage가 있다면, 그곳으로 이동한다.
+			if(session.getAttribute("returnPage") != null){
+				String viewPage = (String)session.getAttribute("returnPage");
+				script += "location.href='" + viewPage + "';";
+			}else{
+				script += "location.href='index.eat';";
+			}
+			
+			script += "self.close(); opener.location.reload(true);  ";
+			req.setAttribute("script", script);
 		}
 		
 		return "/user/msgEnd";
@@ -1195,7 +1251,8 @@ public class UserController {
 			if((int)resultMap.get("result") >= 3){
 				UserVO userVO = service.getLoginUser(loginUser.getUserEmail());
 				loginUser.setGradeName("달인");
-				loginUser.setUserPoint(userVO.getUserPoint());	
+				loginUser.setUserPoint(userVO.getUserPoint());
+				loginUser.setGradeSeq((String)resultMap.get("gradeSeq"));
 				session.setAttribute("loginUser", loginUser);
 				
 				req.setAttribute("msg", "달인으로 등급업 성공!!");
@@ -1211,7 +1268,8 @@ public class UserController {
 			if((int)resultMap.get("result") >= 3){
 				UserVO userVO = service.getLoginUser(loginUser.getUserEmail());
 				loginUser.setGradeName("신");
-				loginUser.setUserPoint(userVO.getUserPoint());	
+				loginUser.setUserPoint(userVO.getUserPoint());
+				loginUser.setGradeSeq((String)resultMap.get("gradeSeq"));
 				session.setAttribute("loginUser", loginUser);
 				
 				req.setAttribute("msg", "신으로 등급업 성공!!");
@@ -1297,12 +1355,14 @@ public class UserController {
 		session.setAttribute("loginUser", loginUser);
 		
 		if(resultMap.get("result").equals("3")){
-			req.setAttribute("script", "alert(' "+ (boxType.equals("random") ? "랜덤박스에서": "프리미엄 랜덤박스에서") +" 쿠폰 지급이 완료되었습니다.'); location.href='userMyPage.eat'; opener.location.reload(true);");
+			req.setAttribute("msg", (boxType.equals("random") ? "랜덤박스에서": "프리미엄 랜덤박스에서") +" 쿠폰 지급이 완료되었습니다.");
+			/*req.setAttribute("script", "alert(' "+ (boxType.equals("random") ? "랜덤박스에서": "프리미엄 랜덤박스에서") +" 쿠폰 지급이 완료되었습니다.'); location.href='userMyPage.eat'; opener.location.reload(true);");*/
 		}else{
-			req.setAttribute("script", "alert('" + resultMap.get("failReason") + "'); location.href='userMyPage.eat'; opener.location.reload(true);  ");
+			req.setAttribute("msg", resultMap.get("failReason"));
+			/*req.setAttribute("script", "alert('" + resultMap.get("failReason") + "'); location.href='userMyPage.eat'; opener.location.reload(true);  ");*/
 		}
 		
-		return "/user/msgEnd";
+		return "/coupon/msg";
 	}
 	
 /*	@RequestMapping(value="/test.eat", method={RequestMethod.GET})

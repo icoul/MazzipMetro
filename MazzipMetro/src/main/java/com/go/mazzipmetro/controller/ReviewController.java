@@ -379,9 +379,9 @@ public class ReviewController {
 	
 	@RequestMapping(value="/commentMoreView.eat", method={RequestMethod.GET} ) 
 	public String commentMoreView(HttpServletRequest req, HttpSession session) {
-		String commentSeq = req.getParameter("commentSeq");    // 1, 3, 5....
-
-		List<ReviewCommentVO> commentCommentList = service.getCommentCommentList(commentSeq);
+		String commentSeq = req.getParameter("commentSeq"); //댓글 번호
+		String groupNo2 =  req.getParameter("groupNo"); //댓글의 하나남은 댓글을 지울떄 화면에 삭제되는 갱신을 해주기위해서 쓰는 변수이다.
+		List<ReviewCommentVO> commentCommentList = service.getCommentCommentList(commentSeq); //댓글번호를 넘겨주고 그 댓글의 댓글목록을 가져온다.
 		
 		List<JSONObject> commentCommentListJSON = new ArrayList<JSONObject>();
 		for(int i = 0; i < commentCommentList.size(); ++i){
@@ -411,12 +411,12 @@ public class ReviewController {
 			jsonObj.put("agoHour", agoHour);
 			jsonObj.put("agoMinute", agoMinute);
 			
-			
 			commentCommentListJSON.add(jsonObj);
 		}
 		
-		
 		req.setAttribute("commentCommentListJSON", commentCommentListJSON);
+		req.setAttribute("groupNo", groupNo2); //댓글의 하나남은 댓글을 지울때만 해당한다. 
+		
 		return "/review/getCommentCommentJSON";
 	}
 	
@@ -466,6 +466,7 @@ public class ReviewController {
 			jsonObj.put("reviewCommentTotalCount", reviewCommentTotalCount);
 			
 			req.setAttribute("jsonObj", jsonObj);
+			
 			return "/review/reviewCommentTotalCountJSON";
 		}else{ //댓글의 댓글을 삭제할 경우, 이 경우에 return을 ""로 적어주면 404 GET 관련 에러가 난다. 아마도 돌아갈 jsp가 없어서 그런듯 하다.
 			return "/user/msgEnd";
