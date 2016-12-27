@@ -83,10 +83,6 @@ public class RestaurantDAO implements IDAO{
 			map.put("menuContent", mvo.getMenuContent()[i]);
 			map.put("menuImg", mvo.getMenuImg()[i]);
 			map.put("menuPrice", mvo.getMenuPrice()[i]);
-			
-			if ("0".equals(mvo.getMenuSalePrice()[i])) {
-				mvo.getMenuSalePrice()[i] = mvo.getMenuPrice()[i];
-			}
 			map.put("menuSalePrice", mvo.getMenuSalePrice()[i]);
 			map.put("menuSort", mvo.getMenuSort()[i]);
 			map.put("menuEvent", mvo.getMenuEvent()[i]);
@@ -253,6 +249,11 @@ public class RestaurantDAO implements IDAO{
 	public List<String> getRestImageList(String restSeq) {
 		List<String> restImageList = sqlSession.selectList("restaurant.getRestImageList", restSeq);
 		return restImageList;
+	}
+
+	//동현_업장상세페이지 요청시 사용자의 가고싶다의 담겨있는 경우만, req객체에 담는다.
+	public int checkWantToGo(HashMap<String, String> map) {
+		return sqlSession.selectOne("mazzipMetro.checkWantToGo", map);
 	}
 
 }

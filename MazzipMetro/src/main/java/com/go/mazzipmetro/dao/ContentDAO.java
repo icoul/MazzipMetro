@@ -3,6 +3,7 @@ package com.go.mazzipmetro.dao;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -96,5 +97,10 @@ public class ContentDAO {
 		}
 		
 		return vo;
+	}
+	
+	//동현_업장상세페이지 요청시 사용자의 가고싶다의 담겨있는 경우만, req객체에 담는다.
+	public int checkWantToGo(HashMap<String, String> map) {
+		return sqlSession.selectOne("mazzipMetro.checkWantToGo", map);
 	}
 }

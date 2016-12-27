@@ -7,14 +7,24 @@ table#tbl_wantGoContentView td {vertical-align: middle;}
 .bgFavorite {border:0; font-size:12px; color:#9f9f9f; background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStar.png') no-repeat 12px 0;}
 .bgFavorite.active {background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStarActive.png') no-repeat 12px 0;}
 </style>
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery-2.0.0.js"></script>
 <script type="text/javascript">
-$(document).ready(function(){
+
+	$(document).ready(function(){
+		
+	// 동현_사용자 가고싶다에 담긴 업장이라면, 가고싶다 버튼 색깔 클래스 추가
+	<c:if test="${not empty userWantToGoHere && userWantToGoHere == 1}">
+		$(".bgFavorite").addClass("active");
+	</c:if>
+
 	//미현_가고싶다 버튼 클릭시
 	$(".bgFavorite").click(function(){
 		 $(this).toggleClass("active");
 	}); 
 });
+	
 </script>
+>>>>>>> 66a5af1441275f3c4b7cabc9a58aa1f0761114a6
 <table id="tbl_wantGoContentView" style = "width: 100%;">
 	<tr style = "height : 35px; background-color: #EFEFEF;">
 		<td colspan = "2" style = " vertical-align: middle; padding-left : 15px;"><span style = "font-weight: bold;">이 맛집은 어떠신가요? 맛집메트로의 추천!</span></td>

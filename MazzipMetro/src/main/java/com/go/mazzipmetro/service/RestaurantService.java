@@ -193,4 +193,10 @@ public class RestaurantService implements IService {
 		return restImageList;
 	}
 
+	
+	//동현_업장상세페이지 요청시 사용자의 가고싶다의 담겨있는 경우만, req객체에 담는다.
+	public int checkWantToGo(HashMap<String, String> map) {
+		return dao.checkWantToGo(map);
+	}
+
 }
