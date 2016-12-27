@@ -512,7 +512,7 @@ function getLoginUserInfo(){
 				<div style="padding-top: 5px;">
 					
 				<ul class="menu">
-					<li><a href="#" id="dx_wantToGo">가고싶다</a></li>
+					<li><a><span id="dx_wantToGo" style="vertical-align:baseline;">가고싶다</span></a></li>
 					<li><a href="<%=request.getContextPath()%>/ranking.eat">맛집랭킹</a></li>
 					<li><a href="<%=request.getContextPath()%>/theme.eat">테마검색</a></li>
 					
