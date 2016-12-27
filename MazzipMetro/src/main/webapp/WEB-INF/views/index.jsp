@@ -479,7 +479,7 @@
 			</div>
 
 		</div>
-		<div class="rightCon" id="rightContent" style = "width : 30%; height : 382px; margin-left : 55px;"></div>
+		<div class="rightCon" id="rightContent" style = "width : 30%; height : 382px; margin-left : 115px;"></div>
 		<%-- end of rightCon --%>	
 <jsp:include page="footer.jsp" />
 
