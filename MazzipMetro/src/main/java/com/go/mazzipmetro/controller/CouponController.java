@@ -31,11 +31,13 @@ public class CouponController {
 		
 		String userSeq = loginUser.getUserSeq();
 		String userSort = loginUser.getUserSort();
+		String url = "";
 		
 		List<HashMap<String,String>> couponList = new ArrayList<HashMap<String,String>>();
 		
 		if (userSort.equals("0") || userSort.equals("2")) {
 			couponList = service.getUserCoupon(userSeq);
+			url = "coupon/userCouponList";
 		}
 		
 		if (userSort.equals("1")) {
@@ -43,12 +45,12 @@ public class CouponController {
 			
 			List<RestaurantVO> restList = service.getRestaurant(userSeq);
 			req.setAttribute("restList", restList);
+			url = "coupon/bossCouponList";
 		}
 		
 		req.setAttribute("loginUser", loginUser);
 		req.setAttribute("userSort", userSort);
 		req.setAttribute("couponList", couponList);
-		System.out.println("Ddd = " + couponList.size());
 		
 		// 페이징 처리
 		String pageNum_str = req.getParameter("pageNum");
@@ -69,7 +71,7 @@ public class CouponController {
 		String html = "";
 		
 		if (pageGroupNum != 1) {
-			html += "<a href='#' onClick = goNextPage('" + (startNum-1) + "');>[이전 10페이지]</a>&nbsp;|&nbsp;&nbsp;";
+			html += "<a href='#' onClick = getCouponList('" + (startNum-1) + "');>[이전 10페이지]</a>&nbsp;|&nbsp;&nbsp;";
 		}
 		
 		for (int i = startNum; i <= endNum; i++) {
@@ -78,7 +80,7 @@ public class CouponController {
 				html += (i*pageBar < totalNum)?"&nbsp;|&nbsp;":"";
 			}
 			else if (i != pageNum && ((i-1)*pageBar) < totalNum) {
-				html += "<a href='#' onClick = goNextPage('" + i + "');><span style = 'color : black;'>"+i+"</span></a>";
+				html += "<a href='#' onClick = getCouponList('" + i + "');><span style = 'color : black;'>"+i+"</span></a>";
 				html += (i*pageBar < totalNum)?"&nbsp;|&nbsp;":"";
 			}
 			else {
@@ -87,14 +89,14 @@ public class CouponController {
 		}
 		
 		if ((pageGroupNum*100 - totalNum) < 0) {
-			html += "<a href='#' onClick = goNextPage('" + (endNum+1) + "');>&nbsp;&nbsp;|&nbsp;[다음 10페이지]</a>";
+			html += "<a href='#' onClick = getCouponList('" + (endNum+1) + "');>&nbsp;&nbsp;|&nbsp;[다음 10페이지]</a>";
 		}
 		
 		req.setAttribute("html", html);
 		req.setAttribute("pageNum", pageNum);
 		req.setAttribute("pageBar", pageBar);
 		
-		return "coupon/couponList";
+		return url;
 	}
 	
 	@RequestMapping(value="/couponBuy.eat", method={RequestMethod.POST})

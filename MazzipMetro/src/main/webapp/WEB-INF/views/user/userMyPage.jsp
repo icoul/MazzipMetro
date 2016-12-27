@@ -55,17 +55,6 @@ $(document).ready(function(){
 		});
 	});
 	
-	$("#userCoupon").click(function(){
-		$.ajax({	
-			url:"<%= request.getContextPath() %>/couponList.eat",
-		    type:"GET",
-			datatype:"html", 
-			success:function(data){ 
-				$("#userInfo").html(data);
-			}
-		});
-	});
-	
 	$("#myReviewList").click(function(){
 		$.ajax({	
 			url:"<%= request.getContextPath() %>/myReviewList.eat",
@@ -112,6 +101,19 @@ $(document).ready(function(){
 	});
 	
 });// end of ready
+
+function getCouponList(pageNum){
+		
+	$.ajax({	
+		url:"<%= request.getContextPath() %>/couponList.eat",
+	    type:"GET",
+	    data : "pageNum="+pageNum,
+		datatype:"html", 
+		success:function(data){ 
+			$("#userInfo").html(data);
+		}
+	});
+}
 
 function restList(){
 	$.ajax({	
@@ -289,7 +291,7 @@ function SgetMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaReg
 		</td>
 		<td width="">마일리지</td>
 		<td><fmt:formatNumber pattern="###,###" value="${userPoint}" /></td>
-		<td><a href="<%= request.getContextPath()%>/couponList.eat">쿠폰</a></td>
+		<td><a href="#" onClick = "getCouponList(1);">쿠폰</a></td>
 		<td>${coupon}</td>
 	</tr>
 	<%-- <c:if test="${userGuAliasList !=null or userDongAliasList !=null or userMetroAliasList !=null or userRestTagAliasList !=null}"> --%>
@@ -413,7 +415,7 @@ function SgetMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaReg
 	<tr>
 		<td>유효한 컨텐츠 수</td>
 		<td>${effectContent}</td>
-		<td><a href="<%= request.getContextPath()%>/couponList.eat">쿠폰</a></td>
+		<td><a href="<%= request.getContextPath() %>/couponList.eat">쿠폰</a></td>
 		<td>${coupon}</td>
 	</tr>
 </table>
