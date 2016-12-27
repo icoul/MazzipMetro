@@ -13,7 +13,7 @@
 				<ul>
 				   <li><img src="<%=request.getContextPath() %>/resources/images/box2.png" width="150px;" height="150px;" /></li>
 				   <li><br>보유갯수 : ${randomBoxCount}</li>
-				   <li><br><button class="button" type="button" onClick="javascript:location.href='<%=request.getContextPath() %>/userCoupon.eat?boxType=random'">개봉하기</button></li>
+				   <li><br><button class="button" type="button" onClick="userCoupon('random');">개봉하기</button></li>
 				</ul>
 			</div>
 			
@@ -21,7 +21,7 @@
 				<ul>
 				   <li><img src="<%=request.getContextPath() %>/resources/images/box1.png" width="150px;" height="150px;" /></li>
 				   <li><br>보유갯수 :${premiumRandomBoxCount}</li>
-				   <li><br><button class="button" type="button" onClick="javascript:location.href='<%=request.getContextPath() %>/userCoupon.eat?boxType=premium'">개봉하기</button></li>
+				   <li><br><button class="button" type="button" onClick="userCoupon('premium');">개봉하기</button></li>
 				</ul>
 			</div>
 			

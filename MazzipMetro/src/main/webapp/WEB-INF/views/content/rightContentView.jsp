@@ -4,10 +4,16 @@
 <style>
 	td {line-height: 15pt;}
 </style>
-<table style = "width : 100%;" >
-<c:forEach var="list" items="${rvoList}">
+<table style = "width : 100%; " >
 		<tr>
-			<td style = "width : 30%; padding : 5px; padding-left : 15px;">
+			<th colspan = "2">오늘의 맛집</th>
+		</tr>
+		<tr style = "width : 100%;" >
+			<td style = "border-bottom : solid black 2px;" colspan = "2"></td>
+		</tr>
+<c:forEach var="list" items="${rvoList}">
+		<tr style = "border : solid 1px #f3f3f3;">
+			<td style = "width : 30%; padding : 5px; padding-left : 15px; padding-top : 15px;">
 				<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${list.restSeq}"><img width = "80px;" src="<%= request.getContextPath() %>/files/rest/${list.restImg}" /></a>
 			</td>
 			<td style = "padding-top : 6px; line-height: 20pt;">
@@ -16,7 +22,7 @@
 				<span style = "font-size: 10pt;">${list.restMdTag}</span>
 			</td>
 		</tr>
-		<tr style = "width : 100%;" >
+		<tr style = "width : 90%;" >
 			<td style = "border-bottom : solid lightgrey 2px;" colspan = "2"></td>
 		</tr>
 </c:forEach>

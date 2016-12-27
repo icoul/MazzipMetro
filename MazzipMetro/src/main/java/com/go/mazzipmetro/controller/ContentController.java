@@ -26,10 +26,8 @@ public class ContentController {
 	public String mainContentsView(HttpServletRequest req, HttpServletResponse res){
 		
 		RestaurantVO rvo = service.getMainContents();
-		List<String> adImage = service.getMainContentsAdImage(rvo.getRestSeq());
 		
 		req.setAttribute("rvo", rvo);
-		req.setAttribute("adImage", adImage);
 		
 		return "content/mainContentsView";
 	}

@@ -410,17 +410,17 @@ public class RestaurantController {
 		// (정보를 담은 Hashmap, 소개이미지 리스트 imageList, 메뉴VO mvo, 메뉴갯수 menuNum) 
 		
 		int endNum = 1 + imageList.size() + menuNum;
-		
+		String loc = "userMyPage.eat";
 		String msg = "실패했습니다";
 		
 		if (result == endNum) {
 			msg = "정보등록을 성공했습니다";
 		}
 		
-		req.setAttribute("result", result);
+		req.setAttribute("loc", loc);
 		req.setAttribute("msg", msg);
 		
-		return "restaurant/restAddInfoEnd";
+		return "msg";
 
 	}
 	
@@ -549,16 +549,17 @@ public class RestaurantController {
 		
 		int endNum = menuEventArray.size();
 		
+		String loc = "restList.eat";
 		String msg = "실패했습니다";
 		
 		if (result == endNum) {
 			msg = "메뉴수정을 성공했습니다";
 		}
 		
-		req.setAttribute("result", result);
+		req.setAttribute("loc", loc);
 		req.setAttribute("msg", msg);
 		
-		return "restaurant/restAddInfoEnd";
+		return "msg";
 	}
 	
 	// 수정할 업장을 선택해서 해당 업장의 수정창을 띄우는 메서드

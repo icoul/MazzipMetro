@@ -52,7 +52,7 @@ public class ContentDAO {
 			RestaurantVO vo = sqlSession.selectOne("content.getRightRestaurant", countList.get(i));
 			rvoList.add(vo);
 			
-			if (i == 4) {
+			if (i == 3) {
 				break;
 			}
 		}
@@ -90,8 +90,11 @@ public class ContentDAO {
 		RestaurantVO vo = sqlSession.selectOne("content.getRightRestaurant", countList.get(0));
 		
 		String restContent = vo.getRestContent();
-		restContent = restContent.substring(0, 30);
-		vo.setRestContent(restContent+"...");
+		
+		if (restContent != null) {
+			restContent = restContent.substring(0, 30);
+			vo.setRestContent(restContent+"...");
+		}
 		
 		return vo;
 	}

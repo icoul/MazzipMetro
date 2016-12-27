@@ -243,8 +243,10 @@ function getLoginUserInfo(){
 			goLogin();
 			return;		
 		</c:if>
+		var winPosLeft = (screen.width - 500) / 2;
+		
 		var url = "<%=request.getContextPath()%>/myQna.eat";
-		window.open(url, "myQna", "left=350px, top=100px, width=500px, height=400px, status=no, scrollbars=yes");		
+		window.open(url, "myQna", "left="+ winPosLeft +", top=100px, width=500px, height=400px, status=no, scrollbars=yes");		
 	}
 	
 	//가고싶다에 들어가는 배너 컨텐츠 뷰
@@ -362,7 +364,10 @@ function getLoginUserInfo(){
 	       }
 	    
 	    function openWinFaq(src, width, height){
-			window.open(src,"팝업창이름(의미없음)", "width=" + width + ", height=" + height + ", left=100px, top=100px, menubar=no, status=no, scrollbars=no");
+	    	var winPosLeft = (screen.width - width) / 2;
+	    	 var winPosTop = 50;
+			
+	    	window.open(src,"팝업창이름(의미없음)", "width=" + width + ", height=" + height + ", left=" + winPosLeft + ", top=" + winPosTop + ", menubar=no, status=no, scrollbars=no");
 		}
 
 	       
@@ -512,20 +517,48 @@ function getLoginUserInfo(){
 					<!-- 비회원 로그인시(로그인전) -->
 					<c:if test="${empty sessionScope.loginUser.userSeq}">
 						<li><a href="javascript:goAsk();">문의하기</a></li>
-						<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
+						<li><div class="dx_dropdown">
+						  		<a class="dx_drop_anchor" style="padding-bottom: 30px;">FAQ</a>
+								  <div class="dx_dropdown-content">
+									<a href="" onClick="javascript:openWinFaq('<%=request.getContextPath() %>/faqListByType.eat?faqType=회원', '680', '630');">회원 관련문의</a>
+									<a href="" onClick="javascript:openWinFaq('<%=request.getContextPath() %>/faqListByType.eat?faqType=사업주', '680', '580');">사업주 관련문의</a>
+									<a href="" onClick="javascript:openWinFaq('<%=request.getContextPath() %>/faqListByType.eat?faqType=음식점', '680', '310');">음식점 관련문의</a>
+									<a href="" onClick="javascript:openWinFaq('<%=request.getContextPath() %>/faqListByType.eat?faqType=기타', '680', '350');">기타 관련문의</a>
+								  </div>
+							</div>
+						</li>
 						&nbsp;&nbsp;&nbsp;&nbsp;
 					</c:if>
 					<!-- 일반사용자 로그인시 -->
 					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 0}">
 						<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
 						<li><a href="javascript:goAsk();">문의하기</a></li>
-						<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
+						<li><div class="dx_dropdown">
+						  		<a class="dx_drop_anchor" style="padding-bottom: 30px;">FAQ</a>
+								  <div class="dx_dropdown-content">
+									<a href="" onClick="javascript:openWinFaq('<%=request.getContextPath() %>/faqListByType.eat?faqType=회원', '680', '630');">회원 관련문의</a>
+									<a href="" onClick="javascript:openWinFaq('<%=request.getContextPath() %>/faqListByType.eat?faqType=사업주', '680', '580');">사업주 관련문의</a>
+									<a href="" onClick="javascript:openWinFaq('<%=request.getContextPath() %>/faqListByType.eat?faqType=음식점', '680', '310');">음식점 관련문의</a>
+									<a href="" onClick="javascript:openWinFaq('<%=request.getContextPath() %>/faqListByType.eat?faqType=기타', '680', '350');">기타 관련문의</a>
+								  </div>
+							</div>
+						</li>
 					</c:if>
 					<!-- 사업주 로그인시 -->
 					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 1}">
 						<li><a href="<%=request.getContextPath()%>/userMyPage.eat">마이페이지</a></li>
 						<li><a href="javascript:goAsk();">문의하기</a></li>
-						<li><a href="<%=request.getContextPath()%>/faq.eat">FAQ</a></li>
+						<li>
+							<div class="dx_dropdown">
+						  		<a class="dx_drop_anchor" style="padding-bottom: 30px;">FAQ</a>
+								  <div class="dx_dropdown-content">
+									<a href="" onClick="javascript:openWinFaq('<%=request.getContextPath() %>/faqListByType.eat?faqType=회원', '680', '630');">회원 관련문의</a>
+									<a href="" onClick="javascript:openWinFaq('<%=request.getContextPath() %>/faqListByType.eat?faqType=사업주', '680', '580');">사업주 관련문의</a>
+									<a href="" onClick="javascript:openWinFaq('<%=request.getContextPath() %>/faqListByType.eat?faqType=음식점', '680', '310');">음식점 관련문의</a>
+									<a href="" onClick="javascript:openWinFaq('<%=request.getContextPath() %>/faqListByType.eat?faqType=기타', '680', '350');">기타 관련문의</a>
+								  </div>
+							</div>
+						</li>
 					</c:if>
 					<!-- 관리자 로그인시 -->
 					<c:if test="${not empty sessionScope.loginUser.userSeq && sessionScope.loginUser.userSort == 2}">

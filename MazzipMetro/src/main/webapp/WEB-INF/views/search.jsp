@@ -178,7 +178,7 @@
 			</div> --%>
 		</div>
 		<%-- end of leftCon --%>
-		<div id="rightContent" style = "position:relative;  float:right; width:444px; height:1000px; margin-top : 40px; margin-left : 70px;"></div>
+		<!-- <div id="rightContent" style = "position:relative;  float:right; width:444px; height:1000px; margin-top : 40px; margin-left : 70px;"></div> -->
 		<%-- end of rightCon --%>	
 
 

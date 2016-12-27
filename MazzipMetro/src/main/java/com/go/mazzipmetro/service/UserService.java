@@ -334,6 +334,7 @@ public class UserService implements IService {
 					n = dao.updateUserPoint(hashMap);
 					m = dao.updateUserGrade(hashMap);
 					o = dao.updateAlertUpgradeStatus(hashMap);
+					resultMap.put("gradeSeq", "UG6");
 				} else {
 					resultMap.put("failReason", "포인트가 부족합니다");
 				}
@@ -362,6 +363,7 @@ public class UserService implements IService {
 					n = dao.updateUserPoint(hashMap);
 					m = dao.updateUserGrade(hashMap);
 					o = dao.updateAlertUpgradeStatus(hashMap);
+					resultMap.put("gradeSeq", "UG7");
 				} else {
 					resultMap.put("failReason", "포인트가 부족합니다");
 				}
@@ -417,6 +419,8 @@ public class UserService implements IService {
 	public HashMap<String, String> grantCoupon(HashMap<String, String> hashMap) {
 		
 		HashMap<String, String> resultMap = new HashMap<String, String>();
+		List<CouponVO> couponList = couponDao.getCouponList();
+		
 		
 		int boxCount = 0;
 		if(hashMap.get("boxType").equals("random")){
@@ -443,22 +447,30 @@ public class UserService implements IService {
 				return resultMap;
 			}
 
-			int random =  (int)(Math.random() * 5) + 1;
 			
-			int n = dao.minusRandomBox(hashMap);
-			if(random == 1 || random == 3 || random == 5){
-				List<CouponVO> couponList = couponDao.getCouponList();
-				
-				int random2 = (int)(Math.random() * couponList.size());
-				CouponVO couponVO =  couponList.get(random2);
-				hashMap.put("couponSeq", couponVO.getCouponSeq());
-				
-				int o = couponDao.updateCoupon(hashMap);
-				resultMap.put("result", String.valueOf(n+m+o));
+			if(couponList.isEmpty()){
+				resultMap.put("result", String.valueOf(m));
+				resultMap.put("failReason", "죄송합니다 현재 발급되어진 쿠폰이 없습니다.");
+				return resultMap;
 			}else{
-				resultMap.put("result", String.valueOf(n+m));
-				resultMap.put("failReason", "꽝");
+				int random =  (int)(Math.random() * 5) + 1;
+				
+				int n = dao.minusRandomBox(hashMap);
+				if(random == 1 || random == 3 || random == 5){
+					
+					int random2 = (int)(Math.random() * couponList.size());
+					CouponVO couponVO =  couponList.get(random2);
+					hashMap.put("couponSeq", couponVO.getCouponSeq());
+					
+					int o = couponDao.updateCoupon(hashMap);
+					resultMap.put("result", String.valueOf(n+m+o));
+				}else{
+					resultMap.put("result", String.valueOf(n+m));
+					resultMap.put("failReason", "꽝");
+				}
 			}
+			
+			
 					
 		}else{
 			resultMap.put("result", String.valueOf(0));
