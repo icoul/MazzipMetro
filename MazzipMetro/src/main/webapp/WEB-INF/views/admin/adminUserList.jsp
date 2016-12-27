@@ -70,16 +70,16 @@ function goUserEdit(userSeq){
 		</form>
 		</div>
 		<div class="txtC">
-			<table class="tblType01">
+			<table class="tblType01" style="width:100%;">
 			<tr>
-				<th style="width: 70px;" >번호</th>
-				<th style="width: 80px;" >성명</th>
-				<th style="width: 70px;" >등급번호</th>
-				<th style="width: 70px;" >이메일</th>
-				<th style="width: 70px;" >전화번호</th>
-				<th style="width: 70px;" >가입일자</th>
-				<th style="width: 70px;" >포인트</th>
-				<th style="width: 70px;" >수정/삭제</th>
+				<th style="width: 10%;" >번호</th>
+				<th style="width: 13%;" >성명</th>
+				<th style="width: 15%;" >등급명</th>
+				<th style="width: 15%;" >이메일</th>
+				<th style="width: 15%;" >전화번호</th>
+				<th style="width: 10%;" >가입일자</th>
+				<th style="width: 10%;" >포인트</th>
+				<th style="width: 12%;" >수정/삭제</th>
 			</tr>
 		
 		<c:forEach var="vo" items="${list}" varStatus="status"> 
@@ -91,7 +91,7 @@ function goUserEdit(userSeq){
 				<td>${vo.userPhone}</td>
 				<td>${vo.userRegDate}</td>
 				<td><fmt:formatNumber pattern="###,###" value="${vo.userPoint}" /></td>
-				<td>
+				<td style="padding-top:10px;">
 					<button class="btnGray" onClick="goUserEdit('${vo.userSeq}');" style="margin-top:0; width:40px;">수정</button>
 					<input type="hidden" name="userSeq" value="${vo.userSeq}" />
 					<form name="userDelFrm"  action="<%= request.getContextPath() %>/adminUserDel.eat" method="post">

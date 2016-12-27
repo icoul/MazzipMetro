@@ -4,8 +4,8 @@
 <style type="text/css">
 /*동현_상속된 css 초기화 */
 table#tbl_wantGoContentView td {vertical-align: middle;}
-.bgFavorite {border:0; padding-top:40px; font-weight:bold; color:#9f9f9f; background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStar.png') no-repeat 20px 0;}
-.bgFavorite.active {background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStarActive.png') no-repeat 20px 0;}
+.bgFavorite {border:0; font-size:12px; color:#9f9f9f; background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStar.png') no-repeat 12px 0;}
+.bgFavorite.active {background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStarActive.png') no-repeat 12px 0;}
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -23,17 +23,18 @@ $(document).ready(function(){
 		<td style = "padding:5px; padding-left:15px; width:25%;" rowspan="2">
 			<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${vo.restSeq}"><img width = "100px;" src="<%= request.getContextPath() %>/files/rest/${vo.restImg}" /></a>
 		</td>
-		<td style="text-align:right; padding-top: 5px;padding-right: 9px;">
-			<!-- 동현_가고싶다 카트 상단의 content view에 가고싶다 버튼 추가 -->
-			<button type="button"  onclick="addWantToGo(${vo.restSeq});" class="bgFavorite">가고싶다</button>
+		<td>
+			
 		</td>
 	</tr>
-	<tr>	
-		<td style = "padding-top : 6px; line-height: 26pt;">
+	<tr>
+		<td style = "padding:25px 0 10px; line-height: 26pt;">
+			<!-- 동현_가고싶다 카트 상단의 content view에 가고싶다 버튼 추가 -->
+			<button type="button"  onclick="addWantToGo(${vo.restSeq});" class="bgFavorite" style="float:right; padding-top:30px;">가고싶다</button>
 			<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${vo.restSeq}" style="color:black; text-decoration: none;">			
-			<span style = "font-size: 25pt; font-weight: bold;">${vo.restName}</span><br/>
-			<span style = "font-size: 15pt;">${vo.restBgTag}</span>&nbsp;&nbsp;<span style = "font-size: 10pt;">${vo.restMdTag}</span><br/>
-			<span style = "font-size: 10pt;">${vo.restContent}</span>
+				<span style = "font-size: 25pt; font-weight: bold;">${vo.restName}</span><br/>
+				<span style = "font-size: 15pt;">${vo.restBgTag}</span>&nbsp;&nbsp;<span style = "font-size: 10pt;">${vo.restMdTag}</span><br/>
+				<span style = "font-size: 10pt;">${vo.restContent}</span>
 			</a>
 		</td>
 	</tr>
