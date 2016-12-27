@@ -29,12 +29,10 @@
 	#table td{width: 480px;}
 	.mylong {width: 470px;}
 	.myshort {width: 120px;} 
-
 /* ### 테마 테이블 관련 ### */
 table#dx_theme {border: solid 1px gray; padding: 10px; border-collapse: collapse;}
 table#dx_theme th{text-align: center; height: 20px; padding: 2px;border: solid 1px gray; background-color: #EEEEEE;}
 table#dx_theme td{text-align: center; height:  35px; padding: 5px;border: solid 1px gray;}
-
 #theme_icon_single 		{background:url("<%=request.getContextPath()%>/resources/images/theme_icon_single.png") no-repeat; background-position: center;}
 #theme_icon_family 	{background:url("<%=request.getContextPath()%>/resources/images/theme_icon_family.png") no-repeat; background-position-x: center;}
 #theme_icon_cost 		{background:url("<%=request.getContextPath()%>/resources/images/theme_icon_cost.png") no-repeat; background-position-x: center;}	
@@ -43,13 +41,10 @@ table#dx_theme td{text-align: center; height:  35px; padding: 5px;border: solid 
 #theme_icon_night 		{background:url("<%=request.getContextPath()%>/resources/images/theme_icon_night.png") no-repeat; background-position-x: center;}
 #theme_icon_mood 		{background:url("<%=request.getContextPath()%>/resources/images/theme_icon_mood.png") no-repeat; background-position-x:center;}
 #theme_icon_people 	{background:url("<%=request.getContextPath()%>/resources/images/theme_icon_people.png") no-repeat; background-position-x: center;}
-
-
 /* 체크박스 대신 체크문자 사용하기 */
 input[name=theme]{  
     display: none;  
 }
-
 /* ex) div + p	  Selects all <p> elements that are placed immediately after <div> elements*/
 input[name=theme] + label{
     display: inline-block;  
@@ -58,10 +53,8 @@ input[name=theme] + label{
     padding-left: 25px;  
     margin-right: 15px;  
 }
-
 /* unchecked */
 input[name=theme]+ label:before {     
-
     content: ""; 
     display: inline-block;  
     width: 29px;  
@@ -70,10 +63,8 @@ input[name=theme]+ label:before {
     position: relative;  
     left: 0;  
 }
-
 /* checked */
 input[name=theme]:checked + label:before { 
-
     content: "\2713";  /* 체크모양 */
     text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);  
     font-size: 24px; 
@@ -83,33 +74,25 @@ input[name=theme]:checked + label:before {
     height: 19px; 
     text-align: center;  
     line-height: 22px;  
-
 } 
-
 /* ###태그 테이블 관련 ###*/
 table#dx_tag {border: solid 1px gray; padding: 10px; border-collapse: collapse;}
 table#dx_tag th{text-align: center;  width: 50px; height: 20px; padding: 2px;border: solid 1px gray; background-color: #EEEEEE; vertical-align: middle; }
 table#dx_tag td{text-align: center;  height:  50px;padding: 5px;border: solid 1px gray;}
-
 #tag_icon_korean 		{background:url("<%=request.getContextPath()%>/resources/images/tag_icon_korean.png") no-repeat; background-position: center; background-size: 150px;}
 #tag_icon_japanese		{background:url("<%=request.getContextPath()%>/resources/images/tag_icon_japanese.jpg") no-repeat; background-position: center; background-size: 127px;}
 #tag_icon_chinese		{background:url("<%=request.getContextPath()%>/resources/images/tag_icon_chinese.png") no-repeat; background-position: center; background-size: 145px;}	
 #tag_icon_western 		{background:url("<%=request.getContextPath()%>/resources/images/tag_icon_western.png") no-repeat; background-position: center; background-size: 173px;}
 #tag_icon_enAsian		{background:url("<%=request.getContextPath()%>/resources/images/tag_icon_enAsian.png") no-repeat; background-position: center; background-size: 166px;}
-
 #tag_icon_meet 		{background:url("<%=request.getContextPath()%>/resources/images/tag_icon_meet.png") no-repeat; background-position: center; background-size: 80px;}
 #tag_icon_fish 			{background:url("<%=request.getContextPath()%>/resources/images/tag_icon_fish.png") no-repeat; background-position: center; background-size: 80px;}
 #tag_icon_vege 		{background:url("<%=request.getContextPath()%>/resources/images/tag_icon_vege.png") no-repeat; background-position: center ; background-size: 80px;}	
 #tag_icon_rice			{background:url("<%=request.getContextPath()%>/resources/images/tag_icon_rice.png") no-repeat; background-position: center ; background-size: 70px;}
 #tag_icon_noodle 	{background:url("<%=request.getContextPath()%>/resources/images/tag_icon_noodle.png") no-repeat; background-position: center 5; background-size: 96px;}
-
-
 /* 체크박스 대신 체크문자 사용하기 */
-
 input[name=reviewBgTag], input[name=reviewMdTag] {  
     display: none;  
 }
-
 /*=== restBgTag=== */
 input[name=reviewBgTag] + label{
     display: inline-block;  
@@ -118,10 +101,8 @@ input[name=reviewBgTag] + label{
     padding-left: 25px;  
     margin-right: 15px;  
 }
-
 /* unchecked */
 input[name=reviewBgTag]+ label:before {     
-
     content: ""; 
     display: inline-block;  
     width: 29px;  
@@ -130,10 +111,8 @@ input[name=reviewBgTag]+ label:before {
     position: relative;  
     left: 0;  
 }
-
 /* checked */
 input[name=reviewBgTag]:checked + label:before { 
-
     content: "\2713";  /* 체크모양 */
     text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);  
     font-size: 24px; 
@@ -143,9 +122,7 @@ input[name=reviewBgTag]:checked + label:before {
     height: 19px; 
     text-align: center;  
     line-height: 22px;  
-
 } 
-
 /* ===reviewMdTag=== */
 input[name=reviewMdTag] + label{
     display: inline-block;  
@@ -154,10 +131,8 @@ input[name=reviewMdTag] + label{
     padding-left: 25px;  
     margin-right: 15px;  
 }
-
 /* unchecked */
 input[name=reviewMdTag]+ label:before {     
-
     content: ""; 
     display: inline-block;  
     width: 29px;  
@@ -166,10 +141,8 @@ input[name=reviewMdTag]+ label:before {
     position: relative;  
     left: 0;  
 }
-
 /* checked */
 input[name=reviewMdTag]:checked + label:before { 
-
     content: "\2713";  /* 체크모양 */
     text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);  
     font-size: 24px; 
@@ -179,15 +152,10 @@ input[name=reviewMdTag]:checked + label:before {
     height: 19px; 
     text-align: center;  
     line-height: 22px;  
-
 } 
-
-
-
 </style>
 
 <script type="text/javascript">
-
 	
 	
 	//우철_총 평점
@@ -218,7 +186,6 @@ input[name=reviewMdTag]:checked + label:before {
 		{
 			/* $("#total-result").hide(); */	
 		}
-
 		
 	}
 	
@@ -269,7 +236,6 @@ input[name=reviewMdTag]:checked + label:before {
 		var writeFrm = document.writeFrm;
 		writeFrm.submit();
 	}
-
 	// 우철_취소버튼
 	function goReset() {
 		var writeFrm = document.writeFrm;
@@ -329,7 +295,6 @@ input[name=reviewMdTag]:checked + label:before {
 			getTotalRating();
 		});
 		
-
 		// 우철_ 분위기평점
 		$("[name=mood-rating]").click(function(){
 			
@@ -344,7 +309,6 @@ input[name=reviewMdTag]:checked + label:before {
 			getTotalRating();
 		});
 		
-
 		// 우철_ 가격평점
 		$("[name=price-rating]").click(function(){
 			var html = "";
@@ -368,7 +332,6 @@ input[name=reviewMdTag]:checked + label:before {
 			$("#reviewService").empty();
 			//$("#reviewService").append(html+"점");
 			$("#inputService").val(service);
-
 			getTotalRating();
 		});
 		

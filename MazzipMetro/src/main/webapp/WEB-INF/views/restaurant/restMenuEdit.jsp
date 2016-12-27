@@ -66,17 +66,6 @@
 				alert("메뉴가격을 작성해주세요");
 				return;
 			}
-			
-			if(regexp.test(menuPrice)){
-				alert(menuPrice);
-				alert("메뉴가격은 숫자만 입력가능합니다");
-				return;
-			}
-			
-			if(regexp.test(menuSalePrice)){
-				alert("세일가격은 숫자만 입력가능합니다");
-				return;
-			}
 		}
 		
 		var registerFrm = document.registerFrm;

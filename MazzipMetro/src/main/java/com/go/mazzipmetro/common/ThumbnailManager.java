@@ -42,12 +42,13 @@ public class ThumbnailManager {
 		
 		String pathFilename = path + File.separator + filename;//원본 파일 경로명
 		
+		path += "/thumb";
+		
 		// 업로드할 경로가 존재하지 않는 경우 폴더를 생성 한다.
 		File dir = new File(path);
 		if(!dir.exists())
 			dir.mkdirs();
 		
-		path += "/thumb";
 		String pathThumbnailFileName = path + File.separator + thumbnailFileName;
 		
 		File image = new File(pathFilename);
