@@ -172,7 +172,7 @@ function getMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegY
 		alert("qnaRegDayStart = "+ qnaRegDayStart);
 		$.ajax({	
 			url:'/mazzipmetro/myQnaList.eat?qnaRegYearStart='+qnaRegYearStart+'&qnaRegMonthStart='+qnaRegMonthStart+'&qnaRegDayStart='+qnaRegDayStart+'&qnaRegYearEnd='+qnaRegYearEnd+'&qnaRegMonthEnd='+qnaRegMonthEnd+'&qnaRegDayEnd='+qnaRegDayEnd+'&qnaInquiry='+qnaInquiry+'&startPageNo='+startPageNo+'&userSeq='+userSeq+'&qnaProgress='+qnaProgress,
-		    type:"GET",
+		    method:"GET",
 			datatype:"html", 
 			success:function(data){ 
 				$("#userInfo").html(data);
@@ -184,14 +184,13 @@ function SgetMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaReg
 		alert(">>>>>>>>>>qnaColName" + qnaColName);
 		$.ajax({	
 			url:'/mazzipmetro/myQnaList.eat?qnaRegYearStart='+qnaRegYearStart+'&qnaRegMonthStart='+qnaRegMonthStart+'&qnaRegDayStart='+qnaRegDayStart+'&qnaRegYearEnd='+qnaRegYearEnd+'&qnaRegMonthEnd='+qnaRegMonthEnd+'&qnaRegDayEnd='+qnaRegDayEnd+'&qnaInquiry='+qnaInquiry+'&startPageNo='+startPageNo+'&userSeq='+userSeq+'&qnaColName='+qnaColName+'&qnaSearch='+qnaSearch+'&qnaProgress='+qnaProgress,
-		    type:"GET",
+			method:"GET",
 			datatype:"html", 
 			success:function(data){ 
 				$("#userInfo").html(data);
 			}
 		});
-	};// end of getMyQnAList
-
+}// end of getMyQnAList
 
 </script>
 <!-- 미현_칭호 붙이기에 쓰이는 css -->

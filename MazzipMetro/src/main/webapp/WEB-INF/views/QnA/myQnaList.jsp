@@ -9,10 +9,10 @@
 	.navbar-barnd{vertical-align : middle;line-height:45px;}
 	.btn-primary.create {margin-top:10px;}
 </style>
-<script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>  
+<%-- <script type="text/javascript" src="<%= request.getContextPath() %>/resources/js/jquery-2.0.0.js"></script>  
 <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/BootStrapStudy/css/bootstrap.min.css">
 <script src="<%= request.getContextPath() %>/resources/BootStrapStudy/js/bootstrap.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> --%>
   
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -61,7 +61,7 @@
 		
 		$.ajax({	
 			url:"<%= request.getContextPath() %>/myQnaList.eat",
-		    type:"GET",
+		    method:"GET",
 		    data:"qnaColName="+qnaColName+"&qnaSearch="+qnaSearch+"&qnaInquiry="+qnaInquiry+"&qnaProgress="+qnaProgress+"&qnaRegYearStart="+qnaRegYearStart
 		    	+"&qnaRegMonthStart="+qnaRegMonthStart+"&qnaRegDayStart="+qnaRegDayStart+"&qnaRegYearEnd="+qnaRegYearEnd+"&qnaRegMonthEnd="+qnaRegMonthEnd+"&qnaRegDayEnd="+qnaRegDayEnd,
 			datatype:"html", 
