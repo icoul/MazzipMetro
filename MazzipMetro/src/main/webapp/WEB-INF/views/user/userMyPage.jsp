@@ -126,6 +126,31 @@ function restList(){
 	});
 }
 
+
+function userRandomBox(){
+	$.ajax({	
+		url:"<%= request.getContextPath() %>/userRandomBox.eat",
+	    type:"GET",
+		datatype:"html", 
+		success:function(data){ 
+			$("#userInfo").html(data);
+		}
+	});
+}
+
+function userCoupon(boxType){
+	$.ajax({	
+		url:"<%=request.getContextPath() %>/userCoupon.eat",
+	    method:"GET",
+	    data:"boxType=" + boxType,
+	    datatype:"html",
+		success:function(data){
+			alert(data);
+			userRandomBox();
+		}
+	});
+}
+
 function getMyReviewList(startPageNo){ 
 	     
 		$.ajax({	
@@ -149,7 +174,7 @@ function getMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegY
 		alert("qnaRegDayStart = "+ qnaRegDayStart);
 		$.ajax({	
 			url:'/mazzipmetro/myQnaList.eat?qnaRegYearStart='+qnaRegYearStart+'&qnaRegMonthStart='+qnaRegMonthStart+'&qnaRegDayStart='+qnaRegDayStart+'&qnaRegYearEnd='+qnaRegYearEnd+'&qnaRegMonthEnd='+qnaRegMonthEnd+'&qnaRegDayEnd='+qnaRegDayEnd+'&qnaInquiry='+qnaInquiry+'&startPageNo='+startPageNo+'&userSeq='+userSeq+'&qnaProgress='+qnaProgress,
-		    type:"GET",
+		    method:"GET",
 			datatype:"html", 
 			success:function(data){ 
 				$("#userInfo").html(data);
@@ -161,13 +186,13 @@ function SgetMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaReg
 		alert(">>>>>>>>>>qnaColName" + qnaColName);
 		$.ajax({	
 			url:'/mazzipmetro/myQnaList.eat?qnaRegYearStart='+qnaRegYearStart+'&qnaRegMonthStart='+qnaRegMonthStart+'&qnaRegDayStart='+qnaRegDayStart+'&qnaRegYearEnd='+qnaRegYearEnd+'&qnaRegMonthEnd='+qnaRegMonthEnd+'&qnaRegDayEnd='+qnaRegDayEnd+'&qnaInquiry='+qnaInquiry+'&startPageNo='+startPageNo+'&userSeq='+userSeq+'&qnaColName='+qnaColName+'&qnaSearch='+qnaSearch+'&qnaProgress='+qnaProgress,
-		    type:"GET",
+			method:"GET",
 			datatype:"html", 
 			success:function(data){ 
 				$("#userInfo").html(data);
 			}
 		});
-	};// end of getMyQnAList
+}// end of getMyQnAList
 
 </script>
 <!-- 미현_칭호 붙이기에 쓰이는 css -->
@@ -224,8 +249,16 @@ function SgetMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaReg
 				<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade07.png">
 			</c:if>
 		</td>
+		
 		<td width="13%"><span>등급</span>  <a data-toggle="modal" data-target="#gradeInfoModal" style="cursor: pointer;"><i class="material-icons">help_outline</i></a></td>
-		<td width="13%"> ${sessionScope.loginUser.gradeName}  </td>
+		<td width="13%"> ${sessionScope.loginUser.gradeName}
+			<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG5' and sessionScope.loginUser.userExp >= 5000}">
+				<img style="cursor: pointer;" src="<%= request.getContextPath() %>/files/LevelUp.png" width="45px" height="30px" onclick="javascript:location.href='<%=request.getContextPath() %>/updateUserGrade.eat?gradeSeq=UG6'"/>			
+			</c:if>
+			<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG6' and sessionScope.loginUser.userExp >= 10000}">
+				<img style="cursor: pointer;" src="<%= request.getContextPath() %>/files/LevelUp.png" width="45px" height="30px" onclick="javascript:location.href='<%=request.getContextPath() %>/updateUserGrade.eat?gradeSeq=UG7'"/>
+			</c:if>
+		 </td>
 		
 		<td width="13%">정복한 맛집</td>
 		<td width="13%">${reviewCount}</td>

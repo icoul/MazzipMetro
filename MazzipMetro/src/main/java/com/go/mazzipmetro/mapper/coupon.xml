@@ -50,4 +50,19 @@
 		update tbl_coupon set couponStatus = 2, couponUseDate = sysdate
 		where couponSeq = #{couponSeq} and couponStatus = 1
 	</update>
+	
+	<!-- ////////////////////////////////////////////////////////은석1 ////////////////////////////////////////////////////////////// -->    
+    <!-- 1 -->
+    <select id="getCouponList" resultType="com.go.mazzipmetro.vo.CouponVO">
+        select couponSeq, restSeq, userSeq, metroId, couponRegDate, couponUserDate, couponExpiryDate, couponStatus, couponUserDate
+        from tbl_coupon
+        where COUPONSTATUS = 0
+    </select>
+    
+    <!-- 2 -->
+    <update id="updateCoupon">
+        update tbl_coupon set userSeq = #{userSeq}, couponUserDate = sysdate, couponExpiryDate = sysdate+30, couponStatus = 1 where couponSeq = #{couponSeq}
+    </update>
+    <!-- ////////////////////////////////////////////////////////은석1 ////////////////////////////////////////////////////////////// -->    
+	
 </mapper>

@@ -242,7 +242,7 @@ function goLargeImgView(adImg) {
 		   var html = "";
 		   
 		   $.each(data, function(key, val){
-				html += "<img src='<%=request.getContextPath() %>/resources/images/"+val+"' "+"width='460' height='345' />";    
+				html += "<img src='<%=request.getContextPath() %>/files/rest/"+val+"' "+"width='460' height='345' />";    
 		   });
 				
 	   	   /*
@@ -282,13 +282,13 @@ function goLargeImgView(adImg) {
 	 
 	 <div id="largeImg" style="float: left;  border: green solid 0px; width: 100%;">
 	 	<c:if test="${empty restImageList}">
-	 		<img src='<%=request.getContextPath() %>/resources/images/no_image.jpg' width='460' height='345' />
+	 		<img src='<%=request.getContextPath() %>/files/no_image.jpg' width='460' height='345' />
 	 	</c:if>
 	</div>  
 		
 	<div  style="border: red solid 0px; clear:both; float:left; width: 100%;  padding: 20px;">
 			<c:forEach var="img" items="${restImageList}" varStatus="status">
-				<img src="<%= request.getContextPath() %>/resources/images/${img}" width="70px" height="70px" class="my_thumbnail" style="margin-right: 10px;" onmouseover="goLargeImgView('${img}')" />
+				<img src="<%= request.getContextPath() %>/files/rest/${img}" width="70px" height="70px" class="my_thumbnail" style="margin-right: 10px;" onmouseover="goLargeImgView('${img}')" />
 			</c:forEach>
 	</div>
 	 

@@ -1208,7 +1208,7 @@ public class MazzipMetroController {
 		if (startPageNo == 1) {// 첫 페이지바인 경우
 			pageBar += String.format("<li><a>[이전%d페이지]</a></li>", blockSize);
 		} else {// 첫 페이지바가 아닌경우
-			if (qnaSearch == null) {// 검색어가 없는경우
+			if (qnaSearch == null) {//페이지 첫 로딩인 경우
 				pageBar += String.format(
 						"<li><a href='javascript:getMyQnAList(%s,%s,%s,%s,%s,%s,\"%s\",%d,%s,\"%s\")>[이전%d페이지]</a></li>",
 						qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd, qnaRegMonthEnd, qnaRegDayEnd,
@@ -1233,20 +1233,20 @@ public class MazzipMetroController {
 						"<li><span style='color:red; font-weight:bold; text-decoration:underline; '> %d </span></li>",
 						startPageNo);
 			} else {
-				if (qnaSearch == null) {// 
+				if (qnaSearch == null) {//페이지 첫 로딩인 경우
 					System.out.println(">>>>>>>>>>"+qnaRegDayStart+"<<<<<<<<<<<");
 					pageBar += String.format(
 							"<li><a href='javascript:getMyQnAList(%s,%s,%s,%s,%s,%s,\"%s\",%d,%s,\"%s\");'>%d</a></li>",
 							qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd, qnaRegMonthEnd,
 							qnaRegDayEnd, qnaInquiry, startPageNo, userSeq, qnaProgress, startPageNo);
-				}else if(!(qnaSearch.trim().length() == 0)){
+				}else if(!(qnaSearch.trim().length() == 0)){ //검색어가 있는 경우
 					System.out.println(">>>>>>>>>>"+qnaColName+"<<<<<<<<<<<");
 					pageBar += String.format(
-							"<li><a href='javascript:SgetMyQnAList(%s,%s,%s,%s,%s,%s,\"%s\",%d,%s,%s,%s,\"%s\");'>%d</a></li>",
+							"<li><a href='javascript:SgetMyQnAList(\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%d\",\"%s\",\"%s\",\"%s\",\"%s\");'>%d</a></li>",
 							qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd, qnaRegMonthEnd,
 							qnaRegDayEnd, qnaInquiry, startPageNo, userSeq, qnaColName, qnaSearch, qnaProgress,
 							startPageNo);
-				}else {// 
+				}else {//검색어가 없는경우 
 					pageBar += String.format(
 							"<li><a href='javascript:getMyQnAList(%s,%s,%s,%s,%s,%s,\"%s\",%d,%s,\"%s\");'>%d</a></li>",
 							qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd, qnaRegMonthEnd,
