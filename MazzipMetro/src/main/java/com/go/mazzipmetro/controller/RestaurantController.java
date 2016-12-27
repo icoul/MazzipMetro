@@ -299,6 +299,20 @@ public class RestaurantController {
 		//정훈 음식점 관련 메뉴 리스트
 		List<HashMap<String, String>> menuList = service.getMenuList(restSeq);
 		
+		//동현_로그인 했다면, 해당 업장이 사용자의 가고싶다에 담겨있는 음식점인지 check!
+		if(req.getSession().getAttribute("loginUser") != null){
+			HashMap<String, String> map = new HashMap<>();
+			map.put("restSeq", restSeq);
+			map.put("userSeq", ((UserVO)req.getSession().getAttribute("loginUser")).getUserSeq());
+
+			// 사용자의 가고싶다의 담겨있는 경우만, req객체에 담는다.
+			if(service.checkWantToGo(map) > 0) 
+				req.setAttribute("userWantToGoHere", 1);
+			
+		}
+		
+		
+		
 		req.setAttribute("menuList", menuList);
 		
 		req.setAttribute("restSeq", restSeq);

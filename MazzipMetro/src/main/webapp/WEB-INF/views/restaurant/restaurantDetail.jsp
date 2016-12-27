@@ -47,11 +47,15 @@
 		
 		getReviewList();
 	 
+	// 동현_사용자 가고싶다에 담긴 업장이라면, 가고싶다 버튼 색깔 클래스 추가
+	<c:if test="${not empty userWantToGoHere && userWantToGoHere == 1}">
+		$(".bgFavorite").addClass("active");
+	</c:if>
 
-		//미현_가고싶다 버튼 클릭시
-		 $(".bgFavorite").click(function(){
-			 $(this).toggleClass("active");
-		}); 
+	//미현_가고싶다 버튼 클릭시
+	$(".bgFavorite").click(function(){
+		$(this).toggleClass("active");
+	}); 
 		
 	});
  

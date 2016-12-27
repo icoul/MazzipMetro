@@ -100,7 +100,7 @@
 			</div>
 		</form>
 		<br/> 
-		<div id="map" style="width:100%;height:500px;"></div>
+		<div id="map" style="width:90%;height:500px;margin: auto; "></div>
 	</div>
 	
 </div>
@@ -355,7 +355,7 @@
 							             '        </div>' + 
 							             '        <div class="body">' + 
 							             '            <div class="img">' +
-							             '                <img src="<%=request.getContextPath()%>/files/'+position.restImg+'" width="73" height="70">' +
+							             '                <img src="<%=request.getContextPath()%>/files/rest/'+position.restImg+'" width="73" height="70">' +
 							             '           </div>' + 
 							             '            <div class="desc"><div class="ellipsis">'; 
 							             
@@ -365,16 +365,16 @@
 				if (position.restMdTag) {
 					content += '<span style="color:#80b3ff; font_size: 11px;">'+position.restMdTag+'</span>' ;  
 				}
-					  
-							            
-					   content += '                </div>'+
-					   					 '<div class="ellipsis"><span style="color: #000099; font-weight:bold;">'+position.guName+'</span>&nbsp<span style="color: #b3b3ff; font-weight: bold;">'+position.dongName+'</span></div>' + 
-							             '                <div class="jibun ellipsis">'+position.restPhone+'</div>' + 
-							             '                <div>마커를 <span style="color:red">클릭</span>해서 음식점 정보를 수정하기</div>' + 
-							             '            </div>' + 
-							             '        </div>' + 
-							             '    </div>' +    
-							             '</div>';
+					 
+				var restPhone = (position.restPhone == null)?"":position.restPhone;    
+			   content += '                </div>'+
+			   					 '<div class="ellipsis"><span style="color: #000099; font-weight:bold;">'+position.guName+'</span>&nbsp<span style="color: #b3b3ff; font-weight: bold;">'+position.dongName+'</span></div>' + 
+					             '                <div class="jibun ellipsis">'+restPhone+'</div>' + 
+					             '                <div>마커를 <span style="color:red">클릭</span>해서 음식점 정보를 수정하기</div>' + 
+					             '            </div>' + 
+					             '        </div>' + 
+					             '    </div>' +    
+					             '</div>';
 
 					//alert(marker.getPosition());
 				 
