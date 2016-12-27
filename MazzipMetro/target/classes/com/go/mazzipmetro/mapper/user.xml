@@ -176,7 +176,7 @@
 	<select id="restCount" resultType="int">
 		select count(*)
 		from tbl_restaurant
-		where userSeq = #{userSeq}
+		where userSeq = #{userSeq} and restStatus = 0
 	</select>
 	
 	<select id="userContent" resultType="int">

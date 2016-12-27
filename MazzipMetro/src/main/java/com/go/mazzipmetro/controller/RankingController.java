@@ -360,20 +360,24 @@ public class RankingController {
 		
 		Collections.shuffle(mapList);
 		
-		String userSeq = mapList.get(0).get("userSeq");
-		HashMap<String, String> seqList = service.getTop5ScoreRest(userSeq);
+		List<HashMap<String, String>> seqList = new ArrayList<HashMap<String, String>>();
 		
-		seqList.put("userSeq", userSeq);
+		for (int i = 0; i < 3; i++) {
+			HashMap<String, String> seqMap = new HashMap<String, String>();
+			String userSeq = mapList.get(i).get("userSeq");
+			seqMap = service.getTop5ScoreRest(userSeq);
+			
+			seqMap.put("userSeq", userSeq);
+			seqList.add(seqMap);
+		}
 		
-		RestaurantVO restvo = service.getRestInfo(seqList);
-		ReviewVO reviewvo = service.getReviewInfo(seqList);
-		UserVO uservo = service.getUserInfo(seqList);
-		List<String> adImage = service.getRestAdInfo(seqList);
+		List<RestaurantVO> restList = service.getRestInfo(seqList);
+		List<ReviewVO> reviewList = service.getReviewInfo(seqList);
+		List<UserVO> userList = service.getUserInfo(seqList);
 		
-		req.setAttribute("restvo", restvo);
-		req.setAttribute("reviewvo", reviewvo);
-		req.setAttribute("uservo", uservo);
-		req.setAttribute("adImage", adImage);
+		req.setAttribute("restList", restList);
+		req.setAttribute("reviewList", reviewList);
+		req.setAttribute("userList", userList);
 		
 		return "ranking/topReviewerRecommend";
 	}

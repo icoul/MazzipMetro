@@ -55,17 +55,6 @@ $(document).ready(function(){
 		});
 	});
 	
-	$("#userCoupon").click(function(){
-		$.ajax({	
-			url:"<%= request.getContextPath() %>/couponList.eat",
-		    type:"GET",
-			datatype:"html", 
-			success:function(data){ 
-				$("#userInfo").html(data);
-			}
-		});
-	});
-	
 	$("#myReviewList").click(function(){
 		$.ajax({	
 			url:"<%= request.getContextPath() %>/myReviewList.eat",
@@ -113,6 +102,19 @@ $(document).ready(function(){
 	
 });// end of ready
 
+function getCouponList(pageNum){
+		
+	$.ajax({	
+		url:"<%= request.getContextPath() %>/couponList.eat",
+	    type:"GET",
+	    data : "pageNum="+pageNum,
+		datatype:"html", 
+		success:function(data){ 
+			$("#userInfo").html(data);
+		}
+	});
+}
+
 function restList(){
 	$.ajax({	
 		url:"<%= request.getContextPath() %>/myPageRestList.eat",
@@ -137,12 +139,28 @@ function getMyReviewList(startPageNo){
 		        alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 			}
 		});
-	};// end of myReviewList
+}// end of myReviewList
 	
 function getMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd ,qnaRegMonthEnd, qnaRegDayEnd, qnaInquiry, startPageNo, userSeq,qnaProgress){
-
+		
+		if(Number(qnaRegDayStart)<10){
+			qnaRegDayStart = "0"+qnaRegDayStart;
+		}
+		alert("qnaRegDayStart = "+ qnaRegDayStart);
 		$.ajax({	
 			url:'/mazzipmetro/myQnaList.eat?qnaRegYearStart='+qnaRegYearStart+'&qnaRegMonthStart='+qnaRegMonthStart+'&qnaRegDayStart='+qnaRegDayStart+'&qnaRegYearEnd='+qnaRegYearEnd+'&qnaRegMonthEnd='+qnaRegMonthEnd+'&qnaRegDayEnd='+qnaRegDayEnd+'&qnaInquiry='+qnaInquiry+'&startPageNo='+startPageNo+'&userSeq='+userSeq+'&qnaProgress='+qnaProgress,
+		    type:"GET",
+			datatype:"html", 
+			success:function(data){ 
+				$("#userInfo").html(data);
+			}
+		});
+}// end of getMyQnAList
+	
+function SgetMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd ,qnaRegMonthEnd, qnaRegDayEnd, qnaInquiry, startPageNo, userSeq, qnaColName, qnaSearch, qnaProgress){
+		alert(">>>>>>>>>>qnaColName" + qnaColName);
+		$.ajax({	
+			url:'/mazzipmetro/myQnaList.eat?qnaRegYearStart='+qnaRegYearStart+'&qnaRegMonthStart='+qnaRegMonthStart+'&qnaRegDayStart='+qnaRegDayStart+'&qnaRegYearEnd='+qnaRegYearEnd+'&qnaRegMonthEnd='+qnaRegMonthEnd+'&qnaRegDayEnd='+qnaRegDayEnd+'&qnaInquiry='+qnaInquiry+'&startPageNo='+startPageNo+'&userSeq='+userSeq+'&qnaColName='+qnaColName+'&qnaSearch='+qnaSearch+'&qnaProgress='+qnaProgress,
 		    type:"GET",
 			datatype:"html", 
 			success:function(data){ 
@@ -240,7 +258,7 @@ function getMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegY
 		</td>
 		<td width="">마일리지</td>
 		<td><fmt:formatNumber pattern="###,###" value="${userPoint}" /></td>
-		<td><a href="<%= request.getContextPath()%>/couponList.eat">쿠폰</a></td>
+		<td><a href="#" onClick = "getCouponList(1);">쿠폰</a></td>
 		<td>${coupon}</td>
 	</tr>
 	<%-- <c:if test="${userGuAliasList !=null or userDongAliasList !=null or userMetroAliasList !=null or userRestTagAliasList !=null}"> --%>
@@ -364,7 +382,7 @@ function getMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegY
 	<tr>
 		<td>유효한 컨텐츠 수</td>
 		<td>${effectContent}</td>
-		<td><a href="<%= request.getContextPath()%>/couponList.eat">쿠폰</a></td>
+		<td><a href="<%= request.getContextPath() %>/couponList.eat">쿠폰</a></td>
 		<td>${coupon}</td>
 	</tr>
 </table>
