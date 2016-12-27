@@ -548,12 +548,16 @@ public class MazzipMetroController {
 			System.out.println(">>>>>>>>>> end=" + end);
 
 			restList = service.getRestIntergratedSearch(map);
+			}
+			
 		}
 
 		req.setAttribute("keyword", keyword);
 		req.setAttribute("restList", restList);
 		return "/ajax/restSearch";
-	}
+		}
+	
+	
 
 	// 리뷰 검색 ajax 요청
 	@RequestMapping(value = "/reviewSearch.eat", method = { RequestMethod.GET })
