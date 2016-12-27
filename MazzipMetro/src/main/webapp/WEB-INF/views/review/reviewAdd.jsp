@@ -17,7 +17,6 @@
   <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/JqueryUI/styles/jquery-ui.css">
   <script src="<%= request.getContextPath() %>/resources/JqueryUI/uijs/jquery-ui.js"></script> 
   --%>
-  
 
 <style type="text/css">
 	/* table, th, td, input, textarea {border: solid gray 1px;}
@@ -393,7 +392,7 @@ input[name=reviewMdTag]:checked + label:before {
 					</tr>
 					<tr>
 						<td align="center" colspan="2">
-							<input type="text" name="reviewTitle" id="reviewTitle" value="" placeholder="최대 18자"/>
+							<input type="text" name="reviewTitle" id="reviewTitle" class="form-control" value="" placeholder="최대 18자"/>
 							<input type="hidden" id="reviewHit" name="reviewHit" value="like!"/>
 						</td>
 					</tr>			

@@ -69,7 +69,7 @@
         	// 실시간 리뷰 
         	MainReview();
         	
-        	goRestRanking("1");
+        	goRestRanking("1", "${metroId}");
 
         	
         	// metroMap area 클릭시 이벤트 생성
@@ -478,12 +478,12 @@
 
 </script>
 <script>
-function goRestRanking(pageNum){
+function goRestRanking(pageNum, metroId){
 	
 	var form_data = {
 			
 			pageNum : pageNum,
-			metroId : "${metroId}",   // 키값 : 밸류값 
+			metroId : metroId,   // 키값 : 밸류값 
 			dongId  : "",     // 키값 : 밸류값
 			regDate : "0",
 		}
@@ -502,7 +502,7 @@ function goRestRanking(pageNum){
 
 function searchByMetro(reqPage, metroId){
 	var pageNo = reqPage;
-	
+	goRestRanking(1, metroId);
 	$.ajax({
 		url:"<%=request.getContextPath()%>/searchByMetro.eat",
 		type :"GET",

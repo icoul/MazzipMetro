@@ -313,7 +313,7 @@ public class RankingController {
 		String html = "";
 		
 		if (pageGroupNum != 1) {
-			html += "<a href='#' onClick = goRestRanking('" + (startNum-1) + "');>[이전 10페이지]</a>&nbsp;&nbsp;&nbsp;";
+			html += "<a href='#' onClick = goRestRanking('" + (startNum-1) + "','" + metroId + "');>[이전 10페이지]</a>&nbsp;&nbsp;&nbsp;";
 		}
 		
 		for (int i = startNum; i <= endNum; i++) {
@@ -322,7 +322,7 @@ public class RankingController {
 				html += (i*pageBar < totalNum)?"&nbsp;|&nbsp;":"";
 			}
 			else if (i != pageNum && ((i-1)*pageBar) < totalNum) {
-				html += "<a href='#' onClick = goRestRanking('" + i + "');><span style = 'color : black;'>"+i+"</span></a>";
+				html += "<a href='#' onClick = goRestRanking('" + i + "','" + metroId + "');><span style = 'color : black;'>"+i+"</span></a>";
 				html += (i*pageBar < totalNum)?"&nbsp;|&nbsp;":"";
 			}
 			else {
@@ -331,7 +331,7 @@ public class RankingController {
 		}
 		
 		if ((pageGroupNum*100 - totalNum) < 0) {
-			html += "<a href='#' onClick = goRestRanking('" + (endNum+1) + "');>&nbsp;&nbsp;[다음 10페이지]</a>";
+			html += "<a href='#' onClick = goRestRanking('" + (endNum+1) + "','" + metroId + "');>&nbsp;&nbsp;[다음 10페이지]</a>";
 		}
 		
 		req.setAttribute("html", html);

@@ -372,13 +372,13 @@ public class RestaurantController {
 		
 		try{
 			for (int i = 0; i < mvo.getMenuImgFile().length; i++) {
-				if (mvo.getMenuImgFile()[i].equals(null)) {
+				
 					path = root + "files/menu";
 					bytes = mvo.getMenuImgFile()[i].getBytes();
 					newFileName = fileManager.doFileUpload(bytes, mvo.getMenuImgFile()[i].getOriginalFilename(), path);
 					
 					thumbnailManager.doCreateThumbnail(newFileName, path);
-				}
+				
 				
 				menuImgList[i] = newFileName;
 			}
@@ -484,12 +484,6 @@ public class RestaurantController {
 		String addMenuNum_str = req.getParameter("addMenuNum");
 		String[] menuImg = req.getParameterValues("menuImg");
 		
-		for (int i = 0; i < fvo.getAttach().length; i++) {
-			System.out.println(menuImg[i]);
-			System.out.println(fvo.getAttach()[i]);
-			System.out.println(fvo.getAttach().length);
-		}
-		
 		int addMenuNum = Integer.parseInt(addMenuNum_str);
 		
 		ArrayList<String> menuEventArray = new ArrayList<String>(); // 메뉴이벤트를 넣어주기 위해 받아온 값을 저장할 ArrayList
@@ -514,12 +508,12 @@ public class RestaurantController {
 					newFileName = "noImage.jpg";
 				}
 				
-				if (newFileName == null && menuImg[i] != null) {
+				else if (newFileName == null && menuImg[i] != null) {
 					newFileName = menuImg[i];
 					thumbnailManager.doCreateThumbnail(newFileName, path);
 				}
 				
-				if (newFileName != null) {
+				else if (newFileName != null) {
 					thumbnailManager.doCreateThumbnail(newFileName, path);
 				}
 				
