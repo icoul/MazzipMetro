@@ -46,7 +46,7 @@
 					<c:set value="${status.index}" var="index" />
 					<c:forEach var = "user" items = "${userList}" varStatus = "userStatus">
 						<c:if test="${userStatus.index == index}">
-							<h2><img width="50px;" src="<%= request.getContextPath() %>/files/user/thumb/thumb${user.userProfile}" />${user.userName}
+							<h2><img width="50px;" src="<%= request.getContextPath() %>/files/user/${user.userProfile}" />${user.userName}
 						</c:if>
 					</c:forEach>
 					<c:forEach var = "review" items = "${reviewList}" varStatus = "reviewStatus">

@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
 <style type="text/css">
 	table  th {background: #FAFAFA; text-align:center;}
 	table  td {text-align:center;}
@@ -11,11 +10,10 @@
 	
 <script type="text/javascript">
 
-
 jQuery.noConflict();
 
 $(function () {	
-    $('#hb_statistics_Gender').highcharts({
+    Highcharts.chart('hb_statistics_Gender', {
     	 chart: {
              plotBackgroundColor: null,
              plotBorderWidth: null,
@@ -66,9 +64,8 @@ $(function () {
      });
  });
  
- 
 $(function () {
-    $('#hb_statistics_AgeLine').highcharts({
+    Highcharts.chart('hb_statistics_AgeLine', {
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: 0,
@@ -133,7 +130,7 @@ $(function () {
 
  
 $(function () {
-    $('#hb_statistics_ReviewCount').highcharts({
+    Highcharts.chart('hb_statistics_ReviewCount', {
         chart: {
             type: 'column'
         },
@@ -197,7 +194,7 @@ $(function () {
  
  
 $(function () {	
-    $('#hb_statistics_ReviewGrade').highcharts({
+    Highcharts.chart('hb_statistics_ReviewGrade', {
     	chart: {
             type: 'bar'
         },

@@ -6,6 +6,8 @@
 <%@ page import="com.go.mazzipmetro.vo.UserVO"%> 
 <%@ page import="java.net.URLDecoder"%>
 
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -594,7 +596,7 @@ function getLoginUserInfo(){
 				
 			</div>
 	</div>
-
+	
 	<!-- headWrap -->
 	
 	<div id="content">
