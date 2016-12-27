@@ -33,8 +33,6 @@
 		<form name="editFrm"  enctype="multipart/form-data">
 		<table style=" border-collapse: collapse; ">
 		<tr><th>업장명 :					</th><td><input type="text" id="restName" 			name="restName"  		size="50" value="${vo.restName}" class="required" /></td></tr>
-		<tr><th>업장관리자(userSeq)  :		</th><td><input type="text" id="userSeq" 			name="userSeq"  		size="50" value="${vo.userSeq}"    class="required" disabled/></td></tr>
-		<tr><th>업장 등급  : 				</th><td><input type="text" id="gradeName" 			name="gradeName"  		size="50" value="" 	class="required" disabled/></td></tr> 
 		<tr><th>지번주소  :					</th><td><input type="text" id="restAddr" 			name="restAddr"  		size="50" value="${vo.restAddr}" 	class="required" disabled/></td></tr>
 		<tr><th>도로명주소  : 				</th><td><input type="text" id="restNewAddr" 		name="restNewAddr" 	size="50" value="${vo.restNewAddr}"/></td></tr>
 		<tr><th>전화번호  : 				</th><td><input type="text" id="restPhone" 			name="restPhone" 		size="50" value="${vo.restPhone}" /></td></tr>
@@ -57,9 +55,10 @@
 								<input type = "checkbox" class = "restMdTag" name = "restMdTag" id="밥류" value="밥류" /><label for="밥류">밥류</label>&nbsp;&nbsp;
 								<input type = "checkbox" class = "restMdTag" name = "restMdTag" id="면류" value="면류" /><label for="면류">면류</label>
 							</td></tr>
+		<input type="hidden" id="userSeq" name="userSeq" value="${vo.userSeq}"/>
 		<input type="hidden" name="dongId" />
 		<input type="hidden" name="restSeq" value = "${vo.restSeq}" />
-		<input type="hidden" name="gradeSeq" id="gradeSeq" value = "" />
+		<input type="hidden" name="gradeSeq" id="gradeSeq" value = "${vo.gradeSeq}" />
 		<input type="hidden" name="restStatus" value = "0" />
 		</table>
 		</form>
@@ -98,13 +97,10 @@
 		
 		// 태그에 체크하기
 		function tagChecked(){
-			alert("dd");
 			<c:forEach var = "bgtag" items = "${bgTagArr}">
-				alert("${bgtag}");
 				$("input:checkbox[id='${bgtag}']").prop("checked",true);
 			</c:forEach>
 			<c:forEach var = "mdtag" items = "${mdTagArr}">
-				alert("${mdtag}");
 				$("input:checkbox[id='${mdtag}']").prop("checked",true);
 			</c:forEach>
 		}
@@ -160,7 +156,6 @@
 				//editFrm.restSeq.disabled = false;
 				$("#restAddr").prop('disabled', false);
 				$("#restSeq").prop('disabled', false);
-				$("#userSeq").prop('disabled', false);
 				$("#gradeName").prop('disabled', false);
 				$("#restLatitude").prop('disabled', false);
 				$("#restLongitude").prop('disabled', false);
@@ -171,35 +166,6 @@
 				
 		
 		}
-		
-		// 업장등급 가져오기
-		function getGradeName(){
-			
-			//alert('${vo.gradeSeq}');
-			$.ajax({
-				url: "restGradeList.eat",  
-				method:"POST",  	
-				dataType: "json",
-				success: function(data) {
-					
-					gradeNameList =  data.restGradeList;
-					var gradeSeq = '';
-					var gradeName = '';
-					
-					for (var i = 0; i < gradeNameList.length; i++) {
-						if ('${vo.gradeSeq}' == gradeNameList[i].gradeSeq ) {
-							gradeSeq = gradeNameList[i].gradeSeq;
-							gradeName = gradeNameList[i].gradeName;
-						} 
-					} // end of for (var i = 0; i < gradeNameList.length; i++)
-					
-					$("#gradeSeq").val(gradeSeq);
-					$("#gradeName").val(gradeName);
-					}
-			});//end of $.ajax()
-			
-		}
-		
 		
 		//지하철역 명 가져오기
 		function getMetroName () {
