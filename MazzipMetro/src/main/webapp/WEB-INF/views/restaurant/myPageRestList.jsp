@@ -6,7 +6,7 @@
 #colName {height:23px; font-size:13px;}
 
 .tblRestList {border-collapse: collapse; width:100%;}
-.tblRestList th {height:50px; padding-top:16px; border-top:1px solid #00bad2; border-bottom:1px solid #c2c2c2; background-color:#fafafa; color:#444; text-align:center; font-size:13px; font-weight:normal;}
+.tblRestList th {height:50px; border-top:1px solid #00bad2; border-bottom:1px solid #c2c2c2; background-color:#fafafa; color:#444; text-align:center; font-size:13px; font-weight:normal;}
 .tblRestList td {height:10px; padding-top:16px; padding-bottom:16px; border-bottom:1px solid #e0e0e0; font-size:12px; text-align:center; vertical-align: middle;}
 .btnGray {width:63px; height:23px; border:1px solid #6c6c6c; background-color:#777; color:#fff; margin-top: 20px; margin-bottom: 10px; font-size:10px; }
 </style>
@@ -80,16 +80,32 @@
 		<c:forEach var="vo" items="${restList}" varStatus="status">
 			
 			<tr>
-				<th style="width: 250px;" >가게명</th>
-				<th style="width: 70px;" >등급</th>
-				<th style="width: 300px;" >업장대표이미지</th>
-				<th style="width: 180px;" >업장등록일자</th>
-				<th style="width: 180px;" >업장방문수</th>
+				<th style="width: 200px;" >가게명</th>
+				<th style="width: 150px;" >등급</th>
+				<th style="width: 250px;" >업장대표이미지</th>
+				<th style="width: 150px;" >업장등록일자</th>
+				<th style="width: 100px;" >업장방문수</th>
 				<th style="width: 70px;" >수정하기</th>
 			</tr>
 			<tr class = "rest" >
 				<td><a href = "<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${vo.restSeq}">${vo.restName}</a></td>
-				<td data-toggle="collapse" data-target="#menu${status.index}" onClick="getMenuAjax('${vo.restSeq}');">${vo.gradeSeq}</td>
+				<td data-toggle="collapse" data-target="#menu${status.index}" onClick="getMenuAjax('${vo.restSeq}');">
+					<c:if test="${vo.gradeSeq eq '초가집'}">
+						<img src="<%= request.getContextPath() %>/resources/images/icoBossGrade01.png">
+					</c:if>
+					<c:if test="${vo.gradeSeq eq '황토집'}">
+						<img src="<%= request.getContextPath() %>/resources/images/icoBossGrade02.png">
+					</c:if>
+					<c:if test="${vo.gradeSeq eq '기와집'}">
+						<img src="<%= request.getContextPath() %>/resources/images/icoBossGrade03.png">
+					</c:if>
+					<c:if test="${vo.gradeSeq eq '왕궁'}">
+						<img src="<%= request.getContextPath() %>/resources/images/icoBossGrade04.png">
+					</c:if>
+					<c:if test="${vo.gradeSeq eq '황궁'}">
+						<img src="<%= request.getContextPath() %>/resources/images/icoBossGrade05.png">
+					</c:if>
+				</td>
 				<td data-toggle="collapse" data-target="#menu${status.index}" onClick="getMenuAjax('${vo.restSeq}');"><img src = "<%=request.getContextPath() %>/files/rest/thumb/thumb${vo.restImg}" /></td>
 				<td data-toggle="collapse" data-target="#menu${status.index}" onClick="getMenuAjax('${vo.restSeq}');">${vo.restRegDate}</td>
 				<td data-toggle="collapse" data-target="#menu${status.index}" onClick="getMenuAjax('${vo.restSeq}');">${vo.restVisitor}</td>

@@ -80,28 +80,19 @@ public class RankingService {
 		return seqList;
 	}
 
-	public RestaurantVO getRestInfo(HashMap<String, String> seqList) {
-		RestaurantVO restvo = dao.getRestInfo(seqList);
-		return restvo;
+	public List<RestaurantVO> getRestInfo(List<HashMap<String, String>> seqList) {
+		List<RestaurantVO> restList = dao.getRestInfo(seqList);
+		return restList;
 	}
 
-	public ReviewVO getReviewInfo(HashMap<String, String> seqList) {
-		ReviewVO reviewvo = dao.getReviewInfo(seqList);
-		return reviewvo;
+	public List<ReviewVO> getReviewInfo(List<HashMap<String, String>> seqList) {
+		List<ReviewVO> reviewList = dao.getReviewInfo(seqList);
+		return reviewList;
 	}
 
-	public UserVO getUserInfo(HashMap<String, String> seqList) {
-		UserVO uservo = dao.getUserInfo(seqList);
-		return uservo;
+	public List<UserVO> getUserInfo(List<HashMap<String, String>> seqList) {
+		List<UserVO> userList = dao.getUserInfo(seqList);
+		return userList;
 	}
-
-	public List<String> getRestAdInfo(HashMap<String, String> seqList) {
-		List<String> adImage = dao.getRestAdInfo(seqList);
-		return adImage;
-	}
-
-	
-
-	
 	
 }

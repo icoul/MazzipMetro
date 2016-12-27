@@ -30,8 +30,17 @@
   </style>
 
 <script type="text/javascript">
-	
+	var lenNew = 5;
+
 	$(document).ready(function(){
+		
+		 
+		$("#btntotalCommentCount").hide();
+		$("#btnRomanceCountNEW").hide();
+		
+		var revImgSeq =  ${reviewImageList.get(0).revImgSeq}; 
+		goLargeReviewImgView(revImgSeq);
+		
 		$(".my_thumbnail").hover(
 				function(){
 					$(this).addClass("myborder");
@@ -68,11 +77,11 @@
 		    }
 		});
 		
-		$("#btnMoreComment").bind("click", function() {
-			getReviewComment( "${reviewseq}", parseInt($(this).val()));
+		$("#spanMoreComment").bind("click", function() {
+			getReviewComment( "${reviewseq}", parseInt($(btnMoreComment).val()));
 		});
 		
-		getReviewComment("${reviewseq}", 1); 
+		getReviewComment("${reviewseq}", parseInt($("#totalCommentCount").text()) - lenNew + 1); 
 	});		
 
 	function loginCheck(userSeq){
@@ -82,7 +91,7 @@
 		}
 	}
 	
-	var lenNew = 5;
+	
 	
 	function getReviewComment(previewSeq, start){ //댓글 더보기
 			var userName = $("#userName").val();
@@ -97,6 +106,15 @@
 					
 					html += "<div class='media'>";	
 					
+					
+					
+
+				    html += "<a class='media-left' > <img class='img-circle' src='<%=request.getContextPath() %>/files/user/" + entry.userProfile + "' width='70px' height='70px'> </a>"; 
+
+					html += "<div class='media-body'>";
+					html += "<input type='hidden' name='commentSeq' id='commentSeq"+ entry.commentSeq +"' value='"+ entry.commentSeq +" '/>"
+					html += "<h4 class='media-heading user_name'>" + entry.userName +"</h4> " +entry.content +".";
+					
 					if(Number(entry.agoDay) > 0){
 						html += "<p class='pull-right'> <small>" + entry.agoDay +"일 전 </small> </p>";	
 					}else if(Number(entry.agoHour) > 0 && Number(entry.agoHour) < 24){
@@ -107,15 +125,8 @@
 						html += "<p class='pull-right'> <small> 방금 </small> </p>";
 					}
 					
-
-				    html += "<a class='media-left' > <img class='img-circle' src='<%=request.getContextPath() %>/files/user/" + entry.userProfile + "' width='70px' height='70px'> </a>"; 
-
-					html += "<div class='media-body'>";
-					html += "<input type='hidden' name='commentSeq' id='commentSeq"+ entry.commentSeq +"' value='"+ entry.commentSeq +" '/>"
-					html += "<h4 class='media-heading user_name'>" + entry.userName +"</h4> " +entry.content +".";
-					
 					if(userName != "" && userName != entry.userName){
-						html += "  <small ><a  id='commentLink" + entryIndex + "' style='cursor:pointer;' onClick='goComment(" + entryIndex + ");'>한줄댓글</a></small>";	
+						html += "  <small ><a  id='commentLink" + entry.groupNo + "' style='cursor:pointer;' onClick='goComment(" + entry.groupNo + ");'>한줄댓글</a></small>";	
 					}
 					
 
@@ -124,20 +135,19 @@
 						html +=	"  <small><a onClick='deleteReviewComment("+ previewSeq +","+ entry.commentSeq + ");'>삭제</a></small>";
 					}
 					
-					if(entry.commentCount > 0){
-						html += "<br> <a style='cursor:pointer;' id='commentMore"+ entry.commentSeq +"' onClick='commentMoreView(" + entry.commentSeq +");'>댓글 "+ entry.commentCount +"개 더보기</a>";
-						html += "<div class='comments-list' style='margin-top:30px;' id='resultComments"+ entry.groupNo +"' > </div>";
+					if(entry.commentCount > 0){ //댓글의 갯수가 1개이상이면 댓글 더보기 버튼이 생긴다.
+						html += "<br> <a style='cursor:pointer;' id='commentMore"+ entry.commentSeq +"' onClick='commentMoreView(" + entry.commentSeq + "," + entry.groupNo +");'>댓글 "+ entry.commentCount +"개 더보기</a>";
 					}
-					
-					
+					html += "<div class='comments-list' style='margin-top:30px; ' id='resultComments"+ entry.groupNo +"' > </div>"; //원댓글에 댓글이 달리며 이 div에 댓글을 넣어준다. 
+					 
 					html += "</div>";
 					html += "</div>";
 
-					html += "<div class='media' style='display:none;'  id='commentComment" + entryIndex + "'>";
+					html += "<div class='media' style='display:none;'  id='commentComment" + entry.groupNo + "'>";
 					html += "<a class='media-left' > <img class='img-circle' src='<%=request.getContextPath() %>/files/user/" + userProfile + "'  width='70px' height='70px'> </a>";
 					html += "<div class='media-body'>";
 					html += "<h4 class='media-heading user_name'>" + userName +"</h4>";                                                                                  
-					html += "<input type='text' id='commentContent" + entryIndex +"' onkeypress='insertCommentComment(event, "+previewSeq+","+ entry.commentSeq +","+ entry.groupNo +","+ entry.depthNo +","+ entryIndex +");' /> "; 
+					html += "<input type='text' id='commentContent" + entry.groupNo +"' onkeypress='insertCommentComment(event, "+previewSeq+","+ entry.commentSeq +","+ entry.groupNo +","+ entry.depthNo +");' /> "; 
 					
 					html += "</div>";
 					html += "</div>";
@@ -146,70 +156,68 @@
 				});
 				
 				html2 += "<small>(" + count + ")</small>";
-				$("#resultComments").append(html);    //여기서는 append를 해줘야한다 왜냐하면 더보기버튼을 클릭하면 start와 lenNew의 범위에 따라서 쿼리가 실행되기 때문에 댓글의 전체를 가져오는게 아니라 일부분만 가져와서 추가하는것이기 때문에 append를 쓴다
+				$("#resultComments").prepend(html);    //여기서는 append를 해줘야한다 왜냐하면 더보기버튼을 클릭하면 start와 lenNew의 범위에 따라서 쿼리가 실행되기 때문에 댓글의 전체를 가져오는게 아니라 일부분만 가져와서 추가하는것이기 때문에 append를 쓴다
 				$("#resultCommentsCount").html(html2);
 				
 				  //>>>>>> 더보기 버튼의 value 속성에 값을 지정해주기 (중요!!!!!) <<<<<<<<
-				  $("#btnMoreComment").val(parseInt(start) + lenNew);
+				  $("#btnMoreComment").val(parseInt(start) - lenNew);
 				  
 				
 				  $("#commentCountNEW").text( parseInt($("#commentCountNEW").text()) + count );
 				  //더보기 버튼의 비활성 처리
 				  //-> count와 totalCout가 일치하는 경우 비활성
 				  if (parseInt($("#commentCountNEW").text()) == parseInt($("#totalCommentCount").text())) {
-					  $("#btnMoreComment").hide();
+					  $("#spanMoreComment").hide();
 					
 				  }else{
-					  $("#btnMoreComment").show();
+					  $("#spanMoreComment").show();
 				  }
 					
 			}
 		);
 	}
 	 
-	function commentMoreView(commentSeq){ //댓글의 댓글 더보기
+	function commentMoreView(commentSeq,groupNo){ // 댓글의 댓글 더보기 , 원댓글번호
  		var userName = $("#userName").val();
  		
- 		$.getJSON("commentMoreView.eat?commentSeq="+commentSeq ,function(data){
+ 		$.getJSON("commentMoreView.eat?commentSeq="+commentSeq+"&groupNo="+groupNo ,function(data){
 			var html = "";
 			var html2 = "";
-			var groupNo = "";
 
-			
 			$.each(data, function(entryIndex, entry){
-				/* var margin = Number(entry.depthNo) * 20; */
-				groupNo = entry.groupNo;
-				html += "<div class='media' >";	
+				if(entry.commentSeq != ""){
+					
+				html += "<div class='media' style='width:610px;' >";	
 				
-				if(Number(entry.agoDay) > 0){
-					html += "<p class='pull-right'>  <small>" + entry.agoDay +"일 전 </small> </p>";	
-				}else if(Number(entry.agoHour) > 0 && Number(entry.agoHour) < 24){
-					html += "<p class='pull-right'> <small>" + entry.agoHour +"시간 전 </small> </p>";	
-				}else if(Number(entry.agoMinute) > 0 && Number(entry.agoMinute) < 60){
-					html += "<p class='pull-right'> <small>" + entry.agoMinute +"분전 </small> </p>";
-				}else if(Number(entry.agoMinute) == 0){
-					html += "<p class='pull-right'> <small> 방금 </small> </p>";
-				}
-				
-
 			    html += "<a class='media-left' > <img class='img-circle' src='<%=request.getContextPath() %>/files/user/" + entry.userProfile + "' width='70px' height='70px'> </a>"; 
 
 				html += "<div class='media-body'>";
 				html += "<input type='hidden' name='commentSeq' id='commentSeq"+ entry.commentSeq +"' value='"+ entry.commentSeq +" '/>"
 				html += "<h4 class='media-heading user_name'>" + entry.userName +"</h4> " +entry.content +".";
 				
+				if(Number(entry.agoDay) > 0){
+					html += "<p class='pull-right'>  <small>" + entry.agoDay +"일 전 </small> </p>";	
+				}else if(Number(entry.agoHour) > 0 && Number(entry.agoHour) < 24){
+					html += "<p class='pull-right'> <small>" + entry.agoHour +"시간 전 </small> </p>";	
+				}else if(Number(entry.agoMinute) > 0 && Number(entry.agoMinute) < 60){
+					html += "<p class='pull-right'> <small>" + entry.agoMinute +"분 전 </small> </p>";
+				}else if(Number(entry.agoMinute) == 0){
+					html += "<p class='pull-right'> <small> 방금 </small> </p>";
+				}
+				
 				if(userName == entry.userName){
 					userProfile = entry.userProfile;
-					html +=	"  <small><a onClick='deleteCommentComment("+entry.commentSeq + "," + commentSeq + "," + entry.fk_seq + ");'>삭제</a></small>";
+					html +=	"  <small><a onClick='deleteCommentComment("+entry.commentSeq + "," + entry.fk_seq + "," + entry.groupNo + ");'>삭제</a></small>";
 				}
 				
 				html += "</div>";
 				html += "</div>";
+				}//end of if
 				
 			});
 			$("#resultComments"+groupNo).empty();
-			$("#resultComments"+groupNo).html(html); //댓글의 댓글을 불러올때는 전체를 불러오기때문에  html()을쓰거나 append()를 써도 상관없다 위에 empty를 해주고있기 때문에
-			
+			$("#resultComments"+groupNo).append(html); //댓글의 댓글을 불러올때는 전체를 불러오기때문에  html()을쓰거나 append()를 써도 상관없다 위에 empty를 해주고있기 때문에
+
 		}
 	);
  		$("#commentMore"+commentSeq).hide();	
@@ -240,7 +248,7 @@
 								$("#reviewComment").val("");
 								$("#resultComments").empty();
 								$("#commentCountNEW").text("0");
-								getReviewComment(previewSeq,1);
+								
 								
 								$.each(data, function(key, val){
 									
@@ -249,7 +257,7 @@
 										}// end of  if(key == "name")
 									}//end of function(key, val)
 								);//end of $.each(data, function(key, val));
-							
+								getReviewComment(previewSeq,parseInt($("#totalCommentCount").text()) - lenNew + 1);
 							}//end of success:function(data)
 						}); //end of $.ajax
 					}//end of else  
@@ -258,12 +266,12 @@
 		
 	}//end of  insertReviewComment
 	
-	 function insertCommentComment(e, reviewSeq1, commentSeq1, groupNo1, depthNo1, index){//댓글에 댓글 달기
-		var commentContent = $("#commentContent"+index).val();
+	 function insertCommentComment(e, reviewSeq1, commentSeq1, groupNo1, depthNo1){//댓글에 댓글 달기
+		var commentContent = $("#commentContent"+groupNo1).val();
 				if(e.keyCode == 13){
 					if(commentContent.length < 1 || commentContent.trim() == ""){
 						alert("댓글을 입력해주세요");
-						$("#commentContent"+index).val("");
+						$("#commentContent"+groupNo1).val("");
 					}else{
 						var form_data = {reviewSeq : reviewSeq1,
 							    comment : commentContent,
@@ -277,8 +285,9 @@
 							method:"POST",                 // method
 							data: form_data,               // 위의 URL 페이지로 사용자가 보내는 ajax 요청 데이터.
 							success: function() {          // 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
-								$("#commentContent"+index).val("");
-								commentMoreView(commentSeq1);
+								goComment(groupNo1);
+								$("#commentContent"+groupNo1).val("");
+								commentMoreView(commentSeq1, groupNo1);
 							         }
 						});
 					}  
@@ -298,7 +307,7 @@
 			success: function(data) {          // 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
 				$("#resultComments").empty();
 				$("#commentCountNEW").text("0");
-				getReviewComment(reviewSeq1, 1);
+				
 				
 				$.each(data, function(key, val){
 					if(key == "reviewCommentTotalCount") {
@@ -306,11 +315,12 @@
 						}// end of  if(key == "name")
 					}//end of function(key, val)
 				);//end $.each
+				getReviewComment(reviewSeq1, parseInt($("#totalCommentCount").text()) - lenNew + 1);
 			 }//end of success: function(data)
 		});//end of $.ajax
  	}//end of deleteReviewComment
  	
- 	function deleteCommentComment(commentSeq1,commentSeq2, fk_seq1){ //댓글의 댓글을 삭제
+ 	function deleteCommentComment(commentSeq1,fk_seq1,groupNo){ //댓글의 댓글을 삭제
  		var form_data = {commentSeq : commentSeq1,
  				fk_seq : fk_seq1
 		    };
@@ -320,13 +330,13 @@
 			method:"POST",                 // method
 			data: form_data,               // 위의 URL 페이지로 사용자가 보내는 ajax 요청 데이터.
 			success: function() {          // 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
-				commentMoreView(commentSeq2);
+				commentMoreView(fk_seq1,groupNo);
 			         }
 		});
  	}
  	
- 	function goComment(index){
- 		var comment = document.getElementById("commentComment"+index);
+ 	function goComment(groupNo1){
+ 		var comment = document.getElementById("commentComment"+groupNo1);
  			
  			if(comment.style.display == "none")
  				comment.style.display = "block";
@@ -338,61 +348,65 @@
 			window.open(src,"팝업창이름(의미없음)", "width=" + width + ", height=" + height + ", left=100px, top=100px, menubar=no, status=no, scrollbars=no");
 		}
  	
+ 	 
+ 	function goLargeReviewImgView(revImgSeq) {
+ 		$.ajax({ 
+ 			url : "getLargeReviewImageName.eat", 	
+ 			method : "GET",
+ 			data : "revimgseq=" + revImgSeq,  
+ 					/*
+ 					   전송방식이 get 이든 post 이든 
+ 					   getLargeImgFilename.action?seqfileno=11 처럼 보내게 된다.
+ 					   !! 그리고 중요한 것은 !!!
+ 					   ajax 를 이용한 전송방식에는 
+ 					   url페이지명과  data가 구분되어져 있으므로
+ 					   구분자인 ? 가 필요없다는 것이다.
+ 					   GET 방식에서 ? 의 기능은
+ 					   WAS(톰캣서버)가 어디까지가 응용프로그램 주소이고,
+ 					   어디부터가 데이터인지 구분하기 위한 구분자로 사용되는 것이다.
+ 					   그러므로 ajax 에서는 키1=값1&키2=값2&키3=값3 으로 반복된다.
+ 				   */
+ 			dataType : "JSON",  // 응답은 JSON 타입으로 받아라.
+ 			success: function(data) { // 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
+ 					// data 는 ajax 요청에 의해 url 페이지 getLargeImgFilename.action 으로 부터 리턴받은 데이터
+ 			   			   
+ 			   $("#largeImg").empty();
+ 			   // <div id="largeImg"> 엘리먼트를 모두 비워서 새로운 데이터를 받을수 있게 해라
+ 			   
+ 			   var html = "";
+ 			   
+ 			   $.each(data, function(key, val){
+ 					html += "<img src='<%=request.getContextPath() %>/files/review/"+val+"' "+"width='460' height='345' />";    
+ 			   });
+ 					
+ 		   	   /*
+ 		   	    	$.each() 함수는 $(selector).each()와는 다르다.
+ 		   	    	$.each(순회해야할 1개의 객체 또는 배열, function(indexInArray, valueOfElement){ } );
+ 		   	    	배열을 다루는 경우, 콜백함수는 배열의 인덱스와 값을 인자로 갖는다
+ 		   	   */
+ 		   	   $("#largeImg").html(html);   // html을  largeImg 넣어주어라
+ 			
+ 			}, // end of success: function(data) ---------------------
+ 			
+ 			error: function(request, status, error){
+ 		        alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+ 		    } // end of error: function(request,status,error)
+ 			
+ 		}); // end of $.ajax --------------------
+ 	}
+ 	 
 </script>
 
 </head>
 <body>
 
-
-  
-  
 <div class="container" align="center">
-  <br>
-  <div id="myCarousel" class="carousel slide" data-ride="carousel" style="width: 75%;">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-      <c:forEach var="avo" items="${reviewImageList}" varStatus="status">
-      	<c:if test="${status.index == 0}">
-      		<li data-target="#myCarousel" data-slide-to="${status.index}" class="active"></li>
-      	</c:if>
-      	<c:if test="${status.index > 0}">
-      		<li data-target="#myCarousel" data-slide-to="${status.index}"></li>
-      	</c:if>
-      </c:forEach>
-    </ol>
-
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner" role="listbox">
-	  <c:forEach var="image" items="${reviewImageList}" varStatus="status">
-	  	  <c:if test="${status.index == 0}">
-	  	  	<div class="item active">
-	  	  </c:if>
-	  	  <c:if test="${status.index > 0}">
-	  	  	<div class="item">
-	  	  </c:if>
-	  	  
-	  	  
-	  	  	<div id="largeImg" align="center" style="border: green solid 0px; width: 45%; padding: 2%; margin: 2% auto;">
-				<img src="<%= request.getContextPath() %>/files/review/${image.reviewImg}" width="200px" height="200px">
-	      	</div>
-	      	</div>
-	  </c:forEach>
-    </div>  <%-- end of <div class="carousel-inner" role="listbox"> --%>
-
-    <!-- Left and right controls -->
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
-  </div> <%-- end of <div id="myCarousel" class="carousel slide" data-ride="carousel"> --%>
-  
-  <div align="center" style="border: red solid 0px; width: 80%; margin: auto; padding: 20px;">
-		<c:forEach var="image" items="${reviewImageList}" varStatus="status">
-			<img src="<%= request.getContextPath() %>/files/review/thumb/thumb${image.reviewImg}" class="my_thumbnail" style="margin-right: 10px;" data-target="#myCarousel" data-slide-to="${status.index}" />
+	<div id="largeImg" style="float: left;  border: green solid 0px; width: 100%; margin-top:20px; margin-bottom:20px;"> 
+	</div>  
+		
+	<div align="center" style="border: red solid 0px; width: 80%; margin: auto; padding: 20px; ">
+		<c:forEach var="map" items="${reviewImageList}" varStatus="status">
+			<img src="<%= request.getContextPath() %>/files/review/thumb/thumb${map.reviewImg}" class="my_thumbnail" style="margin-right: 10px;" onmouseover="goLargeReviewImgView('${map.revImgSeq}')" />
 		</c:forEach>
 	</div>
 </div>
@@ -423,14 +437,17 @@
 					</ul>
 				
 				<div id="myTabContent" class="tab-content" style="margin-top:10px;">
-					<div class="comments-list" id="resultComments" style="margin-bottom:20px;">
-						
-					</div>
-					<div>
-						<button id="btnMoreComment"  value="">더보기</button>
+					<div style="margin-bottom:20px;">
+						<span style="cursor: pointer; color: blue;" id="spanMoreComment" >댓글 더보기...</span>
+						<input id="btnMoreComment" type="hidden"  value="">
 						<button type="button" id="btntotalCommentCount">TotalNEWCount : <span id="totalCommentCount">${reviewCommentTotalCount}</span></button>
 						<button type="button" id="btnRomanceCountNEW">Count : <span id="commentCountNEW">0</span></button>
 					</div>
+					
+					<div class="comments-list" id="resultComments" ">
+						
+					</div>
+					
 				<hr>
 						<div class="tab-pane fade in active" id="service-one">
 							<div class="row" style="margin-top:20px;">

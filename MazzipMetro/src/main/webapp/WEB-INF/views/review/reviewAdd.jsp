@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -412,8 +411,8 @@ input[name=reviewMdTag]:checked + label:before {
 	
 		<h2 style="margin-left: 30px;">${rest.restname} <span style="font-size: 15px;">리뷰 작성하기</span></h2>
 		<hr/>
-		<div style="float:left; width: 40%;">
-			<img src="<%= request.getContextPath() %>/files/${rest.restimg}" width="200px" />
+		<div style="float:left; margin-left : 50px; width: 40%;">
+			<img src="<%= request.getContextPath() %>/files/rest/${rest.restimg}" width="200px" />
 		</div><br/>	
 		<div style="float:left; width: 40%;">
 			${rest.shortaddr}<br/> <br/> 
@@ -439,7 +438,7 @@ input[name=reviewMdTag]:checked + label:before {
 						<th colspan="2">평점<span style="color:red;">*</span></th>
 					</tr>
 					<tr>
-						<td>
+						<td align = "center">
 						    &nbsp;&nbsp;
 							<form id="rating1" class="taste">
 							  <fieldset class="starability-growRotate">
@@ -459,7 +458,7 @@ input[name=reviewMdTag]:checked + label:before {
 							<div id="reviewMood" name="reviewMood"></div>
 							<input type= "hidden" id = "inputMood" name = "reviewMood" value="" />
 						</td>
-						<td>
+						<td align = "center">
 						     &nbsp;&nbsp;
 							<form id="rating1" class="taste">
 							  <fieldset class="starability-growRotate">
@@ -481,7 +480,7 @@ input[name=reviewMdTag]:checked + label:before {
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td align = "center">
 							<form>
 							  <fieldset class="starability-growRotate">
 							    <legend>가격 평점</legend>
@@ -500,7 +499,7 @@ input[name=reviewMdTag]:checked + label:before {
 							<div id="reviewPrice" name="reviewPrice"></div>
 							<input type= "hidden" id = "inputPrice" name = "reviewPrice" value="" />
 						</td>
-						<td>
+						<td align = "center">
 							<!-- 가격평점 td height 조정이 불가한 관계로 임시로 줄바꿈 코드 삽입 -->
 							<br/> 
 							&nbsp;&nbsp;
@@ -547,7 +546,7 @@ input[name=reviewMdTag]:checked + label:before {
 		         	<tr>
 		         		<td colspan="2">
 		         		사진갯수 :
-		         		<select name="attachNum" id="attachNum" class="form-control" style="width: 13%; display: inline;">
+		         		<select name="attachNum" id="attachNum" class="form-control" style="width: 33%; display: inline;">
 		         			<option value="0">사진을 선택해주세요</option>
 		         			<option value="1">1</option>
 		         			<option value="2">2</option>
@@ -676,8 +675,8 @@ input[name=reviewMdTag]:checked + label:before {
 				<input type="hidden" name ="restSeq" value="${restSeq}" />
 				<br/>
 				
-				<button type="button" class="btn btn-primary" style="margin-right: 10px;" onClick="goWrite();">쓰기</button>
-				<button type="button" class="btn btn-primary" style="margin-right: 10px;" onClick="goReset();">취소</button>
+				<button type="button" class="btn btn-default" style="margin-right: 10px;" onClick="goWrite();">쓰기</button>
+				<button type="button" class="btn btn-default" style="margin-right: 10px;" onClick="goReset();">취소</button>
 				
 			
 			</form>

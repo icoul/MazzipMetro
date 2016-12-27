@@ -55,17 +55,6 @@ $(document).ready(function(){
 		});
 	});
 	
-	$("#userCoupon").click(function(){
-		$.ajax({	
-			url:"<%= request.getContextPath() %>/couponList.eat",
-		    type:"GET",
-			datatype:"html", 
-			success:function(data){ 
-				$("#userInfo").html(data);
-			}
-		});
-	});
-	
 	$("#myReviewList").click(function(){
 		$.ajax({	
 			url:"<%= request.getContextPath() %>/myReviewList.eat",
@@ -113,6 +102,19 @@ $(document).ready(function(){
 	
 });// end of ready
 
+function getCouponList(pageNum){
+		
+	$.ajax({	
+		url:"<%= request.getContextPath() %>/couponList.eat",
+	    type:"GET",
+	    data : "pageNum="+pageNum,
+		datatype:"html", 
+		success:function(data){ 
+			$("#userInfo").html(data);
+		}
+	});
+}
+
 function restList(){
 	$.ajax({	
 		url:"<%= request.getContextPath() %>/myPageRestList.eat",
@@ -120,6 +122,31 @@ function restList(){
 		datatype:"html", 
 		success:function(data){ 
 			$("#restList").html(data);
+		}
+	});
+}
+
+
+function userRandomBox(){
+	$.ajax({	
+		url:"<%= request.getContextPath() %>/userRandomBox.eat",
+	    type:"GET",
+		datatype:"html", 
+		success:function(data){ 
+			$("#userInfo").html(data);
+		}
+	});
+}
+
+function userCoupon(boxType){
+	$.ajax({	
+		url:"<%=request.getContextPath() %>/userCoupon.eat",
+	    method:"GET",
+	    data:"boxType=" + boxType,
+	    datatype:"html",
+		success:function(data){
+			alert(data);
+			userRandomBox();
 		}
 	});
 }
@@ -137,19 +164,35 @@ function getMyReviewList(startPageNo){
 		        alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 			}
 		});
-	};// end of myReviewList
+}// end of myReviewList
 	
 function getMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd ,qnaRegMonthEnd, qnaRegDayEnd, qnaInquiry, startPageNo, userSeq,qnaProgress){
-
+		
+		if(Number(qnaRegDayStart)<10){
+			qnaRegDayStart = "0"+qnaRegDayStart;
+		}
+		alert("qnaRegDayStart = "+ qnaRegDayStart);
 		$.ajax({	
 			url:'/mazzipmetro/myQnaList.eat?qnaRegYearStart='+qnaRegYearStart+'&qnaRegMonthStart='+qnaRegMonthStart+'&qnaRegDayStart='+qnaRegDayStart+'&qnaRegYearEnd='+qnaRegYearEnd+'&qnaRegMonthEnd='+qnaRegMonthEnd+'&qnaRegDayEnd='+qnaRegDayEnd+'&qnaInquiry='+qnaInquiry+'&startPageNo='+startPageNo+'&userSeq='+userSeq+'&qnaProgress='+qnaProgress,
-		    type:"GET",
+		    method:"GET",
 			datatype:"html", 
 			success:function(data){ 
 				$("#userInfo").html(data);
 			}
 		});
-	};// end of getMyQnAList
+}// end of getMyQnAList
+	
+function SgetMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd ,qnaRegMonthEnd, qnaRegDayEnd, qnaInquiry, startPageNo, userSeq, qnaColName, qnaSearch, qnaProgress){
+		alert(">>>>>>>>>>qnaColName" + qnaColName);
+		$.ajax({	
+			url:'/mazzipmetro/myQnaList.eat?qnaRegYearStart='+qnaRegYearStart+'&qnaRegMonthStart='+qnaRegMonthStart+'&qnaRegDayStart='+qnaRegDayStart+'&qnaRegYearEnd='+qnaRegYearEnd+'&qnaRegMonthEnd='+qnaRegMonthEnd+'&qnaRegDayEnd='+qnaRegDayEnd+'&qnaInquiry='+qnaInquiry+'&startPageNo='+startPageNo+'&userSeq='+userSeq+'&qnaColName='+qnaColName+'&qnaSearch='+qnaSearch+'&qnaProgress='+qnaProgress,
+			method:"GET",
+			datatype:"html", 
+			success:function(data){ 
+				$("#userInfo").html(data);
+			}
+		});
+}// end of getMyQnAList
 
 </script>
 <!-- 미현_칭호 붙이기에 쓰이는 css -->
@@ -206,8 +249,16 @@ function getMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegY
 				<img src="<%= request.getContextPath() %>/resources/images/icoUserGrade07.png">
 			</c:if>
 		</td>
+		
 		<td width="13%"><span>등급</span>  <a data-toggle="modal" data-target="#gradeInfoModal" style="cursor: pointer;"><i class="material-icons">help_outline</i></a></td>
-		<td width="13%"> ${sessionScope.loginUser.gradeName}  </td>
+		<td width="13%"> ${sessionScope.loginUser.gradeName}
+			<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG5' and sessionScope.loginUser.userExp >= 5000}">
+				<img style="cursor: pointer;" src="<%= request.getContextPath() %>/files/LevelUp.png" width="45px" height="30px" onclick="javascript:location.href='<%=request.getContextPath() %>/updateUserGrade.eat?gradeSeq=UG6'"/>			
+			</c:if>
+			<c:if test="${sessionScope.loginUser.gradeSeq eq 'UG6' and sessionScope.loginUser.userExp >= 10000}">
+				<img style="cursor: pointer;" src="<%= request.getContextPath() %>/files/LevelUp.png" width="45px" height="30px" onclick="javascript:location.href='<%=request.getContextPath() %>/updateUserGrade.eat?gradeSeq=UG7'"/>
+			</c:if>
+		 </td>
 		
 		<td width="13%">정복한 맛집</td>
 		<td width="13%">${reviewCount}</td>
@@ -240,7 +291,7 @@ function getMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegY
 		</td>
 		<td width="">마일리지</td>
 		<td><fmt:formatNumber pattern="###,###" value="${userPoint}" /></td>
-		<td><a href="<%= request.getContextPath()%>/couponList.eat">쿠폰</a></td>
+		<td><a href="#" onClick = "getCouponList(1);">쿠폰</a></td>
 		<td>${coupon}</td>
 	</tr>
 	<%-- <c:if test="${userGuAliasList !=null or userDongAliasList !=null or userMetroAliasList !=null or userRestTagAliasList !=null}"> --%>
@@ -364,7 +415,7 @@ function getMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegY
 	<tr>
 		<td>유효한 컨텐츠 수</td>
 		<td>${effectContent}</td>
-		<td><a href="<%= request.getContextPath()%>/couponList.eat">쿠폰</a></td>
+		<td><a href="<%= request.getContextPath() %>/couponList.eat">쿠폰</a></td>
 		<td>${coupon}</td>
 	</tr>
 </table>

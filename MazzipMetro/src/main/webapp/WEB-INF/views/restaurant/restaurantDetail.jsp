@@ -19,6 +19,13 @@
 	  border:0; width:30px; height:30px; background: url('http://localhost:9090/mazzipmetro/resources/images/icosiren.png') no-repeat;
 	  border-radius: 10px;
 	}
+	input.report.reportRed {
+		width:40px; height:40px; background: url('http://localhost:9090/mazzipmetro/resources/images/icoSirenRed.png') no-repeat;
+	}
+	/*.bgFavorite {border:0; padding-top:40px; font-weight:bold; color:#9f9f9f; background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStar.png') no-repeat 16px 0;}
+	.bgFavorite.active {background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStarActive.png') no-repeat 16px 0;} */
+	.bgFavorite {border:0; padding-top:30px; font-weight:bold; font-size:12px; color:#9f9f9f; background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStar.png') no-repeat 12px 0;}
+.bgFavorite.active {background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStarActive.png') no-repeat 12px 0;}
 </style>
 
  <script type="text/javascript">
@@ -41,7 +48,11 @@
 		getReviewList();
 	 
 
-	
+		//미현_가고싶다 버튼 클릭시
+		 $(".bgFavorite").click(function(){
+			 $(this).toggleClass("active");
+		}); 
+		
 	});
  
  (function($){ 
@@ -231,7 +242,7 @@ function goLargeImgView(adImg) {
 		   var html = "";
 		   
 		   $.each(data, function(key, val){
-				html += "<img src='<%=request.getContextPath() %>/resources/images/"+val+"' "+"width='460' height='345' />";    
+				html += "<img src='<%=request.getContextPath() %>/files/rest/"+val+"' "+"width='460' height='345' />";    
 		   });
 				
 	   	   /*
@@ -248,19 +259,20 @@ function goLargeImgView(adImg) {
 	    } // end of error: function(request,status,error)
 		
 	}); // end of $.ajax --------------------
+	
+	
 }
  </script>
 
 
 <div id="restDiv" style="margin: 30px; padding: 10px;">	
 	<!-- 음식점 이름 -->
-	 <div style="padding: 30px; width: 100%;">
+	 <div style="padding: 30px 0 30px; width: 100%;">
 	 	<div style="float: left;">
-		 	 <span style="font-weight:bold; font-size:30px; ">${restvo.restname }</span>
+		 	 <span style="padding-left:100px; font-weight:bold; font-size:30px;">${restvo.restname}</span>
 	 	</div>
 	 	 <div style="float: right;">
-		 	 <span style="font-weight:italic; font-size:13px;">방문자수  <span style="color : orange;">${restvo.restVisitor }</span></span>	 	 
-	 		 <input type="button" class="report" onClick="openWinFaq('<%=request.getContextPath() %>/report.eat', '500','400' );" />
+		 	 <span style="width:1400px; font-style:italic; font-size:13px;">방문자수  <span style="color : orange;">${restvo.restVisitor }</span></span>	 	 
 	 	 </div>
 	 </div>
 	 
@@ -270,13 +282,13 @@ function goLargeImgView(adImg) {
 	 
 	 <div id="largeImg" style="float: left;  border: green solid 0px; width: 100%;">
 	 	<c:if test="${empty restImageList}">
-	 		<img src='<%=request.getContextPath() %>/resources/images/no_image.jpg' width='460' height='345' />
+	 		<img src='<%=request.getContextPath() %>/files/no_image.jpg' width='460' height='345' />
 	 	</c:if>
 	</div>  
 		
 	<div  style="border: red solid 0px; clear:both; float:left; width: 100%;  padding: 20px;">
 			<c:forEach var="img" items="${restImageList}" varStatus="status">
-				<img src="<%= request.getContextPath() %>/resources/images/${img}" width="70px" height="70px" class="my_thumbnail" style="margin-right: 10px;" onmouseover="goLargeImgView('${img}')" />
+				<img src="<%= request.getContextPath() %>/files/rest/${img}" width="70px" height="70px" class="my_thumbnail" style="margin-right: 10px;" onmouseover="goLargeImgView('${img}')" />
 			</c:forEach>
 	</div>
 	 
@@ -285,7 +297,7 @@ function goLargeImgView(adImg) {
 	 <!-- 음식점 info -->
 	 <div id="restInfo" style="width: 50%; float: left;">
 	 <div style="float:right;">
-	 	<button type="button"  onclick="addWantToGo(${restvo.restseq});" class="btnLogin">가고싶다</button>
+	 	<button type="button"  onclick="addWantToGo(${restvo.restseq});" class="bgFavorite" style="padding-top:40px;">가고싶다</button>
 	 </div>
 	 
 	  <table class="table table-condensed" style="margin-top: 50px; width:80%; ">
@@ -383,9 +395,16 @@ function goLargeImgView(adImg) {
 	      		</c:forEach>
 	      	</td>
 	      </tr>
+	      <tr>
+	      	<th style="padding-top:15px; border-bottom:1px solid #ddd;">신고하기</th>
+	      	<td style="border-bottom:1px solid #ddd;"><input type="button" class="report reportRed" onClick="openWinFaq('<%=request.getContextPath() %>/report.eat', '500','400' );" /></td>
+	      </tr>
 	      
 	  </table>
 	  </div>
+</div>
+<div style = "clear: both;">
+
 </div>
 <br/> <br/> 
 <!-- 음식점 메뉴 목록 -->

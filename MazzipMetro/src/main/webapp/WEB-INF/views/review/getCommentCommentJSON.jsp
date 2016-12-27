@@ -3,5 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:if test="${not empty commentCommentListJSON }">
-	${commentCommentListJSON }
+	${commentCommentListJSON}
+</c:if>
+
+<c:if test="${empty commentCommentListJSON }">
+<%
+  String groupNo = (String)request.getAttribute("groupNo"); 
+%> 
+ [{"agoHour":"","agoDay":"","agoMinute":"","commentSeq":"","fk_seq":"","userName":"","groupNo":"<%= groupNo%>","depthNo":"","userProfile":"","content":"","commentCount":""}] 
+	
 </c:if>
