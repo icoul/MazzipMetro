@@ -372,8 +372,8 @@ public class RestaurantController {
 		
 		try{
 			for (int i = 0; i < mvo.getMenuImgFile().length; i++) {
-				path = root + "files/menu";
 				if (mvo.getMenuImgFile()[i].equals(null)) {
+					path = root + "files/menu";
 					bytes = mvo.getMenuImgFile()[i].getBytes();
 					newFileName = fileManager.doFileUpload(bytes, mvo.getMenuImgFile()[i].getOriginalFilename(), path);
 					

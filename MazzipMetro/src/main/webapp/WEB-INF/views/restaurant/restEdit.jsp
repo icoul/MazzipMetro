@@ -75,7 +75,6 @@
 		$(document).ready(function(){
 			
 			$("#searchAddr").focus();
-			getGradeName();
 			getMetroName();
 			setCenter();
 			tagChecked();
