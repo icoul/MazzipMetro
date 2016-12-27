@@ -108,6 +108,10 @@ public class MapController {
 		String conq = req.getParameter("conq");
 		String dongId = req.getParameter("dongId");
 		String metroId = req.getParameter("metroId");
+		String[] restBgTag = req.getParameterValues("restBgTag");
+		String[] restMdTag = req.getParameterValues("restMdTag");
+		
+		
 		
 		System.out.println(dongId == null); 
 		System.out.println(">>>>>>>>>>>>>>> dongId =" + dongId+", metroId = "+ metroId); 
@@ -124,12 +128,25 @@ public class MapController {
 		
 		System.out.println(">>>>>>>>>"+conq); 
 		
-		HashMap<String, String> map = new HashMap<String, String>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("userSeq", userSeq);
 		map.put("conq", conq);
 		
 		map.put("dongId", dongId);
 		map.put("metroId", metroId);
+		
+		
+		// 대분류 값이 있을 경우 map 에 담기
+		if (req.getParameterValues("restBgTag") != null) {
+			
+			map.put("restBgTag", restBgTag);
+		}
+		
+		// 중분류 값이 있을 경우 map 에 담기
+		if (req.getParameterValues("restMdTag") != null) {
+			
+			map.put("restMdTag", restMdTag);
+		}
 		
 		List<RestaurantVO> voList = service.getUserRestConquest(map);				
 	

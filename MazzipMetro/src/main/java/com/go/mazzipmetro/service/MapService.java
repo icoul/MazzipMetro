@@ -185,7 +185,7 @@ public class MapService  implements IService {
 		}
 
 		// 사용자가 정복한 맛집(리뷰를 쓴 맛집) 리스트 보여주기
-		public List<RestaurantVO> getUserRestConquest(HashMap<String, String> map) {
+		public List<RestaurantVO> getUserRestConquest(HashMap<String, Object> map) {
 			return dao.getUserRestConquest(map);
 		}
 
