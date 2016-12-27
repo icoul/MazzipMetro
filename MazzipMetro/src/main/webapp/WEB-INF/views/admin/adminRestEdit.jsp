@@ -52,7 +52,7 @@
 		<tr>
 			<th>업장 소개이미지  :	 		</th>
 			<td>
-			<div id="currAdImgDiv"><img src="<%=request.getContextPath()%>/files/noImage.jpg" id="currAdImg" width="300px;"></div>
+			<div id="currAdImgDiv"><img src="<%=request.getContextPath()%>/files/rest/noImage.jpg" id="currAdImg" width="300px;"></div>
 			<c:set var="adImgNum" value="0"/>
 				<div id="adImages">
 					<c:if test="${not empty ravo.adImg}">
@@ -106,7 +106,7 @@
 			});	
 		
 			<c:if test='${not empty ravo.adImg}'>
-				$("#currAdImg").attr('src', '<%=request.getContextPath()%>/files/${ravo.adImg[0]}');
+				$("#currAdImg").attr('src', '<%=request.getContextPath()%>/files/rest/${ravo.adImg[0]}');
 			</c:if>
 
 			$("#searchAddr").focus();

@@ -126,7 +126,7 @@ table.tbl_best5 th, table.tbl_best5 td{padding:5px;}
 						<td style="background-color: #ccffcc;">
 					</c:if>
 						<a href="#" data-tooltip-content="#tooltip_content_review${status.index}" class='tooltipster tooltip_group' style="color:black; text-decoration: none;">
-						${vo.userName} / ${vo.gradeName}
+						<span style='font-weight:bold; font-size:18px;'>${vo.userName}</span> / <span style="color:#ff1a75; font-size:14px;">${vo.gradeName}</span>
 						</a>
 					</td>
 				</tr>

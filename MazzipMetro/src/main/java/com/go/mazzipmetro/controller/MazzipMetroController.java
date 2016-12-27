@@ -534,7 +534,7 @@ public class MazzipMetroController {
 				
 				// 다음 5페이지 만들기
 				if(!(sPage > totalPage)) {
-					pageBar += String.format("<li><a href='javascript:goThemeSearch(%d)''>»</a></li>", sPage);		
+					pageBar += String.format("<li><a href='javascript:goRestSearch(%d)''>»</a></li>", sPage);		
 				}
 				
 				
