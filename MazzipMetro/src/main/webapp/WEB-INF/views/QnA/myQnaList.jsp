@@ -80,6 +80,18 @@
 	function qnaDelete(){
 		var chkboxQnaSeqArr = document.getElementsByName("qnaSeqCheckBox");
 
+		var qnaColName = $("#qnaColName").val();
+		var qnaSearch =$("#qnaSearch").val();
+		var qnaInquiry =$("#qnaInquiry").val();
+		var qnaProgress =$("#qnaProgress").val();
+		var qnaRegYearStart =$("#qnaRegYearStart").val();
+		var qnaRegMonthStart =$("#qnaRegMonthStart").val();
+		var qnaRegDayStart =$("#qnaRegDayStart").val();
+		var qnaRegYearEnd =$("#qnaRegYearEnd").val();
+		var qnaRegMonthEnd =$("#qnaRegMonthEnd").val();
+		var qnaRegDayEnd =$("#qnaRegDayEnd").val();
+		
+		
 		var cnt = 0;
 		for(var i = 0; i < chkboxQnaSeqArr.length; i++){
 			if(chkboxQnaSeqArr[i].checked){
@@ -97,10 +109,18 @@
 				document.getElementById("qnaSeqCheckBox"+i).disabled = false;
 			}
 		}else{
-			var deleteFrm = document.deleteFrm;
-			deleteFrm.action = "deleteQna.eat";
-			deleteFrm.method = "POST";
-			deleteFrm.submit();
+
+			$.ajax({	
+				url:"<%= request.getContextPath() %>/deleteQna.eat",
+			    method:"POST",
+			    data:"qnaSeqCheckBox="+chkboxQnaSeqArr+"&qnaColNameFrm="+qnaColName+"&qnaSearchFrm="+qnaSearch+"&qnaInquiryFrm="+qnaInquiry+"&qnaProgressFrm="+qnaProgress+"&qnaRegYearStartFrm="+qnaRegYearStart
+			    	+"&qnaRegMonthStartFrm="+qnaRegMonthStart+"&qnaRegDayStartFrm="+qnaRegDayStart+"&qnaRegYearEndFrm="+qnaRegYearEnd+"&qnaRegMonthEndFrm="+qnaRegMonthEnd+"&qnaRegDayEndFrm="+qnaRegDayEnd,
+				datatype:"html", 
+				success:function(data){ 
+					$("#userInfo").html(data);
+					
+				}
+			});
 		}
 		
 	}

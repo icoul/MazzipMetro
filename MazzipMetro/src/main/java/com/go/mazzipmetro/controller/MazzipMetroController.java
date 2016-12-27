@@ -1906,7 +1906,7 @@ public class MazzipMetroController {
 	}
 
 	// 14
-	// adminQnaList에서 Q&A를 삭제하는 컨트롤러
+	// Q&A를 삭제하는 컨트롤러
 	@RequestMapping(value = "/deleteQna.eat", method = { RequestMethod.POST })
 	public String deleteQna(HttpServletRequest req, HttpSession session) {
 		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
@@ -1924,6 +1924,14 @@ public class MazzipMetroController {
 
 		String[] qnaSeqArr = req.getParameterValues("qnaSeqCheckBox");
 
+		if(qnaSeqArr.length == 0){
+			System.out.println("------------------------------------------------1");
+		}
+		
+		else if(qnaSeqArr.length > 0){
+			
+		}
+		
 		int count = service.countAnswer(qnaSeqArr);
 		int result = service.deleteQna(qnaSeqArr);
 
@@ -1935,7 +1943,10 @@ public class MazzipMetroController {
 					qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd, qnaRegMonthEnd, qnaRegDayEnd,
 					qnaInquiry, qnaColName, qnaSearch, qnaProgress);
 		} else if (loginUser.getUserSeq().equals("1")) {
-			loc = "userMyPage.eat";
+			loc = String.format(
+					"myQnaList.eat?qnaRegYearStart=%s&qnaRegMonthStart=%s&qnaRegDayStart=%s&qnaRegYearEnd=%s&qnaRegMonthEnd=%s&qnaRegDayEnd=%s&qnaInquiry=%s&qnaColName=%s&qnaSearch=%s&qnaProgress=%s",
+					qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd, qnaRegMonthEnd, qnaRegDayEnd,
+					qnaInquiry, qnaColName, qnaSearch, qnaProgress);
 		}
 
 		if (count + qnaSeqArr.length == result) {
