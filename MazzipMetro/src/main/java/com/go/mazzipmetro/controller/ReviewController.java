@@ -138,7 +138,7 @@ public class ReviewController {
 				String path = root + "files"+File.separator+"review";
 				bytes = fvo.getAttach()[i].getBytes();
 				newFileName = fileManager.doFileUpload(bytes, fvo.getAttach()[i].getOriginalFilename(), path);
-				path+=File.separator+"thumb";
+				
 				thumbnailManager.doCreateThumbnail(newFileName, path);
 				
 				imageList.add(newFileName);
