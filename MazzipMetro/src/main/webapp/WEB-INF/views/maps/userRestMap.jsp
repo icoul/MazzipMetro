@@ -21,6 +21,10 @@
 	    .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
 	    .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('http://i1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
 	    .info .link {color: #5085BB;}
+	    
+	    
+	    table#tbl_conq {border: 1px solid gray;}
+		table#tbl_conq th{border-bottom : 1px solid gray; padding: 9px;} 
 	 </style>
 	 
 	 <style>
@@ -31,13 +35,40 @@
 </head>
 
 
-<div id="selectFrmContainer" style="padding-top: 20px;padding-left: 20px;">
+<div id="selectFrmContainer" style="padding-top: 20px;margin: auto; width: 80%;">
 	<form id="selectFrm" onsubmit="return false;">
-		<label class="radio-inline"><input type="radio" name="conq" value="already" checked>정복한 맛집</label>
-		<label class="radio-inline"><input type="radio" name="conq" value="notYet">정복해야 할 맛집</label>&nbsp;&nbsp;
+		<div style="float: left;">
+		<table id="tbl_conq" style="margin-right: 20px;margin-bottom: 15px;">
+		<tr>
+			<th><label class="radio-inline"><input type="radio" name="conq" value="already" checked>정복한 맛집</label></th>
+			<th><label class="radio-inline"><input type="radio" name="conq" value="notYet">정복해야 할 맛집</label></th>
+		</tr>
+		<tr>
+			<td><select name="selMenu_metroName" id="selMenu_metroName" class="form-control"></select></td>
+			<td><select name="selMenu_dongName" id="selMenu_dongName" class="form-control"></select></td>
+		</tr>
+		</table>
+		</div>
 		
-		<select name="selMenu_metroName" id="selMenu_metroName"></select>&nbsp;&nbsp;
-		<select name="selMenu_dongName" id="selMenu_dongName"></select>
+		<div style="float: left;">
+			<table>
+				<tr><th style="border: solid 1px gray; padding: 10px;">대분류</th><td style="border: solid 1px gray; padding: 10px;">
+				<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="한식">한식</label>
+				<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="일식">일식</label>
+				<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="중식">중식</label>
+				<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="양식">양식</label>
+				<label class="checkbox-inline"><input type="checkbox" name="restBgTag" value="동남아">동남아</label>
+				</td></tr>
+				<tr><th style="border: solid 1px gray; padding: 10px;">중분류</th><td style="border: solid 1px gray; padding: 10px;">
+				<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="고기류">고기류</label>
+				<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="어폐류">어폐류</label>
+				<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="채소류">채소류</label>
+				<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="면류">면류</label>
+				<label class="checkbox-inline"><input type="checkbox" name="restMdTag" value="밥류">밥류</label>
+				</td></tr>
+			</table>
+		</div>
+		
 		
 	</form>
 </div>
@@ -49,6 +80,17 @@
 
 <script>
 	$(document).ready(function(){
+		
+		// 대분류/중분류 변화시 바로 restarant.eat 구하기
+		$("[name=restBgTag]").change(function(){
+			var conq = $("[name=conq]:checked").val();
+			getRestaurant(conq);
+		});
+		
+		$("[name=restMdTag]").change(function(){
+			var conq = $("[name=conq]:checked").val();
+			getRestaurant(conq);
+		});
 		
 		//페이지 최초로딩시 등록된 음식점 모두 띄우기
 		$("[name=conq]").change(function(){
@@ -81,8 +123,8 @@
 	// 지도 마커 및 메뉴리스트 호출 함수
 	function getList(){
 		var conq = $("[name=conq]:checked").val();
-		getRestaurant(conq);
 		getDongMetroNameList(conq);
+		getRestaurant(conq);
 	}
 	
 	// 동이름/지하철이름 셀렉트 메뉴 호출
@@ -144,8 +186,31 @@
 			metroId = $("#selMenu_metroName").val();
 		} 
 		
+		// **자바스크립트 배열은 반드시 아래와 같이 push를 통해서 할 것.**
+		// jquery 셀렉터를 이용해 
+		// var restBgTag = $("[name=restBgTag]:checked"); 
+		// 이렇게 하면, [object Object]를 전송하고 사용이 불가하다.
+		
+		var restBgTag = [];
+		$("[name=restBgTag]:checked").each(function(){
+			restBgTag.push($(this).val());
+		});
+		
+		var restMdTag = [];
+		$("[name=restMdTag]:checked").each(function(){
+			restMdTag.push($(this).val());
+		});
+		
 		if ($("#selMenu_dongName").val() != null) {
 			dongId = $("#selMenu_dongName").val();	
+		}
+		
+		var searchFrmData = {
+				conq : conq
+			  , metroId : metroId
+			  , dongId : dongId
+			  , restBgTag : restBgTag
+			  , restMdTag : restMdTag
 		}
 	
 	    // 데이터를 가져오기 위해 jQuery를 사용합니다
@@ -153,8 +218,8 @@
 	    $.ajaxSettings.traditional = true;
 	    $.ajax({
 			url: "<%=request.getContextPath()%>/getRestaurantVOList.eat",  
-			async: false, 
-			data: "conq="+conq+"&metroId="+metroId+"&dongId="+dongId,
+			async: false,
+			data: searchFrmData,
 			dataType: "json",
 			success: function(data) {
 				//alert(data.positions[0].restName);

@@ -69,7 +69,7 @@ public class GoogleMail {
     	msg.addRecipient(Message.RecipientType.TO, toAddr);
     	        
     	// 메시지 본문의 내용과 형식, 캐릭터 셋 설정
-    	msg.setContent("발송된 인증코드 : <span style='font-size:14pt; color:red;'>"+certificationCode+"</span>", "text/html;charset=UTF-8");
+    	msg.setContent("안녕하세요.맛집메트로 입니다.<br> 항상 맛집메트로를 이용해 주시고 사랑해 주시는 회원님께 감사의 말씀을 드립니다 <p> 회원님이 요청하신 이메일 본인확인 인증 코드는 [<span style='font-size:12pt; color:red;'>"+certificationCode+"</span>] 입니다. <br> 위 인증코드를 맛집메트로 WEB에서 인증번호란에 입력하시고 인증하기 버튼을 클릭 하시면<br> 본인 확인이 완료 됩니다.", "text/html;charset=UTF-8");
     	        
     	// 메일 발송하기
     	Transport.send(msg);

@@ -299,6 +299,20 @@ public class RestaurantController {
 		//정훈 음식점 관련 메뉴 리스트
 		List<HashMap<String, String>> menuList = service.getMenuList(restSeq);
 		
+		//동현_로그인 했다면, 해당 업장이 사용자의 가고싶다에 담겨있는 음식점인지 check!
+		if(req.getSession().getAttribute("loginUser") != null){
+			HashMap<String, String> map = new HashMap<>();
+			map.put("restSeq", restSeq);
+			map.put("userSeq", ((UserVO)req.getSession().getAttribute("loginUser")).getUserSeq());
+
+			// 사용자의 가고싶다의 담겨있는 경우만, req객체에 담는다.
+			if(service.checkWantToGo(map) > 0) 
+				req.setAttribute("userWantToGoHere", 1);
+			
+		}
+		
+		
+		
 		req.setAttribute("menuList", menuList);
 		
 		req.setAttribute("restSeq", restSeq);
@@ -358,8 +372,8 @@ public class RestaurantController {
 		
 		try{
 			for (int i = 0; i < mvo.getMenuImgFile().length; i++) {
-				path = root + "files/menu";
 				if (mvo.getMenuImgFile()[i].equals(null)) {
+					path = root + "files/menu";
 					bytes = mvo.getMenuImgFile()[i].getBytes();
 					newFileName = fileManager.doFileUpload(bytes, mvo.getMenuImgFile()[i].getOriginalFilename(), path);
 					
@@ -396,17 +410,17 @@ public class RestaurantController {
 		// (정보를 담은 Hashmap, 소개이미지 리스트 imageList, 메뉴VO mvo, 메뉴갯수 menuNum) 
 		
 		int endNum = 1 + imageList.size() + menuNum;
-		
+		String loc = "userMyPage.eat";
 		String msg = "실패했습니다";
 		
 		if (result == endNum) {
 			msg = "정보등록을 성공했습니다";
 		}
 		
-		req.setAttribute("result", result);
+		req.setAttribute("loc", loc);
 		req.setAttribute("msg", msg);
 		
-		return "restaurant/restAddInfoEnd";
+		return "msg";
 
 	}
 	
@@ -535,16 +549,17 @@ public class RestaurantController {
 		
 		int endNum = menuEventArray.size();
 		
+		String loc = "restList.eat";
 		String msg = "실패했습니다";
 		
 		if (result == endNum) {
 			msg = "메뉴수정을 성공했습니다";
 		}
 		
-		req.setAttribute("result", result);
+		req.setAttribute("loc", loc);
 		req.setAttribute("msg", msg);
 		
-		return "restaurant/restAddInfoEnd";
+		return "msg";
 	}
 	
 	// 수정할 업장을 선택해서 해당 업장의 수정창을 띄우는 메서드

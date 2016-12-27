@@ -22,10 +22,8 @@
 	input.report.reportRed {
 		width:40px; height:40px; background: url('http://localhost:9090/mazzipmetro/resources/images/icoSirenRed.png') no-repeat;
 	}
-	/*.bgFavorite {border:0; padding-top:40px; font-weight:bold; color:#9f9f9f; background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStar.png') no-repeat 16px 0;}
-	.bgFavorite.active {background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStarActive.png') no-repeat 16px 0;} */
 	.bgFavorite {border:0; padding-top:30px; font-weight:bold; font-size:12px; color:#9f9f9f; background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStar.png') no-repeat 12px 0;}
-.bgFavorite.active {background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStarActive.png') no-repeat 12px 0;}
+	.bgFavorite.active {background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStarActive.png') no-repeat 12px 0;}
 </style>
 
  <script type="text/javascript">
@@ -47,11 +45,15 @@
 		
 		getReviewList();
 	 
+	// 동현_사용자 가고싶다에 담긴 업장이라면, 가고싶다 버튼 색깔 클래스 추가
+	<c:if test="${not empty userWantToGoHere && userWantToGoHere == 1}">
+		$(".bgFavorite").addClass("active");
+	</c:if>
 
-		//미현_가고싶다 버튼 클릭시
-		 $(".bgFavorite").click(function(){
-			 $(this).toggleClass("active");
-		}); 
+	//미현_가고싶다 버튼 클릭시
+	$(".bgFavorite").click(function(){
+		$(this).toggleClass("active");
+	}); 
 		
 	});
  
