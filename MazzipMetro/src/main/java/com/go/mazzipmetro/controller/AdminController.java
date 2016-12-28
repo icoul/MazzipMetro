@@ -298,10 +298,11 @@ public class AdminController {
 	public String admin_userDel(HttpServletRequest req, HttpServletResponse res) {
 		
 		String userSeq = req.getParameter("userSeq");
-		System.out.println(userSeq);
+		//System.out.println(userSeq);
 		String str_pageNo = req.getParameter("pageNo");
-		System.out.println("확인용 str_pageNo" +str_pageNo);
-		int pageNo = 0;
+		//System.out.println("확인용 str_pageNo" +str_pageNo);
+		int pageNo = Integer.parseInt(str_pageNo);
+		/*int pageNo = 0;
 		
 		if(str_pageNo == null){
 			System.out.println("=========================================1");
@@ -309,8 +310,8 @@ public class AdminController {
 		}else{
 			System.out.println("=========================================2");
 			pageNo = Integer.parseInt(str_pageNo);
-		}
-
+		}*/
+		
 		HttpSession ses = req.getSession();
 		
 		HashMap<String, String> map = new HashMap<String, String>();

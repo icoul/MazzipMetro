@@ -97,7 +97,7 @@ function goUserEdit(userSeq){
 					<form name="userDelFrm"  action="<%= request.getContextPath() %>/adminUserDel.eat" method="post">
 						<button class="btnGray" onClick="goUserDel();" style="margin-top:0; width:40px;">삭제</button>
 						<input type="hidden" name="userSeq" value="${vo.userSeq}" />
-							
+						<input type="hidden" name="pageNo" value="${pageNo}" />	
 					</form>	
 				</td>
 			</tr>
