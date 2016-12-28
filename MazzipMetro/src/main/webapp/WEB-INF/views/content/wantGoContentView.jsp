@@ -18,9 +18,9 @@ table#tbl_wantGoContentView td {vertical-align: middle;}
 	</c:if>
 
 	//미현_가고싶다 버튼 클릭시
-	$(".bgFavorite").click(function(){
+	/* $("#btn_wantToGo_contentView").click(function(){
 		 $(this).toggleClass("active");
-	}); 
+	});  */
 });
 	
 </script>
@@ -40,7 +40,7 @@ table#tbl_wantGoContentView td {vertical-align: middle;}
 	<tr>
 		<td style = "padding:25px 0 10px; line-height: 26pt;">
 			<!-- 동현_가고싶다 카트 상단의 content view에 가고싶다 버튼 추가 -->
-			<button type="button"  onclick="addWantToGo(${vo.restSeq});" class="bgFavorite" style="float:right; padding-top:30px;">가고싶다</button>
+			<button type="button" id="btn_wantToGo_contentView" onclick="addWantToGo(${vo.restSeq}, 'btn_wantToGo_contentView');" class="bgFavorite" style="float:right; padding-top:30px;">가고싶다</button>
 			<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${vo.restSeq}" style="color:black; text-decoration: none;">			
 				<span style = "font-size: 25pt; font-weight: bold;">${vo.restName}</span><br/>
 				<span style = "font-size: 15pt;">${vo.restBgTag}</span>&nbsp;&nbsp;<span style = "font-size: 10pt;">${vo.restMdTag}</span><br/>

@@ -255,7 +255,7 @@ $(document).ready(function(){
 				 	 <c:if test="${review.reviewAvgScore < 1}">
 					 <img src="<%= request.getContextPath() %>/resources/starability-images/star.png">
 					 </c:if> 
-					 <c:if test="${((2 == review.reviewAvgScore) or (2 < review.reviewAvgScore)) and (review.reviewAvgScore < 3)}">>
+					 <c:if test="${((2 == review.reviewAvgScore) or (2 < review.reviewAvgScore)) and (review.reviewAvgScore < 3)}">
 					 <img src="<%= request.getContextPath() %>/resources/starability-images/icoStar2.png">
 					 </c:if>
 					 <c:if test="${((3 == review.reviewAvgScore) or (3 < review.reviewAvgScore)) and (review.reviewAvgScore < 4)}">

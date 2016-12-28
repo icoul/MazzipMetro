@@ -213,7 +213,7 @@
 	<table>
 		<tr>
 			<td style = "padding : 20px;" height = "40px" colspan="2" align="center" valign="middle">
-				<button type = "button" onClick = "menuAdd()">메뉴추가</button>
+				<button type = "button" class="btn btn-default" onClick = "menuAdd()">메뉴추가</button>
 				<input type = "hidden" id = "addMenuNum" name = "addMenuNum" value = "${menuList.size()}" />
 			</td>
 		</tr>
@@ -271,8 +271,8 @@
 		</tr>
 		<tr align="center">
 			<td colspan="6">
-				<button type = "button" onClick = "menuHide('div${status.index}', 'menuStatus${status.index}');">메뉴삭제</button>
-				<button type = "button" onClick = "imageHide(${status.index});">이미지 삭제</button>
+				<button type = "button" class="btn btn-default" onClick = "menuHide('div${status.index}', 'menuStatus${status.index}');">메뉴삭제</button>
+				<button type = "button" class="btn btn-default" onClick = "imageHide(${status.index});">이미지 삭제</button>
 			</td>
 		</tr>
 		</table>
@@ -285,7 +285,7 @@
 	<table>
 		<tr>
 			<td height = "40px" colspan="2" align="center" valign="middle">
-				<a id="btnRegister" onClick="goMenuEdit();" href = "#" style = "width : 20%;"><span style = "color : black; font-weight : bold; font-size : 14pt;">등록신청</span></a>
+				<button type = "button" class="btn btn-default" id="btnRegister" onClick="goMenuEdit();">등록신청</button>
 			</td>
 		</tr>
 	</table>
