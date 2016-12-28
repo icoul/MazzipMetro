@@ -91,7 +91,7 @@ public class ContentDAO {
 		
 		String restContent = vo.getRestContent();
 		
-		if (restContent != null) {
+		if (restContent != null && restContent.length() > 30) {
 			restContent = restContent.substring(0, 30);
 			vo.setRestContent(restContent+"...");
 		}

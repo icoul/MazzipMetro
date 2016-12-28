@@ -137,7 +137,7 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where 1=1
+		    where 1=1 and E.reviewStatus = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
@@ -158,7 +158,7 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where E.reviewRegDate > (sysdate - 7)
+		    where E.reviewRegDate > (sysdate - 7) and E.reviewStatus = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
@@ -179,7 +179,7 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where E.reviewRegDate > (sysdate - 30)
+		    where E.reviewRegDate > (sysdate - 30) and E.reviewStatus = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
@@ -200,7 +200,7 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where E.reviewRegDate > (sysdate - 90)
+		    where E.reviewRegDate > (sysdate - 90) and E.reviewStatus = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
@@ -221,7 +221,7 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where E.reviewRegDate > (sysdate - 365)
+		    where E.reviewRegDate > (sysdate - 365) and E.reviewStatus = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
@@ -431,7 +431,7 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where 1=1
+		    where 1=1 and E.reviewStatus = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
@@ -472,7 +472,7 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where E.reviewRegDate > (sysdate - 7)
+		    where E.reviewRegDate > (sysdate - 7) and E.reviewStatus = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
@@ -513,7 +513,7 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where E.reviewRegDate > (sysdate - 30)
+		    where E.reviewRegDate > (sysdate - 30) and E.reviewStatus = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
@@ -554,7 +554,7 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where E.reviewRegDate > (sysdate - 90)
+		    where E.reviewRegDate > (sysdate - 90) and E.reviewStatus = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
@@ -595,7 +595,7 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where E.reviewRegDate > (sysdate - 365)
+		    where E.reviewRegDate > (sysdate - 365) and E.reviewStatus = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
