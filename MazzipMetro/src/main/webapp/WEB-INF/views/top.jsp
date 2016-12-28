@@ -36,6 +36,7 @@ function getLoginUserInfo(){
 
 		//가고싶다 상단의 배너
 		wantGoContentView();
+		
 
 		//생성된 쿠키를 사용하기 위한 자바코드
 		<%
@@ -261,8 +262,8 @@ function getLoginUserInfo(){
 		}); // end of ajax
    	}
 	
-	// 가고싶다 추가 함수
-	function addWantToGo(restSeq){
+	// 가고싶다 추가 함수 및 제거 함수
+	function addWantToGo(restSeq, btn_id){
 			
 		<c:if test="${empty sessionScope.loginUser}">
 		<%  if(request.getParameter("restSeq") != null){
@@ -274,23 +275,56 @@ function getLoginUserInfo(){
 		</c:if>
 		
 		<c:if test="${not empty sessionScope.loginUser}">
-		$.ajax({
-				url:"<%=request.getContextPath()%>/addWantToGo.eat",
-				type :"POST",
-				data: "restSeq="+restSeq,
-				dataType:"json",
-				success: function(data){
-							
-					alert(data.msg);
-					getUserWantToGo();
-							
-				}, //end of success: function(data)
-				error: function(request, status, error){
-					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-				} // end of error: function(request,status,error)
-			}); //end of $.ajax()
+		
+		if ($("#"+btn_id).hasClass("active")) { // 가고싶다에 있는 경우 제거
+			
+			$.ajax({
+				url: "<%=request.getContextPath()%>/delWantToGo.eat", 
+				method:"POST",  		 // method
+				data: "wantToGoChk="+restSeq,
+				traditional: true,		 // 배열 데이터 전송용
+				dataType: "JSON",        // 위의 URL 페이지로 사용자가 보내는 ajax 요청 데이터.
+				success: function(data) {// 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
+						//alert(data.msg);
+						getUserWantToGo();
+						$("#"+btn_id).removeClass("active");
+						
+						//alert("<%=request.getParameter("restSeq")%>");
+						
+						// 가고싶다 광고 업장과 현재 페이지 업장번호가 같은 경우
+						if(restSeq == "<%=request.getParameter("restSeq")%>" && btn_id == 'btn_wantToGo_contentView'){
+							$("#btn_restDetailWantToGo").removeClass("active");
+						}
+					}
+			});//end of $.ajax()
+		} else { // 가고 싶다에 없는 경우	추가
+			$.ajax({
+					url:"<%=request.getContextPath()%>/addWantToGo.eat",
+					type :"POST",
+					data: "restSeq="+restSeq,
+					dataType:"json",
+					success: function(data){
+								
+						//alert(data.msg);
+						getUserWantToGo();
+						$("#"+btn_id).addClass("active");
+						
+						// 가고싶다 광고 업장과 현재 페이지 업장번호가 같은 경우
+						if(restSeq == "<%=request.getParameter("restSeq")%>" && btn_id == 'btn_wantToGo_contentView'){
+							$("#btn_restDetailWantToGo").addClass("active");
+						}
+								
+					}, //end of success: function(data)
+					error: function(request, status, error){
+						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					} // end of error: function(request,status,error)
+				}); //end of $.ajax()
+		}
+		
 		</c:if>	
 	}
+	
+	
 	
 	// 사용자 가고싶다 ajax 호출
 	function getUserWantToGo(){
