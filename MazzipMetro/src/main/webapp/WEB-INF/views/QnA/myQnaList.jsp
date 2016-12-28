@@ -77,8 +77,25 @@
 		
 	}
 	
+	function afterDeleteQna(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd ,qnaRegMonthEnd, qnaRegDayEnd, qnaInquiry, qnaProgress){
+		alert(qnaRegYearStart+" "+ qnaRegMonthStart+" "+qnaRegDayStart+" "+ qnaRegYearEnd +" "+qnaRegMonthEnd+" "+qnaRegDayEnd+" "+ qnaInquiry+" "+ qnaProgress);
+		$.ajax({	
+			url:"<%= request.getContextPath() %>/myQnaList.eat?",
+		    method:"GET",
+		    data:"qnaRegYearStart="+qnaRegYearStart+"&qnaRegMonthStart="+qnaRegMonthStart+"&qnaRegDayStart="+qnaRegDayStart+"&qnaRegYearEnd="+qnaRegYearEnd+"&qnaRegMonthEnd="+qnaRegMonthEnd+"&qnaRegDayEnd="+qnaRegDayEnd+"&qnaInquiry="+qnaInquiry+"&qnaProgress="+qnaProgress+"&test="+"야야야야야",
+			datatype:"html", 
+			success:function(data){
+				alert("afterDeleteQna전");
+				$("#userInfo").html(data);
+				alert("afterDeleteQna후");
+			} ,error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		       }
+		});
+		alert("afterDeleteQna ajax후");
+	}
+	
 	function qnaDelete(){
-		var chkboxQnaSeqArr = document.getElementsByName("qnaSeqCheckBox");
 
 		var qnaColName = $("#qnaColName").val();
 		var qnaSearch =$("#qnaSearch").val();
@@ -91,8 +108,13 @@
 		var qnaRegMonthEnd =$("#qnaRegMonthEnd").val();
 		var qnaRegDayEnd =$("#qnaRegDayEnd").val();
 		
+		var chkboxQnaSeqArr = new Array();
+		$("input[name='qnaSeqCheckBox']:checked").each(function(){
+			chkboxQnaSeqArr.push($(this).val());
+		});
 		
-		var cnt = 0;
+		var cnt = chkboxQnaSeqArr.length;
+		/* var cnt = 0;
 		for(var i = 0; i < chkboxQnaSeqArr.length; i++){
 			if(chkboxQnaSeqArr[i].checked){
 				cnt++;
@@ -100,25 +122,26 @@
 				chkboxQnaSeqArr[i].disabled = true;
 				document.getElementById("qnaSeqCheckBox"+i).disabled = true;
 			}
-		}
+		} */
 		
 		if(cnt == 0){
-			alert("삭제하신 Q&A를 하나 이상 선택하세요!!");
+			alert("삭제하실 Q&A를 하나 이상 선택하세요!!");
 			for(var i = 0; i < chkboxQnaSeqArr.length; i++){
 				chkboxQnaSeqArr[i].disabled = false;
 				document.getElementById("qnaSeqCheckBox"+i).disabled = false;
 			}
 		}else{
-
+			$.ajaxSettings.traditional = true;
 			$.ajax({	
 				url:"<%= request.getContextPath() %>/deleteQna.eat",
 			    method:"POST",
-			    data:"qnaSeqCheckBox="+chkboxQnaSeqArr+"&qnaColNameFrm="+qnaColName+"&qnaSearchFrm="+qnaSearch+"&qnaInquiryFrm="+qnaInquiry+"&qnaProgressFrm="+qnaProgress+"&qnaRegYearStartFrm="+qnaRegYearStart
-			    	+"&qnaRegMonthStartFrm="+qnaRegMonthStart+"&qnaRegDayStartFrm="+qnaRegDayStart+"&qnaRegYearEndFrm="+qnaRegYearEnd+"&qnaRegMonthEndFrm="+qnaRegMonthEnd+"&qnaRegDayEndFrm="+qnaRegDayEnd,
+			    data:"qnaSeqCheckBox="+chkboxQnaSeqArr+"&qnaColNameDeleteFrm="+qnaColName+"&qnaSearchDeleteFrm="+qnaSearch+"&qnaInquiryDeleteFrm="+qnaInquiry+"&qnaProgressDeleteFrm="+qnaProgress+"&qnaRegYearStartDeleteFrm="+qnaRegYearStart
+			    	+"&qnaRegMonthStartDeleteFrm="+qnaRegMonthStart+"&qnaRegDayStartDeleteFrm="+qnaRegDayStart+"&qnaRegYearEndDeleteFrm="+qnaRegYearEnd+"&qnaRegMonthEndDeleteFrm="+qnaRegMonthEnd+"&qnaRegDayEndDeleteFrm="+qnaRegDayEnd,
 				datatype:"html", 
-				success:function(data){ 
-					$("#userInfo").html(data);
-					
+				success:function(data){
+					//alert(qnaRegYearStart+""+ qnaRegMonthStart+""+qnaRegDayStart+""+ qnaRegYearEnd +""+qnaRegMonthEnd+""+qnaRegDayEnd+""+ qnaInquiry+""+ qnaProgress);
+					afterDeleteQna(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd ,qnaRegMonthEnd, qnaRegDayEnd, qnaInquiry, qnaProgress);
+					//alert("qnaDelete완료");
 				}
 			});
 		}

@@ -1007,7 +1007,7 @@ public class MazzipMetroController {
 		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
 
 		String userSeq = loginUser.getUserSeq();
-
+		System.out.println("---------------------------------------------------------");
 		/*
 		 * 페이징 처리하기 글목록 보기 페이지 요청은 URL형태의 페이징 처리를 띄는 것으로 만들어 주어야 한다. 즉, 예를 들면
 		 * 3페이지의 내용을 보고자 한다라면 /board/list.action?pageNo=3 같이한다.
@@ -1079,7 +1079,9 @@ public class MazzipMetroController {
 		if (qnaProgress == null) {
 			qnaProgress = "전체";
 		}
-
+		String test = req.getParameter("test");
+		
+		System.out.println("TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST" + test);
 		// 검색기간 셀렉트
 		String qnaRegYearStart = req.getParameter("qnaRegYearStart"); // 검색하고자
 																		// 하는
@@ -1214,19 +1216,19 @@ public class MazzipMetroController {
 		} else {// 첫 페이지바가 아닌경우
 			if (qnaSearch == null) {//페이지 첫 로딩인 경우
 				pageBar += String.format(
-						"<li><a href='javascript:getMyQnAList(%s,%s,%s,%s,%s,%s,\"%s\",%d,%s,\"%s\")>[이전%d페이지]</a></li>",
+						"<li><a href='javascript:getMyQnAList(%s,%s,%s,%s,%s,%s,\"%s\",%d,\"%s\");'>[이전%d페이지]</a></li>",
 						qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd, qnaRegMonthEnd, qnaRegDayEnd,
-						qnaInquiry, startPageNo - 1, userSeq, qnaProgress, blockSize);
+						qnaInquiry, startPageNo - 1, qnaProgress, blockSize);
 			}else if(!(qnaSearch.trim().length() == 0)){// 검색어가 있는 경우
 				pageBar += String.format(
-						"<li><a href='SgetMyQnAList(%s,%s,%s,%s,%s,%s,\"%s\",%d,%s,%s,%s,\"%s\");'>[이전%d페이지]</a></li>",
+						"<li><a href='javascript:SgetMyQnAList(\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%d\",\"%s\",\"%s\",\"%s\");'>[이전%d페이지]</a></li>",
 						qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd, qnaRegMonthEnd, qnaRegDayEnd,
-						qnaInquiry, startPageNo - 1, userSeq, qnaColName, qnaSearch, qnaProgress, blockSize);
+						qnaInquiry, startPageNo - 1, qnaColName, qnaSearch, qnaProgress, blockSize);
 			}else {// 검색어가 있지만 비어있는 경우
 				pageBar += String.format(
-						"<li><a href='javascript:getMyQnAList(%s,%s,%s,%s,%s,%s,\"%s\",%d,%s,\"%s\")>[이전%d페이지]</a></li>",
+						"<li><a href='javascript:getMyQnAList(%s,%s,%s,%s,%s,%s,\"%s\",%d,%s,\"%s\");'>[이전%d페이지]</a></li>",
 						qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd, qnaRegMonthEnd, qnaRegDayEnd,
-						qnaInquiry, startPageNo - 1, userSeq, qnaProgress, blockSize);
+						qnaInquiry, startPageNo - 1, qnaProgress, blockSize);
 			}
 		}
 
@@ -1240,21 +1242,21 @@ public class MazzipMetroController {
 				if (qnaSearch == null) {//페이지 첫 로딩인 경우
 					System.out.println(">>>>>>>>>>"+qnaRegDayStart+"<<<<<<<<<<<");
 					pageBar += String.format(
-							"<li><a href='javascript:getMyQnAList(%s,%s,%s,%s,%s,%s,\"%s\",%d,%s,\"%s\");'>%d</a></li>",
+							"<li><a href='javascript:getMyQnAList(%s,%s,%s,%s,%s,%s,\"%s\",%d,\"%s\");'>%d</a></li>",
 							qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd, qnaRegMonthEnd,
-							qnaRegDayEnd, qnaInquiry, startPageNo, userSeq, qnaProgress, startPageNo);
+							qnaRegDayEnd, qnaInquiry, startPageNo, qnaProgress, startPageNo);
 				}else if(!(qnaSearch.trim().length() == 0)){ //검색어가 있는 경우
 					System.out.println(">>>>>>>>>>"+qnaColName+"<<<<<<<<<<<");
 					pageBar += String.format(
-							"<li><a href='javascript:SgetMyQnAList(\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%d\",\"%s\",\"%s\",\"%s\",\"%s\");'>%d</a></li>",
+							"<li><a href='javascript:SgetMyQnAList(\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%d\",\"%s\",\"%s\",\"%s\");'>%d</a></li>",
 							qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd, qnaRegMonthEnd,
-							qnaRegDayEnd, qnaInquiry, startPageNo, userSeq, qnaColName, qnaSearch, qnaProgress,
+							qnaRegDayEnd, qnaInquiry, startPageNo, qnaColName, qnaSearch, qnaProgress,
 							startPageNo);
 				}else {//검색어가 없는경우 
 					pageBar += String.format(
-							"<li><a href='javascript:getMyQnAList(%s,%s,%s,%s,%s,%s,\"%s\",%d,%s,\"%s\");'>%d</a></li>",
+							"<li><a href='javascript:getMyQnAList(%s,%s,%s,%s,%s,%s,\"%s\",%d,\"%s\");'>%d</a></li>",
 							qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd, qnaRegMonthEnd,
-							qnaRegDayEnd, qnaInquiry, startPageNo, userSeq, qnaProgress, startPageNo);
+							qnaRegDayEnd, qnaInquiry, startPageNo, qnaProgress, startPageNo);
 				}// end of if else()----
 
 			}
@@ -1270,20 +1272,20 @@ public class MazzipMetroController {
 		} else {// 마지막 페이지바가 아닌경우
 			if (qnaSearch == null) {// 처음 접속시
 				pageBar += String.format(
-						"<li><a href='javascript:getMyQnAList(%s,%s,%s,%s,%s,%s,\"%s\",%d,%s,\"%s\");'>[다음%d페이지]</a></li>",
+						"<li><a href='javascript:getMyQnAList(%s,%s,%s,%s,%s,%s,\"%s\",%d,\"%s\");'>[다음%d페이지]</a></li>",
 						qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd, qnaRegMonthEnd, qnaRegDayEnd,
-						qnaInquiry, startPageNo, blockSize, userSeq, qnaProgress, blockSize);
+						qnaInquiry, startPageNo, qnaProgress, blockSize);
 			} else if(!(qnaSearch.trim().length() == 0)) {// 검색어가 있는 경우
 				pageBar += String.format(
-						"<li><a href='SgetMyQnAList(%s,%s,%s,%s,%s,%s,\"%s\",%d,%s,%s,%s,\"%s\");'>[다음%d페이지]</a></li>",
+						"<li><a href='javascript:SgetMyQnAList(\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%d\",\"%s\",\"%s\",\"%s\");'>[다음%d페이지]</a></li>",
 						qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd, qnaRegMonthEnd, qnaRegDayEnd,
-						qnaInquiry, startPageNo, userSeq, qnaColName, qnaSearch, qnaProgress, blockSize);
+						qnaInquiry, startPageNo, qnaColName, qnaSearch, qnaProgress, blockSize);
 			}
 			else{
 				pageBar += String.format(
-						"<li><a href='javascript:getMyQnAList(%s,%s,%s,%s,%s,%s,\"%s\",%d,%s,\"%s\");'>[다음%d페이지]</a></li>",
+						"<li><a href='javascript:getMyQnAList(%s,%s,%s,%s,%s,%s,\"%s\",%d,\"%s\");'>[다음%d페이지]</a></li>",
 						qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd, qnaRegMonthEnd, qnaRegDayEnd,
-						qnaInquiry, startPageNo, blockSize, userSeq, qnaProgress, blockSize);
+						qnaInquiry, startPageNo, qnaProgress, blockSize);
 			}
 		}
 
@@ -1354,6 +1356,7 @@ public class MazzipMetroController {
 		req.setAttribute("strRegDateMonthSelect", strRegDateMonthSelect);
 		req.setAttribute("strRegDateDaySelect", strRegDateDaySelect);
 
+		System.out.println("999999999999999999999999999999999999999999999999999");
 		return "QnA/myQnaList";
 	}
 
@@ -1931,9 +1934,11 @@ public class MazzipMetroController {
 		if(qnaSeqArr.length == 0){
 			System.out.println("------------------------------------------------1");
 		}
-		
 		else if(qnaSeqArr.length > 0){
 			
+			for(int i = 0; i < qnaSeqArr.length; ++i){
+				System.out.println("----------------------------------------------------" + qnaSeqArr[i]);
+			}
 		}
 		
 		int count = service.countAnswer(qnaSeqArr);
@@ -1954,15 +1959,18 @@ public class MazzipMetroController {
 		}
 
 		if (count + qnaSeqArr.length == result) {
-			req.setAttribute("msg", "삭제가 완료되었습니다.");
-			req.setAttribute("loc", loc);
-
+			/*req.setAttribute("msg", "삭제가 완료되었습니다.");
+			req.setAttribute("loc", loc);*/
+			req.setAttribute("loc", "zz"+loc);
+			System.out.println("*************************************************"+loc);
+			return "QnA/loc";
 		} else {
 			req.setAttribute("msg", "삭제가 실패되었습니다.");
 			req.setAttribute("loc", "javascript:history.back();");
+			return "QnA/msg";
 		}
 
-		return "QnA/msg";
+		
 	}
 
 	// 15

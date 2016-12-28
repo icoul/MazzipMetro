@@ -24,7 +24,7 @@ table#tbl_wantGoContentView td {vertical-align: middle;}
 });
 	
 </script>
->>>>>>> 66a5af1441275f3c4b7cabc9a58aa1f0761114a6
+
 <table id="tbl_wantGoContentView" style = "width: 100%;">
 	<tr style = "height : 35px; background-color: #EFEFEF;">
 		<td colspan = "2" style = " vertical-align: middle; padding-left : 15px;"><span style = "font-weight: bold;">이 맛집은 어떠신가요? 맛집메트로의 추천!</span></td>
