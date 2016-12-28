@@ -208,11 +208,11 @@ function goDel(){
 	$("[name=wantToGoChk]:checked").each(function(){
 		wantToGoChkArr.push($(this).val());
 		
-		// 가고싶다 상단 배너 별 active 클래스 제거
+		// 업장상세 페이지 별 active 클래스 제거
 		if($(this).val() == "<%=session.getAttribute("reference_restSeq_wantToGo")%>"){
 				$("#btn_restDetailWantToGo").removeClass("active");
 			}
-		// 업장상세 페이지 별 active 클래스 제거
+		// 가고싶다 상단 배너 별 active 클래스 제거
 		if($(this).val() == "<%=session.getAttribute("restSeq_wantToGoContentView")%>"){
 			$("#btn_wantToGo_contentView").removeClass("active");
 		}
