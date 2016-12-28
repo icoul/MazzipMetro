@@ -311,7 +311,8 @@ public class RestaurantController {
 			
 		}
 		
-		
+		// 동현_가고싶다 삭제시 참고용
+		ses.setAttribute("reference_restSeq_wantToGo", restSeq);
 		
 		req.setAttribute("menuList", menuList);
 		

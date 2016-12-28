@@ -74,6 +74,10 @@ public class ContentController {
 				req.setAttribute("userWantToGoHere", 1);
 			
 		}
+		//가고싶다 삭제시 참고용(세션)
+		req.getSession().setAttribute("restSeq_wantToGoContentView", vo.getRestSeq());
+		
+		System.out.println(">>>>>>>>>>>>>>>>"+req.getSession().getAttribute("restSeq_wantToGoContentView")); 
 		
 		return "content/wantGoContentView";
 	}
