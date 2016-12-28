@@ -16,7 +16,6 @@
 	function reviewDel(reviewSeq, restName) {
 		
 	    var bool = confirm(restName + "의 리뷰를 정말로 삭제하시겠습니까?");
-
 	    if(bool) {
 	    	
 	    	$.ajax({
@@ -24,19 +23,13 @@
 				type :"POST",
 				data: "reviewSeq="+reviewSeq+"&restName="+restName,
 				dataType:"html",
-				success: function(del){
-					alert(del);
-					/* <c:if test="${del == 1}">
-						alert("리뷰가 삭제 되었습니다.");
-					</c:if>
-				
-					<c:if test="${del != 1}">
-						alert("리뷰가 삭제 되지 않았습니다.");
-					</c:if> */
+				success: function(data){
+					 getMyReviewList(pageNo);
 				}
 			});
 	    }
-		
+	    
+	   
 	}
 	
 	
@@ -50,6 +43,7 @@
 <body>
 		<h4>${sessionScope.loginUser.userName}님의 리뷰목록</h4>
 <div class="subrightCon" align="center" >
+<div id ="del"></div>
 	<table class="myReviewList" style="margin-top:30px;">
 		<tr >
 			<th style="text-align: center;">가게명</th>
