@@ -6,7 +6,7 @@
 	.map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
 	.map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
 	.map_wrap {position:relative;width: 1000px;height:500px;}
-	#menu_wrap {position: absolute;top:30;left:725;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
+	#menu_wrap {position: absolute;top:30;left:605;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
 	.bg_white {background:#fff;}
 	#menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
 	#menu_wrap .option{text-align: center;}
@@ -60,6 +60,11 @@
 	#pagination a {display:inline-block;margin-right:0px;}
 	#pagination .on {font-weight: bold; cursor: default;color:#777;}
 	/* #realReview {position:absolute; right:184px; height:40px; font-size: 25pt; font-weight: bold;} */
+	
+	#top_container {background: url(/mazzipmetro/resources/images/IndexImage.jpg) no-repeat 0 71px;
+    width: 100%;
+    background-size: 100% 576px;
+	}
 </style>
   
 <script>
@@ -365,10 +370,11 @@
            }// end of MainReview
 //////////////////////////////////////////////////////////////////////////////////////////////////        
 </script>  
+<div id = "top_container"></div>
 <div class="leftCon">
 	<div class="mainBann">
 	
-	<img alt="" src="<%=request.getContextPath() %>/resources/images/metroMap.jpg"  usemap="#mazzipMetroImgMap" style="margin-top: 15px;margin-bottom: 15px;">
+	<img alt="" src="<%=request.getContextPath() %>/resources/images/metroMap.png"  usemap="#mazzipMetroImgMap" style="margin-top: 15px;margin-bottom: 15px;">
 	<map id="mazzipMetroImgMap" name="mazzipMetroImgMap">
 		<area shape="circle" alt="잠실역" 				  	coords="617,452,20" 	href="javascript: searchByMetro(1, '2005')" id="2005" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
 		<area shape="circle" alt="잠실나루역" 			  	coords="661,450,19" 	href="javascript: searchByMetro(1, '2006')" id="2006" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
@@ -419,12 +425,7 @@
 
 <%-- end of leftCon --%>
 		
-<div class="rightCon">
-	<div class="realTimeAppra">
-		<div id="realReview" ><img style="width: 50px; height: 50px;" src="<%= request.getContextPath() %>/resources/images/pizza.png">&nbsp;실시간 리뷰&nbsp;<img style="width: 50px; height: 50px;" src="<%= request.getContextPath() %>/resources/images/hamburger.png"></div>
-		<div id="Scroller" class="Scroller"></div>
-	</div>
-</div>
+
 <%-- end of rightCon --%>	
 
 <br/> 
@@ -435,7 +436,7 @@
 	
 	
 	<!-- 사용자 마커 안내 -->
-	<div style="float:left; padding-left: 550px;padding-top: 90px;padding-bottom: 10px;" >
+	<div style="float:left; padding-left: 470px;padding-top: 90px;padding-bottom: 10px;" >
 	<table >
 		<tr>
 			<td >
@@ -452,11 +453,17 @@
 		</tr>
 	</table>
 	</div>
+	<div class="rightCon" style="margin-top : 30px; width: 15%; height : 100px;">
+	<div class="realTimeAppra" >
+		<div id="realReview" ><img style="width: 50px; height: 50px;" src="<%= request.getContextPath() %>/resources/images/pizza.png">&nbsp;실시간 리뷰&nbsp;<img style="width: 50px; height: 50px;" src="<%= request.getContextPath() %>/resources/images/hamburger.png"></div>
+		<div id="Scroller" class="Scroller"></div>
+	</div>
+</div>
 	<br/> <br/> <br/> 
 	
 	<!-- 지도 섹션 -->
 	<div class="map_wrap"  style="clear:both;">
-	    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+	    <div id="map" style="width:90%;height:100%;position:relative;overflow:hidden;"></div>
 	
 		<div id="menu_wrap" class="bg_white">
 	        <ul id="placesList"></ul>
