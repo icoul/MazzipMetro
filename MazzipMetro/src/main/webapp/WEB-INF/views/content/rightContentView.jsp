@@ -14,7 +14,7 @@
 <c:forEach var="list" items="${rvoList}">
 		<tr style = "border : solid 1px #f3f3f3;">
 			<td style = "width : 30%; padding : 5px; padding-left : 15px; padding-top : 15px;">
-				<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${list.restSeq}"><img width = "80px;" src="<%= request.getContextPath() %>/files/rest/${list.restImg}" /></a>
+				<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${list.restSeq}"><img width = "80px;" src="<%= request.getContextPath() %>/files/rest/thumb/thumb${list.restImg}" /></a>
 			</td>
 			<td style = "padding-top : 6px; line-height: 20pt;">
 				<span style = "font-size: 15pt; font-weight: bold;">${list.restName}</span><br/>
