@@ -18,11 +18,23 @@
 	    var bool = confirm(restName + "의 리뷰를 정말로 삭제하시겠습니까?");
 
 	    if(bool) {
-	    	var reviewDelFrm = document.reviewDelFrm;
-	    	reviewDelFrm.reviewSeq.value = reviewSeq;
-	    	reviewDelFrm.action = "reviewDelete.eat";
-	    	reviewDelFrm.method = "post";
-	    	reviewDelFrm.submit();
+	    	
+	    	$.ajax({
+				url:"<%=request.getContextPath()%>/reviewDelete.eat",
+				type :"POST",
+				data: "reviewSeq="+reviewSeq+"&restName="+restName,
+				dataType:"html",
+				success: function(del){
+					alert(del);
+					/* <c:if test="${del == 1}">
+						alert("리뷰가 삭제 되었습니다.");
+					</c:if>
+				
+					<c:if test="${del != 1}">
+						alert("리뷰가 삭제 되지 않았습니다.");
+					</c:if> */
+				}
+			});
 	    }
 		
 	}
