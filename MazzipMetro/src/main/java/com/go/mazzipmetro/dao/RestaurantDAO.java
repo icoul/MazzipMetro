@@ -83,10 +83,6 @@ public class RestaurantDAO implements IDAO{
 			map.put("menuContent", mvo.getMenuContent()[i]);
 			map.put("menuImg", mvo.getMenuImg()[i]);
 			map.put("menuPrice", mvo.getMenuPrice()[i]);
-			
-			if ("0".equals(mvo.getMenuSalePrice()[i])) {
-				mvo.getMenuSalePrice()[i] = mvo.getMenuPrice()[i];
-			}
 			map.put("menuSalePrice", mvo.getMenuSalePrice()[i]);
 			map.put("menuSort", mvo.getMenuSort()[i]);
 			map.put("menuEvent", mvo.getMenuEvent()[i]);

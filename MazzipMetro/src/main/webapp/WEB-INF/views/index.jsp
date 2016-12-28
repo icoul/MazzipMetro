@@ -6,7 +6,11 @@
 <jsp:include page="top.jsp" />
 
 <style>
-	.mainBann{background-image: url("<%=request.getContextPath() %>/resources/images/IndexImage.jpg");}
+	<%-- .mainBann{background-image: url("<%=request.getContextPath() %>/resources/images/IndexImage.jpg");} --%>
+	#top_container {background: url(/mazzipmetro/resources/images/IndexImage.jpg) no-repeat 0 71px;
+    width: 100%;
+    background-size: 100% 576px;
+	}
 </style>
 
 	<script>
@@ -398,6 +402,7 @@
 	   	}
        
 </script>
+		<div id = "top_container"></div>
 		<div class="mainBann" style = "width: 100%; margin-bottom : 25px;">
 			<img alt="" src="<%=request.getContextPath() %>/resources/images/metroMap.png"  usemap="#mazzipMetroImgMap" style="margin-top: 15px;margin-bottom: 15px;margin-left: 275px;">
 			<map id="mazzipMetroImgMap" name="mazzipMetroImgMap">

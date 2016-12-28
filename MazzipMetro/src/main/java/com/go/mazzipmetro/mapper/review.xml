@@ -65,7 +65,7 @@
 		  , round(count(ageLine) / (select count(*) from tbl_reviewVisitor) * 100) as percent
 		from
 		( 
-		select trunc(extract(year from sysdate) - (to_number(substr(B.birthday,1,2)) + case when substr(B.birthday,1,1) in('0','1','2') then 2000 else 1900 end ) + 1,-1) as ageline   
+		select trunc(extract(year from sysdate) - (to_number(substr(B.birthday,1,2)) + case when substr(B.birthday,1,1) in('0','1') then 2000 else 1900 end ) + 1,-1) as ageline   
 		from tbl_review A join tbl_reviewVisitor B
 		on A.reviewseq = B.reviewseq
 		where A.restseq = #{restSeq}
