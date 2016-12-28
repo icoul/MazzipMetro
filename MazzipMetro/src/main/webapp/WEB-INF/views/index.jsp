@@ -6,7 +6,11 @@
 <jsp:include page="top.jsp" />
 
 <style>
-	.mainBann{background-image: url("<%=request.getContextPath() %>/resources/images/IndexImage.jpg");}
+	<%-- .mainBann{background-image: url("<%=request.getContextPath() %>/resources/images/IndexImage.jpg");} --%>
+	#top_container {background: url(/mazzipmetro/resources/images/IndexImage.jpg) no-repeat 0 71px;
+    width: 100%;
+    background-size: 100% 576px;
+	}
 </style>
 
 	<script>
@@ -398,8 +402,9 @@
 	   	}
        
 </script>
+		<div id = "top_container"></div>
 		<div class="mainBann" style = "width: 100%; margin-bottom : 25px;">
-			<img alt="" src="<%=request.getContextPath() %>/resources/images/metroMap.png"  usemap="#mazzipMetroImgMap" style="margin-top: 15px;margin-bottom: 15px;margin-left: 275px;">
+			<img alt="" src="<%=request.getContextPath() %>/resources/images/metroMap.png"  usemap="#mazzipMetroImgMap" style="margin-top: 15px;margin-bottom: 15px;">
 			<map id="mazzipMetroImgMap" name="mazzipMetroImgMap">
 				<area shape="circle" alt="잠실역" 				  	coords="617,452,20" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2005" id="2005" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
 				<area shape="circle" alt="잠실나루역" 			  	coords="661,450,19" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2006" id="2006" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>

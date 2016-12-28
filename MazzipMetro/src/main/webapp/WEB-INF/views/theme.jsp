@@ -57,7 +57,7 @@ input[name=themeChk]:checked + label:before {
     width: 29px;  
     height: 18px; 
     text-align: center; 
-    line-height: 20px;  
+    line-height: 1px;  
 
 } 
 
