@@ -370,7 +370,7 @@
 <div class="leftCon">
 	<div class="mainBann">
 	
-	<img alt="" src="<%=request.getContextPath() %>/resources/images/metroMap.jpg"  usemap="#mazzipMetroImgMap" style="margin-top: 15px;margin-bottom: 15px;">
+	<img alt="" src="<%=request.getContextPath() %>/resources/images/metroMap.png"  usemap="#mazzipMetroImgMap" style="margin-top: 15px;margin-bottom: 15px;">
 	<map id="mazzipMetroImgMap" name="mazzipMetroImgMap">
 		<area shape="circle" alt="잠실역" 				  	coords="918,494,21" 		href="javascript: searchByMetro(1, '2005')" id="2005" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
 		<area shape="circle" alt="잠실나루역" 			  	coords="973,490,21" 		href="javascript: searchByMetro(1, '2006')" id="2006" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
