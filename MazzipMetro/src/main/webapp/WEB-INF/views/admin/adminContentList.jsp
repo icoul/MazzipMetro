@@ -48,11 +48,11 @@ function searchKeep(){
 </script>
 
 
-	<div class="subleftCon">
+	<div class="subleftCon" style="height:1000px;">
 		<h2>컨텐츠 관리 리스트</h2>
 	</div>
 	<%-- subleftCon --%>
-	<div class="subrightCon">
+	<div class="subrightCon" style="height:1000px;">
 		<div class="searchWrap">
 			<form name="searchFrm" action="<%= request.getContextPath() %>/adminContentList.eat" method="get"> 
 				<a href="<%= request.getContextPath() %>/adminContentList.eat" class="btnFafa">목록</a>
