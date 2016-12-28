@@ -836,11 +836,12 @@ public class UserController {
 
 		req.setAttribute("myReviewList", myReviewList);
 		req.setAttribute("pageBar", pageBar);
+		req.setAttribute("currentShowPageNo", currentShowPageNo);
 		
 		return "user/myReviewList";
 	}
 	
-	@RequestMapping(value="/reviewDelete.eat", method={RequestMethod.POST})
+	@RequestMapping(value="/reviewDelete.eat", method={RequestMethod.GET})
 	public String reviewDelete(UserVO vo, HttpServletRequest req, HttpSession session) {
 		String reviewSeq = req.getParameter("reviewSeq");
 		

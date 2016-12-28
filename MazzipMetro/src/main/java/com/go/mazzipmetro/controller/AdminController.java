@@ -300,7 +300,7 @@ public class AdminController {
 		String userSeq = req.getParameter("userSeq");
 		System.out.println(userSeq);
 		String str_pageNo = req.getParameter("pageNo");
-		
+		System.out.println("확인용 str_pageNo" +str_pageNo);
 		int pageNo = Integer.parseInt(str_pageNo);
 		HttpSession ses = req.getSession();
 		
@@ -311,6 +311,7 @@ public class AdminController {
 		
 		String msg="";
 		String loc ="javascript:history.back();";
+		
 		
 		if (result > 0) {
 			msg ="회원이 삭제되었습니다.";

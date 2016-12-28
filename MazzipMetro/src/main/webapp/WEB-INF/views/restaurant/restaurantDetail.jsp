@@ -44,16 +44,24 @@
 	</c:if>
 		
 		getReviewList();
+		
+		//alert("${userWantToGoHere}");
 	 
 	// 동현_사용자 가고싶다에 담긴 업장이라면, 가고싶다 버튼 색깔 클래스 추가
 	<c:if test="${not empty userWantToGoHere && userWantToGoHere == 1}">
-		$(".bgFavorite").addClass("active");
+		$("#btn_restDetailWantToGo").addClass("active");
 	</c:if>
 
 	//미현_가고싶다 버튼 클릭시
-	$(".bgFavorite").click(function(){
-		$(this).toggleClass("active");
-	}); 
+	/* $("#btn_restDetailWantToGo").click(function(){
+		//alert($(this).attr("class").split(' '));		
+		if($(this).hasClass("active")){
+			$(this).addClass("active");
+		} else {
+			$(this).removeClass("active");
+		}
+		//$(this).toggleClass("active");
+	});  */
 		
 	});
  
@@ -299,7 +307,8 @@ function goLargeImgView(adImg) {
 	 <!-- 음식점 info -->
 	 <div id="restInfo" style="width: 50%; float: left;">
 	 <div style="float:right;">
-	 	<button type="button"  onclick="addWantToGo(${restvo.restseq});" class="bgFavorite" style="padding-top:40px;">가고싶다</button>
+	 	<!-- 동현_가고싶다 버튼 -->
+	 	<button type="button"  id="btn_restDetailWantToGo" onclick="addWantToGo(${restvo.restseq}, 'btn_restDetailWantToGo');" class="bgFavorite" style="padding-top:40px;">가고싶다</button>
 	 </div>
 	 
 	  <table class="table table-condensed" style="margin-top: 50px; width:80%; ">
