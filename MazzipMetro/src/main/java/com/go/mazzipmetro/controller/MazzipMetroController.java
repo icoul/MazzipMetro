@@ -436,9 +436,10 @@ public class MazzipMetroController {
 					}
 
 					pageBar += "" + "</ul>";
-
 					req.setAttribute("pageBar", pageBar);
+
 				}
+				
 
 				// 페이징처리를 위해 start , end 를 map에 담는다.
 				map.put("start", String.valueOf(start)); // HashMap 데이터타입에 맞게
@@ -530,12 +531,10 @@ public class MazzipMetroController {
 				// 다음 5페이지 만들기
 				if(!(sPage > totalPage)) {
 					pageBar += String.format("<li><a href='javascript:goRestSearch(%d)''>»</a></li>", sPage);		
-
-
-				pageBar += "" + "</ul>";
-
-				req.setAttribute("pageBar", pageBar);
+				}
 			}
+				pageBar += "" + "</ul>";
+				req.setAttribute("pageBar", pageBar);
 
 			// 페이징처리를 위해 start , end 를 map에 담는다.
 			map.put("start", String.valueOf(start)); // HashMap 데이터타입에 맞게 int
@@ -548,7 +547,7 @@ public class MazzipMetroController {
 			System.out.println(">>>>>>>>>> end=" + end);
 
 			restList = service.getRestIntergratedSearch(map);
-			}
+			
 			
 		}
 
@@ -588,7 +587,7 @@ public class MazzipMetroController {
 		String kw = "";
 
 		List<ReviewVO> reviewList = null;
-		List<HashMap<String, String>> reviewImageList = null;
+		List<String> reviewImageList = null;
 
 		HashMap<String, String> map = new HashMap<>();
 
@@ -801,17 +800,20 @@ public class MazzipMetroController {
 
 			reviewList = service.getReviewIntergratedSearch(map);
 
-			// 리뷰이미지 가져오기
-			// System.out.println(">>>>>>>>>>>>>>>>>>"+reviewList.size());
-			if (reviewList.size() > 0) {
-				List<String> seqList = new ArrayList<>();
-				for (ReviewVO vo : reviewList) {
-					seqList.add(vo.getReviewSeq());
-				}
-				HashMap<String, List<String>> seqMap = new HashMap<>();
-				seqMap.put("seqList", seqList);
-				reviewImageList = service.getReviewImageListByReviewSeq(seqMap);
+		}
+		
+		// 리뷰이미지 가져오기
+		//System.out.println(">>>>>>>>>>>>>>>>>>reviewList.size() = "+reviewList.size());
+		if (reviewList.size() > 0) {
+			List<String> seqList = new ArrayList<>();
+			for (ReviewVO vo : reviewList) {
+				seqList.add(vo.getReviewSeq());
 			}
+			HashMap<String, List<String>> seqMap = new HashMap<>();
+			seqMap.put("seqList", seqList);
+			
+			reviewImageList = service.getReviewImageListByReviewSeq(seqMap);
+			//System.out.println(">>>>>>>>>>>>>>>>>>>reviewImageList = "+reviewImageList);
 		}
 
 		req.setAttribute("keyword", keyword);

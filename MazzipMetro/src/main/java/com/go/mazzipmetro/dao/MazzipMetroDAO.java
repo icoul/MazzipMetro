@@ -1,5 +1,6 @@
 package com.go.mazzipmetro.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -147,8 +148,8 @@ public class MazzipMetroDAO implements IDAO{
 	}
 
 	// 리뷰이미지가져오기
-	public List<HashMap<String, String>> getReviewImageListByReviewSeq(HashMap<String, List<String>> map) {
-		return sqlSession.selectList("review.getReviewImageListByReviewSeq_search", map);
+	public List<String> getReviewImageListByReviewSeq(HashMap<String, List<String>> seqMap) {
+		return sqlSession.selectList("review.getReviewImageListByReviewSeq_search", seqMap);
 	}
 
 	// 페이징 작업 (총 게시물 수, 총 페이지수)

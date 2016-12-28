@@ -13,8 +13,15 @@
 	</select> -->
 	
 	<!-- 동현_ search 페이지에 사용할 reviewImageList 구하기 -->
-	<select id="getReviewImageListByReviewSeq_search"  parameterType="java.util.HashMap" resultMap="dataresultmap4">
-		select revImgSeq, reviewSeq, reviewImg
+	<select id="getReviewImageListByReviewSeq_search"  parameterType="java.util.HashMap" resultType="String">
+		select min(reviewImg)
+		from tbl_review_image
+		where reviewImageStatus = 0 and reviewSeq in
+		<foreach collection="seqList"  index="i" open="(" close=")" separator=",">
+			${seqList[i]}
+		</foreach>
+		group by reviewSeq
+		<!-- select reviewImg
 		from (
 		select V.*
 		     , rank ( ) over ( partition by reviewSeq order by revImgSeq desc) as num
@@ -24,7 +31,7 @@
 		<foreach collection="seqList"  index="i" open="(" close=")" separator=",">
 			${seqList[i]}
 		</foreach>
-		order by reviewSeq desc
+		order by reviewSeq desc -->
 	</select>
 	
 	<select id="getReviewImageList" resultType="String">
