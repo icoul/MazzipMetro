@@ -21,26 +21,8 @@
 	});
 </script>
 
-<%-- <table id = "mainContent">
-	<tr>
-		<td width = "50px;" rowspan="3"><img src = "<%=request.getContextPath()%>/files/rest/${rvo.restImg}" width="200px" /></td>
-		<td width = "10px;" rowspan="3" style = "border-right:solid lightgrey 3px;"></td>
-		<td class = "content" width = "400px;" style = "height : 50px; padding-top : 10px; "><span style = "font-size: 35pt; font-weight: bold; font-family: 맑은고딕">${rvo.restName}</span>&nbsp;${rvo.restBgTag}</td>
-	</tr>
-	<tr>
-		<td class = "content">${rvo.restContent}</td>
-	</tr>
-	<c:if test="${adImage != null && not empty adImage}">
-		<tr align = "right">
-			<c:forEach var="list" items="${adImage}">
-				<td class = "content" ><img src = "<%=request.getContextPath()%>/${list}" width="50px" /></td>
-			</c:forEach>
-		</tr>
-	</c:if>
-</table> --%>
-
 <table id = "mainContent">
 	<tr>
-		<td><img src = "<%=request.getContextPath()%>/files/content/mainContent_403.jpg"/></td>
+		<td><img src = "<%=request.getContextPath()%>/files/content/mainContent_${rvo.restSeq}.jpg"/></td>
 	</tr>
 </table>

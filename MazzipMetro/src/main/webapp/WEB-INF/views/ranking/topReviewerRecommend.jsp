@@ -23,7 +23,7 @@
 	.contArea .restList ul li h2 img{vertical-align:middle; padding-right:5px;}
 	.contArea .restList ul li h2 .part{font-weight:normal; font-size:12px; margin:0 0 0 5px;}
 	
-	.contArea .restList ul li .photoDiv{display:inline-block; float:left; width:250px;}
+	.contArea .restList ul li .photoDiv{display:inline-block; float:left; width:250px; height : 250px;}
 	.contArea .restList ul li .textDiv{display:inline-block; width:250px; margin-left : 10px;}
 	.contArea .restList ul li .textDiv dl dd.summary{line-height:2em;}
 	.contArea .restList ul li .textDiv dl dd.summary a:hover{text-decoration:underline;}

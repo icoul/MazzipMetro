@@ -62,10 +62,11 @@
 		      (
 		      select restseq, avg(reviewavgscore) as reviewavgscore, count(*) as count
 		      from TBL_Review
+		       where reviewregdate > (sysdate - 7)
 		      group by restseq
 		      )F  
 		on T.restSeq = F.restSeq
-        where restRegDate > (sysdate - 7)
+        where 1=1
 			<foreach collection="optionList" item="option">
 				and ${option.parameter} like '%' || #{option.value} || '%' 
 			</foreach>
@@ -78,10 +79,11 @@
 		      (
 		      select restseq, avg(reviewavgscore) as reviewavgscore, count(*) as count
 		      from TBL_Review
+		      where restRegDate > (sysdate - 30)
 		      group by restseq
 		      )F  
 		on T.restSeq = F.restSeq
-        where restRegDate > (sysdate - 30)
+        where 1=1
 			<foreach collection="optionList" item="option">
 				and ${option.parameter} like '%' || #{option.value} || '%' 
 			</foreach>
@@ -94,10 +96,11 @@
 		      (
 		      select restseq, avg(reviewavgscore) as reviewavgscore, count(*) as count
 		      from TBL_Review
+		      where restRegDate > (sysdate - 90)
 		      group by restseq
 		      )F  
 		on T.restSeq = F.restSeq
-        where restRegDate > (sysdate - 90)
+        where 1=1
 			<foreach collection="optionList" item="option">
 				and ${option.parameter} like '%' || #{option.value} || '%' 
 			</foreach>
@@ -110,10 +113,11 @@
 		      (
 		      select restseq, avg(reviewavgscore) as reviewavgscore, count(*) as count
 		      from TBL_Review
+		      where restRegDate > (sysdate - 365)
 		      group by restseq
 		      )F  
 		on T.restSeq = F.restSeq
-        where restRegDate > (sysdate - 365)
+        where 1=1
 			<foreach collection="optionList" item="option">
 				and ${option.parameter} like '%' || #{option.value} || '%' 
 			</foreach>
@@ -133,7 +137,7 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where 1=1
+		    where 1=1 and E.reviewStatus = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
@@ -154,7 +158,7 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where E.reviewRegDate > (sysdate - 7)
+		    where E.reviewRegDate > (sysdate - 7) and E.reviewStatus = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
@@ -175,7 +179,7 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where E.reviewRegDate > (sysdate - 30)
+		    where E.reviewRegDate > (sysdate - 30) and E.reviewStatus = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
@@ -196,7 +200,7 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where E.reviewRegDate > (sysdate - 90)
+		    where E.reviewRegDate > (sysdate - 90) and E.reviewStatus = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
@@ -217,7 +221,7 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where E.reviewRegDate > (sysdate - 365)
+		    where E.reviewRegDate > (sysdate - 365) and E.reviewStatus = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
@@ -285,6 +289,7 @@
 		      (
 		      select restseq, avg(reviewavgscore) as reviewavgscore, count(*) as count
 		      from TBL_Review
+		      where reviewregdate > (sysdate - 7)
 		      group by restseq
 		      )F  
 				on T.restSeq = F.restSeq
@@ -293,7 +298,7 @@
 		    join TBL_Dong D
 		    on T.dongId = D.dongId
 		)V
-		where restRegDate > (sysdate - 7)
+		where 1=1
 			<foreach collection="optionList" item="option">
 				and ${option.parameter} like '%' || #{option.value} || '%' 
 			</foreach>
@@ -314,6 +319,7 @@
 		      (
 		      select restseq, avg(reviewavgscore) as reviewavgscore, count(*) as count
 		      from TBL_Review
+		      where restRegDate > (sysdate - 30)
 		      group by restseq
 		      )F  
 				on T.restSeq = F.restSeq
@@ -322,7 +328,7 @@
 		    join TBL_Dong D
 		    on T.dongId = D.dongId
 		)V
-		where restRegDate > (sysdate - 30)
+		where 1=1
 			<foreach collection="optionList" item="option">
 				and ${option.parameter} like '%' || #{option.value} || '%' 
 			</foreach>
@@ -343,6 +349,7 @@
 		      (
 		      select restseq, avg(reviewavgscore) as reviewavgscore, count(*) as count
 		      from TBL_Review
+		      where restRegDate > (sysdate - 90)
 		      group by restseq
 		      )F  
 				on T.restSeq = F.restSeq
@@ -351,7 +358,7 @@
 		    join TBL_Dong D
 		    on T.dongId = D.dongId
 		)V
-		where restRegDate > (sysdate - 90)
+		where 1=1
 			<foreach collection="optionList" item="option">
 				and ${option.parameter} like '%' || #{option.value} || '%' 
 			</foreach>
@@ -372,6 +379,7 @@
 		      (
 		      select restseq, avg(reviewavgscore) as reviewavgscore, count(*) as count
 		      from TBL_Review
+		      where restRegDate > (sysdate - 365)
 		      group by restseq
 		      )F  
 				on T.restSeq = F.restSeq
@@ -380,7 +388,7 @@
 		    join TBL_Dong D
 		    on T.dongId = D.dongId
 		)V
-		where restRegDate > (sysdate - 365)
+		where 1=1
 			<foreach collection="optionList" item="option">
 				and ${option.parameter} like '%' || #{option.value} || '%' 
 			</foreach>
@@ -423,7 +431,7 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where 1=1
+		    where 1=1 and E.reviewStatus = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
@@ -464,7 +472,7 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where E.reviewRegDate > (sysdate - 7)
+		    where E.reviewRegDate > (sysdate - 7) and E.reviewStatus = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
@@ -505,7 +513,7 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where E.reviewRegDate > (sysdate - 30)
+		    where E.reviewRegDate > (sysdate - 30) and E.reviewStatus = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
@@ -546,7 +554,7 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where E.reviewRegDate > (sysdate - 90)
+		    where E.reviewRegDate > (sysdate - 90) and E.reviewStatus = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
@@ -587,7 +595,7 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where E.reviewRegDate > (sysdate - 365)
+		    where E.reviewRegDate > (sysdate - 365) and E.reviewStatus = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
