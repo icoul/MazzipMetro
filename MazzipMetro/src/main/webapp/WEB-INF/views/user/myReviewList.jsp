@@ -16,28 +16,41 @@
 	function reviewDel(reviewSeq, restName) {
 		
 	    var bool = confirm(restName + "의 리뷰를 정말로 삭제하시겠습니까?");
-
-	    if(bool) {
-	    	
-	    	$.ajax({
-				url:"<%=request.getContextPath()%>/reviewDelete.eat",
-				type :"POST",
-				data: "reviewSeq="+reviewSeq+"&restName="+restName,
-				dataType:"html",
-				success: function(del){
-					alert(del);
-					/* <c:if test="${del == 1}">
-						alert("리뷰가 삭제 되었습니다.");
-					</c:if>
-				
-					<c:if test="${del != 1}">
-						alert("리뷰가 삭제 되지 않았습니다.");
-					</c:if> */
+    	 
+		if(bool) {
+	    
+			$.ajax({	
+				url:"<%= request.getContextPath() %>/reviewDelete.eat",
+			    type:"GET",
+			    data:"reviewSeq="+reviewSeq,
+				datatype:"html", 
+				success:function(){ 
+					alert("리뷰가 삭제되었습니다.");
+					goList();
 				}
-			});
-	    }
+				
+			});// end of ajax
+			
+		} // end of if
 		
-	}
+	}// end of reviewDel
+		
+	function goList(){
+		
+		var pageNo = ${currentShowPageNo}
+		
+		$.ajax({	
+			url:"<%= request.getContextPath() %>/myReviewList.eat",
+		    type:"GET",
+		    data:"pageNo="+pageNo,
+			datatype:"html", 
+			success:function(data){ 
+				$("#userInfo").html(data);
+			}
+		});// end of ajax
+		
+	}// end of goList
+	
 	
 	
 	$(document).ready(function(){
@@ -72,9 +85,6 @@
 	</table>
 	
 		${pageBar}
-<form name="reviewDelFrm">
-	<input type="hidden" name="reviewSeq" />
-</form>
 
 </div>
 </body>
