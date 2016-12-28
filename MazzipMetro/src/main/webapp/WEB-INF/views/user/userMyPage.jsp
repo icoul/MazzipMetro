@@ -194,17 +194,7 @@ function SgetMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaReg
 		});
 }// end of getMyQnAList
 
-function myQnaList(){
-	alert("myQnaList");
-	$.ajax({	
-		url:"<%= request.getContextPath() %>/myQnaList.eat",
-	    type:"GET",
-		datatype:"html", 
-		success:function(data){ 
-			$("#userInfo").html(data);
-		}
-	});
-}
+
 
 </script>
 <!-- 미현_칭호 붙이기에 쓰이는 css -->

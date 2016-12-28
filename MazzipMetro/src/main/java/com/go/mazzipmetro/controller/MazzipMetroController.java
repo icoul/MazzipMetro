@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.go.mazzipmetro.common.FileManager;
 import com.go.mazzipmetro.common.ThumbnailManager;
@@ -1930,18 +1931,11 @@ public class MazzipMetroController {
 		String qnaRegMonthEnd = req.getParameter("qnaRegMonthEndDeleteFrm");
 		String qnaRegDayEnd = req.getParameter("qnaRegDayEndDeleteFrm");
 		String qnaProgress = req.getParameter("qnaProgressDeleteFrm");
+		
+		String[] qnaSeqCheckBox = req.getParameterValues("qnaSeqCheckBox");
 
-		String[] qnaSeqArr = req.getParameterValues("qnaSeqCheckBox");
-
-		if(qnaSeqArr.length == 0){
-			System.out.println("------------------------------------------------1");
-		}
-		else if(qnaSeqArr.length > 0){
-			
-			for(int i = 0; i < qnaSeqArr.length; ++i){
-				System.out.println("----------------------------------------------------" + qnaSeqArr[i]);
-			}
-		}
+		String[] qnaSeqArr = qnaSeqCheckBox[0].split(",");
+		System.out.println("-----------------------------------------------"+qnaSeqArr[0] + qnaSeqArr[1]);
 		
 		int count = service.countAnswer(qnaSeqArr);
 		int result = service.deleteQna(qnaSeqArr);
@@ -1954,18 +1948,17 @@ public class MazzipMetroController {
 					qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd, qnaRegMonthEnd, qnaRegDayEnd,
 					qnaInquiry, qnaColName, qnaSearch, qnaProgress);
 		} else if (loginUser.getUserSeq().equals("1")) {
-			loc = String.format(
+			/*loc = String.format(
 					"myQnaList.eat?qnaRegYearStart=%s&qnaRegMonthStart=%s&qnaRegDayStart=%s&qnaRegYearEnd=%s&qnaRegMonthEnd=%s&qnaRegDayEnd=%s&qnaInquiry=%s&qnaColName=%s&qnaSearch=%s&qnaProgress=%s",
 					qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd, qnaRegMonthEnd, qnaRegDayEnd,
-					qnaInquiry, qnaColName, qnaSearch, qnaProgress);
+					qnaInquiry, qnaColName, qnaSearch, qnaProgress);*/
 		}
 
 		if (count + qnaSeqArr.length == result) {
-			/*req.setAttribute("msg", "삭제가 완료되었습니다.");
-			req.setAttribute("loc", loc);*/
-			req.setAttribute("loc", "zz"+loc);
-			System.out.println("*************************************************"+loc);
-			return "QnA/loc";
+			req.setAttribute("msg", "삭제가 완료되었습니다.");
+			req.setAttribute("loc", loc);
+			
+			return "QnA/msg";
 		} else {
 			req.setAttribute("msg", "삭제가 실패되었습니다.");
 			req.setAttribute("loc", "javascript:history.back();");

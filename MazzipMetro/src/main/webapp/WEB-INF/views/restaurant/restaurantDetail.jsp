@@ -43,7 +43,7 @@
 	</c:if>
 	
 	<c:if test="${restvo.restImg ne 'noImage.jpg'}"> // 음식점대표이미지가 있을때 
-		$("#largeImg").html("<img src='<%=request.getContextPath() %>/files/rest/${restvo.restImg}' width='460' height='345' />"); //오류해결 : ${}는 문자열결합이 필요없다
+		$("#largeImg").html("<img src='<%=request.getContextPath() %>/files/rest/${restvo.restImg}' width='460' height='345' />"); //오류해결 : 문자열결합이 필요없다
 	</c:if>
 	
 			$(".my_thumbnail").hover(

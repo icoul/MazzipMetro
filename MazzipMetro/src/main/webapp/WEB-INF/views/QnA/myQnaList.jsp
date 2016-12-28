@@ -97,11 +97,10 @@
 		    method:"GET",
 	//	    data:"qnaRegYearStart="+qnaRegYearStart+"&qnaRegMonthStart="+qnaRegMonthStart+"&qnaRegDayStart="+qnaRegDayStart+"&qnaRegYearEnd="+qnaRegYearEnd+"&qnaRegMonthEnd="+qnaRegMonthEnd+"&qnaRegDayEnd="+qnaRegDayEnd +"&qnaInquiry="+qnaInquiry+"&qnaProgress="+qnaProgress+"&test="+"야야야야야" ,
 			data: form_data,
-	        datatype:"html", 
+	        datatype:"text",
 			success:function(data){
 				alert("성공성공성공");
 				$("#userInfo").html(data);
-				alert("afterDeleteQna후");
 			} ,error:function(request,status,error){
 		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 		       }
@@ -111,8 +110,6 @@
 	
 	function qnaDelete(){
 
-		var qnaColName = $("#qnaColName").val();
-		var qnaSearch =$("#qnaSearch").val();
 		var qnaInquiry =$("#qnaInquiry").val();
 		var qnaProgress =$("#qnaProgress").val();
 		var qnaRegYearStart =$("#qnaRegYearStart").val();
@@ -128,21 +125,13 @@
 		});
 		
 		var cnt = chkboxQnaSeqArr.length;
-		/* var cnt = 0;
-		for(var i = 0; i < chkboxQnaSeqArr.length; i++){
-			if(chkboxQnaSeqArr[i].checked){
-				cnt++;
-			}else{ //qna목록에서 체크가 안된 qna는 삭제를 해주면 안된다. 서브밋 대상에서 제외시킨다.
-				chkboxQnaSeqArr[i].disabled = true;
-				document.getElementById("qnaSeqCheckBox"+i).disabled = true;
-			}
-		} */
 		
 		if(cnt == 0){
 			alert("삭제하실 Q&A를 하나 이상 선택하세요!!");
 			for(var i = 0; i < chkboxQnaSeqArr.length; i++){
 				chkboxQnaSeqArr[i].disabled = false;
 				document.getElementById("qnaSeqCheckBox"+i).disabled = false;
+				//return;
 			}
 		}else{
 			$.ajaxSettings.traditional = true;
@@ -151,18 +140,19 @@
 			    method:"POST",
 			    data:"qnaSeqCheckBox="+chkboxQnaSeqArr+"&qnaColNameDeleteFrm="+qnaColName+"&qnaSearchDeleteFrm="+qnaSearch+"&qnaInquiryDeleteFrm="+qnaInquiry+"&qnaProgressDeleteFrm="+qnaProgress+"&qnaRegYearStartDeleteFrm="+qnaRegYearStart
 			    	+"&qnaRegMonthStartDeleteFrm="+qnaRegMonthStart+"&qnaRegDayStartDeleteFrm="+qnaRegDayStart+"&qnaRegYearEndDeleteFrm="+qnaRegYearEnd+"&qnaRegMonthEndDeleteFrm="+qnaRegMonthEnd+"&qnaRegDayEndDeleteFrm="+qnaRegDayEnd,
-				datatype:"html", 
+				datatype:"html",
 				success:function(data){
 					//alert(qnaRegYearStart+""+ qnaRegMonthStart+""+qnaRegDayStart+""+ qnaRegYearEnd +""+qnaRegMonthEnd+""+qnaRegDayEnd+""+ qnaInquiry+""+ qnaProgress);
-					alert("qnaDelete전");
-					//afterDeleteQna(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd ,qnaRegMonthEnd, qnaRegDayEnd, qnaInquiry, qnaProgress);
-					myQnaList();
-					alert("qnaDelete후");
-				}
+					afterDeleteQna(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd ,qnaRegMonthEnd, qnaRegDayEnd, qnaInquiry, qnaProgress);
+				} ,error:function(request,status,error){
+			        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			       }
 			});
+			
 		}
 		
-	}
+	} 
+	
 	
 </script>
 
@@ -249,7 +239,7 @@
         </nav>
         
         <div class="table-responsive col-md-12">
-          <form name="deleteFrm"> 
+        	<!-- <form name="deleteFrm"> -->
             <table class="table table-striped table-hover">
                 <thead>
                 	<tr>
@@ -303,7 +293,7 @@
 	            <input type="hidden" name="qnaRegMonthEndDeleteFrm" value="${qnaRegMonthEnd }" />
 	            <input type="hidden" name="qnaRegDayEndDeleteFrm" value="${qnaRegDayEnd }" />
 	            <input type="hidden" name="qnaProgressDeleteFrm" value="${qnaProgress }" />
-	    	</form>  
+	    	 <!-- </form> -->
         </div>
         
         <div>${pageBar}</div>
