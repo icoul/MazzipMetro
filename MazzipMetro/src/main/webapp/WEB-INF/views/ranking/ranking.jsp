@@ -46,7 +46,7 @@
 <div class="subleftCon" style="height:1500px; font-size:25px;">
 	<h2>맛집 랭킹</h2>
 </div>
-<div  class="subrightCon" style="height:auto;">
+<div  class="subrightCon" style="height:1500px;">
 	<nav style="padding-left:30px;" class="navbar navbar-default">
 	  <div class="container-fluid">
 	    <ul align="center" class="nav navbar-nav">

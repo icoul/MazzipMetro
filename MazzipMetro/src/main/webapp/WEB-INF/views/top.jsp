@@ -625,7 +625,7 @@ function getLoginUserInfo(){
 				    <div class="input-group" style="width: 100%;">
 				      <input type="text" class="form-control" name="keyword" id="keyword" size="50" placeholder="검색어를 입력하세요!" onkeydown="goButton();" required>
 				      <div class="input-group-btn">
-				        <button type="button" class="btn btnColor" onclick="goSearch();"><i class="glyphicon glyphicon-search"></i> &nbsp;<span>검색</button>
+				        <button type="button" class="btn btnColor" style="height:34px;" onclick="goSearch();"><i class="glyphicon glyphicon-search"></i> &nbsp;<span>검색</button>
 				      </div>
 				    </div>
 				  </form>
