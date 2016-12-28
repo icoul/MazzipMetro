@@ -298,7 +298,7 @@ $(document).ready(function(){
 </table>
 
 <%-- 성별 비율 --%>
-<table style="width:100%; height:389px;" id="table_Gender">
+<table style="width:100%; height:289px;" id="table_Gender">
 	<tr>
 		<td style="width:30%; height:100px; vertical-align:middle;" align="center">
 			<table style="width:90%; margin-left: 5%" class="table" align="center">
@@ -341,7 +341,7 @@ $(document).ready(function(){
 </table>
 
 <%-- 나이별 비율 --%>
-<table style="width:100%; height:389px;" id="table_AgeLine">
+<table style="width:100%; height:289px;" id="table_AgeLine">
 	<tr>
 		<td style="width:30%; height:100px; vertical-align:middle;" align="center">
 			<table style="width:90%; margin-left: 5%" class="table" align="center">
@@ -384,7 +384,7 @@ $(document).ready(function(){
 </table>
 
 <%-- 리뷰수 비율 --%>
-<table style="width:100%; height:389px;" id="table_ReviewCount">
+<table style="width:100%; height:289px;" id="table_ReviewCount">
 	<tr>
 		<td style="width:30%; height:100px; vertical-align:middle;" align="center">
 			<table style="width:90%; margin-left: 5%" class="table" align="center">
@@ -427,7 +427,7 @@ $(document).ready(function(){
 </table>
 
 <%-- 리뷰평점 비율 --%>
-<table style="width:100%; height:389px;" id="table_ReviewGrade">
+<table style="width:100%; height:289px;" id="table_ReviewGrade">
 	<tr>
 		<td style="width:30%; height:100px; vertical-align:middle;" align="center">
 			<table style="width:90%; margin-left: 5%" class="table" align="center">

@@ -77,6 +77,9 @@ $(document).ready(function(){
         <c:forEach var="review" items="${reviewList}" varStatus="status">
             <tr>
             	<td style="border-right:0px;">
+            		<c:if test="${status.index < 3}">
+            			<span style = "color : red; font-weight : bold;">new!!</span><br/>
+            		</c:if>
                     <a href="<%= request.getContextPath() %>/restaurantDetail.eat?restSeq=${review.restSeq}"><img src="<%= request.getContextPath() %>/files/review/${review.reviewImg}" width="70px" height="70px"/></a> &nbsp;&nbsp;
                 </td>
                 <td> 
