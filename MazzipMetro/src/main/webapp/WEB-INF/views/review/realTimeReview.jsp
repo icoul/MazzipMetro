@@ -41,7 +41,7 @@ $(document).ready(function(){
 		
 		var n = 1;
 		var animator  = function(imgblock){
-			imgblock.animate({'top':-89.6*n}, 3000,
+			imgblock.animate({'top':-110.4*n}, 3000,
 							function(){
 							n++;
 							if(n == 9){
