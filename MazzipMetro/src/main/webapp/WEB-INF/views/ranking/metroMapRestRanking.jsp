@@ -19,7 +19,8 @@
 	.contArea{display:inline-block; width:77%; margin:10px 0 0 0;}
 	/*-- [dep] .contArea .restList{display:inline-block; float:left; width:725px; margin:-25px 0 0 0;}	//-- mainSec02로 대체 */
 	.contArea .restList ul li{display:inline-block; float:left; border-bottom:1px solid #e7e7e7; padding:20px 0; width:100%; }
-	.contArea .restList ul li h2{display:block; font-family:굴림, Gulim; font-size:20px; padding:0 0 10px 0;}
+	.contArea .restList ul li h2{display:block; font-size:20px; padding:0 0 10px 0; vertical-align: middle;}
+	.contArea .restList ul li h2 a{vertical-align: baseline;}
 	.contArea .restList ul li h2 a:hover{text-decoration:underline;}
 	.contArea .restList ul li h2 img{vertical-align:middle; padding-right:5px;}
 	.contArea .restList ul li h2 .part{font-weight:normal; font-size:12px; margin:0 0 0 5px;}
@@ -70,7 +71,7 @@
 			<li>
 				<h2>${list.rank}등. <a href = "<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${list.restSeq}">${list.restName}</a>. ${list.restBgTag}</h2>
 				<div class="photoDiv">
-					<div><img width="200px;" src="<%= request.getContextPath() %>/files/rest/${list.restImg}" /></div>
+					<div><img width="100px;" height="100px;" src="<%= request.getContextPath() %>/files/rest/thumb/thumb${list.restImg}" /></div>
 				</div>
 				<div class="textDiv">
 					<dl>

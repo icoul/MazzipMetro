@@ -169,7 +169,7 @@
 			from(
 			select A.*, B.userName, B.userProfile
 			from(
-			select A.reviewImg, B.reviewSeq, B.userSeq, B.restSeq, B.reviewTitle, substr(B.reviewContent,1,10)||'..' as reviewContent, B.reviewAvgScore
+			select A.reviewImg, B.reviewSeq, B.userSeq, B.restSeq, B.reviewTitle, substr(B.reviewContent,1,20)||'..' as reviewContent, B.reviewAvgScore
 			from (
 			select max(reviewSeq) as reviewSeq, max(reviewImg) as reviewImg
 			from tbl_review_Image

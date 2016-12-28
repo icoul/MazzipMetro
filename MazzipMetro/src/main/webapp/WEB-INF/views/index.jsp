@@ -406,49 +406,49 @@
 		<div class="mainBann" style = "width: 100%; margin-bottom : 25px;">
 			<img alt="" src="<%=request.getContextPath() %>/resources/images/metroMap.png"  usemap="#mazzipMetroImgMap" style="margin-top: 15px;margin-bottom: 15px;">
 			<map id="mazzipMetroImgMap" name="mazzipMetroImgMap">
-				<area shape="circle" alt="잠실역" 				  	coords="617,452,20" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2005" id="2005" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-				<area shape="circle" alt="잠실나루역" 			  	coords="661,450,19" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2006" id="2006" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-				<area shape="circle" alt="강변역" 				  	coords="704,440,19" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2007" id="2007" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-				<area shape="circle" alt="구의역" 				  	coords="745,419,17" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2008" id="2008" name="metroMapArea" class='tooltip_group tooltipster_right'/>
-				<area shape="circle" alt="건대입구역"	 		  	coords="775,386,19" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2009" id="2009" name="metroMapArea" class='tooltip_group tooltipster_right'/>
-				<area shape="circle" alt="성수역" 				  	coords="800,349,18" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2010" id="2010" name="metroMapArea" class='tooltip_group tooltipster_right'/>
-				<area shape="circle" alt="뚝섬역" 				  	coords="814,302,18" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2011" id="2011" name="metroMapArea" class='tooltip_group tooltipster_right'/>
-				<area shape="circle" alt="한양대역" 				coords="817,255,17" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2012" id="2012" name="metroMapArea" class='tooltip_group tooltipster_right'/>
-				<area shape="circle" alt="왕십리역" 				coords="802,212,18" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2043" id="2043" name="metroMapArea" class='tooltip_group tooltipster_right'/>
-				<area shape="circle" alt="상왕십리역" 			  	coords="784,173,17" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2014" id="2014" name="metroMapArea" class='tooltip_group tooltipster_right'/>
-				<area shape="circle" alt="신당역" 				  	coords="747,137,15" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2015" id="2015" name="metroMapArea" class='tooltip_group tooltipster_right'/>
-				<area shape="circle" alt="동대문역사문화공원역" coords="713,113,15" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2016" id="2016" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-				<area shape="circle" alt="을지로4가역" 			coords="668,99,17"   	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2017" id="2017" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-				<area shape="circle" alt="을지로3가역" 			coords="621,95,17"   	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2018" id="2018" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-				<area shape="circle" alt="을지로입구역" 		  	coords="573,97,18"   	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2019" id="2019" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-				<area shape="circle" alt="시청역" 				  	coords="526,97,18"  	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2020" id="2020" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-				<area shape="circle" alt="충정로역" 				coords="478,97,18" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2021" id="2021" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-				<area shape="circle" alt="아현역" 			  	  	coords="430,97,18" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2022" id="2022" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-				<area shape="circle" alt="이대역" 				  	coords="381,96,18" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2023" id="2023" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-				<area shape="circle" alt="신촌역" 				  	coords="333,97,17" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2024" id="2024" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-				<area shape="circle" alt="홍대역" 				  	coords="283,98,18" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2025" id="2025" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-				<area shape="circle" alt="합정역" 				  	coords="238,96,17" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2026" id="2026" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-				<area shape="circle" alt="당산역" 			      	coords="193,103,17" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2027" id="2027" name="metroMapArea" class='tooltip_group tooltipster_top'/>
-				<area shape="circle" alt="영등포구청역" 		  	coords="150,111,15" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2028" id="2028" name="metroMapArea" class='tooltip_group tooltipster_left'/>
-				<area shape="circle" alt="문래역" 				  	coords="116,134,18" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2029" id="2029" name="metroMapArea" class='tooltip_group tooltipster_left'/>
-				<area shape="circle" alt="신도림역" 				coords="83,165,17" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2030" id="2030" name="metroMapArea" class='tooltip_group tooltipster_left'/>
-				<area shape="circle" alt="대림역" 				  	coords="59,200,17" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2031" id="2031" name="metroMapArea" class='tooltip_group tooltipster_left'/>
-				<area shape="circle" alt="구로디지털단지역" 	  	coords="45,239,17" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2032" id="2032" name="metroMapArea" class='tooltip_group tooltipster_left'/>
-				<area shape="circle" alt="신대방역" 				coords="40,280,16"  	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2033" id="2033" name="metroMapArea" class='tooltip_group tooltipster_left'/>
-				<area shape="circle" alt="신림역" 				  	coords="47,322,18" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2034" id="2034" name="metroMapArea" class='tooltip_group tooltipster_left'/>
-				<area shape="circle" alt="봉천역" 				  	coords="63,361,17" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2035" id="2035" name="metroMapArea" class='tooltip_group tooltipster_left'/>
-				<area shape="circle" alt="서울대입구역"		  	coords="88,392,15" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2036" id="2036" name="metroMapArea" class='tooltip_group tooltipster_left'/>
-				<area shape="circle" alt="낙성대역" 				coords="125,418,17" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2037" id="2037" name="metroMapArea" class='tooltip_group tooltipster_left'/>
-				<area shape="circle" alt="사당역" 				  	coords="160,441,16" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2038" id="2038" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-				<area shape="circle" alt="방배역" 				  	coords="203,451,17" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2039" id="2039" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-				<area shape="circle" alt="서초역" 			 	  	coords="244,455,17" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2040" id="2040" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-				<area shape="circle" alt="교대역" 				  	coords="293,455,18" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2041" id="2041" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-				<area shape="circle" alt="강남역" 				  	coords="337,455,17" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2042" id="2042" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-				<area shape="circle" alt="역삼역" 				  	coords="382,455,17" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2001" id="2001" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-				<area shape="circle" alt="선릉역" 				  	coords="432,454,18" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2002" id="2002" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-				<area shape="circle" alt="삼성역" 				  	coords="477,455,17" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2003" id="2003" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-				<area shape="circle" alt="종합운동장역" 		  	coords="524,455,17" 	href="javascript:goAlert('종합운동장역');" 														id="2004" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
-				<area shape="circle" alt="신천역" 				  	coords="573,454,18" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2061" id="2061" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+				<area shape="circle" alt="잠실역" 				  	coords="918,494,21" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2005" id="2005" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+				<area shape="circle" alt="잠실나루역" 			  	coords="973,490,21" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2006" id="2006" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+				<area shape="circle" alt="강변역" 				  	coords="1021,479,22" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2007" id="2007" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+				<area shape="circle" alt="구의역" 				  	coords="1065,453,21" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2008" id="2008" name="metroMapArea" class='tooltip_group tooltipster_right'/>
+				<area shape="circle" alt="건대입구역"	 		  	coords="1104,418,22" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2009" id="2009" name="metroMapArea" class='tooltip_group tooltipster_right'/>
+				<area shape="circle" alt="성수역" 				  	coords="1133,371,21" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2010" id="2010" name="metroMapArea" class='tooltip_group tooltipster_right'/>
+				<area shape="circle" alt="뚝섬역" 				  	coords="1152,317,21" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2011" id="2011" name="metroMapArea" class='tooltip_group tooltipster_right'/>
+				<area shape="circle" alt="한양대역" 				coords="1154,262,21" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2012" id="2012" name="metroMapArea" class='tooltip_group tooltipster_right'/>
+				<area shape="circle" alt="왕십리역" 				coords="1137,211,21" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2043" id="2043" name="metroMapArea" class='tooltip_group tooltipster_right'/>
+				<area shape="circle" alt="상왕십리역" 			  	coords="1109,165,21" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2014" id="2014" name="metroMapArea" class='tooltip_group tooltipster_right'/>
+				<area shape="circle" alt="신당역" 				  	coords="1071,129,21" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2015" id="2015" name="metroMapArea" class='tooltip_group tooltipster_right'/>
+				<area shape="circle" alt="동대문역사문화공원역" coords="1028,100,22" 	href="<%=request.getContextPath() %>/metroMap.eat?metroId=2016" id="2016" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+				<area shape="circle" alt="을지로4가역" 			coords="979,82,22"   		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2017" id="2017" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+				<area shape="circle" alt="을지로3가역" 			coords="922,77,22"   		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2018" id="2018" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+				<area shape="circle" alt="을지로입구역" 		  	coords="869,75,20"   		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2019" id="2019" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+				<area shape="circle" alt="시청역" 				  	coords="812,76,22"  		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2020" id="2020" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+				<area shape="circle" alt="충정로역" 				coords="754,77,21" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2021" id="2021" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+				<area shape="circle" alt="아현역" 			  	  	coords="700,76,21" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2022" id="2022" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+				<area shape="circle" alt="이대역" 				  	coords="643,76,22" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2023" id="2023" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+				<area shape="circle" alt="신촌역" 				  	coords="587,77,21" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2024" id="2024" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+				<area shape="circle" alt="홍대역" 				  	coords="530,78,21" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2025" id="2025" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+				<area shape="circle" alt="합정역" 				  	coords="475,77,21" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2026" id="2026" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+				<area shape="circle" alt="당산역" 			      	coords="423,82,22" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2027" id="2027" name="metroMapArea" class='tooltip_group tooltipster_top'/>
+				<area shape="circle" alt="영등포구청역" 		  	coords="375,97,21" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2028" id="2028" name="metroMapArea" class='tooltip_group tooltipster_left'/>
+				<area shape="circle" alt="문래역" 				  	coords="329,121,21" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2029" id="2029" name="metroMapArea" class='tooltip_group tooltipster_left'/>
+				<area shape="circle" alt="신도림역" 				coords="293,155,22" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2030" id="2030" name="metroMapArea" class='tooltip_group tooltipster_left'/>
+				<area shape="circle" alt="대림역" 				  	coords="268,197,22" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2031" id="2031" name="metroMapArea" class='tooltip_group tooltipster_left'/>
+				<area shape="circle" alt="구로디지털단지역" 	  	coords="250,241,22" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2032" id="2032" name="metroMapArea" class='tooltip_group tooltipster_left'/>
+				<area shape="circle" alt="신대방역" 				coords="245,291,20"  		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2033" id="2033" name="metroMapArea" class='tooltip_group tooltipster_left'/>
+				<area shape="circle" alt="신림역" 				  	coords="253,336,21" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2034" id="2034" name="metroMapArea" class='tooltip_group tooltipster_left'/>
+				<area shape="circle" alt="봉천역" 				  	coords="269,385,20" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2035" id="2035" name="metroMapArea" class='tooltip_group tooltipster_left'/>
+				<area shape="circle" alt="서울대입구역"		  	coords="300,425,21" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2036" id="2036" name="metroMapArea" class='tooltip_group tooltipster_left'/>
+				<area shape="circle" alt="낙성대역" 				coords="338,454,20" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2037" id="2037" name="metroMapArea" class='tooltip_group tooltipster_left'/>
+				<area shape="circle" alt="사당역" 				  	coords="386,475,21" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2038" id="2038" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+				<area shape="circle" alt="방배역" 				  	coords="435,488,21" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2039" id="2039" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+				<area shape="circle" alt="서초역" 			 	  	coords="486,494,21" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2040" id="2040" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+				<area shape="circle" alt="교대역" 				  	coords="537,494,20" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2041" id="2041" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+				<area shape="circle" alt="강남역" 				  	coords="591,494,21" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2042" id="2042" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+				<area shape="circle" alt="역삼역" 				  	coords="647,494,21" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2001" id="2001" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+				<area shape="circle" alt="선릉역" 				  	coords="702,493,20" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2002" id="2002" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+				<area shape="circle" alt="삼성역" 				  	coords="756,493,20" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2003" id="2003" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+				<area shape="circle" alt="종합운동장역" 		  	coords="812,493,20" 		href="javascript:goAlert('종합운동장역');" 														id="2004" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
+				<area shape="circle" alt="신천역" 				  	coords="868,494,21" 		href="<%=request.getContextPath() %>/metroMap.eat?metroId=2061" id="2061" name="metroMapArea" class='tooltip_group tooltipster_bottom'/>
 			</map>
 		</div>
 		

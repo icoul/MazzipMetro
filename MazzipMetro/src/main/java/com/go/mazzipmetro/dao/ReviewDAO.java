@@ -189,6 +189,14 @@ public class ReviewDAO implements IDAO{
 			map.put("metroId", metroId);
 		
 			HashMap<String, String> resultMap = sqlSession.selectOne("review.getBestReview", map);
+			int contentLength = resultMap.get("reviewContent").length();
+			
+			if (contentLength > 70) {
+				String content = resultMap.get("reviewContent");
+				content = content.substring(0, 60) + "....";
+				resultMap.put("reviewContent", content);
+			}
+			
 			bestReview.add(resultMap);
 		}
 		
