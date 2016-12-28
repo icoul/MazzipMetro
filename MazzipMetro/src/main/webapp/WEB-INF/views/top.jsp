@@ -608,7 +608,7 @@ function getLoginUserInfo(){
 						  		<a class="dx_drop_anchor" style="padding-bottom: 30px;">관리자메뉴</a>
 								  <div class="dx_dropdown-content">
 									<a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a>
-									<a href="<%=request.getContextPath()%>/adminUserList.eat">회원관리</a>
+									<a href="<%=request.getContextPath()%>/adminUserList.eat?pageNo=1">회원관리</a>
 									<a href="<%=request.getContextPath()%>/adminContentList.eat">컨텐츠관리</a>
 									<a href="<%=request.getContextPath()%>/adminQnaList.eat">고객문의내역</a>
 								  </div>
@@ -625,7 +625,7 @@ function getLoginUserInfo(){
 				    <div class="input-group" style="width: 100%;">
 				      <input type="text" class="form-control" name="keyword" id="keyword" size="50" placeholder="검색어를 입력하세요!" onkeydown="goButton();" required>
 				      <div class="input-group-btn">
-				        <button type="button" class="btn btnColor" onclick="goSearch();"><i class="glyphicon glyphicon-search"></i> &nbsp;<span>검색</button>
+				        <button type="button" class="btn btnColor" style="height:34px;" onclick="goSearch();"><i class="glyphicon glyphicon-search"></i> &nbsp;<span>검색</button>
 				      </div>
 				    </div>
 				  </form>

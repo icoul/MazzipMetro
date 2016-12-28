@@ -27,7 +27,10 @@ ul.pagination li a:hover:not(.active) {background-color: #ddd;}
 </style>
 <div>
 	<hr/> 
-		<table style = "border : solid red 1px; width: 700px; ">
+		<table style = "width: 700px; ">
+			<tr>
+				<th colspan = "2"><span style = "font-size : 14pt;">이런 맛집은 어떠세요?</span></th>
+			</tr>
 		<c:forEach var="list" items="${rvoList }">
 			<tr >
 				<td style="width : 100px; padding: 10px; height: 120px;">

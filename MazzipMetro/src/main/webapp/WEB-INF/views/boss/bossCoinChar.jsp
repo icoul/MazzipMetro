@@ -52,9 +52,9 @@ input[type=radio] {vertical-align:-3px;}
 			<form name="coinCharFrm" action="<%= request.getContextPath() %>/bossCoinResiEnd.eat" method="post">	
 			코인충전액 : 
 			<select name="userPoint" id="userPoint" style="height:25px;"><%--name을 파라미터에 controller로 받으면 나옴 --%>
-				<option value="100000"><fmt:formatNumber pattern="###,###" value="1000000" /></option>
-				<option value="500000"><fmt:formatNumber pattern="###,###" value="5000000" /></option>
-				<option value="1000000" ><fmt:formatNumber pattern="###,###" value="10000000" /></option>
+				<option value="100000"><fmt:formatNumber pattern="###,###" value="100000" /></option>
+				<option value="500000"><fmt:formatNumber pattern="###,###" value="500000" /></option>
+				<option value="1000000" ><fmt:formatNumber pattern="###,###" value="1000000" /></option>
 			</select> 원
 			<input type="hidden" name="userSeq"  value="${sessionScope.loginUser.userSeq}" /> 
 			<button class="btnCoin" type="button" onClick="goCharge();">충전하기</button>
