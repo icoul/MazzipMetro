@@ -11,12 +11,10 @@
 <script type="text/javascript">
 		<c:if test="${del == 1}">
 			alert("리뷰가 삭제 되었습니다.");
-			location.href="<%= request.getContextPath() %>/myReviewList.eat";			
 		</c:if>
 		
 		<c:if test="${del != 1}">
 			alert("리뷰가 삭제 되지 않았습니다.");
-			history.back();
 		</c:if>
 	</script>
 </body>
