@@ -315,6 +315,10 @@ function getLoginUserInfo(){
 						if(restSeq == "<%=request.getParameter("restSeq")%>" && btn_id == 'btn_wantToGo_contentView'){
 							$("#btn_restDetailWantToGo").addClass("active");
 						}
+						
+						if(restSeq == "<%=session.getAttribute("reference_restSeq_wantToGo")%>" && btn_id == 'btn_restDetailWantToGo'){
+							$("#btn_wantToGo_contentView").addClass("active");
+						}
 								
 					}, //end of success: function(data)
 					error: function(request, status, error){
