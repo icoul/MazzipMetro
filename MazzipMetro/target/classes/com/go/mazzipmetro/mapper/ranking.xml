@@ -624,7 +624,7 @@
 		      where userSeq = #{userSeq}
 		      order by reviewavgscore desc
 		    )V
-		where rno between 1 and 5
+		where rno between 1 and 1
 		order by dbms_random.value
 		)T
 		where rownum = 1
