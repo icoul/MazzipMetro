@@ -29,10 +29,23 @@
  <script type="text/javascript">
  $(document).ready(function(){
 		//alert("${restSeq}");
-	 <c:if test="${not empty restImageList}">
+	/*  <c:if test="${not empty restImageList}">
 			var adImg =  "${restImageList.get(0)}"; 
 			goLargeImgView(adImg);
-			
+	</c:if> */
+	<c:if test="${restvo.restImg eq 'noImage.jpg' and not empty restImageList}"> //음식점 대표이미지가 없고 음식점소개 이미지리스트가 있을때
+		var adImg =  "${restImageList.get(0)}"; 
+		goLargeImgView(adImg);
+	</c:if>
+	
+	<c:if test="${restvo.restImg eq 'noImage.jpg' and  empty restImageList}"> // 음식점 대표이미지가 없을떄 음식점소개 이미지리스트가 없을때
+		$("#largeImg").html("<img src='<%=request.getContextPath() %>/files/no_image.jpg' width='460' height='345' />");
+	</c:if>
+	
+	<c:if test="${restvo.restImg ne 'noImage.jpg'}"> // 음식점대표이미지가 있을때 
+		$("#largeImg").html("<img src='<%=request.getContextPath() %>/files/rest/${restvo.restImg}' width='460' height='345' />"); //오류해결 : ${}는 문자열결합이 필요없다
+	</c:if>
+	
 			$(".my_thumbnail").hover(
 					function(){
 						$(this).addClass("myborder");
@@ -41,7 +54,7 @@
 						$(this).removeClass("myborder");
 					}
 			);
-	</c:if>
+	
 		
 		getReviewList();
 		
@@ -291,13 +304,14 @@ function goLargeImgView(adImg) {
 	 <div id="restMainImge" style="width: 50%; clear:both; float: left; margin-top: 50px; margin-bottom: 30px;" align="center">
 	 
 	 <div id="largeImg" style="float: left;  border: green solid 0px; width: 100%;">
-	 	<c:if test="${empty restImageList}">
-	 		<img src='<%=request.getContextPath() %>/files/no_image.jpg' width='460' height='345' />
-	 	</c:if>
+	 	
 	</div>  
 		
 	<div  style="border: red solid 0px; clear:both; float:left; width: 100%;  padding: 20px;">
-			<c:forEach var="img" items="${restImageList}" varStatus="status">
+			<c:if test="${restvo.restImg ne 'noImage.jpg'}"> <!-- 음식점 대표이미지가 있으면 썸네일이미지 첫번째로 나타난다 -->
+				<img src="<%= request.getContextPath() %>/files/rest/${restvo.restImg}" width="70px" height="70px" class="my_thumbnail" style="margin-right: 10px;" onmouseover="goLargeImgView('${restvo.restImg}')" />
+			</c:if>
+			<c:forEach var="img" items="${restImageList}" varStatus="status"> 
 				<img src="<%= request.getContextPath() %>/files/rest/${img}" width="70px" height="70px" class="my_thumbnail" style="margin-right: 10px;" onmouseover="goLargeImgView('${img}')" />
 			</c:forEach>
 	</div>

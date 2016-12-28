@@ -78,14 +78,28 @@
 	}
 	
 	function afterDeleteQna(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd ,qnaRegMonthEnd, qnaRegDayEnd, qnaInquiry, qnaProgress){
-		alert(qnaRegYearStart+" "+ qnaRegMonthStart+" "+qnaRegDayStart+" "+ qnaRegYearEnd +" "+qnaRegMonthEnd+" "+qnaRegDayEnd+" "+ qnaInquiry+" "+ qnaProgress);
+		//alert(qnaRegYearStart+" "+ qnaRegMonthStart+" "+qnaRegDayStart+" "+ qnaRegYearEnd +" "+qnaRegMonthEnd+" "+qnaRegDayEnd+" "+ qnaInquiry+" "+ qnaProgress);
+		alert("afterDeleteQna ajax전");
+		
+		var form_data = {qnaRegYearStart : qnaRegYearStart, // 키값:밸류값
+				         qnaRegMonthStart : qnaRegMonthStart,            // 키값:밸류값 
+				         qnaRegDayStart : qnaRegDayStart,
+				         qnaRegYearEnd : qnaRegYearEnd,
+				         qnaRegMonthEnd : qnaRegMonthEnd,
+				         qnaRegDayEnd : qnaRegDayEnd,
+				         qnaInquiry : qnaInquiry,
+				         qnaProgress : qnaProgress,
+				         test : "야야야야"
+			            };
+		
 		$.ajax({	
-			url:"<%= request.getContextPath() %>/myQnaList.eat?",
+			url:'<%= request.getContextPath() %>/myQnaList.eat',
 		    method:"GET",
-		    data:"qnaRegYearStart="+qnaRegYearStart+"&qnaRegMonthStart="+qnaRegMonthStart+"&qnaRegDayStart="+qnaRegDayStart+"&qnaRegYearEnd="+qnaRegYearEnd+"&qnaRegMonthEnd="+qnaRegMonthEnd+"&qnaRegDayEnd="+qnaRegDayEnd+"&qnaInquiry="+qnaInquiry+"&qnaProgress="+qnaProgress+"&test="+"야야야야야",
-			datatype:"html", 
+	//	    data:"qnaRegYearStart="+qnaRegYearStart+"&qnaRegMonthStart="+qnaRegMonthStart+"&qnaRegDayStart="+qnaRegDayStart+"&qnaRegYearEnd="+qnaRegYearEnd+"&qnaRegMonthEnd="+qnaRegMonthEnd+"&qnaRegDayEnd="+qnaRegDayEnd +"&qnaInquiry="+qnaInquiry+"&qnaProgress="+qnaProgress+"&test="+"야야야야야" ,
+			data: form_data,
+	        datatype:"html", 
 			success:function(data){
-				alert("afterDeleteQna전");
+				alert("성공성공성공");
 				$("#userInfo").html(data);
 				alert("afterDeleteQna후");
 			} ,error:function(request,status,error){
@@ -140,8 +154,10 @@
 				datatype:"html", 
 				success:function(data){
 					//alert(qnaRegYearStart+""+ qnaRegMonthStart+""+qnaRegDayStart+""+ qnaRegYearEnd +""+qnaRegMonthEnd+""+qnaRegDayEnd+""+ qnaInquiry+""+ qnaProgress);
-					afterDeleteQna(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd ,qnaRegMonthEnd, qnaRegDayEnd, qnaInquiry, qnaProgress);
-					//alert("qnaDelete완료");
+					alert("qnaDelete전");
+					//afterDeleteQna(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd ,qnaRegMonthEnd, qnaRegDayEnd, qnaInquiry, qnaProgress);
+					myQnaList();
+					alert("qnaDelete후");
 				}
 			});
 		}

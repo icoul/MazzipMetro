@@ -1176,6 +1176,8 @@ public class MazzipMetroController {
 		map.put("userType", "회원");
 
 		List<HashMap<String, String>> myQnaList = service.qnaList(map);
+		
+//		System.out.println(">>>>> 에이작스 확인용 :" + myQnaList.size());
 
 		// 페이징 작업의 계속(페이지바에 나타낼 총 페이지 갯수 구하기)
 		/*
