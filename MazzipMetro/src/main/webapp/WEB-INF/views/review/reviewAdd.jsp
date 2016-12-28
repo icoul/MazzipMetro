@@ -197,7 +197,7 @@ input[name=reviewMdTag]:checked + label:before {
 		var reviewContent = $('#reviewContent').val();
 		var attach = $('#attach').val();
 		var inputAvgScore = $('#inputAvgScore').val();
-		
+
 		 if(attach == null){
 			alert("사진은 1장 이상 필수입니다.");
 			event.preventDefault();
@@ -362,7 +362,11 @@ input[name=reviewMdTag]:checked + label:before {
 			}
 		});
 		
-	});
+		
+		$('#attach').bind('change', function() {
+			alert(this.files[0].size);
+			});
+	});// end of ready
 	
 </script>
 

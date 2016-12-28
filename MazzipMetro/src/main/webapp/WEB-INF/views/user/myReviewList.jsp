@@ -16,16 +16,42 @@
 	function reviewDel(reviewSeq, restName) {
 		
 	    var bool = confirm(restName + "의 리뷰를 정말로 삭제하시겠습니까?");
-
-	    if(bool) {
-	    	var reviewDelFrm = document.reviewDelFrm;
-	    	reviewDelFrm.reviewSeq.value = reviewSeq;
-	    	reviewDelFrm.action = "reviewDelete.eat";
-	    	reviewDelFrm.method = "post";
-	    	reviewDelFrm.submit();
-	    }
+			 
+	    	 
+		if(bool) {
+	    
+			$.ajax({	
+				url:"<%= request.getContextPath() %>/reviewDelete.eat",
+			    type:"GET",
+			    data:"reviewSeq="+reviewSeq,
+				datatype:"html", 
+				success:function(){ 
+					alert("리뷰가 삭제되었습니다.");
+					goList();
+				}
+				
+			});// end of ajax
+			
+		} // end of if
 		
-	}
+	}// end of reviewDel
+		
+	function goList(){
+		
+		var pageNo = ${currentShowPageNo}
+		
+		$.ajax({	
+			url:"<%= request.getContextPath() %>/myReviewList.eat",
+		    type:"GET",
+		    data:"pageNo="+pageNo,
+			datatype:"html", 
+			success:function(data){ 
+				$("#userInfo").html(data);
+			}
+		});// end of ajax
+		
+	}// end of goList
+	
 	
 	
 	$(document).ready(function(){
@@ -60,9 +86,6 @@
 	</table>
 	
 		${pageBar}
-<form name="reviewDelFrm">
-	<input type="hidden" name="reviewSeq" />
-</form>
 
 </div>
 </body>
