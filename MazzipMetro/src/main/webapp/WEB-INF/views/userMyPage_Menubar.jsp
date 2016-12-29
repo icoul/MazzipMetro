@@ -37,7 +37,6 @@
 	        <span class="caret"></span></a>
 	        <ul class="dropdown-menu">
 	          <li id="myReviewList"><a href="#">작성리뷰목록</a></li>
-	          <li><a href="#">새 댓글</a></li>
 	        </ul>
 	      </li>
 	      <li class="dropdown">
