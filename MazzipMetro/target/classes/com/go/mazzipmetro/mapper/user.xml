@@ -18,7 +18,7 @@
 			 default,
 			</if>
 			<if test = "userSort == 1">
-			 null,
+			 'NO',
 			</if>
 			#{userName}, #{userEmail}, #{userPw}, #{userGender},
 			#{userBirthDay}, #{userPhone}, default, #{userProfile},
@@ -41,7 +41,7 @@
 			 default,
 			</if>
 			<if test = "userSort == 1">
-			null,
+			'NO',
 			</if>
 			 #{userName}, #{userEmail}, #{userPw}, #{userGender},
 			#{userBirthDay}, #{userPhone}, default,
@@ -65,7 +65,7 @@
 			 default,
 			</if>
 			<if test = "userSort == 1">
-			null,
+			'NO',
 			</if>
 			#{userName}, #{userEmail}, #{userPw}, #{userGender},
 			#{userBirthDay}, #{userPhone}, default, #{userProfile},
@@ -88,7 +88,7 @@
 			 default,
 			</if>
 			<if test = "userSort == 1">
-			 null,
+			 'NO',
 			</if>
 			#{userName}, #{userEmail}, #{userPw}, #{userGender},
 			#{userBirthDay}, #{userPhone}, default,

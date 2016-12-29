@@ -66,6 +66,7 @@
 				alert("메뉴가격을 작성해주세요");
 				return;
 			}
+
 		}
 		
 		var registerFrm = document.registerFrm;
