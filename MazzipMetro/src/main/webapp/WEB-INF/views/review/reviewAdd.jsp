@@ -88,7 +88,7 @@ table#dx_tag td{text-align: center;  height:  50px;padding: 5px;border: solid 1p
 #tag_icon_fish 			{background:url("<%=request.getContextPath()%>/resources/images/tag_icon_fish.png") no-repeat; background-position: center; background-size: 80px;}
 #tag_icon_vege 		{background:url("<%=request.getContextPath()%>/resources/images/tag_icon_vege.png") no-repeat; background-position: center ; background-size: 80px;}	
 #tag_icon_rice			{background:url("<%=request.getContextPath()%>/resources/images/tag_icon_rice.png") no-repeat; background-position: center ; background-size: 70px;}
-#tag_icon_noodle 	{background:url("<%=request.getContextPath()%>/resources/images/tag_icon_noodle.png") no-repeat; background-position: center 5; background-size: 96px;}
+#tag_icon_noodle 	{background:url("<%=request.getContextPath()%>/resources/images/tag_icon_noodle.png") no-repeat; background-position: center 5px; background-size: 96px;}
 /* 체크박스 대신 체크문자 사용하기 */
 input[name=reviewBgTag], input[name=reviewMdTag] {  
     display: none;  
