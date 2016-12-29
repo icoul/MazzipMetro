@@ -13,16 +13,9 @@
 			 
 	
 </style>
-<script type = "text/javascript">
-	$(document).ready(function(){
-		$("#mainContent").click(function(){
-			location.href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${rvo.restSeq}";
-		});
-	});
-</script>
 
 <table id = "mainContent">
 	<tr>
-		<td><img src = "<%=request.getContextPath()%>/files/content/mainContent_${rvo.restSeq}.jpg"/></td>
+		<td><a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${rvo.restSeq}"><img src = "<%=request.getContextPath()%>/files/content/mainContent_${rvo.restSeq}.jpg"/></a></td>
 	</tr>
 </table>
