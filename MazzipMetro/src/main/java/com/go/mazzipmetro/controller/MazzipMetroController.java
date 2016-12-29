@@ -1935,13 +1935,19 @@ public class MazzipMetroController {
 		String qnaProgress = req.getParameter("qnaProgressDeleteFrm");
 		
 		String[] qnaSeqCheckBox = req.getParameterValues("qnaSeqCheckBox");
-
-		String[] qnaSeqArr = qnaSeqCheckBox[0].split(",");
-		System.out.println("-----------------------------------------------"+qnaSeqArr[0] + qnaSeqArr[1]);
 		
-		int count = service.countAnswer(qnaSeqArr);
-		int result = service.deleteQna(qnaSeqArr);
+		int count = 0;
+		int result = 0;
+		if(!loginUser.getUserSort().equals("2")){ //사용자, 사업자인 경우
+			String[] qnaSeqArr = qnaSeqCheckBox[0].split(",");
 
+			count = service.countAnswer(qnaSeqArr);
+			result = service.deleteQna(qnaSeqArr);
+		}else{ //관리자인경우
+			count = service.countAnswer(qnaSeqCheckBox);
+			result = service.deleteQna(qnaSeqCheckBox);
+		}
+		
 		String loc = "";
 
 		if (loginUser.getUserSeq().equals("0")) {
@@ -1956,7 +1962,7 @@ public class MazzipMetroController {
 					qnaInquiry, qnaColName, qnaSearch, qnaProgress);*/
 		}
 
-		if (count + qnaSeqArr.length == result) {
+		if (count + qnaSeqCheckBox.length == result) {
 			req.setAttribute("msg", "삭제가 완료되었습니다.");
 			req.setAttribute("loc", loc);
 			
