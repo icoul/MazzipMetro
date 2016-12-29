@@ -18,7 +18,7 @@
 	
 	.contArea{display:inline; float:left; width:250px; margin:10px 0 10px 25px; border: solid 1px #e8e8e8;}
 	.contArea .restList ul li{display:inline-block; float:left; border-bottom:1px solid #e7e7e7; padding:20px 0; width:100%; }
-	.contArea .restList ul li h2{display:block; font-family:굴림, Gulim; font-size:20px; padding:0 0 10px 0; margin-left : 10px; height : 70px; vertical-align : middle;}
+	.contArea .restList ul li h2{display:block; font-size:20px; padding:0 0 10px 0; margin-left : 10px; height : 70px; vertical-align : middle;}
 	.contArea .restList ul li h2 a:hover{text-decoration:underline;}
 	.contArea .restList ul li h2 img{vertical-align:middle; padding-right:5px;}
 	.contArea .restList ul li h2 .part{font-weight:normal; font-size:12px; margin:0 0 0 5px;}
@@ -61,7 +61,7 @@
 					<div class="photoDiv">
 						<div>
 							<a href = "<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${rest.restSeq}">
-								<img width="248px;" src="<%= request.getContextPath() %>/files/rest/${rest.restImg}" />
+								<img width="248px;" height="155px;" src="<%= request.getContextPath() %>/files/rest/${rest.restImg}" />
 							</a>
 						</div>
 					</div>

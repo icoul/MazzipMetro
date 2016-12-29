@@ -169,7 +169,7 @@ public class MazzipMetroService implements IService {
 	}
 
 	// 리뷰이미지가져오기
-	public List<HashMap<String, String>> getReviewImageListByReviewSeq(HashMap<String, List<String>> seqMap) {
+	public List<String> getReviewImageListByReviewSeq(HashMap<String, List<String>> seqMap) {
 		return dao.getReviewImageListByReviewSeq(seqMap);
 	}
 

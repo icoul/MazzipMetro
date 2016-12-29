@@ -6,7 +6,7 @@
 </style>
 <table style = "width : 100%; " >
 		<tr>
-			<th colspan = "2">오늘의 맛집</th>
+			<th colspan = "2" style="font-size:20pt;">오늘의 맛집</th>
 		</tr>
 		<tr style = "width : 100%;" >
 			<td style = "border-bottom : solid black 2px;" colspan = "2"></td>

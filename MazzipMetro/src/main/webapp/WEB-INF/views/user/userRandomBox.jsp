@@ -7,7 +7,7 @@
 <title>사용자 랜덤박스</title>
 </head>
 <body>
-	<div class="container">
+	<div class="container" align="center">
 		<div class="row">
 			<div class="col-md-6">
 				<ul>

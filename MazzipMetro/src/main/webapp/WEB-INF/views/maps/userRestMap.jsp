@@ -290,7 +290,7 @@
 							             '        </div>' + 
 							             '        <div class="body">' + 
 							             '            <div class="img">' +
-							             '                <img src="<%=request.getContextPath()%>/files/'+position.restImg+'" width="73" height="70">' +
+							             '                <img src="<%=request.getContextPath()%>/files/rest/'+position.restImg+'" width="73" height="70">' +
 							             '           </div>' + 
 							             '            <div class="desc"><div class="ellipsis">'; 
 							             

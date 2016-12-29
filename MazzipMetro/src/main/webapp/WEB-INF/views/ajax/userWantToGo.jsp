@@ -46,8 +46,8 @@ input[name=wantToGoChk]:checked + label:before {
     height: 18px; 
     text-align: center; 
     line-height: 20px;  
-    left: 93px;
-    top: 1px;
+    left: 108px;
+    top: 54px;
 
 } 
 
@@ -401,7 +401,7 @@ function mazzipMetroPick () {
 				</a>
 			</td>
 			
-			<td class="td_wantToGo" style="cursor: pointer; margin-bottom: 5px; background-position: center; background-repeat: no-repeat; background-size: 100px; ; background-image: url('<%=request.getContextPath()%>/files/rest/${restvo.restImg}');">
+			<td class="td_wantToGo" style="padding-bottom:100px; cursor: pointer; margin-bottom: 5px; background-position: center; background-repeat: no-repeat; background-size: 100px; ; background-image: url('<%=request.getContextPath()%>/files/rest/${restvo.restImg}');">
 					<input type="checkbox" id="chk_${restvo.restSeq}" name="wantToGoChk"  style="display: none;" value="${restvo.restSeq}"/>
 					<label for="chk_${restvo.restSeq}"></label>
 					
