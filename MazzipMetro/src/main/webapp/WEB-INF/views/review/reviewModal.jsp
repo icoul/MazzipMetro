@@ -35,8 +35,8 @@
 	$(document).ready(function(){
 		
 		 
-		/* $("#btntotalCommentCount").hide();
-		$("#btnRomanceCountNEW").hide(); */
+		 $("#btntotalCommentCount").hide();
+		 $("#btnRomanceCountNEW").hide(); 
 		
 		if(parseInt($("#totalCommentCount").text()) == 0) {
 			  $("#spanMoreComment").hide();
