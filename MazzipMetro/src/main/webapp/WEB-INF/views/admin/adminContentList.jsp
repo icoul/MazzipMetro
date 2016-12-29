@@ -6,7 +6,6 @@
 <style type="text/css">
 	#colName {height:23px; font-size:13px;}
 	#adminConStatis {margin-top:50px;}
-	/* input.btnLike {height:100px; width:200px; border:0; background:url(http://localhost:9090/mazzipmetro/resources/images/logoMazzipMetro.png) no-repeat;} */
 </style>
 <script type="text/javascript">
 //미현_ ajax로 그래프 불러오기
