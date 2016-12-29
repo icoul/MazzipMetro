@@ -3,10 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <script type="text/javascript">
-jQuery.noConflict();
+var $ = jQuery.noConflict();
 
 $(function () {	
-    $('#hb_tagStatistics_Bg').highcharts({
+	Highcharts.chart('hb_tagStatistics_Bg', {
     	 chart: {
              plotBackgroundColor: null,
              plotBorderWidth: null,
@@ -58,7 +58,7 @@ $(function () {
  });
 
 $(function () {
-    $('#hb_tagStatistics_Md').highcharts({
+	Highcharts.chart('hb_tagStatistics_Md', {
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: 0,

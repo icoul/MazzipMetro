@@ -137,7 +137,9 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where 1=1 and E.reviewStatus = 0
+		    	 join tbl_user U
+		         	on E.userSeq = U.userSeq
+		    where E.reviewStatus = 0 and U.userSort = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
@@ -158,7 +160,9 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where E.reviewRegDate > (sysdate - 7) and E.reviewStatus = 0
+		    	 join tbl_user U
+		         	on E.userSeq = U.userSeq
+		    where E.reviewRegDate > (sysdate - 7) and E.reviewStatus = 0 and U.userSort = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
@@ -179,7 +183,9 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where E.reviewRegDate > (sysdate - 30) and E.reviewStatus = 0
+		    	 join tbl_user U
+		         	on E.userSeq = U.userSeq
+		    where E.reviewRegDate > (sysdate - 30) and E.reviewStatus = 0 and U.userSort = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
@@ -200,7 +206,9 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where E.reviewRegDate > (sysdate - 90) and E.reviewStatus = 0
+		    	 join tbl_user U
+		         	on E.userSeq = U.userSeq
+		    where E.reviewRegDate > (sysdate - 90) and E.reviewStatus = 0 and U.userSort = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
@@ -221,7 +229,9 @@
 		            on R.metroId = M.metroId
 		         join tbl_dong D
 		            on R.dongId = D.dongId
-		    where E.reviewRegDate > (sysdate - 365) and E.reviewStatus = 0
+		         join tbl_user U
+		         	on E.userSeq = U.userSeq
+		    where E.reviewRegDate > (sysdate - 365) and E.reviewStatus = 0 and U.userSort = 0
 		    	  <foreach collection="optionList" item="option">
 					 and ${option.parameter} like '%' || #{option.value} || '%' 
 				  </foreach>         
@@ -442,7 +452,7 @@
 				on U.gradeSeq = G.gradeSeq
 			 join TBL_User_Alias A
 				on U.userSeq = A.userSeq
-		where userStatus = 0
+		where userStatus = 0 and usersort=0
 		group by U.userSeq
 		)T
 		)W
@@ -483,7 +493,7 @@
 				on U.gradeSeq = G.gradeSeq
 			 join TBL_User_Alias A
 				on U.userSeq = A.userSeq
-		where userStatus = 0
+		where userStatus = 0 and usersort=0
 		group by U.userSeq
 		)T
 		)W
@@ -524,7 +534,7 @@
 				on U.gradeSeq = G.gradeSeq
 			 join TBL_User_Alias A
 				on U.userSeq = A.userSeq
-		where userStatus = 0
+		where userStatus = 0 and usersort=0
 		group by U.userSeq
 		)T
 		)W
@@ -565,7 +575,7 @@
 				on U.gradeSeq = G.gradeSeq
 			 join TBL_User_Alias A
 				on U.userSeq = A.userSeq
-		where userStatus = 0
+		where userStatus = 0 and usersort=0
 		group by U.userSeq
 		)T
 		)W
@@ -606,7 +616,7 @@
 				on U.gradeSeq = G.gradeSeq
 			 join TBL_User_Alias A
 				on U.userSeq = A.userSeq
-		where userStatus = 0
+		where userStatus = 0 and usersort=0
 		group by U.userSeq
 		)T
 		)W

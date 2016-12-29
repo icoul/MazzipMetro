@@ -31,6 +31,7 @@ table.tbl_best5 th, table.tbl_best5 td {
 }
 </style>
 <script>
+jQuery.noConflict();
 	$(document)
 			.ready(
 					function() {
