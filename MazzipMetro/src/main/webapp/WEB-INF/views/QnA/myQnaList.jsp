@@ -159,10 +159,10 @@
 <div class="container">
 	<div class="row">
 		
+		<h2> <span class="title-label">&nbsp;나의 문의내역</span>  </h2>
+		<span>&nbsp;&nbsp;총 문의건 : ${totalCount}건 | 접수완료 : ${registerQnaCount}건 | 답변완료 : ${answerQnaCount}건</span><br><br>
         <nav class="navbar navbar-default query" role="query">
             <div class="container-fluid">
-            <h2> <span class="title-label">나의 문의내역</span>  </h2>
-			<span>총 문의건 : ${totalCount}건 | 접수완료 : ${registerQnaCount}건 | 답변완료 : ${answerQnaCount}건</span>
           	 <form name="qnaSearchFrm" style="margin-top:10px; " action="<%=request.getContextPath()%>/myQnaList.eat" method="get">
                 <table class="table table-bordered">
 				      <tr>

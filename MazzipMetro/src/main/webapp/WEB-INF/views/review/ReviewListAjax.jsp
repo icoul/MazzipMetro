@@ -88,13 +88,13 @@
 
 
 input.btn_like {
-	width:50px; height:50px;  border:0; background: url('http://localhost:9090/mazzipmetro/resources/images/like.jpg') no-repeat;
+	width:50px; height:50px;  border:0; background: url('/mazzipmetro/resources/images/like.jpg') no-repeat;
 }
 input.btn_dislike {
-	width:50px; height:50px;  border:0; background: url('http://localhost:9090/mazzipmetro/resources/images/unlike.png') no-repeat;
+	width:50px; height:50px;  border:0; background: url('/mazzipmetro/resources/images/unlike.png') no-repeat;
 }
 input.report {
-	  border:0; width:30px; height:30px; background: url('http://localhost:9090/mazzipmetro/resources/images/icosiren.png') no-repeat;
+	  border:0; width:30px; height:30px; background: url('/mazzipmetro/resources/images/icosiren.png') no-repeat;
 	  border-radius: 10px;
 }
 

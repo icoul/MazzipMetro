@@ -23,7 +23,7 @@
   }
   
   input.report {
-	  border:0; width:30px; height:30px; background: url('http://localhost:9090/mazzipmetro/resources/images/icosiren.png') no-repeat;
+	  border:0; width:30px; height:30px; background: url('/mazzipmetro/resources/images/icosiren.png') no-repeat;
 	  border-radius: 10px;
 }
 

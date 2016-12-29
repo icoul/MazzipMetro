@@ -16,14 +16,14 @@
 	.contArea .restList ul li .textDiv dl dd.summary{background:url('/image/common/img_dot.gif') repeat-x left bottom; padding:30px 0; line-height:1.5em;}
 	.contArea .restList ul li .textDiv dl dd.summary a:hover{text-decoration:underline;}
 	input.report {
-	  border:0; width:30px; height:30px; background: url('http://localhost:9090/mazzipmetro/resources/images/icosiren.png') no-repeat;
+	  border:0; width:30px; height:30px; background: url('/mazzipmetro/resources/images/icosiren.png') no-repeat;
 	  border-radius: 10px;
 	}
 	input.report.reportRed {
-		width:40px; height:40px; background: url('http://localhost:9090/mazzipmetro/resources/images/icoSirenRed.png') no-repeat;
+		width:40px; height:40px; background: url('/mazzipmetro/resources/images/icoSirenRed.png') no-repeat;
 	}
-	.bgFavorite {border:0; padding-top:30px; font-weight:bold; font-size:12px; color:#9f9f9f; background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStar.png') no-repeat 12px 0;}
-	.bgFavorite.active {background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStarActive.png') no-repeat 12px 0;}
+	.bgFavorite {border:0; padding-top:30px; font-weight:bold; font-size:12px; color:#9f9f9f; background: url('/mazzipmetro/resources/images/icoFavorStar.png') no-repeat 12px 0;}
+	.bgFavorite.active {background: url('/mazzipmetro/resources/images/icoFavorStarActive.png') no-repeat 12px 0;}
 </style>
 
  <script type="text/javascript">
