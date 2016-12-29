@@ -99,7 +99,7 @@
    		 	});
    		 
         	// tooltipster 중복호출 방지용
-        	var metroIdArr = [];
+        	//var metroIdArr = [];
         	
         	(function($){
 	        	// tooltipster 활성화 
@@ -108,7 +108,7 @@
 	            	animationDuration: 200,
 	            	distance : 3,
 	           	   	delay: 100,
-	           	   	side: 'top', // 'top', 'bottom', 'right', 'left'
+	           	   	side: 'bottom', // 'top', 'bottom', 'right', 'left'
 	           	   	theme: 'tooltipster-noir',
 	           	   	trigger: 'hover',
 	           	 	interactive: true,
@@ -123,20 +123,11 @@
 			              	
 			                 var str = instance.elementOrigin().toString(); // localhost로 시작하는 href 값이 나오지만, 객체이다.
 							 var metroId = str.substring(30, 34);//시작index, 끝나는 index  : javascript: searchByMetro(1, '2005')
-			              	//alert(metroId);
-			                 
-			                 for (var i = 0; i < metroIdArr.length; i++) {
-								if(metroIdArr[i] == metroId)
-									return;
-							}
 			                 
 			                 // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
 			                 if ($origin.data('loaded') !== true) {
 								 $.get('<%=request.getContextPath()%>/getBest5RestInMetroMap.eat', "metroId="+metroId, function(data) {
 	
-									 //중복 호출을 막기위해 : metroIdArr에 해당 metroId push하
-									 metroIdArr.push(metroId);
-									 
 					                // call the 'content' method to update the content of our tooltip with the returned data.
 					                // note: this content update will trigger an update animation (see the updateAnimation option)
 					                instance.content(data);
@@ -153,7 +144,7 @@
 	            	animationDuration: 200,
 	            	distance : 3,
 	           	   	delay: 100,
-	           	   	side: 'right', // 'top', 'bottom', 'right', 'left'
+	           	   	side: 'left', // 'top', 'bottom', 'right', 'left'
 	           	   	theme: 'tooltipster-noir',
 	           	   	trigger: 'hover',
 	           	 	interactive: true,
@@ -167,10 +158,6 @@
 			                 var str = instance.elementOrigin().toString(); // localhost로 시작하는 href 값이 나오지만, 객체이다.
 			                 var metroId = str.substring(30, 34);//시작index, 끝나는 index  : javascript: searchByMetro(1, '2005')
 			                 
-			                 for (var i = 0; i < metroIdArr.length; i++) {
-								if(metroIdArr[i] == metroId)
-									return;
-							}
 			                 // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
 			                 if ($origin.data('loaded') !== true) {
 								$.ajax({
@@ -180,9 +167,6 @@
 			                 		dataType:"html",
 			                 		success: function(data,status){
 	
-										 //중복 호출을 막기위해 : metroIdArr에 해당 metroId push하
-										 metroIdArr.push(metroId);
-										 
 						                // call the 'content' method to update the content of our tooltip with the returned data.
 						                // note: this content update will trigger an update animation (see the updateAnimation option)
 						                instance.content(data);
@@ -205,7 +189,7 @@
 	            	animationDuration: 200,
 	            	distance : 3,
 	           	   	delay: 100,
-	           	 	side: 'bottom', // 'top', 'bottom', 'right', 'left'
+	           	 	side: 'top', // 'top', 'bottom', 'right', 'left'
 	           	   	theme: 'tooltipster-noir',
 	           	   	trigger: 'hover',
 	           		interactive: true,
@@ -219,10 +203,6 @@
 			                 var str = instance.elementOrigin().toString(); // localhost로 시작하는 href 값이 나오지만, 객체이다.
 			                 var metroId = str.substring(30, 34);//시작index, 끝나는 index  : javascript: searchByMetro(1, '2005')
 			                 
-			                 for (var i = 0; i < metroIdArr.length; i++) {
-								if(metroIdArr[i] == metroId)
-									return;
-							}
 			                 // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
 			                 if ($origin.data('loaded') !== true) {
 			                	 $.ajax({
@@ -232,9 +212,6 @@
 			                 		dataType:"html",
 			                 		success: function(data,status){
 	
-										 //중복 호출을 막기위해 : metroIdArr에 해당 metroId push하
-										 metroIdArr.push(metroId);
-										 
 						                // call the 'content' method to update the content of our tooltip with the returned data.
 						                // note: this content update will trigger an update animation (see the updateAnimation option)
 						                instance.content(data);
@@ -256,7 +233,7 @@
 	            	animationDuration: 200,
 	            	distance : 3,
 	           	   	delay: 100,
-	           	   	side: 'left', // 'top', 'bottom', 'right', 'left'
+	           	   	side: 'right', // 'top', 'bottom', 'right', 'left'
 	           	   	theme: 'tooltipster-noir',
 	           	   	trigger: 'hover',
 	           		interactive: true,
@@ -270,10 +247,6 @@
 			                 var str = instance.elementOrigin().toString(); // localhost로 시작하는 href 값이 나오지만, 객체이다.
 			                 var metroId = str.substring(30, 34);//시작index, 끝나는 index  : javascript: searchByMetro(1, '2005')
 			                 
-			                 for (var i = 0; i < metroIdArr.length; i++) {
-								if(metroIdArr[i] == metroId)
-									return;
-							}
 			                 // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
 			                 if ($origin.data('loaded') !== true) {
 			                	 $.ajax({
@@ -282,9 +255,7 @@
 			                 		data: "metroId="+metroId,
 			                 		dataType:"html",
 			                 		success: function(data,status){
-										 //중복 호출을 막기위해 : metroIdArr에 해당 metroId push하
-										 metroIdArr.push(metroId);
-										 
+										
 						                // call the 'content' method to update the content of our tooltip with the returned data.
 						                // note: this content update will trigger an update animation (see the updateAnimation option)
 						                instance.content(data);

@@ -146,6 +146,7 @@ function userCoupon(boxType){
 	    datatype:"html",
 		success:function(data){
 			alert(data);
+			restList();
 			userRandomBox();
 		}
 	});

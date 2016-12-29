@@ -77,12 +77,13 @@ $(document).ready(function(){
         <c:forEach var="review" items="${reviewList}" varStatus="status">
             <tr>
             	<td style="border-right:0px;">
-            		<c:if test="${status.index < 3}">
-            			<span style = "color : red; font-weight : bold;">new!!</span><br/>
-            		</c:if>
+            		
                     <a href="<%= request.getContextPath() %>/restaurantDetail.eat?restSeq=${review.restSeq}"><img src="<%= request.getContextPath() %>/files/review/${review.reviewImg}" width="70px" height="70px"/></a> &nbsp;&nbsp;
                 </td>
                 <td> 
+                	 <c:if test="${status.index < 3}">
+            			<span style = "color : red; font-weight : bold;">new!!</span><br/>
+            		 </c:if>
                      <c:if test="${review.reviewAvgScore < 1}">
 					 <img width="35px;" height="15px;" src="<%= request.getContextPath() %>/resources/starability-images/star.png">
 					 </c:if> 

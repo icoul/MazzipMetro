@@ -10,7 +10,7 @@
 	
 <script type="text/javascript">
 
-jQuery.noConflict();
+var $ = jQuery.noConflict();
 
 $(function () {	
     Highcharts.chart('hb_statistics_Gender', {

@@ -32,9 +32,10 @@
             MainReview();
 
         	// tooltipster 중복호출 방지용
-        	var metroIdArr = [];
+        	//var metroIdArr = [];
         	
-(function($){
+		(function($){
+			
         	// tooltipster 활성화 
             $('.tooltipster_top').tooltipster({
             	animation: 'grow',
@@ -52,25 +53,21 @@
 	            functionBefore: function(instance, helper) {
 	                 
 		                 var $origin = $(helper.origin);
-		              	// metroId 얻어오기
 		              	
+		                 // metroId 얻어오기
 		                 var str = instance.elementOrigin().toString(); // localhost로 시작하는 href 값이 나오지만, 객체이다.
-		                 
 						 var metroId = str.substring(str.indexOf("=")+1, str.indexOf("=")+5);//시작index, 끝나는 index  : javascript: searchByMetro(1, '2005')
-		              	//alert(metroId);
-		                 
-		                 for (var i = 0; i < metroIdArr.length; i++) {
+		         
+						 //(중복호출방지를 위해 내가 작성했지만, 필요없어짐)
+		                /*for (var i = 0; i < metroIdArr.length; i++) {
 							if(metroIdArr[i] == metroId)
 								return;
-						}
+						} */
 		                 
 		                 // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
 		                 if ($origin.data('loaded') !== true) {
 							 $.get('<%=request.getContextPath()%>/getBest5RestInMetroMap.eat', "metroId="+metroId, function(data) {
 
-								 //중복 호출을 막기위해 : metroIdArr에 해당 metroId push하
-								 metroIdArr.push(metroId);
-								 
 				                // call the 'content' method to update the content of our tooltip with the returned data.
 				                // note: this content update will trigger an update animation (see the updateAnimation option)
 				                instance.content(data);
@@ -81,6 +78,7 @@
 		                 }
 		             }// end of functionBefore
             });
+            
             
             $('.tooltipster_right').tooltipster({
             	animation: 'grow',
@@ -97,14 +95,12 @@
 	            functionBefore: function(instance, helper) {
 	                 
 		                 var $origin = $(helper.origin);
+		                 
 		             	 // metroId 얻어오기
 		                 var str = instance.elementOrigin().toString(); // localhost로 시작하는 href 값이 나오지만, 객체이다.
-		                 var metroId = str.substring(str.indexOf("=")+1, str.indexOf("=")+5);//시작index, 끝나는 index  : javascript: searchByMetro(1, '2005')
+						 var metroId = str.substring(str.indexOf("=")+1, str.indexOf("=")+5);//시작index, 끝나는 index  : javascript: searchByMetro(1, '2005')
+		         
 		                 
-		                 for (var i = 0; i < metroIdArr.length; i++) {
-							if(metroIdArr[i] == metroId)
-								return;
-						}
 		                 // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
 		                 if ($origin.data('loaded') !== true) {
 							$.ajax({
@@ -114,9 +110,6 @@
 		                 		dataType:"html",
 		                 		success: function(data,status){
 
-									 //중복 호출을 막기위해 : metroIdArr에 해당 metroId push하
-									 metroIdArr.push(metroId);
-									 
 					                // call the 'content' method to update the content of our tooltip with the returned data.
 					                // note: this content update will trigger an update animation (see the updateAnimation option)
 					                instance.content(data);
@@ -149,14 +142,11 @@
 	            functionBefore: function(instance, helper) {
 	                 
 		                 var $origin = $(helper.origin);
-		              	// metroId 얻어오기
-		                 var str = instance.elementOrigin().toString(); // localhost로 시작하는 href 값이 나오지만, 객체이다.
-		                 var metroId = str.substring(str.indexOf("=")+1, str.indexOf("=")+5);//시작index, 끝나는 index  : javascript: searchByMetro(1, '2005')
 		                 
-		                 for (var i = 0; i < metroIdArr.length; i++) {
-							if(metroIdArr[i] == metroId)
-								return;
-						}
+		         	     // metroId 얻어오기
+		                 var str = instance.elementOrigin().toString(); // localhost로 시작하는 href 값이 나오지만, 객체이다.
+						 var metroId = str.substring(str.indexOf("=")+1, str.indexOf("=")+5);//시작index, 끝나는 index  : javascript: searchByMetro(1, '2005')
+		         
 		                 // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
 		                 if ($origin.data('loaded') !== true) {
 		                	 $.ajax({
@@ -166,9 +156,6 @@
 		                 		dataType:"html",
 		                 		success: function(data,status){
 
-									 //중복 호출을 막기위해 : metroIdArr에 해당 metroId push하
-									 metroIdArr.push(metroId);
-									 
 					                // call the 'content' method to update the content of our tooltip with the returned data.
 					                // note: this content update will trigger an update animation (see the updateAnimation option)
 					                instance.content(data);
@@ -200,14 +187,11 @@
 	            functionBefore: function(instance, helper) {
 	                 
 		                 var $origin = $(helper.origin);
-		             	 // metroId 얻어오기
-		                 var str = instance.elementOrigin().toString(); // localhost로 시작하는 href 값이 나오지만, 객체이다.
-		                 var metroId = str.substring(str.indexOf("=")+1, str.indexOf("=")+5);//시작index, 끝나는 index  : javascript: searchByMetro(1, '2005')
 		                 
-		                 for (var i = 0; i < metroIdArr.length; i++) {
-							if(metroIdArr[i] == metroId)
-								return;
-						}
+		         	     // metroId 얻어오기
+		                 var str = instance.elementOrigin().toString(); // localhost로 시작하는 href 값이 나오지만, 객체이다.
+						 var metroId = str.substring(str.indexOf("=")+1, str.indexOf("=")+5);//시작index, 끝나는 index  : javascript: searchByMetro(1, '2005')
+		         
 		                 // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
 		                 if ($origin.data('loaded') !== true) {
 		                	 $.ajax({
@@ -216,9 +200,7 @@
 		                 		data: "metroId="+metroId,
 		                 		dataType:"html",
 		                 		success: function(data,status){
-									 //중복 호출을 막기위해 : metroIdArr에 해당 metroId push하
-									 metroIdArr.push(metroId);
-									 
+		                 			
 					                // call the 'content' method to update the content of our tooltip with the returned data.
 					                // note: this content update will trigger an update animation (see the updateAnimation option)
 					                instance.content(data);
@@ -284,7 +266,7 @@
                 }
             });
          
-})(jQuery)
+		})(jQuery)
 		  
          
     		
