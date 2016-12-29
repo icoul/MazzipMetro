@@ -31,7 +31,6 @@ table.tbl_best5 th, table.tbl_best5 td {
 }
 </style>
 <script>
-jQuery.noConflict();
 	$(document)
 			.ready(
 					function() {
@@ -207,8 +206,7 @@ jQuery.noConflict();
 					<br />
 					<c:if test="${not empty adImgList[status.index]}">
 						<c:forEach var="adImg" items="${adImgList[status.index].adImg}"
-							varStatus="num">
-							<img
+							varStatus="num"><img
 								src="<%=request.getContextPath()%>/files/rest/thumb/thumb${adImg}"
 								name="thumbImg" />&nbsp;
 		        </c:forEach>
@@ -222,7 +220,7 @@ jQuery.noConflict();
 					<div id="div_tooltipImg"
 						style="padding: 5px; width: 500px; height: 60px;">
 						<table>
-							<tr >
+							<tr>
 								<td rowspan="2"><img
 									src="<%=request.getContextPath()%>/files/user/${vo.userProfile}"
 									width="50px;" /></td>
@@ -230,7 +228,7 @@ jQuery.noConflict();
 								<td><b>${vo.reviewTitle}</b></td>
 							</tr>
 							<tr>
-								<td style="padding-left: 15px;" colspan = "2">${vo.reviewContent }</td>
+								<td style="padding-left: 15px;" colspan="2">${vo.reviewContent }</td>
 							</tr>
 						</table>
 					</div>

@@ -47,6 +47,7 @@
 		select restSeq,restName
 		from tbl_restaurant
 		where userSeq = #{userSeq}
+		and restStatus=0
 	</select>
 	
 	<!-- 컨텐츠 구매목록-->

@@ -351,7 +351,7 @@ public class UserService implements IService {
 			}
 			else if("UG6".equals(userGradeList.get(i).getGradeSeq()) && userGradeList.get(i).getGradeSeq().equals(gradeSeq)
 					&& uservo.getGradeSeq().equals("UG5") && (userDongAliasCount < 5 || userMetroAliasCount < 5)){
-				resultMap.put("failReason", "역과 동의 칭호가 5개씩 있어야합니다.");	
+				resultMap.put("failReason", "역과 동의 마스터 칭호가 5개씩 있어야합니다.");	
 			}
 			else if ("UG7".equals(userGradeList.get(i).getGradeSeq()) //달인등급이고 신등급하기 버튼은 눌러서 경험치가 10000이상이고 구칭호가 1개이상
 					&& userGradeList.get(i).getGradeSeq().equals(gradeSeq) && uservo.getGradeSeq().equals("UG6")
@@ -381,7 +381,7 @@ public class UserService implements IService {
 			else if ("UG7".equals(userGradeList.get(i).getGradeSeq())
 					&& userGradeList.get(i).getGradeSeq().equals(gradeSeq) && uservo.getGradeSeq().equals("UG6")
 					&& userGuAliasCount  < 1) {
-				resultMap.put("failReason", "구 칭호가 1개 이상이여야 합니다.");
+				resultMap.put("failReason", "구 마스터 칭호가 1개 이상이여야 합니다.");
 			}
 	
 		}

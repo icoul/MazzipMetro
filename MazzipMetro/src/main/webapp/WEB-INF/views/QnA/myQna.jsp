@@ -68,7 +68,7 @@
 				<tr> 
 					<th>문의내용<br>(200자입력가능)</th>
 					<td>
-						<textarea class="form-control" rows="5" name="qnaComment" id="qnaComment"></textarea>
+						<textarea class="form-control"  style="resize:none;" rows="5" name="qnaComment" id="qnaComment"></textarea>
 						<div id="qnaCommentLength"></div>
 					</td>
 				</tr>

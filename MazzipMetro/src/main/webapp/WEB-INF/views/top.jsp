@@ -377,9 +377,7 @@ function getLoginUserInfo(){
 				traditional: true,		 // 배열 데이터 전송용
 				dataType: "JSON",        // 위의 URL 페이지로 사용자가 보내는 ajax 요청 데이터.
 				success: function(data) {// 데이터 전송이 성공적으로 이루어진 후 처리해줄 callback 함수
-
-						alert(data.msg);
-						getUserWantToGo();
+						//getUserWantToGo();
 					}
 			});//end of $.ajax()
 		} 
