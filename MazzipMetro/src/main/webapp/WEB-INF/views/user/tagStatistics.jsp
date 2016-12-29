@@ -124,7 +124,7 @@ $(function () {
 </script>
 
 
-<div width="100%">
+<div width="100%">-
 <div style="float:left; width:50%; height:400px;  vertical-align:top;"  id="hb_tagStatistics_Bg"></div>
 <div style="float:left; width:50%; height:400px;  vertical-align:top;"  id="hb_tagStatistics_Md"></div>
 </div>
