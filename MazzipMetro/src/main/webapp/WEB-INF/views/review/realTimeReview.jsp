@@ -41,7 +41,7 @@ $(document).ready(function(){
 		
 		var n = 1;
 		var animator  = function(imgblock){
-			imgblock.animate({'top':-89.6*n}, 3000,
+			imgblock.animate({'top':-110.4*n}, 3000,
 							function(){
 							n++;
 							if(n == 9){
@@ -77,6 +77,9 @@ $(document).ready(function(){
         <c:forEach var="review" items="${reviewList}" varStatus="status">
             <tr>
             	<td style="border-right:0px;">
+            		<c:if test="${status.index < 3}">
+            			<span style = "color : red; font-weight : bold;">new!!</span><br/>
+            		</c:if>
                     <a href="<%= request.getContextPath() %>/restaurantDetail.eat?restSeq=${review.restSeq}"><img src="<%= request.getContextPath() %>/files/review/${review.reviewImg}" width="70px" height="70px"/></a> &nbsp;&nbsp;
                 </td>
                 <td> 

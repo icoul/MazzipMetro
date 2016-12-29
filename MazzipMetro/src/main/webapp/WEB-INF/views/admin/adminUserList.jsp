@@ -38,12 +38,6 @@ function searchKeep(){
 //미현_회원삭제하기
 function goUserDel(userSeq){
 	var userDelFrm = document.userDelFrm;
-	var pageNo = document.getElementById("pageNo");
-		
-	pageNo.value =""
-	pageNo.value = 1;
-
-		
 	
 	userDelFrm.action="adminUserDel.eat";
 	userDelFrm.method="post";
@@ -103,7 +97,7 @@ function goUserEdit(userSeq){
 					<form name="userDelFrm"  action="<%= request.getContextPath() %>/adminUserDel.eat" method="post">
 						<button class="btnGray" onClick="goUserDel();" style="margin-top:0; width:40px;">삭제</button>
 						<input type="hidden" name="userSeq" value="${vo.userSeq}" />
-						<input type="text" id="pageNo" name="pageNo" value="${pageNo}" />	
+						<input type="hidden" name="pageNo" value="${pageNo}" />	
 					</form>	
 				</td>
 			</tr>

@@ -8,7 +8,7 @@
 	<tr>  
 <c:forEach var="list" items="${mapList}" begin="0" end="4" >
 			<td style = "padding : 5px;">
-				<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${list.restSeq}"><img width = "120px;" src="<%= request.getContextPath() %>/files/rest/${list.restImg}" /><br/></a>
+				<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${list.restSeq}"><img width = "120px;" src="<%= request.getContextPath() %>/files/rest/thumb/thumb${list.restImg}" /><br/></a>
 				<span style = "font-size: 10pt; font-weight: bold;">${list.restName}</span><br/>
 				<span style = "font-size: 10pt;">${list.restBgTag}</span><br/>
 				<span style = "font-size: 8pt;">${list.restMdTag}</span>

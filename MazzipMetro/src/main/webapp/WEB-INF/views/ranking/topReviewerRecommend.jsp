@@ -18,12 +18,12 @@
 	
 	.contArea{display:inline; float:left; width:250px; margin:10px 0 10px 25px; border: solid 1px #e8e8e8;}
 	.contArea .restList ul li{display:inline-block; float:left; border-bottom:1px solid #e7e7e7; padding:20px 0; width:100%; }
-	.contArea .restList ul li h2{display:block; font-family:굴림, Gulim; font-size:20px; padding:0 0 10px 0; margin-left : 10px;}
+	.contArea .restList ul li h2{display:block; font-family:굴림, Gulim; font-size:20px; padding:0 0 10px 0; margin-left : 10px; height : 70px; vertical-align : middle;}
 	.contArea .restList ul li h2 a:hover{text-decoration:underline;}
 	.contArea .restList ul li h2 img{vertical-align:middle; padding-right:5px;}
 	.contArea .restList ul li h2 .part{font-weight:normal; font-size:12px; margin:0 0 0 5px;}
 	
-	.contArea .restList ul li .photoDiv{display:inline-block; float:left; width:250px;}
+	.contArea .restList ul li .photoDiv{display:inline-block; float:left; width:250px; height : 250px;}
 	.contArea .restList ul li .textDiv{display:inline-block; width:250px; margin-left : 10px;}
 	.contArea .restList ul li .textDiv dl dd.summary{line-height:2em;}
 	.contArea .restList ul li .textDiv dl dd.summary a:hover{text-decoration:underline;}
@@ -46,7 +46,7 @@
 					<c:set value="${status.index}" var="index" />
 					<c:forEach var = "user" items = "${userList}" varStatus = "userStatus">
 						<c:if test="${userStatus.index == index}">
-							<h2><img width="50px;" src="<%= request.getContextPath() %>/files/user/${user.userProfile}" />${user.userName}
+							<h2><img width="50px;" height="50px;" src="<%= request.getContextPath() %>/files/user/${user.userProfile}" />${user.userName}
 						</c:if>
 					</c:forEach>
 					<c:forEach var = "review" items = "${reviewList}" varStatus = "reviewStatus">
