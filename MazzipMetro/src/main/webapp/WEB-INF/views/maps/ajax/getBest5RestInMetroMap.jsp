@@ -206,10 +206,9 @@ table.tbl_best5 th, table.tbl_best5 td {
 					<br />
 					<c:if test="${not empty adImgList[status.index]}">
 						<c:forEach var="adImg" items="${adImgList[status.index].adImg}"
-							varStatus="num">
-							<a href="#" title="tooltipster test 중..." class="tooltipster"><img
+							varStatus="num"><img
 								src="<%=request.getContextPath()%>/files/rest/thumb/thumb${adImg}"
-								name="thumbImg" /></a>&nbsp;
+								name="thumbImg" />&nbsp;
 		        </c:forEach>
 					</c:if>
 				</div>
