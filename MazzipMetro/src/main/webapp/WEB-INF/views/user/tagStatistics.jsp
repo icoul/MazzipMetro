@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <script type="text/javascript">
-jQuery.noConflict();
+var $ = jQuery.noConflict();
 
 $(function () {	
 	Highcharts.chart('hb_tagStatistics_Bg', {
