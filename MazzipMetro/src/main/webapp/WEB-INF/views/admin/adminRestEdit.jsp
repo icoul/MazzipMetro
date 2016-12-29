@@ -50,7 +50,7 @@
 		<tr><th>업장 대분류  : 						</th><td><input type="text" id="restBgTag" 		name="restBgTag" 	size="50" value="${vo.restBgTag}" class="required"/></td></tr>
 		<tr><th>업장 중분류  : 						</th><td><input type="text" id="restMdTag" 	name="restMdTag" 	size="50" value="${vo.restMdTag}" class="required"/></td></tr>
 		<tr>
-			<th>업장 소개이미지  :	 		</th>
+			<th>업장 소개이미지  : <br/> <span style="font-size: 10px; color: red;">(클릭해서 삭제)</span>	 		</th>
 			<td>
 			<div id="currAdImgDiv"><img src="<%=request.getContextPath()%>/files/rest/noImage.jpg" id="currAdImg" width="300px;"></div>
 			<c:set var="adImgNum" value="0"/>

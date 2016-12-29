@@ -22,14 +22,14 @@
 </head>
 
 
-<div id="searchFrmContainer" style="position: relative;">
+<div id="adminSearchFrmContainer" style="position: relative;">
 	<div style="float:left; width:200px; height:814px; border-left:1px solid #dbdbdb; border-right:1px solid #dbdbdb; padding:0; margin:0;">
 		<h2 style="width:187px; border-bottom:2px solid #000; padding-top:30px;  padding-bottom:5px; text-align:right; font-size:25px;">관리자 <br/> 업장 검색</h2>
 	</div>
 	<%-- subleftCon --%>
 	<div style="float:left; width:1200px;  text-align:center; border-right:1px solid #dbdbdb; padding-bottom:40px; padding-top: 20px;">
 		<span style="font-weight: bold; color: orange; text-decoration: underline;">관리자님, 검색조건을 입력후에 검색버튼을 눌러주세요.</span>
-		<form id="searchFrm" onsubmit="return false;">
+		<form id="adminSearchFrm" onsubmit="return false;">
 			<br/>
 			
 			<div class="container" style="width: 80%; margin: auto;" >

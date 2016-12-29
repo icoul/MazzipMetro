@@ -167,26 +167,26 @@ function getMyReviewList(startPageNo){
 		});
 }// end of myReviewList
 	
-function getMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd ,qnaRegMonthEnd, qnaRegDayEnd, qnaInquiry, startPageNo, userSeq,qnaProgress){
-		
+function getMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd ,qnaRegMonthEnd, qnaRegDayEnd, qnaInquiry, startPageNo, qnaProgress){
 		if(Number(qnaRegDayStart)<10){
 			qnaRegDayStart = "0"+qnaRegDayStart;
 		}
-		alert("qnaRegDayStart = "+ qnaRegDayStart);
+
 		$.ajax({	
-			url:'/mazzipmetro/myQnaList.eat?qnaRegYearStart='+qnaRegYearStart+'&qnaRegMonthStart='+qnaRegMonthStart+'&qnaRegDayStart='+qnaRegDayStart+'&qnaRegYearEnd='+qnaRegYearEnd+'&qnaRegMonthEnd='+qnaRegMonthEnd+'&qnaRegDayEnd='+qnaRegDayEnd+'&qnaInquiry='+qnaInquiry+'&startPageNo='+startPageNo+'&userSeq='+userSeq+'&qnaProgress='+qnaProgress,
+			url:'/mazzipmetro/myQnaList.eat?qnaRegYearStart='+qnaRegYearStart+'&qnaRegMonthStart='+qnaRegMonthStart+'&qnaRegDayStart='+qnaRegDayStart+'&qnaRegYearEnd='+qnaRegYearEnd+'&qnaRegMonthEnd='+qnaRegMonthEnd+'&qnaRegDayEnd='+qnaRegDayEnd+'&qnaInquiry='+qnaInquiry+'&startPageNo='+startPageNo+'&qnaProgress='+qnaProgress,
 		    method:"GET",
 			datatype:"html", 
-			success:function(data){ 
+			success:function(data){
+				alert("getMyQnAList전");
 				$("#userInfo").html(data);
+				alert("getMyQnAList후");
 			}
 		});
 }// end of getMyQnAList
 	
-function SgetMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd ,qnaRegMonthEnd, qnaRegDayEnd, qnaInquiry, startPageNo, userSeq, qnaColName, qnaSearch, qnaProgress){
-		alert(">>>>>>>>>>qnaColName" + qnaColName);
+function SgetMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaRegYearEnd ,qnaRegMonthEnd, qnaRegDayEnd, qnaInquiry, startPageNo, qnaColName, qnaSearch, qnaProgress){
 		$.ajax({	
-			url:'/mazzipmetro/myQnaList.eat?qnaRegYearStart='+qnaRegYearStart+'&qnaRegMonthStart='+qnaRegMonthStart+'&qnaRegDayStart='+qnaRegDayStart+'&qnaRegYearEnd='+qnaRegYearEnd+'&qnaRegMonthEnd='+qnaRegMonthEnd+'&qnaRegDayEnd='+qnaRegDayEnd+'&qnaInquiry='+qnaInquiry+'&startPageNo='+startPageNo+'&userSeq='+userSeq+'&qnaColName='+qnaColName+'&qnaSearch='+qnaSearch+'&qnaProgress='+qnaProgress,
+			url:'/mazzipmetro/myQnaList.eat?qnaRegYearStart='+qnaRegYearStart+'&qnaRegMonthStart='+qnaRegMonthStart+'&qnaRegDayStart='+qnaRegDayStart+'&qnaRegYearEnd='+qnaRegYearEnd+'&qnaRegMonthEnd='+qnaRegMonthEnd+'&qnaRegDayEnd='+qnaRegDayEnd+'&qnaInquiry='+qnaInquiry+'&startPageNo='+startPageNo+'&qnaColName='+qnaColName+'&qnaSearch='+qnaSearch+'&qnaProgress='+qnaProgress,
 			method:"GET",
 			datatype:"html", 
 			success:function(data){ 
@@ -194,6 +194,8 @@ function SgetMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaReg
 			}
 		});
 }// end of getMyQnAList
+
+
 
 </script>
 <!-- 미현_칭호 붙이기에 쓰이는 css -->

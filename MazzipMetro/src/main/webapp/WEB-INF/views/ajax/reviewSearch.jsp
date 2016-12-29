@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <div>
 	<h4>"<span style="color: gray">${keyword}</span>" 에 대한 리뷰 검색 결과</h4>
 	<hr/> 
@@ -11,7 +12,7 @@
 			<tr>
 				<td style="padding: 10px;">
 					<a href="<%=request.getContextPath()%>/restaurantDetail.eat?restSeq=${reviewvo.restSeq}" style="color:black; text-decoration: none;">
-					<img src="<%=request.getContextPath()%>/files/${reviewImageList[status.index].reviewImg}" width="100px;"/>
+					<img src="<%=request.getContextPath()%>/files/review/${reviewImageList[status.index]}" width="100px;"/>
 					</a>
 				</td>
 				<td style="padding: 20px;">
