@@ -608,6 +608,7 @@ function getLoginUserInfo(){
 								  <div class="dx_dropdown-content">
 									<a href="<%=request.getContextPath()%>/adminRestManager.eat">업장관리</a>
 									<a href="<%=request.getContextPath()%>/adminUserList.eat?pageNo=1">회원관리</a>
+									<a href="<%=request.getContextPath()%>/adminReviewList.eat?pageNo=1">리뷰관리</a>
 									<a href="<%=request.getContextPath()%>/adminContentList.eat">컨텐츠관리</a>
 									<a href="<%=request.getContextPath()%>/adminQnaList.eat">고객문의내역</a>
 								  </div>

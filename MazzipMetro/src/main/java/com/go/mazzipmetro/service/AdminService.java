@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.go.mazzipmetro.dao.AdminDAO;
 import com.go.mazzipmetro.vo.RestaurantAdVO;
 import com.go.mazzipmetro.vo.RestaurantVO;
+import com.go.mazzipmetro.vo.ReviewVO;
 import com.go.mazzipmetro.vo.UserVO;
 
 @Service
@@ -131,6 +132,22 @@ public class AdminService implements IService {
 	public List<HashMap<String, String>> adminConStatis() {
 		List<HashMap<String, String>>  list = dao.adminConStatis();
 		return list;
+	}
+
+	//한별_전체리뷰목록
+	public List<HashMap<String, String>> adminReviewList(HashMap<String, String> map) {
+		List<HashMap<String, String>> adminReviewList = dao.adminReviewList(map);
+		return adminReviewList;
+	}
+
+	public int getTotalReviewCount(HashMap<String, String> map) {
+		int count = dao.getTotalReviewCount(map);
+		return count;
+	}
+
+	public int adminReviewDelete(String reviewSeq) {
+		int del = dao.adminReviewDelete(reviewSeq);
+		return del;
 	}
 
 
