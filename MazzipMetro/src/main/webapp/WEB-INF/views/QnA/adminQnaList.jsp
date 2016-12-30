@@ -62,7 +62,7 @@
 		}
 		
 		if(cnt == 0){
-			alert("삭제하신 Q&A를 하나 이상 선택하세요!!");
+			alert("삭제하실 Q&A를 하나 이상 선택하세요!!");
 			for(var i = 0; i < chkboxQnaSeqArr.length; i++){
 				chkboxQnaSeqArr[i].disabled = false;
 				document.getElementById("qnaSeqCheckBox"+i).disabled = false;
