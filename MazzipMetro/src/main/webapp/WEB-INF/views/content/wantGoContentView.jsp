@@ -4,8 +4,8 @@
 <style type="text/css">
 /*동현_상속된 css 초기화 */
 table#tbl_wantGoContentView td {vertical-align: middle;}
-.bgFavorite {border:0; font-size:12px; color:#9f9f9f; background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStar.png') no-repeat 12px 0;}
-.bgFavorite.active {background: url('http://localhost:9090/mazzipmetro/resources/images/icoFavorStarActive.png') no-repeat 12px 0;}
+.bgFavorite {border:0; font-size:12px; color:#9f9f9f; background: url('/mazzipmetro/resources/images/icoFavorStar.png') no-repeat 12px 0;}
+.bgFavorite.active {background: url('/mazzipmetro/resources/images/icoFavorStarActive.png') no-repeat 12px 0;}
 </style>
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery-2.0.0.js"></script>
 <script type="text/javascript">

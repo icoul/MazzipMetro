@@ -224,7 +224,7 @@
 		    <div class="col-md-7 inputGroupContainer">
 		    <div class="input-group">
 		        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-		        <input type="password" class="form-control" name="userPw2" id="userPw2" placeholder="Repeat Password" autocomplete="off">
+		        <input type="password" class="form-control" name="userPw2" id="userPw2" placeholder="비밀번호 재입력" autocomplete="off">
 		        
 		  <!-- <input name="userPw_confirm" id="userPw_confirm" placeholder="정확하게 입력해주세요" class="form-control"  type="text"> -->
 		    </div>

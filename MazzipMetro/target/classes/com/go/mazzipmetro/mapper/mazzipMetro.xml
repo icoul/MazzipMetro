@@ -523,7 +523,7 @@
     </insert>
     <!-- 7 -->
     <select id="getAnswerDate" resultType="String" parameterType="java.util.HashMap">
-    	select qnaRegDate
+    	select to_char(qnaRegDate, 'YYYY-MM-DD hh24:mi:ss')
     	from tbl_qna
     	where fk_seq = #{qnaSeq}
     </select>

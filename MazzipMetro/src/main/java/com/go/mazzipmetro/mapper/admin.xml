@@ -63,6 +63,7 @@
 		      (
 		        select restSeq, gradeName, restName, restPhone, restAddr, contentName, to_char(contentLimit, 'yyyy-mm-dd') as contentLimit
 		        from view_contentList
+		        where restStatus = 0
 		        group by contentName,restSeq, gradeName, restName, restPhone, restAddr, contentLimit
 		       )T
 		  ) V

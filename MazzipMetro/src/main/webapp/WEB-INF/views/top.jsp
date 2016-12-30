@@ -17,6 +17,7 @@
 <title>:::Mazzip Metro:::</title>
 
 <script type="text/javascript"> 
+
 function getLoginUserInfo(){
 		
 	 	//alert('로그인 정보를 갱신하는 함수를 따로 만들었습니다. 사용자 정보가 바뀌는 경우 이 함수를 호출해 주세요~');

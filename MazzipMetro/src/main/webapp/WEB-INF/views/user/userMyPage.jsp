@@ -203,10 +203,10 @@ function SgetMyQnAList(qnaRegYearStart, qnaRegMonthStart, qnaRegDayStart, qnaReg
 	.gradeDetail {overflow:hidden;}
 	.gradeDetail li {float:left; position:relative; height:70px; font-weight:bold;}
 	.gradeDetail li span {display:block; padding-left:7px; font-size:8px;} 
-	.gradeDetail li.icoMaster {width:57px;  padding-top:25px; background:url(http://localhost:9090/mazzipmetro/resources/images/icoMaster.png) no-repeat;}
-	.gradeDetail li.icoNovice {width:57px; padding-top:18px; background:url(http://localhost:9090/mazzipmetro/resources/images/icoNovice.png) no-repeat;}
+	.gradeDetail li.icoMaster {width:57px;  padding-top:25px; background:url(/mazzipmetro/resources/images/icoMaster.png) no-repeat;}
+	.gradeDetail li.icoNovice {width:57px; padding-top:18px; background:url(/mazzipmetro/resources/images/icoNovice.png) no-repeat;}
 	.gradeDetail li.icoNovice span.twist {-ms-transform: rotate(-10deg); /* IE 9 */-webkit-transform: rotate(-10deg); /* Chrome, Safari, Opera */  transform: rotate(-10deg);}
-	.gradeDetail li.icoSkill {width:65px; padding-top:21px; font-size:7px; font-weight:bold; background:url(http://localhost:9090/mazzipmetro/resources/images/icoSkilled.png) no-repeat;}
+	.gradeDetail li.icoSkill {width:65px; padding-top:21px; font-size:7px; font-weight:bold; background:url(/mazzipmetro/resources/images/icoSkilled.png) no-repeat;}
 	.gradeDetail li.icoSkill span {padding-left:14px;}
 	.gradeDetail li span.detail {position:absolute; width:50px; left:8px; bottom:0; padding-left:0; font-size:9px;}
 	.aliasOn {cursor:pointer;}

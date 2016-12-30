@@ -16,16 +16,17 @@ $(document).ready(function(){
 });
 
 function goSearch() {
-	var searchFrm = document.searchFrm;
+	var userSearchFrm = document.userSearchFrm;
 	
 	var search = $("#search").val();
 	
 	if(search.trim() == "") {
 		alert("검색어를 입력하세요!!");
+		event.preventDefault();
 	}
-	else{
-		searchFrm.submit();
-	}
+	
+	userSearchFrm.submit();
+	
 }
 
 
@@ -58,7 +59,7 @@ function goUserEdit(userSeq){
 	<%-- subleftCon --%>
 	<div class="subrightCon">
 		<div class="searchWrap">
-		<form name="searchFrm" action="<%= request.getContextPath() %>/adminUserList.eat" method="get"> 
+		<form name="userSearchFrm" action="<%= request.getContextPath() %>/adminUserList.eat" method="get"> 
 			<a href="<%= request.getContextPath() %>/adminUserList.eat" class="btnFafa">목록</a>
 			<select name="colName" id="colName">
 				<option value="userPhone">전화번호</option>
