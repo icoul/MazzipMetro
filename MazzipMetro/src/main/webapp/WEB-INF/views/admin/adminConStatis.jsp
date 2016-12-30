@@ -13,8 +13,11 @@
 .table th,.table td {text-align:center; background:#fafafa;}
 </style>
 <script type="text/javascript">
+
+var $ = jQuery.noConflict();
+
  $(function () {
-    $('#mhStatis').highcharts({
+	 Highcharts.chart('mhStatis', {
     	chart: {
             type: 'column'
         },
@@ -49,7 +52,7 @@
             }
         },
         tooltip: {
-            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table style = "width : 200px;">',
             pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
                 '<td style="padding:0"><b>{point.y:.0f}원</b></td></tr>',
             footerFormat: '</table>',
