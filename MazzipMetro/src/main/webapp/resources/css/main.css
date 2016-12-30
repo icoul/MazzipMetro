@@ -191,6 +191,9 @@ footer .copyRight {color:#8a8a8a;}
 .desc {margin-top:10px; margin-bottom:20px;}   
 /*-- 미현 END--*/
 
+.coinPopWrap dt {width:300px; padding-left:149px; margin-bottom:13px; font-size:16px; font-weight:normal;}
+.coinPopWrap dd {width:500px; padding-left:149px;}
+
 /* 은석 레스토랑 디테일.jsp 썸네일 호버했을때 쓰는 용도*/
  .myborder {
 	border: red solid 3px;
