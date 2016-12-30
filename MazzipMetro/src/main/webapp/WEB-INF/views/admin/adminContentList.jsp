@@ -23,17 +23,18 @@ $(document).ready(function(){
 	});
 });
 
-function goSearch() {
-	var searchFrm = document.searchFrm;
+function goContentSearch() {
+	var contentSearchFrm = document.contentSearchFrm;
 	
 	var search = $("#search").val();
 	
 	if(search.trim() == "") {
 		alert("검색어를 입력하세요!!");
+		event.preventDefault();
 	}
-	else{
-		searchFrm.submit();
-	}
+	
+	contentSearchFrm.submit();
+	
 }
 
 
@@ -53,7 +54,7 @@ function searchKeep(){
 	<%-- subleftCon --%>
 	<div class="subrightCon" style="height:1000px;">
 		<div class="searchWrap">
-			<form name="searchFrm" action="<%= request.getContextPath() %>/adminContentList.eat" method="get"> 
+			<form name="contentSearchFrm" action="<%= request.getContextPath() %>/adminContentList.eat" method="get"> 
 				<a href="<%= request.getContextPath() %>/adminContentList.eat" class="btnFafa">목록</a>
 				<select name="colName" id="colName">
 					<option value="restName">상호명</option>
@@ -61,7 +62,7 @@ function searchKeep(){
 					<option value="restAddr">주소</option>
 				</select>
 				<input type="text" name="search" id="search" size="40px;" style="height:22px; vertical-align:-1px;" />
-				<button class="btnGray" type="button" onClick="goSearch();">검색</button>
+				<button class="btnGray" type="button" onClick="goContentSearch();">검색</button>
 			</form>
 		</div>
 		<table class="tblType01" style="width:100%;">
