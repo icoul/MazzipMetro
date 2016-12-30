@@ -66,7 +66,7 @@
 				<tr> 
 					<th>신고내용<br>(200자입력가능)</th>
 					<td>
-						<textarea class="form-control" rows="5" name="qnaComment" id="qnaComment" placeholder="신고하려는 음식점의 이름과 리뷰작성자의 이름을 꼭 입력해주세요!!"></textarea>
+						<textarea class="form-control"  style="resize:none;" rows="5" name="qnaComment" id="qnaComment" placeholder="신고하려는 음식점의 이름과 리뷰작성자의 이름을 꼭 입력해주세요!!"></textarea>
 						<div id="qnaCommentLength"></div>
 					</td>
 				</tr>

@@ -23,7 +23,7 @@
   }
   
   input.report {
-	  border:0; width:30px; height:30px; background: url('http://localhost:9090/mazzipmetro/resources/images/icosiren.png') no-repeat;
+	  border:0; width:30px; height:30px; background: url('/mazzipmetro/resources/images/icosiren.png') no-repeat;
 	  border-radius: 10px;
 }
 
@@ -37,6 +37,11 @@
 		 
 		$("#btntotalCommentCount").hide();
 		$("#btnRomanceCountNEW").hide();
+		
+		if(parseInt($("#totalCommentCount").text()) == 0) {
+			  $("#spanMoreComment").hide();
+			  $("#resultComments").html("<span style='text-align: center;'>등록된 댓글이 없습니다.</span>");
+		  }
 		
 		var revImgSeq =  ${reviewImageList.get(0).revImgSeq}; 
 		goLargeReviewImgView(revImgSeq);
@@ -106,9 +111,6 @@
 					
 					html += "<div class='media'>";	
 					
-					
-					
-
 				    html += "<a class='media-left' > <img class='img-circle' src='<%=request.getContextPath() %>/files/user/" + entry.userProfile + "' width='70px' height='70px'> </a>"; 
 
 					html += "<div class='media-body'>";
@@ -155,7 +157,7 @@
 					count++;
 				});
 				
-				html2 += "<small>(" + count + ")</small>";
+				html2 += "<small>(" + (parseInt($("#commentCountNEW").text()) + count) + ")</small>";
 				$("#resultComments").prepend(html);    //여기서는 append를 해줘야한다 왜냐하면 더보기버튼을 클릭하면 start와 lenNew의 범위에 따라서 쿼리가 실행되기 때문에 댓글의 전체를 가져오는게 아니라 일부분만 가져와서 추가하는것이기 때문에 append를 쓴다
 				$("#resultCommentsCount").html(html2);
 				
@@ -168,7 +170,6 @@
 				  //-> count와 totalCout가 일치하는 경우 비활성
 				  if (parseInt($("#commentCountNEW").text()) == parseInt($("#totalCommentCount").text())) {
 					  $("#spanMoreComment").hide();
-					
 				  }else{
 					  $("#spanMoreComment").show();
 				  }
@@ -257,7 +258,13 @@
 										}// end of  if(key == "name")
 									}//end of function(key, val)
 								);//end of $.each(data, function(key, val));
-								getReviewComment(previewSeq,parseInt($("#totalCommentCount").text()) - lenNew + 1);
+								if(parseInt($("#totalCommentCount").text()) <= lenNew){
+									getReviewComment(previewSeq,1);
+								}else if(parseInt($("#totalCommentCount").text()) > lenNew){
+									getReviewComment(previewSeq,parseInt($("#totalCommentCount").text()) - lenNew + 1);	
+								}
+								
+								
 							}//end of success:function(data)
 						}); //end of $.ajax
 					}//end of else  
@@ -315,7 +322,14 @@
 						}// end of  if(key == "name")
 					}//end of function(key, val)
 				);//end $.each
-				getReviewComment(reviewSeq1, parseInt($("#totalCommentCount").text()) - lenNew + 1);
+				if(0 < parseInt($("#totalCommentCount").text()) && parseInt($("#totalCommentCount").text()) <= lenNew){
+					getReviewComment(reviewSeq1,1);
+				}else if(parseInt($("#totalCommentCount").text()) > lenNew){
+					getReviewComment(reviewSeq1,parseInt($("#totalCommentCount").text()) - lenNew + 1);	
+				}else if(parseInt($("#totalCommentCount").text()) == 0){
+					$("#resultCommentsCount").empty();
+					$("#resultComments").html("<span style='text-align: center;'>등록된 댓글이 없습니다.</span>");
+				}
 			 }//end of success: function(data)
 		});//end of $.ajax
  	}//end of deleteReviewComment
@@ -415,8 +429,8 @@
 <div class="container">
 	<table class="table">
 		<tr>
-			<input type="button" style="float: right;" class="report" onClick="openWinFaq('<%=request.getContextPath() %>/report.eat', '500','400' );" />
-			<th>${restName}</th>
+			
+			<th>${restName} <input type="button" style="float: right;" class="report" onClick="openWinFaq('<%=request.getContextPath() %>/report.eat', '500','400' );" /></th>
 			
 		</tr>
 		
@@ -438,14 +452,15 @@
 				
 				<div id="myTabContent" class="tab-content" style="margin-top:10px;">
 					<div style="margin-bottom:20px;">
-						<span style="cursor: pointer; color: blue;" id="spanMoreComment" >댓글 더보기...</span>
+						
+						<span style="cursor: pointer; color: blue;" id="spanMoreComment" >댓글 더보기...</span>	
+						
 						<input id="btnMoreComment" type="hidden"  value="">
 						<button type="button" id="btntotalCommentCount">TotalNEWCount : <span id="totalCommentCount">${reviewCommentTotalCount}</span></button>
 						<button type="button" id="btnRomanceCountNEW">Count : <span id="commentCountNEW">0</span></button>
 					</div>
 					
-					<div class="comments-list" id="resultComments" ">
-						
+					<div class="comments-list" id="resultComments">	
 					</div>
 					
 				<hr>

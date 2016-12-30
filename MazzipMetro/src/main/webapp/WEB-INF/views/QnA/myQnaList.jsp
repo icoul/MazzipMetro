@@ -158,11 +158,12 @@
 
 <div class="container">
 	<div class="row">
-		<h2> <span class="title-label">나의 문의내역</span>  </h2>
-		<span>총 문의건 : ${totalCount}건 | 접수완료 : ${registerQnaCount}건 | 답변완료 : ${answerQnaCount}건</span>
+		
+		<h2> <span class="title-label">&nbsp;나의 문의내역</span>  </h2>
+		<span>&nbsp;&nbsp;총 문의건 : ${totalCount}건 | 접수완료 : ${registerQnaCount}건 | 답변완료 : ${answerQnaCount}건</span><br><br>
         <nav class="navbar navbar-default query" role="query">
             <div class="container-fluid">
-          	 <form name="qnaSearchFrm" style="display:inline;" action="<%=request.getContextPath()%>/myQnaList.eat" method="get">
+          	 <form name="qnaSearchFrm" style="margin-top:10px; " action="<%=request.getContextPath()%>/myQnaList.eat" method="get">
                 <table class="table table-bordered">
 				      <tr>
 				        <th>문의접수일</th>
@@ -257,6 +258,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                	<c:if test="${empty myQnaList }"><tr><td colspan="8" align="center">문의내역이 없습니다.</td></tr></c:if>
                     <c:if test="${not empty myQnaList }">
                     	<c:forEach var="map" items="${myQnaList}" varStatus="status">
 	                    	<tr>
@@ -296,6 +298,6 @@
 	    	 <!-- </form> -->
         </div>
         
-        <div>${pageBar}</div>
+        <div align="center">${pageBar}</div>
 	</div>
 </div>
