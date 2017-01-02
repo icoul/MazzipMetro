@@ -123,6 +123,7 @@
 		select count(*)
 		from tbl_review
 		where restSeq = #{restSeq}
+		and reviewStatus = 0
 	</select>
 	
 	<resultMap type="java.util.HashMap" id="dataresultmap2">
