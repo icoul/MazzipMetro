@@ -6,16 +6,55 @@
 <head>
 <meta charset="UTF-8">
 <title>코인 결제</title>
-<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/BootStrapStudy/css/bootstrap.css">
-<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-2.0.0.js"></script>
-<script type="text/javascript" src="<%= request.getContextPath() %>/BootStrapStudy/js/bootstrap.js"></script>
+<jsp:include page="../library.jsp" />  
+
+
+
 
 <script type="text/javascript">
+
+	//실제 지불 방식 코딩 시작
+	$( document ).ready(function() {
+		/* 동현_카카오페이 결제용 */
+		IMP.init('imp92791497'); 
+	});
+
 	function goCharge(){
 		
-		var coinCharFrm = document.coinCharFrm;
-		coinCharFrm.submit();
+		/* 동현_카카오페이 결제용 */
+		/* IMP.request_pay({
+		    pg : 'kakao', // version 1.1.0부터 지원.
+		    pay_method : 'card',
+		    merchant_uid : 'merchant_' + new Date().getTime(),
+		    name : '주문명: 포인트충전',
+		    amount : $("#userPoint").val(),
+		    buyer_email : '${sessionScope.loginUser.userEmail}',
+		    buyer_name : '${sessionScope.loginUser.userName}',
+		    buyer_tel : '${sessionScope.loginUser.userPhone}'
+		}, function(rsp) {
+		    if ( rsp.success ) {
+		        var msg = '결제가 완료되었습니다. 사용자 포인트 충전을 요청합니다.\n';
+		        msg +='------------------------------------------------------\n';
+		        msg += '고유ID : ' + rsp.imp_uid;
+		        msg += '\n상점 거래ID : ' + rsp.merchant_uid;
+		        msg += '\n결제 금액 : ' + rsp.paid_amount;
+		        msg += '\n카드 승인번호 : ' + rsp.apply_num;
+		        msg +='\n------------------------------------------------------';
+		        alert(msg);
+		        
+		        var coinCharFrm = document.coinCharFrm;
+		        coinCharFrm.userPoint.value = $("#userPoint").val()*100;
+		        alert('coinCharFrm.userPoint.value = '+coinCharFrm.userPoint.value);
+				coinCharFrm.submit();
+		        
+		    } else {
+		        var msg = '결제에 실패하였습니다.';
+		        msg += '에러내용 : ' + rsp.error_msg;
+		        alert(msg);
+		    }
+		});// end of IMP.request_pay() */
 	}	
+	
 </script>
 <style type="text/css">
 * { padding:0; margin:0;}
@@ -52,9 +91,9 @@ input[type=radio] {vertical-align:-3px;}
 			<form name="coinCharFrm" action="<%= request.getContextPath() %>/bossCoinResiEnd.eat" method="post">	
 			코인충전액 : 
 			<select name="userPoint" id="userPoint" style="height:25px;"><%--name을 파라미터에 controller로 받으면 나옴 --%>
-				<option value="100000"><fmt:formatNumber pattern="###,###" value="100000" /></option>
-				<option value="500000"><fmt:formatNumber pattern="###,###" value="500000" /></option>
-				<option value="1000000" ><fmt:formatNumber pattern="###,###" value="1000000" /></option>
+				<option value="1000"><fmt:formatNumber pattern="###,###" value="100000" /></option>
+				<option value="5000"><fmt:formatNumber pattern="###,###" value="500000" /></option>
+				<option value="10000" ><fmt:formatNumber pattern="###,###" value="1000000" /></option>
 			</select> 원
 			<input type="hidden" name="userSeq"  value="${sessionScope.loginUser.userSeq}" /> 
 			<button class="btnCoin" type="button" onClick="goCharge();">충전하기</button>

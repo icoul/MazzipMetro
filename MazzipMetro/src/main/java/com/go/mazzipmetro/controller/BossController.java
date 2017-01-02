@@ -72,7 +72,8 @@ public class BossController {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
 		
-		String str_userPoint = req.getParameter("userPoint");
+		String str_userPoint = req.getParameter("dx_userPoint");
+		System.out.println(">>>>>>>>>>>>>>>>>>>> userPoint = "+str_userPoint); 
 		
 		int userPoint = Integer.parseInt(str_userPoint); 
 		
@@ -84,7 +85,7 @@ public class BossController {
 		int result = service.coinUpdate(map); 
 		
 		String msg = "";
-		String loc ="javascript:history.back();";
+		String loc ="";
 		
 		if (result < 0) {
 			msg ="코인이 충전되지 않았습니다.";
@@ -93,7 +94,7 @@ public class BossController {
 		
 		else if (result > 0) {
 			msg ="충전되셨습니다.";
-			loc ="javascript:history.back();";
+			loc ="bossCoinResi.eat";
 			loginUser = userService.getLoginUser(loginUser.getUserEmail());
 			loginUser.setUserPoint(loginUser.getUserPoint());
 			ses.setAttribute("loginUser", loginUser);

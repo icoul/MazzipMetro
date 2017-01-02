@@ -49,7 +49,7 @@
 	<table class="myReviewList" style="margin-top:30px; width:100%;">
 		<tr >
 			<th style="text-align: center; width:20%;">가게명</th>
-			<th style="text-align: center; width:20%;">작성자이메일</th>
+			<th style="text-align: center; width:20%;">작성자<br>[작성자이메일]</th>
 			<th style="text-align: center; width:20%;">리뷰제목</th>
 			<th style="text-align: center; width:20%;">리뷰작성일자</th>
 			<th style="text-align: center; width:20%;">삭제</th>
@@ -57,7 +57,7 @@
 		<c:forEach var="review" items="${adminReviewList}" varStatus="status">
 		<tr>
 			<td style="text-align: center;">${review.RESTNAME}</td>
-			<td style="text-align: center;">${review.USEREMAIL}</td>
+			<td style="text-align: center;">${review.USERNAME}<br><span style="color:#888888;">[${review.USEREMAIL}]</span></td>
 			<td style="text-align: center;">${review.REVIEWTITLE}</td>
 			<td style="text-align: center;">${review.REVIEWREGDATE}</td>
 			<td style="text-align: center;"> 
