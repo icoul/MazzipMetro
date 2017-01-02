@@ -13,8 +13,9 @@
 .table th,.table td {text-align:center; background:#fafafa;}
 </style>
 <script type="text/javascript">
- $(function () {
-    $('#mhStatis').highcharts({
+var $ = jQuery.noConflict();
+$(function () {	
+    	    Highcharts.chart('mhStatis', {
     	chart: {
             type: 'column'
         },
