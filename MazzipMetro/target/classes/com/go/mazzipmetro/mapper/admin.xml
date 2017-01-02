@@ -134,6 +134,7 @@
     
     <resultMap type="java.util.HashMap" id="adminReviewList">
 		<result column="restName" 		property="RESTNAME" 		javaType="String"/>
+		<result column="userName" 		property="USERNAME" 	javaType="String"/>
 		<result column="userEmail" 		property="USEREMAIL" 	javaType="String"/> 	
 		<result column="reviewTitle" 		property="REVIEWTITLE" 	javaType="String"/>
 		<result column="reviewRegdate" 		property="REVIEWREGDATE" 	javaType="String" />
@@ -141,13 +142,13 @@
 	</resultMap>
     
     <select id="adminReviewList" resultMap="adminReviewList">
-	   select rno, restName, userEmail, reviewTitle, reviewRegdate, reviewSeq
+	   select rno, restName, userName, userEmail, reviewTitle, reviewRegdate, reviewSeq
 		from
 		(
-		select rownum as rno, restName, userEmail, reviewTitle, reviewRegdate, reviewSeq
+		select rownum as rno, userName, restName, userEmail, reviewTitle, reviewRegdate, reviewSeq
 		from
 		(
-		select C.restName, B.userEmail, A.reviewTitle, A.reviewRegdate, A.reviewSeq
+		select C.restName, B.userName, B.userEmail, A.reviewTitle, A.reviewRegdate, A.reviewSeq
 		from tbl_review A join tbl_user B
 		on A.userSeq = B.userSeq
 		join tbl_restaurant C
