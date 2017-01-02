@@ -1449,7 +1449,7 @@ public class MazzipMetroController {
 		if (qnaRegYearStart == null && qnaRegMonthStart == null && qnaRegDayStart == null && qnaRegYearEnd == null
 				&& qnaRegMonthEnd == null && qnaRegDayEnd == null) {
 			qnaRegYearStart = todayYear;
-			qnaRegMonthStart = "12";
+			qnaRegMonthStart = "1";
 			qnaRegDayStart = "01";
 
 			qnaRegYearEnd = todayYear;
