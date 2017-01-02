@@ -131,4 +131,47 @@
         from view_contentList
         group by contentName,contentPrice
     </select>
+    
+    <resultMap type="java.util.HashMap" id="adminReviewList">
+		<result column="restName" 		property="RESTNAME" 		javaType="String"/>
+		<result column="userName" 		property="USERNAME" 	javaType="String"/>
+		<result column="userEmail" 		property="USEREMAIL" 	javaType="String"/> 	
+		<result column="reviewTitle" 		property="REVIEWTITLE" 	javaType="String"/>
+		<result column="reviewRegdate" 		property="REVIEWREGDATE" 	javaType="String" />
+		<result column="reviewSeq" 		property="REVIEWSEQ" 	javaType="String" />
+	</resultMap>
+    
+    <select id="adminReviewList" resultMap="adminReviewList">
+	   select rno, restName, userName, userEmail, reviewTitle, reviewRegdate, reviewSeq
+		from
+		(
+		select rownum as rno, userName, restName, userEmail, reviewTitle, reviewRegdate, reviewSeq
+		from
+		(
+		select C.restName, B.userName, B.userEmail, A.reviewTitle, A.reviewRegdate, A.reviewSeq
+		from tbl_review A join tbl_user B
+		on A.userSeq = B.userSeq
+		join tbl_restaurant C
+		on A.restSeq = C.restSeq
+		where reviewStatus = 0
+		) V
+		)T
+		where rno >= #{start} and rno <![CDATA[<=]]> #{end}
+    </select>
+    
+    <select id = "getTotalReviewCount" parameterType="java.util.HashMap" resultType="int">
+    	select count(*)
+    	from tbl_review A join tbl_user B
+		on A.userSeq = B.userSeq
+		join tbl_restaurant C
+		on A.restSeq = C.restSeq
+    </select>
+    
+    
+    <update id="adminReviewDelete">
+		update tbl_review set reviewStatus = 1
+		where reviewSeq = #{reviewSeq}
+	</update>
+    
+    
 </mapper>

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.go.mazzipmetro.vo.RestaurantVO;
+import com.go.mazzipmetro.vo.ReviewVO;
 import com.go.mazzipmetro.vo.ContentVO;
 import com.go.mazzipmetro.vo.RestaurantAdVO;
 import com.go.mazzipmetro.vo.UserVO;
@@ -88,6 +89,21 @@ public class AdminDAO implements IDAO{
 	//컨텐츠 통계
 	public List<HashMap<String, String>> adminConStatis() {
 		return sqlSession.selectList("admin.adminConStatis");
+	}
+
+	public List<HashMap<String, String>> adminReviewList(HashMap<String, String> map) {
+		List<HashMap<String, String>> adminReviewList = sqlSession.selectList("admin.adminReviewList", map);
+		return adminReviewList;
+	}
+
+	public int getTotalReviewCount(HashMap<String, String> map) {
+		int count = sqlSession.selectOne("admin.getTotalReviewCount", map);
+		return count;
+	}
+
+	public int adminReviewDelete(String reviewSeq) {
+		int del = sqlSession.update("admin.adminReviewDelete", reviewSeq);
+		return del;
 	}
 
 	

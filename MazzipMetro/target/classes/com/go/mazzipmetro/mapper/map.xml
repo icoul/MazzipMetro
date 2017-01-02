@@ -43,7 +43,7 @@
 		select metroname, metroId
 		from tbl_metro
 		where metronum= #{metroNum}
-		order by convert(metroname, 'ISO2022-KR')
+		order by convert(metroname, 'UTF8')
 	</select>
 	
 	
@@ -335,7 +335,7 @@
 		  <if test="conq == 'notYet'"> not </if>
 		  in (select distinct(restSeq) from tbl_review
 		  where userSeq = #{userSeq})
-		order by convert(B.dongName, 'ISO2022-KR')
+		order by convert(B.dongName, 'UTF8')
 	</select>
 	
 	<!-- 지하철 이름 가져오기(사용자 마이페이지) -->
@@ -360,7 +360,7 @@
 		  <if test="conq == 'notYet'"> not </if>
 		  in (select distinct(restSeq) from tbl_review
 		  where userSeq = #{userSeq})
-		order by convert(B.metroName, 'ISO2022-KR')
+		order by convert(B.metroName, 'UTF8')
 	</select>
 	
 	<!-- 관리자 업장관리 동이름 가져오기 -->
@@ -396,7 +396,7 @@
 		)  
 		select guId, guName
 		from tbl_gu
-		order by convert(guName, 'ISO2022-KR')
+		order by convert(guName, 'UTF8')
 	</select>
 	
 	<!-- 관리자 업장관리 지하철 이름 가져오기 -->
@@ -414,7 +414,7 @@
 		)  
 		select metroId, metroName
 		from tbl_metro
-		order by convert(metroName, 'ISO2022-KR')
+		order by convert(metroName, 'UTF8')
 	</select>
 	
 	

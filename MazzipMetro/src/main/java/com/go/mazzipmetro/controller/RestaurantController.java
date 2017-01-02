@@ -546,8 +546,8 @@ public class RestaurantController {
 		
 		String loc = "restList.eat";
 		String msg = "실패했습니다";
-		
-		if (result == endNum) {
+
+		if (result == addMenuNum) {
 			msg = "메뉴수정을 성공했습니다";
 		}
 		

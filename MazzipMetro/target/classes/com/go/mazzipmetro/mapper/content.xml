@@ -35,7 +35,7 @@
 	<!-- 추천광고 컨텐츠에 쓰일 업장번호를 가져오는 SQL -->
 	<select id = "content.contentListCount" resultType="String">
 		select T.restseq
-		from
+		from“
 		(
 			select row_number() over(order by restname DESC) AS rno, restseq
 			from VIEW_CONTENTLIST
