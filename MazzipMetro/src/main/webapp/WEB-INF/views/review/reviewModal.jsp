@@ -430,7 +430,7 @@
 	<table class="table">
 		<tr>
 			
-			<th>${restName} <input type="button" style="float: right;" class="report" onClick="openWinFaq('<%=request.getContextPath() %>/report.eat', '500','400' );" /></th>
+			<th>${restName} <input type="button" style="float: right;" class="report" onClick="openWinFaq('<%=request.getContextPath() %>/report.eat?restName=${restName}', '500','400' );" /></th>
 			
 		</tr>
 		

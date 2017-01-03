@@ -269,7 +269,7 @@ $(document).ready(function(){
 					 </c:if>
 					 <span style="font-weight:bold; font-size:15pt; color:red;">${review.reviewAvgScore}</span>&nbsp;&nbsp;
 					 <span>${review.reviewRegDate }</span>
-					 <input style="float: right" type="button" class="report" onClick="openWinFaq('<%=request.getContextPath() %>/report.eat', '500','400' );" />
+					 <input style="float: right" type="button" class="report" onClick="openWinFaq('<%=request.getContextPath() %>/report.eat?restName=${restvo.restname}', '500','400' );" />
 					 <br/><br/>
 					<section>${review.reviewContent}</section>
 					

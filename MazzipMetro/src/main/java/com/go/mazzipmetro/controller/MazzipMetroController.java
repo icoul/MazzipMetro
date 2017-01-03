@@ -983,12 +983,17 @@ public class MazzipMetroController {
 		String qnaQuiry = req.getParameter("qnaQuiry");
 		String qnaSubject = req.getParameter("qnaSubject");
 		String qnaComment = req.getParameter("qnaComment");
-
+		String restName = req.getParameter("restName");
 		HashMap<String, String> hashMap = new HashMap<String, String>();
 		hashMap.put("userSeq", userSeq);
 		hashMap.put("qnaQuiry", qnaQuiry);
 		hashMap.put("qnaSubject", qnaSubject);
-		hashMap.put("qnaComment", qnaComment);
+		
+		if(restName != null){
+			hashMap.put("qnaComment", "<span style='color:red;'> 신고 음식점 이름 : " + restName + " </span> <br> " + qnaComment);
+		}else{
+			hashMap.put("qnaComment", qnaComment);
+		}
 
 		int n = service.qnaRegister(hashMap);
 
@@ -1125,7 +1130,7 @@ public class MazzipMetroController {
 		if (qnaRegYearStart == null && qnaRegMonthStart == null && qnaRegDayStart == null && qnaRegYearEnd == null
 				&& qnaRegMonthEnd == null && qnaRegDayEnd == null) {
 			qnaRegYearStart = todayYear;
-			qnaRegMonthStart = "12";
+			qnaRegMonthStart = "1";
 			qnaRegDayStart = "01";
 			qnaRegYearEnd = todayYear;
 			qnaRegMonthEnd = todayMonth;
@@ -1449,7 +1454,7 @@ public class MazzipMetroController {
 		if (qnaRegYearStart == null && qnaRegMonthStart == null && qnaRegDayStart == null && qnaRegYearEnd == null
 				&& qnaRegMonthEnd == null && qnaRegDayEnd == null) {
 			qnaRegYearStart = todayYear;
-			qnaRegMonthStart = "12";
+			qnaRegMonthStart = "1";
 			qnaRegDayStart = "01";
 
 			qnaRegYearEnd = todayYear;
@@ -2017,6 +2022,8 @@ public class MazzipMetroController {
 
 	@RequestMapping(value = "/report.eat", method = { RequestMethod.GET })
 	public String report(HttpServletRequest req, HttpSession session) {
+		String restName = req.getParameter("restName");
+		
 		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
 		System.out.println("///////////////////////////////////////////////////////");
 		if (loginUser == null) {
@@ -2026,6 +2033,7 @@ public class MazzipMetroController {
 		}
 
 		req.setAttribute("userSeq", loginUser.getUserSeq());
+		req.setAttribute("restName", restName);
 		return "QnA/report";
 	}
 }

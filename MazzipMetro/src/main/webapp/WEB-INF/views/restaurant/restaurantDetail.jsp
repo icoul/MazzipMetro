@@ -218,7 +218,8 @@ $(function () {
 	 var form_data = {
 			 	StartRno : $("#StartRno").val(),   // 키값 : 밸류값 
 			 	EndRno  : $("#EndRno").val(),     // 키값 : 밸류값
-			 	restSeq : "${restSeq}"
+			 	restSeq : "${restSeq}",
+			 	restName : "${restvo.restname}"
 			}
 	 
 	 $.ajaxSettings.traditional = true;
@@ -422,7 +423,7 @@ function goLargeImgView(adImg) {
 	      </tr>
 	      <tr>
 	      	<th style="padding-top:15px; border-bottom:1px solid #ddd;">신고하기</th>
-	      	<td style="border-bottom:1px solid #ddd;"><input type="button" class="report reportRed" onClick="openWinFaq('<%=request.getContextPath() %>/report.eat', '500','400' );" /></td>
+	      	<td style="border-bottom:1px solid #ddd;"><input type="button" class="report reportRed" onClick="openWinFaq('<%=request.getContextPath() %>/report.eat?restName=${restvo.restname}', '500','400' );" /></td>
 	      </tr>
 	      
 	  </table>

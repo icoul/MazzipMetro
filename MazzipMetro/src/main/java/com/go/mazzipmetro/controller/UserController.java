@@ -1354,7 +1354,9 @@ public class UserController {
 		UserVO userVO = service.getLoginUser(loginUser.getUserEmail());
 		loginUser.setUserPoint(userVO.getUserPoint());
 		session.setAttribute("loginUser", loginUser);
+		int couponCount = service.getCouponCount(loginUser);
 		
+		req.setAttribute("couponCount", couponCount);
 		if(resultMap.get("result").equals("3")){
 			req.setAttribute("msg", (boxType.equals("random") ? "랜덤박스에서": "프리미엄 랜덤박스에서") +" 쿠폰 지급이 완료되었습니다.");
 			/*req.setAttribute("script", "alert(' "+ (boxType.equals("random") ? "랜덤박스에서": "프리미엄 랜덤박스에서") +" 쿠폰 지급이 완료되었습니다.'); location.href='userMyPage.eat'; opener.location.reload(true);");*/

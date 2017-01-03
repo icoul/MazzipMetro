@@ -218,9 +218,18 @@
 	    $.ajaxSettings.traditional = true;
 	    $.ajax({
 			url: "<%=request.getContextPath()%>/getRestaurantVOList.eat",  
-			async: false,
+			//async: false,
 			data: searchFrmData,
 			dataType: "json",
+			beforeSend:function(){
+			   	 //alert('start');
+		    	wrapWindowByMask();
+		    },
+		    complete:function(){
+		    	//alert('complete');
+		    	closeWindowByMask();
+		 
+		    }, 
 			success: function(data) {
 				//alert(data.positions[0].restName);
 				
@@ -361,13 +370,25 @@
 				
 		        setBounds(bounds);
 		        
-				}// end of success
+		     // 마커 클러스터러에 클릭이벤트를 등록합니다 
+		    // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우 
+		    // 이벤트 헨들러로 cluster 객체가 넘어오지 않을 수도 있습니다 
+		    daum.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
+
+		        // 현재 지도 레벨에서 1레벨 확대한 레벨 
+		        var level = map.getLevel()-1;
+
+		        // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다 
+		        map.setLevel(level, {anchor: cluster.getCenter()});  
+		    });
+	        
+			}// end of success
 			
 	    		
 		});//end of $.ajax()
 	    
 
-	    // 마커 클러스터러에 클릭이벤트를 등록합니다 
+	    /* // 마커 클러스터러에 클릭이벤트를 등록합니다 
 	    // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우 
 	    // 이벤트 헨들러로 cluster 객체가 넘어오지 않을 수도 있습니다 
 	    daum.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
@@ -377,10 +398,48 @@
 
 	        // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다 
 	        map.setLevel(level, {anchor: cluster.getCenter()});  
-	    });
+	    }); */
 		
 		
 	}//end of getRestaurant()
+	
+	//ajax 로딩 이미지 관련
+	function wrapWindowByMask() {
+		//alert("wrapWindowByMask()");
+        //화면의 높이와 너비를 구한다.
+        var maskHeight = $(document).height();  
+		//var maskWidth = $(document).width();
+        var maskWidth = window.document.body.clientWidth;
+         
+        var mask = "<div id='mask' style='position:absolute; z-index:9000; background-color:#000000; display:none; left:0; top:0;'></div>";
+        var loadingImg = '';
+         
+        loadingImg += "<div id='loadingImg' style='position:absolute; left:50%; top:220px; display:none; z-index:10000;'>";
+        loadingImg += "<img src='<%=request.getContextPath()%>/resources/images/squares.gif'/>"; 
+        loadingImg += "</div>";   
+     
+        //화면에 레이어 추가 
+        $('#map')
+            .append(mask)
+            .append(loadingImg)
+           
+        //마스크의 높이와 너비를 화면 것으로 만들어 전체 화면을 채운다.
+        $('#mask').css({
+                'width' : maskWidth
+                , 'height': maskHeight
+                , 'opacity' : '0.3'
+        });  
+     
+        //마스크 표시, 로딩중 이미지 표시
+        $('#mask').show();    
+        $('#loadingImg').show();
+    }
+	
+	function closeWindowByMask() {
+		//alert('closeWindowByMask()');
+        $('#mask, #loadingImg').hide();
+        $('#mask, #loadingImg').remove();   
+    } 
 	
 	
     

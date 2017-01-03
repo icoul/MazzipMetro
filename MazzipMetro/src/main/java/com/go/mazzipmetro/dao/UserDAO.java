@@ -305,6 +305,15 @@ public class UserDAO implements IDAO{
 
 
 
+	public int getCouponCount(UserVO loginUser) {
+		String userSeq = loginUser.getUserSeq();
+		int couponCount = sqlSession.selectOne("user.getCouponCount", userSeq);
+		
+		return couponCount;
+	}
+
+
+
 
 
 }

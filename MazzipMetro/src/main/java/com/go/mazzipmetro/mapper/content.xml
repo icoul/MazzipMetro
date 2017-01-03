@@ -40,7 +40,7 @@
 			select row_number() over(order by restname DESC) AS rno, restseq
 			from VIEW_CONTENTLIST
 			where contentseq = #{seq}
-			order by rno
+			order by rno	
 		)T
 	</select>
 	

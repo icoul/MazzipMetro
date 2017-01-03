@@ -13,11 +13,17 @@
 .table th,.table td {text-align:center; background:#fafafa;}
 </style>
 <script type="text/javascript">
+<<<<<<< HEAD
 
 var $ = jQuery.noConflict();
 
  $(function () {
 	 Highcharts.chart('mhStatis', {
+=======
+var $ = jQuery.noConflict();
+$(function () {	
+    	    Highcharts.chart('mhStatis', {
+>>>>>>> 191c5b6528c7eb8e5f221f56514ad12c199d177f
     	chart: {
             type: 'column'
         },

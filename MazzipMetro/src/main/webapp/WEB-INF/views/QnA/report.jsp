@@ -60,7 +60,7 @@
 				<tr>
 					<th>신고제목</th>
 					<td>
-						<input name="qnaSubject" type="text"/> <input type="hidden" name="userSeq" value="${userSeq}"/>
+						<input name="qnaSubject" type="text"/><input name="restName" type="text" value="${restName}"/> <input type="hidden" name="userSeq" value="${userSeq}"/>
 					</td>
 				</tr>
 				<tr> 
