@@ -283,7 +283,7 @@
 				on A.dongId = B.dongId) A
 			left join tbl_gu B
 			on A.guId = B.guId
-			where 1 = 1 
+			where restStatus = 0 
 			<if test="'already' == conq ">
 				and restSeq in (select distinct(restSeq) from tbl_review 
 			</if>
