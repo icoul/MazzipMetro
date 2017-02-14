@@ -13,9 +13,17 @@
 .table th,.table td {text-align:center; background:#fafafa;}
 </style>
 <script type="text/javascript">
+<<<<<<< HEAD
+
+var $ = jQuery.noConflict();
+
+ $(function () {
+	 Highcharts.chart('mhStatis', {
+=======
 var $ = jQuery.noConflict();
 $(function () {	
     	    Highcharts.chart('mhStatis', {
+>>>>>>> 191c5b6528c7eb8e5f221f56514ad12c199d177f
     	chart: {
             type: 'column'
         },
@@ -50,7 +58,7 @@ $(function () {
             }
         },
         tooltip: {
-            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table style = "width : 200px;">',
             pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
                 '<td style="padding:0"><b>{point.y:.0f}원</b></td></tr>',
             footerFormat: '</table>',

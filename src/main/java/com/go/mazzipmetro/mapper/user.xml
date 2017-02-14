@@ -601,4 +601,11 @@
 		where userSeq = #{userSeq} 
 	</update>
 	<!-- *************************************************은석22************************************************************ -->
+	
+	
+	<select id = "user.getCouponCount" parameterType="String" resultType="int">
+		select count(*)
+		from TBL_COUPON
+		where userSeq=#{userSeq} and couponStatus=1
+	</select>
 </mapper>

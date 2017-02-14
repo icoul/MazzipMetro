@@ -19,7 +19,6 @@
 
 $(document).ready(function(){
 	
-	
 	restList();
 	
 	$("#btn_Mazzip").click(function(){
@@ -146,8 +145,7 @@ function userCoupon(boxType){
 	    datatype:"html",
 		success:function(data){
 			alert(data);
-			restList();
-			userRandomBox();
+			location.reload();
 		}
 	});
 }

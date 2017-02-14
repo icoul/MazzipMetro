@@ -499,6 +499,12 @@ public class UserService implements IService {
 		List<String> tagList_Md = dao.tagStatistics_Md(userSeq);
 		return tagList_Md;
 	}
+
+
+	public int getCouponCount(UserVO loginUser) {
+		int couponCount = dao.getCouponCount(loginUser);
+		return couponCount;
+	}
 }
 
 
